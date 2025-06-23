@@ -1,21 +1,24 @@
 export default {
   set_data: (state, payload) => {
-    state.data = payload
+    state.data = payload;
   },
   set_raw_data: (state, payload) => {
-    state.raw_data = payload
+    state.raw_data = payload;
   },
   set_error: (state, payload) => {
-    state.error = payload
+    state.error = payload;
   },
   set_result: (state, payload) => {
-    state.result = payload
+    state.result = payload;
   },
   set_code: (state, payload) => {
     state.code = payload;
   },
   set_lookup_roles: (state, payload) => {
     state.lookup_roles = payload;
+  },
+  set_lookup_roles_2: (state, payload) => {
+    state.lookup_roles_2 = payload;
   },
   set_lookup_group_roles: (state, payload) => {
     state.lookup_group_roles = payload;
@@ -148,7 +151,5 @@ export default {
   },
   set_lookup_location: (state, payload) => {
     state.lookup_location = payload;
-  }
-
-
-}
+  },
+};

@@ -1,11 +1,14 @@
 export default {
   getData(state) {
-    return state.data
+    return state.data;
   },
   getRawData(state) {
-    return state.raw_data
+    return state.raw_data;
   },
   getLookUpRoles(state) {
+    return state.lookup_roles;
+  },
+  getLookUpRoles2(state) {
     return state.lookup_roles;
   },
   getLookUpGroupRoles(state) {
@@ -36,7 +39,7 @@ export default {
     return state.lookup_products;
   },
   getLookUpQuotations(state) {
-    return state.lookup_quotations
+    return state.lookup_quotations;
   },
   getLookUpPoCustomers(state) {
     return state.lookup_po_customers;
@@ -136,6 +139,5 @@ export default {
   },
   getLookUpLocation(state) {
     return state.lookup_location;
-  }
-
-}
+  },
+};

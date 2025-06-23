@@ -147,7 +147,7 @@
       </div>
     </div>
 
-    <div class="pt-5">
+    <!-- <div class="pt-5">
       <div class="mb-6 grid gap-6 xl:grid-cols-4">
         <div class="panel h-full xl:col-span-2">
           <h5 class="text-lg font-semibold mb-5">Top 10 Produk Terlaris</h5>
@@ -377,7 +377,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- END DASHBOARD -->
 </template>

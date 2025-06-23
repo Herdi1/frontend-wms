@@ -1,6 +1,181 @@
 <template>
   <div class="relative h-[calc(100vh-80px)]">
     <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
+      <li class="menu nav-item">
+        <h2
+          class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
+        >
+          <icon-minus class="hidden h-5 w-4 flex-none" />
+          <span>Setting</span>
+        </h2>
+        <ul>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'user' },
+              ]"
+              @click.native="setActiveMenu('user')"
+              to="/setting/user"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    ' fas fa-users-cog mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Akun </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'group_role' },
+              ]"
+              @click.native="setActiveMenu('group_role')"
+              to="/setting/group_role"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-users mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Hak Akses Grup </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'role' },
+              ]"
+              @click.native="setActiveMenu('role')"
+              to="/setting/role"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-user-cog mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Hak Akses </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'setting' },
+              ]"
+              @click.native="setActiveMenu('setting')"
+              to="/setting"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-cogs mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Aplikasi </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'activity' },
+              ]"
+              @click.native="setActiveMenu('activity')"
+              to="/setting/activity"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    ' fas fa-sun mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Log Aktivitas </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'change_password' },
+              ]"
+              @click.native="setActiveMenu('change_password')"
+              to="/setting/change_password"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-key mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Ganti Password </span>
+              </div>
+            </nuxt-link>
+          </li>
+        </ul>
+        <!-- <button
+          type="button"
+          class="nav-link group w-full"
+          :class="{ active: activeDropdown === 'setting' }"
+          @click="
+            activeDropdown === 'setting'
+              ? (activeDropdown = null)
+              : (activeDropdown = 'setting')
+          "
+        >
+          <div class="flex items-center">
+            <span
+              class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
+            >
+              Setting
+            </span>
+            <div
+              :class="{
+                '-rotate-90 rtl:rotate-90': activeDropdown !== 'setting',
+              }"
+            >
+              <IconCaretDown />
+            </div>
+          </div>
+        </button>
+        <vue-collapsible :isOpen="activeDropdown === 'setting'">
+          
+        </vue-collapsible> -->
+      </li>
       <template v-for="item in menus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
           <h2
@@ -16,6 +191,7 @@
               class="menu nav-item"
             >
               <button
+                v-if="child.childs_2 && child.childs_2.length"
                 type="button"
                 class="nav-link group w-full"
                 :class="{ active: activeDropdown === child.rute }"
@@ -25,16 +201,16 @@
                     : (activeDropdown = child.rute)
                 "
               >
-                <div class="flex items-center">
+                <div
+                  class="flex items-center text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+                >
                   <i
                     :class="[
-                      'fas fa-' + child.icon,
+                      'mx-2 fas fa-' + child.icon,
                       { 'text-active': activeDropdown === child.rute },
                     ]"
                   ></i>
-                  <span
-                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
-                  >
+                  <span>
                     {{ child.judul }}
                   </span>
                 </div>
@@ -47,6 +223,31 @@
                   <IconCaretDown />
                 </div>
               </button>
+              <nuxt-link
+                v-else
+                to="/#"
+                class="nav-link group w-full"
+                :class="{ active: activeDropdown === child.rute }"
+                @click="
+                  activeDropdown === child.rute
+                    ? (activeDropdown = null)
+                    : (activeDropdown = child.rute)
+                "
+              >
+                <div
+                  class="flex items-center text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+                >
+                  <i
+                    :class="[
+                      'mx-2 fas fa-' + child.icon,
+                      { 'text-active': activeDropdown === child.rute },
+                    ]"
+                  ></i>
+                  <span>
+                    {{ child.judul }}
+                  </span>
+                </div>
+              </nuxt-link>
               <vue-collapsible :isOpen="activeDropdown === child.rute">
                 <ul class="sub-menu text-gray-500" :key="child.id + 'child'">
                   <li
@@ -87,158 +288,6 @@
       <!-- PENGATURAN -->
       <!-- <li class="menu-header">SETTING</li> -->
 
-      <li class="menu nav-item">
-        <h2
-          class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
-        >
-          <icon-minus class="hidden h-5 w-4 flex-none" />
-          <span>Setting</span>
-        </h2>
-        <button
-          type="button"
-          class="nav-link group w-full"
-          :class="{ active: activeDropdown === 'setting' }"
-          @click="
-            activeDropdown === 'setting'
-              ? (activeDropdown = null)
-              : (activeDropdown = 'setting')
-          "
-        >
-          <div class="flex items-center">
-            <span
-              class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
-            >
-              Setting
-            </span>
-            <div
-              :class="{
-                '-rotate-90 rtl:rotate-90': activeDropdown !== 'setting',
-              }"
-            >
-              <IconCaretDown />
-            </div>
-          </div>
-        </button>
-        <vue-collapsible :isOpen="activeDropdown === 'setting'">
-          <ul class="sub-menu text-gray-500">
-            <li>
-              <nuxt-link
-                :class="['nav-link', { 'nav-active': activeId === 'user' }]"
-                @click.native="setActiveMenu('user')"
-                to="/setting/user"
-                v-if="$auth.user && !$auth.user.parent_id"
-              >
-                <i
-                  :class="[
-                    'fas fa-users-cog',
-                    { 'text-active': activeId === 'user' },
-                  ]"
-                ></i>
-                <span :class="{ 'text-active': activeId === 'user' }">
-                  Akun
-                </span>
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :class="[
-                  'nav-link',
-                  { 'nav-active': activeId === 'group_role' },
-                ]"
-                @click.native="setActiveMenu('group_role')"
-                to="/setting/group_role"
-                v-if="$auth.user && !$auth.user.parent_id"
-              >
-                <i
-                  :class="[
-                    'fas fa-users',
-                    { 'text-active': activeId === 'group_role' },
-                  ]"
-                ></i>
-                <span :class="{ 'text-active': activeId === 'group_role' }"
-                  >Hak Akses Group</span
-                >
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :class="['nav-link', { 'nav-active': activeId === 'role' }]"
-                @click.native="setActiveMenu('role')"
-                to="/setting/role"
-                v-if="$auth.user && !$auth.user.parent_id"
-              >
-                <i
-                  :class="[
-                    'fas fa-user-cog',
-                    { 'text-active': activeId === 'role' },
-                  ]"
-                ></i>
-                <span :class="{ 'text-active': activeId === 'role' }">
-                  Hak Akses
-                </span>
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :class="['nav-link', { 'nav-active': activeId === 'setting' }]"
-                @click.native="setActiveMenu('setting')"
-                to="/setting"
-                v-if="$auth.user && !$auth.user.parent_id"
-              >
-                <i
-                  :class="[
-                    'fas fa-cogs',
-                    { 'text-active': activeId === 'setting' },
-                  ]"
-                ></i>
-                <span :class="{ 'text-active': activeId === 'setting' }">
-                  Aplikasi</span
-                >
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :class="['nav-link', { 'nav-active': activeId === 'activity' }]"
-                @click.native="setActiveMenu('activity')"
-                to="/setting/activity"
-                v-if="$auth.user && !$auth.user.parent_id"
-              >
-                <i
-                  :class="[
-                    'fas fa-sun',
-                    { 'text-active': activeId === 'activity' },
-                  ]"
-                ></i>
-                <span :class="{ 'text-active': activeId === 'activity' }">
-                  Log Aktifitas
-                </span>
-              </nuxt-link>
-            </li>
-            <li>
-              <nuxt-link
-                :class="[
-                  'nav-link',
-                  { 'nav-active': activeId === 'change_password' },
-                ]"
-                @click.native="setActiveMenu('change_password')"
-                to="/setting/change_password"
-              >
-                <i
-                  :class="[
-                    'fas fa-key',
-                    { 'text-active': activeId === 'change_password' },
-                  ]"
-                ></i>
-                <span
-                  :class="{ 'text-active': activeId === 'change_password' }"
-                >
-                  Ganti Password
-                </span>
-              </nuxt-link>
-            </li>
-          </ul>
-        </vue-collapsible>
-      </li>
       <!-- END PENGATURAN -->
     </ul>
   </div>

@@ -1,20 +1,25 @@
 <template>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+  <div class="flex gap-2 justify-end">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      @click="$emit('close')"
+    >
       <i class="fas fa-ban"></i> Close
     </button>
     <button type="submit" class="btn btn-primary" :disabled="isLoadingForm">
       <span v-if="isLoadingForm">
         <i class="fas fa-circle-notch fa-spin"></i>
       </span>
-      <span v-else><i class="fas fa-save" ></i> Save </span>
+      <span v-else><i class="fas fa-save"></i> Save </span>
     </button>
   </div>
 </template>
 <script>
 export default {
   props: {
-    isLoadingForm : Boolean
+    isLoadingForm: Boolean,
   },
 };
 </script>

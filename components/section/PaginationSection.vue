@@ -1,12 +1,17 @@
 <template>
-  <div class="clearfix mt-3" v-if="self.isPaginate">
-    <div class="float-left">
-      Showing {{ from }} to {{ to }} of {{ total }} records
-    </div>
-    <div class="float-right">
-      <ul class="pagination">
+  <div
+    class="flex justify-between items-baseline clearfix mt-3"
+    v-if="self.isPaginate"
+  >
+    <div class="">Showing {{ from }} to {{ to }} of {{ total }} records</div>
+    <div class="">
+      <ul class="flex gap-3">
         <li v-bind:class="['page-item', { disabled: disable_prive_page }]">
-          <a class="page-link" @click="privousPage()" tabindex="-1">
+          <a
+            class="bg-gray-100 px-2 py-1 rounded-sm text-gray-500 dark:bg-slate-700"
+            @click="privousPage()"
+            tabindex="-1"
+          >
             <i class="fas fa-chevron-left"></i>
           </a>
         </li>
@@ -17,19 +22,24 @@
           v-bind:class="['page-item', { active: i == active_page }]"
           @click="self.onLoad(i)"
         >
-          <a class="page-link page">{{ i }}</a>
+          <a class="px-2 py-1 rounded-sm page-link page">{{ i }}</a>
         </li>
 
         <li v-if="total_page > 5" class="page-item disabled">
-          <a class="page-link" href="#">...Of</a>
+          <a class="px-2 py-1 rounded-sm page-link" href="#">...Of</a>
         </li>
 
         <li v-if="total_page > 5" class="page-item disabled">
-          <a class="page-link" href="#"> {{ total_page }}</a>
+          <a class="px-2 py-1 rounded-sm page-link" href="#">
+            {{ total_page }}</a
+          >
         </li>
 
         <li v-bind:class="['page-item', { disabled: disable_next_page }]">
-          <a class="page-link" @click="nextPage()">
+          <a
+            class="bg-gray-100 px-2 py-1 rounded-sm text-gray-500 dark:bg-slate-700"
+            @click="nextPage()"
+          >
             <i class="fas fa-chevron-right"></i>
           </a>
         </li>
@@ -132,6 +142,7 @@ export default {
 </script>
 <style scoped>
 .page-item.active .page-link {
+  color: white;
   background-color: #2b7bf3 !important;
   border-color: #2b7bf3 !important;
 }
