@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-[calc(100vh-80px)]">
+  <div class="relative h-[calc(100vh-80px)] overflow-y-auto">
     <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
       <li class="menu nav-item">
         <h2
@@ -173,7 +173,7 @@
           </div>
         </button>
         <vue-collapsible :isOpen="activeDropdown === 'setting'">
-          
+
         </vue-collapsible> -->
       </li>
       <template v-for="item in menus">

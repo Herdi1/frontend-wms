@@ -24,7 +24,7 @@
                         <input
                           id="name"
                           type="text"
-                          class="border border-gray-300 rounded md p-2 outline-none w-full"
+                          class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
                           name="name"
                           v-model="parameters.form.rute"
                           :class="
@@ -48,7 +48,7 @@
                         <input
                           id="title"
                           type="text"
-                          class="border border-gray-300 rounded md p-2 outline-none w-full"
+                          class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
                           name="title"
                           v-model="parameters.form.judul"
                           :class="
@@ -69,7 +69,7 @@
                   <input
                     id="icon"
                     type="text"
-                    class="border border-gray-300 rounded md p-2 outline-none w-full"
+                    class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
                     name="icon"
                     v-model="parameters.form.icon"
                   />
@@ -77,26 +77,28 @@
 
                 <!-- menu induk 1 -->
                 <div class="form-group">
-                  <label for="parent_id">Module</label>
+                  <label for="menu_id_induk">Module</label>
                   <v-select
+                    id="menu_id_induk"
                     class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
                     label="judul"
                     :loading="isLoadingGetRole"
                     :options="lookup_roles.data"
                     :filterable="false"
                     @search="onGetRole"
+                    :reduce="item => item.menu_id"
                     v-model="parameters.form.menu_id_induk"
                   >
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="flex justify-between"
                       v-if="lookup_roles.data.length || search"
                     >
                       <span
                         v-if="lookup_roles.current_page > 1"
                         @click="onGetRole(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-1 rounded-sm"
                         >Sebelumnya</span
                       >
                       <span
@@ -104,7 +106,7 @@
                           lookup_roles.last_page > lookup_roles.current_page
                         "
                         @click="onGetRole(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-1 rounded-sm"
                         >Selanjutnya</span
                       >
                     </li>
@@ -112,6 +114,30 @@
                   <span class="text-muted">
                     *Kosongi jika ingin membuat menu menjadi module
                   </span>
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Aplikasi</label>
+                  <v-select class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                    id="status"
+                    label="judul"
+                    :options="[{judul: 'Web', value: '0'}, {judul: 'Android', value: '1'}]"
+                    :reduce="item => item.value"
+                    v-model="parameters.form.status">
+
+                  </v-select>
+                </div>
+
+                <div class="form-group">
+                  <label for="status_menu">Status Menu</label>
+                  <v-select class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                    id="status_menu"
+                    label="judul"
+                    :options="[{judul: 'Modul', value: '1'}, {judul: 'Parent', value: '2'}, {judul: 'Child', value: '3'},]"
+                    :reduce="item => item.value"
+                    v-model="parameters.form.status_menu">
+
+                  </v-select>
                 </div>
 
                 <!-- menu induk 2 -->
@@ -227,9 +253,11 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          parent_id: this.parameters.form.parent_id
-            ? this.parameters.form.parent_id.id
+          urutan: 0,
+          id: this.parameters.form.menu_id
+            ? this.parameters.form.menu_id
             : "",
+          menu_id: this.parameters.form.menu_id
         },
       };
 
@@ -281,7 +309,7 @@ export default {
           url: "setting/menu/get-menu",
           lookup: "roles",
           query:
-            "?status_menu=1" +
+            // "?status_menu=1" +
             "?search=" +
             this.role_search +
             "&page=" +
@@ -290,6 +318,7 @@ export default {
         });
 
         this.isLoadingGetRole = false;
+      console.log(this.lookup_roles.data)
       }
     },
 

@@ -161,6 +161,12 @@
                           >
                             <i class="fas fa-trash"></i>
                           </button>
+                          <button
+                            class="btn btn-sm btn-primary"
+                            v-if="item.deleted_at"
+                            @click="onRestored(item)">
+                            <i class="fas fa-pen"></i>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -303,13 +309,15 @@ export default {
     },
 
     onEdit(item) {
-      this.$refs["form-input"].isEditable = true;
-      this.$refs["form-input"].parameters.form = {
+      this.$refs.formInput.isEditable = true;
+      this.$refs.formInput.parameters.form = {
         ...item,
-        menu_id_induk: item.parent,
+        menu_id: item.menu_id,
       };
-      window.$("#modal-form").modal("show");
-      this.$refs["form-input"].$refs["form-validate"].reset();
+      this.$refs.formInput.show();
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
     },
 
     onDetail(item) {
@@ -371,7 +379,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.id,
+              id: item.menu_id,
               params: this.parameters.params,
             });
 
@@ -397,7 +405,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.id,
+        id: item.menu_id,
         params: this.parameters.params,
       });
 
