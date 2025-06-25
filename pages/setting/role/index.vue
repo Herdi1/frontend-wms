@@ -113,6 +113,7 @@
                       </th>
                       <th>Icon</th>
                       <th>Module</th>
+                      <th>Aplikasi</th>
                       <th class="text-center">Options</th>
                     </tr>
                   </thead>
@@ -131,13 +132,24 @@
                       <td>{{ item.judul }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
                       <td>
-                        <span
-                          v-if="item.menu_id_induk"
-                          class="badge badge-danger"
-                        >
+                        <span v-if="item.menu_id_induk" class="dark:text-white">
                           Tidak
                         </span>
-                        <span class="badge badge-success" v-else> Ya </span>
+                        <span class="dark:text-white" v-else> Ya </span>
+                      </td>
+                      <td>
+                        <span
+                          v-if="item.status === '0'"
+                          class="dark:text-white"
+                        >
+                          Web
+                        </span>
+                        <span
+                          class="dark:text-white"
+                          v-if="item.status === '1'"
+                        >
+                          Android
+                        </span>
                       </td>
                       <td>
                         <div class="flex gap-2">
@@ -164,7 +176,8 @@
                           <button
                             class="btn btn-sm btn-primary"
                             v-if="item.deleted_at"
-                            @click="onRestored(item)">
+                            @click="onRestored(item)"
+                          >
                             <i class="fas fa-pen"></i>
                           </button>
                         </div>
@@ -313,6 +326,7 @@ export default {
       this.$refs.formInput.parameters.form = {
         ...item,
         menu_id: item.menu_id,
+        menu_id_induk: item.menu_id_induk,
       };
       this.$refs.formInput.show();
       this.$nextTick(() => {

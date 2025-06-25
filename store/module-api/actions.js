@@ -111,7 +111,7 @@ export default {
 
     lookUp({ commit }, payload) {
         return this.$axios
-            .get("/" + payload.url + (payload.query || ""))
+            .get("/" + payload.url + (payload.query || ""), payload.params)
             .then((response) => {
                 commit("set_result", true);
                 switch (payload.lookup) {

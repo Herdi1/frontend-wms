@@ -1,6 +1,6 @@
 <template>
   <portal v-if="visible" to="modal">
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
       class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
@@ -86,8 +86,9 @@
                     :options="lookup_roles.data"
                     :filterable="false"
                     @search="onGetRole"
-                    :reduce="item => item.menu_id"
+                    :reduce="(item) => item.menu_id"
                     v-model="parameters.form.menu_id_induk"
+                    @input="onSearchRole2"
                   >
                     <li
                       slot-scope="{ search }"
@@ -116,57 +117,34 @@
                   </span>
                 </div>
 
-                <div class="form-group">
-                  <label for="status">Aplikasi</label>
-                  <v-select class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
-                    id="status"
-                    label="judul"
-                    :options="[{judul: 'Web', value: '0'}, {judul: 'Android', value: '1'}]"
-                    :reduce="item => item.value"
-                    v-model="parameters.form.status">
-
-                  </v-select>
-                </div>
-
-                <div class="form-group">
-                  <label for="status_menu">Status Menu</label>
-                  <v-select class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
-                    id="status_menu"
-                    label="judul"
-                    :options="[{judul: 'Modul', value: '1'}, {judul: 'Parent', value: '2'}, {judul: 'Child', value: '3'},]"
-                    :reduce="item => item.value"
-                    v-model="parameters.form.status_menu">
-
-                  </v-select>
-                </div>
-
                 <!-- menu induk 2 -->
-                <!-- <div class="form-group">
+                <div class="form-group">
                   <label for="parent_id">Parent</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
                     label="judul"
-                    :loading="isLoadingGetRole"
-                    :options="lookup_roles_2.data"
+                    :loading="isLoadingGetCustom"
+                    :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetRole2"
+                    :reduce="(item) => item.menu_id"
                     v-model="parameters.form.menu_id_induk_2"
                   >
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
                       class="d-flex justify-content-between"
-                      v-if="lookup_roles.data.length || search"
+                      v-if="lookup_custom1.data.length || search"
                     >
                       <span
-                        v-if="lookup_roles.current_page > 1"
+                        v-if="lookup_custom1.current_page > 1"
                         @click="onGetRole2(search, false)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer"
                         >Sebelumnya</span
                       >
                       <span
                         v-if="
-                          lookup_roles.last_page > lookup_roles.current_page
+                          lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetRole2(search, true)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer"
@@ -175,9 +153,42 @@
                     </li>
                   </v-select>
                   <span class="text-muted">
-                    *Kosongi jika ingin membuat menu menjadi module
+                    *Kosongi jika ingin membuat menu menjadi parent
                   </span>
-                </div> -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="status">Aplikasi</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                  id="status"
+                  label="judul"
+                  :options="[
+                    { judul: 'Web', value: '0' },
+                    { judul: 'Android', value: '1' },
+                  ]"
+                  :reduce="(item) => item.value"
+                  v-model="parameters.form.status"
+                >
+                </v-select>
+              </div>
+
+              <div class="form-group">
+                <label for="status_menu">Status Menu</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                  id="status_menu"
+                  label="judul"
+                  :options="[
+                    { judul: 'Modul', value: '1' },
+                    { judul: 'Parent', value: '2' },
+                    { judul: 'Child', value: '3' },
+                  ]"
+                  :reduce="(item) => item.value"
+                  v-model="parameters.form.status_menu"
+                >
+                </v-select>
               </div>
 
               <modal-footer-section
@@ -202,7 +213,7 @@ export default {
 
   async mounted() {
     await this.onSearchRole();
-    // await this.onSearchRole2();
+    await this.onSearchRole2();
   },
 
   data() {
@@ -210,19 +221,19 @@ export default {
       visible: false,
       isStopSearchRole: false,
       isLoadingGetRole: false,
+
+      isStopSearchCustom: false,
+      isLoadingGetCustom: false,
+
+      statusMenu: "",
       role_search: "",
+      custom_search: "",
 
       isEditable: false,
       isLoadingForm: false,
       title: "Role",
       parameters: {
         url: "setting/menu",
-        // params: {
-        //   menu_id_induk: "",
-        //   menu_id_induk_2: "",
-        //   status_menu: "",
-        //   all: "",
-        // },
         form: {
           rute: "",
           judul: "",
@@ -238,7 +249,12 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result", "lookup_roles"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_roles",
+      "lookup_custom1",
+    ]),
   },
 
   methods: {
@@ -254,10 +270,8 @@ export default {
         form: {
           ...this.parameters.form,
           urutan: 0,
-          id: this.parameters.form.menu_id
-            ? this.parameters.form.menu_id
-            : "",
-          menu_id: this.parameters.form.menu_id
+          id: this.parameters.form.menu_id ? this.parameters.form.menu_id : "",
+          menu_id: this.parameters.form.menu_id,
         },
       };
 
@@ -297,8 +311,11 @@ export default {
           this.lookup_roles.current_page = 1;
         }
 
+        // this.statusMenu = '&status_menu=1';
+
         this.onSearchRole();
       }, 600);
+      this.onSearchRole2();
     },
 
     async onSearchRole() {
@@ -309,59 +326,63 @@ export default {
           url: "setting/menu/get-menu",
           lookup: "roles",
           query:
-            // "?status_menu=1" +
             "?search=" +
             this.role_search +
+            "&status_menu=1" +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetRole = false;
-      console.log(this.lookup_roles.data)
+        console.log(this.lookup_roles.data);
       }
     },
 
     //get parent 2
-    // onGetRole2(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
+    onGetRole2(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
 
-    //   clearTimeout(this.isStopSearchRole);
+      clearTimeout(this.isStopSearchCustom);
 
-    //   this.isStopSearchRole = setTimeout(() => {
-    //     this.role_search = search;
+      this.isStopSearchCustom = setTimeout(() => {
+        this.custom_search = search;
 
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_roles_2.current_page = isNext
-    //         ? this.lookup_roles_2.current_page + 1
-    //         : this.lookup_roles_2.current_page - 1;
-    //     } else {
-    //       this.lookup_roles_2.current_page = 1;
-    //     }
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
 
-    //     this.onSearchRole2();
-    //   }, 600);
-    // },
+        this.onSearchRole2();
+        console.log("get parent");
+      }, 600);
+    },
 
-    // async onSearchRole2() {
-    //   if (!this.isLoadingGetRole) {
-    //     this.isLoadingGetRole = true;
+    async onSearchRole2() {
+      if (!this.isLoadingGetCustom) {
+        this.isLoadingGetCustom = true;
 
-    //     await this.lookUp({
-    //       url: "setting/menu/get-menu",
-    //       lookup: "roles",
-    //       query:
-    //         "?status_menu=2" +
-    //         "?search=" +
-    //         this.role_search +
-    //         "&page=" +
-    //         this.lookup_roles_2.current_page +
-    //         "&per_page=10",
-    //     });
+        await this.lookUp({
+          url: "setting/menu/get-menu",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.custom_search +
+            "&menu_id_induk=" +
+            this.parameters.form.menu_id_induk +
+            "&status_menu=2" +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
 
-    //     this.isLoadingGetRole = false;
-    //   }
-    // },
+        this.isLoadingGetCustom = false;
+        console.log("get parent");
+      }
+    },
 
     show() {
       this.visible = true;

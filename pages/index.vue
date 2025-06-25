@@ -433,17 +433,17 @@ export default {
   },
 
   created() {
-    this.$axios
-      .get("/dashboard")
-      .then((res) => {
-        this.isLoadingPage = false;
-        this.data = res.data;
-        this.onDrawChart();
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$globalErrorToaster(this.$toaster, err);
-      });
+    // this.$axios
+    //   .get("/dashboard")
+    //   .then((res) => {
+    //     this.isLoadingPage = false;
+    //     this.data = res.data;
+    //     this.onDrawChart();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.$globalErrorToaster(this.$toaster, err);
+    //   });
   },
 
   methods: {
