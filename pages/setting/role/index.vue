@@ -153,33 +153,20 @@
                       </td>
                       <td>
                         <div class="flex gap-2">
-                          <button
-                            class="btn btn-sm btn-success"
+                          <small-detail-button
                             @click="onDetail(item)"
-                          >
-                            <i class="fas fa-info-circle"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-primary"
+                          />
+                          <small-edit-button
                             @click="onEdit(item)"
-                            v-if="!item.deleted_at"
-                          >
-                            <i class="fas fa-pen"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-danger"
+                            v-if="!item.deleted_at"/>
+                          <small-delete-button
                             @click="onTrashed(item)"
                             v-if="!item.deleted_at"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-primary"
+                          />
+                          <small-restore-button
                             v-if="item.deleted_at"
                             @click="onRestored(item)"
-                          >
-                            <i class="fas fa-pen"></i>
-                          </button>
+                          />
                         </div>
                       </td>
                     </tr>

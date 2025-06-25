@@ -39,7 +39,7 @@
           class="flex items-center justify-between space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2"
         >
           <div class="sm:ltr:mr-auto sm:rtl:ml-auto">
-            <form
+            <!-- <form
               class="absolute inset-x-0 top-1/2 z-10 mx-4 hidden -translate-y-1/2 sm:relative sm:top-0 sm:mx-0 sm:block sm:translate-y-0"
               :class="{ '!block': search }"
               @submit.prevent="search = false"
@@ -64,7 +64,7 @@
                   <icon-x-circle />
                 </button>
               </div>
-            </form>
+            </form> -->
 
             <button
               type="button"
@@ -121,7 +121,7 @@
               </button>
             </div>
             <div>
-              <button type="button" class="group relative block">
+              <button type="button" class="group relative block" @click="toggleProfilePopUp()">
                 <img
                   class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
                   src="/img/avatar/avatar-1.png"
@@ -155,7 +155,7 @@
       <!-- notifications -->
       <!-- <app-notifications></app-notifications> -->
       <!-- user options -->
-      <!-- <app-user-options></app-user-options> -->
+      <app-user-options :visible="isProfileVisible"></app-user-options>
       <!-- </ul> -->
       <!-- </nav> -->
     </div>
@@ -174,13 +174,12 @@ export default {
     "app-notifications": Notifications,
     "app-user-options": UserOptions,
   },
+  data(){
+    return{
+      isProfileVisible: false
+    }
+  },
   computed: {
-    // company_name() {
-    //   let company_name = this.$store.state.setting.settings.find(
-    //     (item) => item.name == "company_name"
-    //   );
-    //   return company_name ? company_name.value : "Software Anak Bangsa";
-    // },
     showSidebar() {
       return this.$store.state.app.sidebar;
     },
@@ -197,9 +196,13 @@ export default {
     toggleSidebar() {
       this.$store.dispatch("app/toggleSidebar");
     },
+
+    toggleProfilePopUp(){
+      this.isProfileVisible = !this.isProfileVisible;
+    },
   },
   mounted() {
-    localStorage.setItem("theme", "system");
+    localStorage.setItem("theme", "light");
   },
 };
 </script>
