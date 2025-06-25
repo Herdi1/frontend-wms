@@ -112,7 +112,7 @@
                       >
                     </li>
                   </v-select>
-                  <span class="text-muted">
+                  <span class="text-muted text-xs">
                     *Kosongi jika ingin membuat menu menjadi module
                   </span>
                 </div>
@@ -133,13 +133,13 @@
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-2 border-t flex justify-between"
                       v-if="lookup_custom1.data.length || search"
                     >
                       <span
                         v-if="lookup_custom1.current_page > 1"
                         @click="onGetRole2(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -147,12 +147,12 @@
                           lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetRole2(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
                   </v-select>
-                  <span class="text-muted">
+                  <span class="text-muted text-xs">
                     *Kosongi jika ingin membuat menu menjadi parent
                   </span>
                 </div>
