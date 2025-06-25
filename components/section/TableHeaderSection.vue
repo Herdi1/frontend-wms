@@ -1,18 +1,21 @@
 <template>
   <thead class="bg-none">
     <tr>
-      <th v-if="isShowCheckBox"
-        style="width:5%">
-        <input type="checkbox"
+      <th v-if="isShowCheckBox" style="width: 5%">
+        <input
+          type="checkbox"
           @click="checkAll"
           v-if="isShowBox"
-          :checked="isCheckBoxCheked">
+          :checked="isCheckBoxCheked"
+        />
       </th>
 
-      <th class="text-left"
+      <th
+        class="text-left"
         v-for="(item, index) in self.table_header_options"
         :key="index"
-        v-bind:style="[!item.width ? '' : { width: item.width }]">
+        v-bind:style="[!item.width ? '' : { width: item.width }]"
+      >
         <div class="d-flex flex-row justify-content-between">
           <div v-if="!item.column">
             <b class="align-self-left">
@@ -27,12 +30,12 @@
                 self.search.sort === 'asc' ? 'desc' : 'asc'
               )
             "
-            v-else>
+            v-else
+          >
             <b class="align-self-center">{{ item.title }}</b>
           </div>
 
-          <div class="d-flex flex-shrink-1 flex-column" 
-            v-if="item.column">
+          <div class="d-flex flex-shrink-1 flex-column" v-if="item.column">
             <i
               class="fas fa-caret-up cursor-pointer"
               :class="
@@ -55,8 +58,7 @@
         </div>
       </th>
 
-      <th v-if="isHideAction" 
-        style="width:15%">
+      <th v-if="isHideAction" style="width: 15%">
         <b>Aksi</b>
       </th>
     </tr>
@@ -66,26 +68,26 @@
 <script>
 export default {
   props: {
-    self: Object
+    self: Object,
   },
 
   computed: {
-    isShowCheckBox() {  
+    isShowCheckBox() {
       return ![
         "history-bandwidth-customer",
         "history-bandwidth-reseller",
         "billing-payment-reseller",
         "billing-payment-customer",
         "reseller",
-        "customer"
+        "customer",
       ].includes(this.self.name);
     },
 
-    isShowBox(){  
+    isShowBox() {
       return this.self.pagination.data.length;
     },
 
-    isCheckBoxCheked(){
+    isCheckBoxCheked() {
       return this.self.checkboxs.length;
     },
 
@@ -94,11 +96,11 @@ export default {
         "history-bandwidth-customer",
         "history-bandwidth-reseller",
       ].includes(this.self.name);
-    }
+    },
   },
 
   methods: {
-   /*
+    /*
     isLightGrayAsc(item) {
       return (
         this.self.search.order != item.column || this.self.search.sort != "asc"
@@ -111,24 +113,24 @@ export default {
       );
     },
     */
-    
-    checkAll(e){    
-      let allCheckboxs = document.querySelectorAll(".all-checkboxs");      
 
-      if(!allCheckboxs.length){
+    checkAll(e) {
+      let allCheckboxs = document.querySelectorAll(".all-checkboxs");
+
+      if (!allCheckboxs.length) {
         return false;
       }
 
       this.self.checkboxs = [];
 
-      for(let i=0;i<allCheckboxs.length;i++){
+      for (let i = 0; i < allCheckboxs.length; i++) {
         allCheckboxs[i].checked = e.target.checked;
 
-        if(e.target.checked){
+        if (e.target.checked) {
           this.self.checkboxs.push(allCheckboxs[i].value);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>

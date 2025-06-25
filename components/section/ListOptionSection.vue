@@ -145,6 +145,7 @@
               class="btn btn-sm btn-outline-info"
               data-toggle="modal"
               data-target="#modal-filter"
+              @click="self.onFilterShow()"
             >
               <i class="fas fa-filter text-info"></i> Filter
             </button>
@@ -181,7 +182,7 @@
             </button>
             <!-- <button class="btn btn-sm btn-primary btn-block"
               data-toggle="tooltip"
-              data-placement="top"      
+              data-placement="top"
               data-original-title="Download Pdf"
               @click="exportFile({type : 'pdf',parameters : self.parameters})"
               v-if="isExportFile && isExportFilePdf">

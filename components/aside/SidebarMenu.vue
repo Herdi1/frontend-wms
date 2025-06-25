@@ -202,25 +202,27 @@
                 "
               >
                 <div
-                  class="flex items-center text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+                  class="flex items-center justify-between w-full"
                 >
-                  <i
-                    :class="[
-                      'mx-2 fas fa-' + child.icon,
-                      { 'text-active': activeDropdown === child.rute },
-                    ]"
-                  ></i>
-                  <span>
-                    {{ child.judul }}
-                  </span>
-                </div>
-                <div
-                  v-show="child.childs_2.length"
-                  :class="{
-                    '-rotate-90 rtl:rotate-90': activeDropdown !== child.rute,
-                  }"
-                >
-                  <IconCaretDown />
+                  <div class="flex">
+                    <i
+                      :class="[
+                        'mx-2 fas fa-' + child.icon,
+                        { 'text-active': activeDropdown === child.rute },
+                      ]"
+                    ></i>
+                    <span>
+                      {{ child.judul }}
+                    </span>
+                  </div>
+                  <div
+                    v-show="child.childs_2.length"
+                    :class="{
+                      '-rotate-90 rtl:rotate-90': activeDropdown !== child.rute,
+                    }"
+                  >
+                    <IconCaretDown />
+                  </div>
                 </div>
               </button>
               <nuxt-link
@@ -235,12 +237,12 @@
                 "
               >
                 <div
-                  class="flex items-center text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+                  class=""
                 >
                   <i
                     :class="[
                       'mx-2 fas fa-' + child.icon,
-                      { 'text-active': activeDropdown === child.rute },
+                      { '': activeDropdown === child.rute },
                     ]"
                   ></i>
                   <span>
@@ -266,6 +268,7 @@
                         :class="[
                           'fas fa-' + itemChild.icon,
                           { 'text-active': subActive === itemChild.id },
+                          'mr-2',
                         ]"
                       ></i>
                       <span

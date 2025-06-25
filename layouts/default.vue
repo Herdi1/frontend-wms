@@ -85,13 +85,13 @@ export default {
     this.$store.dispatch("app/toggleTheme", theme);
 
     // Optional: auto update if system theme changes
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (e) => {
-        if (localStorage.getItem("theme") === "system") {
-          this.$store.dispatch("app/toggleTheme", "system");
-        }
-      });
+    // window
+    //   .matchMedia("(prefers-color-scheme: dark)")
+    //   .addEventListener("change", (e) => {
+    //     if (localStorage.getItem("theme") === "system") {
+    //       this.$store.dispatch("app/toggleTheme", "system");
+    //     }
+    //   });
   },
 
   computed: {
