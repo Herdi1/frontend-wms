@@ -44,7 +44,7 @@
                   <div class="col">
                     <ValidationProvider name="title" rules="required">
                       <div class="form-group" slot-scope="{ errors, valid }">
-                        <label for="title">Judul</label>
+                        <label for="title">Nama Menu</label>
                         <input
                           id="title"
                           type="text"
@@ -73,6 +73,23 @@
                     name="icon"
                     v-model="parameters.form.icon"
                   />
+                </div>
+
+                <div class="form-group">
+                  <label for="status_menu">Status Menu</label>
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                    id="status_menu"
+                    label="judul"
+                    :options="[
+                      { judul: 'Modul', value: '1' },
+                      { judul: 'Parent', value: '2' },
+                      { judul: 'Child', value: '3' },
+                    ]"
+                    :reduce="(item) => item.value"
+                    v-model="parameters.form.status_menu"
+                  >
+                  </v-select>
                 </div>
 
                 <!-- menu induk 1 -->
@@ -174,23 +191,6 @@
                 </v-select>
               </div>
 
-              <div class="form-group">
-                <label for="status_menu">Status Menu</label>
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
-                  id="status_menu"
-                  label="judul"
-                  :options="[
-                    { judul: 'Modul', value: '1' },
-                    { judul: 'Parent', value: '2' },
-                    { judul: 'Child', value: '3' },
-                  ]"
-                  :reduce="(item) => item.value"
-                  v-model="parameters.form.status_menu"
-                >
-                </v-select>
-              </div>
-
               <modal-footer-section
                 :isLoadingForm="isLoadingForm"
                 @close="hide"
@@ -271,7 +271,10 @@ export default {
           ...this.parameters.form,
           urutan: 0,
           id: this.parameters.form.menu_id ? this.parameters.form.menu_id : "",
-          menu_id: this.parameters.form.menu_id,
+          menu_id: this.parameters.form.menu_id
+            ? this.parameters.form.menu_id
+            : "",
+          // menu_id: this.parameters.form.menu_id,
         },
       };
 
