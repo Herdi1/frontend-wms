@@ -151,7 +151,10 @@
                 <!-- <input-form label="Coba" type="date" name="coba" /> -->
                 <div class="grid grid-cols-2">
                   <ValidationProvider name="company_name" rules="required">
-                    <div class="form-group col" slot-scope="{ errors, valid }">
+                    <div
+                      class="form-group col w-3/4"
+                      slot-scope="{ errors, valid }"
+                    >
                       <input-form
                         label="Nama Perusahaan"
                         type="text"
@@ -167,7 +170,10 @@
                     </div>
                   </ValidationProvider>
                   <ValidationProvider name="email" rules="required|email">
-                    <div class="form-group col" slot-scope="{ errors, valid }">
+                    <div
+                      class="form-group col w-3/4"
+                      slot-scope="{ errors, valid }"
+                    >
                       <input-form
                         label="Email"
                         type="text"
@@ -203,7 +209,7 @@
                   </div>
                   <ValidationProvider name="phone" rules="required">
                     <div
-                      class="form-group col-12"
+                      class="form-group col-12 w-3/4"
                       slot-scope="{ errors, valid }"
                     >
                       <input-form
@@ -231,7 +237,7 @@
                     </div>
                   </ValidationProvider>
 
-                  <div class="form-group col-12">
+                  <div class="form-group col-12 w-3/4">
                     <input-form
                       label="Website"
                       type="text"
@@ -258,12 +264,12 @@
                     <div class="text-muted text-small">* Percent</div>
                   </div>
 
-                  <div class="form-group col-12">
+                  <div class="form-group col-12 w-3/4">
                     <input-form
-                      label="Tanda Tangan Pemilik"
+                      label="Nama Aplikasi"
                       type="text"
-                      name="signature_owner"
-                      v-model="form.signature_owner"
+                      name="app_name"
+                      v-model="form.app_name"
                     />
                     <!-- <label for="signature_owner">Tanda Tangan Pemilik</label>
                     <input
@@ -436,21 +442,22 @@ export default {
         address: "",
         email: "",
         phone: "",
-        logo: "",
-        logo_print: "",
-        header_color: "",
-        tax: 0.0,
-        footer_print_quotation: "",
         website: "",
-        signature: "",
-        signature_owner: "",
-        is_min_stock: false,
-        bank_name: "",
-        bank_account: "",
-        bank_no: "",
-        limit_item_transaction: 0,
-        closing_stock_opname: 0,
-        product_group_material: "",
+        tax: "",
+        app_name: "",
+        // tax: 0.0,
+        // footer_print_quotation: "",
+        // website: "",
+        // signature: "",
+        // signature_owner: "",
+        //is_min_stock apa harus diisi
+        is_min_stock: 0,
+        // bank_name: "",
+        // bank_account: "",
+        // bank_no: "",
+        // limit_item_transaction: 0,
+        // closing_stock_opname: 0,
+        // product_group_material: "",
       },
 
       isLoadingForm: false,
@@ -475,7 +482,7 @@ export default {
       .get("/setting")
       .then((res) => {
         res.data.forEach((item) => {
-          this.form[item.name] = item.value;
+          this.form[item.nama] = item.value;
         });
 
         this.isLoadingPage = false;
@@ -513,128 +520,128 @@ export default {
         });
     },
 
-    onSubmitLogo() {
-      if (this.isLoadingFormLogo) return;
+    // onSubmitLogo() {
+    //   if (this.isLoadingFormLogo) return;
 
-      this.isLoadingFormLogo = true;
+    //   this.isLoadingFormLogo = true;
 
-      let formData = new FormData(document.getElementById("form-logo"));
-      formData.append("_method", "PUT");
+    //   let formData = new FormData(document.getElementById("form-logo"));
+    //   formData.append("_method", "PUT");
 
-      this.$axios
-        .post("/setting/logo", formData)
-        .then(() => {
-          this.logo = "";
-          document.getElementById("form-logo").reset();
-          this.$toaster.success("Berhasil upload logo");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingFormLogo = false;
-        });
-    },
+    //   this.$axios
+    //     .post("/setting/logo", formData)
+    //     .then(() => {
+    //       this.logo = "";
+    //       document.getElementById("form-logo").reset();
+    //       this.$toaster.success("Berhasil upload logo");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.$globalErrorToaster(this.$toaster, err);
+    //     })
+    //     .finally(() => {
+    //       this.isLoadingFormLogo = false;
+    //     });
+    // },
 
-    onSubmitSignature() {
-      if (this.isLoadingFormSignature) return;
+    // onSubmitSignature() {
+    //   if (this.isLoadingFormSignature) return;
 
-      this.isLoadingFormSignature = true;
+    //   this.isLoadingFormSignature = true;
 
-      let formData = new FormData(document.getElementById("form-signature"));
-      formData.append("_method", "PUT");
+    //   let formData = new FormData(document.getElementById("form-signature"));
+    //   formData.append("_method", "PUT");
 
-      this.$axios
-        .post("/setting/signature", formData)
-        .then(() => {
-          this.signature = "";
-          document.getElementById("form-signature").reset();
-          this.$toaster.success("Berhasil upload tanda tangan");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingFormSignature = false;
-        });
-    },
+    //   this.$axios
+    //     .post("/setting/signature", formData)
+    //     .then(() => {
+    //       this.signature = "";
+    //       document.getElementById("form-signature").reset();
+    //       this.$toaster.success("Berhasil upload tanda tangan");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.$globalErrorToaster(this.$toaster, err);
+    //     })
+    //     .finally(() => {
+    //       this.isLoadingFormSignature = false;
+    //     });
+    // },
 
-    onSubmitLogoPrint() {
-      if (this.isLoadingFormLogoPrint) return;
+    // onSubmitLogoPrint() {
+    //   if (this.isLoadingFormLogoPrint) return;
 
-      this.isLoadingFormLogoPrint = true;
+    //   this.isLoadingFormLogoPrint = true;
 
-      let formData = new FormData(document.getElementById("form-logo-print"));
-      formData.append("_method", "PUT");
+    //   let formData = new FormData(document.getElementById("form-logo-print"));
+    //   formData.append("_method", "PUT");
 
-      this.$axios
-        .post("/setting/logo-print", formData)
-        .then(() => {
-          this.logo_print = "";
-          document.getElementById("form-logo-print").reset();
-          this.$toaster.success("Berhasil upload logo print");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingFormLogoPrint = false;
-        });
-    },
+    //   this.$axios
+    //     .post("/setting/logo-print", formData)
+    //     .then(() => {
+    //       this.logo_print = "";
+    //       document.getElementById("form-logo-print").reset();
+    //       this.$toaster.success("Berhasil upload logo print");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.$globalErrorToaster(this.$toaster, err);
+    //     })
+    //     .finally(() => {
+    //       this.isLoadingFormLogoPrint = false;
+    //     });
+    // },
 
-    onLogoChange(evt) {
-      if (this.isLoadingFormLogo || !evt.target.files[0]) return;
+    // onLogoChange(evt) {
+    //   if (this.isLoadingFormLogo || !evt.target.files[0]) return;
 
-      if (
-        !["image/jpeg", "image/jpg", "image/png"].includes(
-          evt.target.files[0].type
-        )
-      ) {
-        this.$toaster.error("Gambar tidak valid");
-        evt.target.value = "";
-        return;
-      }
+    //   if (
+    //     !["image/jpeg", "image/jpg", "image/png"].includes(
+    //       evt.target.files[0].type
+    //     )
+    //   ) {
+    //     this.$toaster.error("Gambar tidak valid");
+    //     evt.target.value = "";
+    //     return;
+    //   }
 
-      this.logo = evt.target.files[0].name;
-      this.form.logo = URL.createObjectURL(evt.target.files[0]);
-    },
+    //   this.logo = evt.target.files[0].name;
+    //   this.form.logo = URL.createObjectURL(evt.target.files[0]);
+    // },
 
-    onSignatureChange(evt) {
-      if (this.isLoadingFormSignature || !evt.target.files[0]) return;
+    // onSignatureChange(evt) {
+    //   if (this.isLoadingFormSignature || !evt.target.files[0]) return;
 
-      if (
-        !["images/jpeg", "image/jpg", "image/png"].includes(
-          evt.target.files[0].type
-        )
-      ) {
-        this.$toaster.error("Gambar tidak valid");
-        evt.target.value = "";
-        return;
-      }
+    //   if (
+    //     !["images/jpeg", "image/jpg", "image/png"].includes(
+    //       evt.target.files[0].type
+    //     )
+    //   ) {
+    //     this.$toaster.error("Gambar tidak valid");
+    //     evt.target.value = "";
+    //     return;
+    //   }
 
-      this.signature = evt.target.files[0].name;
-      this.form.signature = URL.createObjectURL(evt.target.files[0]);
-    },
+    //   this.signature = evt.target.files[0].name;
+    //   this.form.signature = URL.createObjectURL(evt.target.files[0]);
+    // },
 
-    onLogoPrintChange(evt) {
-      if (this.isLoadingFormLogoPrint || !evt.target.files[0]) return;
+    // onLogoPrintChange(evt) {
+    //   if (this.isLoadingFormLogoPrint || !evt.target.files[0]) return;
 
-      if (
-        !["images/jpeg", "image/jpg", "image/png"].includes(
-          evt.target.files[0].type
-        )
-      ) {
-        this.$toaster.error("Gambar tidak valid");
-        evt.target.value = "";
-        return;
-      }
+    //   if (
+    //     !["images/jpeg", "image/jpg", "image/png"].includes(
+    //       evt.target.files[0].type
+    //     )
+    //   ) {
+    //     this.$toaster.error("Gambar tidak valid");
+    //     evt.target.value = "";
+    //     return;
+    //   }
 
-      this.logo_print = evt.target.files[0].name;
-      this.form.logo_print = URL.createObjectURL(evt.target.files[0]);
-    },
+    //   this.logo_print = evt.target.files[0].name;
+    //   this.form.logo_print = URL.createObjectURL(evt.target.files[0]);
+    // },
   },
 };
 </script>

@@ -44,13 +44,13 @@
                   >
                     <thead>
                       <tr>
-                        <th class="w-1/12">
+                        <!-- <th class="w-1/12">
                           <input
                             type="checkbox"
                             id="checkAll"
                             @click="onCheckAll"
                           />
-                        </th>
+                        </th> -->
                         <th class="w-1/12">No</th>
                         <th
                           @click="
@@ -94,14 +94,14 @@
                     </thead>
                     <tbody>
                       <tr v-for="(item, i) in data" :key="i">
-                        <td>
+                        <!-- <td>
                           <input
                             type="checkbox"
                             name="checkboxs[]"
                             :value="item.id"
                             v-model="parameters.form.checkboxs"
                           />
-                        </td>
+                        </td> -->
                         <td>{{ i + 1 }}</td>
                         <td>{{ item.nama_role }}</td>
                         <td>
