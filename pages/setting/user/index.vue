@@ -1,8 +1,8 @@
 <template>
   <section class="">
-    <div class="grid">
+    <div class="gap-5">
       <div
-        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-3"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-3"
       >
         <div class="w-full">
           <FormIndex :self="this" ref="formIndex" />
@@ -10,7 +10,7 @@
       </div>
 
       <div
-        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="row">
           <div class="col-12 col-md-12">

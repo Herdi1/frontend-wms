@@ -97,7 +97,7 @@
                   <label for="menu_id_induk">Module</label>
                   <v-select
                     id="menu_id_induk"
-                    class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="judul"
                     :loading="isLoadingGetRole"
                     :options="lookup_roles.data"
@@ -138,7 +138,7 @@
                 <div class="form-group">
                   <label for="parent_id">Parent</label>
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="judul"
                     :loading="isLoadingGetCustom"
                     :options="lookup_custom1.data"
@@ -178,7 +178,7 @@
               <div class="form-group">
                 <label for="status">Aplikasi</label>
                 <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-3"
                   id="status"
                   label="judul"
                   :options="[
@@ -213,7 +213,7 @@ export default {
 
   async mounted() {
     await this.onSearchRole();
-    await this.onSearchRole2();
+    // await this.onSearchRole2();
   },
 
   data() {
@@ -338,7 +338,7 @@ export default {
         });
 
         this.isLoadingGetRole = false;
-        console.log(this.lookup_roles.data);
+        // console.log(this.lookup_roles.data);
       }
     },
 
@@ -383,7 +383,7 @@ export default {
         });
 
         this.isLoadingGetCustom = false;
-        console.log("get parent");
+        // console.log("get parent");
       }
     },
 

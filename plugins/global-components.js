@@ -21,6 +21,7 @@ import SaveButton from "../components/forms/SaveButton.vue";
 import ResetButton from "../components/forms/ResetButton.vue";
 import CloseButton from "../components/forms/CloseButton.vue";
 import TitleForm from "../components/forms/TitleForm.vue";
+import InputForm from "../components/InputForm/InputForm.vue";
 
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
@@ -132,3 +133,4 @@ Vue.component("save-button", SaveButton);
 Vue.component("reset-button", ResetButton);
 Vue.component("close-button", CloseButton);
 Vue.component("title-form", TitleForm);
+Vue.component("input-form", InputForm);

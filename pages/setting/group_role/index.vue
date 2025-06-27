@@ -5,138 +5,182 @@
         <div class="col-12 col-md-12">
           <div class="card">
             <div class="card-body">
-              <div class="card-title">
-                <list-option-section :self="this" ref="form-option" />
-              </div>
+              <div class="flex gap-5">
+                <div class="w-1/2 bg-white rounded-md p-2">
+                  <AddForm />
+                </div>
+                <div>
+                  <div class="card-title">
+                    <list-option-section :self="this" ref="form-option" />
+                  </div>
 
-              <div v-if="parameters.form.checkboxs.length">
-                <button
-                  class="btn btn-sm btn-danger"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  data-original-title="Hapus Semua Data"
-                  @click="onDeleteAll()"
-                  v-if="parameters.params.soft_deleted != 'deleted'"
-                >
-                  Hapus <i class="fas fa-trash"></i>
-                </button>
-                <button
-                  class="btn btn-sm btn-success"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  data-original-title="Restore Semua Data"
-                  @click="onRestoreAll()"
-                  v-if="parameters.params.soft_deleted"
-                >
-                  Pulihkan <i class="fas fa-redo"></i>
-                </button>
-              </div>
+                  <div v-if="parameters.form.checkboxs.length">
+                    <button
+                      class="btn btn-sm btn-danger"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      data-original-title="Hapus Semua Data"
+                      @click="onDeleteAll()"
+                      v-if="parameters.params.soft_deleted != 'deleted'"
+                    >
+                      Hapus <i class="fas fa-trash"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-success"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      data-original-title="Restore Semua Data"
+                      @click="onRestoreAll()"
+                      v-if="parameters.params.soft_deleted"
+                    >
+                      Pulihkan <i class="fas fa-redo"></i>
+                    </button>
+                  </div>
 
-              <!-- start table -->
-              <div class="table-responsive">
-                <table
-                  class="table table-striped table-sm vld-parent"
-                  ref="formContainer"
-                >
-                  <thead>
-                    <tr>
-                      <th>
-                        <input
-                          type="checkbox"
-                          id="checkAll"
-                          @click="onCheckAll"
-                        />
-                      </th>
-                      <th>No</th>
-                      <th
-                        @click="
-                          onSort(
-                            'name',
-                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                          )
-                        "
-                        class="cursor-pointer"
-                      >
-                        <div
-                          class="d-flex flex-row justify-content-between align-items-baseline"
-                        >
-                          <div>Nama</div>
-                          <div>
-                            <i
-                              class="fas fa-caret-up"
-                              :class="
-                                parameters.params.order == 'name' &&
-                                parameters.params.sort == 'asc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
-                            <i
-                              class="fas fa-caret-down"
-                              :class="
-                                parameters.params.order == 'name' &&
-                                parameters.params.sort == 'desc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
+                  <!-- start table -->
+                  <div class="table-responsive w-1/2">
+                    <table
+                      class="table table-striped table-sm vld-parent"
+                      ref="formContainer"
+                    >
+                      <thead>
+                        <tr>
+                          <th>
+                            <input
+                              type="checkbox"
+                              id="checkAll"
+                              @click="onCheckAll"
+                            />
+                          </th>
+                          <th>No</th>
+                          <th
+                            @click="
+                              onSort(
+                                'name',
+                                parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                              )
+                            "
+                            class="cursor-pointer"
+                          >
+                            <div
+                              class="d-flex flex-row justify-content-between align-items-baseline"
+                            >
+                              <div>Nama</div>
+                              <div>
+                                <i
+                                  class="fas fa-caret-up"
+                                  :class="
+                                    parameters.params.order == 'name' &&
+                                    parameters.params.sort == 'asc'
+                                      ? ''
+                                      : 'light-gray'
+                                  "
+                                ></i>
+                                <i
+                                  class="fas fa-caret-down"
+                                  :class="
+                                    parameters.params.order == 'name' &&
+                                    parameters.params.sort == 'desc'
+                                      ? ''
+                                      : 'light-gray'
+                                  "
+                                ></i>
+                              </div>
+                            </div>
+                          </th>
+                          <th class="text-center">Detail</th>
+                          <th class="text-center">Edit</th>
+                          <th class="text-center">Hapus</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(item, i) in data" :key="i">
+                          <td>
+                            <input
+                              type="checkbox"
+                              name="checkboxs[]"
+                              :value="item.id"
+                              v-model="parameters.form.checkboxs"
+                            />
+                          </td>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ item.nama_role }}</td>
+                          <td>
+                            <span class="flex items-center justify-center">
+                              <button
+                                class="btn btn-sm btn-success"
+                                @click="onDetail(item)"
+                              >
+                                <i class="fas fa-info-circle"></i>
+                              </button>
+                            </span>
+                          </td>
+                          <td>
+                            <span class="flex items-center justify-center">
+                              <button
+                                class="btn btn-sm btn-primary"
+                                @click="onEdit(item)"
+                                v-if="!item.deleted_at"
+                              >
+                                <i class="fas fa-pen"></i>
+                              </button>
+                            </span>
+                          </td>
+                          <td>
+                            <span class="flex items-center justify-center">
+                              <button
+                                class="btn btn-sm btn-danger"
+                                @click="onTrashed(item)"
+                                v-if="!item.deleted_at"
+                              >
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </span>
+                          </td>
+                          <!-- <td class="text-center">
+                          <div
+                            class="btn-group flex gap-2 items-center justify-center"
+                          >
+                            <button
+                              class="btn btn-sm btn-success"
+                              @click="onDetail(item)"
+                            >
+                              <i class="fas fa-info-circle"></i>
+                            </button>
+                            <button
+                              class="btn btn-sm btn-primary"
+                              @click="onEdit(item)"
+                              v-if="!item.deleted_at"
+                            >
+                              <i class="fas fa-pen"></i>
+                            </button>
+                            <button
+                              class="btn btn-sm btn-danger"
+                              @click="onTrashed(item)"
+                              v-if="!item.deleted_at"
+                            >
+                              <i class="fas fa-trash"></i>
+                            </button>
+                            <button
+                              class="btn btn-sm btn-success"
+                              @click="onRestored(item)"
+                              v-if="item.deleted_at"
+                            >
+                              <i class="fas fa-redo"></i>
+                            </button>
                           </div>
-                        </div>
-                      </th>
-                      <th class="text-center">Options</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, i) in data" :key="i">
-                      <td>
-                        <input
-                          type="checkbox"
-                          name="checkboxs[]"
-                          :value="item.id"
-                          v-model="parameters.form.checkboxs"
-                        />
-                      </td>
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ item.name }}</td>
-                      <td class="text-center">
-                        <div class="btn-group">
-                          <button
-                            class="btn btn-sm btn-success"
-                            @click="onDetail(item)"
-                          >
-                            <i class="fas fa-info-circle"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-primary"
-                            @click="onEdit(item)"
-                            v-if="!item.deleted_at"
-                          >
-                            <i class="fas fa-pen"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-danger"
-                            @click="onTrashed(item)"
-                            v-if="!item.deleted_at"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            class="btn btn-sm btn-success"
-                            @click="onRestored(item)"
-                            v-if="item.deleted_at"
-                          >
-                            <i class="fas fa-redo"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
+                        </td> -->
+                        </tr>
+                      </tbody>
 
-                  <table-data-loading-section :self="this" />
+                      <table-data-loading-section :self="this" />
 
-                  <table-data-not-found-section :self="this" />
-                </table>
+                      <table-data-not-found-section :self="this" />
+                    </table>
+                  </div>
+                </div>
               </div>
+
               <!-- end table -->
 
               <div
@@ -151,9 +195,9 @@
       </div>
     </div>
 
-    <ModalDetail :self="this" ref="modal-detail" />
+    <ModalDetail ref="modalDetail" />
 
-    <FormInput :self="this" ref="form-input" />
+    <FormInput :self="this" ref="formInput" />
 
     <!--
     <filter-section
@@ -181,6 +225,7 @@
 import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form";
 import ModalDetail from "./detail";
+import AddForm from "./AddRoleForm.vue";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -208,12 +253,12 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "setting/group_role",
+        url: "setting/role",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "id",
+          order: "role_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -233,6 +278,7 @@ export default {
   components: {
     FormInput,
     ModalDetail,
+    AddForm,
   },
 
   computed: {
@@ -253,19 +299,23 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs["form-input"].parameters.form = {
+      this.$refs.formInput.parameters.form = {
         name: "",
         type_option: "multiselect",
         grants: [],
       };
-      this.$refs["form-input"].isEditable = false;
-      window.$("#modal-form").modal("show");
-      this.$refs["form-input"].$refs["form-validate"].reset();
+      this.$refs.formInput.isEditable = false;
+      this.$refs.formInput.show();
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
+      // window.$("#modal-form").modal("show");
+      // this.$refs["form-input"].$refs["form-validate"].reset();
     },
 
     onEdit(item) {
-      this.$refs["form-input"].isEditable = true;
-      this.$refs["form-input"].parameters.form = {
+      this.$refs.formInput.isEditable = true;
+      this.$refs.formInput.parameters.form = {
         ...item,
         type_option: "multiselect",
         grants: item.grants.map((item) => {
@@ -276,8 +326,12 @@ export default {
           };
         }),
       };
-      window.$("#modal-form").modal("show");
-      this.$refs["form-input"].$refs["form-validate"].reset();
+      this.$refs.formInput.show();
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
+      // window.$("#modal-form").modal("show");
+      // this.$refs["form-input"].$refs["form-validate"].reset();
     },
 
     onDetail(item) {
