@@ -1,7 +1,7 @@
 <template>
   <div class="relative h-[calc(100vh-80px)] overflow-y-auto">
     <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
-      <li class="menu nav-item">
+      <!-- <li class="menu nav-item">
         <h2
           class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
         >
@@ -148,7 +148,7 @@
           </li>
         </ul>
        
-      </li>
+      </li> -->
       <template v-for="item in menus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
           <h2
