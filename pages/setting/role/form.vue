@@ -1,14 +1,12 @@
 <template>
-  <portal v-if="visible" to="modal">
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-    <div
-      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
-      aria-hidden="true"
-      id="modal-form"
-    >
+  <div to="modal">
+    <div class="" aria-hidden="true" id="modal-form">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <modal-header-section :self="this" @close="hide" />
+        <div class="">
+          <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+            Edit Data
+          </h1>
+          <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
 
           <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
             <form
@@ -16,60 +14,54 @@
               autocomplete="off"
             >
               <div class="modal-body">
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col">
-                    <ValidationProvider name="name" rules="required">
-                      <div class="form-group" slot-scope="{ errors, valid }">
-                        <label for="name">Rute</label>
-                        <input
-                          id="name"
-                          type="text"
-                          class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
-                          name="name"
-                          v-model="parameters.form.rute"
-                          :class="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        />
-                        <div class="invalid-feedback" v-if="errors[0]">
-                          {{ errors[0] }}
-                        </div>
-                        <div class="text-danger text-small" v-if="isEditable">
-                          * Hati-hati dalam menganti nama menu
-                        </div>
-                      </div>
-                    </ValidationProvider>
+                <ValidationProvider name="name" rules="required">
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <label for="name">Rute</label>
+                    <input
+                      id="name"
+                      type="text"
+                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
+                      name="name"
+                      v-model="parameters.form.rute"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div class="invalid-feedback" v-if="errors[0]">
+                      {{ errors[0] }}
+                    </div>
+                    <div class="text-danger text-small" v-if="isEditable">
+                      * Hati-hati dalam menganti nama menu
+                    </div>
                   </div>
+                </ValidationProvider>
 
-                  <div class="col">
-                    <ValidationProvider name="title" rules="required">
-                      <div class="form-group" slot-scope="{ errors, valid }">
-                        <label for="title">Nama Menu</label>
-                        <input
-                          id="title"
-                          type="text"
-                          class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
-                          name="title"
-                          v-model="parameters.form.judul"
-                          :class="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        />
+                <ValidationProvider name="judul" rules="required">
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <label for="judul">Nama Menu</label>
+                    <input
+                      id="judul"
+                      type="text"
+                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
+                      name="judul"
+                      v-model="parameters.form.judul"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
 
-                        <div class="invalid-feedback" v-if="errors[0]">
-                          {{ errors[0] }}
-                        </div>
-                      </div>
-                    </ValidationProvider>
+                    <div class="invalid-feedback" v-if="errors[0]">
+                      {{ errors[0] }}
+                    </div>
                   </div>
-                </div>
+                </ValidationProvider>
 
                 <div class="form-group mb-3">
                   <label for="icon">Icon</label>
                   <input
                     id="icon"
                     type="text"
-                    class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
+                    class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                     name="icon"
                     v-model="parameters.form.icon"
                   />
@@ -78,7 +70,7 @@
                 <div class="form-group">
                   <label for="status_menu">Status Menu</label>
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border border-gray-300 mb-3"
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-3"
                     id="status_menu"
                     label="judul"
                     :options="[
@@ -93,7 +85,10 @@
                 </div>
 
                 <!-- menu induk 1 -->
-                <div class="form-group">
+                <div
+                  class="form-group"
+                  v-show="parameters.form.status_menu != 1"
+                >
                   <label for="menu_id_induk">Module</label>
                   <v-select
                     id="menu_id_induk"
@@ -135,7 +130,21 @@
                 </div>
 
                 <!-- menu induk 2 -->
-                <div class="form-group">
+                <div
+                  class="form-group"
+                  v-show="
+                    parameters.form.status_menu != 1 &&
+                    parameters.form.status_menu != 2
+                  "
+                >
+                  <!-- <search-dropdown
+                    :optionsData="lookup_custom1"
+                    label="Parent"
+                    :isLoading="isLoadingGetCustom"
+                    :onSearch="onGetRole2"
+                    :reduce="(item) => item.menu_id"
+                    :value="parameters.form.menu_id_induk_2"
+                  /> -->
                   <label for="parent_id">Parent</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -193,14 +202,14 @@
 
               <modal-footer-section
                 :isLoadingForm="isLoadingForm"
-                @close="hide"
+                @reset="formReset()"
               />
             </form>
           </ValidationObserver>
         </div>
       </div>
     </div>
-  </portal>
+  </div>
 </template>
 
 <script>
@@ -218,7 +227,6 @@ export default {
 
   data() {
     return {
-      visible: false,
       isStopSearchRole: false,
       isLoadingGetRole: false,
 
@@ -280,8 +288,30 @@ export default {
 
       if (this.isEditable) {
         await this.updateData(parameters);
+        this.isEditable = false;
+        this.parameters.form = {
+          rute: "",
+          judul: "",
+          icon: "",
+          menu_id_induk: "",
+          menu_id_induk_2: "",
+          urutan: "",
+          status: "",
+          status_menu: "",
+        };
       } else {
         await this.addData(parameters);
+        this.isEditable = false;
+        this.parameters.form = {
+          rute: "",
+          judul: "",
+          icon: "",
+          menu_id_induk: "",
+          menu_id_induk_2: "",
+          urutan: "",
+          status: "",
+          status_menu: "",
+        };
       }
 
       if (this.result == true) {
@@ -289,7 +319,6 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        this.hide();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -387,11 +416,18 @@ export default {
       }
     },
 
-    show() {
-      this.visible = true;
-    },
-    hide() {
-      this.visible = false;
+    formReset() {
+      this.isEditable = false;
+      this.parameters.form = {
+        rute: "",
+        judul: "",
+        icon: "",
+        menu_id_induk: "",
+        menu_id_induk_2: "",
+        urutan: "",
+        status: "",
+        status_menu: "",
+      };
     },
   },
 };

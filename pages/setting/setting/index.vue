@@ -1,5 +1,20 @@
 <template>
   <section class="section">
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>Profil</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
     <div class="section-body" v-if="isLoadingPage">
       <div class="row">
         <div class="col-12">
@@ -17,7 +32,10 @@
       </div>
     </div>
 
-    <div class="section-body" v-if="!isLoadingPage">
+    <div
+      class="w-full bg-white rounded-md p-2 px-4 border border-gray-300"
+      v-if="!isLoadingPage"
+    >
       <div class="row mt-sm-4" v-if="!isLoadingPage">
         <div class="mb-4 font-semibold text-lg">
           <h4>Edit Aplikasi</h4>
@@ -139,7 +157,7 @@
         </div> -->
 
         <div class="col-12 col-lg-8">
-          <div class="card">
+          <div class="">
             <ValidationObserver
               v-slot="{ invalid, validate }"
               ref="form-validate"
@@ -419,7 +437,7 @@
 import { mapMutations } from "vuex";
 
 import { VueEditor } from "vue2-editor";
-import InputForm from "../../components/InputForm/InputForm.vue";
+import InputForm from "../../../components/InputForm/InputForm.vue";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -437,6 +455,7 @@ export default {
 
   data() {
     return {
+      title: "Profil Aplikasi",
       form: {
         company_name: "",
         address: "",

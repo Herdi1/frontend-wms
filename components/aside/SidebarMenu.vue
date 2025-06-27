@@ -147,7 +147,7 @@
             </nuxt-link>
           </li>
         </ul>
-       
+
       </li> -->
       <template v-for="item in menus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
@@ -174,9 +174,7 @@
                     : (activeDropdown = child.rute)
                 "
               >
-                <div
-                  class="flex items-center justify-between w-full"
-                >
+                <div class="flex items-center justify-between w-full">
                   <div class="flex">
                     <i
                       :class="[
@@ -200,7 +198,7 @@
               </button>
               <nuxt-link
                 v-else
-                :to="'/'+item.rute+'/'+child.rute"
+                :to="'/' + item.rute + '/' + child.rute"
                 class="nav-link group w-full"
                 :class="{ active: activeDropdown === child.rute }"
                 @click="
@@ -209,9 +207,7 @@
                     : (activeDropdown = child.rute)
                 "
               >
-                <div
-                  class=""
-                >
+                <div class="">
                   <i
                     :class="[
                       'mx-2 fas fa-' + child.icon,

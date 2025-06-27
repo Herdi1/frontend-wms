@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!-- <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div> -->
     <div class="" aria-hidden="" id="modal-form">
       <div class="">
         <div class="">
-          <!-- <modal-header-section :self="this" @close="hide" /> -->
           <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
             Edit Data
           </h1>
@@ -15,106 +13,55 @@
               @submit.prevent="validate().then(() => onSubmit(invalid))"
               autocomplete="off"
             >
-              <div class="modal-body">
-                <div class="grid grid-flow-row grid-cols-1 gap-2 w-full">
-                  <div class="form-group flex w-full items-center">
-                    <label for="fullname" class="w-4/12">Nama Lengkap</label>
-                    <input
-                      id="fullname"
-                      type="text"
-                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                      name="fullname"
-                      v-model="parameters.form.nama_lengkap"
-                    />
-                  </div>
+              <div class="mb-3">
+                <div
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
+                >
+                  <input-form
+                    label="Nama Lengkap"
+                    type="text"
+                    name="nama_lengkap"
+                    v-model="parameters.form.nama_lengkap"
+                  />
 
-                  <ValidationProvider name="no_hp" class="w-full">
-                    <div
-                      class="form-group flex w-full items-center"
-                      slot-scope="{ errors, valid }"
-                    >
-                      <label for="tanggal_lahir" class="w-4/12"
-                        >Tanggal Lahir</label
-                      >
-                      <input
-                        id="tanggal_lahir"
-                        type="date"
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                        name="tanggal_lahir"
-                        v-model="parameters.form.tanggal_lahir"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      />
-                      <!-- <div class="invalid-feedback" v-if="errors[0]">
-                            {{ errors[0] }}
-                          </div>       -->
-                    </div>
-                  </ValidationProvider>
-                  <ValidationProvider name="no_hp" class="w-full">
-                    <div
-                      class="form-group flex w-full items-center"
-                      slot-scope="{ errors, valid }"
-                    >
-                      <label for="no_hp" class="w-4/12">No. HP</label>
-                      <input
-                        id="no_hp"
-                        type="text"
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                        name="no_hp"
-                        v-model="parameters.form.no_hp"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      />
-                      <!-- <div class="invalid-feedback" v-if="errors[0]">
-                            {{ errors[0] }}
-                          </div>       -->
-                    </div>
-                  </ValidationProvider>
+                  <input-form
+                    label="Tanggal Lahir"
+                    type="date"
+                    name="tanggal_lahir"
+                    v-model="parameters.form.tanggal_lahir"
+                  />
+
+                  <input-form
+                    label="Nomor Handphone"
+                    type="text"
+                    name="no_hp"
+                    v-model="parameters.form.no_hp"
+                  />
+
                   <ValidationProvider class="w-full" name="email" rules="email">
-                    <div
-                      class="form-group flex w-full items-center"
-                      slot-scope="{ errors, valid }"
-                    >
-                      <label for="email" class="w-4/12">Email</label>
-                      <input
-                        id="email"
+                    <div slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Email"
                         type="text"
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
                         name="email"
-                        v-model="parameters.form.email"
-                        :class="
+                        :inputClass="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
+                        v-model="parameters.form.email"
                       />
-
-                      <!-- <div class="invalid-feedback" v-if="errors[0]">
-                    {{ errors[0] }}
-                  </div>       -->
                     </div>
                   </ValidationProvider>
                   <ValidationProvider name="username" rules="required">
-                    <div
-                      class="form-group flex w-full items-center"
-                      slot-scope="{ errors, valid }"
-                    >
-                      <label for="uername" class="w-4/12">Username</label>
-                      <div class="w-8/12">
-                        <input
-                          id="username"
-                          type="text"
-                          class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                          name="username"
-                          v-model="parameters.form.username"
-                          :class="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        />
-                        <div class="invalid-feedback" v-if="errors[0]">
-                          {{ errors[0] }}
-                        </div>
-                      </div>
+                    <div slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Username"
+                        type="text"
+                        name="username"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                        v-model="parameters.form.username"
+                      />
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -122,73 +69,94 @@
                     :rules="isEditable ? 'min:12' : 'required|min:12'"
                     class="w-full"
                   >
-                    <div
-                      class="form-group flex w-full items-center"
-                      slot-scope="{ errors, valid }"
-                    >
-                      <label for="password" class="w-4/12">Password</label>
-                      <div class="w-8/12">
-                        <input
-                          id="password"
-                          type="password"
-                          class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                          name="password"
-                          v-model="parameters.form.password"
-                          :class="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        />
-
-                        <div class="invalid-feedback" v-if="errors[0]">
-                          {{ errors[0] }}
-                        </div>
-                        <div class="text-muted" v-if="!errors[0] && isEditable">
-                          * Isi password jika ingin mengantinya
-                        </div>
+                    <div slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Password"
+                        type="password"
+                        name="password"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                        v-model="parameters.form.password"
+                      />
+                      <div v-if="errors[0]" class="text-red-500">
+                        {{ errors[0] }}
                       </div>
+                      <div class="text-muted" v-if="!errors[0] && isEditable">
+                        * Isi password jika ingin mengantinya
+                      </div>
+                      <div class=""></div>
                     </div>
                   </ValidationProvider>
-                  <div class="form-group flex w-full items-center">
+                  <div class="form-group w-full items-center">
                     <label for="jenis_kelamin" class="w-4/12">
                       Jenis Kelamin
                     </label>
                     <select
-                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                       v-model="parameters.form.jenis_kelamin"
                     >
                       <option value="l">Laki-laki</option>
                       <option value="p">Perempuan</option>
                     </select>
                   </div>
-                  <div class="form-group flex w-full items-center">
+                  <div class="form-group w-full items-center">
                     <label for="gudang_id" class="w-4/12"> Status User </label>
                     <select
-                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                       v-model="parameters.form.status_user"
                     >
-                      <option value="0">VUDS</option>
-                      <option value="1">Vendor</option>
-                      <option value="2">Pelanggan</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group flex w-full items-center">
-                    <label for="role_id" class="w-4/12"> Role </label>
-                    <select
-                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                      v-model="parameters.form.role_id"
-                    >
-                      <option value="1">Role 1</option>
-                      <option value="2">Role 2</option>
+                      <option value="0 ">VUDS</option>
+                      <option value="1 ">Vendor</option>
+                      <option value="2 ">Pelanggan</option>
                     </select>
                   </div>
 
                   <div
-                    class="form-group flex w-full items-center"
+                    class="form-group w-full items-center"
+                    v-if="!isEditable || parameters.form.parent_id"
+                  >
+                    <label for="" class="w-4/12">Role</label>
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
+                      label="nama_role"
+                      :loading="isLoadingGetGroupRole"
+                      :options="lookup_group_roles.data"
+                      :filterable="false"
+                      @search="onGetGroupRole"
+                      :reduce="(item) => item.role_id"
+                      v-model="parameters.form.role_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_group_roles.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_group_roles.current_page > 1"
+                          @click="onGetGroupRole(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_group_roles.last_page >
+                            lookup_group_roles.current_page
+                          "
+                          @click="onGetGroupRole(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+
+                  <div
+                    class="form-group w-full items-center"
                     v-if="!isEditable || parameters.form.parent_id"
                   >
                     <label for="" class="w-4/12">Pelanggan</label>
-
                     <v-select
                       label="name"
                       :loading="isLoadingGetPelanggan"
@@ -197,7 +165,7 @@
                       @search="onGetPelanggan"
                       v-model="parameters.form.pelanggan_id"
                       :reduce="(item) => item.pelanggan_id"
-                      class="w-8/12"
+                      class="w-full"
                       :aria-disabled="parameters.form.status_user == 2"
                     >
                       <li
@@ -224,143 +192,87 @@
                       </li>
                     </v-select>
                   </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col"></div>
 
-                  <div class="col"></div>
-                </div>
+                  <div
+                    class="form-group w-full items-center"
+                    v-if="!isEditable || parameters.form.parent_id"
+                  >
+                    <label for="" class="w-4/12">Gudang</label>
 
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full"></div>
-
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col"></div>
-
-                  <div class="col"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col"></div>
-
-                  <div class="col">
-                    <div class="form-group flex w-full items-center">
-                      <label for="status_aktif" class="w-4/12">
-                        Status Aktif
-                      </label>
-                      <select
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                        v-model="parameters.form.status_aktif"
-                      >
-                        <option value="0">Aktif</option>
-                        <option value="1">Non Akitf</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col">
-                    <!-- get from table role -->
-                  </div>
-
-                  <div class="col">
-                    <!-- <div
-                      v-if="parameters.form.status_user == 2"
-                      class="form-group"
+                    <v-select
+                      label="name"
+                      :loading="isLoadingGetGudang"
+                      :options="lookup_custom2.data"
+                      :filterable="false"
+                      @search="onGetGudang"
+                      v-model="parameters.form.gudang_id"
+                      :reduce="(item) => item.gudang_id"
+                      class="w-full"
                     >
-                      <label for="gudang_id"> Pelanggan </label>
-                      <select
-                        class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
-                        v-model="parameters.form.pelanggan_id"
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom2.data.length || search"
                       >
-                        <option value="1">Gudang 1</option>
-                        <option value="2">Gudang 2</option>
-                      </select>
-                    </div> -->
-                  </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col">
-                    <div
-                      class="form-group flex w-full items-center"
-                      v-if="!isEditable || parameters.form.parent_id"
-                    >
-                      <label for="" class="w-4/12">Gudang</label>
-
-                      <v-select
-                        label="name"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_custom2.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        v-model="parameters.form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
-                        class="w-8/12"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom2.data.length || search"
+                        <span
+                          v-if="lookup_custom2.current_page > 1"
+                          @click="onGetGudang(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
                         >
-                          <span
-                            v-if="lookup_custom2.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom2.last_page >
-                              lookup_custom2.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div
-                      class="form-group flex w-full items-center"
-                      v-if="!isEditable || parameters.form.parent_id"
-                    >
-                      <label for="" class="w-4/12">Jabatan</label>
-
-                      <v-select
-                        label="name"
-                        :loading="isLoadingGetJabatan"
-                        :options="lookup_custom3.data"
-                        :filterable="false"
-                        @search="onGetJabatan"
-                        v-model="parameters.form.jabatan_id"
-                        :reduce="(item) => item.jabatan_id"
-                        class="w-8/12"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom3.data.length || search"
+                        <span
+                          v-if="
+                            lookup_custom2.last_page >
+                            lookup_custom2.current_page
+                          "
+                          @click="onGetGudang(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
                         >
-                          <span
-                            v-if="lookup_custom3.current_page > 1"
-                            @click="onGetJabatan(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom3.last_page >
-                              lookup_custom3.current_page
-                            "
-                            @click="onGetJabatan(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
+                      </li>
+                    </v-select>
+                  </div>
+
+                  <div
+                    class="form-group w-full items-center"
+                    v-if="!isEditable || parameters.form.parent_id"
+                  >
+                    <label for="" class="w-4/12">Jabatan</label>
+
+                    <v-select
+                      label="name"
+                      :loading="isLoadingGetJabatan"
+                      :options="lookup_custom3.data"
+                      :filterable="false"
+                      @search="onGetJabatan"
+                      v-model="parameters.form.jabatan_id"
+                      :reduce="(item) => item.jabatan_id"
+                      class="w-full"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom3.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom3.current_page > 1"
+                          @click="onGetJabatan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom3.last_page >
+                            lookup_custom3.current_page
+                          "
+                          @click="onGetJabatan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
                   </div>
                 </div>
               </div>
@@ -462,7 +374,7 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          // id: this.parameters.form.user_id ? this.parameters.form.user_id : "",
+          id: this.parameters.form.user_id ? this.parameters.form.user_id : "",
           // group_role_id : typeof this.parameters.form.group_role_id == 'object'
           //   ? this.parameters.form.group_role_id.id
           //   : '',
@@ -489,6 +401,20 @@ export default {
       }
 
       this.isLoadingForm = false;
+      this.isEditable = false;
+      this.parameters.form = {
+        id: "",
+        user_id: "",
+        nama_lengkap: "",
+        username: "",
+        password: "",
+        email: "",
+        gudang_id: "",
+        no_hp: "",
+        jenis_kelamin: "",
+        pelanggan_id: "",
+        role_id: "",
+      };
     },
 
     onGetGroupRole(search, isNext) {
@@ -516,7 +442,7 @@ export default {
         this.isLoadingGetGroupRole = true;
 
         await this.lookUp({
-          url: "setting/user/get-group-role",
+          url: "setting/user/get-role",
           lookup: "group_roles",
           query:
             "?search=" +
@@ -527,6 +453,7 @@ export default {
         });
 
         this.isLoadingGetGroupRole = false;
+        console.log(this.lookup_group_roles.data);
       }
     },
 
@@ -557,7 +484,7 @@ export default {
 
         await this.lookUp({
           url: "master/pelanggan/get-pelanggan",
-          lookup: "pelanggan",
+          lookup: "custom1",
           query:
             "?search=" +
             this.pelanggan_search +
@@ -595,8 +522,8 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang",
-          lookup: "gudang",
+          url: "master/gudang/get-gudang",
+          lookup: "custom2",
           query:
             "?search=" +
             this.gudang_search +
@@ -636,8 +563,8 @@ export default {
         this.isLoadingGetJabatan = true;
 
         await this.lookUp({
-          url: "master/jabatan/get-jabatan",
-          lookup: "jabatan",
+          url: "setting/jabatan/get-jabatan",
+          lookup: "custom3",
           query:
             "?search=" +
             this.jabatan_search +

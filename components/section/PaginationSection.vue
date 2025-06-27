@@ -6,15 +6,18 @@
     <div class="">Showing {{ from }} to {{ to }} of {{ total }} records</div>
     <div class="">
       <ul class="flex gap-3">
-        <li v-bind:class="['page-item', { disabled: disable_prive_page }]">
+        <button
+          :disabled="disable_prive_page"
+          v-bind:class="['page-item', { disabled: disable_prive_page }]"
+          @click="privousPage()"
+        >
           <a
             class="bg-gray-100 px-2 py-1 rounded-sm text-gray-500 dark:bg-slate-700"
-            @click="privousPage()"
             tabindex="-1"
           >
             <i class="fas fa-chevron-left"></i>
           </a>
-        </li>
+        </button>
 
         <li
           v-for="i in pages"
@@ -35,14 +38,17 @@
           >
         </li>
 
-        <li v-bind:class="['page-item', { disabled: disable_next_page }]">
+        <button
+          :disabled="disable_next_page"
+          v-bind:class="['page-item', { disabled: disable_next_page }]"
+          @click="nextPage()"
+        >
           <a
             class="bg-gray-100 px-2 py-1 rounded-sm text-gray-500 dark:bg-slate-700"
-            @click="nextPage()"
           >
             <i class="fas fa-chevron-right"></i>
           </a>
-        </li>
+        </button>
       </ul>
     </div>
   </div>
@@ -92,50 +98,48 @@ export default {
     },
 
     nextPage() {
+      if (this.active_page + 5 > this.total_page) return;
+
       var counter = this.click_counter + 1;
       var start_page = counter * 5 - 5;
-      var rest_page = 0;
+      var rest_page = this.total_page;
       var page_count = [];
+
       this.active_page = start_page + 1;
 
       if (this.total_page - counter * 5 + 5 >= 5) {
         rest_page = counter * 5;
+        this.disable_next_page = false;
       } else {
-        rest_page = this.total_page;
         this.disable_next_page = true;
       }
 
-      for (var i = start_page + 1, len = rest_page; i <= len; i++) {
+      for (let i = start_page + 1; i <= rest_page; i++) {
         page_count.push(i);
       }
 
       this.pages = page_count;
       this.disable_prive_page = false;
-      this.click_counter = this.click_counter + 1;
+      this.click_counter++;
     },
 
     privousPage() {
+      if (this.active_page - 5 < 1) return;
+
       var counter = this.click_counter - 1;
-      var start_page = this.pages.pop();
-      var prive_page = 0;
-      var rest_page = 0;
+      var start_page = (counter - 1) * 5;
       var page_count = [];
 
-      this.active_page = start_page + 1;
-      rest_page = start_page - counter * 5;
-
-      if (rest_page <= 5) {
-        prive_page = start_page - rest_page;
-        this.disable_prive_page = prive_page <= 5;
-      }
-
-      for (var i = prive_page + 1 - 5, len = prive_page; i <= len; i++) {
+      for (let i = start_page + 1; i <= start_page + 5; i++) {
         page_count.push(i);
       }
 
       this.pages = page_count;
-      this.click_counter = this.click_counter - 1;
-      this.disable_next_page = this.total_page <= 5;
+      this.active_page = page_count[0];
+      this.click_counter--;
+
+      this.disable_prive_page = this.click_counter === 1;
+      this.disable_next_page = false;
     },
   },
 };

@@ -35,7 +35,7 @@
             <div class="col-md-12">
               <input
                 type="text"
-                class="border border-gray-300 rounded-sm p-1 outline-none w-[25rem]"
+                class="border border-gray-300 rounded-sm p-1 outline-none w-[15rem]"
                 placeholder="search..."
                 v-model="self.parameters.params.search"
                 @keyup.enter="self.onLoad()"
@@ -86,9 +86,9 @@
                   },
                 ]"
               ></i>
-              <span class="badge badge-danger">{{total}}</span>
-            </button>
-            <button
+              <span class="badge badge-danger">{{ total }}</span>
+            </button> -->
+            <!-- <button
               class="btn btn-sm"
               :class="
                 self.parameters.params.soft_deleted == ''
@@ -111,8 +111,8 @@
               ></i>
               <span class="badge badge-danger">999</span>
             </button> -->
-            <button
-              class="border border-gray-300 w-10 h-auto rounded-sm"
+            <!-- <button
+              class="btn btn-sm"
               :class="
                 self.parameters.params.soft_deleted == 'deleted'
                   ? 'btn-danger active'
@@ -135,8 +135,8 @@
                   },
                 ]"
               ></i>
-              <!-- <span class="badge badge-primary">999</span> -->
-            </button>
+              <span class="badge badge-primary">999</span>
+            </button> -->
           </div>
 
           <!-- Filter -->

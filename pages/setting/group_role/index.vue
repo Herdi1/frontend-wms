@@ -1,5 +1,20 @@
 <template>
   <section class="section">
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>Role</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
     <div class="section-body">
       <div class="row">
         <div class="col-12 col-md-12">
@@ -187,7 +202,7 @@ export default {
 
   head() {
     return {
-      title: "Hak Akses Group",
+      title: "Role",
     };
   },
 
@@ -205,7 +220,7 @@ export default {
 
   data() {
     return {
-      title: "Hak Akses Group",
+      title: "Role",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
