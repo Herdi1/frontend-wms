@@ -22,7 +22,7 @@
         <div class="mb-4 font-semibold text-lg">
           <h4>Edit Aplikasi</h4>
         </div>
-        <div class="col-12 col-lg-4 mb-5">
+        <!-- <div class="col-12 col-lg-4 mb-5">
           <div
             class="card text-center p-3 border bg-white shadow-md rounded-md mt-2"
           >
@@ -136,7 +136,7 @@
               </div>
             </form>
           </div>
-        </div>
+        </div> -->
 
         <div class="col-12 col-lg-8">
           <div class="card">
@@ -150,87 +150,34 @@
               >
                 <!-- <input-form label="Coba" type="date" name="coba" /> -->
                 <div class="grid grid-cols-2">
-                  <div>
-                    <div class="row">
-                      <div class="col">
-                        <ValidationProvider
-                          name="company_name"
-                          rules="required"
-                        >
-                          <div
-                            class="form-group col"
-                            slot-scope="{ errors, valid }"
-                          >
-                            <input-form
-                              label="Nama Perusahaan"
-                              type="text"
-                              name="company_name"
-                              v-model="form.company_name"
-                              :inputClass="
-                                errors[0]
-                                  ? 'is-invalid'
-                                  : valid
-                                  ? 'is-valid'
-                                  : ''
-                              "
-                            />
-                            <div class="text-sm text-danger" v-if="errors[0]">
-                              {{ errors[0] }}
-                            </div>
-                          </div>
-                        </ValidationProvider>
-
-                        <ValidationProvider name="phone" rules="required">
-                          <div
-                            class="form-group col-12"
-                            slot-scope="{ errors, valid }"
-                          >
-                            <input-form
-                              label="Phone"
-                              type="text"
-                              name="phone"
-                              v-model="form.phone"
-                              :inputClass="
-                                errors[0]
-                                  ? 'is-invalid'
-                                  : valid
-                                  ? 'is-valid'
-                                  : ''
-                              "
-                            />
-                            <!-- <label>Phone</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="form.phone"
-                            name="phone"
-                            :class="
-                              errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                            "
-                          /> -->
-                            <div class="text-sm text-danger" v-if="errors[0]">
-                              {{ errors[0] }}
-                            </div>
-                          </div>
-                        </ValidationProvider>
+                  <ValidationProvider name="company_name" rules="required">
+                    <div class="form-group col" slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Nama Perusahaan"
+                        type="text"
+                        name="company_name"
+                        v-model="form.company_name"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                      <div class="text-sm text-danger" v-if="errors[0]">
+                        {{ errors[0] }}
                       </div>
                     </div>
-
-                    <ValidationProvider name="email" rules="required|email">
-                      <div
-                        class="form-group col"
-                        slot-scope="{ errors, valid }"
-                      >
-                        <input-form
-                          label="Email"
-                          type="text"
-                          name="email"
-                          v-model="form.email"
-                          :inputClass="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        />
-                        <!-- <label>Email</label>
+                  </ValidationProvider>
+                  <ValidationProvider name="email" rules="required|email">
+                    <div class="form-group col" slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Email"
+                        type="text"
+                        name="email"
+                        v-model="form.email"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                      <!-- <label>Email</label>
                       <input
                         type="text"
                         class="form-control"
@@ -240,159 +187,185 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       /> -->
-                        <div class="text-sm text-danger" v-if="errors[0]">
-                          {{ errors[0] }}
-                        </div>
+                      <div class="text-sm text-danger" v-if="errors[0]">
+                        {{ errors[0] }}
                       </div>
-                    </ValidationProvider>
-
-                    <div class="form-group col-12">
-                      <label for="address">Alamat</label>
-                      <textarea
-                        class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
-                        v-model="form.address"
-                      >
-                      </textarea>
                     </div>
+                  </ValidationProvider>
 
-                    <div class="form-group col-12">
+                  <div class="form-group col-span-2">
+                    <label for="address">Alamat</label>
+                    <textarea
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      v-model="form.address"
+                    >
+                    </textarea>
+                  </div>
+                  <ValidationProvider name="phone" rules="required">
+                    <div
+                      class="form-group col-12"
+                      slot-scope="{ errors, valid }"
+                    >
                       <input-form
-                        label="Website"
+                        label="Phone"
                         type="text"
-                        name="website"
-                        v-model="form.website"
+                        name="phone"
+                        v-model="form.phone"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       />
-                      <!-- <label for="website">Website</label>
+                      <!-- <label>Phone</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            v-model="form.phone"
+                            name="phone"
+                            :class="
+                              errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                            "
+                          /> -->
+                      <div class="text-sm text-danger" v-if="errors[0]">
+                        {{ errors[0] }}
+                      </div>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group col-12">
+                    <input-form
+                      label="Website"
+                      type="text"
+                      name="website"
+                      v-model="form.website"
+                    />
+                    <!-- <label for="website">Website</label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="form.website"
                     /> -->
-                    </div>
+                  </div>
 
-                    <div class="form-group col-12">
-                      <label for="tax">PPN</label>
-                      <money
-                        v-model="form.tax"
-                        class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                      />
-                      <div class="text-muted text-small">* Percent</div>
-                    </div>
+                  <div class="form-group col-12">
+                    <label for="tax">PPN</label>
+                    <money
+                      v-model="form.tax"
+                      class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <div class="text-muted text-small">* Percent</div>
+                  </div>
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="Tanda Tangan Pemilik"
-                        type="text"
-                        name="signature_owner"
-                        v-model="form.signature_owner"
-                      />
-                      <!-- <label for="signature_owner">Tanda Tangan Pemilik</label>
+                  <div class="form-group col-12">
+                    <input-form
+                      label="Tanda Tangan Pemilik"
+                      type="text"
+                      name="signature_owner"
+                      v-model="form.signature_owner"
+                    />
+                    <!-- <label for="signature_owner">Tanda Tangan Pemilik</label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="form.signature_owner"
                     /> -->
-                    </div>
                   </div>
 
-                  <div>
-                    <div class="form-group col-12">
-                      <label for="is_min_stock"> Stok Bisa Minus </label>
-                      <select
-                        class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
-                        v-model="form.is_min_stock"
-                      >
-                        <option value="1">Ya</option>
-                        <option value="0">Tidak</option>
-                      </select>
-                    </div>
+                  <!-- <div class="">
+                    <label for="is_min_stock"> Stok Bisa Minus </label>
+                    <select
+                      class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
+                      v-model="form.is_min_stock"
+                    >
+                      <option value="1">Ya</option>
+                      <option value="0">Tidak</option>
+                    </select>
+                  </div> -->
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="Nama Bank"
-                        type="text"
-                        name="bank_name"
-                        v-model="form.bank_name"
-                      />
-                      <!-- <label for="bank_name"> Nama Bank </label>
+                  <!-- <div class="">
+                    <input-form
+                      label="Nama Bank"
+                      type="text"
+                      name="bank_name"
+                      v-model="form.bank_name"
+                    />
+                    <label for="bank_name"> Nama Bank </label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="form.bank_name"
-                    /> -->
-                    </div>
+                    />
+                  </div> -->
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="Nama Akun Bank"
-                        type="text"
-                        name="bank_account"
-                        v-model="form.bank_account"
-                      />
-                      <!-- <label for="bank_account"> Nama Akun Bank </label>
+                  <!-- <div class="form-group col-12">
+                    <input-form
+                      label="Nama Akun Bank"
+                      type="text"
+                      name="bank_account"
+                      v-model="form.bank_account"
+                    />
+                    <label for="bank_account"> Nama Akun Bank </label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="form.bank_account"
-                    /> -->
-                    </div>
+                    />
+                  </div> -->
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="No Rekening Bank"
-                        type="text"
-                        name="bank_no"
-                        v-model="form.bank_no"
-                      />
-                      <!-- <label for="bank_no"> No Rekening Bank </label>
+                  <!-- <div class="form-group col-12">
+                    <input-form
+                      label="No Rekening Bank"
+                      type="text"
+                      name="bank_no"
+                      v-model="form.bank_no"
+                    />
+                    <label for="bank_no"> No Rekening Bank </label>
                     <input
                       type="text"
                       class="form-control"
                       v-model="form.bank_no"
-                    /> -->
-                    </div>
+                    />
+                  </div> -->
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="Batas Item Transaksi"
-                        type="number"
-                        name="limit_item_transaction"
-                        v-model="form.limit_item_transaction"
-                      />
-                      <!-- <label for="limit_item_transaction">
+                  <!-- <div class="form-group col-12">
+                    <input-form
+                      label="Batas Item Transaksi"
+                      type="number"
+                      name="limit_item_transaction"
+                      v-model="form.limit_item_transaction"
+                    />
+                    <label for="limit_item_transaction">
                       Batas Item Transaksi
                     </label>
                     <input
                       type="number"
                       class="form-control"
                       v-model="form.limit_item_transaction"
-                    /> -->
-                      <span class="text-danger text-sm">
-                        *Batas item transaksi tidak bisa di turunkan
-                      </span>
-                    </div>
+                    />
+                    <span class="text-danger text-sm">
+                      *Batas item transaksi tidak bisa di turunkan
+                    </span> -->
+                  <!-- </div> -->
 
-                    <div class="form-group col-12">
-                      <input-form
-                        label="Nama  Produk Group Material"
-                        type="text"
-                        name="product_group_material"
-                        v-model="form.product_group_material"
-                      />
-                      <!-- <label for="product_group_material">
+                  <!-- <div class="form-group col-12">
+                    <input-form
+                      label="Nama  Produk Group Material"
+                      type="text"
+                      name="product_group_material"
+                      v-model="form.product_group_material"
+                    />
+                    <label for="product_group_material">
                       Nama produk group material
                     </label>
                     <input
                       class="form-control"
                       v-model="form.product_group_material"
-                    /> -->
-                      <!-- </span> -->
-                    </div>
-                  </div>
-                  <div class="col-span-2">
+                    />
+                    </span>
+                  </div> -->
+                  <!-- <div class="col-span-2">
                     <div class="form-group col-12 w-1/6">
                       <input-form
                         label="Warna Header"
@@ -400,15 +373,15 @@
                         name="header_color"
                         v-model="form.header_color"
                       />
-                      <!-- <label for="header_color">Warna Header</label>
+                      <label for="header_color">Warna Header</label>
                     <input
                       type="color"
                       class="form-control"
                       v-model="form.header_color"
-                    /> -->
-                    </div>
+                    />
+                    </div> -->
 
-                    <div class="form-group col-12">
+                  <!-- <div class="form-group col-12">
                       <label for="footer_print_quotation">
                         Info Print Bagian Bawah Penawaran
                       </label>
@@ -417,8 +390,7 @@
                         v-model="form.footer_print_quotation"
                         :editorToolbar="customToolbar"
                       />
-                    </div>
-                  </div>
+                    </div> -->
                 </div>
                 <div class="card-footer text-right">
                   <button class="btn btn-primary" :disabled="isLoadingForm">

@@ -2,6 +2,7 @@
   <div class="my-2">
     <label :for="name">{{ label }}</label>
     <input
+      :placeholder="label"
       :type="type"
       :value="value"
       :name="name"
