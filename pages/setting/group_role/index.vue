@@ -232,7 +232,7 @@ export default {
 
   head() {
     return {
-      title: "Hak Akses Group",
+      title: "Role",
     };
   },
 
@@ -249,7 +249,7 @@ export default {
 
   data() {
     return {
-      title: "Hak Akses Group",
+      title: "Role",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

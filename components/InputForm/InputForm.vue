@@ -6,6 +6,7 @@
       :value="value"
       :name="name"
       :class="inputClass"
+      :placeholder="label"
       class="w-full pl-2 py-1 border rounded focus:outline-none"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"

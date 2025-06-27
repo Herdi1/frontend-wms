@@ -23,6 +23,7 @@ import CloseButton from "../components/forms/CloseButton.vue";
 import TitleForm from "../components/forms/TitleForm.vue";
 import InputForm from "../components/InputForm/InputForm.vue";
 
+
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
     IconAirplay: require("~/components/icon/icon-airplay.vue").default,

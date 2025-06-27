@@ -441,7 +441,7 @@
 import { mapMutations } from "vuex";
 
 import { VueEditor } from "vue2-editor";
-import InputForm from "../../components/InputForm/InputForm.vue";
+import InputForm from "../../../components/InputForm/InputForm.vue";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],

@@ -118,17 +118,6 @@
                       <td>{{ item.jabatan_id }}</td>
                       <td class="text-center">
                         <small-detail-button @click="onDetail(item)" />
-                        <!-- <div class="flex gap-2">
-
-
-                          <button
-                          class="btn btn-sm btn-success"
-                          @click="onRestored(item)"
-                          v-if="item.deleted_at"
-                          >
-                          <i class="fas fa-redo"></i>
-                        </button>
-                      </div> -->
                       </td>
                       <td class="text-center">
                         <small-edit-button @click="onEdit(item)" />

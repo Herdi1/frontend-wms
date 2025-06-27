@@ -1,9 +1,18 @@
 <template>
-  <section class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md">
-    <div class="">
-      <div class="row">
-        <div class="col-12 col-md-12">
-          <div class="">
+  <section class="">
+    <div class="flex gap-5">
+      <div
+        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <div class="w-full">
+          <FormInput :self="this" ref="formInput" />
+        </div>
+      </div>
+      <div
+        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <div class="row">
+          <div class="col-12 col-md-12">
             <div class="card-body">
               <div class="card-title">
                 <list-option-section :self="this" ref="form-option" />
@@ -114,7 +123,9 @@
                       <th class="w-[5%]">Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
-                      <th class="w-[15%]">Detail | Edit | Delete</th>
+                      <th class="w-[5%]">Detail</th>
+                      <th class="w-[5%]">Edit</th>
+                      <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,22 +169,17 @@
                           Android
                         </span>
                       </td>
-                      <td>
-                        <div class="flex gap-2">
-                          <small-detail-button @click="onDetail(item)" />
-                          <small-edit-button
-                            @click="onEdit(item)"
-                            v-if="!item.deleted_at"
-                          />
-                          <small-delete-button
-                            @click="onTrashed(item)"
-                            v-if="!item.deleted_at"
-                          />
-                          <small-restore-button
-                            v-if="item.deleted_at"
-                            @click="onRestored(item)"
-                          />
-                        </div>
+                      <td class="text-center">
+                        <small-detail-button @click="onDetail(item)" />
+                      </td>
+                      <td class="text-center">
+                        <small-edit-button @click="onEdit(item)" />
+                      </td>
+                      <td class="text-center">
+                        <small-delete-button
+                          @click="onTrashed(item)"
+                          v-if="!item.deleted_at"
+                        />
                       </td>
                     </tr>
                   </tbody>
@@ -195,8 +201,6 @@
     </div>
 
     <ModalDetail ref="modalDetail" />
-
-    <FormInput :self="this" ref="formInput" />
 
     <!--
     <filter-section
@@ -230,7 +234,7 @@ export default {
 
   head() {
     return {
-      title: "Hak Akses",
+      title: "Menu",
     };
   },
 
@@ -243,11 +247,12 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = false;
   },
 
   data() {
     return {
-      title: "Hak Akses",
+      title: "Menu",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -307,7 +312,7 @@ export default {
         status_menu: "",
       };
       this.$refs.formInput.isEditable = false;
-      this.$refs.formInput.show();
+      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
@@ -321,7 +326,7 @@ export default {
         menu_id: item.menu_id,
         menu_id_induk: item.menu_id_induk,
       };
-      this.$refs.formInput.show();
+      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
