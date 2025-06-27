@@ -147,34 +147,7 @@
             </nuxt-link>
           </li>
         </ul>
-        <!-- <button
-          type="button"
-          class="nav-link group w-full"
-          :class="{ active: activeDropdown === 'setting' }"
-          @click="
-            activeDropdown === 'setting'
-              ? (activeDropdown = null)
-              : (activeDropdown = 'setting')
-          "
-        >
-          <div class="flex items-center">
-            <span
-              class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
-            >
-              Setting
-            </span>
-            <div
-              :class="{
-                '-rotate-90 rtl:rotate-90': activeDropdown !== 'setting',
-              }"
-            >
-              <IconCaretDown />
-            </div>
-          </div>
-        </button>
-        <vue-collapsible :isOpen="activeDropdown === 'setting'">
-
-        </vue-collapsible> -->
+       
       </li>
       <template v-for="item in menus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
@@ -227,7 +200,7 @@
               </button>
               <nuxt-link
                 v-else
-                to="/#"
+                :to="'/'+item.rute+'/'+child.rute"
                 class="nav-link group w-full"
                 :class="{ active: activeDropdown === child.rute }"
                 @click="
