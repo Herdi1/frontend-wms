@@ -1,5 +1,5 @@
 <template>
-  <portal to="modal-detail">
+  <portal v-if="visible" to="modal-detail">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
       class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
@@ -23,58 +23,82 @@
           </div>
 
           <div class="modal-body">
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <div>
-                    {{
-                      parameters.form.causer
-                        ? parameters.form.causer.username
+            <div class="mb-2">
+              <div class="form-group">
+                <label for="username" class="font-bold mb-2">Username</label>
+                <div class="ml-3">
+                  {{
+                    parameters.form.causer
+                      ? parameters.form.causer.username
+                      : "-"
+                  }}
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="form-group">
+                <label for="username" class="font-bold mb-2">Username</label>
+                <div class="ml-3">
+                  {{ parameters.form.description }}
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="form-group">
+                <label for="username" class="font-bold mb-2">Username</label>
+                <div class="ml-3">
+                  {{ onHumanReadAble(parameters.form.created_at) }}
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div class="form-group">
+                <label for="username" class="font-bold mb-2">Username</label>
+                <div class="ml-3">
+                  <div class="flex">
+                    <span class="w-[90px]">Table</span>
+                    <span>{{
+                      parameters.form.properties
+                        ? parameters.form.properties.table || "-"
                         : "-"
-                    }}
+                    }}</span>
+                  </div>
+                  <div class="flex">
+                    <span class="w-[90px]">Name</span>
+                    <span>{{
+                      parameters.form.properties
+                        ? parameters.form.properties.name || "-"
+                        : "-"
+                    }}</span>
+                  </div>
+                  <div class="flex">
+                    <span class="w-[90px]">Id</span>
+                    <span>{{
+                      parameters.form.properties
+                        ? parameters.form.properties.id || "-"
+                        : "-"
+                    }}</span>
+                  </div>
+                  <div class="flex">
+                    <span class="w-[90px]">IP Address</span>
+                    <span>{{
+                      parameters.form.ip_address
+                        ? parameters.form.ip_address || "-"
+                        : "-"
+                    }}</span>
+                  </div>
+                  <div class="flex">
+                    <span class="w-[90px]">User Agent</span>
+                    <span>{{
+                      parameters.form.user_agent
+                        ? parameters.form.user_agent || "-"
+                        : "-"
+                    }}</span>
                   </div>
                 </div>
-              </div>
-
-              <div class="col">
-                <div class="form-group">
-                  <label for="description">Deskripsi</label>
-                  <div>{{ parameters.form.description }}</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="created_at">Dibuat Pada</label>
-              <div>
-                {{ onHumanReadAble(parameters.form.created_at) }}
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="role">Detail</label>
-              <div>
-                Table :
-                {{
-                  parameters.form.properties
-                    ? parameters.form.properties.table || "-"
-                    : "-"
-                }}
-                <br />
-                Name :
-                {{
-                  parameters.form.properties
-                    ? parameters.form.properties.name || "-"
-                    : "-"
-                }}
-                <br />
-                Id :
-                {{
-                  parameters.form.properties
-                    ? parameters.form.properties.id || "-"
-                    : "-"
-                }}
               </div>
             </div>
           </div>

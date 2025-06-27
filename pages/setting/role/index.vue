@@ -37,14 +37,14 @@
                 <table>
                   <thead class="text-base">
                     <tr>
-                      <th>
+                      <th class="w-[5%]">
                         <input
                           type="checkbox"
                           id="checkAll"
                           @click="onCheckAll"
                         />
                       </th>
-                      <th>No</th>
+                      <th class="w-[5%]">No</th>
                       <th
                         @click="
                           onSort(
@@ -52,15 +52,15 @@
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
-                        class="cursor-pointer"
+                        class="cursor-pointer w-[20%]"
                       >
                         <div class="flex justify-between align-baseline">
-                          <div>Nama</div>
+                          <div>Rute</div>
                           <div>
                             <i
                               class="fas fa-caret-up"
                               :class="
-                                parameters.params.order == 'name' &&
+                                parameters.params.order == 'rute' &&
                                 parameters.params.sort == 'asc'
                                   ? ''
                                   : 'light-gray'
@@ -85,15 +85,15 @@
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
-                        class="cursor-pointer"
+                        class="cursor-pointer w-[20%]"
                       >
                         <div class="flex justify-between align-baseline">
-                          <div>Judul</div>
+                          <div>Nama Menu</div>
                           <div>
                             <i
                               class="fas fa-caret-up"
                               :class="
-                                parameters.params.order == 'title' &&
+                                parameters.params.order == 'judul' &&
                                 parameters.params.sort == 'asc'
                                   ? ''
                                   : 'light-gray'
@@ -111,10 +111,10 @@
                           </div>
                         </div>
                       </th>
-                      <th>Icon</th>
-                      <th>Module</th>
-                      <th>Aplikasi</th>
-                      <th class="text-center">Options</th>
+                      <th class="w-[5%]">Icon</th>
+                      <th class="w-[15%]">Module</th>
+                      <th class="w-[15%]">Aplikasi</th>
+                      <th class="w-[15%]">Detail | Edit | Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -127,7 +127,14 @@
                           v-model="parameters.form.checkboxs"
                         />
                       </td>
-                      <td>{{ i + 1 }}</td>
+                      <td>
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
+                      </td>
                       <td>{{ item.rute }}</td>
                       <td>{{ item.judul }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
@@ -153,12 +160,11 @@
                       </td>
                       <td>
                         <div class="flex gap-2">
-                          <small-detail-button
-                            @click="onDetail(item)"
-                          />
+                          <small-detail-button @click="onDetail(item)" />
                           <small-edit-button
                             @click="onEdit(item)"
-                            v-if="!item.deleted_at"/>
+                            v-if="!item.deleted_at"
+                          />
                           <small-delete-button
                             @click="onTrashed(item)"
                             v-if="!item.deleted_at"

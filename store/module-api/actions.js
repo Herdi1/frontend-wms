@@ -31,8 +31,11 @@ export default {
     },
 
     updateData({ commit, dispatch }, payload) {
+        let id = payload.form.id;
+        let payloadForm = payload.form;
+        delete payloadForm.id;
         return this.$axios
-            .put("/" + payload.url + "/" + payload.form.id, payload.form)
+            .put("/" + payload.url + "/" + id, payloadForm)
             .then((response) => {
                 commit("set_result", true);
             })

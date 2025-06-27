@@ -17,6 +17,11 @@ import SmallDeleteButton from "../components/button/SmallDeleteButton.vue";
 import SmallDetailButton from "../components/button/SmallDetailButton.vue";
 import SmallRestoreButton from "../components/button/SmallRestoreButton.vue";
 
+import SaveButton from "../components/forms/SaveButton.vue";
+import ResetButton from "../components/forms/ResetButton.vue";
+import CloseButton from "../components/forms/CloseButton.vue";
+import TitleForm from "../components/forms/TitleForm.vue";
+
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
     IconAirplay: require("~/components/icon/icon-airplay.vue").default,
@@ -122,3 +127,8 @@ Vue.component("small-edit-button", SmallEditButton);
 Vue.component("small-delete-button", SmallDeleteButton);
 Vue.component("small-detail-button", SmallDetailButton);
 Vue.component("small-restore-button", SmallRestoreButton);
+
+Vue.component("save-button", SaveButton);
+Vue.component("reset-button", ResetButton);
+Vue.component("close-button", CloseButton);
+Vue.component("title-form", TitleForm);

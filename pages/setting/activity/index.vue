@@ -1,28 +1,61 @@
 <template>
-  <section class="section">
-    <div class="section-body">
+  <section
+    class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+  >
+    <div class="">
       <div class="row">
         <div class="col-12 col-md-12">
-          <div class="card">
+          <div class="">
             <div class="card-body">
-              <div class="card-title">
+              <div class="card-title relative inline-block">
                 <list-option-section :self="this" ref="form-option" />
+                <!-- <filter-section :self="this" :visible="this.isFilterVisible">
+                  <template>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="created_at">Dibuat Pada</label>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="start_date">Awal</label>
+                              <input
+                                type="date"
+                                class="form-control"
+                                v-model="parameters.params.start_date"
+                              />
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label for="end_date">Akhir</label>
+                              <input
+                                type="date"
+                                class="form-control"
+                                v-model="parameters.params.end_date"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </filter-section> -->
               </div>
 
               <!-- start table -->
               <div class="table-responsive">
                 <table
-                  class="table table-striped table-sm vld-parent"
                   ref="formContainer"
+                  class="min-w-[500px] overflow-x-auto"
                 >
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Username</th>
-                      <th>Deskripsi</th>
-                      <th>Detail</th>
-                      <th>Dibuat</th>
-                      <th class="text-center">Options</th>
+                      <th class="w-[5%]">No</th>
+                      <th class="w-[20%]">Username</th>
+                      <th class="w-[25%]">Deskripsi</th>
+                      <th class="w-[20%]">Detail</th>
+                      <th class="w-[25%]">Dibuat</th>
+                      <th class="text-center w-[5%]">Detail</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -77,38 +110,6 @@
     </div>
 
     <ModalDetail :self="this" ref="modalDetail" />
-
-    <!-- <filter-section :self="this" ref="formFilter">
-      <template>
-        <div class="col-md-12">
-          <div class="form-group">
-            <label for="created_at">Dibuat Pada</label>
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <label for="start_date">Awal</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    v-model="parameters.params.start_date"
-                  />
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="end_date">Akhir</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    v-model="parameters.params.end_date"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-    </filter-section> -->
   </section>
 </template>
 
@@ -142,6 +143,7 @@ export default {
       title: "Log Aktifitas",
       isLoadingData: false,
       isPaginate: true,
+      isFilterVisible: false,
       parameters: {
         url: "setting/activity",
         params: {
@@ -184,13 +186,14 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFilterShow() {
-      this.$refs.formFiter.show();
+      this.isFilterVisible = !this.isFilterVisible;
     },
 
     onDetail(item) {
       this.$refs.modalDetail.parameters.form = {
         ...item,
       };
+      console.log(item);
 
       this.$refs.modalDetail.show();
     },
@@ -237,8 +240,6 @@ export default {
     onHumanReadAble(date) {
       return moment(date).locale("id").format("LLLL");
     },
-
-    onFormShow() {},
   },
 };
 </script>
