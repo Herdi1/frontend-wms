@@ -1,6 +1,154 @@
 <template>
   <div class="relative h-[calc(100vh-80px)] overflow-y-auto">
     <ul class="relative space-y-0.5 p-4 py-0 font-semibold">
+      <!-- <li class="menu nav-item">
+        <h2
+          class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
+        >
+          <icon-minus class="hidden h-5 w-4 flex-none" />
+          <span>Setting</span>
+        </h2>
+        <ul>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'user' },
+              ]"
+              @click.native="setActiveMenu('user')"
+              to="/setting/user"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    ' fas fa-users-cog mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Akun </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'group_role' },
+              ]"
+              @click.native="setActiveMenu('group_role')"
+              to="/setting/group_role"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-users mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Hak Akses Grup </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'role' },
+              ]"
+              @click.native="setActiveMenu('role')"
+              to="/setting/role"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-user-cog mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Hak Akses </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'setting' },
+              ]"
+              @click.native="setActiveMenu('setting')"
+              to="/setting"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-cogs mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Aplikasi </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'activity' },
+              ]"
+              @click.native="setActiveMenu('activity')"
+              to="/setting/activity"
+              v-if="$auth.user && !$auth.user.parent_id"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    ' fas fa-sun mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Log Aktivitas </span>
+              </div>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link
+              :class="[
+                'nav-link group w-full',
+                { 'nav-active': activeId === 'change_password' },
+              ]"
+              @click.native="setActiveMenu('change_password')"
+              to="/setting/change_password"
+            >
+              <div
+                class="flex items-center p-2 hover:bg-blue-500 rounded-md text-black hover:text-white dark:text-[#506690] dark:hover:text-white"
+              >
+                <i
+                  :class="[
+                    'fas fa-key mx-2',
+                    { 'text-active': activeDropdown === 'user' },
+                  ]"
+                ></i>
+                <span> Ganti Password </span>
+              </div>
+            </nuxt-link>
+          </li>
+        </ul>
+
+      </li> -->
       <template v-for="item in menus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
           <h2

@@ -52,7 +52,7 @@
             data-original-title="Cari"
             @click="self.onLoad()"
           >
-            <i class="fas fa-search"></i> Cari Data
+            <i class="fas fa-search mr-2"></i> Cari Data
           </button>
         </div>
 

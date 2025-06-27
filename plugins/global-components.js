@@ -9,6 +9,8 @@ import ListOptionSection from "~/components/section/ListOptionSection";
 import PaginationSection from "~/components/section/PaginationSection";
 import ModalHeaderSection from "~/components/section/ModalHeaderSection";
 import ModalFooterSection from "~/components/section/ModalFooterSection";
+import ModalFooterSectionWoReset from "~/components/section/ModalFooterSectionWoReset";
+
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import HeightCollapsible from "vue-height-collapsible";
 
@@ -122,6 +124,7 @@ Vue.component("list-option-section", ListOptionSection);
 Vue.component("pagination-section", PaginationSection);
 Vue.component("modal-header-section", ModalHeaderSection);
 Vue.component("modal-footer-section", ModalFooterSection);
+Vue.component("modal-footer-section-wo-reset", ModalFooterSectionWoReset);
 Vue.component("vue-perfect-scrollbar", VuePerfectScrollbar);
 Vue.component("vue-collapsible", HeightCollapsible);
 

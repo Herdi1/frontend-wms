@@ -28,7 +28,7 @@
                       <input
                         id="nama_role"
                         type="text"
-                        class="border border-gray-300 rounded md p-2 outline-none w-full text-gray-500"
+                        class="border border-gray-300 rounded md p-1 outline-none w-full text-black"
                         name="nama_role"
                         v-model="parameters.form.nama_role"
                         :class="
@@ -53,8 +53,13 @@
                   </div>
 
                   <div>
-                    <a href="#" class="btn btn-primary" @click="onAddGrant">
+                    <a
+                      href="#"
+                      class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
+                      @click="onAddGrant"
+                    >
                       <i class="fas fa-plus"></i>
+                      <p class="text-xs font-medium">Tambah Menu</p>
                     </a>
 
                     <div
@@ -395,7 +400,7 @@
 
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
-              @click="hide()"
+              @reset="formReset()"
             />
           </form>
         </ValidationObserver>
@@ -467,7 +472,7 @@ export default {
       return new_roles.filter((item) => {
         return !this.parameters.form.grants.find(
           (itemGrant) =>
-            item.name == (itemGrant.role_id ? itemGrant.role_id.name : "")
+            item.name == (itemGrant.menu_id ? itemGrant.menu_id.judul : "")
         );
       });
     },
@@ -477,10 +482,6 @@ export default {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
-      console.log("Form Validation invalid", isInvalid);
-      console.log("Form data", this.parameters.form);
-      console.log("Name Field value", this.parameters.form.name_role);
-
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
@@ -509,12 +510,17 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        window.$("#modal-form").modal("hide");
+        // window.$("#modal-form").modal("hide");
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.isLoadingForm = false;
+      this.parameters.form = {
+        nama_role: "",
+        type_option: "multiselect",
+        grants: [],
+      };
     },
 
     addTag(newTag) {
@@ -571,6 +577,14 @@ export default {
 
         this.isLoadingGetRole = false;
       }
+    },
+    formReset() {
+      this.isEditable = false;
+      this.parameters.form = {
+        nama_role: "",
+        type_option: "multiselect",
+        grants: [],
+      };
     },
     // show() {
     //   this.visible = true;

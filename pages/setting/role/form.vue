@@ -222,7 +222,7 @@ export default {
 
   async mounted() {
     await this.onSearchRole();
-    await this.onSearchRole2();
+    // await this.onSearchRole2();
   },
 
   data() {
@@ -367,7 +367,7 @@ export default {
         });
 
         this.isLoadingGetRole = false;
-        console.log(this.lookup_roles.data);
+        // console.log(this.lookup_roles.data);
       }
     },
 
@@ -412,7 +412,7 @@ export default {
         });
 
         this.isLoadingGetCustom = false;
-        console.log("get parent");
+        // console.log("get parent");
       }
     },
 
