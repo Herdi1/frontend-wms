@@ -16,9 +16,7 @@
               autocomplete="off"
             >
               <div class="modal-body">
-                <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
-                >
+                <div class="grid grid-flow-row grid-cols-1 gap-2 w-full">
                   <div class="form-group flex w-full items-center">
                     <label for="fullname" class="w-4/12">Nama Lengkap</label>
                     <input
@@ -29,18 +27,30 @@
                       v-model="parameters.form.nama_lengkap"
                     />
                   </div>
-                  <div class="form-group flex w-full items-center">
-                    <label for="jenis_kelamin" class="w-4/12">
-                      Jenis Kelamin
-                    </label>
-                    <select
-                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                      v-model="parameters.form.jenis_kelamin"
+
+                  <ValidationProvider name="no_hp" class="w-full">
+                    <div
+                      class="form-group flex w-full items-center"
+                      slot-scope="{ errors, valid }"
                     >
-                      <option value="l">Laki-laki</option>
-                      <option value="p">Perempuan</option>
-                    </select>
-                  </div>
+                      <label for="tanggal_lahir" class="w-4/12"
+                        >Tanggal Lahir</label
+                      >
+                      <input
+                        id="tanggal_lahir"
+                        type="date"
+                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                        name="tanggal_lahir"
+                        v-model="parameters.form.tanggal_lahir"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                      <!-- <div class="invalid-feedback" v-if="errors[0]">
+                            {{ errors[0] }}
+                          </div>       -->
+                    </div>
+                  </ValidationProvider>
                   <ValidationProvider name="no_hp" class="w-full">
                     <div
                       class="form-group flex w-full items-center"
@@ -138,6 +148,82 @@
                       </div>
                     </div>
                   </ValidationProvider>
+                  <div class="form-group flex w-full items-center">
+                    <label for="jenis_kelamin" class="w-4/12">
+                      Jenis Kelamin
+                    </label>
+                    <select
+                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                      v-model="parameters.form.jenis_kelamin"
+                    >
+                      <option value="l">Laki-laki</option>
+                      <option value="p">Perempuan</option>
+                    </select>
+                  </div>
+                  <div class="form-group flex w-full items-center">
+                    <label for="gudang_id" class="w-4/12"> Status User </label>
+                    <select
+                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                      v-model="parameters.form.status_user"
+                    >
+                      <option value="0">VUDS</option>
+                      <option value="1">Vendor</option>
+                      <option value="2">Pelanggan</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group flex w-full items-center">
+                    <label for="role_id" class="w-4/12"> Role </label>
+                    <select
+                      class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
+                      v-model="parameters.form.role_id"
+                    >
+                      <option value="1">Role 1</option>
+                      <option value="2">Role 2</option>
+                    </select>
+                  </div>
+
+                  <div
+                    class="form-group flex w-full items-center"
+                    v-if="!isEditable || parameters.form.parent_id"
+                  >
+                    <label for="" class="w-4/12">Pelanggan</label>
+
+                    <v-select
+                      label="name"
+                      :loading="isLoadingGetPelanggan"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetPelanggan"
+                      v-model="parameters.form.pelanggan_id"
+                      :reduce="(item) => item.pelanggan_id"
+                      class="w-8/12"
+                      :aria-disabled="parameters.form.status_user == 2"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetPelanggan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetPelanggan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 mb-3 w-full">
                   <div class="col"></div>
@@ -153,21 +239,7 @@
                   <div class="col"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 mb-3 w-full">
-                  <div class="col">
-                    <div class="form-group flex w-full items-center">
-                      <label for="gudang_id" class="w-4/12">
-                        Status User
-                      </label>
-                      <select
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                        v-model="parameters.form.status_user"
-                      >
-                        <option value="0">VUDS</option>
-                        <option value="1">Vendor</option>
-                        <option value="2">Pelanggan</option>
-                      </select>
-                    </div>
-                  </div>
+                  <div class="col"></div>
 
                   <div class="col">
                     <div class="form-group flex w-full items-center">
@@ -187,60 +259,9 @@
                 <div class="grid grid-cols-2 gap-2 mb-3 w-full">
                   <div class="col">
                     <!-- get from table role -->
-                    <div class="form-group flex w-full items-center">
-                      <label for="role_id" class="w-4/12"> Role </label>
-                      <select
-                        class="border border-gray-300 rounded md p-1 outline-none w-8/12 text-gray-500"
-                        v-model="parameters.form.role_id"
-                      >
-                        <option value="1">Role 1</option>
-                        <option value="2">Role 2</option>
-                      </select>
-                    </div>
                   </div>
 
                   <div class="col">
-                    <div
-                      class="form-group flex w-full items-center"
-                      v-if="!isEditable || parameters.form.parent_id"
-                      v-show="parameters.form.status_user == 2"
-                    >
-                      <label for="" class="w-4/12">Pelanggan</label>
-
-                      <v-select
-                        label="name"
-                        :loading="isLoadingGetPelanggan"
-                        :options="lookup_custom1.data"
-                        :filterable="false"
-                        @search="onGetPelanggan"
-                        v-model="parameters.form.pelanggan_id"
-                        :reduce="(item) => item.pelanggan_id"
-                        class="w-8/12"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom1.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom1.current_page > 1"
-                            @click="onGetPelanggan(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom1.last_page >
-                              lookup_custom1.current_page
-                            "
-                            @click="onGetPelanggan(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
                     <!-- <div
                       v-if="parameters.form.status_user == 2"
                       class="form-group"
