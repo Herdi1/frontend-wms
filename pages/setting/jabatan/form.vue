@@ -13,7 +13,6 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
-
                 <ValidationProvider name="name" rules="required">
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="name">Nama Jabatan</label>
@@ -31,12 +30,11 @@
                     <div class="invalid-feedback" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
-                    
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="name" rules="required" >
-                  <div class="form-group " slot-scope="{ errors, valid }">
+                <ValidationProvider name="name" rules="required">
+                  <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="name" class="mt-3">Kode Jabatan</label>
                     <input
                       id="name"
@@ -45,7 +43,6 @@
                       name="name"
                       v-model="parameters.form.kode_jabatan"
                       placeholder="Kode Jabatan"
-
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -53,15 +50,14 @@
                     <div class="invalid-feedback" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
-                    
                   </div>
                 </ValidationProvider>
-
-                  </div>
+              </div>
 
               <modal-footer-section
                 :isLoadingForm="isLoadingForm"
-                @reset="formReset()" class="mt-4"
+                @reset="formReset()"
+                class="mt-4"
               />
             </form>
           </ValidationObserver>
@@ -81,8 +77,6 @@ export default {
 
   data() {
     return {
-     
-
       isEditable: false,
       isLoadingForm: false,
       title: "Jabatan",
@@ -91,7 +85,6 @@ export default {
         form: {
           kode_jabatan: "",
           nama_jabatan: "",
-          
         },
       },
     };
@@ -118,8 +111,10 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.jabatan_id ? this.parameters.form.jabatan_id : "",
-         
+          id: this.parameters.form.jabatan_id
+            ? this.parameters.form.jabatan_id
+            : "",
+
           // menu_id: this.parameters.form.menu_id,
         },
       };
@@ -135,9 +130,9 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        
-          this.isEditable = false;
-         this.parameters.form = {
+
+        this.isEditable = false;
+        this.parameters.form = {
           kode_jabatan: "",
           nama_jabatan: "",
         };
@@ -147,8 +142,6 @@ export default {
 
       this.isLoadingForm = false;
     },
-
-    
 
     formReset() {
       this.isEditable = false;

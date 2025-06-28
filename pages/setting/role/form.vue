@@ -288,30 +288,8 @@ export default {
 
       if (this.isEditable) {
         await this.updateData(parameters);
-        this.isEditable = false;
-        this.parameters.form = {
-          rute: "",
-          judul: "",
-          icon: "",
-          menu_id_induk: "",
-          menu_id_induk_2: "",
-          urutan: "",
-          status: "",
-          status_menu: "",
-        };
       } else {
         await this.addData(parameters);
-        this.isEditable = false;
-        this.parameters.form = {
-          rute: "",
-          judul: "",
-          icon: "",
-          menu_id_induk: "",
-          menu_id_induk_2: "",
-          urutan: "",
-          status: "",
-          status_menu: "",
-        };
       }
 
       if (this.result == true) {
@@ -319,6 +297,17 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
+        this.isEditable = false;
+        this.parameters.form = {
+          rute: "",
+          judul: "",
+          icon: "",
+          menu_id_induk: "",
+          menu_id_induk_2: "",
+          urutan: "",
+          status: "",
+          status_menu: "",
+        };
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

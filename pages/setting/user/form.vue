@@ -511,7 +511,20 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        this.hide();
+        this.parameters.form = {
+          id: "",
+          user_id: "",
+          nama_lengkap: "",
+          username: "",
+          password: "",
+          email: "",
+          gudang_id: "",
+          no_hp: "",
+          jenis_kelamin: "",
+          pelanggan_id: "",
+          role_id: "",
+          // regu_id: ''
+        };
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
