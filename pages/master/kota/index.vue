@@ -2,12 +2,12 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Negara</span>
+        <span>Kota</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,82 +15,99 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="grid grid-cols-2 gap-5">
-      <div class="w2/5 bg-white rounded-md p-2 px-4">
+    <div class="flex gap-5">
+      <div
+        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
         <FormInput :self="this" ref="formInput" />
       </div>
-      <div class="w-full bg-white rounded-md p-2 px-4">
-        <div>
-          <list-option-section :self="this" ref="form-option" />
-        </div>
-        <div>
-          <table ref="formContainer">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Kode Negara</th>
-                <th
-                  @click="
-                    onSort(
-                      'nama_negara',
-                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                    )
-                  "
-                >
-                  <div class="flex justify-between align-baseline">
-                    <div>Nama Negara</div>
-                    <div>
-                      <i
-                        class="fas fa-caret-up"
-                        :class="
-                          parameters.params.order == 'nama_negara' &&
-                          parameters.params.sort == 'asc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                      <i
-                        class="fas fa-caret-down"
-                        :class="
-                          parameters.params.order == 'nama_negara' &&
-                          parameters.params.sort == 'desc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
+      <div
+        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <div class="card-body">
+          <div class="card-title">
+            <list-option-section :self="this" ref="form-option" />
+          </div>
+
+          <div class="table-responsive">
+            <table class="mb-5" ref="formContainer">
+              <thead>
+                <tr class="text-base uppercase">
+                  <th class="w-[5%]">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'nama_provinsi',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-[30%]"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Nama Kota</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
                     </div>
-                  </div>
-                </th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.kode_negara }}</td>
-                <td>{{ item.nama_negara }}</td>
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="mx-3 mt-2 mb-4">
-          <pagination-section :self="this" ref="pagination" />
+                  </th>
+                  <th class="w-[30%]">Koordinat</th>
+                  <th class="w-[30%]">Provinsi</th>
+                  <th class="w-[25%]">Negara</th>
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <td>
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td>{{ item.nama_kota }}</td>
+                  <td>{{ item.koordinat }}</td>
+                  <td>{{ item.provinsi_id }}</td>
+                  <td>{{ item.negara_id }}</td>
+                  <td class="text-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
+            </table>
+          </div>
+
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
+          </div>
         </div>
       </div>
     </div>
@@ -99,34 +116,38 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
+import FormInput from "./form.vue";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Negara",
+      title: "Kota",
     };
   },
 
   created() {
     this.set_data([]);
     this.onLoad();
-    // console.log("store data", this.$store.state.moduleApi.data);
+  },
+
+  components: {
+    FormInput,
   },
 
   mounted() {
-    this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
+    this.$refs["form-option"].isMaintenancePage = true;
     this.$refs["form-option"].isAddData = false;
+
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
       this.getRoles.restore ||
       this.getRoles.restore_all
     ) {
-      this.$refs["form-option"].isMaintenancePage = false;
+      this.$refs["form-option"].isMaintenancePage = true;
     }
 
     if (this.getRoles.store) {
@@ -153,8 +174,8 @@ export default {
 
   data() {
     return {
-      title: "Negara",
-      isLoadingData: false,
+      title: "Kota",
+      isLoading: false,
       isPaginate: true,
       user: this.$auth.user,
       default_roles: {
@@ -172,44 +193,46 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/negara",
+        url: "master/kota",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "negara_id",
+          order: "kota_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            kode_negara: "",
-            nama_negara: "",
-            checkboxs: [],
-          },
         },
-        loadings: {
+        form: {
+          negara_id: "",
+          provinsi_id: "",
+          koodinat: "",
+          nama_kota: "",
+        },
+        looadings: {
           isDelete: false,
           isRestore: false,
         },
       },
     };
   },
-  components: {
-    FormInput,
-  },
 
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
+
     getRoles() {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "negara"
+          (item) => item.rute == "kota"
         );
 
         let roles = {};
+        console.log("kkk_role");
+
+        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
@@ -232,39 +255,66 @@ export default {
       "deleteAllData",
       "restoreAllData",
     ]),
+
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        kode_negara: "",
-        nama_negara: "",
+        negara_id: "",
+        provinsi_id: "",
+        koodinat: "",
+        nama_kota: "",
       };
       this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
-      // this.$refs.formInput.$refs.formValidate.reset();
     },
 
     onEdit(item) {
       this.$refs.formInput.isEditable = true;
       this.$refs.formInput.parameters.form = {
         ...item,
-        kode_negara: item.kode_negara,
       };
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
     },
 
-    // onDetail(item) {
-    //   this.$refs.modalDetail.parameters.form = {
-    //     ...item,
-    //   };
-    //   this.$refs.modalDetail.show();
-    // },
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.kota_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
+    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -272,10 +322,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -300,60 +350,6 @@ export default {
       this.isLoadingData = false;
     },
 
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.negara_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.negara_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
-    },
     onSort(column, sort = "asc") {
       this.parameters.params = {
         ...this.parameters.params,
