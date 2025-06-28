@@ -16,14 +16,14 @@
       </h5>
     </div>
     <div class="section-body">
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-12 col-md-12">
-          <div class="card">
+          <div class="card"> -->
             <div class="flex gap-5">
-              <div class="w-2/5 bg-white rounded-md p-2 px-4">
+              <div class="panel w-2/5 bg-white rounded-md p-2 px-4">
                 <AddForm :self="this" ref="AddForm" />
               </div>
-              <div class="w-3/5 bg-white rounded-md p-2 px-4">
+              <div class="panel w-3/5 bg-white rounded-md p-5">
                 <div class="card-title">
                   <list-option-section :self="this" ref="form-option" />
                 </div>
@@ -66,7 +66,7 @@
                             @click="onCheckAll"
                           />
                         </th> -->
-                        <th class="w-1/12">No</th>
+                        <th class="w-[5%]">No</th>
                         <th
                           @click="
                             onSort(
@@ -74,7 +74,7 @@
                               parameters.params.sort == 'asc' ? 'desc' : 'asc'
                             )
                           "
-                          class="cursor-pointer w-[25%]"
+                          class="cursor-pointer w-[80%]"
                         >
                           <div
                             class="flex flex-row justify-between items-baseline"
@@ -102,9 +102,9 @@
                             </div>
                           </div>
                         </th>
-                        <th class="text-center w-1/12">Detail</th>
-                        <th class="text-center w-1/12">Edit</th>
-                        <th class="text-center w-1/12">Hapus</th>
+                        <th class="text-center w-[5%]">Detail</th>
+                        <th class="text-center w-[5%]">Edit</th>
+                        <th class="text-center w-[5%]">Hapus</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -160,9 +160,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          <!-- </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <ModalDetail :self="this" ref="modalDetail" />
