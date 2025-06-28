@@ -41,7 +41,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[16%]"
+                    class="cursor-pinter w-[17%]"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Kecamatan</div>
@@ -67,11 +67,10 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[16%]">Koordinat</th>
-                  <th class="w-[16%]">Kota</th>
-                  <th class="w-[16%]">Provinsi</th>
-                  <th class="w-[16%]">Negara</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th class="w-[17%]">Koordinat</th>
+                  <th class="w-[17%]">Kota</th>
+                  <th class="w-[17%]">Provinsi</th>
+                  <th class="w-[17%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -91,9 +90,6 @@
                   <td>{{ item.kota_id }}</td>
                   <td>{{ item.provinsi_id }}</td>
                   <td>{{ item.negara_id }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -235,7 +231,7 @@ export default {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
-        let main_role = this.user.role.menu.find(
+        let main_role = this.user.role.menus.find(
           (item) => item.rute == "provinsi"
         );
 

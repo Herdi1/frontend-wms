@@ -86,6 +86,7 @@
                 </ValidationProvider>
               </div>
               <modal-footer-section
+                class="mt-5"
                 :isLoadingForm="isLoadingForm"
                 @reset="formReset()"
               />

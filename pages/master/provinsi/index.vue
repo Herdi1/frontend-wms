@@ -68,8 +68,7 @@
                     </div>
                   </th>
                   <th class="w-[30%]">Ibu Kota</th>
-                  <th class="w-[20%]">Negara</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th class="w-[25%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -87,9 +86,6 @@
                   <td>{{ item.nama_provinsi }}</td>
                   <td>{{ item.ibukota }}</td>
                   <td>{{ item.negara_id }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -228,11 +224,14 @@ export default {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
-        let main_role = this.user.role.menu.find(
+        let main_role = this.user.role.menus.find(
           (item) => item.rute == "provinsi"
         );
 
         let roles = {};
+        console.log("kkk_role");
+
+        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
