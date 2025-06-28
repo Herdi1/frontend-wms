@@ -117,7 +117,14 @@
                             v-model="parameters.form.checkboxs"
                           />
                         </td> -->
-                        <td>{{ i + 1 }}</td>
+                        <td>
+                          {{
+                            (parameters.params.page - 1) *
+                              parameters.params.per_page +
+                            i +
+                            1
+                          }}
+                        </td>
                         <td>{{ item.nama_role }}</td>
                         <td>
                           <span class="flex items-center justify-center">

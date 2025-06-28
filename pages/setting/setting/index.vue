@@ -169,10 +169,7 @@
                 <!-- <input-form label="Coba" type="date" name="coba" /> -->
                 <div class="grid grid-cols-2">
                   <ValidationProvider name="company_name" rules="required">
-                    <div
-                      class="form-group col w-3/4"
-                      slot-scope="{ errors, valid }"
-                    >
+                    <div class="form-group col" slot-scope="{ errors, valid }">
                       <input-form
                         label="Nama Perusahaan"
                         type="text"
@@ -188,10 +185,7 @@
                     </div>
                   </ValidationProvider>
                   <ValidationProvider name="email" rules="required|email">
-                    <div
-                      class="form-group col w-3/4"
-                      slot-scope="{ errors, valid }"
-                    >
+                    <div class="form-group col" slot-scope="{ errors, valid }">
                       <input-form
                         label="Email"
                         type="text"
@@ -227,7 +221,7 @@
                   </div>
                   <ValidationProvider name="phone" rules="required">
                     <div
-                      class="form-group col-12 w-3/4"
+                      class="form-group col-12"
                       slot-scope="{ errors, valid }"
                     >
                       <input-form
@@ -255,7 +249,7 @@
                     </div>
                   </ValidationProvider>
 
-                  <div class="form-group col-12 w-3/4">
+                  <div class="form-group col-12">
                     <input-form
                       label="Website"
                       type="text"
@@ -271,18 +265,6 @@
                   </div>
 
                   <div class="form-group col-12">
-                    <label for="tax">PPN</label>
-                    <money
-                      v-model="form.tax"
-                      class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                    <div class="text-muted text-small">* Percent</div>
-                  </div>
-
-                  <div class="form-group col-12 w-3/4">
                     <input-form
                       label="Nama Aplikasi"
                       type="text"
@@ -296,17 +278,30 @@
                       v-model="form.signature_owner"
                     /> -->
                   </div>
+                  <div class="grid grid-cols-2 justify-between mt-2">
+                    <div class="form-group col-12">
+                      <label for="tax">PPN</label>
+                      <money
+                        v-model="form.tax"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                      <div class="text-muted text-small">* Percent</div>
+                    </div>
 
-                  <!-- <div class="">
-                    <label for="is_min_stock"> Stok Bisa Minus </label>
-                    <select
-                      class="w-3/4 pl-2 py-1 border rounded focus:outline-none"
-                      v-model="form.is_min_stock"
-                    >
-                      <option value="1">Ya</option>
-                      <option value="0">Tidak</option>
-                    </select>
-                  </div> -->
+                    <div class="form-group col-12">
+                      <label for="is_min_stock"> Stok Bisa Minus </label>
+                      <select
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        v-model="form.is_min_stock"
+                      >
+                        <option value="1">Ya</option>
+                        <option value="0">Tidak</option>
+                      </select>
+                    </div>
+                  </div>
 
                   <!-- <div class="">
                     <input-form
