@@ -1,8 +1,8 @@
 <template>
-  <div to="modal">
-    <div class="" aria-hidden="true" id="modal-form">
+  <div>
+    <div id="modal-form">
       <div class="modal-dialog">
-        <div class="">
+        <div>
           <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
             Edit Data
           </h1>
@@ -15,57 +15,29 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
-                  name="name"
+                  name="nama_fungsi_zona"
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <label for="name">Nama Jabatan</label>
-                    <input
-                      id="name"
+                    <input-form
+                      label="Nama Fungsi Zona"
                       type="text"
-                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                      name="name"
-                      v-model="parameters.form.nama_jabatan"
-                      placeholder="Nama Jabatan"
-                      :class="
+                      name="nama_fungsi_zona"
+                      v-model="parameters.form.nama_fungsi_zona"
+                      :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div class="invalid-feedback" v-if="errors[0]">
-                      {{ errors[0] }}
-                    </div>
-                  </div>
-                </ValidationProvider>
-
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="name"
-                  rules="required"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <label for="name" class="mt-3">Kode Jabatan</label>
-                    <input
-                      id="name"
-                      type="text"
-                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                      name="name"
-                      v-model="parameters.form.kode_jabatan"
-                      placeholder="Kode Jabatan"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div v-if="errors[0]" class="text-danger">
                       {{ errors[0] }}
                     </div>
                   </div>
                 </ValidationProvider>
               </div>
-
               <modal-footer-section
+                class="mt-5"
                 :isLoadingForm="isLoadingForm"
                 @reset="formReset()"
-                class="mt-4"
               />
             </form>
           </ValidationObserver>
@@ -76,39 +48,32 @@
 </template>
 
 <script>
+import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  middleware: ["isNotAccessable"],
-
   props: ["self"],
 
   data() {
     return {
       isEditable: false,
       isLoadingForm: false,
-      title: "Jabatan",
+      title: "Fungsi Zona",
       parameters: {
-        url: "setting/jabatan",
+        url: "master/fungsi-zona",
         form: {
-          kode_jabatan: "",
-          nama_jabatan: "",
+          nama_fungsi_zona: "",
         },
       },
     };
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "error",
-      "result",
-      "lookup_roles",
-      "lookup_custom1",
-    ]),
+    ...mapState("moduleApi", ["error", "result"]),
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+    ...mapActions("moduleApi", ["addData", "updateData"]),
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -119,11 +84,9 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.jabatan_id
-            ? this.parameters.form.jabatan_id
+          id: this.parameters.form.fungsi_zona_id
+            ? this.parameters.form.fungsi_zona_id
             : "",
-
-          // menu_id: this.parameters.form.menu_id,
         },
       };
 
@@ -136,13 +99,12 @@ export default {
       if (this.result == true) {
         this.self.onLoad(this.self.parameters.params.page);
         this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
+          "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
         this.isEditable = false;
         this.parameters.form = {
-          kode_jabatan: "",
-          nama_jabatan: "",
+          nama_fungsi_zona: "",
         };
 
         this.$refs.inputProvider.reset();
@@ -156,8 +118,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_jabatan: "",
-        nama_jabatan: "",
+        nama_fungsi_zona: "",
       };
     },
   },

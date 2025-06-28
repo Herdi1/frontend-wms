@@ -19,6 +19,7 @@
                 <div class="gap-2 mb-3 w-full">
                   <div class="">
                     <ValidationProvider
+                      ref="inputProvider"
                       name="name_role"
                       rules="required"
                       v-slot="{ errors, valid }"
@@ -521,6 +522,8 @@ export default {
           type_option: "multiselect",
           grants: [],
         };
+
+        this.$refs.inputProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

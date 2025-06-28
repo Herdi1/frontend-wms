@@ -18,6 +18,7 @@
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
                 >
                   <ValidationProvider
+                    ref="inputProvider"
                     name="nama_lengkap"
                     rules="required"
                     class="w-full"
@@ -49,7 +50,12 @@
                     v-model="parameters.form.no_hp"
                   />
 
-                  <ValidationProvider class="w-full" name="email" rules="email">
+                  <ValidationProvider
+                    ref="inputProvider"
+                    class="w-full"
+                    name="email"
+                    rules="email"
+                  >
                     <div slot-scope="{ errors, valid }">
                       <input-form
                         label="Email"
@@ -65,7 +71,11 @@
                       </div>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider name="username" rules="required">
+                  <ValidationProvider
+                    ref="inputProvider"
+                    name="username"
+                    rules="required"
+                  >
                     <div slot-scope="{ errors, valid }">
                       <input-form
                         label="Username"
@@ -82,6 +92,7 @@
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
+                    ref="inputProvider"
                     name="password"
                     :rules="isEditable ? 'min:12' : 'required|min:12'"
                     class="w-full"
@@ -118,6 +129,7 @@
                     </select>
                   </div>
                   <ValidationProvider
+                    ref="inputProvider"
                     name="status_user"
                     class="w-full"
                     rules="required"
@@ -429,7 +441,7 @@ export default {
           pelanggan_id: "",
           role_id: "",
         };
-        // this.hide();
+        this.$refs.inputProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

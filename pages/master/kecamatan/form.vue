@@ -13,40 +13,54 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
-                <ValidationProvider name="nama_kecamatan" rules="required">
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Kecamatan"
-                      type="text"
-                      name="nama_kecamatan"
-                      v-model="parameters.form.nama_kecamatan"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider name="koordinat" rules="required">
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Koordinat"
-                      type="text"
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="kota_id"
+                  rules="required"
+                >
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12">Provinsi</label>
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_provinsi"
+                      :loading="isLoadingGetProvinsi"
+                      :options="lookup_custom2.data"
+                      :filterable="false"
+                      @search="onGetProvinsi"
+                      :reduce="(item) => item.provinsi_id"
+                      v-model="parameters.form.provinsi_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom2.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom2.current_page > 1"
+                          @click="onGetProvinsi(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom2.last_page >
+                            lookup_custom2.current_page
+                          "
+                          @click="onGetProvinsi(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="kota_id" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="kota_id"
+                  rules="required"
+                >
                   <div class="form-group w-full items-center mb-5">
                     <label for="" class="w-4/12">Kota</label>
                     <v-select
@@ -56,7 +70,8 @@
                       :options="lookup_custom1.data"
                       :filterable="false"
                       @search="onGetNegara"
-                      v-model="selectedKota"
+                      :reduce="(item) => item.kota_id"
+                      v-model="parameters.form.kota_id"
                       @input="onSelectKota"
                     >
                       <li
@@ -84,6 +99,44 @@
                     </v-select>
                   </div>
                 </ValidationProvider>
+
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="nama_kecamatan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nama Kecamatan"
+                      type="text"
+                      name="nama_kecamatan"
+                      v-model="parameters.form.nama_kecamatan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="koordinat"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <label>Koordinat</label>
+                    <textarea
+                      name="koordinat"
+                      v-model="parameters.form.koordinat"
+                      class="w-full border border-gray-300 rounded-md bg-white outline-none"
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
               </div>
               <modal-footer-section
                 class="mt-5"
@@ -107,7 +160,10 @@ export default {
 
   data() {
     return {
-      selectedKota: null,
+      isStopSearchProvinsi: false,
+      isLoadingGetProvinsi: false,
+      provinsi_search: "",
+
       isStopSearchNegara: false,
       isLoadingGetNegara: false,
       negara_search: "",
@@ -116,7 +172,7 @@ export default {
       isLoadingForm: false,
       title: "Kecamatan",
       parameters: {
-        url: "master/provinsi",
+        url: "master/kecamatan",
         form: {
           nama_kecamatan: "",
           koordinat: "",
@@ -129,11 +185,17 @@ export default {
   },
 
   async mounted() {
+    await this.onSearchProvinsi();
     await this.onSearchNegara();
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
   },
 
   methods: {
@@ -148,8 +210,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.provinsi_id
-            ? this.parameters.form.provinsi_id
+          id: this.parameters.form.kecamatan_id
+            ? this.parameters.form.kecamatan_id
             : "",
         },
       };
@@ -168,15 +230,60 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kota_id: "",
+          provinsi_id: "",
           negara_id: "",
-          nama_provinsi: "",
-          ibukota: "",
+          nama_kecamatan: "",
+          koordinat: "",
         };
+
+        this.$refs.inputProvider.reset();
       } else {
+        console.log(this.parameters.form);
         this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.isLoadingForm = false;
+    },
+
+    onGetProvinsi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProvinsi);
+
+      this.isStopSearchProvinsi = setTimeout(() => {
+        this.provinsi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchProvinsi();
+        this.onSearchNegara();
+      }, 600);
+    },
+
+    async onSearchProvinsi() {
+      if (!this.isLoadingGetProvinsi) {
+        this.isLoadingGetProvinsi = true;
+
+        await this.lookUp({
+          url: "master/provinsi/get-provinsi",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.provinsi_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProvinsi = false;
+      }
     },
 
     onGetNegara(search, isNext) {
@@ -204,25 +311,27 @@ export default {
         this.isLoadingGetNegara = true;
 
         await this.lookUp({
-          url: "master/kota",
+          url: "master/kota/get-kota",
           lookup: "custom1",
           query:
             "?search=" +
             this.negara_search +
+            "&provinsi_id=" +
+            this.parameters.form.provinsi_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetNegara = false;
-        console.log(this.lookup_custom1.data);
       }
     },
 
-    onSelectKota(item) {
-      this.parameters.form.kota_id = item.kota_id;
-      this.parameters.form.provinsi_id = item.provinsi_id;
-      this.parameters.form.negara_id = item.negara_id;
+    onSelectKota(kota_id) {
+      const item = this.lookup_custom1.data.find((a) => a.kota_id === kota_id);
+      if (item) {
+        this.parameters.form.negara_id = item.negara_id;
+      }
     },
 
     formReset() {

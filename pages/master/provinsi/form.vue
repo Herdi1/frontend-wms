@@ -13,7 +13,11 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
-                <ValidationProvider name="nama_provinsi" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="nama_provinsi"
+                  rules="required"
+                >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
                       label="Nama Provinsi"
@@ -29,7 +33,11 @@
                     </div>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="ibukota" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="ibukota"
+                  rules="required"
+                >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
                       label="Ibukota Provinsi"
@@ -45,7 +53,11 @@
                     </div>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="id_negara" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="id_negara"
+                  rules="required"
+                >
                   <div class="form-group w-full items-center mb-5">
                     <label for="" class="w-4/12">Negara</label>
                     <v-select
@@ -168,6 +180,8 @@ export default {
           nama_provinsi: "",
           ibukota: "",
         };
+
+        this.$refs.inputProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

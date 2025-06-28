@@ -154,7 +154,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -232,7 +232,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "provinsi"
+          (item) => item.rute == "kecamatan"
         );
 
         let roles = {};

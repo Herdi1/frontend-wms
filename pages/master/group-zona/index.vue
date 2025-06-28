@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Provinsi</span>
+        <span>Group Zona</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -37,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_provinsi',
+                        'nama_group_zona',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Provinsi</div>
+                      <div>Nama Group Zona</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'nama_group_zona' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'nama_group_zona' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -67,8 +67,6 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[30%]">Ibu Kota</th>
-                  <th class="w-[25%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -83,9 +81,7 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.nama_provinsi }}</td>
-                  <td>{{ item.ibukota }}</td>
-                  <td>{{ item.negara_id }}</td>
+                  <td>{{ item.nama_group_zona }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -121,7 +117,7 @@ export default {
 
   head() {
     return {
-      title: "Provinsi",
+      title: "Group Zona",
     };
   },
 
@@ -173,26 +169,24 @@ export default {
 
   data() {
     return {
-      title: "Provinsi",
+      title: "Fungsi Gudang",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/provinsi",
+        url: "master/group-zona",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "provinsi_id",
+          order: "group_zona_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          negara_id: "",
-          nama_provinsi: "",
-          ibukota: "",
-          checkboxs: [],
+          group_zona_id: "",
+          nama_group_zona: "",
         },
         loadings: {
           isDelete: false,
@@ -225,13 +219,10 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "provinsi"
+          (item) => item.rute == "group-zona"
         );
 
         let roles = {};
-        console.log("kkk_role");
-
-        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
@@ -259,9 +250,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        negara_id: "",
-        nama_provinsi: "",
-        ibukota: "",
+        nama_group_zona: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -277,13 +266,6 @@ export default {
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
-    },
-
-    onDetail(item) {
-      this.$refs.modalDetail.parameters.form = {
-        ...item,
-      };
-      this.$refs.modalDetail.show();
     },
 
     onTrashed(item) {
@@ -302,7 +284,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.provinsi_id,
+              id: item.group_zona_id,
               params: this.parameters.params,
             });
 

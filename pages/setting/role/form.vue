@@ -14,7 +14,11 @@
               autocomplete="off"
             >
               <div class="modal-body">
-                <ValidationProvider name="name" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="name"
+                  rules="required"
+                >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="name">Rute</label>
                     <input
@@ -36,7 +40,11 @@
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="judul" rules="required">
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="judul"
+                  rules="required"
+                >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="judul">Nama Menu</label>
                     <input
@@ -308,6 +316,8 @@ export default {
           status: "",
           status_menu: "",
         };
+
+        this.$refs.inputProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
