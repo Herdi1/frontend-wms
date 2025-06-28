@@ -61,51 +61,18 @@
                 <table>
                   <thead class="text-base">
                     <tr>
-                      <th class="w-[5%]">
+                      <!-- <th class="w-[5%]">
                         <input
                           type="checkbox"
                           id="checkAll"
                           @click="onCheckAll"
                         />
-                      </th>
+                      </th> -->
                       <th class="w-[5%]">No</th>
-                      <th
+                       <th
                         @click="
                           onSort(
-                            'name',
-                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                          )
-                        "
-                        class="cursor-pointer w-[20%]"
-                      >
-                        <div class="flex justify-between align-baseline">
-                          <div>Rute</div>
-                          <div>
-                            <i
-                              class="fas fa-caret-up"
-                              :class="
-                                parameters.params.order == 'rute' &&
-                                parameters.params.sort == 'asc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
-                            <i
-                              class="fas fa-caret-down"
-                              :class="
-                                parameters.params.order == 'name' &&
-                                parameters.params.sort == 'desc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
-                          </div>
-                        </div>
-                      </th>
-                      <th
-                        @click="
-                          onSort(
-                            'title',
+                            'judul',
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
@@ -126,7 +93,7 @@
                             <i
                               class="fas fa-caret-down"
                               :class="
-                                parameters.params.order == 'title' &&
+                                parameters.params.order == 'judul' &&
                                 parameters.params.sort == 'desc'
                                   ? ''
                                   : 'light-gray'
@@ -135,6 +102,40 @@
                           </div>
                         </div>
                       </th>
+                      <th
+                        @click="
+                          onSort(
+                            'rute',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer w-[20%]"
+                      >
+                        <div class="flex justify-between align-baseline">
+                          <div>Rute</div>
+                          <div>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'rute' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'rute' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                          </div>
+                        </div>
+                      </th>
+                     
                       <th class="w-[5%]">Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
@@ -145,14 +146,14 @@
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i">
-                      <td>
+                      <!-- <td>
                         <input
                           type="checkbox"
                           name="checkboxs[]"
                           :value="item.menu_id"
                           v-model="parameters.form.checkboxs"
                         />
-                      </td>
+                      </td> -->
                       <td>
                         {{
                           (parameters.params.page - 1) *
@@ -161,14 +162,13 @@
                           1
                         }}
                       </td>
-                      <td>{{ item.rute }}</td>
                       <td>{{ item.judul }}</td>
+                      <td>{{ item.rute }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
                       <td>
-                        <span v-if="item.menu_id_induk" class="dark:text-white">
-                          Tidak
+                        <span v-if="item.parent" class="dark:text-white font-bold">
+                          {{item.parent.judul}}
                         </span>
-                        <span class="dark:text-white" v-else> Ya </span>
                       </td>
                       <td>
                         <span

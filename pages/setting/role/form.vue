@@ -27,7 +27,7 @@
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div class="text-danger" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
                     <div class="text-danger text-small" v-if="isEditable">
@@ -50,7 +50,7 @@
                       "
                     />
 
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div class="text-danger" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
                   </div>
