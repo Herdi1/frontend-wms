@@ -515,7 +515,12 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        window.$("#modal-form").modal("hide");
+        this.isEditable = false;
+        this.parameters.form = {
+          nama_role: "",
+          type_option: "multiselect",
+          grants: [],
+        };
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

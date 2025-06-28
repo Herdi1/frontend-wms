@@ -27,7 +27,7 @@
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div class="text-danger" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
                     <div class="text-danger text-small" v-if="isEditable">
@@ -50,7 +50,7 @@
                       "
                     />
 
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div class="text-danger" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
                   </div>
@@ -288,30 +288,8 @@ export default {
 
       if (this.isEditable) {
         await this.updateData(parameters);
-        this.isEditable = false;
-        this.parameters.form = {
-          rute: "",
-          judul: "",
-          icon: "",
-          menu_id_induk: "",
-          menu_id_induk_2: "",
-          urutan: "",
-          status: "",
-          status_menu: "",
-        };
       } else {
         await this.addData(parameters);
-        this.isEditable = false;
-        this.parameters.form = {
-          rute: "",
-          judul: "",
-          icon: "",
-          menu_id_induk: "",
-          menu_id_induk_2: "",
-          urutan: "",
-          status: "",
-          status_menu: "",
-        };
       }
 
       if (this.result == true) {
@@ -319,6 +297,17 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
+        this.isEditable = false;
+        this.parameters.form = {
+          rute: "",
+          judul: "",
+          icon: "",
+          menu_id_induk: "",
+          menu_id_induk_2: "",
+          urutan: "",
+          status: "",
+          status_menu: "",
+        };
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

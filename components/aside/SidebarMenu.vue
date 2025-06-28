@@ -279,15 +279,18 @@ export default {
         (item) => item.nama == "roles"
       ).value;
 
-      if (this.$auth.user.parent_id) {
-        let roles_id = this.$auth.user.group_role.roles.reduce(
-          (ids, item) => [...ids, item.id],
+      console.log('iki menu pie');
+
+      if (this.$auth.user.is_superadmin != 1) {
+        let roles_id = this.$auth.user.role.menus.reduce(
+          (ids, item) => [...ids, item.menu_id],
           []
         );
 
+
         menus.forEach((element) => {
           element.childs = element.childs.filter((item) =>
-            roles_id.includes(item.id)
+            roles_id.includes(item.menu_id)
           );
         });
       }

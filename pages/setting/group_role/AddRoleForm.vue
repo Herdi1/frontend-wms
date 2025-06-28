@@ -8,6 +8,10 @@
     > -->
     <div class="relative">
       <div class="modal-content overflow-auto max-h-[90vh]">
+        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+            Edit Data
+          </h1>
+          <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
         <!-- <modal-header-section :self="this" @close="hide" /> -->
 
         <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
@@ -490,10 +494,12 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
+          id: this.parameters.form.role_id,
           grants: this.parameters.form.grants.map((item) => {
             return {
               operators: item.operators,
               menu_id: item.menu_id.menu_id,
+
             };
           }),
         },

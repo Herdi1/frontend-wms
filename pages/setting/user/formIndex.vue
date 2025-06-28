@@ -17,12 +17,23 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
                 >
-                  <input-form
-                    label="Nama Lengkap"
-                    type="text"
+                  <ValidationProvider
                     name="nama_lengkap"
-                    v-model="parameters.form.nama_lengkap"
-                  />
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Nama Lengkap"
+                        type="text"
+                        name="nama_lengkap"
+                        v-model="parameters.form.nama_lengkap"
+                      />
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
+                    </div>
+                  </ValidationProvider>
 
                   <input-form
                     label="Tanggal Lahir"
@@ -49,6 +60,9 @@
                         "
                         v-model="parameters.form.email"
                       />
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider name="username" rules="required">
@@ -62,6 +76,9 @@
                         "
                         v-model="parameters.form.username"
                       />
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -100,25 +117,35 @@
                       <option value="p">Perempuan</option>
                     </select>
                   </div>
-                  <div class="form-group w-full items-center">
-                    <label for="gudang_id" class="w-4/12"> Status User </label>
-                    <select
-                      class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                      v-model="parameters.form.status_user"
-                    >
-                      <option value="0 ">VUDS</option>
-                      <option value="1 ">Vendor</option>
-                      <option value="2 ">Pelanggan</option>
-                    </select>
-                  </div>
-
-                  <div
-                    class="form-group w-full items-center"
-                    v-if="!isEditable || parameters.form.parent_id"
+                  <ValidationProvider
+                    name="status_user"
+                    class="w-full"
+                    rules="required"
                   >
+                    <div slot-scope="{ errors, valid }">
+                      <div class="form-group w-full items-center">
+                        <label for="gudang_id" class="w-4/12">
+                          Status User
+                        </label>
+                        <select
+                          class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
+                          v-model="parameters.form.status_user"
+                        >
+                          <option value="0 ">VUDS</option>
+                          <option value="1 ">Vendor</option>
+                          <option value="2 ">Pelanggan</option>
+                        </select>
+                      </div>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group w-full items-center">
                     <label for="" class="w-4/12">Role</label>
                     <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border border-gray-300"
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_role"
                       :loading="isLoadingGetGroupRole"
                       :options="lookup_group_roles.data"
@@ -152,13 +179,10 @@
                     </v-select>
                   </div>
 
-                  <div
-                    class="form-group w-full items-center"
-                    v-if="!isEditable || parameters.form.parent_id"
-                  >
+                  <div class="form-group w-full items-center">
                     <label for="" class="w-4/12">Pelanggan</label>
                     <v-select
-                      label="name"
+                      label="nama_pelanggan"
                       :loading="isLoadingGetPelanggan"
                       :options="lookup_custom1.data"
                       :filterable="false"
@@ -193,14 +217,11 @@
                     </v-select>
                   </div>
 
-                  <div
-                    class="form-group w-full items-center"
-                    v-if="!isEditable || parameters.form.parent_id"
-                  >
+                  <div class="form-group w-full items-center">
                     <label for="" class="w-4/12">Gudang</label>
 
                     <v-select
-                      label="name"
+                      label="nama_gudang"
                       :loading="isLoadingGetGudang"
                       :options="lookup_custom2.data"
                       :filterable="false"
@@ -234,14 +255,11 @@
                     </v-select>
                   </div>
 
-                  <div
-                    class="form-group w-full items-center"
-                    v-if="!isEditable || parameters.form.parent_id"
-                  >
+                  <div class="form-group w-full items-center">
                     <label for="" class="w-4/12">Jabatan</label>
 
                     <v-select
-                      label="name"
+                      label="nama_jabatan"
                       :loading="isLoadingGetJabatan"
                       :options="lookup_custom3.data"
                       :filterable="false"
@@ -290,6 +308,7 @@
 </template>
 
 <script>
+import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -302,6 +321,7 @@ export default {
     // await this.onSearchRegu();
     await this.onSearchPelanggan();
     await this.onSearchGudang();
+    await this.onSearchJabatan();
   },
 
   data() {
@@ -395,26 +415,26 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
+        this.isEditable = false;
+        this.parameters.form = {
+          id: "",
+          user_id: "",
+          nama_lengkap: "",
+          username: "",
+          password: "",
+          email: "",
+          gudang_id: "",
+          no_hp: "",
+          jenis_kelamin: "",
+          pelanggan_id: "",
+          role_id: "",
+        };
         // this.hide();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.isLoadingForm = false;
-      this.isEditable = false;
-      this.parameters.form = {
-        id: "",
-        user_id: "",
-        nama_lengkap: "",
-        username: "",
-        password: "",
-        email: "",
-        gudang_id: "",
-        no_hp: "",
-        jenis_kelamin: "",
-        pelanggan_id: "",
-        role_id: "",
-      };
     },
 
     onGetGroupRole(search, isNext) {
@@ -483,7 +503,7 @@ export default {
         this.isLoadingGetPelanggan = true;
 
         await this.lookUp({
-          url: "master/pelanggan/get-pelanggan",
+          url: "master/pelanggan",
           lookup: "custom1",
           query:
             "?search=" +
