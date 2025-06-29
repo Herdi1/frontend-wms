@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Fungsi Zona</span>
+        <span>Divisi</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -37,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_fungsi_zona',
+                        'kode_divisi',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Fungsi Zona</div>
+                      <div>Kode Divisi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_fungsi_zona' &&
+                            parameters.params.order == 'kode_divisi' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,40 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_fungsi_zona' &&
+                            parameters.params.order == 'kode_divisi' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'nama_divisi',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Nama Divisi</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'nama_divisi' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'nama_divisi' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -81,7 +114,8 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.nama_fungsi_zona }}</td>
+                  <td>{{ item.kode_divisi }}</td>
+                  <td>{{ item.nama_divisi }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -117,7 +151,7 @@ export default {
 
   head() {
     return {
-      title: "Fungsi Zona",
+      title: "Divisi",
     };
   },
 
@@ -169,24 +203,25 @@ export default {
 
   data() {
     return {
-      title: "Fungsi Zona",
+      title: "Divisi",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/fungsi-zona",
+        url: "master/divisi",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "fungsi_zona_id",
+          order: "divisi_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          fungsi_zona_id: "",
-          nama_fungsi_zona: "",
+          divisi_id: "",
+          kode_divisi: "",
+          nama_divisi: "",
         },
         loadings: {
           isDelete: false,
@@ -219,7 +254,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "fungsi-zona"
+          (item) => item.rute == "divisi"
         );
 
         let roles = {};
@@ -250,7 +285,8 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        nama_fungsi_zona: "",
+        kode_divisi: "",
+        nama_divisi: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -284,7 +320,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.fungsi_zona_id,
+              id: item.divisi_id,
               params: this.parameters.params,
             });
 
