@@ -15,7 +15,130 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
-                  name="kota_id"
+                  name="wilayah_id"
+                  rules="required"
+                >
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12">Wilayah</label>
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_wilayah"
+                      :loading="isLoadingGetWilayah"
+                      :options="lookup_custom3.data"
+                      :filterable="false"
+                      @search="onGetWilayah"
+                      :reduce="(item) => item.wilayah_id"
+                      v-model="parameters.form.wilayah_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom3.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom3.current_page > 1"
+                          @click="onGetWilayah(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom3.last_page >
+                            lookup_custom3.current_page
+                          "
+                          @click="onGetWilayah(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="cabang"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Cabang"
+                      type="text"
+                      name="cabang"
+                      v-model="parameters.form.cabang"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="profit_center"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Profit Center"
+                      type="text"
+                      name="profit_center"
+                      v-model="parameters.form.profit_center"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="cost_center"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Cost Center"
+                      type="text"
+                      name="cost_center"
+                      v-model="parameters.form.cost_center"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+                <!-- <ValidationProvider
+                  ref="inputProvider"
+                  name="nama_wilayah"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nama Wilayah"
+                      type="text"
+                      name="nama_wilayah"
+                      v-model="parameters.form.nama_wilayah"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider> -->
+
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="provinsi_id"
                   rules="required"
                 >
                   <div class="form-group w-full items-center mb-5">
@@ -55,7 +178,6 @@
                     </v-select>
                   </div>
                 </ValidationProvider>
-
                 <ValidationProvider
                   ref="inputProvider"
                   name="kota_id"
@@ -66,10 +188,10 @@
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_kota"
-                      :loading="isLoadingGetNegara"
+                      :loading="isLoadingGetKabupaten"
                       :options="lookup_custom1.data"
                       :filterable="false"
-                      @search="onGetNegara"
+                      @search="onGetKabupaten"
                       :reduce="(item) => item.kota_id"
                       v-model="parameters.form.kota_id"
                     >
@@ -81,7 +203,7 @@
                       >
                         <span
                           v-if="lookup_custom1.current_page > 1"
-                          @click="onGetNegara(search, false)"
+                          @click="onGetKabupaten(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -90,50 +212,12 @@
                             lookup_custom1.last_page >
                             lookup_custom1.current_page
                           "
-                          @click="onGetNegara(search, true)"
+                          @click="onGetKabupaten(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
                       </li>
                     </v-select>
-                  </div>
-                </ValidationProvider>
-
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="nama_kecamatan"
-                  rules="required"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Kecamatan"
-                      type="text"
-                      name="nama_kecamatan"
-                      v-model="parameters.form.nama_kecamatan"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="koordinat"
-                  rules="required"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <label>Koordinat</label>
-                    <textarea
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
-                      class="w-full border border-gray-300 rounded-md bg-white outline-none"
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
               </div>
@@ -159,33 +243,40 @@ export default {
 
   data() {
     return {
+      isStopSearchWilayah: false,
+      isLoadingGetWilayah: false,
+      wilayah_search: "",
+
       isStopSearchProvinsi: false,
       isLoadingGetProvinsi: false,
       provinsi_search: "",
 
-      isStopSearchNegara: false,
-      isLoadingGetNegara: false,
-      negara_search: "",
+      isStopSearchKabupaten: false,
+      isLoadingGetKabupaten: false,
+      kabupaten_search: "",
 
       isEditable: false,
       isLoadingForm: false,
-      title: "Kecamatan",
+      title: "Profit & Cost",
       parameters: {
-        url: "master/kecamatan",
+        url: "master/profit-cost",
         form: {
-          nama_kecamatan: "",
-          koordinat: "",
-          kota_id: "",
+          wilayah_id: "",
+          cabang: "",
+          profit_center: "",
+          cost_center: "",
+          nama_wilayah: "",
           provinsi_id: "",
-          negara_id: "",
+          kota_id: "",
         },
       },
     };
   },
 
   async mounted() {
+    await this.onSearchWilayah();
     await this.onSearchProvinsi();
-    await this.onSearchNegara();
+    await this.onSearchKabupaten();
   },
 
   computed: {
@@ -194,6 +285,7 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
+      "lookup_custom3",
     ]),
   },
 
@@ -209,8 +301,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.kecamatan_id
-            ? this.parameters.form.kecamatan_id
+          id: this.parameters.form.profit_cost_id
+            ? this.parameters.form.profit_cost_id
             : "",
         },
       };
@@ -229,16 +321,17 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
-          kota_id: "",
+          wilayah_id: "",
+          cabang: "",
+          profit_center: "",
+          cost_center: "",
+          nama_wilayah: "",
           provinsi_id: "",
-          negara_id: "",
-          nama_kecamatan: "",
-          koordinat: "",
+          kota_id: "",
         };
 
         this.$refs.formValidate.reset();
       } else {
-        console.log(this.parameters.form);
         this.$globalErrorToaster(this.$toaster, this.error);
       }
 
@@ -262,7 +355,7 @@ export default {
         }
 
         this.onSearchProvinsi();
-        this.onSearchNegara();
+        this.onSearchKabupaten();
       }, 600);
     },
 
@@ -285,13 +378,13 @@ export default {
       }
     },
 
-    onGetNegara(search, isNext) {
+    onGetKabupaten(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchNegara);
+      clearTimeout(this.isStopSearchKabupaten);
 
-      this.isStopSearchNegara = setTimeout(() => {
-        this.negara_search = search;
+      this.isStopSearchKabupaten = setTimeout(() => {
+        this.kabupaten_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom1.current_page = isNext
@@ -301,20 +394,20 @@ export default {
           this.lookup_custom1.current_page = 1;
         }
 
-        this.onSearchNegara();
+        this.onSearchKabupaten();
       }, 600);
     },
 
-    async onSearchNegara() {
-      if (!this.isLoadingGetNegara) {
-        this.isLoadingGetNegara = true;
+    async onSearchKabupaten() {
+      if (!this.isLoadingGetKabupaten) {
+        this.isLoadingGetKabupaten = true;
 
         await this.lookUp({
           url: "master/kota/get-kota",
           lookup: "custom1",
           query:
             "?search=" +
-            this.negara_search +
+            this.kabupaten_search +
             "&provinsi_id=" +
             this.parameters.form.provinsi_id +
             "&page=" +
@@ -322,23 +415,59 @@ export default {
             "&per_page=10",
         });
 
-        this.isLoadingGetNegara = false;
+        this.isLoadingGetKabupaten = false;
       }
     },
 
-    onSelectKota(kota_id) {
-      const item = this.lookup_custom1.data.find((a) => a.kota_id === kota_id);
-      if (item) {
-        this.parameters.form.negara_id = item.negara_id;
+    onGetWilayah(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchWilayah);
+
+      this.isStopSearchWilayah = setTimeout(() => {
+        this.wilayah_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchWilayah();
+      }, 600);
+    },
+
+    async onSearchWilayah() {
+      if (!this.isLoadingGetWilayah) {
+        this.isLoadingGetWilayah = true;
+
+        await this.lookUp({
+          url: "master/wilayah/get-wilayah",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.wilayah_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetWilayah = false;
       }
     },
 
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        negara_id: "",
-        nama_provinsi: "",
-        ibukota: "",
+        wilayah_id: "",
+        cabang: "",
+        profit_center: "",
+        cost_center: "",
+        nama_wilayah: "",
+        provinsi_id: "",
+        kota_id: "",
       };
     },
   },

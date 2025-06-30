@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Tipe PPN</span>
+        <span>Kendaraan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,14 +15,14 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div class="gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <FormInput :self="this" ref="formInput" />
+        <!-- <FormInput :self="this" ref="formInput" /> -->
       </div>
       <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -37,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'kode_tipe_pajak',
+                        'jenis_kendaraan_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Tipe Pajak</div>
+                      <div>Jenis Kendaraan</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'jenis_kendaraan_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'jenis_kendaraan_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -70,19 +70,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_tipe_pajak',
+                        'gudang_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Tipe Pajak</div>
+                      <div>Gudang</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'gudang_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -91,7 +91,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'gudang_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -100,6 +100,42 @@
                       </div>
                     </div>
                   </th>
+                  <th
+                    @click="
+                      onSort(
+                        'vendor_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Vendor</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th>Nama Kendaraan</th>
+                  <th>Plat Nomor</th>
+                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -114,8 +150,14 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_tipe_pajak }}</td>
-                  <td>{{ item.nama_tipe_pajak }}</td>
+                  <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
+                  <td>{{ item.gudang.nama_gudang }}</td>
+                  <td>{{ item.vendor.nama_vendor }}</td>
+                  <td>{{ item.nama_kendaraan }}</td>
+                  <td>{{ item.plat_nomor }}</td>
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -144,14 +186,14 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
+// import FormInput from "./form.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Tipe PPN",
+      title: "Kendaraan",
     };
   },
 
@@ -160,9 +202,9 @@ export default {
     this.onLoad();
   },
 
-  components: {
-    FormInput,
-  },
+  // components: {
+  //   FormInput,
+  // },
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -203,25 +245,39 @@ export default {
 
   data() {
     return {
-      title: "Tipe PPN",
+      title: "Kendaraan",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/tipe-ppn",
+        url: "master/kendaraan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "tipe_ppn_id",
+          order: "kendaraan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          tipe_ppn_id: "",
-          kode_tipe_pajak: "",
-          nama_tipe_pajak: "",
+          kendaraan_id: "",
+          jenis_kendaraan_id: "",
+          gudang_id: "",
+          vendor_id: "",
+          vendor_id_operator: "",
+          standar_jenis_kendaraan_id: "",
+          nama_kendaraan: "",
+          keterangan_pindah_gudang: "",
+          plat_nomor: "",
+          cc: "",
+          nomor_mesin: "",
+          tahun_buat: "",
+          nomor_sasis: "",
+          stnk: "",
+          kir: "",
+          status_digunakan: "",
+          status_normal: "",
         },
         loadings: {
           isDelete: false,
@@ -254,7 +310,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "tipe-ppn"
+          (item) => item.rute == "kendaraan"
         );
 
         let roles = {};
@@ -285,7 +341,22 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        nama_tipe_pajak: "",
+        jenis_kendaraan_id: "",
+        gudang_id: "",
+        vendor_id: "",
+        vendor_id_operator: "",
+        standar_jenis_kendaraan_id: "",
+        nama_kendaraan: "",
+        keterangan_pindah_gudang: "",
+        plat_nomor: "",
+        cc: "",
+        nomor_mesin: "",
+        tahun_buat: "",
+        nomor_sasis: "",
+        stnk: "",
+        kir: "",
+        status_digunakan: "",
+        status_normal: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -303,6 +374,13 @@ export default {
       });
     },
 
+    // onDetail(item) {
+    //   this.$refs.modalDetail.parameters.form = {
+    //     ...item,
+    //   };
+    //   this.$refs.modalDetail.show();
+    // },
+
     onTrashed(item) {
       if (this.parameters.loadings.isDelete) return;
 
@@ -319,7 +397,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.tipe_ppn_id,
+              id: item.kendaraan_id,
               params: this.parameters.params,
             });
 

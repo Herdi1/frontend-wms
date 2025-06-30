@@ -39,18 +39,40 @@
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Jenis Satuan"
-                      type="text"
-                      name="jenis_satuan"
+                    <label for="parent_id">Jenis Satuan</label>
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="value"
+                      :loading="isLoadingGetUtil"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetUtil"
+                      :reduce="(item) => item.value"
                       v-model="parameters.form.jenis_satuan"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-2 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetUtil(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetUtil(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
                   </div>
                 </ValidationProvider>
               </div>
@@ -74,8 +96,17 @@ import { mapActions, mapState } from "vuex";
 export default {
   props: ["self"],
 
+  async mounted() {
+    await this.onSearchUtil();
+  },
+
   data() {
     return {
+      // utilOptions: [],
+      isStopSearchUtil: false,
+      isLoadingGetUtil: false,
+      util_search: "",
+
       isEditable: false,
       isLoadingForm: false,
       title: "Satuan",
@@ -90,11 +121,17 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result"]),
+    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
+    // selectUtil() {
+    //   return Object.entries(this.lookup_custom1.data).map(([key, label]) => ({
+    //     key,
+    //     label,
+    //   }));
+    // },
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData"]),
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -129,12 +166,53 @@ export default {
           jenis_satuan: "",
         };
 
-        this.$refs.inputProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.isLoadingForm = false;
+    },
+
+    onGetUtil(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchUtil);
+
+      this.isStopSearchUtil = setTimeout(() => {
+        this.util_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchUtil();
+      }, 600);
+    },
+
+    async onSearchUtil() {
+      if (!this.isLoadingGetUtil) {
+        this.isLoadingGetUtil = true;
+
+        await this.lookUp({
+          url: "utility",
+          lookup: "custom1",
+          query: "?q=satuan",
+        });
+
+        // this.utilOptions = Object.entries(this.lookup_custom1.data).map(
+        //   ([key, label]) => ({
+        //     key,
+        //     label,
+        //   })
+        // );
+
+        this.isLoadingGetUtil = false;
+      }
     },
 
     formReset() {

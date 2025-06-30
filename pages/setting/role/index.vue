@@ -69,7 +69,7 @@
                         />
                       </th> -->
                       <th class="w-[5%]">No</th>
-                       <th
+                      <th
                         @click="
                           onSort(
                             'judul',
@@ -135,7 +135,7 @@
                           </div>
                         </div>
                       </th>
-                     
+
                       <th class="w-[5%]">Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
@@ -166,8 +166,11 @@
                       <td>{{ item.rute }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
                       <td>
-                        <span v-if="item.parent" class="dark:text-white font-bold">
-                          {{item.parent.judul}}
+                        <span
+                          v-if="item.parent"
+                          class="dark:text-white font-bold"
+                        >
+                          {{ item.parent.judul }}
                         </span>
                       </td>
                       <td>
@@ -341,6 +344,7 @@ export default {
         menu_id: item.menu_id,
         menu_id_induk: item.menu_id_induk,
       };
+      console.log(item);
       // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();

@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Tipe PPN</span>
+        <span>Profit & Cost</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -37,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'kode_tipe_pajak',
+                        'wilayah_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Tipe Pajak</div>
+                      <div>Wilayah</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'wilayah_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,44 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'wilayah_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th>Cabang</th>
+                  <th>Profit Center</th>
+                  <th>Cost Center</th>
+                  <!-- <th>Nama Wilayah</th> -->
+                  <th
+                    @click="
+                      onSort(
+                        'provinsi_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Provinsi</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'provinsi_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'provinsi_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -70,19 +107,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_tipe_pajak',
+                        'kota_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Tipe Pajak</div>
+                      <div>Kota</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'kota_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -91,7 +128,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'kota_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -114,8 +151,27 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_tipe_pajak }}</td>
-                  <td>{{ item.nama_tipe_pajak }}</td>
+                  <td>
+                    {{
+                      item.wilayah
+                        ? item.wilayah.nama_wilayah
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>{{ item.cabang }}</td>
+                  <td>{{ item.profit_center }}</td>
+                  <td>{{ item.cost_center }}</td>
+                  <!-- <td>{{ item.nama_wilayah }}</td> -->
+                  <td>
+                    {{
+                      item.provinsi
+                        ? item.provinsi.nama_provinsi
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{ item.kota ? item.kota.nama_kota : "Tidak Ditemukan" }}
+                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -151,7 +207,7 @@ export default {
 
   head() {
     return {
-      title: "Tipe PPN",
+      title: "Profit & Cost",
     };
   },
 
@@ -203,25 +259,30 @@ export default {
 
   data() {
     return {
-      title: "Tipe PPN",
+      title: "Profit & Cost",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/tipe-ppn",
+        url: "master/profit-cost",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "tipe_ppn_id",
+          order: "profit_cost_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          tipe_ppn_id: "",
-          kode_tipe_pajak: "",
-          nama_tipe_pajak: "",
+          profit_cost_id: "",
+          wilayah_id: "",
+          cabang: "",
+          profit_center: "",
+          cost_center: "",
+          nama_wilayah: "",
+          provinsi_id: "",
+          kota_id: "",
         },
         loadings: {
           isDelete: false,
@@ -254,7 +315,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "tipe-ppn"
+          (item) => item.rute == "profit-cost"
         );
 
         let roles = {};
@@ -285,7 +346,13 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        nama_tipe_pajak: "",
+        wilayah_id: "",
+        cabang: "",
+        profit_center: "",
+        cost_center: "",
+        nama_wilayah: "",
+        provinsi_id: "",
+        kota_id: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -319,7 +386,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.tipe_ppn_id,
+              id: item.profit_cost_id,
               params: this.parameters.params,
             });
 

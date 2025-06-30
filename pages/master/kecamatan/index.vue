@@ -87,9 +87,21 @@
                   </td>
                   <td>{{ item.nama_kecamatan }}</td>
                   <td>{{ item.koordinat }}</td>
-                  <td>{{ item.kota_id }}</td>
-                  <td>{{ item.provinsi_id }}</td>
-                  <td>{{ item.negara_id }}</td>
+                  <td>
+                    {{ item.kota ? item.kota.nama_kota : "Tidak Ditemukan" }}
+                  </td>
+                  <td>
+                    {{
+                      item.provinsi
+                        ? item.provinsi.nama_provinsi
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
+                    }}
+                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>

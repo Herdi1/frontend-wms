@@ -85,7 +85,7 @@
                   </td>
                   <td>{{ item.nama_provinsi }}</td>
                   <td>{{ item.ibukota }}</td>
-                  <td>{{ item.negara_id }}</td>
+                  <td>{{ item.negara.nama_negara }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
