@@ -92,24 +92,14 @@
                   </div>
                 </div>
               </ValidationProvider>
-              <ValidationProvider
-                name="keterangan_transaksi"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <label for="keterangan_transaksi">Keterangan Transaksi</label>
-                  <textarea
-                    placeholder="Keterangan Transaksi"
-                    class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    v-model="parameters.form.keterangan_transaksi"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  ></textarea>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider>
+              <div class="form-group">
+                <label for="keterangan_transaksi">Keterangan Transaksi</label>
+                <textarea
+                  placeholder="Keterangan Transaksi"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.keterangan_transaksi"
+                ></textarea>
+              </div>
             </div>
             <modal-footer-section
               class="mt-5"

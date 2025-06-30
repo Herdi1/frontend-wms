@@ -63,6 +63,7 @@
                     </div>
                   </div>
                 </th>
+                <th>Keterangan Transaksi</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -80,6 +81,11 @@
                 <td>{{ item.modul }}</td>
                 <td>{{ item.kode_status_transaksi }}</td>
                 <td>{{ item.nama_status_transaksi }}</td>
+                <td>
+                  {{
+                    item.keterangan_transaksi ? item.keterangan_transaksi : ""
+                  }}
+                </td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
