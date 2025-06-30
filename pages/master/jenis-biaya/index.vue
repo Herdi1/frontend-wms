@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Palet</span>
+        <span>Jenis Biaya</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -28,22 +28,21 @@
             <thead>
               <tr>
                 <th class="w-[5%]">No</th>
-                <th>Kode Palet</th>
                 <th
                   @click="
                     onSort(
-                      'nama_palet',
+                      'nama_jenis_biaya',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Palet</div>
+                    <div>Nama Jenis Biaya</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_palet' &&
+                          parameters.params.order == 'nama_jenis_biaya' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -52,7 +51,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_palet' &&
+                          parameters.params.order == 'nama_jenis_biaya' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -61,8 +60,8 @@
                     </div>
                   </div>
                 </th>
-                <th>RFID</th>
-                <th>Status Palet</th>
+                <th>Status</th>
+                <th>Keterangan</th>
                 <th class="w-[5%]">Edit</th>
                 <th class="w-[5%]">Delete</th>
               </tr>
@@ -76,12 +75,9 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_palet }}</td>
-                <td>{{ item.nama_palet }}</td>
-                <td>{{ item.rfid }}</td>
-                <td>
-                  {{ formatStatusPalet(item.status_palet) }}
-                </td>
+                <td>{{ item.nama_jenis_biaya }}</td>
+                <td>{{ item.status_label }}</td>
+                <td>{{ item.keterangan }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -111,7 +107,7 @@ export default {
 
   head() {
     return {
-      title: "Palet",
+      title: "Jenis Biaya",
     };
   },
 
@@ -158,7 +154,7 @@ export default {
 
   data() {
     return {
-      title: "Palet",
+      title: "Jenis Biaya",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -177,21 +173,20 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/palet",
+        url: "master/jenis-biaya",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "palet_id",
+          order: "jenis_biaya_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_palet: "",
-            nama_palet: "",
-            rfid: "",
-            status_palet: "a",
+            nama_jenis_biaya: "",
+            status: "",
+            keterangan: "",
           },
         },
         loadings: {
@@ -214,7 +209,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "palet"
+          (item) => item.rute == "jenis-biaya"
         );
 
         let roles = {};
@@ -244,10 +239,9 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        kode_palet: "",
-        nama_palet: "",
-        rfid: "",
-        status_palet: "a",
+        nama_jenis_biaya: "",
+        status: "",
+        keterangan: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -259,7 +253,6 @@ export default {
       this.$refs.formInput.isEditable = true;
       this.$refs.formInput.parameters.form = {
         ...item,
-        status_palet: (item.status_palet || "").trim(),
       };
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
@@ -312,7 +305,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.palet_id,
+              id: item.jenis_biaya_id,
               params: this.parameters.params,
             });
 
@@ -338,7 +331,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.palet_id,
+        id: item.jenis_biaya_id,
         params: this.parameters.params,
       });
 
@@ -360,17 +353,6 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
-    },
-
-    formatStatusPalet(status) {
-      switch (status.trim()) {
-        case "a":
-          return "Aktif";
-        case "n":
-          return "Nonaktif";
-        default:
-          return status;
-      }
     },
   },
 };
