@@ -15,14 +15,14 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div class="flex sm:flex-col md:flex-row gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <FormInput :self="this" ref="formInput" />
       </div>
       <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -169,7 +169,7 @@ export default {
 
   data() {
     return {
-      title: "Fungsi Gudang",
+      title: "Group Zona",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -185,7 +185,7 @@ export default {
           page: 1,
         },
         form: {
-          group_zona_id: "",
+          // group_zona_id: "",
           nama_group_zona: "",
         },
         loadings: {
