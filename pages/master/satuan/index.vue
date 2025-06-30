@@ -115,7 +115,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_satuan }}</td>
-                  <td>{{ item.jenis_satuan }}</td>
+                  <td>{{ item.jenis_satuan_label }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>

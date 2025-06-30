@@ -40,17 +40,38 @@
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="parent_id">Jenis Satuan</label>
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="value"
-                      :loading="isLoadingGetUtil"
-                      :options="lookup_custom1.data"
-                      :filterable="false"
-                      @search="onGetUtil"
-                      :reduce="(item) => item.value"
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="jenis_satuan"
+                      id="jenis_satuan"
                       v-model="parameters.form.jenis_satuan"
                     >
-                      <li
+                      <option value="">Pilih</option>
+                      <option
+                        v-for="(jenis_satuan, index) in lookup_custom1"
+                        :key="index"
+                        :value="jenis_satuan.value"
+                      >
+                        {{ jenis_satuan.label }}
+                      </option>
+                    </select>
+                    <!-- <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-3"
+                      id="status"
+                      label="label"
+                      :options="lookup_custom1"
+                      :reduce="(item) => item.value"
+                      v-model="parameters.form.jenis_satuan"
+                    ></v-select> -->
+                    <!-- <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="label"
+                      :options="lookup_custom1"
+                      :filterable="false"
+                      :reduce="(item) => item.value"
+                      v-model="parameters.form.jenis_satuan"
+                    > -->
+                    <!-- <li
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-2 border-t flex justify-between"
@@ -71,8 +92,8 @@
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
-                      </li>
-                    </v-select>
+                      </li> -->
+                    <!-- </v-select> -->
                   </div>
                 </ValidationProvider>
               </div>
@@ -122,12 +143,6 @@ export default {
 
   computed: {
     ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
-    // selectUtil() {
-    //   return Object.entries(this.lookup_custom1.data).map(([key, label]) => ({
-    //     key,
-    //     label,
-    //   }));
-    // },
   },
 
   methods: {
@@ -174,26 +189,6 @@ export default {
       this.isLoadingForm = false;
     },
 
-    onGetUtil(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchUtil);
-
-      this.isStopSearchUtil = setTimeout(() => {
-        this.util_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
-        } else {
-          this.lookup_custom1.current_page = 1;
-        }
-
-        this.onSearchUtil();
-      }, 600);
-    },
-
     async onSearchUtil() {
       if (!this.isLoadingGetUtil) {
         this.isLoadingGetUtil = true;
@@ -203,13 +198,6 @@ export default {
           lookup: "custom1",
           query: "?q=satuan",
         });
-
-        // this.utilOptions = Object.entries(this.lookup_custom1.data).map(
-        //   ([key, label]) => ({
-        //     key,
-        //     label,
-        //   })
-        // );
 
         this.isLoadingGetUtil = false;
       }
