@@ -27,7 +27,7 @@
           <table ref="formContainer">
             <thead>
               <tr>
-                <th>No</th>
+                <th class="w-[5%]">No</th>
                 <th>Proses</th>
                 <th>Modul</th>
                 <th>Kode Status Transaksi</th>
@@ -64,8 +64,8 @@
                   </div>
                 </th>
                 <th>Keterangan Transaksi</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th class="w-[5%]">Edit</th>
+                <th class="w-[5%]">Delete</th>
               </tr>
             </thead>
             <tbody>
