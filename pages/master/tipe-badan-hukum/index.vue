@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Negara</span>
+        <span>Tipe Badan Hukum</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -28,22 +28,22 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Kode Negara</th>
+                <th>Kode Badan Hukum</th>
                 <th
                   @click="
                     onSort(
-                      'nama_negara',
+                      'nama_tipe_badan_hukum',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Negara</div>
+                    <div>Tipe Badan Hukum</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_negara' &&
+                          parameters.params.order == 'nama_tipe_badan_hukum' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -52,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_negara' &&
+                          parameters.params.order == 'nama_tipe_badan_hukum' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -74,8 +74,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_negara }}</td>
-                <td>{{ item.nama_negara }}</td>
+                <td>{{ item.kode_tipe_badan_hukum }}</td>
+                <td>{{ item.nama_tipe_badan_hukum }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -105,14 +105,13 @@ export default {
 
   head() {
     return {
-      title: "Negara",
+      title: "Tipe Badan Hukum",
     };
   },
 
   created() {
     this.set_data([]);
     this.onLoad();
-    // console.log("store data", this.$store.state.moduleApi.data);
   },
 
   mounted() {
@@ -153,7 +152,7 @@ export default {
 
   data() {
     return {
-      title: "Negara",
+      title: "Tipe Badan Hukum",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -172,20 +171,20 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/negara",
+        url: "master/tipe-badan-hukum",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "negara_id",
+          order: "tipe_badan_hukum_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_negara: "",
-            nama_negara: "",
-            checkboxs: [],
+            kode_tipe_badan_hukum: "",
+            nama_tipe_badan_hukum: "",
+            // checkboxs: [],
           },
         },
         loadings: {
@@ -195,18 +194,20 @@ export default {
       },
     };
   },
+
   components: {
     FormInput,
   },
 
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
+
     getRoles() {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "negara"
+          (item) => item.rute == "tipe-badan-hukum"
         );
 
         let roles = {};
@@ -236,8 +237,8 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        kode_negara: "",
-        nama_negara: "",
+        kode_tipe_badan_hukum: "",
+        nama_tipe_badan_hukum: "",
       };
       this.$refs.formInput.isEditable = false;
       // this.$refs.formInput.show();
@@ -251,31 +252,17 @@ export default {
       this.$refs.formInput.isEditable = true;
       this.$refs.formInput.parameters.form = {
         ...item,
-        kode_negara: item.kode_negara,
       };
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
     },
-
-    // onDetail(item) {
-    //   this.$refs.modalDetail.parameters.form = {
-    //     ...item,
-    //   };
-    //   this.$refs.modalDetail.show();
-    // },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
       this.parameters.params.page = page;
-
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -316,7 +303,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.negara_id,
+              id: item.tipe_badan_hukum_id,
               params: this.parameters.params,
             });
 
@@ -334,6 +321,7 @@ export default {
         },
       });
     },
+
     async onRestored(item) {
       if (this.parameters.loadings.isRestore) return;
 
@@ -341,7 +329,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.negara_id,
+        id: item.tipe_badan_hukum_id,
         params: this.parameters.params,
       });
 
@@ -354,6 +342,7 @@ export default {
 
       this.parameters.loadings.isRestore = false;
     },
+
     onSort(column, sort = "asc") {
       this.parameters.params = {
         ...this.parameters.params,

@@ -40,121 +40,6 @@
         <div class="mb-4 font-semibold text-lg">
           <h4>Edit Aplikasi</h4>
         </div>
-        <!-- <div class="col-12 col-lg-4 mb-5">
-          <div
-            class="card text-center p-3 border bg-white shadow-md rounded-md mt-2"
-          >
-            <div class="mb-5">
-              <h4>Edit Logo</h4>
-            </div>
-
-            <form @submit.prevent="onSubmitLogo()" id="form-logo">
-              <div class="flex items-center gap-5">
-                <img
-                  :src="form.logo"
-                  v-if="form.logo"
-                  class="mb-2 w-[200px] h-[200px] object-contain"
-                />
-                <div class="flex flex-col gap-2">
-                  <input
-                    type="file"
-                    name="logo"
-                    class="border rounded"
-                    @change="onLogoChange"
-                    required
-                  />
-                  <button
-                    class="flex gap-2 bg-blue-900 px-2 py-1 rounded text-white w-fit"
-                    v-if="logo"
-                    :disabled="isLoadingFormLogo"
-                  >
-                    <span v-if="isLoadingFormLogo">
-                      <i class="fas fa-circle-notch fa-spin"></i>
-                    </span>
-                    <span v-else> <i class="fas fa-upload"></i> Upload </span>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div
-            class="card text-center p-3 border bg-white shadow-md rounded-md mt-2"
-          >
-            <div class="mb-5">
-              <h4>Edit Logo Print</h4>
-            </div>
-
-            <form @submit.prevent="onSubmitLogoPrint()" id="form-logo-print">
-              <div class="flex items-center gap-5">
-                <img
-                  :src="form.logo_print"
-                  v-if="form.logo_print"
-                  class="mb-2 w-[200px] h-[200px] object-contain"
-                />
-                <div class="flex flex-col gap-2">
-                  <input
-                    type="file"
-                    name="logo_print"
-                    class="border rounded"
-                    @change="onLogoPrintChange"
-                    required
-                  />
-
-                  <button
-                    class="flex gap-2 bg-blue-900 px-2 py-1 rounded text-white w-fit"
-                    v-if="logo_print"
-                    :disabled="isLoadingFormLogoPrint"
-                  >
-                    <span v-if="isLoadingFormLogoPrint">
-                      <i class="fas fa-circle-notch fa-spin"></i>
-                    </span>
-                    <span v-else> <i class="fas fa-upload"></i> Upload </span>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div
-            class="card text-center p-3 border bg-white shadow-md rounded-md mt-2"
-          >
-            <div class="mb-5">
-              <h4>Edit Tanda Tangan</h4>
-            </div>
-
-            <form @submit.prevent="onSubmitSignature()" id="form-signature">
-              <div class="flex items-center gap-5">
-                <img
-                  :src="form.signature"
-                  v-if="form.signature"
-                  class="mb-2 w-[200px] h-[200px] object-contain"
-                />
-
-                <div class="flex flex-col gap-2">
-                  <input
-                    type="file"
-                    name="signature"
-                    class="border rounded"
-                    @change="onSignatureChange"
-                    required
-                  />
-
-                  <button
-                    class="flex gap-2 bg-blue-900 px-2 py-1 rounded text-white w-fit"
-                    v-if="signature"
-                    :disabled="isLoadingFormSignature"
-                  >
-                    <span v-if="isLoadingFormSignature">
-                      <i class="fas fa-circle-notch fa-spin"></i>
-                    </span>
-                    <span v-else> <i class="fas fa-upload"></i> Upload </span>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div> -->
 
         <div class="col-12 col-lg-8">
           <div class="">
@@ -166,7 +51,6 @@
                 @submit.prevent="validate().then(onSubmit(invalid))"
                 autocomplete="off"
               >
-                <!-- <input-form label="Coba" type="date" name="coba" /> -->
                 <div class="grid grid-cols-2">
                   <ValidationProvider name="company_name" rules="required">
                     <div class="form-group col" slot-scope="{ errors, valid }">
@@ -195,16 +79,6 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <!-- <label>Email</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="form.email"
-                        name="email"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      /> -->
                       <div class="text-sm text-danger" v-if="errors[0]">
                         {{ errors[0] }}
                       </div>
@@ -233,16 +107,6 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <!-- <label>Phone</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="form.phone"
-                            name="phone"
-                            :class="
-                              errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                            "
-                          /> -->
                       <div class="text-sm text-danger" v-if="errors[0]">
                         {{ errors[0] }}
                       </div>
@@ -256,12 +120,6 @@
                       name="website"
                       v-model="form.website"
                     />
-                    <!-- <label for="website">Website</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="form.website"
-                    /> -->
                   </div>
 
                   <div class="form-group col-12">
@@ -271,12 +129,6 @@
                       name="app_name"
                       v-model="form.app_name"
                     />
-                    <!-- <label for="signature_owner">Tanda Tangan Pemilik</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="form.signature_owner"
-                    /> -->
                   </div>
                   <div class="grid grid-cols-2 justify-between mt-2">
                     <div class="form-group col-12">
@@ -302,114 +154,6 @@
                       </select>
                     </div>
                   </div>
-
-                  <!-- <div class="">
-                    <input-form
-                      label="Nama Bank"
-                      type="text"
-                      name="bank_name"
-                      v-model="form.bank_name"
-                    />
-                    <label for="bank_name"> Nama Bank </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="form.bank_name"
-                    />
-                  </div> -->
-
-                  <!-- <div class="form-group col-12">
-                    <input-form
-                      label="Nama Akun Bank"
-                      type="text"
-                      name="bank_account"
-                      v-model="form.bank_account"
-                    />
-                    <label for="bank_account"> Nama Akun Bank </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="form.bank_account"
-                    />
-                  </div> -->
-
-                  <!-- <div class="form-group col-12">
-                    <input-form
-                      label="No Rekening Bank"
-                      type="text"
-                      name="bank_no"
-                      v-model="form.bank_no"
-                    />
-                    <label for="bank_no"> No Rekening Bank </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="form.bank_no"
-                    />
-                  </div> -->
-
-                  <!-- <div class="form-group col-12">
-                    <input-form
-                      label="Batas Item Transaksi"
-                      type="number"
-                      name="limit_item_transaction"
-                      v-model="form.limit_item_transaction"
-                    />
-                    <label for="limit_item_transaction">
-                      Batas Item Transaksi
-                    </label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      v-model="form.limit_item_transaction"
-                    />
-                    <span class="text-danger text-sm">
-                      *Batas item transaksi tidak bisa di turunkan
-                    </span> -->
-                  <!-- </div> -->
-
-                  <!-- <div class="form-group col-12">
-                    <input-form
-                      label="Nama  Produk Group Material"
-                      type="text"
-                      name="product_group_material"
-                      v-model="form.product_group_material"
-                    />
-                    <label for="product_group_material">
-                      Nama produk group material
-                    </label>
-                    <input
-                      class="form-control"
-                      v-model="form.product_group_material"
-                    />
-                    </span>
-                  </div> -->
-                  <!-- <div class="col-span-2">
-                    <div class="form-group col-12 w-1/6">
-                      <input-form
-                        label="Warna Header"
-                        type="color"
-                        name="header_color"
-                        v-model="form.header_color"
-                      />
-                      <label for="header_color">Warna Header</label>
-                    <input
-                      type="color"
-                      class="form-control"
-                      v-model="form.header_color"
-                    />
-                    </div> -->
-
-                  <!-- <div class="form-group col-12">
-                      <label for="footer_print_quotation">
-                        Info Print Bagian Bawah Penawaran
-                      </label>
-                      <vue-editor
-                        class="bg-white"
-                        v-model="form.footer_print_quotation"
-                        :editorToolbar="customToolbar"
-                      />
-                    </div> -->
                 </div>
                 <div class="card-footer text-right">
                   <button class="btn btn-primary" :disabled="isLoadingForm">
@@ -459,19 +203,7 @@ export default {
         website: "",
         tax: "",
         app_name: "",
-        // tax: 0.0,
-        // footer_print_quotation: "",
-        // website: "",
-        // signature: "",
-        // signature_owner: "",
-        //is_min_stock apa harus diisi
         is_min_stock: 0,
-        // bank_name: "",
-        // bank_account: "",
-        // bank_no: "",
-        // limit_item_transaction: 0,
-        // closing_stock_opname: 0,
-        // product_group_material: "",
       },
 
       isLoadingForm: false,

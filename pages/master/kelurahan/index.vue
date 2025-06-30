@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Kota</span>
+        <span>Kelurahan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -37,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_kota',
+                        'nama_kelurahan',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pinter w-[40%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Kota</div>
+                      <div>Nama Kelurahan</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_kota' &&
+                            parameters.params.order == 'nama_kelurahan' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_kota' &&
+                            parameters.params.order == 'nama_kelurahan' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -68,6 +68,8 @@
                     </div>
                   </th>
                   <th class="w-[30%]">Koordinat</th>
+                  <th class="w-[30%]">Kecamatan</th>
+                  <th class="w-[30%]">Kota</th>
                   <th class="w-[30%]">Provinsi</th>
                   <th class="w-[25%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
@@ -84,8 +86,10 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.nama_kota }}</td>
+                  <td>{{ item.nama_kelurahan }}</td>
                   <td>{{ item.koordinat }}</td>
+                  <td>{{ item.kecamatan.nama_kecamatan }}</td>
+                  <td>{{ item.kota.nama_kota }}</td>
                   <td>{{ item.provinsi.nama_provinsi }}</td>
                   <td>{{ item.negara.nama_negara }}</td>
                   <td class="text-center">
@@ -117,12 +121,13 @@
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form";
+
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Kota",
+      title: "Kelurahan",
     };
   },
 
@@ -193,12 +198,12 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/kota",
+        url: "master/kelurahan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "kota_id",
+          order: "kelurahan_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -207,8 +212,10 @@ export default {
         form: {
           negara_id: "",
           provinsi_id: "",
+          kota_id: "",
+          kecamatan_id: "",
           koodinat: "",
-          nama_kota: "",
+          nama_kelurahan: "",
         },
         loadings: {
           isDelete: false,
@@ -226,7 +233,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kota"
+          (item) => item.rute == "kelurahan"
         );
 
         let roles = {};
@@ -262,8 +269,10 @@ export default {
       this.$refs.formInput.parameters.form = {
         negara_id: "",
         provinsi_id: "",
+        kota_id: "",
+        kecamatan_id: "",
         koodinat: "",
-        nama_kota: "",
+        nama_kelurahan: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -282,7 +291,6 @@ export default {
     },
 
     onTrashed(item) {
-      console.log("Delete Item:", item);
       if (this.parameters.loadings.isDelete) return;
 
       this.$confirm({
@@ -296,18 +304,13 @@ export default {
           if (confirm) {
             this.parameters.loadings.isDelete = true;
 
-            const res = await this.deleteData({
+            await this.deleteData({
               url: this.parameters.url,
-              id: item.kota_id,
+              id: item.kelurahan_id,
               params: this.parameters.params,
             });
 
-            console.log("Delete Response:", res);
-            console.log("Delete Result:", this.result);
-            console.log("Delete Error:", this.error);
-
-            if (this.result) {
-              this.parameters.params.soft_deleted = 1;
+            if (this.result == true) {
               this.onLoad(this.parameters.params.page);
               this.$toaster.success(
                 "Data berhasil di pindahkan ke dalam Trash!"

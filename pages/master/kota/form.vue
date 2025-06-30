@@ -7,86 +7,98 @@
             Edit Data
           </h1>
           <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
-          <ValidationProvider name="id_negara" rules="required">
-            <div class="form-group w-full items-center mb-5">
-              <label for="" class="w-4/12">Negara</label>
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_negara"
-                :loading="isLoadingGetNegara"
-                :options="lookup_custom1.data"
-                :filterable="false"
-                @search="onGetNegara"
-                :reduce="(item) => item.negara_id"
-                v-model="parameters.form.negara_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom1.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom1.current_page > 1"
-                    @click="onGetNegara(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom1.last_page > lookup_custom1.current_page
-                    "
-                    @click="onGetNegara(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-          </ValidationProvider>
-          <!-- <ValidationProvider name="id_provinsi" rules="required">
-            <div class="form-group w-full items-center mb-5">
-              <label for="" class="w-4/12">Provinsi</label>
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_provinsi"
-                :loading="isLoadingGetProvinsi"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onSearchProvinsi"
-                :reduce="(item) => item.provinsi_id"
-                v-model="parameters.form.provinsi_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetProvinsi(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetProvinsi(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-          </ValidationProvider> -->
           <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
             <form
               @submit.prevent="validate().then(() => onSubmit(invalid))"
               autocomplete="off"
             >
               <div class="modal-body mt-4">
+                <ValidationProvider name="id_negara" rules="required">
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12">Negara</label>
+                    <v-select
+                      v-if="
+                        lookup_custom1.data && lookup_custom1.data.length > 0
+                      "
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_negara"
+                      :loading="isLoadingGetNegara"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetNegara"
+                      :reduce="(item) => item.negara_id"
+                      v-model="parameters.form.negara_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetNegara(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetNegara(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                    <span v-else>Loading Negara...</span>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider name="id_provinsi" rules="required">
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12">Provinsi</label>
+                    <v-select
+                      v-if="
+                        lookup_custom2.data && lookup_custom2.data.length > 0
+                      "
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_provinsi"
+                      :loading="isLoadingGetProvinsi"
+                      :options="lookup_custom2.data"
+                      :filterable="false"
+                      @search="onGetProvinsi"
+                      :reduce="(item) => item.provinsi_id"
+                      v-model="parameters.form.provinsi_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom2.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom2.current_page > 1"
+                          @click="onGetProvinsi(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom2.last_page >
+                            lookup_custom2.current_page
+                          "
+                          @click="onGetProvinsi(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                    <span v-else>Loading Provinsi...</span>
+                  </div>
+                </ValidationProvider>
+
                 <ValidationProvider
                   name="nama_kota"
                   rules="required"
@@ -152,6 +164,7 @@ export default {
       isStopSearchNegara: false,
       isLoadingGetNegara: false,
       negara_search: "",
+
       isStopSearchProvinsi: false,
       isLoadingGetProvinsi: false,
       provinsi_search: "",
@@ -172,15 +185,22 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchNegara();
-    // await this.onSearchProvinsi();
+    await Promise.all([
+      await this.onSearchNegara(),
+      await this.onSearchProvinsi(),
+    ]);
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
   },
   methods: {
-    ...mapActions("modulApi", ["addData", "updateData", "lookUp"]),
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -228,7 +248,7 @@ export default {
 
       clearTimeout(this.isStopSearchNegara);
 
-      this.isLoadingGetNegara = setTimeout(() => {
+      this.isStopSearchNegara = setTimeout(() => {
         this.negara_search = search;
 
         if (typeof isNext !== "function") {
@@ -247,61 +267,65 @@ export default {
       if (!this.isLoadingGetNegara) {
         this.isLoadingGetNegara = true;
 
-        await this.lookUp({
-          url: "master/negara/get-negara",
-          lookup: "custom1",
-          query:
-            "?search=" +
-            this.negara_search +
-            "&page=" +
-            this.lookup_custom1.current_page +
-            "&per_page=10",
-        });
+        try {
+          const response = await this.lookUp({
+            url: "master/negara",
+            lookup: "custom1",
+            query:
+              "?search=" +
+              this.negara_search +
+              "&page=" +
+              this.lookup_custom1.current_page +
+              "&per_page=10",
+          });
 
-        this.isLoadingGetNegara = false;
-        console.log(this.lookup_custom1.data);
+          this.isLoadingGetNegara = false;
+        } catch (error) {
+          this.isLoadingGetNegara = false;
+          console.error("Error", error);
+        }
       }
     },
 
-    // onGetProvinsi(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
+    onGetProvinsi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
 
-    //   clearTimeout(this.isStopSearchProvinsi);
+      clearTimeout(this.isStopSearchProvinsi);
 
-    //   this.isLoadingGetProvinsi = setTimeout(() => {
-    //     this.provinsi_search = search;
+      this.isStopSearchProvinsi = setTimeout(() => {
+        this.provinsi_search = search;
 
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_custom2.current_page = isNext
-    //         ? this.lookup_custom2.current_page + 1
-    //         : this.lookup_custom2.current_page - 1;
-    //     } else {
-    //       this.lookup_custom2.current_page = 1;
-    //     }
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
 
-    //     this.onSearchProvinsi();
-    //   }, 600);
-    // },
+        this.onSearchProvinsi();
+      }, 600);
+    },
 
-    // async onSearchProvinsi() {
-    //   if (!this.isLoadingGetProvinsi) {
-    //     this.isLoadingGetProvinsi = true;
+    async onSearchProvinsi() {
+      if (!this.isLoadingGetProvinsi) {
+        this.isLoadingGetProvinsi = true;
 
-    //     await this.lookUp({
-    //       url: "master/provinsi/get_provinsi",
-    //       lookup: "custom2",
-    //       query:
-    //         "?search=" +
-    //         this.provinsi_search +
-    //         "&page=" +
-    //         this.lookup_custom2.current_page +
-    //         "&per_page=10",
-    //     });
+        await this.lookUp({
+          url: "master/provinsi",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.provinsi_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
 
-    //     this.isLoadingGetProvinsi = false;
-    //     console.log(this.lookup_custom2.data);
-    //   }
-    // },
+        this.isLoadingGetProvinsi = false;
+        console.log(this.lookup_custom2.data);
+      }
+    },
 
     formReset() {
       this.isEditable = false;
