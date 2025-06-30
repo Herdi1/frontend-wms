@@ -19,97 +19,95 @@
       <!-- <div class="row">
         <div class="col-12 col-md-12">
           <div class="card"> -->
-            <div class="flex gap-5">
-              <div class="panel w-2/5 bg-white rounded-md p-2 px-4">
-                <AddForm :self="this" ref="AddForm" />
-              </div>
-              <div class="panel w-3/5 bg-white rounded-md p-5">
-                <div class="card-title">
-                  <list-option-section :self="this" ref="form-option" />
-                </div>
+      <div class="flex sm:flex-col md:flex-row gap-5">
+        <div class="panel md:w-[45%] sm:w-full bg-white rounded-md p-2 px-4">
+          <AddForm :self="this" ref="AddForm" />
+        </div>
+        <div class="panel md:w-[55%] sm:w-full bg-white rounded-md p-5">
+          <div class="card-title">
+            <list-option-section :self="this" ref="form-option" />
+          </div>
 
-                <div v-if="parameters.form.checkboxs.length">
-                  <button
-                    class="btn btn-sm btn-danger"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    data-original-title="Hapus Semua Data"
-                    @click="onDeleteAll()"
-                    v-if="parameters.params.soft_deleted != 'deleted'"
-                  >
-                    Hapus <i class="fas fa-trash"></i>
-                  </button>
-                  <button
-                    class="btn btn-sm btn-success"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    data-original-title="Restore Semua Data"
-                    @click="onRestoreAll()"
-                    v-if="parameters.params.soft_deleted"
-                  >
-                    Pulihkan <i class="fas fa-redo"></i>
-                  </button>
-                </div>
+          <div v-if="parameters.form.checkboxs.length">
+            <button
+              class="btn btn-sm btn-danger"
+              data-toggle="tooltip"
+              data-placement="top"
+              data-original-title="Hapus Semua Data"
+              @click="onDeleteAll()"
+              v-if="parameters.params.soft_deleted != 'deleted'"
+            >
+              Hapus <i class="fas fa-trash"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-success"
+              data-toggle="tooltip"
+              data-placement="top"
+              data-original-title="Restore Semua Data"
+              @click="onRestoreAll()"
+              v-if="parameters.params.soft_deleted"
+            >
+              Pulihkan <i class="fas fa-redo"></i>
+            </button>
+          </div>
 
-                <!-- start table -->
-                <div class="table-responsive">
-                  <table
-                    class="table table-striped table-sm vld-parent"
-                    ref="formContainer"
-                  >
-                    <thead>
-                      <tr>
-                        <!-- <th class="w-1/12">
+          <!-- start table -->
+          <div class="table-responsive">
+            <table
+              class="table table-striped table-sm vld-parent"
+              ref="formContainer"
+            >
+              <thead>
+                <tr>
+                  <!-- <th class="w-1/12">
                           <input
                             type="checkbox"
                             id="checkAll"
                             @click="onCheckAll"
                           />
                         </th> -->
-                        <th class="w-[5%]">No</th>
-                        <th
-                          @click="
-                            onSort(
-                              'nama_role',
-                              parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                            )
+                  <th class="w-[5%]">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'nama_role',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-[80%]"
+                  >
+                    <div class="flex flex-row justify-between items-baseline">
+                      <div>Nama</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'nama_role' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
                           "
-                          class="cursor-pointer w-[80%]"
-                        >
-                          <div
-                            class="flex flex-row justify-between items-baseline"
-                          >
-                            <div>Nama</div>
-                            <div>
-                              <i
-                                class="fas fa-caret-up"
-                                :class="
-                                  parameters.params.order == 'nama_role' &&
-                                  parameters.params.sort == 'asc'
-                                    ? ''
-                                    : 'light-gray'
-                                "
-                              ></i>
-                              <i
-                                class="fas fa-caret-down"
-                                :class="
-                                  parameters.params.order == 'nama_role' &&
-                                  parameters.params.sort == 'desc'
-                                    ? ''
-                                    : 'light-gray'
-                                "
-                              ></i>
-                            </div>
-                          </div>
-                        </th>
-                        <th class="text-center w-[5%]">Detail</th>
-                        <th class="text-center w-[5%]">Edit</th>
-                        <th class="text-center w-[5%]">Hapus</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(item, i) in data" :key="i">
-                        <!-- <td>
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'nama_role' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="text-center w-[5%]">Detail</th>
+                  <th class="text-center w-[5%]">Edit</th>
+                  <th class="text-center w-[5%]">Hapus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <!-- <td>
                           <input
                             type="checkbox"
                             name="checkboxs[]"
@@ -117,57 +115,57 @@
                             v-model="parameters.form.checkboxs"
                           />
                         </td> -->
-                        <td>
-                          {{
-                            (parameters.params.page - 1) *
-                              parameters.params.per_page +
-                            i +
-                            1
-                          }}
-                        </td>
-                        <td>{{ item.nama_role }}</td>
-                        <td>
-                          <span class="flex items-center justify-center">
-                            <small-detail-button @click="onDetail(item)" />
-                          </span>
-                        </td>
-                        <td>
-                          <span class="flex items-center justify-center">
-                            <small-edit-button @click="onEdit(item)" />
-                          </span>
-                        </td>
-                        <td>
-                          <span class="flex items-center justify-center">
-                            <small-delete-button @click="onTrashed(item)" />
-                          </span>
-                        </td>
-                        <!-- <button
+                  <td>
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td>{{ item.nama_role }}</td>
+                  <td>
+                    <span class="flex items-center justify-center">
+                      <small-detail-button @click="onDetail(item)" />
+                    </span>
+                  </td>
+                  <td>
+                    <span class="flex items-center justify-center">
+                      <small-edit-button @click="onEdit(item)" />
+                    </span>
+                  </td>
+                  <td>
+                    <span class="flex items-center justify-center">
+                      <small-delete-button @click="onTrashed(item)" />
+                    </span>
+                  </td>
+                  <!-- <button
                           class="btn btn-sm btn-success"
                           @click="onRestored(item)"
                           v-if="item.deleted_at"
                         >
                           <i class="fas fa-redo"></i>
                         </button> -->
-                      </tr>
-                    </tbody>
+                </tr>
+              </tbody>
 
-                    <table-data-loading-section :self="this" />
+              <table-data-loading-section :self="this" />
 
-                    <table-data-not-found-section :self="this" />
-                  </table>
-                </div>
+              <table-data-not-found-section :self="this" />
+            </table>
+          </div>
 
-                <!-- end table -->
+          <!-- end table -->
 
-                <div
-                  class="card-title border-top"
-                  style="padding-bottom: -100px !important"
-                >
-                  <pagination-section :self="this" ref="pagination" />
-                </div>
-              </div>
-            </div>
-          <!-- </div>
+          <div
+            class="card-title border-top"
+            style="padding-bottom: -100px !important"
+          >
+            <pagination-section :self="this" ref="pagination" />
+          </div>
+        </div>
+      </div>
+      <!-- </div>
         </div>
       </div> -->
     </div>

@@ -15,14 +15,14 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div class="flex sm:flex-col md:flex-row gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <FormInput :self="this" ref="formInput" />
       </div>
       <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -37,7 +37,7 @@
                   <th
                     @click="
                       onSort(
-                        'nama_provinsi',
+                        'nama_kota',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
@@ -49,7 +49,7 @@
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'nama_kota' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'nama_kota' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -86,8 +86,18 @@
                   </td>
                   <td>{{ item.nama_kota }}</td>
                   <td>{{ item.koordinat }}</td>
-                  <td>{{ item.provinsi_id }}</td>
-                  <td>{{ item.negara_id }}</td>
+                  <td>
+                    {{
+                      item.provinsi
+                        ? item.provinsi.nama_provinsi
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
+                    }}
+                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -116,7 +126,7 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
+import FormInput from "./form";
 export default {
   middleware: ["checkRoleUser"],
 
@@ -210,7 +220,7 @@ export default {
           koodinat: "",
           nama_kota: "",
         },
-        looadings: {
+        loadings: {
           isDelete: false,
           isRestore: false,
         },
@@ -282,6 +292,7 @@ export default {
     },
 
     onTrashed(item) {
+      console.log("Delete Item:", item);
       if (this.parameters.loadings.isDelete) return;
 
       this.$confirm({
@@ -295,13 +306,18 @@ export default {
           if (confirm) {
             this.parameters.loadings.isDelete = true;
 
-            await this.deleteData({
+            const res = await this.deleteData({
               url: this.parameters.url,
               id: item.kota_id,
               params: this.parameters.params,
             });
 
-            if (this.result == true) {
+            console.log("Delete Response:", res);
+            console.log("Delete Result:", this.result);
+            console.log("Delete Error:", this.error);
+
+            if (this.result) {
+              this.parameters.params.soft_deleted = 1;
               this.onLoad(this.parameters.params.page);
               this.$toaster.success(
                 "Data berhasil di pindahkan ke dalam Trash!"
@@ -345,6 +361,7 @@ export default {
         this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
+        console.log("error ->", this.error);
       }
 
       this.isLoadingData = false;
