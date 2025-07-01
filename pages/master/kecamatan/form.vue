@@ -15,6 +15,50 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
+                  name="negara_id"
+                  rules="required"
+                >
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12">Negara</label>
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_negara"
+                      :loading="isLoadingGetNegara"
+                      :options="lookup_custom3.data"
+                      :filterable="false"
+                      @search="onGetNegara"
+                      :reduce="(item) => item.negara_id"
+                      v-model="parameters.form.negara_id"
+                      @input="onSelectNegara"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom3.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom3.current_page > 1"
+                          @click="onGetNegara(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom3.last_page >
+                            lookup_custom3.current_page
+                          "
+                          @click="onGetNegara(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider
+                  ref="inputProvider"
                   name="kota_id"
                   rules="required"
                 >
@@ -29,7 +73,7 @@
                       @search="onGetProvinsi"
                       :reduce="(item) => item.provinsi_id"
                       v-model="parameters.form.provinsi_id"
-                      @input="changeProv"
+                      @input="onSelectProvinsi"
                     >
                       <li
                         slot-scope="{ search }"
@@ -67,10 +111,10 @@
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_kota"
-                      :loading="isLoadingGetNegara"
+                      :loading="isLoadingGetKota"
                       :options="lookup_custom1.data"
                       :filterable="false"
-                      @search="onGetNegara"
+                      @search="onGetKota"
                       :reduce="(item) => item.kota_id"
                       v-model="parameters.form.kota_id"
                     >
@@ -82,7 +126,7 @@
                       >
                         <span
                           v-if="lookup_custom1.current_page > 1"
-                          @click="onGetNegara(search, false)"
+                          @click="onGetKota(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -91,7 +135,7 @@
                             lookup_custom1.last_page >
                             lookup_custom1.current_page
                           "
-                          @click="onGetNegara(search, true)"
+                          @click="onGetKota(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -168,6 +212,10 @@ export default {
       isLoadingGetNegara: false,
       negara_search: "",
 
+      isStopSearchKota: false,
+      isLoadingGetKota: false,
+      kota_search: "",
+
       isEditable: false,
       isLoadingForm: false,
       title: "Kecamatan",
@@ -185,8 +233,9 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchProvinsi();
     await this.onSearchNegara();
+    await this.onSearchProvinsi();
+    await this.onSearchKota();
   },
 
   computed: {
@@ -195,6 +244,7 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
+      "lookup_custom3",
     ]),
   },
 
@@ -263,7 +313,7 @@ export default {
         }
 
         this.onSearchProvinsi();
-        this.onSearchNegara();
+        this.onSearchKota();
       }, 600);
     },
 
@@ -277,12 +327,55 @@ export default {
           query:
             "?search=" +
             this.provinsi_search +
+            "&negara_id=" +
+            this.parameters.form.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetProvinsi = false;
+      }
+    },
+
+    onGetKota(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKota);
+
+      this.isStopSearchKota = setTimeout(() => {
+        this.kota_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchKota();
+      }, 600);
+    },
+
+    async onSearchKota() {
+      if (!this.isLoadingGetKota) {
+        this.isLoadingGetKota = true;
+
+        await this.lookUp({
+          url: "master/kota/get-kota",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.kota_search +
+            "&provinsi_id=" +
+            this.parameters.form.provinsi_id +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKota = false;
       }
     },
 
@@ -295,15 +388,16 @@ export default {
         this.negara_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
         } else {
-          this.lookup_custom1.current_page = 1;
+          this.lookup_custom3.current_page = 1;
         }
 
         this.onSearchNegara();
       }, 600);
+      this.onSearchProvinsi();
     },
 
     async onSearchNegara() {
@@ -311,8 +405,8 @@ export default {
         this.isLoadingGetNegara = true;
 
         await this.lookUp({
-          url: "master/kota/get-kota",
-          lookup: "custom1",
+          url: "master/negara",
+          lookup: "custom3",
           query:
             "?search=" +
             this.negara_search +
@@ -327,12 +421,12 @@ export default {
       }
     },
 
-    onSelectKota(kota_id) {
-      const item = this.lookup_custom1.data.find((a) => a.kota_id === kota_id);
-      if (item) {
-        this.parameters.form.negara_id = item.negara_id;
-      }
-    },
+    // onSelectKota(kota_id) {
+    //   const item = this.lookup_custom1.data.find((a) => a.kota_id === kota_id);
+    //   if (item) {
+    //     this.parameters.form.negara_id = item.negara_id;
+    //   }
+    // },
 
     changeProv() {
       this.parameters.kota_id = "";
@@ -341,15 +435,21 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kota_id: "",
+        provinsi_id: "",
         negara_id: "",
-        nama_provinsi: "",
-        ibukota: "",
+        nama_kecamatan: "",
+        koordinat: "",
       };
     },
 
+    onSelectNegara() {
+      this.parameters.form.provinsi_id = "";
+      this.onSearchProvinsi();
+    },
     onSelectProvinsi() {
       this.parameters.form.kota_id = "";
-      this.onSearchNegara();
+      this.onSearchKota();
     },
   },
 };
