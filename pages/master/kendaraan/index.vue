@@ -19,11 +19,6 @@
       <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
         <div class="card-body">
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
@@ -224,14 +219,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -342,38 +337,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        jenis_kendaraan_id: "",
-        gudang_id: "",
-        vendor_id: "",
-        vendor_id_operator: "",
-        standar_jenis_kendaraan_id: "",
-        nama_kendaraan: "",
-        keterangan_pindah_gudang: "",
-        plat_nomor: "",
-        cc: "",
-        nomor_mesin: "",
-        tahun_buat: "",
-        nomor_sasis: "",
-        stnk: "",
-        kir: "",
-        status_digunakan: "",
-        status_normal: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/kendaraan/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/material/" + item.id);
     },
 
     // onDetail(item) {

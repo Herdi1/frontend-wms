@@ -422,7 +422,7 @@ export default {
         this.isLoadingGetNegara = true;
 
         await this.lookUp({
-          url: "master/negara",
+          url: "master/negara/get-negara",
           lookup: "custom3",
           query:
             "?search=" +

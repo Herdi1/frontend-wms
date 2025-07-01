@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2">
+  <div class="">
     <label :for="name">{{ label }}</label>
     <input
       :placeholder="label"

@@ -13,26 +13,62 @@
           >
             <div class="modal-body mt-4">
               <ValidationProvider
-                name="proses"
+                name="modul"
                 rules="required"
                 ref="ruteProvider"
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Proses"
-                    type="text"
-                    name="proses"
-                    v-model="parameters.form.proses"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
+                  <label for="modul">Modul</label>
+                  <select
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    name="modul"
+                    id="modul"
+                    v-model="parameters.form.modul"
+                    @change="onSelectModul"
+                  >
+                    <option value="">Pilih</option>
+                    <option
+                      v-for="(modul, index) in lookup_custom1"
+                      :key="index"
+                      :value="modul.value"
+                    >
+                      {{ modul.label }}
+                    </option>
+                  </select>
                   <div v-if="errors[0]" class="text-danger">
                     {{ errors[0] }}
                   </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider
+                name="proses"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <label for="proses">Proses</label>
+                  <select
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    name="proses"
+                    id="proses"
+                    v-model="parameters.form.proses"
+                    :disabled="!parameters.form.modul"
+                  >
+                    <option value="">Pilih</option>
+                    <option
+                      v-for="(proses, index) in lookup_custom2"
+                      :key="index"
+                      :value="proses.jenis_proses_transaksi_id"
+                    >
+                      {{ proses.nama_jenis_proses_tansaksi }}
+                    </option>
+                  </select>
+                  <div v-if="errors[0]" class="text-danger">
+                    {{ errors[0] }}
+                  </div>
+                </div>
+              </ValidationProvider>
+              <!-- <ValidationProvider
                 name="modul"
                 rules="required"
                 ref="ruteProvider"
@@ -51,7 +87,7 @@
                     {{ errors[0] }}
                   </div>
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider
                 name="kode_status_transaksi"
                 rules="required"
@@ -121,6 +157,9 @@ export default {
 
   data() {
     return {
+      isLoadingGetModul: false,
+      isLoadingGetProses: false,
+
       isEditable: false,
       isLoadingForm: false,
       title: "Master Status Transaksi",
@@ -137,12 +176,22 @@ export default {
     };
   },
 
+  async mounted() {
+    await this.onLoadModul();
+    await this.onLoadProses();
+  },
+
   computed: {
-    ...mapState("moduleApi", ["error", "result"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData"]),
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -184,6 +233,38 @@ export default {
       }
 
       this.isLoadingForm = false;
+    },
+
+    async onLoadModul() {
+      if (!this.isLoadingGetModul) {
+        this.isLoadingGetModul = true;
+
+        await this.lookUp({
+          url: "utility",
+          lookup: "custom1",
+          query: "?q=modul_transaksi",
+        });
+
+        this.isLoadingGetModul = false;
+      }
+    },
+    async onLoadProses() {
+      if (!this.isLoadingGetProses) {
+        this.isLoadingGetProses = true;
+
+        await this.lookUp({
+          url: "utility",
+          lookup: "custom2",
+          query: "?q=modul_transaksi" + "&value=" + this.parameters.form.modul,
+        });
+
+        this.isLoadingGetProses = false;
+      }
+    },
+
+    onSelectModul() {
+      this.parameters.form.proses = "";
+      this.onLoadProses();
     },
 
     formReset() {
