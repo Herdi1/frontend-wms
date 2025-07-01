@@ -58,12 +58,12 @@
                 </ValidationProvider>
 
                 <ValidationProvider name="id_provinsi" rules="required">
-                  <div class="form-group w-full items-center mb-5">
+                  <div
+                    class="form-group w-full items-center mb-5"
+                    slot-scope="{ errors, valid }"
+                  >
                     <label for="" class="w-4/12">Provinsi</label>
                     <v-select
-                      v-if="
-                        lookup_custom2.data && lookup_custom2.data.length > 0
-                      "
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_provinsi"
                       :loading="isLoadingGetProvinsi"
@@ -72,6 +72,9 @@
                       @search="onGetProvinsi"
                       :reduce="(item) => item.provinsi_id"
                       v-model="parameters.form.provinsi_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                     >
                       <li
                         slot-scope="{ search }"
@@ -96,7 +99,9 @@
                         >
                       </li>
                     </v-select>
-                    <!-- <span v-else>Loading Provinsi...</span> -->
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
                   </div>
                 </ValidationProvider>
 

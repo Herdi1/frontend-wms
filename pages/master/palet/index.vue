@@ -26,7 +26,7 @@
         <div>
           <table ref="formContainer">
             <thead>
-              <tr>
+              <tr class="uppercase">
                 <th class="w-[5%]">No</th>
                 <th>Kode Palet</th>
                 <th
@@ -36,6 +36,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Palet</div>
@@ -63,8 +64,8 @@
                 </th>
                 <th>RFID</th>
                 <th>Status Palet</th>
-                <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>

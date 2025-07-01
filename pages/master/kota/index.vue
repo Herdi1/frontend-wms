@@ -41,7 +41,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Kota</div>
@@ -67,11 +67,11 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[30%]">Koordinat</th>
-                  <th class="w-[30%]">Provinsi</th>
-                  <th class="w-[25%]">Negara</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th>Koordinat</th>
+                  <th>Provinsi</th>
+                  <th>Negara</th>
+                  <th class="w-[5%] text-center">Edit</th>
+                  <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>

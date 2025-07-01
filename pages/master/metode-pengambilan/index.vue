@@ -35,6 +35,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Metode Pengambilan</div>
@@ -60,8 +61,8 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>

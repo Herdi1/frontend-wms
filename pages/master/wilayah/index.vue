@@ -26,8 +26,8 @@
         <div>
           <table ref="formContainer">
             <thead>
-              <tr>
-                <th>No</th>
+              <tr class="uppercase">
+                <th class="w-[5%]">No</th>
                 <th
                   @click="
                     onSort(
@@ -35,6 +35,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Wilayah</div>
@@ -60,8 +61,8 @@
                     </div>
                   </div>
                 </th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>

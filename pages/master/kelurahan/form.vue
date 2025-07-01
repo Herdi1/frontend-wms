@@ -17,7 +17,6 @@
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12">Negara</label>
                   <v-select
-                    v-if="lookup_custom1.data && lookup_custom1.data.length > 0"
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_negara"
                     :loading="isLoadingGetNegara"
@@ -26,6 +25,7 @@
                     @search="onGetNegara"
                     :reduce="(item) => item.negara_id"
                     v-model="parameters.form.negara_id"
+                    @input="onSelectNegara"
                   >
                     <li
                       slot-scope="{ search }"
@@ -49,16 +49,17 @@
                       >
                     </li>
                   </v-select>
-                  <span v-else>Loading Negara...</span>
                 </div>
               </ValidationProvider>
 
               <!-- Provinsi -->
               <ValidationProvider name="id_provinsi" rules="required">
-                <div class="form-group w-full items-center mb-5">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
                   <label for="" class="w-4/12">Provinsi</label>
                   <v-select
-                    v-if="lookup_custom2.data && lookup_custom2.data.length > 0"
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_provinsi"
                     :loading="isLoadingGetProvinsi"
@@ -67,6 +68,8 @@
                     @search="onGetProvinsi"
                     :reduce="(item) => item.provinsi_id"
                     v-model="parameters.form.provinsi_id"
+                    @input="onSelectProvinsi"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -90,16 +93,20 @@
                       >
                     </li>
                   </v-select>
-                  <span v-else>Loading Provinsi...</span>
+                  <div v-if="errors[0]" class="text-danger">
+                    {{ errors[0] }}
+                  </div>
                 </div>
               </ValidationProvider>
 
               <!-- Kota -->
               <ValidationProvider name="id_kota" rules="required">
-                <div class="form-group w-full items-center mb-5">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
                   <label for="" class="w-4/12">Kota</label>
                   <v-select
-                    v-if="lookup_custom3.data && lookup_custom3.data.length > 0"
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
                     :loading="isLoadingGetKota"
@@ -108,6 +115,8 @@
                     @search="onGetKota"
                     :reduce="(item) => item.kota_id"
                     v-model="parameters.form.kota_id"
+                    @input="onSelectKota"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -131,16 +140,20 @@
                       >
                     </li>
                   </v-select>
-                  <span v-else>Loading Kota...</span>
+                  <div v-if="errors[0]" class="text-danger">
+                    {{ errors[0] }}
+                  </div>
                 </div>
               </ValidationProvider>
 
               <!-- Kecamatan -->
               <ValidationProvider name="id_kecamatan" rules="required">
-                <div class="form-group w-full items-center mb-5">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
                   <label for="" class="w-4/12">Kecamatan</label>
                   <v-select
-                    v-if="lookup_beam.data && lookup_beam.data.length > 0"
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kecamatan"
                     :loading="isLoadingGetKecamatan"
@@ -149,6 +162,7 @@
                     @search="onGetKecamatan"
                     :reduce="(item) => item.kecamatan_id"
                     v-model="parameters.form.kecamatan_id"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -170,7 +184,9 @@
                       >
                     </li>
                   </v-select>
-                  <span v-else>Loading Kota...</span>
+                  <div v-if="errors[0]" class="text-danger">
+                    {{ errors[0] }}
+                  </div>
                 </div>
               </ValidationProvider>
               <div class="modal-body mt-4">
@@ -271,12 +287,10 @@ export default {
   },
 
   async mounted() {
-    await Promise.all([
-      await this.onSearchNegara(),
-      await this.onSearchProvinsi(),
-      await this.onSearchKota(),
-      await this.onSearchKecamatan(),
-    ]);
+    await this.onSearchNegara();
+    await this.onSearchProvinsi();
+    await this.onSearchKota();
+    await this.onSearchKecamatan();
   },
 
   computed: {
@@ -356,6 +370,7 @@ export default {
 
         this.onSearchNegara();
       }, 600);
+      this.onSearchProvinsi();
     },
 
     async onSearchNegara() {
@@ -396,6 +411,7 @@ export default {
 
         this.onSearchProvinsi();
       }, 600);
+      this.onSearchKota();
     },
 
     async onSearchProvinsi() {
@@ -403,11 +419,13 @@ export default {
         this.isLoadingGetProvinsi = true;
 
         await this.lookUp({
-          url: "master/provinsi",
+          url: "master/provinsi/get-provinsi",
           lookup: "custom2",
           query:
             "?search=" +
             this.provinsi_search +
+            "&negara_id=" +
+            this.parameters.form.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -436,6 +454,7 @@ export default {
 
         this.onSearchKota();
       }, 600);
+      this.onSearchKecamatan();
     },
 
     async onSearchKota() {
@@ -443,11 +462,13 @@ export default {
         this.isLoadingGetKota = true;
 
         await this.lookUp({
-          url: "master/kota",
+          url: "master/kota/get-kota",
           lookup: "custom3",
           query:
             "?search=" +
             this.kota_search +
+            "&provinsi_id=" +
+            this.parameters.form.provinsi_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -483,11 +504,13 @@ export default {
         this.isLoadingGetKecamatan = true;
 
         await this.lookUp({
-          url: "master/kecamatan",
+          url: "master/kecamatan/get-kecamatan",
           lookup: "beam",
           query:
             "?search=" +
             this.kecamatan_search +
+            "&kota_id=" +
+            this.parameters.form.kota_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -508,6 +531,25 @@ export default {
         nama_kelurahan: "",
         koordinat: "",
       };
+    },
+
+    onSelectNegara() {
+      this.parameters.form.provinsi_id = "";
+      this.onSearchProvinsi();
+    },
+
+    onSelectProvinsi() {
+      this.parameters.form.kota_id = "";
+      this.onSearchKota();
+    },
+
+    onSelectKota() {
+      this.parameters.form.kecamatan_id = "";
+      this.onSearchKecamatan();
+    },
+
+    changeStatus() {
+      this.parameters.kecamatan_id = "";
     },
   },
 };

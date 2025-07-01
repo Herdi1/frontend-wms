@@ -41,7 +41,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[40%]"
+                    class="cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Kelurahan</div>
@@ -67,11 +67,11 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[30%]">Koordinat</th>
-                  <th class="w-[30%]">Kecamatan</th>
-                  <th class="w-[30%]">Kota</th>
-                  <th class="w-[30%]">Provinsi</th>
-                  <th class="w-[25%]">Negara</th>
+                  <th>Koordinat</th>
+                  <th>Kecamatan</th>
+                  <th>Kota</th>
+                  <th>Provinsi</th>
+                  <th>Negara</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -197,7 +197,7 @@ export default {
 
   data() {
     return {
-      title: "Kota",
+      title: "Kelurahan",
       isLoading: false,
       isPaginate: true,
       user: this.$auth.user,
