@@ -18,42 +18,48 @@
                   name="negara_id"
                   rules="required"
                 >
-                  <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Negara</label>
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_negara"
-                      :loading="isLoadingGetNegara"
-                      :options="lookup_custom3.data"
-                      :filterable="false"
-                      @search="onGetNegara"
-                      :reduce="(item) => item.negara_id"
-                      v-model="parameters.form.negara_id"
-                      @input="onSelectNegara"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom3.data.length || search"
+                  <div slot-scope="{ errors, valid }">
+                    <div class="form-group w-full items-center mb-5">
+                      <label for="" class="w-4/12">Negara</label>
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_negara"
+                        :loading="isLoadingGetNegara"
+                        :options="lookup_custom3.data"
+                        :filterable="false"
+                        @search="onGetNegara"
+                        :reduce="(item) => item.negara_id"
+                        v-model="parameters.form.negara_id"
+                        @input="onSelectNegara"
                       >
-                        <span
-                          v-if="lookup_custom3.current_page > 1"
-                          @click="onGetNegara(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom3.data.length || search"
                         >
-                        <span
-                          v-if="
-                            lookup_custom3.last_page >
-                            lookup_custom3.current_page
-                          "
-                          @click="onGetNegara(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
+                          <span
+                            v-if="lookup_custom3.current_page > 1"
+                            @click="onGetNegara(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom3.last_page >
+                              lookup_custom3.current_page
+                            "
+                            @click="onGetNegara(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -62,42 +68,48 @@
                   name="kota_id"
                   rules="required"
                 >
-                  <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Provinsi</label>
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_provinsi"
-                      :loading="isLoadingGetProvinsi"
-                      :options="lookup_custom2.data"
-                      :filterable="false"
-                      @search="onGetProvinsi"
-                      :reduce="(item) => item.provinsi_id"
-                      v-model="parameters.form.provinsi_id"
-                      @input="onSelectProvinsi"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom2.data.length || search"
+                  <div slot-scope="{ errors, valid }">
+                    <div class="form-group w-full items-center mb-5">
+                      <label for="" class="w-4/12">Provinsi</label>
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_provinsi"
+                        :loading="isLoadingGetProvinsi"
+                        :options="lookup_custom2.data"
+                        :filterable="false"
+                        @search="onGetProvinsi"
+                        :reduce="(item) => item.provinsi_id"
+                        v-model="parameters.form.provinsi_id"
+                        @input="onSelectProvinsi"
                       >
-                        <span
-                          v-if="lookup_custom2.current_page > 1"
-                          @click="onGetProvinsi(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom2.data.length || search"
                         >
-                        <span
-                          v-if="
-                            lookup_custom2.last_page >
-                            lookup_custom2.current_page
-                          "
-                          @click="onGetProvinsi(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
+                          <span
+                            v-if="lookup_custom2.current_page > 1"
+                            @click="onGetProvinsi(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom2.last_page >
+                              lookup_custom2.current_page
+                            "
+                            @click="onGetProvinsi(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -106,41 +118,46 @@
                   name="kota_id"
                   rules="required"
                 >
-                  <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Kota</label>
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_kota"
-                      :loading="isLoadingGetKota"
-                      :options="lookup_custom1.data"
-                      :filterable="false"
-                      @search="onGetKota"
-                      :reduce="(item) => item.kota_id"
-                      v-model="parameters.form.kota_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom1.data.length || search"
+                  <div slot-scope="{ errors, valid }">
+                    <div class="form-group w-full items-center mb-5">
+                      <label for="" class="w-4/12">Kota</label>
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_kota"
+                        :loading="isLoadingGetKota"
+                        :options="lookup_custom1.data"
+                        :filterable="false"
+                        @search="onGetKota"
+                        :reduce="(item) => item.kota_id"
+                        v-model="parameters.form.kota_id"
                       >
-                        <span
-                          v-if="lookup_custom1.current_page > 1"
-                          @click="onGetKota(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom1.data.length || search"
                         >
-                        <span
-                          v-if="
-                            lookup_custom1.last_page >
-                            lookup_custom1.current_page
-                          "
-                          @click="onGetKota(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
+                          <span
+                            v-if="lookup_custom1.current_page > 1"
+                            @click="onGetKota(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom1.last_page >
+                              lookup_custom1.current_page
+                            "
+                            @click="onGetKota(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
                   </div>
                 </ValidationProvider>
 
