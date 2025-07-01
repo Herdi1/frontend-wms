@@ -88,6 +88,7 @@
                     ]"
                     :reduce="(item) => item.value"
                     v-model="parameters.form.status_menu"
+                    @input="changeStatus"
                   >
                   </v-select>
                 </div>
@@ -412,6 +413,15 @@ export default {
 
         this.isLoadingGetCustom = false;
         // console.log("get parent");
+      }
+    },
+
+    changeStatus() {
+      if (this.parameters.form.status_menu == "1") {
+        this.parameters.form.menu_id_induk = "";
+        this.parameters.form.menu_id_induk_2 = "";
+      } else if (this.parameters.form.status_menu == "2") {
+        this.parameters.form.menu_id_induk_2 = "";
       }
     },
 

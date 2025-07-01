@@ -1,58 +1,103 @@
 <template>
   <portal v-if="visible" to="modal-detail">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
-    <div class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
+    <div
+      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
-      id="modal-detail">
+      id="modal-detail"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
-            <div class="flex justify-between text-xl font-bold mb-3">
-              <h5 class="">Detail Data</h5>
+          <div class="flex justify-between text-xl font-bold mb-3">
+            <h5 class="">Detail Data</h5>
 
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="hide()">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              @click="hide()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="grid grid-cols-2 mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="fullname">Nama Lengkap</label>
+                  <div>{{ parameters.form.nama_lengkap }}</div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="uername">Username</label>
+                  <div>{{ parameters.form.username }}</div>
+                </div>
+              </div>
             </div>
 
-            <div class="modal-body">
-              <div class="grid grid-cols-2 mb-3">
-                <div class="col">
-                  <div class="form-group">
-                    <label class="font-bold" for="fullname">Nama Lengkap</label>
-                    <div>{{ parameters.form.nama_lengkap }}</div>
-                  </div>
-                </div>
+            <div class="form-group">
+              <label class="font-bold mb-3" for="email">Email</label>
+              <div>{{ parameters.form.email }}</div>
+            </div>
 
-                <div class="col">
-                    <div class="form-group">
-                      <label class="font-bold" for="uername">Username</label>
-                      <div>{{ parameters.form.username }}</div>
-                    </div>
+            <div class="grid grid-cols-2 mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="role">Role</label>
+                  <div>
+                    {{
+                      parameters.form.role ? parameters.form.role.nama_role : ""
+                    }}
+                  </div>
                 </div>
               </div>
 
-             <div class="form-group">
-                <label class="font-bold mb-3" for="email">Email</label>
-                <div>{{ parameters.form.email }}</div>
-             </div>
-
-             <div class="grid grid-cols-2 mb-3">
-                <div class="col">
-                  <div class="form-group">
-                    <label class="font-bold" for="role">Role</label>
-                    <div>{{ parameters.form.role }}</div>
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="jabatan">Jabatan</label>
+                  <div>
+                    {{
+                      parameters.form.jabatan
+                        ? parameters.form.jabatan.nama_jabatan
+                        : ""
+                    }}
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div class="col">
-                    <div class="form-group">
-                      <label class="font-bold" for="jabatan">Jabatan</label>
-                      <div>{{ parameters.form.jabatan }}</div>
-                    </div>
+            <div class="grid grid-cols-2 mb-3">
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="jabatan">Pelanggan</label>
+                  <div>
+                    {{
+                      parameters.form.pelanggan
+                        ? parameters.form.pelanggan.nama_pelanggan
+                        : ""
+                    }}
+                  </div>
                 </div>
               </div>
+              <div class="col">
+                <div class="form-group">
+                  <label class="font-bold" for="jabatan">Gudang</label>
+                  <div>
+                    {{
+                      parameters.form.gudang
+                        ? parameters.form.gudang.nama_gudang
+                        : ""
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-             <!-- <div class="table table-responsive">
+            <!-- <div class="table table-responsive">
                <table class="table-responsive">
                  <tr>
                    <td>Hak Akses</td>
@@ -76,8 +121,7 @@
                  </tr>
                </table>
              </div> -->
-
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -86,30 +130,30 @@
 
 <script>
 export default {
-  middleware : ["isNotAccessable"],
+  middleware: ["isNotAccessable"],
 
   props: ["self"],
 
   data() {
     return {
       visible: false,
-      parameters : {
-        form : {
-          group_role : {
-            grants : []
-          }
-        }
-      }
+      parameters: {
+        form: {
+          group_role: {
+            grants: [],
+          },
+        },
+      },
     };
   },
 
-  methods:{
-    show(){
-      this.visible = true
+  methods: {
+    show() {
+      this.visible = true;
     },
-    hide(){
-      this.visible = false
+    hide() {
+      this.visible = false;
     },
-  }
+  },
 };
 </script>

@@ -28,6 +28,7 @@
                       @search="onGetNegara"
                       :reduce="(item) => item.negara_id"
                       v-model="parameters.form.negara_id"
+                      @input="onSelectNegara"
                     >
                       <li
                         slot-scope="{ search }"
@@ -95,7 +96,7 @@
                         >
                       </li>
                     </v-select>
-                    <span v-else>Loading Provinsi...</span>
+                    <!-- <span v-else>Loading Provinsi...</span> -->
                   </div>
                 </ValidationProvider>
 
@@ -185,10 +186,10 @@ export default {
   },
 
   async mounted() {
-    await Promise.all([
-      await this.onSearchNegara(),
-      await this.onSearchProvinsi(),
-    ]);
+    // await Promise.all([
+    //   ]);
+    await this.onSearchNegara();
+    await this.onSearchProvinsi();
   },
 
   computed: {
@@ -261,6 +262,7 @@ export default {
 
         this.onSearchNegara();
       }, 600);
+      this.onSearchProvinsi();
     },
 
     async onSearchNegara() {
@@ -312,11 +314,13 @@ export default {
         this.isLoadingGetProvinsi = true;
 
         await this.lookUp({
-          url: "master/provinsi",
+          url: "master/provinsi/get-provinsi",
           lookup: "custom2",
           query:
             "?search=" +
             this.provinsi_search +
+            "&negara_id=" +
+            this.parameters.form.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -327,6 +331,10 @@ export default {
       }
     },
 
+    changeStatus() {
+      this.parameters.provinsi_id = "";
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
@@ -335,6 +343,11 @@ export default {
         nama_kota: "",
         koordinat: "",
       };
+    },
+
+    onSelectNegara() {
+      this.parameters.form.provinsi_id = "";
+      this.onSearchProvinsi();
     },
   },
 };

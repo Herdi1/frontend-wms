@@ -29,6 +29,7 @@
                       @search="onGetProvinsi"
                       :reduce="(item) => item.provinsi_id"
                       v-model="parameters.form.provinsi_id"
+                      @input="changeProv"
                     >
                       <li
                         slot-scope="{ search }"
@@ -129,7 +130,7 @@
                     <textarea
                       name="koordinat"
                       v-model="parameters.form.koordinat"
-                      class="w-full border border-gray-300 rounded-md bg-white outline-none"
+                      class="w-full border border-gray-300 rounded-md bg-white outline-none active:outline-none"
                     />
                     <div v-if="errors[0]" class="text-danger">
                       {{ errors[0] }}
@@ -333,6 +334,10 @@ export default {
       }
     },
 
+    changeProv() {
+      this.parameters.kota_id = "";
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
@@ -340,6 +345,11 @@ export default {
         nama_provinsi: "",
         ibukota: "",
       };
+    },
+
+    onSelectProvinsi() {
+      this.parameters.form.kota_id = "";
+      this.onSearchNegara();
     },
   },
 };

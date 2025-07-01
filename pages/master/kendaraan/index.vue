@@ -19,7 +19,7 @@
       <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <!-- <FormInput :self="this" ref="formInput" /> -->
+        <FormInput :self="this" ref="formInput" />
       </div>
       <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
@@ -186,7 +186,8 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import FormInput from "./form.vue";
+import FormInput from "./form.vue";
+import ModalDetail from "./detail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
@@ -202,9 +203,10 @@ export default {
     this.onLoad();
   },
 
-  // components: {
-  //   FormInput,
-  // },
+  components: {
+    FormInput,
+    ModalDetail,
+  },
 
   mounted() {
     this.$refs["form-option"].isExport = false;

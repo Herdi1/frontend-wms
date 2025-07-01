@@ -119,7 +119,7 @@ export default {
 
   head() {
     return {
-      title: "Fungsi Gudang",
+      title: "Ukuran Gudang",
     };
   },
 
