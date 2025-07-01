@@ -535,11 +535,14 @@ export default {
 
     onSelectNegara() {
       this.parameters.form.provinsi_id = "";
+      this.parameters.form.kota_id = "";
+      this.parameters.form.kecamatan_id = "";
       this.onSearchProvinsi();
     },
 
     onSelectProvinsi() {
       this.parameters.form.kota_id = "";
+      this.parameters.form.kecamatan_id = "";
       this.onSearchKota();
     },
 
@@ -549,7 +552,7 @@ export default {
     },
 
     changeStatus() {
-      this.parameters.kecamatan_id = "";
+      this.parameters.kelurahan_id = "";
     },
   },
 };

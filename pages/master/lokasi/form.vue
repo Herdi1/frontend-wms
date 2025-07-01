@@ -67,9 +67,22 @@
                   </div>
                 </ValidationProvider>
 
+                <!-- Alamat Lokasi -->
+                <div class="form-group">
+                  <label for="alamat_lokasi">Alamat Lokasi</label>
+                  <textarea
+                    placeholder="Alamat Lokasi"
+                    v-model="parameters.form.alamat_lokasi"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  ></textarea>
+                </div>
+
                 <!-- Provinsi -->
                 <ValidationProvider name="id_provinsi" rules="required">
-                  <div class="form-group w-full items-center mb-5">
+                  <div
+                    class="form-group w-full items-center mb-5"
+                    slot-scope="{ errors, valid }"
+                  >
                     <label for="" class="w-4/12">Provinsi</label>
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -80,6 +93,10 @@
                       @search="onGetProvinsi"
                       :reduce="(item) => item.provinsi_id"
                       v-model="parameters.form.provinsi_id"
+                      @input="onSelectProvinsi"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                     >
                       <li
                         slot-scope="{ search }"
@@ -104,6 +121,9 @@
                         >
                       </li>
                     </v-select>
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -119,6 +139,7 @@
                     @search="onGetKota"
                     :reduce="(item) => item.kota_id"
                     v-model="parameters.form.kota_id"
+                    @input="onSelectKota"
                   >
                     <li
                       slot-scope="{ search }"
@@ -156,6 +177,7 @@
                     @search="onGetKecamatan"
                     :reduce="(item) => item.kecamatan_id"
                     v-model="parameters.form.kecamatan_id"
+                    @input="onSelectKecamatan"
                   >
                     <li
                       slot-scope="{ search }"
@@ -215,6 +237,281 @@
                     </li>
                   </v-select>
                 </div>
+
+                <!-- Kode Pos -->
+                <ValidationProvider
+                  name="kode_pos"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Pos"
+                      type="text"
+                      name="kode_pos"
+                      v-model="parameters.form.kode_pos"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Nama Pemilik -->
+                <ValidationProvider
+                  name="nama_pemilik"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nama Pemilik"
+                      type="text"
+                      name="nama_pemilik"
+                      v-model="parameters.form.nama_pemilik"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Alamat Pemilik -->
+                <div class="form-group">
+                  <label for="alamat_pemilik">Alamat Pemilik</label>
+                  <textarea
+                    placeholder="Alamat Pemilik"
+                    v-model="parameters.form.alamat_pemilik"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  ></textarea>
+                </div>
+
+                <!-- No Telepon -->
+                <ValidationProvider
+                  name="no_telp"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nomor Telepon"
+                      type="text"
+                      name="no_telp"
+                      v-model="parameters.form.no_telp"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- No HP -->
+                <ValidationProvider
+                  name="no_hp"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nomor HP"
+                      type="text"
+                      name="no_hp"
+                      v-model="parameters.form.no_hp"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Nilai Plafon -->
+                <div class="form-group col-12">
+                  <label for="nilai_plafon">Nilai Plafon</label>
+                  <money
+                    v-model="parameters.form.nilai_plafon"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                  <div class="text-muted text-small">* Rupiah</div>
+                </div>
+
+                <!-- No NPWP -->
+                <div class="form-group">
+                  <input-form
+                    label="Nomor NPWP"
+                    type="text"
+                    name="no_npwp"
+                    v-model="parameters.form.no_npwp"
+                  />
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                  <input-form
+                    label="Email"
+                    type="email"
+                    name="email"
+                    v-model="parameters.form.email"
+                  />
+                </div>
+
+                <!-- Longitude -->
+                <ValidationProvider
+                  name="longitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      v-model="parameters.form.longitude"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Latitude -->
+                <ValidationProvider
+                  name="latitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      v-model="parameters.form.latitude"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div v-if="errors[0]" class="text-danger">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Radius (belom ada error message kalo belom ke isi) -->
+                <ValidationProvider name="radius" rules="required">
+                  <div class="form-group col-12" slot-scope="{ errors, valid }">
+                    <label for="radius">Radius</label>
+                    <money
+                      v-model="parameters.form.radius"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                    <div class="text-muted text-small">* Meter</div>
+                    <div class="text-sm text-danger" v-if="errors[0]">
+                      {{ errors[0] }}
+                    </div>
+                  </div>
+                </ValidationProvider>
+
+                <!-- Longitude 2 -->
+                <div class="form-group">
+                  <input-form
+                    label="Longitude 2"
+                    type="text"
+                    name="longitude2"
+                    v-model="parameters.form.longitude2"
+                  />
+                </div>
+
+                <!-- Latitude 2 -->
+                <div class="form-group">
+                  <input-form
+                    label="Latitude 2"
+                    type="text"
+                    name="latitude2"
+                    v-model="parameters.form.latitude2"
+                  />
+                </div>
+
+                <!-- Radius 2 -->
+                <div class="form-group col-12">
+                  <label for="radius2">Radius 2</label>
+                  <money
+                    v-model="parameters.form.radius2"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                  <div class="text-muted text-small">* Meter</div>
+                </div>
+
+                <!-- Longitude 3 -->
+                <div class="form-group">
+                  <input-form
+                    label="Longitude 3"
+                    type="text"
+                    name="longitude3"
+                    v-model="parameters.form.longitude3"
+                  />
+                </div>
+
+                <!-- Latitude 3 -->
+                <div class="form-group">
+                  <input-form
+                    label="Latitude 3"
+                    type="text"
+                    name="latitude3"
+                    v-model="parameters.form.latitude3"
+                  />
+                </div>
+
+                <!-- Radius 3 -->
+                <div class="form-group col-12">
+                  <label for="radius3">Radius 3</label>
+                  <money
+                    v-model="parameters.form.radius3"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                  <div class="text-muted text-small">* Meter</div>
+                </div>
+
+                <!-- Alamat -->
+                <div class="form-group">
+                  <input-form
+                    label="Alamat"
+                    type="text"
+                    name="alamat"
+                    v-model="parameters.form.alamat"
+                  />
+                </div>
+
+                <!-- Tipe Lokasi -->
+                <div class="form-group"></div>
               </div>
               <modal-footer-section
                 class="mt-5"
@@ -396,6 +693,7 @@ export default {
 
         this.onSearchProvinsi();
       }, 600);
+      this.onSearchKota();
     },
 
     async onSearchProvinsi() {
@@ -403,7 +701,7 @@ export default {
         this.isLoadingGetProvinsi = true;
 
         await this.lookUp({
-          url: "master/provinsi",
+          url: "master/provinsi/get-provinsi",
           lookup: "custom1",
           query:
             "?search=" +
@@ -436,6 +734,7 @@ export default {
 
         this.onSearchKota();
       }, 600);
+      this.onSearchKecamatan();
     },
 
     async onSearchKota() {
@@ -443,11 +742,13 @@ export default {
         this.isLoadingGetKota = true;
 
         await this.lookUp({
-          url: "master/kota",
+          url: "master/kota/get-kota",
           lookup: "custom2",
           query:
             "?search=" +
             this.kota_search +
+            "&provinsi_id=" +
+            this.parameters.form.provinsi_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -476,6 +777,7 @@ export default {
 
         this.onSearchKecamatan();
       }, 600);
+      this.onSearchKelurahan();
     },
 
     async onSearchKecamatan() {
@@ -483,11 +785,13 @@ export default {
         this.isLoadingGetKecamatan = true;
 
         await this.lookUp({
-          url: "master/kecamatan",
+          url: "master/kecamatan/get-kecamatan",
           lookup: "custom3",
           query:
             "?search=" +
             this.kecamatan_search +
+            "&kota_id=" +
+            this.parameters.form.kota_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -528,6 +832,8 @@ export default {
           query:
             "?search=" +
             this.kelurahan_search +
+            "&kecamatan_id=" +
+            this.parameters.form.kecamatan_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -569,6 +875,28 @@ export default {
         alamat: "",
         tipe_lokasi: "",
       };
+    },
+
+    onSelectProvinsi() {
+      this.parameters.form.kota_id = "";
+      this.parameters.form.kecamatan_id = "";
+      this.parameters.form.kelurahan_id = "";
+      this.onSearchKota();
+    },
+
+    onSelectKota() {
+      this.parameters.form.kecamatan_id = "";
+      this.parameters.form.kelurahan_id = "";
+      this.onSearchKecamatan();
+    },
+
+    onSelectKecamatan() {
+      this.parameters.form.kelurahan_id = "";
+      this.onSearchKelurahan();
+    },
+
+    changeStatus() {
+      this.parameters.form.kelurahan_id = "";
     },
   },
 };
