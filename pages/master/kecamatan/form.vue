@@ -31,6 +31,9 @@
                         :reduce="(item) => item.negara_id"
                         v-model="parameters.form.negara_id"
                         @input="onSelectNegara"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -81,6 +84,9 @@
                         :reduce="(item) => item.provinsi_id"
                         v-model="parameters.form.provinsi_id"
                         @input="onSelectProvinsi"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -130,6 +136,9 @@
                         @search="onGetKota"
                         :reduce="(item) => item.kota_id"
                         v-model="parameters.form.kota_id"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -191,6 +200,9 @@
                     <textarea
                       name="koordinat"
                       v-model="parameters.form.koordinat"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                       class="w-full border border-gray-300 rounded-md bg-white outline-none active:outline-none"
                     />
                     <div v-if="errors[0]" class="text-danger">
@@ -462,6 +474,7 @@ export default {
 
     onSelectNegara() {
       this.parameters.form.provinsi_id = "";
+      this.parameters.form.kota_id = "";
       this.onSearchProvinsi();
     },
     onSelectProvinsi() {
