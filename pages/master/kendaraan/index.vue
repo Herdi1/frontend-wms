@@ -176,6 +176,7 @@
         </div>
       </div>
     </div>
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
@@ -344,12 +345,12 @@ export default {
       this.$router.push("/master/material/" + item.id);
     },
 
-    // onDetail(item) {
-    //   this.$refs.modalDetail.parameters.form = {
-    //     ...item,
-    //   };
-    //   this.$refs.modalDetail.show();
-    // },
+    onDetail(item) {
+      this.$refs.modalDetail.parameters.form = {
+        ...item,
+      };
+      this.$refs.modalDetail.show();
+    },
 
     onTrashed(item) {
       if (this.parameters.loadings.isDelete) return;

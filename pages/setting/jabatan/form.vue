@@ -145,7 +145,7 @@ export default {
           nama_jabatan: "",
         };
 
-        this.$refs.inputProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

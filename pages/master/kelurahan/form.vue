@@ -343,7 +343,7 @@ export default {
           nama_kelurahan: "",
           koordinat: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
         console.log("error", this.error);

@@ -130,10 +130,10 @@
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
-                          v-if="lookup_vendor.data.length || search"
+                          v-if="lookup_operator.data.length || search"
                         >
                           <span
-                            v-if="lookup_vendor.current_page > 1"
+                            v-if="lookup_operator.current_page > 1"
                             @click="onGetVendor(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
@@ -365,13 +365,14 @@
                     </select>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group md:col-span-2 lg:col-span-3">
                     <label>Keterangan Pindah Gudang</label>
                     <textarea
                       name="keterangan_pindah_gudang"
                       v-model="form.keterangan_pindah_gudang"
                       class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                     ></textarea>
+                    <p>*Diisi jika terjadi perpindahan gudang</p>
                   </div>
                 </div>
                 <modal-footer-section
@@ -383,18 +384,32 @@
                 class="p-4 w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <h1 class="text-xl font-bold">Pengemudi</h1>
-                <button
-                  :disabled="
-                    form.status_driver == '' ||
-                    (form.status_driver == 'dedicated' &&
-                      form.pengemudi_kendaraan.length >= 1)
-                  "
-                  @click="addPengemudiKendaraan"
-                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                >
-                  <i class="fas fa-plus"></i>
-                  <p class="text-xs font-medium">Tambah Pengemudi</p>
-                </button>
+                <div class="w-full flex gap-2">
+                  <button
+                    :disabled="
+                      form.status_driver == '' ||
+                      (form.status_driver == 'dedicated' &&
+                        form.pengemudi_kendaraan.length >= 1)
+                    "
+                    @click="addPengemudiKendaraan"
+                    class="bg-[#21b94f] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Pengemudi Baru</p>
+                  </button>
+                  <button
+                    :disabled="
+                      form.status_driver == '' ||
+                      (form.status_driver == 'dedicated' &&
+                        form.pengemudi_kendaraan.length >= 1)
+                    "
+                    @click="addPengemudiKendaraan"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Daftar Pengemudi</p>
+                  </button>
+                </div>
                 <div class="table-responsive">
                   <table
                     class="table mt-5 h-full"
@@ -605,6 +620,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchJenisKendaraan();
     await this.onSearchVendor();
+    await this.onSearchVendorOperator();
     await this.onSearchStandarJenis();
     await this.onSearchDriver();
   },
