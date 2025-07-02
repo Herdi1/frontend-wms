@@ -225,7 +225,6 @@ export default {
         });
 
         this.isLoadingGetNegara = false;
-        console.log(this.lookup_custom1.data);
       }
     },
 

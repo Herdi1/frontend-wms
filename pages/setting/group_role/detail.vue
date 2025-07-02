@@ -52,34 +52,8 @@
                       </p>
                     </span>
                   </td>
-                  <!-- <td>
-                    <span
-                      class="badge badge-success ml-1 mr-1 mb-2"
-                      v-for="itemOperator in item.operators"
-                      :key="itemOperator"
-                    >
-                      {{ itemOperator }}
-                    </span>
-                  </td> -->
                 </tr>
-                <!-- <tr
-                  v-for="(menu, index) in parameters.form.menu_grants"
-                  :key="index"
-                >
-                  <td class="bg-red-200 w-full">
-                    <span
-                      v-for="(operator, index) in menu.operators"
-                      :key="index"
-                      class="flex gap-2"
-                    >
-                      <p
-                        class="bg-green-500 px-2 py-1 rounded-full text-white text-center"
-                      >
-                        {{ operator }}
-                      </p>
-                    </span>
-                  </td>
-                </tr> -->
+
                 <tr v-if="!parameters.form.menu_grants.length">
                   <td colspan="2" class="text-center">Data tidak ditemukan</td>
                 </tr>
@@ -112,7 +86,6 @@ export default {
   methods: {
     show() {
       this.visible = true;
-      console.log(this.parameters.form.menu_grants);
     },
     hide() {
       this.visible = false;

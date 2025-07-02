@@ -27,7 +27,7 @@
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
+                  <div v-if="errors[0]" class="text-danger text-xs">
                     {{ errors[0] }}
                   </div>
                 </div>
@@ -106,7 +106,6 @@ export default {
   },
 
   async mounted() {
-    // await this.onSearchStatus();
     await this.lookUp({
       url: "utility",
       lookup: "custom1",
@@ -157,39 +156,10 @@ export default {
         this.$refs.ruteProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error", this.error);
       }
 
       this.isLoadingForm = false;
     },
-
-    // onGetStatus(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
-
-    //   clearTimeout(this.isStopSearchStatus);
-
-    //   this.isStopSearchStatus = setTimeout(() => {
-    //     this.status_search = search;
-
-    //     if (typeof isNext === "function") {
-    //       this.lookup_custom1.current_page = isNext
-    //         ? this.lookup_custom1.current_page + 1
-    //         : this.lookup_custom1.current_page - 1;
-    //     } else {
-    //       this.lookup_custom1.current_page = 1;
-    //     }
-
-    //     this.onSearchStatus();
-    //   }, 600);
-    // },
-
-    // async onSearchStatus() {
-    //   if (!this.isLoadingGetStatus) {
-    //     this.isLoadingGetStatus = true;
-
-    //     this.isLoadingGetStatus = false;
-    //   }
-    // },
 
     formReset() {
       this.isEditable = false;

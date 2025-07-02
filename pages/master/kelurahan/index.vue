@@ -24,7 +24,7 @@
       <div
         class="relative p-4 sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <div class="card-body">
+        <div class="card-body overflow-x-auto">
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
@@ -255,9 +255,6 @@ export default {
         );
 
         let roles = {};
-        console.log("kkk_role");
-
-        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
@@ -372,7 +369,6 @@ export default {
         this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error ->", this.error);
       }
 
       this.isLoadingData = false;

@@ -240,9 +240,6 @@ export default {
         );
 
         let roles = {};
-        console.log("kkk_role");
-
-        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
@@ -292,7 +289,6 @@ export default {
     },
 
     onTrashed(item) {
-      console.log("Delete Item:", item);
       if (this.parameters.loadings.isDelete) return;
 
       this.$confirm({
@@ -311,10 +307,6 @@ export default {
               id: item.kota_id,
               params: this.parameters.params,
             });
-
-            console.log("Delete Response:", res);
-            console.log("Delete Result:", this.result);
-            console.log("Delete Error:", this.error);
 
             if (this.result) {
               this.parameters.params.soft_deleted = 1;
@@ -361,7 +353,6 @@ export default {
         this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error ->", this.error);
       }
 
       this.isLoadingData = false;
