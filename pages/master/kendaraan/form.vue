@@ -1,294 +1,174 @@
 <template>
-  <div>
-    <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-      Edit Data
-    </h1>
-    <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
-    <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
-      <form
-        @submit.prevent="validate().then(() => onsubmit(invalid))"
-        autocomplete="off"
-      >
-        <div class="mb-3">
-          <div
-            class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
-          >
-            <ValidationProvider
-              name="jenis_kendaraan_id"
-              rules="required"
-              class="w-full"
+  <portal v-if="visible" to="modal">
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+    <div
+      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100 max-h-screen overflow-y-auto"
+      aria-hidden="true"
+      id="modal-form"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <modal-header-section :self="this" @close="hide" />
+
+          <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
+            <form
+              @submit.prevent="validate().then(() => onSubmit(invalid))"
+              autocomplete="off"
             >
-              <div slot-scope="{ errors, valid }">
-                <label for="jenis_kendaraan_id">Jenis Kendaraan</label>
-                <v-select
-                  label="nama_jenis_kendaraan"
-                  :loading="isLoadingGetJenisKendaraan"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetJenisKendaraan"
-                  v-model="parameters.form.jenis_kendaraan_id"
-                  :reduce="(item) => item.jenis_kendaraan_id"
-                  class="w-full"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom1.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetJenisKendaraan(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
+              <div class="modal-body">
+                <div class="grid gap-2 mb-3 w-full">
+                  <div class="form-group">
+                    <label for=""
+                      >Vendor Operator<span class="text-danger">*</span></label
                     >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetJenisKendaraan(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
+
+                    <v-select
+                      label="nama_vendor"
+                      :loading="isLoadingGetPelanggan"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetPelanggan"
+                      v-model="parameters.form.vendor_id_operator"
+                      :reduce="(item) => item.vendor_id_operator"
                     >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="gudang_id"
-              rules="required"
-              class="w-full"
-            >
-              <div slot-scope="{ errors, valid }">
-                <label for="gudang_id">Gudang</label>
-                <v-select
-                  label="nama_gudang"
-                  :loading="isLoadingGetGudang"
-                  :options="lookup_warehouses.data"
-                  :filterable="false"
-                  @search="onGetGudang"
-                  v-model="parameters.form.gudang_id"
-                  :reduce="(item) => item.gudang_id"
-                  class="w-full"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_warehouses.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_warehouses.current_page > 1"
-                      @click="onGetGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-2 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetPelanggan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetPelanggan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="Nama Pengemudi"
+                      type="text"
+                      name="nama_pengemudi"
+                      :required="true"
+                      v-model="parameters.form.nama_pengemudi"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Alamat<span class="text-danger">*</span></label>
+                    <textarea
+                      name="alamat"
+                      v-model="parameters.form.alamat"
+                      class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <input-form
+                      label="Nomor SIM"
+                      type="text"
+                      name="nomor_sim"
+                      :required="true"
+                      v-model="parameters.form.nomor_sim"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="status_pengemudi">Status Pengemudi</label>
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_pengemudi"
+                      id="status_pengemudi"
+                      v-model="parameters.form.status_pengemudi"
                     >
-                    <span
-                      v-if="
-                        lookup_warehouses.last_page >
-                        lookup_warehouses.current_page
-                      "
-                      @click="onGetGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
+                      <option value="">Pilih</option>
+                      <option value="o">Organik</option>
+                      <option value="s">Outsource</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status_aktif">Status Aktif</label>
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_aktif"
+                      id="status_aktif"
+                      v-model="parameters.form.status_aktif"
                     >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="vendor_id"
-              rules="required"
-              class="w-full"
-            >
-              <div slot-scope="{ errors, valid }">
-                <label for="vendor_id">Vendor</label>
-                <v-select
-                  label="nama_vendor"
-                  :loading="isLoadingGetVendor"
-                  :options="lookup_operator.data"
-                  :filterable="false"
-                  @search="onGetVendor"
-                  v-model="parameters.form.vendor_id"
-                  :reduce="(item) => item.vendor_id"
-                  class="w-full"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_vendor.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_vendor.current_page > 1"
-                      @click="onGetVendor(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_operator.last_page > lookup_operator.current_page
-                      "
-                      @click="onGetVendor(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="standar_jenis_kendaraan_id"
-              rules="required"
-              class="w-full"
-            >
-              <div slot-scope="{ errors, valid }">
-                <label for="standar_jenis_kendaraan_id"
-                  >Standar Jenis Kendaraan</label
-                >
-                <v-select
-                  label="nama_standar_jenis_kendaraan"
-                  :loading="isLoadingGetStandarJenis"
-                  :options="lookup_custom2.data"
-                  :filterable="false"
-                  @search="onGetStandarJenis"
-                  v-model="parameters.form.standar_jenis_kendaraan_id"
-                  :reduce="(item) => item.standar_jenis_kendaraan_id"
-                  class="w-full"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom2.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom2.current_page > 1"
-                      @click="onGetStandarJenis(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom2.last_page > lookup_custom2.current_page
-                      "
-                      @click="onGetStandarJenis(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="nama_kendaraan"
-              rules="required"
-              class="w-full"
-            >
-              <div slot-scope="{ errors, valid }">
-                <input-form
-                  label="Nama Kendaraan"
-                  type="text"
-                  name="nama_kendaraan"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                  v-model="parameters.form.nama_kendaraan"
-                />
-                <div v-if="errors[0]" class="text-danger">
-                  {{ errors[0] }}
+                      <option value="">Pilih</option>
+                      <option value="1">Aktif</option>
+                      <option value="0">Non Aktif</option>
+                    </select>
+                  </div>
                 </div>
+                <div class="mb-3 w-full"></div>
               </div>
-            </ValidationProvider>
-            <div class="form-group" slot-scope="{ errors, valid }">
-              <label>Keterangan Pindah Gudang</label>
-              <textarea
-                name="keterangan_pindah_gudang"
-                v-model="parameters.form.keterangan_pindah_gudang"
-                class="w-full border border-gray-500 rounded-md bg-white outline-none active:outline-none"
+
+              <modal-footer-section
+                :isLoadingForm="isLoadingForm"
+                @reset="formReset"
               />
-            </div>
-          </div>
+            </form>
+          </ValidationObserver>
         </div>
-      </form>
-    </ValidationObserver>
-  </div>
+      </div>
+    </div>
+  </portal>
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 
 export default {
+  middleware: ["isNotAccessable"],
+
   props: ["self"],
 
   async mounted() {
-    await this.onSearchGudang();
-    await this.onSearchJenisKendaraan();
-    await this.onSearchVendor();
-    await this.onSearchStandarJenis();
+    await this.onSearchPelanggan();
   },
 
   data() {
     return {
-      isStopSearchJenisKendaraan: false,
-      isLoadingGetJenisKendaraan: false,
-      jenis_kendaraan_search: "",
+      visible: false,
 
-      isStopSearchGudang: false,
-      isLoadingGetGudang: false,
-      gudang_search: "",
-
-      isStopSearchVendor: false,
-      isLoadingGetVendor: false,
-      vendor_search: "",
-
-      isStopSearchStandarJenis: false,
-      isLoadingGetStandarJenis: false,
-      standar_jenis_search: "",
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
 
       isEditable: false,
       isLoadingForm: false,
-      title: "Kendaraan",
+      title: "Pengemudi",
       parameters: {
-        url: "master/kendaraan",
+        url: "master/pengemudi",
         form: {
-          kendaraan_id: "",
-          jenis_kendaraan_id: "",
-          gudang_id: "",
-          vendor_id: "",
           vendor_id_operator: "",
-          standar_jenis_kendaraan_id: "",
-          nama_kendaraan: "",
-          keterangan_pindah_gudang: "",
-          plat_nomor: "",
-          cc: "",
-          nomor_mesin: "",
-          tahun_buat: "",
-          nomor_sasis: "",
-          stnk: "",
-          kir: "",
-          status_digunakan: "",
-          status_normal: "",
+          nama_pengemudi: "",
+          alamat: "",
+          status_pengemudi: "",
+          nomor_sim: "",
+          status_aktif: "",
         },
       },
     };
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "error",
-      "result",
-      "lookup_warehouses",
-      "lookup_operator",
-      "lookup_custom1",
-      "lookup_custom2",
-      "lookup_custom3",
-    ]),
+    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
   },
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
@@ -298,9 +178,6 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.kendaraan_id
-            ? this.parameters.form.kendaraan_id
-            : "",
         },
       };
 
@@ -315,27 +192,14 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        this.isEditable = false;
         this.parameters.form = {
-          kendaraan_id: "",
-          jenis_kendaraan_id: "",
-          gudang_id: "",
-          vendor_id: "",
           vendor_id_operator: "",
-          standar_jenis_kendaraan_id: "",
-          nama_kendaraan: "",
-          keterangan_pindah_gudang: "",
-          plat_nomor: "",
-          cc: "",
-          nomor_mesin: "",
-          tahun_buat: "",
-          nomor_sasis: "",
-          stnk: "",
-          kir: "",
-          status_digunakan: "",
-          status_normal: "",
+          nama_pengemudi: "",
+          alamat: "",
+          status_pengemudi: "",
+          nomor_sim: "",
+          status_aktif: "",
         };
-        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -343,14 +207,13 @@ export default {
       this.isLoadingForm = false;
     },
 
-    //jenis kendaraan
-    onGetJenisKendaraan(search, isNext) {
+    onGetPelanggan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchJenisKendaraan);
+      clearTimeout(this.isStopSearchPelanggan);
 
-      this.isStopSearchJenisKendaraan = setTimeout(() => {
-        this.jenis_kendaraan_search = search;
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom1.current_page = isNext
@@ -360,147 +223,47 @@ export default {
           this.lookup_custom1.current_page = 1;
         }
 
-        this.onSearchJenisKendaraan();
+        this.onSearchPelanggan();
+        this.onSearchGudang();
       }, 600);
     },
 
-    async onSearchJenisKendaraan() {
-      if (!this.isLoadingGetJenisKendaraan) {
-        this.isLoadingGetJenisKendaraan = true;
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
 
         await this.lookUp({
-          url: "master/jenis-kendaraan/get-jenis-kendaraan",
+          url: "master/vendor/get-vendor",
           lookup: "custom1",
           query:
             "?search=" +
-            this.jenis_kendaraan_search +
+            this.pelanggan_search +
+            "&tipe_vendor=o" +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetJenisKendaraan = false;
+        this.isLoadingGetPelanggan = false;
       }
     },
 
-    //gudang
-    onGetGudang(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGudang);
-
-      this.isStopSearchGudang = setTimeout(() => {
-        this.gudang_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_warehouses.current_page = isNext
-            ? this.lookup_warehouses.current_page + 1
-            : this.lookup_warehouses.current_page - 1;
-        } else {
-          this.lookup_warehouses.current_page = 1;
-        }
-
-        this.onSearchGudang();
-      }, 600);
+    formReset() {
+      this.parameters.form = {
+        vendor_id_operator: "",
+        nama_pengemudi: "",
+        alamat: "",
+        status_pengemudi: "",
+        nomor_sim: "",
+        status_aktif: "",
+      };
     },
 
-    async onSearchGudang() {
-      if (!this.isLoadingGetGudang) {
-        this.isLoadingGetGudang = true;
-
-        await this.lookUp({
-          url: "master/gudang/get-gudang",
-          lookup: "warehouses",
-          query:
-            "?search=" +
-            this.gudang_search +
-            "&page=" +
-            this.lookup_warehouses.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetGudang = false;
-      }
+    show() {
+      this.visible = true;
     },
-
-    //vendor
-    onGetVendor(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchVendor);
-
-      this.isStopSearchVendor = setTimeout(() => {
-        this.vendor_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_operator.current_page = isNext
-            ? this.lookup_operator.current_page + 1
-            : this.lookup_operator.current_page - 1;
-        } else {
-          this.lookup_operator.current_page = 1;
-        }
-
-        this.onSearchVendor();
-      }, 600);
-    },
-
-    async onSearchVendor() {
-      if (!this.isLoadingGetVendor) {
-        this.isLoadingGetVendor = true;
-
-        await this.lookUp({
-          url: "master/vendor/get-vendor",
-          lookup: "operator",
-          query:
-            "?search=" +
-            this.vendor_search +
-            "&page=" +
-            this.lookup_operator.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetVendor = false;
-      }
-    },
-
-    //vendor
-    onGetStandarJenis(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchStandarJenis);
-
-      this.isStopSearchStandarJenis = setTimeout(() => {
-        this.standar_jenis_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
-
-        this.onSearchStandarJenis();
-      }, 600);
-    },
-
-    async onSearchStandarJenis() {
-      if (!this.isLoadingGetStandarJenis) {
-        this.isLoadingGetStandarJenis = true;
-
-        await this.lookUp({
-          url: "master/standar-jenis-kendaraan/get-standar-jenis-kendaraan",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.standar_jenis_search +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetStandarJenis = false;
-      }
+    hide() {
+      this.visible = false;
     },
   },
 };

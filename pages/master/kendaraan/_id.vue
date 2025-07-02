@@ -31,7 +31,11 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="jenis_kendaraan_id">Jenis Kendaraan</label>
+                      <label for="jenis_kendaraan_id"
+                        >Jenis Kendaraan<span class="text-danger"
+                          >*</span
+                        ></label
+                      >
                       <v-select
                         label="nama_jenis_kendaraan"
                         :loading="isLoadingGetJenisKendaraan"
@@ -73,7 +77,9 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="gudang_id">Gudang</label>
+                      <label for="gudang_id"
+                        >Gudang<span class="text-danger">*</span></label
+                      >
                       <v-select
                         label="nama_gudang"
                         :loading="isLoadingGetGudang"
@@ -115,7 +121,9 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="vendor_id">Vendor</label>
+                      <label for="vendor_id"
+                        >Vendor<span class="text-danger">*</span></label
+                      >
                       <v-select
                         label="nama_vendor"
                         :loading="isLoadingGetVendor"
@@ -126,7 +134,16 @@
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
                       >
+                        <!-- <template #search="{ attributes, events }">
+                          <input
+                            class="w-full outline-none active:outline-none"
+                            :required="!form.vendor_id"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template> -->
                         <li
+                          :required="!form.vendor_id"
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
@@ -157,7 +174,11 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="vendor_id">Vendor Operator</label>
+                      <label for="vendor_id"
+                        >Vendor Operator<span class="text-danger"
+                          >*</span
+                        ></label
+                      >
                       <v-select
                         label="nama_vendor"
                         :loading="isLoadingGetVendorOperator"
@@ -200,7 +221,9 @@
                   >
                     <div slot-scope="{ errors, valid }">
                       <label for="standar_jenis_kendaraan_id"
-                        >Standar Jenis Kendaraan</label
+                        >Standar Jenis Kendaraan<span class="text-danger"
+                          >*</span
+                        ></label
                       >
                       <v-select
                         label="nama_standar_jenis_kendaraan"
@@ -247,14 +270,9 @@
                         label="Nama Kendaraan"
                         type="text"
                         name="nama_kendaraan"
-                        :inputClass="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
+                        :required="true"
                         v-model="form.nama_kendaraan"
                       />
-                      <div v-if="errors[0]" class="text-danger">
-                        {{ errors[0] }}
-                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -386,12 +404,7 @@
                 <h1 class="text-xl font-bold">Pengemudi</h1>
                 <div class="w-full flex gap-2">
                   <button
-                    :disabled="
-                      form.status_driver == '' ||
-                      (form.status_driver == 'dedicated' &&
-                        form.pengemudi_kendaraan.length >= 1)
-                    "
-                    @click="addPengemudiKendaraan"
+                    @click="onFormShow"
                     class="bg-[#21b94f] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                   >
                     <i class="fas fa-plus"></i>
@@ -492,11 +505,13 @@
         </ValidationObserver>
       </div>
     </div>
+    <ModalForm ref="formInput" :self="this" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import ModalForm from "./form.vue";
 
 export default {
   middleware: ["checkRoleUserDetail"],
@@ -505,6 +520,10 @@ export default {
     return {
       title: "Kendaraan",
     };
+  },
+
+  components: {
+    ModalForm,
   },
 
   data() {
@@ -938,6 +957,10 @@ export default {
           this.isLoadingForm = false;
           this.$refs.formValidate.reset();
         });
+    },
+
+    onFormShow() {
+      this.$refs.formInput.show();
     },
 
     addPengemudiKendaraan() {

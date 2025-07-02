@@ -181,7 +181,7 @@ export default {
 
   data() {
     return {
-      visible: true,
+      visible: false,
       detail_kendaraan: {},
       parameters: {
         form: {
