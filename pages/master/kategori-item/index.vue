@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Kendaraan</span>
+        <span>Kategori Item</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,9 +15,14 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="gap-5">
+    <div class="flex gap-5">
       <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <FormInput :self="this" ref="formInput" />
+      </div>
+      <div
+        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -32,19 +37,19 @@
                   <th
                     @click="
                       onSort(
-                        'jenis_kendaraan_id',
+                        'kode_kategori_item',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Jenis Kendaraan</div>
+                      <div>Kode Kategori Item</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'jenis_kendaraan_id' &&
+                            parameters.params.order == 'kode_kategori_item' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -53,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'jenis_kendaraan_id' &&
+                            parameters.params.order == 'kode_kategori_item' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -65,19 +70,19 @@
                   <th
                     @click="
                       onSort(
-                        'gudang_id',
+                        'nama_kategori_item',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Gudang</div>
+                      <div>Nama Kategori Item</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'gudang_id' &&
+                            parameters.params.order == 'nama_kategori_item' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -86,7 +91,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'gudang_id' &&
+                            parameters.params.order == 'nama_kategori_item' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -98,19 +103,19 @@
                   <th
                     @click="
                       onSort(
-                        'vendor_id',
+                        'status',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Vendor</div>
+                      <div>Status</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.order == 'status' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -119,7 +124,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.order == 'status' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -128,9 +133,6 @@
                       </div>
                     </div>
                   </th>
-                  <th>Nama Kendaraan</th>
-                  <th>Plat Nomor</th>
-                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -145,14 +147,11 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
-                  <td>{{ item.gudang.nama_gudang }}</td>
-                  <td>{{ item.vendor.nama_vendor }}</td>
-                  <td>{{ item.nama_kendaraan }}</td>
-                  <td>{{ item.plat_nomor }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                  <td>
+                    {{ item.kode_kategori_item }}
                   </td>
+                  <td>{{ item.nama_kategori_item }}</td>
+                  <td>{{ item.status }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -176,21 +175,19 @@
         </div>
       </div>
     </div>
-    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form.vue";
-import ModalDetail from "./detail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Kendaraan",
+      title: "Kategori Item",
     };
   },
 
@@ -201,7 +198,6 @@ export default {
 
   components: {
     FormInput,
-    ModalDetail,
   },
 
   mounted() {
@@ -220,14 +216,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -243,39 +239,26 @@ export default {
 
   data() {
     return {
-      title: "Kendaraan",
+      title: "Kategori Item",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/kendaraan",
+        url: "master/kategori-item",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "kendaraan_id",
+          order: "kategori_item_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          kendaraan_id: "",
-          jenis_kendaraan_id: "",
-          gudang_id: "",
-          vendor_id: "",
-          vendor_id_operator: "",
-          standar_jenis_kendaraan_id: "",
-          nama_kendaraan: "",
-          keterangan_pindah_gudang: "",
-          plat_nomor: "",
-          cc: "",
-          nomor_mesin: "",
-          tahun_buat: "",
-          nomor_sasis: "",
-          stnk: "",
-          kir: "",
-          status_digunakan: "",
-          status_normal: "",
+          kategori_item_id: "",
+          kode_kategori_item: "",
+          nama_kategori_item: "",
+          status: 0,
         },
         loadings: {
           isDelete: false,
@@ -308,7 +291,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kendaraan"
+          (item) => item.rute == "group-item"
         );
 
         let roles = {};
@@ -338,18 +321,25 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/kendaraan/add");
+      this.$refs.formInput.parameters.form = {
+        kode_kategori_item: "",
+        nama_kategori_item: "",
+        status: 0,
+      };
+      this.$refs.formInput.isEditable = false;
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
     },
 
     onEdit(item) {
-      this.$router.push("/master/kendaraan/" + item.kendaraan_id);
-    },
-
-    onDetail(item) {
-      this.$refs.modalDetail.form = {
+      this.$refs.formInput.isEditable = true;
+      this.$refs.formInput.parameters.form = {
         ...item,
       };
-      this.$refs.modalDetail.show();
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
     },
 
     onTrashed(item) {
@@ -368,7 +358,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.kendaraan_id,
+              id: item.kategori_item_id,
               params: this.parameters.params,
             });
 
