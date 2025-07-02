@@ -27,7 +27,7 @@
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
+                  <div v-if="errors[0]" class="text-danger text-xs">
                     {{ errors[0] }}
                   </div>
                 </div>

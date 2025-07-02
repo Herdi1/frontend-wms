@@ -1,0 +1,243 @@
+<template>
+  <div id="modal-form">
+    <div class="modal-dialog">
+      <div>
+        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+          Edit Data
+        </h1>
+        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+        <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
+          <form
+            @submit.prevent="validate().then(() => onSubmit(invalid))"
+            autocomplete="off"
+          >
+            <div class="modal-body mt-4">
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="w-4/12"
+                  >Vendor <span class="text-danger">*</span></label
+                >
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_vendor"
+                  :loading="isLoadingGetVendor"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetVendor"
+                  :reduce="(item) => item.vendor_id"
+                  v-model="parameters.form.vendor_id_operator"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetVendor(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetVendor(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Nama Pengemudi"
+                  type="text"
+                  name="nama_pengemudi"
+                  v-model="parameters.form.nama_pengemudi"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group">
+                <label for="status_aktif">
+                  Status Aktif <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.status_aktif"
+                >
+                  <option value="">Pilih Status</option>
+                  <option value="0">Tidak Aktif</option>
+                  <option value="1">Aktif</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="status_pengemudi">
+                  Status Pengemudi <span class="text-danger">*</span></label
+                >
+                <select
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.status_pengemudi"
+                >
+                  <option value="">Pilih Status Pengemudi</option>
+                  <option value="o">Organik</option>
+                  <option value="s">Outsource</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="alamat">Alamat Pengemudi</label>
+                <textarea
+                  placeholder="Alamat Pengemudi"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.alamat"
+                ></textarea>
+              </div>
+            </div>
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
+          </form>
+        </ValidationObserver>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ValidationProvider } from "vee-validate";
+import { mapActions, mapState } from "vuex";
+export default {
+  props: ["self"],
+
+  data() {
+    return {
+      isStopSearchVendor: false,
+      isLoadingGetVendor: false,
+      vendor_search: "",
+
+      isEditable: false,
+      isLoadingForm: false,
+      title: "Pengemudi",
+      parameters: {
+        url: "master/pengemudi",
+        form: {
+          vendor_id_operator: "",
+          nama_pengemudi: "",
+          alamat: "",
+          status_pengemudi: "",
+          status_aktif: "",
+        },
+      },
+    };
+  },
+
+  async mounted() {
+    await this.onSearchVendor();
+  },
+
+  computed: {
+    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
+  },
+
+  methods: {
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+
+    async onSubmit(isInvalid) {
+      if (isInvalid || this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+
+      let parameters = {
+        ...this.parameters,
+        form: {
+          ...this.parameters.form,
+          id: this.parameters.form.pegemudi_id
+            ? this.parameters.form.pegemudi_id
+            : "",
+        },
+      };
+
+      if (this.isEditable) {
+        await this.updateData(parameters);
+      } else {
+        await this.addData(parameters);
+      }
+
+      if (this.result == true) {
+        this.self.onLoad(this.self.parameters.params.page);
+        this.$toaster.success(
+          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
+        );
+        this.isEditable = false;
+        this.parameters.form = {
+          vendor_id_operator: "",
+          nama_pengemudi: "",
+          alamat: "",
+          status_pengemudi: "",
+          status_aktif: "",
+        };
+        this.$refs.ruteProvider.reset();
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
+      }
+
+      this.isLoadingForm = false;
+    },
+
+    onGetVendor(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendor);
+
+      this.isStopSearchVendor = setTimeout(() => {
+        this.vendor_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchVendor();
+      }, 600);
+    },
+
+    async onSearchVendor() {
+      if (!this.isLoadingGetVendor) {
+        this.isLoadingGetVendor = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.vendor_search +
+            "&tipe_vendor=o" +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendor = false;
+        console.log(this.lookup_custom1.data);
+      }
+    },
+
+    formReset() {
+      this.isEditable = false;
+      this.parameters.form = {
+        vendor_id_operator: "",
+        nama_pengemudi: "",
+        alamat: "",
+        status_pengemudi: "",
+        status_aktif: "",
+      };
+    },
+  },
+};
+</script>

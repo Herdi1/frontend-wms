@@ -25,6 +25,7 @@
                     id="modul"
                     v-model="parameters.form.modul"
                     @change="onSelectModul"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <option value="">Pilih</option>
                     <option
@@ -53,6 +54,7 @@
                     id="proses"
                     v-model="parameters.form.proses"
                     :disabled="!parameters.form.modul"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <option value="">Pilih</option>
                     <option
@@ -68,26 +70,7 @@
                   </div>
                 </div>
               </ValidationProvider>
-              <!-- <ValidationProvider
-                name="modul"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Modul"
-                    type="text"
-                    name="modul"
-                    v-model="parameters.form.modul"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider> -->
+
               <ValidationProvider
                 name="kode_status_transaksi"
                 rules="required"

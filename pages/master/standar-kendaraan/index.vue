@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Wilayah</span>
+        <span>Standar Jenis Kendaraan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,20 +15,33 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex sm:flex-col md:flex-row gap-5">
-      <div class="sm:w-full md:w-4/12 bg-white rounded-md p-2 px-4">
+    <div class="flex flex-col gap-5">
+      <div class="w-full bg-white rounded-md p-2 px-4">
         <FormInput :self="this" ref="formInput" />
       </div>
-      <div class="sm:w-full md:w-8/12 bg-white rounded-md p-2 px-4">
+      <div class="w-full relative bg-white rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div>
+        <div class="overflow-x-auto">
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">No</th>
-                <th
+                <th>Jenis Kendaraan</th>
+                <th>Gudang</th>
+                <th>Kecepatan Isi</th>
+                <th>Kecepatan Kosong</th>
+                <th>Standar Muat</th>
+                <th>Standar Bongkar</th>
+                <th>Standar Istirahat</th>
+                <th>Minimal Muat</th>
+                <th>Maksimal Muat</th>
+                <th>Konsumsi BBM</th>
+                <th>Biaya (km)</th>
+                <th>Biaya BBM Muat</th>
+                <th>Biaya BBM Kosong</th>
+                <!-- <th
                   @click="
                     onSort(
                       'nama_wilayah',
@@ -60,7 +73,7 @@
                       ></i>
                     </div>
                   </div>
-                </th>
+                </th> -->
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
               </tr>
@@ -74,7 +87,19 @@
                     1
                   }}
                 </td>
-                <td>{{ item.nama_wilayah }}</td>
+                <td>{{ item.jenis_kendaraan_id }}</td>
+                <td>{{ item.gudang_id }}</td>
+                <td>{{ item.kecepatan_isi }}</td>
+                <td>{{ item.kecepatan_kosong }}</td>
+                <td>{{ item.standar_muat }}</td>
+                <td>{{ item.standar_bongkar }}</td>
+                <td>{{ item.standar_istirahat }}</td>
+                <td>{{ item.minimal_muat }}</td>
+                <td>{{ item.maksimal_muat }}</td>
+                <td>{{ item.konsumsi_bbm }}</td>
+                <td>{{ item.nilai }}</td>
+                <td>{{ item.biaya_bbm_muat }}</td>
+                <td>{{ item.biaya_bbm_kosong }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -104,7 +129,7 @@ export default {
 
   head() {
     return {
-      title: "Wilayah",
+      title: "Standar Jenis Kendaraan",
     };
   },
 
@@ -151,7 +176,7 @@ export default {
 
   data() {
     return {
-      title: "Metode Pengambilan",
+      title: "Standar Jenis Kendaraan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -170,18 +195,30 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/wilayah",
+        url: "master/standar-jenis-kendaraan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "wilayah_id",
+          order: "standar_jenis_kendaraan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            nama_wilayah: "",
+            jenis_kendaraan_id: "",
+            gudang_id: "",
+            kecapatan_isi: "",
+            kecepatan_kosong: "",
+            standar_muat: "",
+            standar_bongkar: "",
+            standar_istirahat: "",
+            minimal_muat: "",
+            maksimal_muat: "",
+            konsumsi_bbm: "",
+            nilai: "",
+            biaya_bbm_muat: "",
+            biaya_bbm_kosong: "",
           },
         },
         loadings: {
@@ -204,7 +241,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "wilayah"
+          (item) => item.rute == "standar-jenis-kendaraan"
         );
 
         let roles = {};
@@ -234,7 +271,19 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        nama_wilayah: "",
+        jenis_kendaraan_id: "",
+        gudang_id: "",
+        kecapatan_isi: "",
+        kecepatan_kosong: "",
+        standar_muat: "",
+        standar_bongkar: "",
+        standar_istirahat: "",
+        minimal_muat: "",
+        maksimal_muat: "",
+        konsumsi_bbm: "",
+        nilai: "",
+        biaya_bbm_muat: "",
+        biaya_bbm_kosong: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -297,7 +346,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.wilayah_id,
+              id: item.standar_jenis_kendaraan_id,
               params: this.parameters.params,
             });
 
@@ -323,7 +372,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.wilayah_id,
+        id: item.standar_jenis_kendaraan_id,
         params: this.parameters.params,
       });
 

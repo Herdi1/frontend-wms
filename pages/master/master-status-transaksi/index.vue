@@ -263,7 +263,6 @@ export default {
     },
 
     onEdit(item) {
-      console.log("Editing Item:", item);
       this.$refs.formInput.isEditable = true;
       this.$refs.formInput.parameters.form = {
         ...item,
@@ -289,7 +288,6 @@ export default {
       await this.getData(this.parameters);
 
       if (this.result == true) {
-        // console.log("data", this.data);
         loader.hide();
 
         if (page == 1) {

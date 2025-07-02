@@ -1,7 +1,7 @@
 <template>
   <div class="mb-2">
     <label :for="name"
-      >{{ label }}<span v-if="required" class="text-danger">*</span></label
+      >{{ label }} <span v-if="required" class="text-danger">*</span></label
     >
     <input
       :placeholder="label"

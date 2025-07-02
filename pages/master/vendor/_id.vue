@@ -1,6 +1,6 @@
 <template>
-  <portal class="section">
-    <div class="section-body mb-10">
+  <section class="section">
+    <div class="section-body mb-10" v-if="!isLoadingPage">
       <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
         Edit Data
       </h1>
@@ -103,13 +103,15 @@
               </ValidationProvider>
 
               <!-- Alias -->
-              <div class="form-group w-1/3">
-                <input-form
-                  label="Singkatan Pelanggan"
-                  type="text"
-                  name="alias"
-                  v-model="parameters.form.alias"
-                />
+              <div class="mt-2 w-1/3">
+                <div class="form-group">
+                  <input-form
+                    label="Singkatan Pelanggan"
+                    type="text"
+                    name="alias"
+                    v-model="parameters.form.alias"
+                  />
+                </div>
               </div>
             </div>
 
@@ -205,13 +207,15 @@
                 </div>
               </ValidationProvider>
               <!-- Kode Pos Vendor -->
-              <div class="form-group w-1/3">
-                <input-form
-                  label="Kode Pos Vendor"
-                  type="text"
-                  name="kode_pos"
-                  v-model="parameters.form.kode_pos"
-                />
+              <div class="w-1/3 mt-2">
+                <div class="form-group">
+                  <input-form
+                    label="Kode Pos Vendor"
+                    type="text"
+                    name="kode_pos"
+                    v-model="parameters.form.kode_pos"
+                  />
+                </div>
               </div>
               <!-- User PIC -->
               <div class="w-1/3 mt-2">
@@ -674,11 +678,7 @@
               </ValidationProvider>
 
               <!-- Radius  -->
-              <ValidationProvider
-                name="radius"
-                rules="required"
-                class="w-1/3 mt-2"
-              >
+              <ValidationProvider name="radius" rules="required" class="w-1/3">
                 <div class="form-group col-12" slot-scope="{ errors, valid }">
                   <label for="radius">Radius</label>
                   <money
@@ -757,7 +757,7 @@
         </form>
       </ValidationObserver>
     </div>
-  </portal>
+  </section>
 </template>
 
 <script>
@@ -767,7 +767,10 @@ export default {
   props: ["self"],
 
   data() {
+    let id = parseInt(this.$route.params.id);
     return {
+      id,
+
       isStopSearchNegara: false,
       isLoadingGetNegara: false,
       negara_search: "",
@@ -804,7 +807,8 @@ export default {
       isLoadingGetLokasi: false,
       lokasi_search: "",
 
-      isEditable: false,
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Vendor",
       parameters: {
@@ -845,6 +849,22 @@ export default {
         },
       },
     };
+  },
+
+  async created() {
+    try {
+      if (this.isEditable) {
+        let response = await this.$axios.get("master/vendor/" + this.id);
+        if (response.data && response.data.tipe_vendor) {
+          response.data.tipe_vendor = response.data.tipe_vendor.trim();
+        }
+
+        this.parameters.form = response.data;
+        this.isLoadingPage = false;
+      }
+    } catch (error) {
+      this.$router.push("/master/vendor");
+    }
   },
 
   async mounted() {
@@ -905,10 +925,15 @@ export default {
         await this.addData(parameters);
       }
 
+      // let url = "master/vendor";
+      // if (this.isEditable) {
+      //   url = "master/vendor/" + this.id;
+      // }
+
       if (this.result == true) {
-        this.self.onLoad(this.self.parameters.params.page);
+        // this.self.onLoad(this.self.parameters.params.page);
         this.$toaster.success(
-          "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
+          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
         this.isEditable = false;
@@ -947,6 +972,7 @@ export default {
           radius: "",
         };
         this.$refs.ruteProvider.reset();
+        this.$router.back();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

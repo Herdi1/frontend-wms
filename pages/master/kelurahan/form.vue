@@ -346,7 +346,6 @@ export default {
         this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error", this.error);
       }
 
       this.isLoadingForm = false;
@@ -378,7 +377,7 @@ export default {
         this.isLoadingGetNegara = true;
 
         await this.lookUp({
-          url: "master/negara",
+          url: "master/negara/get_negara",
           lookup: "custom1",
           query:
             "?search=" +
@@ -389,7 +388,6 @@ export default {
         });
 
         this.isLoadingGetNegara = false;
-        console.log(this.lookup_custom1.data);
       }
     },
 
@@ -432,7 +430,6 @@ export default {
         });
 
         this.isLoadingGetProvinsi = false;
-        console.log(this.lookup_custom2.data);
       }
     },
 
@@ -475,7 +472,6 @@ export default {
         });
 
         this.isLoadingGetKota = false;
-        console.log(this.lookup_custom3.data);
       }
     },
 
@@ -517,7 +513,6 @@ export default {
         });
 
         this.isLoadingGetKecamatan = false;
-        console.log(this.lookup_beam.data);
       }
     },
 

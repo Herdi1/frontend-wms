@@ -16,9 +16,6 @@
       </h5>
     </div>
     <div class="section-body">
-      <!-- <div class="row">
-        <div class="col-12 col-md-12">
-          <div class="card"> -->
       <div class="flex sm:flex-col md:flex-row gap-5">
         <div class="panel md:w-[45%] sm:w-full bg-white rounded-md p-2 px-4">
           <AddForm :self="this" ref="AddForm" />
@@ -59,13 +56,6 @@
             >
               <thead>
                 <tr>
-                  <!-- <th class="w-1/12">
-                          <input
-                            type="checkbox"
-                            id="checkAll"
-                            @click="onCheckAll"
-                          />
-                        </th> -->
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -107,14 +97,6 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <!-- <td>
-                          <input
-                            type="checkbox"
-                            name="checkboxs[]"
-                            :value="item.id"
-                            v-model="parameters.form.checkboxs"
-                          />
-                        </td> -->
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -139,13 +121,6 @@
                       <small-delete-button @click="onTrashed(item)" />
                     </span>
                   </td>
-                  <!-- <button
-                          class="btn btn-sm btn-success"
-                          @click="onRestored(item)"
-                          v-if="item.deleted_at"
-                        >
-                          <i class="fas fa-redo"></i>
-                        </button> -->
                 </tr>
               </tbody>
 
@@ -165,34 +140,9 @@
           </div>
         </div>
       </div>
-      <!-- </div>
-        </div>
-      </div> -->
     </div>
 
     <ModalDetail :self="this" ref="modalDetail" />
-
-    <!-- <FormInput :self="this" ref="formInput" /> -->
-
-    <!--
-    <filter-section
-      :self="this"
-      ref="form-filter">
-      <template>
-       <div class="col-md-12">
-          <div class="form-group">
-            <label for="role">By Role</label>
-            <select name="role" class="form-control"
-              v-model="parameters.params.role">
-              <option value="all" selected>Pilih</option>
-              <option value="0">SuperAdmin</option>
-              <option value="1">Manager Area</option>
-            </select>
-          </div>
-        </div>
-      </template>
-    </filter-section>
-    -->
   </section>
 </template>
 
@@ -283,7 +233,6 @@ export default {
         grants: [],
       };
       this.$refs.AddForm.isEditable = false;
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.AddForm?.$refs?.formValidate?.reset();
       });
@@ -295,8 +244,6 @@ export default {
         ...item,
         type_option: "multiselect",
         grants: item.menu_grants.map((item) => {
-          console.log("Processing grant: ", item);
-
           return {
             id: item.role_id,
             operators: item.operators,
@@ -305,12 +252,9 @@ export default {
         }),
       };
 
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.AddForm?.$refs?.formValidate?.reset();
       });
-      // window.$("#modal-form").modal("show");
-      // this.$refs["form-input"].$refs["form-validate"].reset();
     },
 
     onDetail(item) {

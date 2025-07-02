@@ -16,9 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="w-full bg-white rounded-md p-2 px-4">
+      <!-- <div class="w-full bg-white rounded-md p-2 px-4">
         <FormInput :self="this" ref="formInput" />
-      </div>
+      </div> -->
       <div class="relative w-full bg-white rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
@@ -71,6 +71,7 @@
                 <th>Longitude</th>
                 <th>Latitude</th>
                 <th>Radius</th>
+                <th class="w-[5%] text-center">Details</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
               </tr>
@@ -96,6 +97,9 @@
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.radius }}</td>
                 <td>
+                  <small-detail-button @click="onDetail(item)" />
+                </td>
+                <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
                 <td>
@@ -113,12 +117,14 @@
         </div>
       </div>
     </div>
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form";
+import ModalDetail from "./detail";
 export default {
   middleware: ["checkRoleUser"],
 
@@ -135,6 +141,7 @@ export default {
 
   components: {
     FormInput,
+    ModalDetail,
   },
 
   mounted() {
@@ -153,7 +160,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -260,9 +267,6 @@ export default {
         );
 
         let roles = {};
-        console.log("kkk_role");
-
-        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
@@ -289,54 +293,18 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        vendor_id_induk: "",
-        tipe_badan_hukum_id: "",
-        alias: "",
-        kode_referensi: "",
-        kode_vendor: "",
-        nama_vendor: "",
-        alamat_vendor: "",
-        kelurahan_id: "",
-        kecamatan_id: "",
-        kota_id: "",
-        provinsi_id: "",
-        negara_id: "",
-        kode_pos: "",
-        nama_pemilik: "",
-        alamat_pemilik: "",
-        no_telp: "",
-        no_hp: "",
-        nik_pemilik: "",
-        no_npwp: "",
-        no_npwp_pemilik: "",
-        email: "",
-        lokasi_id: "",
-        nama_cp: "",
-        telp_cp: "",
-        hp_cp: "",
-        nomor_siup: "",
-        group: "",
-        user_id_pic: "",
-        tipe_vendor: "",
-        longitude: "",
-        latitude: "",
-        radius: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/vendor/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
+      this.$router.push("/master/vendor/" + item.vendor_id);
+    },
+
+    onDetail(item) {
+      this.$refs.modalDetail.parameters.form = {
         ...item,
       };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$refs.modalDetail.show();
     },
 
     onTrashed(item) {
@@ -380,11 +348,6 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
-
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
         canCancel: true,
@@ -403,7 +366,6 @@ export default {
         this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error ->", this.error);
       }
 
       this.isLoadingData = false;

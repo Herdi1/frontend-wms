@@ -243,7 +243,6 @@ export default {
         this.$refs.ruteProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error", this.error);
       }
 
       this.isLoadingForm = false;
@@ -289,7 +288,6 @@ export default {
           this.isLoadingGetNegara = false;
         } catch (error) {
           this.isLoadingGetNegara = false;
-          console.error("Error", error);
         }
       }
     },
@@ -332,7 +330,6 @@ export default {
         });
 
         this.isLoadingGetProvinsi = false;
-        console.log(this.lookup_custom2.data);
       }
     },
 

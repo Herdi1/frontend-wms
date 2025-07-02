@@ -241,11 +241,9 @@ export default {
         nama_tipe_badan_hukum: "",
       };
       this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });
-      // this.$refs.formInput.$refs.formValidate.reset();
     },
 
     onEdit(item) {

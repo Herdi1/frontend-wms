@@ -234,7 +234,6 @@ export default {
         this.isLoadingPage = false;
       })
       .catch((err) => {
-        console.log(err);
         this.$globalErrorToaster(this.$toaster, err);
       });
   },
@@ -258,136 +257,12 @@ export default {
           this.$toaster.success("Berhasil update data");
         })
         .catch((err) => {
-          console.log(err);
           this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;
         });
     },
-
-    // onSubmitLogo() {
-    //   if (this.isLoadingFormLogo) return;
-
-    //   this.isLoadingFormLogo = true;
-
-    //   let formData = new FormData(document.getElementById("form-logo"));
-    //   formData.append("_method", "PUT");
-
-    //   this.$axios
-    //     .post("/setting/logo", formData)
-    //     .then(() => {
-    //       this.logo = "";
-    //       document.getElementById("form-logo").reset();
-    //       this.$toaster.success("Berhasil upload logo");
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       this.$globalErrorToaster(this.$toaster, err);
-    //     })
-    //     .finally(() => {
-    //       this.isLoadingFormLogo = false;
-    //     });
-    // },
-
-    // onSubmitSignature() {
-    //   if (this.isLoadingFormSignature) return;
-
-    //   this.isLoadingFormSignature = true;
-
-    //   let formData = new FormData(document.getElementById("form-signature"));
-    //   formData.append("_method", "PUT");
-
-    //   this.$axios
-    //     .post("/setting/signature", formData)
-    //     .then(() => {
-    //       this.signature = "";
-    //       document.getElementById("form-signature").reset();
-    //       this.$toaster.success("Berhasil upload tanda tangan");
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       this.$globalErrorToaster(this.$toaster, err);
-    //     })
-    //     .finally(() => {
-    //       this.isLoadingFormSignature = false;
-    //     });
-    // },
-
-    // onSubmitLogoPrint() {
-    //   if (this.isLoadingFormLogoPrint) return;
-
-    //   this.isLoadingFormLogoPrint = true;
-
-    //   let formData = new FormData(document.getElementById("form-logo-print"));
-    //   formData.append("_method", "PUT");
-
-    //   this.$axios
-    //     .post("/setting/logo-print", formData)
-    //     .then(() => {
-    //       this.logo_print = "";
-    //       document.getElementById("form-logo-print").reset();
-    //       this.$toaster.success("Berhasil upload logo print");
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       this.$globalErrorToaster(this.$toaster, err);
-    //     })
-    //     .finally(() => {
-    //       this.isLoadingFormLogoPrint = false;
-    //     });
-    // },
-
-    // onLogoChange(evt) {
-    //   if (this.isLoadingFormLogo || !evt.target.files[0]) return;
-
-    //   if (
-    //     !["image/jpeg", "image/jpg", "image/png"].includes(
-    //       evt.target.files[0].type
-    //     )
-    //   ) {
-    //     this.$toaster.error("Gambar tidak valid");
-    //     evt.target.value = "";
-    //     return;
-    //   }
-
-    //   this.logo = evt.target.files[0].name;
-    //   this.form.logo = URL.createObjectURL(evt.target.files[0]);
-    // },
-
-    // onSignatureChange(evt) {
-    //   if (this.isLoadingFormSignature || !evt.target.files[0]) return;
-
-    //   if (
-    //     !["images/jpeg", "image/jpg", "image/png"].includes(
-    //       evt.target.files[0].type
-    //     )
-    //   ) {
-    //     this.$toaster.error("Gambar tidak valid");
-    //     evt.target.value = "";
-    //     return;
-    //   }
-
-    //   this.signature = evt.target.files[0].name;
-    //   this.form.signature = URL.createObjectURL(evt.target.files[0]);
-    // },
-
-    // onLogoPrintChange(evt) {
-    //   if (this.isLoadingFormLogoPrint || !evt.target.files[0]) return;
-
-    //   if (
-    //     !["images/jpeg", "image/jpg", "image/png"].includes(
-    //       evt.target.files[0].type
-    //     )
-    //   ) {
-    //     this.$toaster.error("Gambar tidak valid");
-    //     evt.target.value = "";
-    //     return;
-    //   }
-
-    //   this.logo_print = evt.target.files[0].name;
-    //   this.form.logo_print = URL.createObjectURL(evt.target.files[0]);
-    // },
   },
 };
 </script>

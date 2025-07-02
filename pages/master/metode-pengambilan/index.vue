@@ -267,7 +267,6 @@ export default {
       await this.getData(this.parameters);
 
       if (this.result == true) {
-        // console.log("data", this.data);
         loader.hide();
 
         if (page == 1) {

@@ -90,10 +90,6 @@ export default {
     ...mapState("moduleApi", ["error", "result"]),
   },
 
-  // methods: {
-  //   ...mapActions("moduleApi", ["addData", "updateData"]),
-  // },
-
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData"]),
 

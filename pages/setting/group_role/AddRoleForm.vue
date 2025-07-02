@@ -1,18 +1,11 @@
 <template>
   <div to="modal">
-    <!-- <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div> -->
-    <!-- <div
-      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
-      aria-hidden="true"
-      id="modal-form"
-    > -->
     <div class="relative">
       <div class="modal-content overflow-auto max-h-[90vh]">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-            Edit Data
-          </h1>
-          <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
-        <!-- <modal-header-section :self="this" @close="hide" /> -->
+          Edit Data
+        </h1>
+        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
 
         <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
           <form
@@ -102,11 +95,6 @@
                                   <div class="text-sm">
                                     {{ option.judul }}
                                   </div>
-                                  <!-- <div class="text-right">
-                                      {{
-                                        option.parent ? option.parent.title : ""
-                                      }}
-                                    </div> -->
                                 </div>
                               </template>
                               <template #search="{ attributes, events }">
@@ -411,7 +399,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
@@ -499,7 +486,6 @@ export default {
             return {
               operators: item.operators,
               menu_id: item.menu_id.menu_id,
-
             };
           }),
         },
@@ -516,7 +502,6 @@ export default {
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
-        // window.$("#modal-form").modal("hide");
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -592,12 +577,6 @@ export default {
         grants: [],
       };
     },
-    // show() {
-    //   this.visible = true;
-    // },
-    // hide() {
-    //   this.visible = false;
-    // },
   },
 };
 </script>
