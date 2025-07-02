@@ -18,18 +18,26 @@
               <div class="modal-body">
                 <div class="grid gap-2 mb-3 w-full">
                   <div class="form-group">
-                    <label for=""
+                    <label for="vendor_id_operator"
                       >Vendor Operator<span class="text-danger">*</span></label
                     >
-
+                    <!-- <v-select
+                      label="nama_vendor"
+                      :loading="isLoadingGetPelanggan"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetPelanggan"
+                      :reduce="(item) => item.vendor_id"
+                      v-model="parameters.form.vendor_id_operator"
+                    > -->
                     <v-select
                       label="nama_vendor"
                       :loading="isLoadingGetPelanggan"
                       :options="lookup_custom1.data"
                       :filterable="false"
                       @search="onGetPelanggan"
+                      :reduce="(item) => item.vendor_id"
                       v-model="parameters.form.vendor_id_operator"
-                      :reduce="(item) => item.vendor_id_operator"
                     >
                       <li
                         slot-scope="{ search }"
@@ -133,7 +141,7 @@ export default {
 
   props: ["self"],
 
-  async mounted() {
+  async created() {
     await this.onSearchPelanggan();
   },
 

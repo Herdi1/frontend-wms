@@ -342,7 +342,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/master/material/" + item.id);
+      this.$router.push("/master/kendaraan/" + item.kendaraan_id);
     },
 
     onDetail(item) {

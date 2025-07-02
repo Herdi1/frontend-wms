@@ -23,14 +23,12 @@
                       label="Kode Tipe Pajak"
                       type="text"
                       name="kode_tipe_pajak"
+                      :required="true"
                       v-model="parameters.form.kode_tipe_pajak"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -43,14 +41,30 @@
                       label="Nama Tipe Pajak"
                       type="text"
                       name="nama_tipe_pajak"
+                      :required="true"
                       v-model="parameters.form.nama_tipe_pajak"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="nilai"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nilai Pajak dalam Persen(%)"
+                      type="text"
+                      name="nilai"
+                      :required="true"
+                      v-model="parameters.form.nilai"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
                   </div>
                 </ValidationProvider>
               </div>
@@ -84,6 +98,7 @@ export default {
         form: {
           kode_tipe_pajak: "",
           nama_tipe_pajak: "",
+          nilai: 0,
         },
       },
     };
@@ -127,6 +142,7 @@ export default {
         this.parameters.form = {
           kode_tipe_pajak: "",
           nama_tipe_pajak: "",
+          nilai: 0,
         };
 
         this.$refs.formValidate.reset();
@@ -142,6 +158,7 @@ export default {
       this.parameters.form = {
         kode_tipe_pajak: "",
         nama_tipe_pajak: "",
+        nilai: 0,
       };
     },
   },

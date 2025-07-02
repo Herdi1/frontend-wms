@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Tipe PPN</span>
+        <span>Item Produk Master</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,14 +15,9 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div class="gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -37,19 +32,19 @@
                   <th
                     @click="
                       onSort(
-                        'kode_tipe_pajak',
+                        'kode_wms',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Tipe Pajak</div>
+                      <div>Kode Item</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'kode_wms' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +53,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_tipe_pajak' &&
+                            parameters.params.order == 'kode_wms' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -70,19 +65,19 @@
                   <th
                     @click="
                       onSort(
-                        'nama_tipe_pajak',
+                        'nama_item',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Tipe Pajak</div>
+                      <div>Nama Item</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'nama_item' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -91,7 +86,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_tipe_pajak' &&
+                            parameters.params.order == 'nama_item' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -103,19 +98,19 @@
                   <th
                     @click="
                       onSort(
-                        'nilai',
+                        'satuan_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nilai Pajak</div>
+                      <div>Satuan</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nilai' &&
+                            parameters.params.order == 'satuan_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -124,7 +119,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nilai' &&
+                            parameters.params.order == 'satuan_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -133,6 +128,9 @@
                       </div>
                     </div>
                   </th>
+                  <th>Berat</th>
+                  <th>Volume</th>
+                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -147,9 +145,22 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_tipe_pajak }}</td>
-                  <td>{{ item.nama_tipe_pajak }}</td>
-                  <td>{{ item.nilai }} %</td>
+                  <td>{{ item.kode_wms }}</td>
+                  <td>{{ item.nama_item }}</td>
+                  <td>
+                    {{
+                      item.satuan ? item.satuan.nama_satuan : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{ item.berat + " " + item.satuan_berat.nama_satuan }}
+                  </td>
+                  <td>
+                    {{ item.valume + " " + item.satuan_volume.nama_satuan }}
+                  </td>
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -173,19 +184,21 @@
         </div>
       </div>
     </div>
+    <!-- <ModalDetail :self="this" ref="modalDetail" /> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
+// import FormInput from "./form.vue";
+// import ModalDetail from "./detail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Tipe PPN",
+      title: "Item Produk Master",
     };
   },
 
@@ -194,9 +207,10 @@ export default {
     this.onLoad();
   },
 
-  components: {
-    FormInput,
-  },
+  // components: {
+  //   FormInput,
+  //   ModalDetail,
+  // },
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -214,14 +228,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -237,26 +251,50 @@ export default {
 
   data() {
     return {
-      title: "Tipe PPN",
+      title: "Item Produk Master",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/tipe-ppn",
+        url: "master/item",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "tipe_ppn_id",
+          order: "item_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          tipe_ppn_id: "",
-          kode_tipe_pajak: "",
-          nama_tipe_pajak: "",
-          nilai: 0,
+          item_id: "",
+          kode_wms: "",
+          kode_alternatif: "",
+          kode_alternatif_2: "",
+          nama_item: "",
+          satuan_id: "",
+          satuan_id_berat: "",
+          berat: "",
+          satuan_id_volume: "",
+          volume: "",
+          satuan_id_stocklevel: "",
+          value_stocklevel: "",
+          keterangan: "",
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
+          batas_bawah: "",
+          batas_atas: "",
+          kategori_id_1: "",
+          kategori_id_2: "",
+          kategori_id_3: "",
+          kategori_id_4: "",
+          kategori_id_5: "",
+          kapasitas_palet: "",
+          maksimum_tumpukan: "",
+          supplier_id: "",
         },
         loadings: {
           isDelete: false,
@@ -289,7 +327,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "tipe-ppn"
+          (item) => item.rute == "item"
         );
 
         let roles = {};
@@ -319,25 +357,18 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_tipe_pajak: "",
-        nama_tipe_pajak: "",
-        nilai: 0,
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/item-produk-master/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
+      this.$router.push("/master/item-produk-master/" + item.id);
+    },
+
+    onDetail(item) {
+      this.$refs.modalDetail.parameters.form = {
         ...item,
       };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$refs.modalDetail.show();
     },
 
     onTrashed(item) {
@@ -356,7 +387,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.tipe_ppn_id,
+              id: item.item_id,
               params: this.parameters.params,
             });
 

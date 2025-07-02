@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Kendaraan
+          {{ isEditable ? "Edit" : "Tambah" }} Item
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -15,35 +15,43 @@
       <div class="w-full">
         <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
           <form
-            @submit.prevent="validate().then(() => onSubmit(invalid))"
+            @submit.prevent="validate().then(() => onsubmit(invalid))"
             autocomplete="off"
           >
             <div class="w-full md:flex gap-3">
               <div
-                class="mb-3 p-4 w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
                 >
+                  <div class="w-full">
+                    <input-form
+                      label="Nama Item"
+                      type="text"
+                      name="nama_item"
+                      :required="true"
+                      v-model="form.nama_item"
+                    />
+                  </div>
+
                   <ValidationProvider
-                    name="jenis_kendaraan_id"
+                    name="satuan_id"
                     rules="required"
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="jenis_kendaraan_id"
-                        >Jenis Kendaraan<span class="text-danger"
-                          >*</span
-                        ></label
+                      <label for="satuan_id"
+                        >Satuan<span class="text-danger">*</span></label
                       >
                       <v-select
-                        label="nama_jenis_kendaraan"
-                        :loading="isLoadingGetJenisKendaraan"
+                        label="nama_satuan"
+                        :loading="isLoadingGetSatuan"
                         :options="lookup_custom1.data"
                         :filterable="false"
-                        @search="onGetJenisKendaraan"
-                        v-model="form.jenis_kendaraan_id"
-                        :reduce="(item) => item.jenis_kendaraan_id"
+                        @search="onGetSatuan"
+                        v-model="form.satuan_id"
+                        :reduce="(item) => item.satuan_id"
                         class="w-full"
                       >
                         <li
@@ -54,7 +62,7 @@
                         >
                           <span
                             v-if="lookup_custom1.current_page > 1"
-                            @click="onGetJenisKendaraan(search, false)"
+                            @click="onGetSatuan(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
@@ -63,7 +71,7 @@
                               lookup_custom1.last_page >
                               lookup_custom1.current_page
                             "
-                            @click="onGetJenisKendaraan(search, true)"
+                            @click="onGetSatuan(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -71,50 +79,173 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider
-                    name="gudang_id"
-                    rules="required"
-                    class="w-full"
-                  >
-                    <div slot-scope="{ errors, valid }">
-                      <label for="gudang_id"
-                        >Gudang<span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_gudang"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_warehouses.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        v-model="form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
-                        class="w-full"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_warehouses.data.length || search"
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <input-form
+                      label="Berat"
+                      type="text"
+                      name="berat"
+                      :required="true"
+                      v-model="form.berat"
+                    />
+                    <ValidationProvider
+                      name="satuan_id_berat"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_berat"
+                          >Satuan Berat<span class="text-danger">*</span></label
                         >
-                          <span
-                            v-if="lookup_warehouses.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanBerat"
+                          :options="lookup_warehouses.data"
+                          :filterable="false"
+                          @search="onGetSatuanBerat"
+                          v-model="form.satuan_id_berat"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_warehouses.data.length || search"
                           >
-                          <span
-                            v-if="
-                              lookup_warehouses.last_page >
-                              lookup_warehouses.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
+                            <span
+                              v-if="lookup_warehouses.current_page > 1"
+                              @click="onGetSatuanBerat(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_warehouses.last_page >
+                                lookup_warehouses.current_page
+                              "
+                              @click="onGetSatuanBerat(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <input-form
+                      label="Volume"
+                      type="text"
+                      name="volume"
+                      :required="true"
+                      v-model="form.volume"
+                    />
+                    <ValidationProvider
+                      name="satuan_id_volume"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_volume"
+                          >Satuan Volume<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanVolume"
+                          :options="lookup_regus.data"
+                          :filterable="false"
+                          @search="onGetSatuanVolume"
+                          v-model="form.satuan_id_volume"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_regus.data.length || search"
                           >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
+                            <span
+                              v-if="lookup_regus.current_page > 1"
+                              @click="onGetSatuanVolume(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_regus.last_page >
+                                lookup_regus.current_page
+                              "
+                              @click="onGetSatuanVolume(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <input-form
+                      label="Stocklevel"
+                      type="text"
+                      name="value_stocklevel"
+                      :required="true"
+                      v-model="form.value_stocklevel"
+                    />
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Satuan Stocklevel<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
                   <ValidationProvider
                     name="vendor_id"
                     rules="required"
@@ -181,10 +312,10 @@
                       >
                       <v-select
                         label="nama_vendor"
-                        :loading="isLoadingGetVendorOperator"
+                        :loading="isLoadingGetSatuanStocklevel"
                         :options="lookup_resellers.data"
                         :filterable="false"
-                        @search="onGetVendorOperator"
+                        @search="onGetSatuanStockLevel"
                         v-model="form.vendor_id_operator"
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
@@ -197,7 +328,7 @@
                         >
                           <span
                             v-if="lookup_resellers.current_page > 1"
-                            @click="onGetVendorOperator(search, false)"
+                            @click="onGetSatuanStockLevel(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
@@ -206,7 +337,7 @@
                               lookup_resellers.last_page >
                               lookup_resellers.current_page
                             "
-                            @click="onGetVendorOperator(search, true)"
+                            @click="onGetSatuanStockLevel(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -215,12 +346,12 @@
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
-                    name="standar_jenis_kendaraan_id"
+                    name="standar_satuan_id"
                     rules="required"
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="standar_jenis_kendaraan_id"
+                      <label for="standar_satuan_id"
                         >Standar Jenis Kendaraan<span class="text-danger"
                           >*</span
                         ></label
@@ -231,8 +362,8 @@
                         :options="lookup_custom2.data"
                         :filterable="false"
                         @search="onGetStandarJenis"
-                        v-model="form.standar_jenis_kendaraan_id"
-                        :reduce="(item) => item.standar_jenis_kendaraan_id"
+                        v-model="form.standar_satuan_id"
+                        :reduce="(item) => item.standar_satuan_id"
                         class="w-full"
                       >
                         <li
@@ -384,13 +515,12 @@
                   </div>
 
                   <div class="form-group md:col-span-2 lg:col-span-3">
-                    <label>Keterangan Pindah Gudang</label>
+                    <label for="keterangan">Keterangan</label>
                     <textarea
-                      name="keterangan_pindah_gudang"
-                      v-model="form.keterangan_pindah_gudang"
+                      name="keterangan"
+                      v-model="form.keterangan"
                       class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                     ></textarea>
-                    <p>*Diisi jika terjadi perpindahan gudang</p>
                   </div>
                 </div>
                 <modal-footer-section
@@ -398,7 +528,7 @@
                   @reset="formReset()"
                 />
               </div>
-              <div
+              <!-- <div
                 class="p-4 w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <h1 class="text-xl font-bold">Pengemudi</h1>
@@ -414,7 +544,7 @@
                     :disabled="
                       form.status_driver == '' ||
                       (form.status_driver == 'dedicated' &&
-                        form.pengemudi_kendaraans.length >= 1)
+                        form.pengemudi_kendaraan.length >= 1)
                     "
                     @click="addPengemudiKendaraan"
                     class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -423,16 +553,10 @@
                     <p class="text-xs font-medium">Tambah Daftar Pengemudi</p>
                   </button>
                 </div>
-                <div
-                  class="table-responsive"
-                  style="max-height: 500px"
-                  :style="
-                    form.pengemudi_kendaraans.length ? 'min-height:500px' : ''
-                  "
-                >
+                <div class="table-responsive">
                   <table
                     class="table mt-5 h-full"
-                    v-if="form.pengemudi_kendaraans.length > 0"
+                    v-if="form.pengemudi_kendaraan.length > 0"
                   >
                     <thead>
                       <tr>
@@ -443,7 +567,7 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(item, index) in form.pengemudi_kendaraans"
+                        v-for="(item, index) in form.pengemudi_kendaraan"
                         :key="index"
                         style="border-top: 0.5px solid lightgray"
                       >
@@ -485,13 +609,13 @@
                         <td>
                           <select
                             class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            name="status"
-                            id="status"
+                            name="status_normal"
+                            id="status_normal"
                             v-model="item.status"
                           >
                             <option value="">Pilih</option>
-                            <option value="1 ">Active</option>
-                            <option value="0 ">Inactive</option>
+                            <option value="0">Inactive</option>
+                            <option value="1">Active</option>
                           </select>
                         </td>
                         <td class="text-center text-gray-600">
@@ -505,19 +629,19 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> -->
             </div>
           </form>
         </ValidationObserver>
       </div>
     </div>
-    <ModalForm ref="formInput" :self="this" />
+    <!-- <ModalForm ref="formInput" :self="this" /> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-import ModalForm from "./form.vue";
+// import ModalForm from "./form.vue";
 
 export default {
   middleware: ["checkRoleUserDetail"],
@@ -528,9 +652,9 @@ export default {
     };
   },
 
-  components: {
-    ModalForm,
-  },
+  // components: {
+  //   ModalForm,
+  // },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -542,21 +666,25 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      isStopSearchJenisKendaraan: false,
-      isLoadingGetJenisKendaraan: false,
-      jenis_kendaraan_search: "",
+      isStopSearchSatuan: false,
+      isLoadingGetSatuan: false,
+      satuan_search: "",
 
-      isStopSearchGudang: false,
-      isLoadingGetGudang: false,
-      gudang_search: "",
+      isStopSearchSatuanBerat: false,
+      isLoadingGetSatuanBerat: false,
+      satuan_berat_search: "",
+
+      isStopSearchSatuanVolume: false,
+      isLoadingGetSatuanVolume: false,
+      satuan_volume_search: "",
+
+      isStopSearchSatuanStocklevel: false,
+      isLoadingGetSatuanStocklevel: false,
+      satuan_stocklevel_search: "",
 
       isStopSearchVendor: false,
       isLoadingGetVendor: false,
       vendor_search: "",
-
-      isStopSearchVendorOperator: false,
-      isLoadingGetVendorOperator: false,
-      vendor_operator_search: "",
 
       isStopSearchStandarJenis: false,
       isLoadingGetStandarJenis: false,
@@ -566,16 +694,21 @@ export default {
       isLoadingGetDriver: false,
       driver_search: "",
 
-      title: "Kendaraan",
+      title: "Item Produk Master",
 
       url: "master/kendaraan",
       form: {
         kendaraan_id: "",
-        jenis_kendaraan_id: "",
-        gudang_id: "",
+        satuan_id: "",
+        satuan_id_berat: "",
+        berat: "",
+        satuan_id_volume: "",
+        volume: "",
+        satuan_id_stocklevel: "",
+        value_stocklevel: "",
         vendor_id: "",
         vendor_id_operator: "",
-        standar_jenis_kendaraan_id: "",
+        standar_satuan_id: "",
         nama_kendaraan: "",
         keterangan_pindah_gudang: "",
         plat_nomor: "",
@@ -588,16 +721,16 @@ export default {
         status_digunakan: "",
         status_normal: "",
         status_driver: "",
-        pengemudi_kendaraans: [],
+        pengemudi_kendaraan: [],
       },
 
       default_form: {
-        kendaraan_id: "",
-        jenis_kendaraan_id: "",
-        gudang_id: "",
+        item_id: "",
+        satuan_id: "",
+        satuan_id_berat: "",
         vendor_id: "",
         vendor_id_operator: "",
-        standar_jenis_kendaraan_id: "",
+        standar_satuan_id: "",
         nama_kendaraan: "",
         keterangan_pindah_gudang: "",
         plat_nomor: "",
@@ -609,7 +742,7 @@ export default {
         kir: "",
         status_digunakan: "",
         status_normal: "",
-        pengemudi_kendaraans: [],
+        pengemudi_kendaraan: [],
       },
     };
   },
@@ -625,17 +758,16 @@ export default {
           }
         });
 
-        this.form.pengemudi_kendaraans = response.data.pengemudi_kendaraan.map(
+        this.form.pengemudi_kendaraan = response.data.pengemudi_kendaraan.map(
           (item) => {
             return {
               ...item,
-              pengemudi_kendaraan_id: item || null,
+              pengemudi_kendaraan_id: item.pengemudi_kendaraan || null,
             };
           }
         );
 
         this.isLoadingPage = false;
-        console.log(this.form.pengemudi_kendaraans);
       }
     } catch (error) {
       this.$router.push("/master/kendaraan");
@@ -643,12 +775,13 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchGudang();
-    await this.onSearchJenisKendaraan();
-    await this.onSearchVendor();
-    await this.onSearchVendorOperator();
-    await this.onSearchStandarJenis();
-    await this.onSearchDriver();
+    await this.onSearchSatuanBerat();
+    await this.onSearchSatuanVolume();
+    await this.onSearchSatuan();
+    await this.onSearchSatuanStocklevel();
+    // await this.onSearchVendor();
+    // await this.onSearchStandarJenis();
+    // await this.onSearchDriver();
   },
 
   computed: {
@@ -662,19 +795,20 @@ export default {
       "lookup_custom3",
       "lookup_suppliers",
       "lookup_resellers",
+      "lookup_regus",
     ]),
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
     //jenis kendaraan
-    onGetJenisKendaraan(search, isNext) {
+    onGetSatuan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchJenisKendaraan);
+      clearTimeout(this.isStopSearchSatuan);
 
-      this.isStopSearchJenisKendaraan = setTimeout(() => {
-        this.jenis_kendaraan_search = search;
+      this.isStopSearchSatuan = setTimeout(() => {
+        this.satuan_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom1.current_page = isNext
@@ -684,37 +818,37 @@ export default {
           this.lookup_custom1.current_page = 1;
         }
 
-        this.onSearchJenisKendaraan();
+        this.onSearchSatuan();
       }, 600);
     },
 
-    async onSearchJenisKendaraan() {
-      if (!this.isLoadingGetJenisKendaraan) {
-        this.isLoadingGetJenisKendaraan = true;
+    async onSearchSatuan() {
+      if (!this.isLoadingGetSatuan) {
+        this.isLoadingGetSatuan = true;
 
         await this.lookUp({
-          url: "master/jenis-kendaraan/get-jenis-kendaraan",
+          url: "master/satuan/get-satuan",
           lookup: "custom1",
           query:
             "?search=" +
-            this.jenis_kendaraan_search +
+            this.satuan_search +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetJenisKendaraan = false;
+        this.isLoadingGetSatuan = false;
       }
     },
 
-    //gudang
-    onGetGudang(search, isNext) {
+    //satuan berat
+    onGetSatuanBerat(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchGudang);
+      clearTimeout(this.isStopSearchSatuanBerat);
 
-      this.isStopSearchGudang = setTimeout(() => {
-        this.gudang_search = search;
+      this.isStopSearchSatuanBerat = setTimeout(() => {
+        this.satuan_berat_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_warehouses.current_page = isNext
@@ -724,26 +858,68 @@ export default {
           this.lookup_warehouses.current_page = 1;
         }
 
-        this.onSearchGudang();
+        this.onSearchSatuanBerat();
       }, 600);
     },
 
-    async onSearchGudang() {
-      if (!this.isLoadingGetGudang) {
-        this.isLoadingGetGudang = true;
+    async onSearchSatuanBerat() {
+      if (!this.isLoadingGetSatuanBerat) {
+        this.isLoadingGetSatuanBerat = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/satuan/get-satuan",
           lookup: "warehouses",
           query:
             "?search=" +
-            this.gudang_search +
+            this.satuan_berat_search +
+            "&jenis_satuan=B" +
             "&page=" +
             this.lookup_warehouses.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetGudang = false;
+        this.isLoadingGetSatuanBerat = false;
+      }
+    },
+
+    //satuan berat
+    onGetSatuanVolume(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSatuanVolume);
+
+      this.isStopSearchSatuanVolume = setTimeout(() => {
+        this.satuan_volume_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_regus.current_page = isNext
+            ? this.lookup_regus.current_page + 1
+            : this.lookup_regus.current_page - 1;
+        } else {
+          this.lookup_regus.current_page = 1;
+        }
+
+        this.onSearchSatuanVolume();
+      }, 600);
+    },
+
+    async onSearchSatuanVolume() {
+      if (!this.isLoadingGetSatuanVolume) {
+        this.isLoadingGetSatuanVolume = true;
+
+        await this.lookUp({
+          url: "master/satuan/get-satuan",
+          lookup: "regus",
+          query:
+            "?search=" +
+            this.satuan_volume_search +
+            "&jenis_satuan=V" +
+            "&page=" +
+            this.lookup_regus.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSatuanVolume = false;
       }
     },
 
@@ -789,13 +965,13 @@ export default {
     },
 
     //vendor operator
-    onGetVendorOperator(search, isNext) {
+    onGetSatuanStockLevel(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchVendorOperator);
+      clearTimeout(this.isStopSearchSatuanStocklevel);
 
-      this.isStopSearchVendorOperator = setTimeout(() => {
-        this.vendor_operator_search = search;
+      this.isStopSearchSatuanStocklevel = setTimeout(() => {
+        this.satuan_stocklevel_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_resellers.current_page = isNext
@@ -805,27 +981,27 @@ export default {
           this.lookup_resellers.current_page = 1;
         }
 
-        this.onSearchVendorOperator();
+        this.onSearchSatuanStocklevel();
       }, 600);
     },
 
-    async onSearchVendorOperator() {
-      if (!this.isLoadingGetVendorOperator) {
-        this.isLoadingGetVendorOperator = true;
+    async onSearchSatuanStocklevel() {
+      if (!this.isLoadingGetSatuanStocklevel) {
+        this.isLoadingGetSatuanStocklevel = true;
 
         await this.lookUp({
-          url: "master/vendor/get-vendor",
+          url: "master/satuan/get-satuan",
           lookup: "resellers",
           query:
             "?search=" +
-            this.vendor_operator_search +
-            "&tipe_vendor=o" +
+            this.satuan_stocklevel_search +
+            "&jenis_satuan=Q" +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetVendorOperator = false;
+        this.isLoadingGetSatuanStocklevel = false;
       }
     },
 
@@ -896,7 +1072,7 @@ export default {
 
         await this.lookUp({
           url: "master/pengemudi/get-pengemudi",
-          lookup: "suppliers",
+          lookup: "custom2",
           query:
             "?search=" +
             this.driver_search +
@@ -912,7 +1088,7 @@ export default {
     onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
-      if (!this.form.pengemudi_kendaraans.length) {
+      if (!this.form.pengemudi_kendaraan.length) {
         this.$toaster.error("Pengemudi Kendaraan Masih Kosong");
         return;
       }
@@ -925,10 +1101,9 @@ export default {
         ...this.form,
       };
 
-      formData.pengemudi_kendaraans = formData.pengemudi_kendaraans.map(
+      formData.pengemudi_kendaraan = formData.pengemudi_kendaraan.map(
         (item) => {
           return {
-            ...item,
             pengemudi_kendaraan_id:
               typeof item.pengemudi_kendaraan_id == "object"
                 ? item.pengemudi_kendaraan_id.pengemudi_kendaraan_id
@@ -936,8 +1111,6 @@ export default {
           };
         }
       );
-
-      console.log(this.form);
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -956,10 +1129,9 @@ export default {
           if (!this.isEditable) {
             this.form = {
               ...this.default_form,
-              pengemudi_kendaraans: [],
+              pengemudi_kendaraan: [],
             };
           }
-          this.$router.back();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -975,8 +1147,8 @@ export default {
     },
 
     addPengemudiKendaraan() {
-      this.form.pengemudi_kendaraans.push({
-        pengemudi_kendaraans_id: null,
+      this.form.pengemudi_kendaraan.push({
+        pengemudi_kendaraan_id: null,
         pengemudi_id: null,
         status: null,
       });
@@ -984,12 +1156,12 @@ export default {
 
     onChangeStatusDriver() {
       if (this.form.status_driver === "dedicated") {
-        this.form.pengemudi_kendaraans = [];
+        this.form.pengemudi_kendaraan = [];
       }
     },
 
     onDeleteItem(index) {
-      this.form.pengemudi_kendaraans = this.form.pengemudi_kendaraans.filter(
+      this.form.pengemudi_kendaraan = this.form.pengemudi_kendaraan.filter(
         (_, itemIndex) => index != itemIndex
       );
     },
@@ -997,7 +1169,7 @@ export default {
     formReset() {
       this.$refs.formValidate.reset();
       this.form = this.default_form;
-      this.form.pengemudi_kendaraans = [];
+      this.form.pengemudi_kendaraan = [];
     },
   },
 };
