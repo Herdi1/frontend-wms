@@ -252,8 +252,8 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="vendor_id"
-                        >Vendor<span class="text-danger">*</span></label
+                      <label for="group_item_id_1"
+                        >Supplier<span class="text-danger">*</span></label
                       >
                       <v-select
                         label="nama_vendor"
@@ -299,45 +299,55 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
+
                   <ValidationProvider
-                    name="vendor_id_operator"
+                    name="vendor_id"
                     rules="required"
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="vendor_id_operator"
-                        >Vendor Operator<span class="text-danger"
+                      <label for="group_item_id_1"
+                        >Group Item Level 1<span class="text-danger"
                           >*</span
                         ></label
                       >
                       <v-select
                         label="nama_vendor"
-                        :loading="isLoadingGetSatuanStocklevel"
-                        :options="lookup_resellers.data"
+                        :loading="isLoadingGetVendor"
+                        :options="lookup_operator.data"
                         :filterable="false"
-                        @search="onGetSatuanStockLevel"
-                        v-model="form.vendor_id_operator"
+                        @search="onGetVendor"
+                        v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
                       >
+                        <!-- <template #search="{ attributes, events }">
+                          <input
+                            class="w-full outline-none active:outline-none"
+                            :required="!form.vendor_id"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template> -->
                         <li
+                          :required="!form.vendor_id"
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
-                          v-if="lookup_resellers.data.length || search"
+                          v-if="lookup_operator.data.length || search"
                         >
                           <span
-                            v-if="lookup_resellers.current_page > 1"
-                            @click="onGetSatuanStockLevel(search, false)"
+                            v-if="lookup_operator.current_page > 1"
+                            @click="onGetVendor(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
                           <span
                             v-if="
-                              lookup_resellers.last_page >
-                              lookup_resellers.current_page
+                              lookup_operator.last_page >
+                              lookup_operator.current_page
                             "
-                            @click="onGetSatuanStockLevel(search, true)"
+                            @click="onGetVendor(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -345,45 +355,245 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Group Item Level 2<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Group Item Level 3<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Group Item Level 4<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Group Item Level 5<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
                   <ValidationProvider
-                    name="standar_satuan_id"
+                    name="vendor_id"
                     rules="required"
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="standar_satuan_id"
-                        >Standar Jenis Kendaraan<span class="text-danger"
+                      <label for="group_item_id_1"
+                        >Kategori Item Level 1<span class="text-danger"
                           >*</span
                         ></label
                       >
                       <v-select
-                        label="nilai"
-                        :loading="isLoadingGetStandarJenis"
-                        :options="lookup_custom2.data"
+                        label="nama_vendor"
+                        :loading="isLoadingGetVendor"
+                        :options="lookup_operator.data"
                         :filterable="false"
-                        @search="onGetStandarJenis"
-                        v-model="form.standar_satuan_id"
-                        :reduce="(item) => item.standar_satuan_id"
+                        @search="onGetVendor"
+                        v-model="form.vendor_id"
+                        :reduce="(item) => item.vendor_id"
                         class="w-full"
                       >
+                        <!-- <template #search="{ attributes, events }">
+                          <input
+                            class="w-full outline-none active:outline-none"
+                            :required="!form.vendor_id"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template> -->
                         <li
+                          :required="!form.vendor_id"
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom2.data.length || search"
+                          v-if="lookup_operator.data.length || search"
                         >
                           <span
-                            v-if="lookup_custom2.current_page > 1"
-                            @click="onGetStandarJenis(search, false)"
+                            v-if="lookup_operator.current_page > 1"
+                            @click="onGetVendor(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
                           <span
                             v-if="
-                              lookup_custom2.last_page >
-                              lookup_custom2.current_page
+                              lookup_operator.last_page >
+                              lookup_operator.current_page
                             "
-                            @click="onGetStandarJenis(search, true)"
+                            @click="onGetVendor(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -391,127 +601,255 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider
-                    name="nama_kendaraan"
-                    rules="required"
-                    class="w-full"
-                  >
-                    <div slot-scope="{ errors, valid }">
-                      <input-form
-                        label="Nama Kendaraan"
-                        type="text"
-                        name="nama_kendaraan"
-                        :required="true"
-                        v-model="form.nama_kendaraan"
-                      />
-                    </div>
-                  </ValidationProvider>
 
-                  <div>
-                    <input-form
-                      label="Plat Nomor Kendaraan"
-                      type="text"
-                      name="plat_nomor"
-                      v-model="form.plat_nomor"
-                    />
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Kategori Item Level 2<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Kategori Item Level 3<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
                   </div>
 
-                  <div>
-                    <input-form
-                      label="CC Kendaraan"
-                      type="text"
-                      name="cc"
-                      v-model="form.cc"
-                    />
-                  </div>
-
-                  <div>
-                    <input-form
-                      label="Nomor Mesin"
-                      type="text"
-                      name="nomor_mesin"
-                      v-model="form.nomor_mesin"
-                    />
-                  </div>
-
-                  <div>
-                    <input-form
-                      label="Tahun Dibuat"
-                      type="text"
-                      name="tahun_buat"
-                      v-model="form.tahun_buat"
-                    />
-                  </div>
-
-                  <div>
-                    <input-form
-                      label="Nomor Sasis"
-                      type="text"
-                      name="nomor_sasis"
-                      v-model="form.nomor_sasis"
-                    />
-                  </div>
-
-                  <div>
-                    <input-form
-                      label="Nomor STNK"
-                      type="text"
-                      name="stnk"
-                      v-model="form.stnk"
-                    />
-                  </div>
-
-                  <div>
-                    <input-form
-                      label="Nomor KIR"
-                      type="text"
-                      name="kir"
-                      v-model="form.kir"
-                    />
-                  </div>
-
-                  <div class="grid grid-flow-row grid-cols-2 gap-2 w-full">
-                    <div class="form-group">
-                      <label for="status_digunakan">Status Digunakan</label>
-                      <select
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        name="status_digunakan"
-                        id="status_digunakan"
-                        v-model="form.status_digunakan"
-                      >
-                        <option value="">Pilih</option>
-                        <option value="0">Tidak Digunakan</option>
-                        <option value="1">Digunakan</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="status_normal">Status Normal</label>
-                      <select
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        name="status_normal"
-                        id="status_normal"
-                        v-model="form.status_normal"
-                      >
-                        <option value="">Pilih</option>
-                        <option value="0">Rusak</option>
-                        <option value="1">Prima</option>
-                      </select>
-                    </div>
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Kategori Item Level 4<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="satuan_id_stocklevel"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_stocklevel"
+                          >Kategori Item Level 5<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanStocklevel"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetSatuanStockLevel"
+                          v-model="form.satuan_id_stocklevel"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetSatuanStockLevel(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetSatuanStockLevel(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
                   </div>
 
                   <div class="form-group">
-                    <label for="status_driver">Status Driver</label>
-                    <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      name="status_driver"
-                      id="status_driver"
-                      v-model="form.status_driver"
-                      @change="onChangeStatusDriver()"
-                    >
-                      <option value="">Pilih</option>
-                      <option value="dedicated">Dedicated</option>
-                      <option value="share">Share</option>
-                    </select>
+                    <input-form
+                      label="Batas Atas"
+                      type="text"
+                      name="batas_atas"
+                      :required="true"
+                      v-model="form.batas_atas"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="Batas Bawah"
+                      type="text"
+                      name="batas_bawah"
+                      :required="true"
+                      v-model="form.batas_bawah"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="Jumlah Palet"
+                      type="text"
+                      name="jumlah_palet"
+                      :required="true"
+                      v-model="form.jumlah_palet"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="kapasitas Palet"
+                      type="text"
+                      name="kapasitas_palet"
+                      :required="true"
+                      v-model="form.kapasitas_palet"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="Kebutuhan Palet"
+                      type="text"
+                      name="kebutuhan_palet"
+                      :required="true"
+                      v-model="form.kebutuhan_palet"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-form
+                      label="Maksimal Tumpukan"
+                      type="text"
+                      name="maksimal_tumpukan"
+                      :required="true"
+                      v-model="form.maksimal_tumpukan"
+                    />
                   </div>
 
                   <div class="form-group md:col-span-2 lg:col-span-3">
@@ -648,7 +986,7 @@ export default {
 
   head() {
     return {
-      title: "Kendaraan",
+      title: "Item Master",
     };
   },
 
@@ -682,9 +1020,25 @@ export default {
       isLoadingGetSatuanStocklevel: false,
       satuan_stocklevel_search: "",
 
-      isStopSearchVendor: false,
-      isLoadingGetVendor: false,
-      vendor_search: "",
+      isStopSearchGroupItem1: false,
+      isLoadingGetGroupItem1: false,
+      group_item_1_search: "",
+
+      isStopSearchGroupItem2: false,
+      isLoadingGetGroupItem2: false,
+      group_item_2_search: "",
+
+      isStopSearchGroupItem3: false,
+      isLoadingGetGroupItem3: false,
+      group_item_3_search: "",
+
+      isStopSearchGroupItem4: false,
+      isLoadingGetGroupItem4: false,
+      group_item_4_search: "",
+
+      isStopSearchGroupItem5: false,
+      isLoadingGetGroupItem5: false,
+      group_item_5_search: "",
 
       isStopSearchStandarJenis: false,
       isLoadingGetStandarJenis: false,
@@ -796,12 +1150,18 @@ export default {
       "lookup_suppliers",
       "lookup_resellers",
       "lookup_regus",
+
+      "lookup_grade",
+      "lookup_beam",
+      "lookup_packing",
+      "lookup_defects",
+      "lookup_department",
     ]),
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
-    //jenis kendaraan
+
     onGetSatuan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -841,7 +1201,6 @@ export default {
       }
     },
 
-    //satuan berat
     onGetSatuanBerat(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 

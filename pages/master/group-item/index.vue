@@ -151,11 +151,11 @@
                     {{
                       item.group_item_induk
                         ? item.group_item_induk.nama_group_item
-                        : item.group_item_id_induk
+                        : "Tidak Memiliki Group Induk"
                     }}
                   </td>
                   <td>{{ item.nama_group_item }}</td>
-                  <td>{{ item.status }}</td>
+                  <td>Level {{ item.status }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>

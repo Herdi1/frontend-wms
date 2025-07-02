@@ -156,8 +156,17 @@
                         }}
                       </td>
                       <td>
-                        <span class="badge badge-success ml-1 mr-1 mb-2">
-                          {{ item.status === "1 " ? "Aktif" : "Non Aktif" }}
+                        <span
+                          v-if="item.status === '1 '"
+                          class="bg-green-500 text-white py-1 px-2 rounded-md ml-1 mr-1 mb-2"
+                        >
+                          Aktif
+                        </span>
+                        <span
+                          v-if="item.status === '0 '"
+                          class="bg-red-500 text-white py-1 px-2 rounded-md ml-1 mr-1 mb-2"
+                        >
+                          Non Aktif
                         </span>
                       </td>
                     </tr>

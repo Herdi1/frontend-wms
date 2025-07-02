@@ -39,6 +39,7 @@
                     name="status"
                     id="status"
                     v-model="parameters.form.status"
+                    @change="onSelectStatus"
                   >
                     <option value="">Pilih</option>
                     <option :value="1">Level 1</option>
@@ -48,7 +49,7 @@
                     <option :value="5">Level 5</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" v-show="parameters.form.status > 1">
                   <label for=""
                     >Group Item Induk<span class="text-danger">*</span></label
                   >
@@ -208,15 +209,19 @@ export default {
           query:
             "?search=" +
             this.pelanggan_search +
-            "&group_item_id_induk=" +
-            (this.parameters.form.status - 1) +
+            "&status=" +
+            (parseInt(this.parameters.form.status) - 1) +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetPelanggan = false;
+        this.isLoadingGetGroupItem = false;
       }
+    },
+
+    onSelectStatus() {
+      this.onSearchGroupItem();
     },
 
     formReset() {
