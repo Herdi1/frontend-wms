@@ -26,7 +26,7 @@
                     name="modul"
                     id="modul"
                     v-model="parameters.form.modul"
-                    @change="onSelectModul"
+                    @change="onLoadProses"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <option value="">Pilih</option>
@@ -105,6 +105,24 @@
                   />
                 </div>
               </ValidationProvider>
+              <ValidationProvider
+                name="progres"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Progres Transaksi"
+                    type="text"
+                    name="progres"
+                    :required="true"
+                    v-model="parameters.form.progres"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
               <div class="form-group">
                 <label for="keterangan_transaksi"
                   >Keterangan Transaksi<span class="text-danger">*</span></label
@@ -150,6 +168,7 @@ export default {
           kode_status_transaksi: "",
           nama_status_transaksi: "",
           keterangan_transaksi: "",
+          progres: "",
         },
       },
     };
@@ -205,8 +224,9 @@ export default {
           kode_status_transaksi: "",
           nama_status_transaksi: "",
           keterangan_transaksi: "",
+          progres: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -225,6 +245,7 @@ export default {
         });
 
         this.isLoadingGetModul = false;
+        this.onLoadProses();
       }
     },
     async onLoadProses() {
@@ -238,11 +259,12 @@ export default {
         });
 
         this.isLoadingGetProses = false;
+
+        console.log(this.parameters.form);
       }
     },
 
     onSelectModul() {
-      this.parameters.form.jenis_proses_transaksi_id = "";
       this.onLoadProses();
     },
 
@@ -254,6 +276,7 @@ export default {
         kode_status_transaksi: "",
         nama_status_transaksi: "",
         keterangan_transaksi: "",
+        progres: "",
       };
     },
   },

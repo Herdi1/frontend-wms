@@ -1883,8 +1883,6 @@ export default {
     },
 
     onSubmit(isInvalid) {
-      console.log(isInvalid);
-      console.log(this.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
@@ -1894,8 +1892,6 @@ export default {
       let formData = {
         ...this.form,
       };
-
-      formData.supplier_id = 1;
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -1917,7 +1913,7 @@ export default {
             };
           }
 
-          this.$router.back();
+          this.$router.push("master/item-product-master");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -1926,30 +1922,6 @@ export default {
           this.isLoadingForm = false;
           this.$refs.formValidate.reset();
         });
-    },
-
-    onFormShow() {
-      this.$refs.formInput.show();
-    },
-
-    addPengemudiKendaraan() {
-      this.form.pengemudi_kendaraan.push({
-        pengemudi_kendaraan_id: null,
-        pengemudi_id: null,
-        status: null,
-      });
-    },
-
-    onChangeStatusDriver() {
-      if (this.form.status_driver === "dedicated") {
-        this.form.pengemudi_kendaraan = [];
-      }
-    },
-
-    onDeleteItem(index) {
-      this.form.pengemudi_kendaraan = this.form.pengemudi_kendaraan.filter(
-        (_, itemIndex) => index != itemIndex
-      );
     },
 
     formReset() {

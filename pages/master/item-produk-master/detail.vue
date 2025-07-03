@@ -87,46 +87,52 @@
               <div class="col">
                 <div>
                   <label class="font-bold" for="uername">Supplier</label>
-                  <div>{{ this.detail_item.supplier.nama_suppier }}</div>
+                  <div>
+                    {{
+                      this.detail_item.supplier
+                        ? this.detail_item.supplier.nama_supplier
+                        : "Supplier tidak ditemukan"
+                    }}
+                  </div>
                 </div>
               </div>
 
-              <div class="col">
+              <div class="col" v-if="this.detail_item.group_item_1">
                 <div>
                   <label class="font-bold" for="uername">Group Item 1</label>
                   <div>{{ this.detail_item.group_item_1.nama_group_item }}</div>
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.group_item_2">
+              <div class="col" v-if="this.detail_item.group_item_2">
                 <div>
                   <label class="font-bold" for="uername">Group Item 2</label>
                   <div>{{ this.detail_item.group_item_2.nama_group_item }}</div>
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.group_item_3">
+              <div class="col" v-if="this.detail_item.group_item_3">
                 <div>
                   <label class="font-bold" for="uername">Group Item 3</label>
                   <div>{{ this.detail_item.group_item_3.nama_group_item }}</div>
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.group_item_4">
+              <div class="col" v-if="this.detail_item.group_item_4">
                 <div>
                   <label class="font-bold" for="uername">Group Item 4</label>
                   <div>{{ this.detail_item.group_item_4.nama_group_item }}</div>
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.group_item_5">
+              <div class="col" v-if="this.detail_item.group_item_5">
                 <div>
                   <label class="font-bold" for="uername">Group Item 5</label>
                   <div>{{ this.detail_item.group_item_5.nama_group_item }}</div>
                 </div>
               </div>
 
-              <div class="col" v-show="kategori_item_1">
+              <div class="col" v-if="kategori_item_1">
                 <div>
                   <label class="font-bold" for="uername">Kategori Item 1</label>
                   <div>
@@ -135,7 +141,7 @@
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.kategori_item_2">
+              <div class="col" v-if="this.detail_item.kategori_item_2">
                 <div>
                   <label class="font-bold" for="uername">Kategori Item 2</label>
                   <div>
@@ -144,7 +150,7 @@
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.kategori_item_3">
+              <div class="col" v-if="this.detail_item.kategori_item_3">
                 <div>
                   <label class="font-bold" for="uername">Kategori Item 3</label>
                   <div>
@@ -153,7 +159,7 @@
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.kategori_item_4">
+              <div class="col" v-if="this.detail_item.kategori_item_4">
                 <div>
                   <label class="font-bold" for="uername">Kategori Item 4</label>
                   <div>
@@ -162,7 +168,7 @@
                 </div>
               </div>
 
-              <div class="col" v-show="this.detail_item.kategori_item_5">
+              <div class="col" v-if="this.detail_item.kategori_item_5">
                 <div>
                   <label class="font-bold" for="uername">Kategori Item 5</label>
                   <div>
@@ -223,6 +229,7 @@
               </div>
             </div>
           </div>
+          <!-- <table-data-loading-section :self="this" /> -->
         </div>
       </div>
     </div>
@@ -237,6 +244,7 @@ export default {
 
   data() {
     return {
+      isLoadingData: false,
       visible: false,
       detail_item: {
         item_id: "",
@@ -297,13 +305,20 @@ export default {
 
   methods: {
     async fetchItemDetail() {
+      this.isLoadingData = true;
       try {
         let response = await this.$axios.get(
           "master/item/" + this.form.item_id
         );
-        this.detail_item = response.data;
+
+        Object.keys(this.detail_item).forEach((item) => {
+          this.detail_item[item] = response.data[item];
+        });
       } catch (error) {
         this.hide();
+      } finally {
+        this.isLoadingData = false;
+        console.log(this.detail_item);
       }
     },
     show() {

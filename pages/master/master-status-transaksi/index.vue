@@ -64,6 +64,7 @@
                     </div>
                   </div>
                 </th>
+                <th>Progres</th>
                 <th>Keterangan Transaksi</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
@@ -88,6 +89,7 @@
                 <td>{{ item.modul }}</td>
                 <td>{{ item.kode_status_transaksi }}</td>
                 <td>{{ item.nama_status_transaksi }}</td>
+                <td>{{ item.progres }}</td>
                 <td>
                   {{
                     item.keterangan_transaksi ? item.keterangan_transaksi : ""
@@ -204,6 +206,7 @@ export default {
             kode_status_transaksi: "",
             nama_status_transaksi: "",
             keterangan_transaksi: "",
+            progres: "",
           },
         },
         loadings: {
@@ -261,6 +264,7 @@ export default {
         kode_status_transaksi: "",
         nama_status_transaksi: "",
         keterangan_transaksi: "",
+        progres: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
@@ -273,9 +277,9 @@ export default {
       this.$refs.formInput.parameters.form = {
         ...item,
         master_status_transaksi_id: item.master_status_transaksi_id,
-        jenis_proses_transaksi_id:
-          item.jenis_proses_transaksi.jenis_proses_transaksi_id,
+        jenis_proses_transaksi_id: item.jenis_proses_transaksi_id,
       };
+      this.$refs.formInput.onSelectModul();
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });

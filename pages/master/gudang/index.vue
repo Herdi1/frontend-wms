@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Item Produk Master</span>
+        <span>Gudang</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -28,25 +28,25 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[3%]">Edit</th>
+                  <th class="w-[3%]">Delete</th>
+                  <th class="w-[3%]">No</th>
                   <th
                     @click="
                       onSort(
-                        'kode_wms',
+                        'lokasi_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Item</div>
+                      <div>Lokasi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_wms' &&
+                            parameters.params.order == 'lokasi_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -55,7 +55,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_wms' &&
+                            parameters.params.order == 'lokasi_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -64,22 +64,25 @@
                       </div>
                     </div>
                   </th>
+                  <th>Kode Gudang SAP</th>
+                  <th>Kode Gudang</th>
+                  <th>Profit & Cost</th>
                   <th
                     @click="
                       onSort(
-                        'nama_item',
+                        'nama_gudang',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Item</div>
+                      <div>Nama Gudang</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_item' &&
+                            parameters.params.order == 'nama_gudang' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -88,7 +91,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_item' &&
+                            parameters.params.order == 'nama_gudang' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -97,43 +100,36 @@
                       </div>
                     </div>
                   </th>
-                  <th
-                    @click="
-                      onSort(
-                        'satuan_id',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Satuan</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'satuan_id' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'satuan_id' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th>Berat</th>
-                  <th>Volume</th>
-                  <th>Group Item</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th>Status Konfig SAP</th>
+                  <td>Nomor Rekening</td>
+                  <th>Atas Nama Rekening</th>
+                  <th>Status Gudang</th>
+                  <th>Group Gudang 1</th>
+                  <th>Group Gudang 2</th>
+                  <th>Group Gudang 3</th>
+                  <th>Group Gudang 4</th>
+                  <th>Group Gudang 5</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
+                  <th>Alamat</th>
+                  <th>Kecamatan</th>
+                  <th>Kota</th>
+                  <th>Provinsi</th>
+                  <th>Negara</th>
+                  <th>Vendor Pemilik</th>
+                  <th>Vendor Operator</th>
+                  <th>Fungsi Gudang</th>
+                  <th>No Handphone</th>
+                  <th>No WhatsApp</th>
+                  <th>Kapasitas</th>
+                  <th>Kapasitas Bongkar</th>
+                  <th>Fisik Gudang</th>
+                  <th>Ukuran Gudang</th>
+                  <th>File Layout</th>
+                  <th>Status Sewa</th>
+                  <th>Status Satpam</th>
+                  <th>Luas Gudang</th>
+                  <th>Satuan Luas</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,23 +151,95 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_wms }}</td>
-                  <td>{{ item.nama_item }}</td>
+                  <td>{{ item.lokasi.nama_lokasi }}</td>
+                  <td>{{ item.kode_gudang_sap }}</td>
+                  <td>{{ item.kode_gudang }}</td>
                   <td>
                     {{
-                      item.satuan ? item.satuan.nama_satuan : "Tidak Ditemukan"
+                      item.profit_cost.profit_center +
+                      "-" +
+                      item.profit_cost.cost_center
+                    }}
+                  </td>
+                  <td>{{ item.nama_gudang }}</td>
+                  <td>
+                    {{
+                      item.status_konfig_outbound_sap == 1
+                        ? "Aktif"
+                        : "Non Aktif"
+                    }}
+                  </td>
+                  <td>{{ item.nomor_rekening }}</td>
+                  <td>{{ item.atas_nama_rekening }}</td>
+                  <td>{{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}</td>
+                  <td>
+                    {{
+                      item.group_gudang_1
+                        ? item.group_gudang_1.nama_group_gudang
+                        : "Tidak Ditemukan"
                     }}
                   </td>
                   <td>
-                    {{ item.berat + " " + item.satuan_berat.nama_satuan }}
+                    {{
+                      item.group_gudang_2
+                        ? item.group_gudang_2.nama_group_gudang
+                        : "Tidak Ditemukan"
+                    }}
                   </td>
                   <td>
-                    {{ item.volume + " " + item.satuan_volume.nama_satuan }}
+                    {{
+                      item.group_gudang_3
+                        ? item.group_gudang_3.nama_group_gudang
+                        : "Tidak Ditemukan"
+                    }}
                   </td>
-                  <td>{{ item.group_item_1.nama_group_item }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                  <td>
+                    {{
+                      item.group_gudang_4
+                        ? item.group_gudang_4.nama_group_gudang
+                        : "Tidak Ditemukan"
+                    }}
                   </td>
+                  <td>
+                    {{
+                      item.group_gudang_5
+                        ? item.group_gudang_5.nama_group_gudang
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>{{ item.longitude }}</td>
+                  <td>{{ item.latitude }}</td>
+                  <td>{{ item.alamat }}</td>
+                  <td>{{ item.kecamatan.nama_kecamatan }}</td>
+                  <td>{{ item.kota.nama_kota }}</td>
+                  <td>{{ item.provinsi.nama_provinsi }}</td>
+                  <td>{{ item.negara.nama_negara }}</td>
+                  <td>{{ item.vendor_pemilik.nama_vendor }}</td>
+                  <td>
+                    {{
+                      item.vendor_operator
+                        ? item.vendor_operator.nama_vendor
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>{{ item.fungsi_gudang.nama_fungsi }}</td>
+                  <td>{{ item.no_hp }}</td>
+                  <td>{{ item.no_wa }}</td>
+                  <td>{{ item.kapasitas }}</td>
+                  <td>{{ item.kapasitas_bongkar }}</td>
+                  <td>{{ item.fisik_gudang.nama_fisik }}</td>
+                  <td>{{ item.ukuran_gudang.nama_ukuran }}</td>
+                  <td>{{ item.file_layout }}</td>
+                  <td>{{ item.status_sewa == 0 ? "Sewa" : "Sendiri" }}</td>
+                  <td>
+                    {{
+                      item.status_satpam == 0
+                        ? "Tidak Memiliki Satpam"
+                        : "Memiliki Satpam"
+                    }}
+                  </td>
+                  <td>{{ item.luas_gudang }}</td>
+                  <td>{{ item.satuan_luas.nama_satuan }}</td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -179,7 +247,6 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
-
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
@@ -192,15 +259,13 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import FormInput from "./form.vue";
-import ModalDetail from "./detail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Item Produk Master",
+      title: "Gudang",
     };
   },
 
@@ -209,9 +274,7 @@ export default {
     this.onLoad();
   },
 
-  components: {
-    ModalDetail,
-  },
+  components: {},
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -252,50 +315,58 @@ export default {
 
   data() {
     return {
-      title: "Item Produk Master",
+      title: "Gudang",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/item",
+        url: "master/gudang",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "item_id",
+          order: "gudang_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          item_id: "",
-          kode_wms: "",
-          kode_alternatif: "",
-          kode_alternatif_2: "",
-          nama_item: "",
-          satuan_id: "",
-          satuan_id_berat: "",
-          berat: "",
-          satuan_id_volume: "",
-          volume: "",
-          satuan_id_stocklevel: "",
-          value_stocklevel: "",
-          keterangan: "",
-          group_item_id_1: "",
-          group_item_id_2: "",
-          group_item_id_3: "",
-          group_item_id_4: "",
-          group_item_id_5: "",
-          batas_bawah: "",
-          batas_atas: "",
-          kategori_id_1: "",
-          kategori_id_2: "",
-          kategori_id_3: "",
-          kategori_id_4: "",
-          kategori_id_5: "",
-          kapasitas_palet: "",
-          maksimum_tumpukan: "",
-          supplier_id: "",
+          gudang_id: "",
+          lokasi_id: "",
+          kode_gudang_sap: "",
+          profit_cost_id: "",
+          kode_gudang: "",
+          nama_gudang: "",
+          status_konfig_outbound_sap: "",
+          nomor_rekening: "",
+          atas_nama_rekening: "",
+          status_gudang: "",
+          group_gudang_id_1: "",
+          group_gudang_id_2: "",
+          group_gudang_id_3: "",
+          group_gudang_id_4: "",
+          group_gudang_id_5: "",
+          longitude: "",
+          latitude: "",
+          alamat: "",
+          kecamatan_id: "",
+          kota_id: "",
+          provinsi_id: "",
+          negara_id: "",
+          vendor_id_pemilik: "",
+          vendor_id_operator: "",
+          fungsi_gudang_id: "",
+          no_hp: "",
+          no_wa: "",
+          kapasitas: "",
+          kapasitas_bongkar: "",
+          fisik_gudang_id: "",
+          ukuran_gudang_id: "",
+          file_layout: "",
+          status_sewa: "",
+          status_satpam: "",
+          luas_gudang: "",
+          satuan_id_luas: "",
         },
         loadings: {
           isDelete: false,
@@ -328,7 +399,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "item"
+          (item) => item.rute == "gudang"
         );
 
         let roles = {};
@@ -358,19 +429,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/item-produk-master/add");
+      this.$router.push("/master/gudang/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/item-produk-master/" + item.item_id);
-    },
-
-    onDetail(item) {
-      this.$refs.modalDetail.form = {
-        item_id: item.item_id,
-      };
-      this.$refs.modalDetail.fetchItemDetail();
-      this.$refs.modalDetail.show();
+      this.$router.push("/master/gudang/" + item.item_id);
     },
 
     onTrashed(item) {
