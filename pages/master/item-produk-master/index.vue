@@ -28,6 +28,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -130,13 +132,21 @@
                   </th>
                   <th>Berat</th>
                   <th>Volume</th>
+                  <th>Group Item</th>
                   <th class="w-[5%]">Detail</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="text-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -156,19 +166,11 @@
                     {{ item.berat + " " + item.satuan_berat.nama_satuan }}
                   </td>
                   <td>
-                    {{ item.valume + " " + item.satuan_volume.nama_satuan }}
+                    {{ item.volume + " " + item.satuan_volume.nama_satuan }}
                   </td>
+                  <td>{{ item.group_item_1.nama_group_item }}</td>
                   <td class="text-center">
                     <small-detail-button @click="onDetail(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
                   </td>
                 </tr>
               </tbody>
@@ -184,14 +186,14 @@
         </div>
       </div>
     </div>
-    <!-- <ModalDetail :self="this" ref="modalDetail" /> -->
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 // import FormInput from "./form.vue";
-// import ModalDetail from "./detail.vue";
+import ModalDetail from "./detail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
@@ -207,10 +209,9 @@ export default {
     this.onLoad();
   },
 
-  // components: {
-  //   FormInput,
-  //   ModalDetail,
-  // },
+  components: {
+    ModalDetail,
+  },
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -361,12 +362,12 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/master/item-produk-master/" + item.id);
+      this.$router.push("/master/item-produk-master/" + item.item_id);
     },
 
     onDetail(item) {
-      this.$refs.modalDetail.parameters.form = {
-        ...item,
+      this.$refs.modalDetail.form = {
+        item_id: item.item_id,
       };
       this.$refs.modalDetail.show();
     },

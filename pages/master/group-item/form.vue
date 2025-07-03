@@ -54,7 +54,7 @@
                     >Group Item Induk<span class="text-danger">*</span></label
                   >
                   <v-select
-                    label="nama_vendor"
+                    label="nama_group_item"
                     :loading="isLoadingGetGroupItem"
                     :options="lookup_custom1.data"
                     :filterable="false"
@@ -208,7 +208,7 @@ export default {
           lookup: "custom1",
           query:
             "?search=" +
-            this.pelanggan_search +
+            this.group_item_search +
             "&status=" +
             (parseInt(this.parameters.form.status) - 1) +
             "&page=" +

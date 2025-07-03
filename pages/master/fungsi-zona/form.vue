@@ -23,14 +23,12 @@
                       label="Nama Fungsi Zona"
                       type="text"
                       name="nama_fungsi_zona"
+                      :required="true"
                       v-model="parameters.form.nama_fungsi_zona"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
               </div>

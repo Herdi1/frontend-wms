@@ -23,14 +23,12 @@
                       label="Nama Jenis Kendaraan"
                       type="text"
                       name="nama_jenis_kendaraan"
+                      :required="true"
                       v-model="parameters.form.nama_jenis_kendaraan"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -43,14 +41,12 @@
                       label="Standar Ritase Harian"
                       type="text"
                       name="standar_ritase_hari"
+                      :required="true"
                       v-model="parameters.form.standar_ritase_hari"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
               </div>

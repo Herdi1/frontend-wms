@@ -23,14 +23,12 @@
                       label="Kode Fungsi"
                       type="text"
                       name="kode_fungsi"
+                      :required="true"
                       v-model="parameters.form.kode_fungsi"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -43,14 +41,12 @@
                       label="Nama Fungsi"
                       type="text"
                       name="nama_fungsi"
+                      :required="true"
                       v-model="parameters.form.nama_fungsi"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
               </div>

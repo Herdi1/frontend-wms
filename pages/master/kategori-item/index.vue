@@ -151,7 +151,7 @@
                     {{ item.kode_kategori_item }}
                   </td>
                   <td>{{ item.nama_kategori_item }}</td>
-                  <td>{{ item.status }}</td>
+                  <td>Level {{ item.status }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
