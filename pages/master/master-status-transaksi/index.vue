@@ -30,7 +30,7 @@
                 <th class="w-[5%]">No</th>
                 <th>Proses</th>
                 <th>Modul</th>
-                <th>Kode Status Transaksi</th>
+                <th>Kode Transaksi</th>
                 <th
                   @click="
                     onSort(
@@ -199,7 +199,7 @@ export default {
           per_page: 10,
           page: 1,
           form: {
-            proses: "",
+            jenis_proses_transaksi_id: "",
             modul: "",
             kode_status_transaksi: "",
             nama_status_transaksi: "",
@@ -256,7 +256,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
-        proses: "",
+        jenis_proses_transaksi_id: "",
         modul: "",
         kode_status_transaksi: "",
         nama_status_transaksi: "",
@@ -273,6 +273,8 @@ export default {
       this.$refs.formInput.parameters.form = {
         ...item,
         master_status_transaksi_id: item.master_status_transaksi_id,
+        jenis_proses_transaksi_id:
+          item.jenis_proses_transaksi.jenis_proses_transaksi_id,
       };
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();

@@ -23,14 +23,12 @@
                       label="Nama Provinsi"
                       type="text"
                       name="nama_provinsi"
+                      :required="true"
                       v-model="parameters.form.nama_provinsi"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -43,14 +41,12 @@
                       label="Ibukota Provinsi"
                       type="text"
                       name="ibukota"
+                      :required="true"
                       v-model="parameters.form.ibukota"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -59,7 +55,9 @@
                   rules="required"
                 >
                   <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Negara</label>
+                    <label for="" class="w-4/12"
+                      >Negara<span class="text-danger">*</span></label
+                    >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_negara"

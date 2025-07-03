@@ -20,7 +20,9 @@
                 >
                   <div slot-scope="{ errors, valid }">
                     <div class="form-group w-full items-center mb-5">
-                      <label for="" class="w-4/12">Negara</label>
+                      <label for="" class="w-4/12"
+                        >Negara <span class="text-danger">*</span></label
+                      >
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_negara"
@@ -59,10 +61,6 @@
                         </li>
                       </v-select>
                     </div>
-
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -73,7 +71,9 @@
                 >
                   <div slot-scope="{ errors, valid }">
                     <div class="form-group w-full items-center mb-5">
-                      <label for="" class="w-4/12">Provinsi</label>
+                      <label for="" class="w-4/12"
+                        >Provinsi <span class="text-danger">*</span></label
+                      >
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_provinsi"
@@ -112,10 +112,6 @@
                         </li>
                       </v-select>
                     </div>
-
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -126,7 +122,9 @@
                 >
                   <div slot-scope="{ errors, valid }">
                     <div class="form-group w-full items-center mb-5">
-                      <label for="" class="w-4/12">Kota</label>
+                      <label for="" class="w-4/12"
+                        >Kota <span class="text-danger">*</span></label
+                      >
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_kota"
@@ -164,9 +162,6 @@
                         </li>
                       </v-select>
                     </div>
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -180,14 +175,12 @@
                       label="Nama Kecamatan"
                       type="text"
                       name="nama_kecamatan"
+                      :required="true"
                       v-model="parameters.form.nama_kecamatan"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -196,7 +189,7 @@
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <label>Koordinat</label>
+                    <label>Koordinat <span class="text-danger">*</span></label>
                     <textarea
                       name="koordinat"
                       v-model="parameters.form.koordinat"
@@ -204,10 +197,7 @@
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                       class="w-full border border-gray-300 rounded-md bg-white outline-none active:outline-none"
-                    />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
+                    ></textarea>
                   </div>
                 </ValidationProvider>
               </div>

@@ -23,14 +23,12 @@
                       label="Nama Satuan"
                       type="text"
                       name="nama_satuan"
+                      :required="true"
                       v-model="parameters.form.nama_satuan"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -39,7 +37,9 @@
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <label for="parent_id">Jenis Satuan</label>
+                    <label for="parent_id"
+                      >Jenis Satuan <span class="text-danger">*</span></label
+                    >
                     <select
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       name="jenis_satuan"

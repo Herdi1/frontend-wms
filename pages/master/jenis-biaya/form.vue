@@ -22,19 +22,19 @@
                     label="Nama Jenis Biaya"
                     type="text"
                     name="nama_jenis_biaya"
+                    :required="true"
                     v-model="parameters.form.nama_jenis_biaya"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger text-xs">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="status" rules="required">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Status</label>
+                  <label for="" class="w-4/12"
+                    >Status<span class="text-danger">*</span></label
+                  >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     v-model="parameters.form.status"
@@ -64,6 +64,7 @@
                   label="Keterangan"
                   type="text"
                   name="keterangan"
+                  :required="true"
                   v-model="parameters.form.keterangan"
                 />
               </div>
@@ -153,7 +154,7 @@ export default {
           status: "",
           keterangan: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

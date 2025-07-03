@@ -19,7 +19,9 @@
                   rules="required"
                 >
                   <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Wilayah</label>
+                    <label for="" class="w-4/12"
+                      >Wilayah<span class="text-danger">*</span></label
+                    >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_wilayah"
@@ -65,14 +67,12 @@
                       label="Cabang"
                       type="text"
                       name="cabang"
+                      :required="true"
                       v-model="parameters.form.cabang"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -85,14 +85,12 @@
                       label="Profit Center"
                       type="text"
                       name="profit_center"
+                      :required="true"
                       v-model="parameters.form.profit_center"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -105,14 +103,12 @@
                       label="Cost Center"
                       type="text"
                       name="cost_center"
+                      :required="true"
                       v-model="parameters.form.cost_center"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
                 <!-- <ValidationProvider
@@ -142,7 +138,9 @@
                   rules="required"
                 >
                   <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Provinsi</label>
+                    <label for="" class="w-4/12"
+                      >Provinsi<span class="text-danger">*</span></label
+                    >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_provinsi"
@@ -184,7 +182,9 @@
                   rules="required"
                 >
                   <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Kota</label>
+                    <label for="" class="w-4/12"
+                      >Kota<span class="text-danger">*</span></label
+                    >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_kota"

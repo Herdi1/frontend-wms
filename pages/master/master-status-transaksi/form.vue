@@ -88,7 +88,9 @@
                 />
               </div>
               <div class="form-group">
-                <label for="keterangan_transaksi">Keterangan Transaksi</label>
+                <label for="keterangan_transaksi"
+                  >Keterangan Transaksi<span class="text-danger">*</span></label
+                >
                 <textarea
                   placeholder="Keterangan Transaksi"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
