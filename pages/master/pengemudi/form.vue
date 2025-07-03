@@ -154,8 +154,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.pegemudi_id
-            ? this.parameters.form.pegemudi_id
+          id: this.parameters.form.pengemudi_id
+            ? this.parameters.form.pengemudi_id
             : "",
         },
       };
@@ -179,7 +179,7 @@ export default {
           status_pengemudi: "",
           status_aktif: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

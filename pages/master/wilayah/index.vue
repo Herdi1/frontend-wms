@@ -151,7 +151,7 @@ export default {
 
   data() {
     return {
-      title: "Metode Pengambilan",
+      title: "Wilayah",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
