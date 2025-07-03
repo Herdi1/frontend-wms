@@ -18,7 +18,9 @@
                 ref="ruteProvider"
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
-                  <label for="modul">Modul</label>
+                  <label for="modul"
+                    >Modul <span class="text-danger">*</span></label
+                  >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     name="modul"
@@ -36,9 +38,6 @@
                       {{ modul.label }}
                     </option>
                   </select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider
@@ -47,7 +46,9 @@
                 ref="ruteProvider"
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
-                  <label for="jenis_proses_transaksi_id">Proses</label>
+                  <label for="jenis_proses_transaksi_id"
+                    >Proses <span class="text-danger">*</span></label
+                  >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     name="jenis_proses_transaksi_id"
@@ -68,40 +69,24 @@
                 </div>
               </ValidationProvider>
 
-              <ValidationProvider
-                name="kode_status_transaksi"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Kode Status Transaksi"
-                    type="text"
-                    name="kode_status_transaksi"
-                    v-model="parameters.form.kode_status_transaksi"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                </div>
-              </ValidationProvider>
-              <ValidationProvider
-                name="nama_status_transaksi"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Nama Status Transaksi"
-                    type="text"
-                    name="nama_status_transaksi"
-                    v-model="parameters.form.nama_status_transaksi"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                </div>
-              </ValidationProvider>
+              <div class="form-group">
+                <input-form
+                  label="Kode Status Transaksi"
+                  type="text"
+                  name="kode_status_transaksi"
+                  v-model="parameters.form.kode_status_transaksi"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Nama Status Transaksi"
+                  type="text"
+                  name="nama_status_transaksi"
+                  v-model="parameters.form.nama_status_transaksi"
+                  :required="true"
+                />
+              </div>
               <div class="form-group">
                 <label for="keterangan_transaksi">Keterangan Transaksi</label>
                 <textarea
@@ -201,7 +186,7 @@ export default {
           nama_status_transaksi: "",
           keterangan_transaksi: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

@@ -23,13 +23,11 @@
                     type="text"
                     name="kode_tipe_badan_hukum"
                     v-model="parameters.form.kode_tipe_badan_hukum"
+                    :required="true"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider
@@ -43,13 +41,11 @@
                     type="text"
                     name="nama_tipe_badan_hukum"
                     v-model="parameters.form.nama_tipe_badan_hukum"
+                    :required="true"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>

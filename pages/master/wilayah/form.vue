@@ -12,26 +12,15 @@
             autocomplete="off"
           >
             <div class="modal-body mt-4">
-              <ValidationProvider
-                name="nama_wilayah"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Nama Wilayah"
-                    type="text"
-                    name="nama_wilayah"
-                    v-model="parameters.form.nama_wilayah"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                  <div v-if="errors[0]" class="text-danger text-xs">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider>
+              <div class="form-group">
+                <input-form
+                  label="Nama Wilayah"
+                  type="text"
+                  name="nama_wilayah"
+                  v-model="parameters.form.nama_wilayah"
+                  :required="true"
+                />
+              </div>
             </div>
             <modal-footer-section
               class="mt-5"
@@ -102,7 +91,7 @@ export default {
         this.parameters.form = {
           nama_wilayah: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

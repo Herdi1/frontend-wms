@@ -23,13 +23,11 @@
                     type="text"
                     name="kode_negara"
                     v-model="parameters.form.kode_negara"
+                    :required="true"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider
@@ -43,13 +41,11 @@
                     type="text"
                     name="nama_negara"
                     v-model="parameters.form.nama_negara"
+                    :required="true"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>
@@ -125,6 +121,7 @@ export default {
           kode_negara: "",
           nama_negara: "",
         };
+        this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);

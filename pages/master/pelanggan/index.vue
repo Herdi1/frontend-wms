@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Vendor</span>
+        <span>Pelanggan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -24,25 +24,29 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center">Details</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Tipe Badan Hukum</th>
-                <th>Kode Vendor</th>
+                <th>Kode Referensi</th>
+                <th>Kode Pelanggan</th>
                 <th
                   @click="
                     onSort(
-                      'nama_vendor',
+                      'nama_pelanggan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Vendor</div>
+                    <div>Nama Pelanggan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_vendor' &&
+                          parameters.params.order == 'nama_pelanggan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -51,7 +55,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_vendor' &&
+                          parameters.params.order == 'nama_pelanggan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -64,35 +68,15 @@
                 <th>Kota</th>
                 <th>Provinsi</th>
                 <th>Negara</th>
+                <th>Nama Pemilik</th>
                 <th>Lokasi</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
                 <th>Radius</th>
-                <th class="w-[5%] text-center">Details</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.tipebadanhukum.nama_tipe_badan_hukum }}</td>
-                <td>{{ item.kode_vendor }}</td>
-                <td>{{ item.nama_vendor }}</td>
-                <td>{{ item.kecamatan.nama_kecamatan }}</td>
-                <td>{{ item.kota.nama_kota }}</td>
-                <td>{{ item.provinsi.nama_provinsi }}</td>
-                <td>{{ item.negara.nama_negara }}</td>
-                <td>{{ item.lokasi.nama_lokasi }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.radius }}</td>
                 <td>
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -105,6 +89,26 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.tipe_badan_hukum_id }}</td>
+                <td>{{ item.kode_referensi }}</td>
+                <td>{{ item.kode_pelanggan }}</td>
+                <td>{{ item.nama_pelanggan }}</td>
+                <td>{{ item.kecamatan }}</td>
+                <td>{{ item.kota }}</td>
+                <td>{{ item.provinsi }}</td>
+                <td>{{ item.negara }}</td>
+                <td>{{ item.nama_pemilik }}</td>
+                <td>{{ item.lokasi }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.radius }}</td>
               </tr>
             </tbody>
           </table>
@@ -120,14 +124,14 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 import ModalDetail from "./detail";
+
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Vendor",
+      title: "Pelanggan",
     };
   },
 
@@ -137,7 +141,6 @@ export default {
   },
 
   components: {
-    FormInput,
     ModalDetail,
   },
 
@@ -180,7 +183,7 @@ export default {
 
   data() {
     return {
-      title: "Vendor",
+      title: "Pelanggan",
       isLoading: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -199,24 +202,27 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/vendor",
+        url: "master/pelanggan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "vendor_id",
+          order: "pelanggan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            vendor_id_induk: "",
+            pelanggan_id_induk: "",
             tipe_badan_hukum_id: "",
+            user_id_sales: "",
             alias: "",
             kode_referensi: "",
-            kode_vendor: "",
-            nama_vendor: "",
-            alamat_vendor: "",
+            kode_pelanggan: "",
+            no_npwp: "",
+            nama_pelanggan: "",
+            email: "",
+            alamat_pelanggan: "",
             kelurahan_id: "",
             kecamatan_id: "",
             kota_id: "",
@@ -228,17 +234,14 @@ export default {
             no_telp: "",
             no_hp: "",
             nik_pemilik: "",
-            no_npwp: "",
             no_npwp_pemilik: "",
-            email: "",
-            lokasi_id: "",
+            nomor_siup: "",
             nama_cp: "",
             telp_cp: "",
             hp_cp: "",
-            nomor_siup: "",
-            group: "",
-            user_id_pic: "",
-            tipe_vendor: "",
+            nilai_plafon: "",
+            lokasi_id: "",
+            rentang_retur_penjualan: "",
             longitude: "",
             latitude: "",
             radius: "",
@@ -260,7 +263,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "vendor"
+          (item) => item.rute == "pelannggan"
         );
 
         let roles = {};
@@ -290,11 +293,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/vendor/add");
+      this.$router.push("/master/pelanggan/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/vendor/" + item.vendor_id);
+      this.$router.push("/master/pelanggan/add" + item.pelanggan_id);
     },
 
     onDetail(item) {
@@ -320,7 +323,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.vendor_id,
+              id: item.pelanggan_id,
               params: this.parameters.params,
             });
 

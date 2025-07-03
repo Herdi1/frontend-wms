@@ -61,7 +61,9 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="">Tipe Badan Hukum</label>
+                  <label for=""
+                    >Tipe Badan Hukum <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_tipe_badan_hukum"
@@ -96,9 +98,6 @@
                       >
                     </li>
                   </v-select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
@@ -109,6 +108,7 @@
                     label="Singkatan Pelanggan"
                     type="text"
                     name="alias"
+                    :required="false"
                     v-model="parameters.form.alias"
                   />
                 </div>
@@ -122,6 +122,7 @@
                   label="Kode Referensi"
                   type="text"
                   name="kode_referensi"
+                  :required="false"
                   v-model="parameters.form.kode_referensi"
                 />
               </div>
@@ -138,14 +139,12 @@
                     label="Kode Vendor"
                     type="text"
                     name="kode_vendor"
+                    :required="true"
                     v-model="parameters.form.kode_vendor"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
@@ -161,14 +160,12 @@
                     label="Nama Vendor"
                     type="text"
                     name="nama_vendor"
+                    :required="true"
                     v-model="parameters.form.nama_vendor"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>
@@ -184,7 +181,9 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12">Tipe Vendor</label>
+                  <label for="" class="w-4/12"
+                    >Tipe Vendor <span class="text-danger">*</span></label
+                  >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     v-model="parameters.form.tipe_vendor"
@@ -201,9 +200,6 @@
                       {{ itemValue.label }}
                     </option>
                   </select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <!-- Kode Pos Vendor -->
@@ -213,6 +209,7 @@
                     label="Kode Pos Vendor"
                     type="text"
                     name="kode_pos"
+                    :required="false"
                     v-model="parameters.form.kode_pos"
                   />
                 </div>
@@ -264,6 +261,7 @@
                   label="No Telepon"
                   type="text"
                   name="no_telp"
+                  :required="false"
                   v-model="parameters.form.no_telp"
                 />
               </div>
@@ -273,6 +271,7 @@
                   label="No HP"
                   type="text"
                   name="no_hp"
+                  :required="false"
                   v-model="parameters.form.no_hp"
                 />
               </div>
@@ -282,6 +281,7 @@
                   label="Email"
                   type="email"
                   name="email"
+                  :required="false"
                   v-model="parameters.form.email"
                 />
               </div>
@@ -294,6 +294,7 @@
                   label="No NPWP"
                   type="text"
                   name="no_npwp"
+                  :required="false"
                   v-model="parameters.form.no_npwp"
                 />
               </div>
@@ -304,6 +305,7 @@
                   label="Nomor SIUP"
                   type="text"
                   name="nomor_siup"
+                  :required="false"
                   v-model="parameters.form.nomor_siup"
                 />
               </div>
@@ -314,6 +316,7 @@
                   label="Grouping Vendor"
                   type="text"
                   name="group"
+                  :required="false"
                   v-model="parameters.form.group"
                 />
               </div>
@@ -327,7 +330,9 @@
                 class="w-1/3"
               >
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Negara</label>
+                  <label for="" class="w-4/12"
+                    >Negara <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_negara"
@@ -374,7 +379,9 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12">Provinsi</label>
+                  <label for="" class="w-4/12"
+                    >Provinsi <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_provinsi"
@@ -409,9 +416,6 @@
                       >
                     </li>
                   </v-select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
@@ -421,7 +425,9 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12">Kota</label>
+                  <label for="" class="w-4/12"
+                    >Kota <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
@@ -456,9 +462,6 @@
                       >
                     </li>
                   </v-select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>
@@ -474,7 +477,9 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12">Kecamatan</label>
+                  <label for="" class="w-4/12"
+                    >Kecamatan <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kecamatan"
@@ -507,9 +512,6 @@
                       >
                     </li>
                   </v-select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <!-- Kelurahan -->
@@ -559,6 +561,7 @@
                   label="Nama Pemilik"
                   type="text"
                   name="nama_pemilik"
+                  :required="false"
                   v-model="parameters.form.nama_pemilik"
                 />
               </div>
@@ -569,6 +572,7 @@
                   label="NIK Pemilik"
                   type="text"
                   name="nik_pemilik"
+                  :required="false"
                   v-model="parameters.form.nik_pemilik"
                 />
               </div>
@@ -579,6 +583,7 @@
                   label="No NPWP Pemilik"
                   type="text"
                   name="no_npwp_pemilik"
+                  :required="false"
                   v-model="parameters.form.no_npwp_pemilik"
                 />
               </div>
@@ -590,7 +595,9 @@
                 class="form-group w-full items-center mb-5"
                 slot-scope="{ errors, valid }"
               >
-                <label for="" class="w-4/12">Lokasi</label>
+                <label for="" class="w-4/12"
+                  >Lokasi <span class="text-danger">*</span></label
+                >
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_lokasi"
@@ -624,9 +631,6 @@
                     >
                   </li>
                 </v-select>
-                <div v-if="errors[0]" class="text-danger">
-                  {{ errors[0] }}
-                </div>
               </div>
             </ValidationProvider>
 
@@ -643,14 +647,12 @@
                     label="Longitude"
                     type="text"
                     name="longitude"
+                    :required="true"
                     v-model="parameters.form.longitude"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
@@ -666,21 +668,21 @@
                     label="Latitude"
                     type="text"
                     name="latitude"
+                    :required="true"
                     v-model="parameters.form.latitude"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
               <!-- Radius  -->
               <ValidationProvider name="radius" rules="required" class="w-1/3">
                 <div class="form-group col-12" slot-scope="{ errors, valid }">
-                  <label for="radius">Radius</label>
+                  <label for="radius"
+                    >Radius <span class="text-danger">*</span></label
+                  >
                   <money
                     v-model="parameters.form.radius"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -690,9 +692,6 @@
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   />
                   <div class="text-muted text-small">* Meter</div>
-                  <div class="text-sm text-danger" v-if="errors[0]">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>
@@ -704,6 +703,7 @@
                   label="Nama Contact Person"
                   type="text"
                   name="nama_cp"
+                  :required="false"
                   v-model="parameters.form.nama_cp"
                 />
               </div>
@@ -714,6 +714,7 @@
                   label="No Telepone Contact Person"
                   type="text"
                   name="telp_cp"
+                  :required="false"
                   v-model="parameters.form.telp_cp"
                 />
               </div>
@@ -724,6 +725,7 @@
                   label="Nomor HP Contact Person"
                   type="text"
                   name="hp_cp"
+                  :required="false"
                   v-model="parameters.form.hp_cp"
                 />
               </div>
@@ -971,6 +973,7 @@ export default {
           latitude: "",
           radius: "",
         };
+        this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
         this.$router.back();
       } else {
