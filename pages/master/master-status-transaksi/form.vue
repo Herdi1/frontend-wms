@@ -42,17 +42,17 @@
                 </div>
               </ValidationProvider>
               <ValidationProvider
-                name="proses"
+                name="jenis_proses_transaksi_id"
                 rules="required"
                 ref="ruteProvider"
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
-                  <label for="proses">Proses</label>
+                  <label for="jenis_proses_transaksi_id">Proses</label>
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    name="proses"
-                    id="proses"
-                    v-model="parameters.form.proses"
+                    name="jenis_proses_transaksi_id"
+                    id="jenis_proses_transaksi_id"
+                    v-model="parameters.form.jenis_proses_transaksi_id"
                     :disabled="!parameters.form.modul"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -65,9 +65,6 @@
                       {{ proses.nama_jenis_proses_tansaksi }}
                     </option>
                   </select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
 
@@ -86,9 +83,6 @@
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider
@@ -106,9 +100,6 @@
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "
                   />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -149,7 +140,7 @@ export default {
       parameters: {
         url: "master/master-status-transaksi",
         form: {
-          proses: "",
+          jenis_proses_transaksi_id: "",
           modul: "",
           kode_status_transaksi: "",
           nama_status_transaksi: "",
@@ -204,7 +195,7 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          proses: "",
+          jenis_proses_transaksi_id: "",
           modul: "",
           kode_status_transaksi: "",
           nama_status_transaksi: "",
@@ -246,14 +237,14 @@ export default {
     },
 
     onSelectModul() {
-      this.parameters.form.proses = "";
+      this.parameters.form.jenis_proses_transaksi_id = "";
       this.onLoadProses();
     },
 
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        proses: "",
+        jenis_proses_transaksi_id: "",
         modul: "",
         kode_status_transaksi: "",
         nama_status_transaksi: "",

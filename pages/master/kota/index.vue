@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th>Kode Kota</th>
                   <th>Koordinat</th>
                   <th>Provinsi</th>
                   <th>Negara</th>
@@ -85,6 +86,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_kota }}</td>
+                  <td>{{ item.kode_kota ? item.kode_kota : "-" }}</td>
                   <td>{{ item.koordinat }}</td>
                   <td>
                     {{
@@ -219,6 +221,7 @@ export default {
           provinsi_id: "",
           koodinat: "",
           nama_kota: "",
+          kode_kota: "",
         },
         loadings: {
           isDelete: false,
@@ -271,6 +274,7 @@ export default {
         provinsi_id: "",
         koodinat: "",
         nama_kota: "",
+        kode_kota: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {

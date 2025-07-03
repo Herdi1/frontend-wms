@@ -115,14 +115,30 @@
                       label="Nama Kota"
                       type="text"
                       name="nama_kota"
+                      :required="true"
                       v-model="parameters.form.nama_kota"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  name="kode_kota"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Kota"
+                      type="text"
+                      name="kode_kota"
+                      :required="true"
+                      v-model="parameters.form.kode_kota"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
@@ -184,6 +200,7 @@ export default {
           negara_id: "",
           provinsi_id: "",
           nama_kota: "",
+          kode_kota: "",
           koordinat: "",
         },
       },
@@ -191,8 +208,6 @@ export default {
   },
 
   async mounted() {
-    // await Promise.all([
-    //   ]);
     await this.onSearchNegara();
     await this.onSearchProvinsi();
   },
@@ -238,9 +253,10 @@ export default {
           negara_id: "",
           provinsi_id: "",
           nama_kota: "",
+          kode_kota: "",
           koordinat: "",
         };
-        this.$refs.ruteProvider.reset();
+        this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -343,6 +359,7 @@ export default {
         negara_id: "",
         provinsi_id: "",
         nama_kota: "",
+        kode_kota: "",
         koordinat: "",
       };
     },

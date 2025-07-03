@@ -78,7 +78,13 @@
                     1
                   }}
                 </td>
-                <td>{{ item.proses }}</td>
+                <td>
+                  {{
+                    item.jenis_proses_transaksi
+                      ? item.jenis_proses_transaksi.nama_jenis_proses_tansaksi
+                      : "Tidak Ditemukan"
+                  }}
+                </td>
                 <td>{{ item.modul }}</td>
                 <td>{{ item.kode_status_transaksi }}</td>
                 <td>{{ item.nama_status_transaksi }}</td>
