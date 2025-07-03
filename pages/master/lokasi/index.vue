@@ -19,14 +19,17 @@
       <div class="w-full bg-white rounded-md p-2 px-4">
         <FormInput :self="this" ref="formInput" />
       </div>
-      <div class="w-fit bg-white rounded-md p-2 px-4">
+      <div class="w-full relative bg-white rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div>
+        <div class="overflow-x-auto">
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center">Details</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Lokasi</th>
                 <th
@@ -70,8 +73,6 @@
                 <th>Latitude</th>
                 <th>Radius</th>
                 <th>Tipe Lokasi</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <!-- <tbody>
@@ -192,12 +193,14 @@ export default {
           form: {
             lokasi_id_induk: "",
             kode_referensi: "",
+            kode_lokasi: "",
             nama_lokasi: "",
             alamat_lokasi: "",
             kelurahan_id: "",
             kecamatan_id: "",
             kota_id: "",
             provinsi_id: "",
+            negara_id: "",
             kode_pos: "",
             nama_pemilik: "",
             alamat_pemilik: "",

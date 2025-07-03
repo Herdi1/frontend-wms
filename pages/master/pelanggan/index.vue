@@ -96,16 +96,16 @@
                     1
                   }}
                 </td>
-                <td>{{ item.tipe_badan_hukum_id }}</td>
+                <td>{{ item.tipebadanhukum.nama_tipe_badan_hukum }}</td>
                 <td>{{ item.kode_referensi }}</td>
                 <td>{{ item.kode_pelanggan }}</td>
                 <td>{{ item.nama_pelanggan }}</td>
-                <td>{{ item.kecamatan }}</td>
-                <td>{{ item.kota }}</td>
-                <td>{{ item.provinsi }}</td>
-                <td>{{ item.negara }}</td>
+                <td>{{ item.kecamatan.nama_kecamatan }}</td>
+                <td>{{ item.kota.nama_kota }}</td>
+                <td>{{ item.provinsi.nama_provinsi }}</td>
+                <td>{{ item.negara.nama_negara }}</td>
                 <td>{{ item.nama_pemilik }}</td>
-                <td>{{ item.lokasi }}</td>
+                <td>{{ item.lokasi.nama_lokasi }}</td>
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.radius }}</td>
@@ -297,7 +297,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/master/pelanggan/add" + item.pelanggan_id);
+      this.$router.push("/master/pelanggan/" + item.pelanggan_id);
     },
 
     onDetail(item) {

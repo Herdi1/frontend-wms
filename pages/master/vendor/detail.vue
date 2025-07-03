@@ -2,7 +2,7 @@
   <portal v-if="visible" to="modal-detail">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
-      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md max-h-[80vh] overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
+      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-[500px] max-h-[80vh] overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
       id="modal-detail"
     >
@@ -39,13 +39,14 @@
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Alias/Singkatan</label>
+                <label class="font-semibold">User PIC</label>
                 <span>{{
-                  this.parameters.form.alias
-                    ? this.parameters.form.alias
+                  this.parameters.form.user_id_pic
+                    ? this.parameters.form.user_pic.nama_lengkap
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
+
               <div>
                 <label class="font-semibold">Kode Referensi</label>
                 <span>{{
@@ -59,36 +60,30 @@
                 <span>{{ this.parameters.form.kode_vendor }}</span>
               </div>
               <div>
+                <label class="font-semibold">No NPWP Vendor</label>
+                <span>{{
+                  this.parameters.form.no_npwp
+                    ? this.parameters.form.no_npwp
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
                 <label class="font-semibold">Nama Vendor</label>
                 <span>{{ this.parameters.form.nama_vendor }}</span>
               </div>
               <div>
-                <label class="font-semibold">Tipe Vendor</label>
+                <label class="font-semibold">Alias/Singkatan</label>
                 <span>{{
-                  this.parameters.form.tipe_vendor.trim() === "o"
-                    ? "Operator"
-                    : this.parameters.form.tipe_vendor.trim() === "v"
-                    ? "Vendor"
-                    : this.parameters.form.tipe_vendor.trim() === "g"
-                    ? "Sewa Gudang"
-                    : this.parameters.form.tipe_vendor.trim() === "e"
-                    ? "Sewa Perlatan"
+                  this.parameters.form.alias
+                    ? this.parameters.form.alias
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Kode Pos Vendor</label>
+                <label class="font-semibold">Email Vendor</label>
                 <span>{{
-                  this.parameters.form.kode_pos
-                    ? this.parameters.form.kode_pos
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
-                <label class="font-semibold">User PIC</label>
-                <span>{{
-                  this.parameters.form.user_id_pic
-                    ? this.parameters.form.user_pic.nama_lengkap
+                  this.parameters.form.email
+                    ? this.parameters.form.email
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
@@ -109,26 +104,24 @@
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Email Vendor</label>
-                <span>{{
-                  this.parameters.form.email
-                    ? this.parameters.form.email
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
-                <label class="font-semibold">No NPWP Vendor</label>
-                <span>{{
-                  this.parameters.form.no_npwp
-                    ? this.parameters.form.no_npwp
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
                 <label class="font-semibold">No SIUP</label>
                 <span>{{
                   this.parameters.form.nomor_siup
                     ? this.parameters.form.nomor_siup
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Tipe Vendor</label>
+                <span>{{
+                  this.parameters.form.tipe_vendor.trim() === "o"
+                    ? "Operator"
+                    : this.parameters.form.tipe_vendor.trim() === "v"
+                    ? "Vendor"
+                    : this.parameters.form.tipe_vendor.trim() === "g"
+                    ? "Sewa Gudang"
+                    : this.parameters.form.tipe_vendor.trim() === "e"
+                    ? "Sewa Perlatan"
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
@@ -140,6 +133,15 @@
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
+              <div>
+                <label class="font-semibold">Kode Pos Vendor</label>
+                <span>{{
+                  this.parameters.form.kode_pos
+                    ? this.parameters.form.kode_pos
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+
               <div>
                 <label class="font-semibold">Negara</label>
                 <span>{{ this.parameters.form.negara.nama_negara }}</span>
@@ -163,6 +165,10 @@
                     ? this.parameters.form.kelurahan.nama_kelurahan
                     : "Tidak Ditemukan"
                 }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Lokasi</label>
+                <span>{{ this.parameters.form.lokasi.nama_lokasi }}</span>
               </div>
 
               <div>
@@ -189,10 +195,7 @@
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
-              <div>
-                <label class="font-semibold">Lokasi</label>
-                <span>{{ this.parameters.form.lokasi.nama_lokasi }}</span>
-              </div>
+
               <div>
                 <label class="font-semibold">Longitude</label>
                 <span>{{ this.parameters.form.longitude }}</span>

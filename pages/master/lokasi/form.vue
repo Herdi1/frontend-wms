@@ -558,6 +558,7 @@ export default {
         form: {
           lokasi_id_induk: "",
           kode_referensi: "",
+          kode_lokasi: "",
           nama_lokasi: "",
           alamat_lokasi: "",
           kelurahan_id: "",
