@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Term Pembayaran</span>
+        <span>Jenis</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -27,24 +27,23 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Term Pembayaran</th>
-
+                <th>Kode Jenis Peralatan</th>
                 <th
                   @click="
                     onSort(
-                      'nama_term_pembayaran',
+                      'nama_jenis_peralatan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Term Pembayaran</div>
+                    <div>Nama Jenis Peralatan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_term_pembayaran' &&
+                          parameters.params.order == 'nama_jenis_peralatan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -53,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_term_pembayaran' &&
+                          parameters.params.order == 'nama_jenis_peralatan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -62,8 +61,6 @@
                     </div>
                   </div>
                 </th>
-                <th>Keterangan</th>
-                <th>Durasi (Hari)</th>
               </tr>
             </thead>
             <tbody>
@@ -84,10 +81,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_term_pembayaran }}</td>
-                <td>{{ item.nama_term_pembayaran }}</td>
-                <td>{{ item.keterangan }}</td>
-                <td>{{ item.durasi }}</td>
+                <td>{{ item.kode_jenis_peralatan }}</td>
+                <td>{{ item.nama_jenis_peralatan }}</td>
               </tr>
             </tbody>
           </table>
@@ -107,7 +102,7 @@ export default {
 
   head() {
     return {
-      title: "Term Pembayaran",
+      title: "Jenis Peralatan",
     };
   },
 
@@ -152,9 +147,35 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState("moduleApi", ["data", "error", "result"]),
+
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "wilayah"
+        );
+
+        let roles = {};
+
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
+
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
+
+        return roles;
+      }
+    },
+  },
+
   data() {
     return {
-      title: "Term Pembayaran",
+      title: "Jenis Peralatan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -173,21 +194,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/term-pembayaran",
+        url: "master/jenis-peralatan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "term_pembayaran_id",
+          order: "jenis_peralatan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_term_pembayaran: "",
-            nama_term_pembayaran: "",
-            keterangan: "",
-            durasi: "",
+            kode_jenis_peralatan: "",
+            nama_jenis_peralatan: "",
           },
         },
         loadings: {
@@ -196,32 +215,6 @@ export default {
         },
       },
     };
-  },
-
-  computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
-
-    getRoles() {
-      if (this.user.is_superadmin == 1) {
-        return this.default_roles;
-      } else {
-        let main_role = this.user.role.menus.find(
-          (item) => item.rute == "term-pembayaran"
-        );
-
-        let roles = {};
-
-        if (JSON.parse(main_role.pivot.operators).includes("all")) {
-          return this.default_roles;
-        }
-
-        JSON.parse(main_role.pivot.operators).forEach((item) => {
-          roles[item.replace("-", "_")] = true;
-        });
-
-        return roles;
-      }
-    },
   },
 
   methods: {
@@ -233,49 +226,6 @@ export default {
       "restoreAllData",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
-
-    onFormShow() {
-      this.$router.push("/master/term-pembayaran/add");
-    },
-
-    onEdit(item) {
-      this.$router.push("/master/term-pembayaran/" + item.term_pembayaran_id);
-    },
-
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.term_pembayaran_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -304,6 +254,49 @@ export default {
       }
 
       this.isLoadingData = false;
+    },
+
+    onFormShow() {
+      this.$router.push("/master/jenis-peralatan/add");
+    },
+
+    onEdit(item) {
+      this.$router.push("/master/jenis-peralatan/" + item.jenis_peralatan_id);
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.jenis_peralatan_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
     },
 
     onSort(column, sort = "asc") {

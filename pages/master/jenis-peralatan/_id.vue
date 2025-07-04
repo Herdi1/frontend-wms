@@ -3,10 +3,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Term Pembayaran
+          Edit Data Jenis Peralatan
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Term Pembayaran
+          Tambah Data Jenis Peralatan
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -20,40 +20,21 @@
         >
           <div class="form-group">
             <input-form
-              label="Kode Term Pembayaran"
+              label="Kode Jenis Peralatan"
               type="text"
-              name="kode_term_pembayaran"
-              v-model="parameters.form.kode_term_pembayaran"
-              :required="true"
-            />
-          </div>
-          <div class="form-group">
-            <input-form
-              label="Nama Term Pembayaran"
-              type="text"
-              name="nama_term_pembayaran"
-              v-model="parameters.form.nama_term_pembayaran"
-              :required="true"
-            />
-          </div>
-          <div class="form-group">
-            <input-form
-              label="Keterangan"
-              type="text"
-              name="keterangan"
-              v-model="parameters.form.keterangan"
+              name="kode_jenis_peralatan"
+              v-model="parameters.form.kode_jenis_peralatan"
               :required="false"
             />
           </div>
           <div class="form-group">
             <input-form
-              label="Durasi"
-              type="number"
-              name="durasi"
-              v-model="parameters.form.durasi"
+              label="Nama Jenis Peralatan"
+              type="text"
+              name="nama_jenis_peralatan"
+              v-model="parameters.form.nama_jenis_peralatan"
               :required="true"
             />
-            <span class="text-sm text-gray-500 pl-1">*Hari</span>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -79,14 +60,12 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Term Pembayaran",
+      title: "Jenis Peralatan",
       parameters: {
-        url: "master/term-pembayaran",
+        url: "master/jenis-peralatan",
         form: {
-          nama_term_pembayaran: "",
-          kode_term_pembayaran: "",
-          keterangan: "",
-          durasi: "",
+          kode_jenis_peralatan: "",
+          nama_jenis_peralatan: "",
         },
       },
     };
@@ -95,7 +74,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`master/term-pembayaran/${this.id}`);
+        let res = await this.$axios.get(`master/jenis-peralatan/${this.id}`);
         this.parameters.form = res.data;
         this.isLoadingPage = false;
       }
@@ -120,8 +99,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.term_pembayaran_id
-            ? this.parameters.form.term_pembayaran_id
+          id: this.parameters.form.jenis_peralatan_id
+            ? this.parameters.form.jenis_peralatan_id
             : "",
         },
       };
@@ -138,10 +117,8 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          nama_term_pembayaran: "",
-          kode_term_pembayaran: "",
-          keterangan: "",
-          durasi: "",
+          kode_jenis_peralatan: "",
+          nama_jenis_peralatan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -154,10 +131,8 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        nama_term_pembayaran: "",
-        kode_term_pembayaran: "",
-        keterangan: "",
-        durasi: "",
+        kode_jenis_peralatan: "",
+        nama_jenis_peralatan: "",
       };
     },
   },

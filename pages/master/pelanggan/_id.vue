@@ -693,10 +693,17 @@ export default {
       isLoadingGetPelangganInduk: false,
       pelangganInduk_search: "",
 
+      isStopSearchPelangganItem: false,
+      isLoadingGetPelangganItem: false,
+      item_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Pelanggan",
+      titleItem: "Item Pelanggan",
+      isLoadingData: false,
+      isPaginate: true,
       parameters: {
         url: "master/pelanggan",
         form: {
@@ -733,6 +740,37 @@ export default {
           latitude: "",
           radius: "",
         },
+
+        formItem: {
+          item_id: "",
+          kode_wms: "",
+          kode_alternatif: "",
+          kode_alternatif_2: "",
+          nama_item: "",
+          satuan_id: "",
+          satuan_id_berat: "",
+          berat: "",
+          satuan_id_volume: "",
+          volume: "",
+          satuan_id_stocklevel: "",
+          value_stocklevel: "",
+          keterangan: "",
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
+          batas_bawah: "",
+          batas_atas: "",
+          kategori_id_1: "",
+          kategori_id_2: "",
+          kategori_id_3: "",
+          kategori_id_4: "",
+          kategori_id_5: "",
+          kapasitas_palet: "",
+          maksimum_tumpukan: "",
+          supplier_id: "",
+        },
       },
     };
   },
@@ -747,6 +785,8 @@ export default {
     } catch (error) {
       this.$router.push("/master/pelanggan");
     }
+    // this.set_data([]);
+    // this.onLoad();
   },
 
   async mounted() {
@@ -759,6 +799,41 @@ export default {
     await this.onSearchUserPIC();
     await this.onSearchLokasi();
     await this.onSearchPelangganInduk();
+    await this.onSearchItem();
+    // this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isFilter = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
+
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = true;
+    // }
+
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = true;
+    // }
+
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = false;
+
+    //   this.$refs["form-option"].isExportFilePdf = false;
+    //   this.$refs["form-option"].isExportFileExcel = false;
+
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
+
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = true;
+    // }
   },
   computed: {
     ...mapState("moduleApi", [
@@ -775,7 +850,29 @@ export default {
       "lookup_regus", //pelanggan_induk
       "lookup_location", //lokasi
       "lookup_sellers", //tipe vendor
+      "lookup_products", //item
     ]),
+    // getRoles() {
+    //   if (this.user.is_superadmin == 1) {
+    //     return this.default_roles;
+    //   } else {
+    //     let main_role = this.user.role.menus.find(
+    //       (item) => item.rute == "item"
+    //     );
+
+    //     let roles = {};
+
+    //     if (JSON.parse(main_role.pivot.operators).includes("all")) {
+    //       return this.default_roles;
+    //     }
+
+    //     JSON.parse(main_role.pivot.operators).forEach((item) => {
+    //       roles[item.replace("-", "_")] = true;
+    //     });
+
+    //     return roles;
+    //   }
+    // },
   },
 
   methods: {
@@ -897,9 +994,6 @@ export default {
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
-
-        this.isLoadingGetNegara = false;
-        console.log("negara", this.lookup_custom1.data);
       }
     },
 
@@ -943,7 +1037,6 @@ export default {
         });
 
         this.isLoadingGetProvinsi = false;
-        console.log("provinsi", this.lookup_custom2.data);
       }
     },
 
@@ -987,7 +1080,6 @@ export default {
         });
 
         this.isLoadingGetKota = false;
-        console.log("kota", this.lookup_custom3.data);
       }
     },
 
@@ -1031,7 +1123,6 @@ export default {
         });
 
         this.isLoadingGetKecamatan = false;
-        console.log("kecamatan", this.lookup_beam.data);
       }
     },
 
@@ -1074,7 +1165,6 @@ export default {
         });
 
         this.isLoadingGetKelurahan = false;
-        console.log("kelurahan", this.lookup_grade.data);
       }
     },
 
@@ -1115,7 +1205,6 @@ export default {
         });
 
         this.isLoadingGetTBH = false;
-        console.log("Tipe Badan Hukum", this.lookup_department.data);
       }
     },
 
@@ -1156,7 +1245,6 @@ export default {
         });
 
         this.isLoadingGetUserPIC = false;
-        console.log("user", this.lookup_users.data);
       }
     },
 
@@ -1197,7 +1285,6 @@ export default {
         });
 
         this.isLoadingGetLokasi = false;
-        console.log("lokasi", this.lookup_location.data);
       }
     },
 
@@ -1238,7 +1325,29 @@ export default {
         });
 
         this.isLoadingGetPelangganInduk = false;
-        console.log("pelanggan", this.lookup_regus.data);
+      }
+    },
+
+    async onSearchItem() {
+      if (!this.isLoadingGetItem) {
+        this.isLoadingGetItem = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "products",
+          query:
+            "?kategori_item_id=1" +
+            // this.parameters.form.kategori_item_id +
+            // "?search=" +
+            // this.item_search +
+            // "&page=" +
+            this.lookup_products.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItem = false;
+        this.lookup_products.data = this.parameters.formItem;
+        console.log("item", this.lookup_products.data);
       }
     },
 
