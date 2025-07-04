@@ -67,7 +67,6 @@
                 <th>Kota</th>
                 <th>Provinsi</th>
                 <th>Negara</th>
-                <th>Lokasi</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
                 <th>Radius</th>
@@ -101,7 +100,6 @@
                 <td>{{ item.kota.nama_kota }}</td>
                 <td>{{ item.provinsi.nama_provinsi }}</td>
                 <td>{{ item.negara.nama_negara }}</td>
-                <td>{{ item.lokasi.nama_lokasi }}</td>
                 <td>{{ item.longitude }}</td>
                 <td>{{ item.latitude }}</td>
                 <td>{{ item.radius }}</td>
@@ -231,7 +229,6 @@ export default {
             no_npwp: "",
             no_npwp_pemilik: "",
             email: "",
-            lokasi_id: "",
             nama_cp: "",
             telp_cp: "",
             hp_cp: "",
