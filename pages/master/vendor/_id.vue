@@ -1,10 +1,16 @@
 <template>
-  <section class="section">
-    <div class="section-body mb-10" v-if="!isLoadingPage">
-      <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-        Edit Data
-      </h1>
-      <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+  <section class="section bg-white rounded-md px-4 py-2 shadow-sm">
+    <div class="section-body mb-4" v-if="!isLoadingPage">
+      <div class="flex justify-between items-center w-full">
+        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+          Edit Data
+        </h1>
+        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+        <button class="btn btn-primary my-2" @click="$router.back()">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Kembali
+        </button>
+      </div>
       <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
         <form
           @submit.prevent="validate().then(() => onSubmit(invalid))"
@@ -12,41 +18,68 @@
         >
           <div class="modal-body mt-4">
             <div class="grid grid-cols-3 gap-2 w-full">
-              <!-- Vendor Induk -->
-              <div class="form-group w-full items-center mb-5">
-                <label for="">Vendor Induk</label>
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  v-model="parameters.form.vendor_id_induk"
-                  :loading="isLoadingGetVendorInduk"
-                  :filterable="false"
-                  @search="onGetVendorInduk"
-                  label="nama_vendor"
-                  :reduce="(item) => item.vendor_id"
-                  :options="lookup_regus.data"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_regus.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_regus.current_page > 1"
-                      @click="onGetVendorInduk(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="lookup_regus.last_page > lookup_regus.current_page"
-                      @click="onGetVendorInduk(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
+              <!-- Kode Vendor -->
+              <ValidationProvider
+                name="kode_vendor"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Vendor"
+                    type="text"
+                    name="kode_vendor"
+                    :required="true"
+                    v-model="parameters.form.kode_vendor"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <!-- Kode Referensi -->
+              <div class="form-group">
+                <input-form
+                  label="Kode Referensi"
+                  type="text"
+                  name="kode_referensi"
+                  :required="false"
+                  v-model="parameters.form.kode_referensi"
+                />
               </div>
 
+              <!-- Nama Vendor -->
+              <ValidationProvider
+                name="nama_vendor"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Nama Vendor"
+                    type="text"
+                    name="nama_vendor"
+                    :required="true"
+                    v-model="parameters.form.nama_vendor"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <!-- Alias -->
+              <div class="form-group">
+                <input-form
+                  label="Alias / Singkatan"
+                  type="text"
+                  name="alias"
+                  :required="false"
+                  v-model="parameters.form.alias"
+                />
+              </div>
               <!-- Tipe Badan Hukum -->
               <ValidationProvider name="tipe_badan_hukum" rules="required">
                 <div
@@ -92,7 +125,76 @@
                   </v-select>
                 </div>
               </ValidationProvider>
+              <!-- Vendor Induk -->
+              <div class="form-group w-full items-center mb-5">
+                <label for="">Vendor Induk</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  v-model="parameters.form.vendor_id_induk"
+                  :loading="isLoadingGetVendorInduk"
+                  :filterable="false"
+                  @search="onGetVendorInduk"
+                  label="nama_vendor"
+                  :reduce="(item) => item.vendor_id"
+                  :options="lookup_regus.data"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_regus.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_regus.current_page > 1"
+                      @click="onGetVendorInduk(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="lookup_regus.last_page > lookup_regus.current_page"
+                      @click="onGetVendorInduk(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
 
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <!-- Email Vendor -->
+              <div class="form-group">
+                <input-form
+                  label="Email"
+                  type="email"
+                  name="email"
+                  :required="false"
+                  v-model="parameters.form.email"
+                />
+              </div>
+              <!-- No Telepon Vendor -->
+              <div class="form-group">
+                <input-form
+                  label="No Telepon"
+                  type="text"
+                  name="no_telp"
+                  :required="false"
+                  v-model="parameters.form.no_telp"
+                />
+              </div>
+              <!-- No HP Vendor -->
+              <div class="form-group">
+                <input-form
+                  label="No HP"
+                  type="text"
+                  name="no_hp"
+                  :required="false"
+                  v-model="parameters.form.no_hp"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 w-full">
               <!-- User PIC -->
               <div class="form-group w-full items-center mb-5">
                 <label for="" class="w-4/12">User PIC</label>
@@ -127,40 +229,6 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <!-- Kode Referensi -->
-              <div class="form-group">
-                <input-form
-                  label="Kode Referensi"
-                  type="text"
-                  name="kode_referensi"
-                  :required="false"
-                  v-model="parameters.form.kode_referensi"
-                />
-              </div>
-
-              <!-- Kode Vendor -->
-              <ValidationProvider
-                name="kode_vendor"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Kode Vendor"
-                    type="text"
-                    name="kode_vendor"
-                    :required="true"
-                    v-model="parameters.form.kode_vendor"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                </div>
-              </ValidationProvider>
-
               <!-- No NPWP Vendor -->
               <div class="form-group">
                 <input-form
@@ -169,73 +237,6 @@
                   name="no_npwp"
                   :required="false"
                   v-model="parameters.form.no_npwp"
-                />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <!-- Nama Vendor -->
-              <ValidationProvider
-                name="nama_vendor"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Nama Vendor"
-                    type="text"
-                    name="nama_vendor"
-                    :required="true"
-                    v-model="parameters.form.nama_vendor"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                </div>
-              </ValidationProvider>
-
-              <!-- Alias -->
-              <div class="form-group">
-                <input-form
-                  label="Alias / Singkatan"
-                  type="text"
-                  name="alias"
-                  :required="false"
-                  v-model="parameters.form.alias"
-                />
-              </div>
-
-              <!-- Email Vendor -->
-              <div class="form-group">
-                <input-form
-                  label="Email"
-                  type="email"
-                  name="email"
-                  :required="false"
-                  v-model="parameters.form.email"
-                />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <!-- No Telepon Vendor -->
-              <div class="form-group">
-                <input-form
-                  label="No Telepon"
-                  type="text"
-                  name="no_telp"
-                  :required="false"
-                  v-model="parameters.form.no_telp"
-                />
-              </div>
-              <!-- No HP Vendor -->
-              <div class="form-group">
-                <input-form
-                  label="No HP"
-                  type="text"
-                  name="no_hp"
-                  :required="false"
-                  v-model="parameters.form.no_hp"
                 />
               </div>
               <!-- Nomor Siup -->
@@ -516,51 +517,6 @@
                   </li>
                 </v-select>
               </div>
-              <!-- Lokasi -->
-              <!-- <ValidationProvider name="tipe_badan_hukum" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Lokasi <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_lokasi"
-                    :loading="isLoadingGetLokasi"
-                    :options="lookup_location.data"
-                    :filterable="false"
-                    @search="onGetLokasi"
-                    :reduce="(item) => item.lokasi_id"
-                    v-model="parameters.form.lokasi_id"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_location.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_location.current_page > 1"
-                        @click="onGetLokasi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_location.last_page >
-                          lookup_location.current_page
-                        "
-                        @click="onGetLokasi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider> -->
             </div>
 
             <div class="grid grid-cols-3 gap-2 w-full">
@@ -771,10 +727,6 @@ export default {
       isLoadingGetVendorInduk: false,
       vendorInduk_search: "",
 
-      isStopSearchLokasi: false,
-      isLoadingGetLokasi: false,
-      lokasi_search: "",
-
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -803,7 +755,6 @@ export default {
           no_npwp: "",
           no_npwp_pemilik: "",
           email: "",
-          lokasi_id: "",
           nama_cp: "",
           telp_cp: "",
           hp_cp: "",
@@ -844,7 +795,6 @@ export default {
     await this.onSearchTBH();
     await this.onSearchUserPIC();
     await this.onSearchVendorInduk();
-    await this.onSearchLokasi();
     await this.lookUp({
       url: "utility",
       lookup: "sellers",
@@ -864,7 +814,6 @@ export default {
       "lookup_department", //tipe badan hukum
       "lookup_users", //user pic
       "lookup_regus", //vendor_induk
-      "lookup_location", //lokasi
       "lookup_sellers", //tipe vendor
     ]),
   },
@@ -921,7 +870,6 @@ export default {
           no_npwp: "",
           no_npwp_pemilik: "",
           email: "",
-          lokasi_id: "",
           nama_cp: "",
           telp_cp: "",
           hp_cp: "",
@@ -1275,46 +1223,6 @@ export default {
       }
     },
 
-    //Lokasi Methods Start
-    onGetLokasi(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchLokasi);
-
-      this.isStopSearchLokasi = setTimeout(() => {
-        this.lokasi_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_location.current_page = isNext
-            ? this.lookup_location.current_page + 1
-            : this.lookup_location.current_page - 1;
-        } else {
-          this.lookup_location.current_page = 1;
-        }
-
-        this.onSearchLokasi();
-      }, 600);
-    },
-
-    async onSearchLokasi() {
-      if (!this.isLoadingGetLokasi) {
-        this.isLoadingGetLokasi = true;
-
-        await this.lookUp({
-          url: "master/lokasi/get-lokasi",
-          lookup: "location",
-          query:
-            "?search=" +
-            this.lokasi_search +
-            "&page=" +
-            this.lookup_location.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetLokasi = false;
-      }
-    },
-
     onSelectNegara() {
       this.parameters.form.provinsi_id = "";
       this.parameters.form.kota_id = "";
@@ -1365,7 +1273,6 @@ export default {
         no_npwp: "",
         no_npwp_pemilik: "",
         email: "",
-        lokasi_id: "",
         nama_cp: "",
         telp_cp: "",
         hp_cp: "",

@@ -1,10 +1,18 @@
 <template>
-  <section class="section">
-    <div class="section-body mb-10" v-if="!isLoadingPage">
-      <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-        Edit Data
-      </h1>
-      <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+  <section class="section bg-white rounded-md px-4 py-2 shadow-sm">
+    <div class="section-body mb-4" v-if="!isLoadingPage">
+      <div class="flex justify-between items-center w-full">
+        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+          Edit Data Pelanggan
+        </h1>
+        <h1 v-else class="text-xl font-bold mb-2 uppercase">
+          Tambah Data Pelanggan
+        </h1>
+        <button class="btn btn-primary my-2" @click="$router.back()">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Kembali
+        </button>
+      </div>
     </div>
     <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
       <form @submit.prevent="validate().then(() => onSubmit(invalid))">
@@ -630,7 +638,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   props: ["self"],
 
@@ -679,8 +687,28 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Pelanggan",
+      itemTitle: "Item Pelanggan",
+      isLoading: false,
+      isPaginate: true,
+      user: this.$auth.user,
+      default_roles: {
+        store: true,
+        update: true,
+        destroy: true,
+        restore: true,
+        show: true,
+        export: true,
+        export_excel: true,
+        export_pdf: true,
+        print: true,
+        destroy_all: true,
+        restore_all: true,
+        import: true,
+      },
       parameters: {
         url: "master/pelanggan",
+        itemUrl: "master/item-pelanggan/get-item-pelanggan?pelanggan_id=" + id,
+        type: "pdf",
         form: {
           pelanggan_id_induk: "",
           tipe_badan_hukum_id: "",
