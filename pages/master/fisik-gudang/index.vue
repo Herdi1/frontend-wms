@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Gudang</span>
+        <span>Fisik Gudang</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,9 +15,14 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="gap-5">
+    <div class="flex gap-5">
       <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <FormInput :self="this" ref="formInput" />
+      </div>
+      <div
+        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -28,25 +33,23 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[3%]">Edit</th>
-                  <th class="w-[3%]">Delete</th>
-                  <th class="w-[3%]">No</th>
+                  <th class="w-[5%]">No</th>
                   <th
                     @click="
                       onSort(
-                        'lokasi_id',
+                        'kode_fisik_gudang',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Lokasi</div>
+                      <div>Kode Fisik Gudang</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'lokasi_id' &&
+                            parameters.params.order == 'kode_fisik_gudang' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -55,7 +58,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'lokasi_id' &&
+                            parameters.params.order == 'kode_fisik_gudang' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -64,25 +67,22 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode Gudang SAP</th>
-                  <th>Kode Gudang</th>
-                  <th>Profit & Cost</th>
                   <th
                     @click="
                       onSort(
-                        'nama_gudang',
+                        'nama_fisik_gudang',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Gudang</div>
+                      <div>Nama Fisik Gudang</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_gudang' &&
+                            parameters.params.order == 'nama_fisik_gudang' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -91,7 +91,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_gudang' &&
+                            parameters.params.order == 'nama_fisik_gudang' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -100,40 +100,24 @@
                       </div>
                     </div>
                   </th>
-                  <th>Status Konfig SAP</th>
-                  <td>Nomor Rekening</td>
-                  <th>Atas Nama Rekening</th>
-                  <th>Status Gudang</th>
-                  <th>Group Gudang 1</th>
-                  <th>Group Gudang 2</th>
-                  <th>Group Gudang 3</th>
-                  <th>Group Gudang 4</th>
-                  <th>Group Gudang 5</th>
-                  <th>Longitude</th>
-                  <th>Latitude</th>
-                  <th>Alamat</th>
-                  <th>Kecamatan</th>
-                  <th>Kota</th>
-                  <th>Provinsi</th>
-                  <th>Negara</th>
-                  <th>Vendor Pemilik</th>
-                  <th>Vendor Operator</th>
-                  <th>Fungsi Gudang</th>
-                  <th>No Handphone</th>
-                  <th>No WhatsApp</th>
-                  <th>Kapasitas</th>
-                  <th>Kapasitas Bongkar</th>
-                  <th>Fisik Gudang</th>
-                  <th>Ukuran Gudang</th>
-                  <th>File Layout</th>
-                  <th>Status Sewa</th>
-                  <th>Status Satpam</th>
-                  <th>Luas Gudang</th>
-                  <th>Satuan Luas</th>
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td>
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td>
+                    {{ item.kode_fisik }}
+                  </td>
+                  <td>{{ item.nama_fisik }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -143,113 +127,6 @@
                       v-if="!item.deleted_at"
                     />
                   </td>
-                  <td>
-                    {{
-                      (parameters.params.page - 1) *
-                        parameters.params.per_page +
-                      i +
-                      1
-                    }}
-                  </td>
-                  <td>{{ item.lokasi.nama_lokasi }}</td>
-                  <td>{{ item.kode_gudang_sap }}</td>
-                  <td>{{ item.kode_gudang }}</td>
-                  <td>
-                    {{
-                      item.profit_cost.nama_wilayah +
-                      " (" +
-                      item.profit_cost.profit_center +
-                      "-" +
-                      item.profit_cost.cost_center +
-                      ")"
-                    }}
-                  </td>
-                  <td>{{ item.nama_gudang }}</td>
-                  <td>
-                    {{
-                      item.status_konfig_outbound_sap == 1
-                        ? "Aktif"
-                        : "Non Aktif"
-                    }}
-                  </td>
-                  <td>{{ item.nomor_rekening }}</td>
-                  <td>{{ item.atas_nama_rekening }}</td>
-                  <td>{{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}</td>
-                  <td>
-                    {{
-                      item.group_gudang_1
-                        ? item.group_gudang_1.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_2
-                        ? item.group_gudang_2.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_3
-                        ? item.group_gudang_3.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_4
-                        ? item.group_gudang_4.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_5
-                        ? item.group_gudang_5.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>{{ item.longitude }}</td>
-                  <td>{{ item.latitude }}</td>
-                  <td>{{ item.alamat }}</td>
-                  <td>{{ item.kecamatan.nama_kecamatan }}</td>
-                  <td>{{ item.kota.nama_kota }}</td>
-                  <td>{{ item.provinsi.nama_provinsi }}</td>
-                  <td>{{ item.negara.nama_negara }}</td>
-                  <td>{{ item.vendor_pemilik.nama_vendor }}</td>
-                  <td>
-                    {{
-                      item.vendor_operator
-                        ? item.vendor_operator.nama_vendor
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>{{ item.fungsi_gudang.nama_fungsi }}</td>
-                  <td>{{ item.no_hp }}</td>
-                  <td>{{ item.no_wa }}</td>
-                  <td>{{ item.kapasitas }}</td>
-                  <td>{{ item.kapasitas_bongkar }}</td>
-                  <td>{{ item.fisik_gudang.nama_fisik }}</td>
-                  <td>{{ item.ukuran_gudang.nama_ukuran }}</td>
-                  <td>
-                    <button
-                      @click="displayFile"
-                      class="p-2 text-xl w-10 h-auto bg-blue-500 rounded-md"
-                    >
-                      <i class="fa fa-file text-white"></i>
-                    </button>
-                  </td>
-                  <td>{{ item.status_sewa == 0 ? "Sewa" : "Sendiri" }}</td>
-                  <td>
-                    {{
-                      item.status_satpam == 0
-                        ? "Tidak Memiliki Satpam"
-                        : "Memiliki Satpam"
-                    }}
-                  </td>
-                  <td>{{ item.luas_gudang }}</td>
-                  <td>{{ item.satuan_luas.nama_satuan }}</td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -257,25 +134,26 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
+
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
     </div>
-    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import FormInput from "./form.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Gudang",
+      title: "Fisik Gudang",
     };
   },
 
@@ -284,7 +162,9 @@ export default {
     this.onLoad();
   },
 
-  components: {},
+  components: {
+    FormInput,
+  },
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -302,14 +182,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -325,58 +205,25 @@ export default {
 
   data() {
     return {
-      title: "Gudang",
+      title: "Fisik Gudang",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/gudang",
+        url: "master/fisik-gudang",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "gudang_id",
+          order: "fisik_gudang_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          gudang_id: "",
-          lokasi_id: "",
-          kode_gudang_sap: "",
-          profit_cost_id: "",
-          kode_gudang: "",
-          nama_gudang: "",
-          status_konfig_outbound_sap: "",
-          nomor_rekening: "",
-          atas_nama_rekening: "",
-          status_gudang: "",
-          group_gudang_id_1: "",
-          group_gudang_id_2: "",
-          group_gudang_id_3: "",
-          group_gudang_id_4: "",
-          group_gudang_id_5: "",
-          longitude: "",
-          latitude: "",
-          alamat: "",
-          kecamatan_id: "",
-          kota_id: "",
-          provinsi_id: "",
-          negara_id: "",
-          vendor_id_pemilik: "",
-          vendor_id_operator: "",
-          fungsi_gudang_id: "",
-          no_hp: "",
-          no_wa: "",
-          kapasitas: "",
-          kapasitas_bongkar: "",
           fisik_gudang_id: "",
-          ukuran_gudang_id: "",
-          file_layout: "",
-          status_sewa: "",
-          status_satpam: "",
-          luas_gudang: "",
-          satuan_id_luas: "",
+          kode_fisik_gudang: "",
+          nama_fisik_gudang: "",
         },
         loadings: {
           isDelete: false,
@@ -409,7 +256,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "gudang"
+          (item) => item.rute == "group-item"
         );
 
         let roles = {};
@@ -439,11 +286,25 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/gudang/add");
+      this.$refs.formInput.parameters.form = {
+        kode_fisik_gudang: "",
+        nama_fisik_gudang: "",
+        status: 0,
+      };
+      this.$refs.formInput.isEditable = false;
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
     },
 
     onEdit(item) {
-      this.$router.push("/master/gudang/" + item.gudang_id);
+      this.$refs.formInput.isEditable = true;
+      this.$refs.formInput.parameters.form = {
+        ...item,
+      };
+      this.$nextTick(() => {
+        this.$refs.formInput?.$refs?.formValidate?.reset();
+      });
     },
 
     onTrashed(item) {
@@ -462,7 +323,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.gudang_id,
+              id: item.fisik_gudang_id,
               params: this.parameters.params,
             });
 
@@ -523,10 +384,6 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
-    },
-
-    displayFile() {
-      console.log("display file");
     },
   },
 };

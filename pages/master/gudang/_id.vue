@@ -17,6 +17,7 @@
           <form
             @submit.prevent="validate().then(() => onSubmit(invalid))"
             autocomplete="off"
+            enctype="multipart/form-data"
           >
             <div class="w-full md:flex gap-3">
               <div
@@ -236,7 +237,7 @@
                         v-model="form.group_gudang_id_1"
                         :reduce="(item) => item.group_gudang_id"
                         class="w-full"
-                        @input="onSearchGroupGudang2"
+                        @input="onSelectGroup1"
                       >
                         <li
                           slot-scope="{ search }"
@@ -285,7 +286,7 @@
                           v-model="form.group_gudang_id_2"
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
-                          @input="onSearchGroupGudang3"
+                          @input="onSelectGroup2"
                         >
                           <li
                             slot-scope="{ search }"
@@ -332,7 +333,7 @@
                           v-model="form.group_gudang_id_3"
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
-                          @input="onSearchGroupGudang4"
+                          @input="onSelectGroup3"
                         >
                           <li
                             slot-scope="{ search }"
@@ -382,7 +383,7 @@
                           v-model="form.group_gudang_id_4"
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
-                          @input="onSearchGroupGudang5"
+                          @input="onSelectGroup4"
                         >
                           <li
                             slot-scope="{ search }"
@@ -494,7 +495,7 @@
                         v-model="form.negara_id"
                         :reduce="(item) => item.negara_id"
                         class="w-full"
-                        @input="onSearchProvinsi"
+                        @input="onSelectNegara"
                       >
                         <li
                           slot-scope="{ search }"
@@ -540,7 +541,7 @@
                         v-model="form.provinsi_id"
                         :reduce="(item) => item.provinsi_id"
                         class="w-full"
-                        @input="onSearchKota"
+                        @input="onSelectProvinsi"
                       >
                         <li
                           slot-scope="{ search }"
@@ -585,7 +586,7 @@
                         v-model="form.kota_id"
                         :reduce="(item) => item.kota_id"
                         class="w-full"
-                        @input="onSearchKecamatan"
+                        @input="onSelectKota"
                       >
                         <li
                           slot-scope="{ search }"
@@ -1016,8 +1017,32 @@
                         </v-select>
                       </div>
                     </ValidationProvider>
+                  </div>
 
-                    <div class="grid grid-cols-2 w-full"></div>
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Radius"
+                      type="text"
+                      name="radius"
+                      :required="true"
+                      v-model="form.radius"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label
+                      for="file_layout"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >File Layout Gudang
+                      <span class="text-danger">*</span></label
+                    >
+                    <input
+                      class="block w-full mb-2 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      id="small_size"
+                      type="file"
+                      :required="!form.file_layout"
+                      @change="handleFileChange"
+                    />
                   </div>
                 </div>
                 <modal-footer-section
@@ -1096,6 +1121,7 @@ export default {
         status_satpam: "",
         luas_gudang: "",
         satuan_id_luas: "",
+        radius: "",
       },
 
       default_form: {
@@ -1135,6 +1161,7 @@ export default {
         status_satpam: "",
         luas_gudang: "",
         satuan_id_luas: "",
+        radius: "",
       },
 
       isStopSearchLokasi: false,
@@ -1219,7 +1246,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("master/gudang");
+      this.$router.back();
     }
   },
 
@@ -1273,17 +1300,23 @@ export default {
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.form.file_layout = file;
+    },
+
     onSubmit(isInvalid) {
-      console.log(this.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
 
       let url = "master/gudang";
 
-      let formData = {
-        ...this.form,
-      };
+      let formData = new FormData();
+
+      Object.entries(this.form).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -1305,7 +1338,7 @@ export default {
             };
           }
 
-          this.$router.pus("master/gudang");
+          this.$router.push("/master/gudang");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -1468,6 +1501,8 @@ export default {
             "?search=" +
             this.group_gudang_2_search +
             "&status=2" +
+            "&group_gudang_id_induk=" +
+            this.form.group_gudang_id_1 +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1508,6 +1543,8 @@ export default {
             "?search=" +
             this.group_gudang_3_search +
             "&status=3" +
+            "&group_gudang_id_induk=" +
+            this.form.group_gudang_id_2 +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1547,7 +1584,9 @@ export default {
           query:
             "?search=" +
             this.group_gudang_4_search +
-            "&status=3" +
+            "&status=4" +
+            "&group_gudang_id_induk=" +
+            this.form.group_gudang_id_3 +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",
@@ -1587,7 +1626,9 @@ export default {
           query:
             "?search=" +
             this.group_gudang_5_search +
-            "&status=3" +
+            "&status=5" +
+            "&group_gudang_id_induk=" +
+            this.form.group_gudang_id_4 +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
@@ -2004,6 +2045,39 @@ export default {
 
         this.isLoadingGetSatuanLuas = false;
       }
+    },
+
+    onSelectGroup1() {
+      this.form.group_gudang_id_2 = "";
+      this.onSearchGroupGudang2();
+    },
+    onSelectGroup2() {
+      this.form.group_gudang_id_3 = "";
+      this.onSearchGroupGudang3();
+    },
+    onSelectGroup3() {
+      this.form.group_gudang_id_4 = "";
+      this.onSearchGroupGudang4();
+    },
+    onSelectGroup4() {
+      this.form.group_gudang_id_5 = "";
+      this.onSearchGroupGudang5();
+    },
+
+    onSelectNegara() {
+      this.form.provinsi_id = "";
+      this.form.kota_id = "";
+      this.form.kecamatan_id = "";
+      this.onSearchProvinsi();
+    },
+    onSelectProvinsi() {
+      this.form.kota_id = "";
+      this.form.kecamatan_id = "";
+      this.onSearchKota();
+    },
+    onSelectKota() {
+      this.kecamatan_id = "";
+      this.onSearchKecamatan();
     },
 
     formReset() {
