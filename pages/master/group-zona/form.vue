@@ -13,24 +13,15 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="nama_group_zona"
-                  rules="required"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Group Zona"
-                      type="text"
-                      name="nama_group_zona"
-                      :required="true"
-                      v-model="parameters.form.nama_group_zona"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                  </div>
-                </ValidationProvider>
+                <div class="form-group">
+                  <input-form
+                    label="Nama Group Zona"
+                    type="text"
+                    name="nama_group_zona"
+                    v-model="parameters.form.nama_group_zona"
+                    :required="true"
+                  />
+                </div>
               </div>
               <modal-footer-section
                 class="mt-5"

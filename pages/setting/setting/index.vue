@@ -59,13 +59,11 @@
                         type="text"
                         name="company_name"
                         v-model="form.company_name"
+                        :required="true"
                         :inputClass="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <div class="text-sm text-danger" v-if="errors[0]">
-                        {{ errors[0] }}
-                      </div>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider name="email" rules="required|email">
@@ -75,13 +73,11 @@
                         type="text"
                         name="email"
                         v-model="form.email"
+                        :required="true"
                         :inputClass="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <div class="text-sm text-danger" v-if="errors[0]">
-                        {{ errors[0] }}
-                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -103,13 +99,11 @@
                         type="text"
                         name="phone"
                         v-model="form.phone"
+                        :required="true"
                         :inputClass="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <div class="text-sm text-danger" v-if="errors[0]">
-                        {{ errors[0] }}
-                      </div>
                     </div>
                   </ValidationProvider>
 

@@ -19,7 +19,7 @@
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
                   <label for="modul"
-                    >Modul<span class="text-danger">*</span></label
+                    >Modul <span class="text-danger">*</span></label
                   >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -47,7 +47,7 @@
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
                   <label for="jenis_proses_transaksi_id"
-                    >Proses<span class="text-danger">*</span></label
+                    >Proses <span class="text-danger">*</span></label
                   >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"

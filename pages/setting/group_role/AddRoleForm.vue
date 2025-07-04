@@ -21,25 +21,27 @@
                     v-slot="{ errors, valid }"
                   >
                     <div class="form-group">
-                      <label for="nama_role">Nama</label>
+                      <label for="nama_role"
+                        >Nama <span class="text-danger">*</span></label
+                      >
                       <input
                         id="nama_role"
                         type="text"
                         class="border border-gray-300 rounded md p-1 outline-none w-full text-black"
                         name="nama_role"
                         v-model="parameters.form.nama_role"
+                        required
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       />
-                      <div class="invalid-feedback" v-if="errors[0]">
-                        {{ errors[0] }}
-                      </div>
                     </div>
                   </ValidationProvider>
 
                   <div class="form-group">
-                    <label for="type_option">Opsi Pilihan</label>
+                    <label for="type_option"
+                      >Opsi Pilihan <span class="text-danger">*</span></label
+                    >
                     <select
                       class="form-control border border-gray-300 rounded md p-2 outline-none w-full text-gray-500 mb-2"
                       v-model="parameters.form.type_option"

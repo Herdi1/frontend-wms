@@ -12,73 +12,42 @@
             autocomplete="off"
           >
             <div class="modal-body mt-4">
-              <ValidationProvider
-                name="kode_palet"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Kode Palet"
-                    type="text"
-                    name="kode_palet"
-                    v-model="parameters.form.kode_palet"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider
-                name="nama_palet"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Nama Palet"
-                    type="text"
-                    name="nama_palet"
-                    v-model="parameters.form.nama_palet"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider
-                name="rfid"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="RFID"
-                    type="text"
-                    name="rfid"
-                    v-model="parameters.form.rfid"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
-                </div>
-              </ValidationProvider>
+              <div class="form-group">
+                <input-form
+                  label="Kode Palet"
+                  type="text"
+                  name="kode_palet"
+                  v-model="parameters.form.kode_palet"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Nama Palet"
+                  type="text"
+                  name="nama_palet"
+                  v-model="parameters.form.nama_palet"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="RFID"
+                  type="text"
+                  name="rfid"
+                  v-model="parameters.form.rfid"
+                  :required="true"
+                />
+              </div>
               <ValidationProvider
                 name="status_palet"
                 rules="required"
                 ref="ruteProvider"
               >
                 <div class="form-group" slot-scope="{ errors, valid }">
-                  <label for="status_palet"> Status Palet </label>
+                  <label for="status_palet">
+                    Status Palet <span class="text-danger">*</span>
+                  </label>
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     v-model="parameters.form.status_palet"
@@ -87,9 +56,6 @@
                     <option value="a">Aktif</option>
                     <option value="n">Nonaktif</option>
                   </select>
-                  <div v-if="errors[0]" class="text-danger">
-                    {{ errors[0] }}
-                  </div>
                 </div>
               </ValidationProvider>
             </div>
@@ -176,6 +142,7 @@ export default {
           rfid: "",
           status_palet: "a",
         };
+        this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);

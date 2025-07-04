@@ -15,11 +15,10 @@
               <div class="modal-body mt-4">
                 <ValidationProvider name="id_negara" rules="required">
                   <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12">Negara</label>
+                    <label for="" class="w-4/12"
+                      >Negara <span class="text-danger">*</span></label
+                    >
                     <v-select
-                      v-if="
-                        lookup_custom1.data && lookup_custom1.data.length > 0
-                      "
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_negara"
                       :loading="isLoadingGetNegara"
@@ -53,7 +52,6 @@
                         >
                       </li>
                     </v-select>
-                    <span v-else>Loading Negara...</span>
                   </div>
                 </ValidationProvider>
 
@@ -62,7 +60,9 @@
                     class="form-group w-full items-center mb-5"
                     slot-scope="{ errors, valid }"
                   >
-                    <label for="" class="w-4/12">Provinsi</label>
+                    <label for="" class="w-4/12"
+                      >Provinsi <span class="text-danger">*</span></label
+                    >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_provinsi"
@@ -99,9 +99,6 @@
                         >
                       </li>
                     </v-select>
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
 
@@ -152,13 +149,11 @@
                       type="text"
                       name="koordinat"
                       v-model="parameters.form.koordinat"
+                      :required="true"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                    <div v-if="errors[0]" class="text-danger">
-                      {{ errors[0] }}
-                    </div>
                   </div>
                 </ValidationProvider>
               </div>
@@ -257,6 +252,7 @@ export default {
           koordinat: "",
         };
         this.$refs.formValidate.reset();
+        this.$refs.ruteProvider.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
