@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Lokasi Toko</span>
+        <span>Jenis</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,35 +15,35 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex flex-col gap-5">
-      <div class="w-full relative bg-white rounded-md p-2 px-4">
+    <div class="flex sm:flex-col md:flex-row gap-5">
+      <div class="w-full bg-white rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
+        <div>
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Lokasi</th>
+                <th>Kode Jenis Peralatan</th>
                 <th
                   @click="
                     onSort(
-                      'nama_lokasi',
+                      'nama_jenis_peralatan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Lokasi</div>
+                    <div>Nama Jenis Peralatan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_lokasi' &&
+                          parameters.params.order == 'nama_jenis_peralatan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -52,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_lokasi' &&
+                          parameters.params.order == 'nama_jenis_peralatan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -61,30 +61,10 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Pos</th>
-                <th>Kecamatan</th>
-                <th>Kota</th>
-                <th>Provinsi</th>
-                <th>Negara</th>
-                <th>Nama Pemilik</th>
-                <th>No Telp</th>
-                <th>No HP</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Radius</th>
-                <th>Tipe Lokasi</th>
               </tr>
             </thead>
-            <!-- <tbody>
+            <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.nama_wilayah }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -94,8 +74,17 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.kode_jenis_peralatan }}</td>
+                <td>{{ item.nama_jenis_peralatan }}</td>
               </tr>
-            </tbody> -->
+            </tbody>
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
@@ -108,13 +97,12 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Lokasi Toko",
+      title: "Jenis Peralatan",
     };
   },
 
@@ -159,9 +147,35 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState("moduleApi", ["data", "error", "result"]),
+
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "wilayah"
+        );
+
+        let roles = {};
+
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
+
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
+
+        return roles;
+      }
+    },
+  },
+
   data() {
     return {
-      title: "Lokasi Toko",
+      title: "Jenis Peralatan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -180,46 +194,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/lokasi",
+        url: "master/jenis-peralatan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "lokasi_id",
+          order: "jenis_peralatan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            lokasi_id_induk: "",
-            kode_referensi: "",
-            kode_lokasi: "",
-            nama_lokasi: "",
-            alamat_lokasi: "",
-            kelurahan_id: "",
-            kecamatan_id: "",
-            kota_id: "",
-            provinsi_id: "",
-            negara_id: "",
-            kode_pos: "",
-            nama_pemilik: "",
-            alamat_pemilik: "",
-            no_telp: "",
-            no_hp: "",
-            nilai_plafon: "",
-            no_npwp: "",
-            email: "",
-            longitude: "",
-            latitude: "",
-            radius: "",
-            longitude2: "",
-            latitude2: "",
-            radius2: "",
-            longitude3: "",
-            latitude3: "",
-            radius3: "",
-            alamat: "",
-            tipe_lokasi: "",
+            kode_jenis_peralatan: "",
+            nama_jenis_peralatan: "",
           },
         },
         loadings: {
@@ -228,36 +215,6 @@ export default {
         },
       },
     };
-  },
-
-  components: {
-    FormInput,
-  },
-
-  computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
-
-    getRoles() {
-      if (this.user.is_superadmin == 1) {
-        return this.default_roles;
-      } else {
-        let main_role = this.user.role.menus.find(
-          (item) => item.rute == "lokasi"
-        );
-
-        let roles = {};
-
-        if (JSON.parse(main_role.pivot.operators).includes("all")) {
-          return this.default_roles;
-        }
-
-        JSON.parse(main_role.pivot.operators).forEach((item) => {
-          roles[item.replace("-", "_")] = true;
-        });
-
-        return roles;
-      }
-    },
   },
 
   methods: {
@@ -269,21 +226,6 @@ export default {
       "restoreAllData",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
-
-    onFormShow() {
-      this.$router.push("/master/lokasi/add");
-    },
-
-    onEdit(item) {
-      this.$router.push("/master/lokasi/" + item.lokasi_id);
-    },
-
-    onDetail(item) {
-      this.$refs.modalDetail.parameters.form = {
-        ...item,
-      };
-      this.$refs.modalDetail.show();
-    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -300,7 +242,6 @@ export default {
       await this.getData(this.parameters);
 
       if (this.result == true) {
-        // console.log("data", this.data);
         loader.hide();
 
         if (page == 1) {
@@ -313,6 +254,14 @@ export default {
       }
 
       this.isLoadingData = false;
+    },
+
+    onFormShow() {
+      this.$router.push("/master/jenis-peralatan/add");
+    },
+
+    onEdit(item) {
+      this.$router.push("/master/jenis-peralatan/" + item.jenis_peralatan_id);
     },
 
     onTrashed(item) {
@@ -331,7 +280,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.lokasi_id,
+              id: item.jenis_peralatan_id,
               params: this.parameters.params,
             });
 
@@ -348,27 +297,6 @@ export default {
           }
         },
       });
-    },
-
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.lokasi_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
     },
 
     onSort(column, sort = "asc") {

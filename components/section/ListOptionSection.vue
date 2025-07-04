@@ -1,7 +1,10 @@
 <template>
   <div class="mb-4">
     <div class="col-md-12 mb-2">
-      <h5 class="uppercase text-xl font-bold">DATA {{ self.title }}</h5>
+      <h5 class="uppercase text-xl font-bold" v-if="self.itemTitle">
+        DATA {{ self.itemTitle }}
+      </h5>
+      <h5 class="uppercase text-xl font-bold" v-else>DATA {{ self.title }}</h5>
     </div>
     <div class="col-md-12" style="margin-top: -10px">
       <div class="flex gap-5">

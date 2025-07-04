@@ -70,6 +70,39 @@
                   <th
                     @click="
                       onSort(
+                        'kode_group_item',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Group Item</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_group_item' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_group_item' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
                         'nama_group_item',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
@@ -154,6 +187,7 @@
                         : "Tidak Memiliki Group Induk"
                     }}
                   </td>
+                  <td>{{ item.kode_group_item }}</td>
                   <td>{{ item.nama_group_item }}</td>
                   <td>Level {{ item.status }}</td>
                   <td class="text-center">
@@ -262,6 +296,7 @@ export default {
           group_item_id: "",
           group_item_id_induk: "",
           nama_group_item: "",
+          kode_group_item: "",
           status: "",
         },
         loadings: {

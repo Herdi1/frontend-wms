@@ -15,6 +15,21 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_group_item"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Group Item"
+                      type="text"
+                      name="kode_group_item"
+                      :required="true"
+                      v-model="parameters.form.kode_group_item"
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="kode_tipe_pajak"
                   rules="required"
                 >
@@ -118,6 +133,7 @@ export default {
       parameters: {
         url: "master/group-item",
         form: {
+          kode_group_item: "",
           nama_group_item: "",
           group_item_id_induk: "",
           status: 1,
@@ -166,8 +182,9 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
-          group_item_id_induk: "",
+          kode_group_item: "",
           nama_group_item: "",
+          group_item_id_induk: "",
           status: 0,
         };
 
@@ -227,8 +244,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        group_item_id_induk: "",
+        kode_group_item: "",
         nama_group_item: "",
+        group_item_id_induk: "",
         status: 0,
       };
     },

@@ -1,638 +1,641 @@
 <template>
-  <section class="section bg-white rounded-md px-4 py-2 shadow-sm">
-    <div class="section-body mb-4" v-if="!isLoadingPage">
-      <div class="flex justify-between items-center w-full">
-        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Pelanggan
-        </h1>
-        <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Pelanggan
-        </h1>
-        <button class="btn btn-primary my-2" @click="$router.back()">
-          <i class="fas fa-arrow-left mr-2"></i>
-          Kembali
-        </button>
+  <section class="section">
+    <div class="bg-white rounded-md px-4 py-2 shadow-sm mb-10">
+      <div class="section-body mb-4" v-if="!isLoadingPage">
+        <div class="flex justify-between items-center w-full">
+          <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+            Edit Data Pelanggan
+          </h1>
+          <h1 v-else class="text-xl font-bold mb-2 uppercase">
+            Tambah Data Pelanggan
+          </h1>
+          <button class="btn btn-primary my-2" @click="$router.back()">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
+          </button>
+        </div>
       </div>
-    </div>
-    <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
-      <form @submit.prevent="validate().then(() => onSubmit(invalid))">
-        <div class="modal-body mt-4">
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group w-full items-center mb-5">
-              <label for="">Pelanggan Induk</label>
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                v-model="parameters.form.pelanggan_id_induk"
-                :loading="isLoadingGetPelangganInduk"
-                :filterable="false"
-                @search="onGetPelangganInduk"
-                label="nama_pelanggan"
-                :reduce="(item) => item.pelanggan_id"
-                :options="lookup_regus.data"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_regus.data.length || search"
-                >
-                  <span
-                    v-if="lookup_regus.current_page > 1"
-                    @click="onGetPelangganInduk(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="lookup_regus.last_page > lookup_regus.current_page"
-                    @click="onGetPelangganInduk(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <ValidationProvider name="tipe_badan_hukum" rules="required">
+      <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
+        <form @submit.prevent="validate().then(() => onSubmit(invalid))">
+          <div class="modal-body mt-4">
+            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group w-full items-center mb-5">
-                <label for=""
-                  >Tipe Badan Hukum <span class="text-danger">*</span></label
-                >
+                <label for="">Pelanggan Induk</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_tipe_badan_hukum"
-                  :loading="isLoadingGetTBH"
-                  :options="lookup_department.data"
+                  v-model="parameters.form.pelanggan_id_induk"
+                  :loading="isLoadingGetPelangganInduk"
                   :filterable="false"
-                  @search="onGetTBH"
-                  :reduce="(item) => item.tipe_badan_hukum_id"
-                  v-model="parameters.form.tipe_badan_hukum_id"
+                  @search="onGetPelangganInduk"
+                  label="nama_pelanggan"
+                  :reduce="(item) => item.pelanggan_id"
+                  :options="lookup_regus.data"
                 >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
                     class="p-1 border-t flex justify-between"
-                    v-if="lookup_department.data.length || search"
+                    v-if="lookup_regus.data.length || search"
                   >
                     <span
-                      v-if="lookup_department.current_page > 1"
-                      @click="onGetTBH(search, false)"
+                      v-if="lookup_regus.current_page > 1"
+                      @click="onGetPelangganInduk(search, false)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Sebelumnya</span
                     >
                     <span
-                      v-if="
-                        lookup_department.last_page >
-                        lookup_department.current_page
-                      "
-                      @click="onGetTBH(search, true)"
+                      v-if="lookup_regus.last_page > lookup_regus.current_page"
+                      @click="onGetPelangganInduk(search, true)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
                   </li>
                 </v-select>
               </div>
-            </ValidationProvider>
-            <div class="form-group w-full items-center mb-5">
-              <label for="" class="w-4/12">User Sales</label>
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_lengkap"
-                :loading="isLoadingGetUserPIC"
-                :options="lookup_users.data"
-                :filterable="false"
-                @search="onGetUserPIC"
-                :reduce="(item) => item.user_id"
-                v-model="parameters.form.user_id_sales"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_users.data.length || search"
-                >
-                  <span
-                    v-if="lookup_users.current_page > 1"
-                    @click="onGetUserPIC(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
+              <ValidationProvider name="tipe_badan_hukum" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for=""
+                    >Tipe Badan Hukum <span class="text-danger">*</span></label
                   >
-                  <span
-                    v-if="lookup_users.last_page > lookup_users.current_page"
-                    @click="onGetUserPIC(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_tipe_badan_hukum"
+                    :loading="isLoadingGetTBH"
+                    :options="lookup_department.data"
+                    :filterable="false"
+                    @search="onGetTBH"
+                    :reduce="(item) => item.tipe_badan_hukum_id"
+                    v-model="parameters.form.tipe_badan_hukum_id"
                   >
-                </li>
-              </v-select>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="Kode Referensi"
-                type="text"
-                name="kode_referensi"
-                :required="true"
-                v-model="parameters.form.kode_referensi"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Kode Pelanggan"
-                type="text"
-                name="kode_pelanggan"
-                :required="true"
-                v-model="parameters.form.kode_pelanggan"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Nomor NPWP Pelanggan"
-                type="text"
-                name="no_npwp"
-                :required="false"
-                v-model="parameters.form.no_npwp"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="Nama Pelanggan"
-                type="text"
-                name="nama_pelanggan"
-                :required="true"
-                v-model="parameters.form.nama_pelanggan"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Alias / Singkatan"
-                type="text"
-                name="alias"
-                :required="true"
-                v-model="parameters.form.alias"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Email"
-                type="email"
-                name="email"
-                :required="false"
-                v-model="parameters.form.email"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <ValidationProvider name="id_negara" rules="required">
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_department.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_department.current_page > 1"
+                        @click="onGetTBH(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_department.last_page >
+                          lookup_department.current_page
+                        "
+                        @click="onGetTBH(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12"
-                  >Negara <span class="text-danger">*</span></label
-                >
+                <label for="" class="w-4/12">User Sales</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_negara"
-                  :loading="isLoadingGetNegara"
-                  :options="lookup_custom1.data"
+                  label="nama_lengkap"
+                  :loading="isLoadingGetUserPIC"
+                  :options="lookup_users.data"
                   :filterable="false"
-                  @search="onGetNegara"
-                  :reduce="(item) => item.negara_id"
-                  v-model="parameters.form.negara_id"
-                  @input="onSelectNegara"
+                  @search="onGetUserPIC"
+                  :reduce="(item) => item.user_id"
+                  v-model="parameters.form.user_id_sales"
                 >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
                     class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom1.data.length || search"
+                    v-if="lookup_users.data.length || search"
                   >
                     <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetNegara(search, false)"
+                      v-if="lookup_users.current_page > 1"
+                      @click="onGetUserPIC(search, false)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Sebelumnya</span
                     >
                     <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetNegara(search, true)"
+                      v-if="lookup_users.last_page > lookup_users.current_page"
+                      @click="onGetUserPIC(search, true)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
                   </li>
                 </v-select>
               </div>
-            </ValidationProvider>
-            <ValidationProvider name="id_provinsi" rules="required">
-              <div
-                class="form-group w-full items-center mb-5"
-                slot-scope="{ errors, valid }"
-              >
-                <label for="" class="w-4/12"
-                  >Provinsi <span class="text-danger">*</span></label
-                >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_provinsi"
-                  :loading="isLoadingGetProvinsi"
-                  :options="lookup_custom2.data"
-                  :filterable="false"
-                  @search="onGetProvinsi"
-                  :reduce="(item) => item.provinsi_id"
-                  v-model="parameters.form.provinsi_id"
-                  @input="onSelectProvinsi"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom2.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom2.current_page > 1"
-                      @click="onGetProvinsi(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom2.last_page > lookup_custom2.current_page
-                      "
-                      @click="onGetProvinsi(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider name="id_kota" rules="required">
-              <div
-                class="form-group w-full items-center mb-5"
-                slot-scope="{ errors, valid }"
-              >
-                <label for="" class="w-4/12"
-                  >Kota <span class="text-danger">*</span></label
-                >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_kota"
-                  :loading="isLoadingGetKota"
-                  :options="lookup_custom3.data"
-                  :filterable="false"
-                  @search="onGetKota"
-                  :reduce="(item) => item.kota_id"
-                  v-model="parameters.form.kota_id"
-                  @input="onSelectKota"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom3.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom3.current_page > 1"
-                      @click="onGetKota(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom3.last_page > lookup_custom3.current_page
-                      "
-                      @click="onGetKota(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <ValidationProvider name="id_kecamatan" rules="required">
-              <div
-                class="form-group w-full items-center mb-5"
-                slot-scope="{ errors, valid }"
-              >
-                <label for="" class="w-4/12"
-                  >Kecamatan <span class="text-danger">*</span></label
-                >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_kecamatan"
-                  :loading="isLoadingGetKecamatan"
-                  :options="lookup_beam.data"
-                  :filterable="false"
-                  @search="onGetKecamatan"
-                  :reduce="(item) => item.kecamatan_id"
-                  v-model="parameters.form.kecamatan_id"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  @input="onSelectKecamatan"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_beam.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_beam.current_page > 1"
-                      @click="onGetKecamatan(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="lookup_beam.last_page > lookup_beam.current_page"
-                      @click="onGetKecamatan(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-            <div class="form-group w-full items-center mb-5">
-              <label for="" class="w-4/12">Kelurahan</label>
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_kelurahan"
-                :loading="isLoadingGetKelurahan"
-                :options="lookup_grade.data"
-                :filterable="false"
-                @search="onGetKelurahan"
-                :reduce="(item) => item.kelurahan_id"
-                v-model="parameters.form.kelurahan_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_grade.data.length || search"
-                >
-                  <span
-                    v-if="lookup_grade.current_page > 1"
-                    @click="onGetKelurahan(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="lookup_grade.last_page > lookup_grade.current_page"
-                    @click="onGetKelurahan(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
             </div>
-            <div class="form-group">
-              <input-form
-                label="Kode Pos"
-                type="text"
-                name="kode_pos"
-                :required="false"
-                v-model="parameters.form.kode_pos"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="Rentang Retur Penjualan"
-                type="number"
-                name="rentang_retur_penjualan"
-                :required="false"
-                v-model="parameters.form.rentang_retur_penjualan"
-              />
-            </div>
-            <div class="form-group col-12">
-              <label for="nilai_plafon">Nilai Plafon</label>
-              <money
-                v-model="parameters.form.nilai_plafon"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
-              <!-- <div class="text-muted text-small">* Meter</div> -->
-            </div>
-            <ValidationProvider name="tipe_badan_hukum" rules="required">
-              <div
-                class="form-group w-full items-center mb-5"
-                slot-scope="{ errors, valid }"
-              >
-                <label for="" class="w-4/12"
-                  >Lokasi <span class="text-danger">*</span></label
-                >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_lokasi"
-                  :loading="isLoadingGetLokasi"
-                  :options="lookup_location.data"
-                  :filterable="false"
-                  @search="onGetLokasi"
-                  :reduce="(item) => item.lokasi_id"
-                  v-model="parameters.form.lokasi_id"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_location.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_location.current_page > 1"
-                      @click="onGetLokasi(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_location.last_page > lookup_location.current_page
-                      "
-                      @click="onGetLokasi(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="Nama Pemilik"
-                type="text"
-                name="nama_pemilik"
-                :required="true"
-                v-model="parameters.form.nama_pemilik"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="No Telpone"
-                type="text"
-                name="no_telp"
-                :required="false"
-                v-model="parameters.form.no_telp"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="No HP"
-                type="text"
-                name="no_hp"
-                :required="false"
-                v-model="parameters.form.no_hp"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="NIK Pemilik"
-                type="text"
-                name="nik_pemilik"
-                :required="false"
-                v-model="parameters.form.nik_pemilik"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="No NPWP Pemilik"
-                type="text"
-                name="no_npwp_pemilik"
-                :required="false"
-                v-model="parameters.form.no_npwp_pemilik"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Nomor SIUP"
-                type="text"
-                name="nomor_siup"
-                :required="false"
-                v-model="parameters.form.nomor_siup"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <div class="form-group">
-              <input-form
-                label="Nama Contact Person"
-                type="text"
-                name="nama_cp"
-                :required="false"
-                v-model="parameters.form.nama_cp"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="No Telepon Contact Person"
-                type="text"
-                name="telp_cp"
-                :required="false"
-                v-model="parameters.form.telp_cp"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="No HP Contact Person"
-                type="text"
-                name="hp_cp"
-                :required="false"
-                v-model="parameters.form.hp_cp"
-              />
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
-            <ValidationProvider
-              name="longitude"
-              rules="required"
-              ref="ruteProvider"
-            >
+            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
                 <input-form
-                  label="Longitude"
+                  label="Kode Referensi"
                   type="text"
-                  name="longitude"
+                  name="kode_referensi"
                   :required="true"
-                  v-model="parameters.form.longitude"
+                  v-model="parameters.form.kode_referensi"
                 />
               </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="latitude"
-              rules="required"
-              ref="ruteProvider"
-            >
               <div class="form-group">
                 <input-form
-                  label="Latitude"
+                  label="Kode Pelanggan"
                   type="text"
-                  name="latitude"
+                  name="kode_pelanggan"
                   :required="true"
-                  v-model="parameters.form.latitude"
+                  v-model="parameters.form.kode_pelanggan"
                 />
               </div>
-            </ValidationProvider>
-            <ValidationProvider name="radius" rules="required">
-              <div class="form-group col-12" slot-scope="{ errors, valid }">
-                <label for="radius"
-                  >Radius <span class="text-danger">*</span></label
+              <div class="form-group">
+                <input-form
+                  label="Nomor NPWP Pelanggan"
+                  type="text"
+                  name="no_npwp"
+                  :required="false"
+                  v-model="parameters.form.no_npwp"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Nama Pelanggan"
+                  type="text"
+                  name="nama_pelanggan"
+                  :required="true"
+                  v-model="parameters.form.nama_pelanggan"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Alias / Singkatan"
+                  type="text"
+                  name="alias"
+                  :required="true"
+                  v-model="parameters.form.alias"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Email"
+                  type="email"
+                  name="email"
+                  :required="false"
+                  v-model="parameters.form.email"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <ValidationProvider name="id_negara" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="" class="w-4/12"
+                    >Negara <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_negara"
+                    :loading="isLoadingGetNegara"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetNegara"
+                    :reduce="(item) => item.negara_id"
+                    v-model="parameters.form.negara_id"
+                    @input="onSelectNegara"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom1.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetNegara(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetNegara(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="id_provinsi" rules="required">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
                 >
+                  <label for="" class="w-4/12"
+                    >Provinsi <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_provinsi"
+                    :loading="isLoadingGetProvinsi"
+                    :options="lookup_custom2.data"
+                    :filterable="false"
+                    @search="onGetProvinsi"
+                    :reduce="(item) => item.provinsi_id"
+                    v-model="parameters.form.provinsi_id"
+                    @input="onSelectProvinsi"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom2.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom2.current_page > 1"
+                        @click="onGetProvinsi(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom2.last_page > lookup_custom2.current_page
+                        "
+                        @click="onGetProvinsi(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="id_kota" rules="required">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
+                  <label for="" class="w-4/12"
+                    >Kota <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_kota"
+                    :loading="isLoadingGetKota"
+                    :options="lookup_custom3.data"
+                    :filterable="false"
+                    @search="onGetKota"
+                    :reduce="(item) => item.kota_id"
+                    v-model="parameters.form.kota_id"
+                    @input="onSelectKota"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom3.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom3.current_page > 1"
+                        @click="onGetKota(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom3.last_page > lookup_custom3.current_page
+                        "
+                        @click="onGetKota(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <ValidationProvider name="id_kecamatan" rules="required">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
+                  <label for="" class="w-4/12"
+                    >Kecamatan <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_kecamatan"
+                    :loading="isLoadingGetKecamatan"
+                    :options="lookup_beam.data"
+                    :filterable="false"
+                    @search="onGetKecamatan"
+                    :reduce="(item) => item.kecamatan_id"
+                    v-model="parameters.form.kecamatan_id"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                    @input="onSelectKecamatan"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_beam.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_beam.current_page > 1"
+                        @click="onGetKecamatan(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="lookup_beam.last_page > lookup_beam.current_page"
+                        @click="onGetKecamatan(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="w-4/12">Kelurahan</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_kelurahan"
+                  :loading="isLoadingGetKelurahan"
+                  :options="lookup_grade.data"
+                  :filterable="false"
+                  @search="onGetKelurahan"
+                  :reduce="(item) => item.kelurahan_id"
+                  v-model="parameters.form.kelurahan_id"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_grade.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_grade.current_page > 1"
+                      @click="onGetKelurahan(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="lookup_grade.last_page > lookup_grade.current_page"
+                      @click="onGetKelurahan(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Kode Pos"
+                  type="text"
+                  name="kode_pos"
+                  :required="false"
+                  v-model="parameters.form.kode_pos"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Rentang Retur Penjualan"
+                  type="number"
+                  name="rentang_retur_penjualan"
+                  :required="false"
+                  v-model="parameters.form.rentang_retur_penjualan"
+                />
+              </div>
+              <div class="form-group col-12">
+                <label for="nilai_plafon">Nilai Plafon</label>
                 <money
-                  v-model="parameters.form.radius"
+                  v-model="parameters.form.nilai_plafon"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
                   "
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 />
-                <div class="text-muted text-small">* Meter</div>
+                <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
-            </ValidationProvider>
-          </div>
-          <div class="grid grid-cols-2 gap-2 w-full">
-            <div class="form-group">
-              <label for="alamat_pelanggan"
-                >Alamat Pelanggan <span class="text-danger">*</span></label
-              >
-              <textarea
-                placeholder="Alamat Pelanggan"
-                required
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                v-model="parameters.form.alamat_pelanggan"
-              ></textarea>
+              <ValidationProvider name="tipe_badan_hukum" rules="required">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
+                  <label for="" class="w-4/12"
+                    >Lokasi <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_lokasi"
+                    :loading="isLoadingGetLokasi"
+                    :options="lookup_location.data"
+                    :filterable="false"
+                    @search="onGetLokasi"
+                    :reduce="(item) => item.lokasi_id"
+                    v-model="parameters.form.lokasi_id"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_location.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_location.current_page > 1"
+                        @click="onGetLokasi(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_location.last_page >
+                          lookup_location.current_page
+                        "
+                        @click="onGetLokasi(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
             </div>
-            <div class="form-group">
-              <label for="alamat_pemilik"
-                >Alamat Pemilik <span class="text-danger">*</span></label
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Nama Pemilik"
+                  type="text"
+                  name="nama_pemilik"
+                  :required="true"
+                  v-model="parameters.form.nama_pemilik"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No Telpone"
+                  type="text"
+                  name="no_telp"
+                  :required="false"
+                  v-model="parameters.form.no_telp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No HP"
+                  type="text"
+                  name="no_hp"
+                  :required="false"
+                  v-model="parameters.form.no_hp"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="NIK Pemilik"
+                  type="text"
+                  name="nik_pemilik"
+                  :required="false"
+                  v-model="parameters.form.nik_pemilik"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No NPWP Pemilik"
+                  type="text"
+                  name="no_npwp_pemilik"
+                  :required="false"
+                  v-model="parameters.form.no_npwp_pemilik"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Nomor SIUP"
+                  type="text"
+                  name="nomor_siup"
+                  :required="false"
+                  v-model="parameters.form.nomor_siup"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Nama Contact Person"
+                  type="text"
+                  name="nama_cp"
+                  :required="false"
+                  v-model="parameters.form.nama_cp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No Telepon Contact Person"
+                  type="text"
+                  name="telp_cp"
+                  :required="false"
+                  v-model="parameters.form.telp_cp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No HP Contact Person"
+                  type="text"
+                  name="hp_cp"
+                  :required="false"
+                  v-model="parameters.form.hp_cp"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <ValidationProvider
+                name="longitude"
+                rules="required"
+                ref="ruteProvider"
               >
-              <textarea
-                placeholder="Alamat Pemilik"
-                required
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                v-model="parameters.form.alamat_pemilik"
-              ></textarea>
+                <div class="form-group">
+                  <input-form
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    :required="true"
+                    v-model="parameters.form.longitude"
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                name="latitude"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group">
+                  <input-form
+                    label="Latitude"
+                    type="text"
+                    name="latitude"
+                    :required="true"
+                    v-model="parameters.form.latitude"
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="radius" rules="required">
+                <div class="form-group col-12" slot-scope="{ errors, valid }">
+                  <label for="radius"
+                    >Radius <span class="text-danger">*</span></label
+                  >
+                  <money
+                    v-model="parameters.form.radius"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                  />
+                  <div class="text-muted text-small">* Meter</div>
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="grid grid-cols-2 gap-2 w-full">
+              <div class="form-group">
+                <label for="alamat_pelanggan"
+                  >Alamat Pelanggan <span class="text-danger">*</span></label
+                >
+                <textarea
+                  placeholder="Alamat Pelanggan"
+                  required
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.alamat_pelanggan"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="alamat_pemilik"
+                  >Alamat Pemilik <span class="text-danger">*</span></label
+                >
+                <textarea
+                  placeholder="Alamat Pemilik"
+                  required
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.alamat_pemilik"
+                ></textarea>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="w-full flex justify-start">
-          <modal-footer-section
-            class="mt-5"
-            :isLoadingForm="isLoadingForm"
-            @reset="formReset()"
-          />
-        </div>
-      </form>
-    </ValidationObserver>
+          <div class="w-full flex justify-start">
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
+          </div>
+        </form>
+      </ValidationObserver>
+    </div>
   </section>
 </template>
 
@@ -641,6 +644,13 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   props: ["self"],
+  middleware: ["checkRoleUser"],
+
+  head() {
+    return {
+      title: "Item Pelanggan",
+    };
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -683,32 +693,19 @@ export default {
       isLoadingGetPelangganInduk: false,
       pelangganInduk_search: "",
 
+      isStopSearchPelangganItem: false,
+      isLoadingGetPelangganItem: false,
+      item_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Pelanggan",
-      itemTitle: "Item Pelanggan",
-      isLoading: false,
+      titleItem: "Item Pelanggan",
+      isLoadingData: false,
       isPaginate: true,
-      user: this.$auth.user,
-      default_roles: {
-        store: true,
-        update: true,
-        destroy: true,
-        restore: true,
-        show: true,
-        export: true,
-        export_excel: true,
-        export_pdf: true,
-        print: true,
-        destroy_all: true,
-        restore_all: true,
-        import: true,
-      },
       parameters: {
         url: "master/pelanggan",
-        itemUrl: "master/item-pelanggan/get-item-pelanggan?pelanggan_id=" + id,
-        type: "pdf",
         form: {
           pelanggan_id_induk: "",
           tipe_badan_hukum_id: "",
@@ -743,6 +740,37 @@ export default {
           latitude: "",
           radius: "",
         },
+
+        formItem: {
+          item_id: "",
+          kode_wms: "",
+          kode_alternatif: "",
+          kode_alternatif_2: "",
+          nama_item: "",
+          satuan_id: "",
+          satuan_id_berat: "",
+          berat: "",
+          satuan_id_volume: "",
+          volume: "",
+          satuan_id_stocklevel: "",
+          value_stocklevel: "",
+          keterangan: "",
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
+          batas_bawah: "",
+          batas_atas: "",
+          kategori_id_1: "",
+          kategori_id_2: "",
+          kategori_id_3: "",
+          kategori_id_4: "",
+          kategori_id_5: "",
+          kapasitas_palet: "",
+          maksimum_tumpukan: "",
+          supplier_id: "",
+        },
       },
     };
   },
@@ -757,6 +785,8 @@ export default {
     } catch (error) {
       this.$router.push("/master/pelanggan");
     }
+    // this.set_data([]);
+    // this.onLoad();
   },
 
   async mounted() {
@@ -769,10 +799,45 @@ export default {
     await this.onSearchUserPIC();
     await this.onSearchLokasi();
     await this.onSearchPelangganInduk();
-  },
+    await this.onSearchItem();
+    // this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isFilter = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
 
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = true;
+    // }
+
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = true;
+    // }
+
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = false;
+
+    //   this.$refs["form-option"].isExportFilePdf = false;
+    //   this.$refs["form-option"].isExportFileExcel = false;
+
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
+
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = true;
+    // }
+  },
   computed: {
     ...mapState("moduleApi", [
+      "data",
       "error",
       "result",
       "lookup_custom1", //negara
@@ -785,11 +850,44 @@ export default {
       "lookup_regus", //pelanggan_induk
       "lookup_location", //lokasi
       "lookup_sellers", //tipe vendor
+      "lookup_products", //item
     ]),
+    // getRoles() {
+    //   if (this.user.is_superadmin == 1) {
+    //     return this.default_roles;
+    //   } else {
+    //     let main_role = this.user.role.menus.find(
+    //       (item) => item.rute == "item"
+    //     );
+
+    //     let roles = {};
+
+    //     if (JSON.parse(main_role.pivot.operators).includes("all")) {
+    //       return this.default_roles;
+    //     }
+
+    //     JSON.parse(main_role.pivot.operators).forEach((item) => {
+    //       roles[item.replace("-", "_")] = true;
+    //     });
+
+    //     return roles;
+    //   }
+    // },
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+    ...mapActions("moduleApi", [
+      "addData",
+      "updateData",
+      "lookUp",
+      "getData",
+      "deleteData",
+      "restoreData",
+      "deleteAllData",
+      "restoreAllData",
+    ]),
+
+    ...mapMutations("moduleApi", ["set_data"]),
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -896,9 +994,6 @@ export default {
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
-
-        this.isLoadingGetNegara = false;
-        console.log("negara", this.lookup_custom1.data);
       }
     },
 
@@ -942,7 +1037,6 @@ export default {
         });
 
         this.isLoadingGetProvinsi = false;
-        console.log("provinsi", this.lookup_custom2.data);
       }
     },
 
@@ -986,7 +1080,6 @@ export default {
         });
 
         this.isLoadingGetKota = false;
-        console.log("kota", this.lookup_custom3.data);
       }
     },
 
@@ -1030,7 +1123,6 @@ export default {
         });
 
         this.isLoadingGetKecamatan = false;
-        console.log("kecamatan", this.lookup_beam.data);
       }
     },
 
@@ -1073,7 +1165,6 @@ export default {
         });
 
         this.isLoadingGetKelurahan = false;
-        console.log("kelurahan", this.lookup_grade.data);
       }
     },
 
@@ -1114,7 +1205,6 @@ export default {
         });
 
         this.isLoadingGetTBH = false;
-        console.log("Tipe Badan Hukum", this.lookup_department.data);
       }
     },
 
@@ -1155,7 +1245,6 @@ export default {
         });
 
         this.isLoadingGetUserPIC = false;
-        console.log("user", this.lookup_users.data);
       }
     },
 
@@ -1196,7 +1285,6 @@ export default {
         });
 
         this.isLoadingGetLokasi = false;
-        console.log("lokasi", this.lookup_location.data);
       }
     },
 
@@ -1237,7 +1325,29 @@ export default {
         });
 
         this.isLoadingGetPelangganInduk = false;
-        console.log("pelanggan", this.lookup_regus.data);
+      }
+    },
+
+    async onSearchItem() {
+      if (!this.isLoadingGetItem) {
+        this.isLoadingGetItem = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "products",
+          query:
+            "?kategori_item_id=1" +
+            // this.parameters.form.kategori_item_id +
+            // "?search=" +
+            // this.item_search +
+            // "&page=" +
+            this.lookup_products.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItem = false;
+        this.lookup_products.data = this.parameters.formItem;
+        console.log("item", this.lookup_products.data);
       }
     },
 
