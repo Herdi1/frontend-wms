@@ -27,6 +27,15 @@
                 >
                   <div class="w-full">
                     <input-form
+                      label="Kode Item"
+                      type="text"
+                      name="kode_wms"
+                      :required="true"
+                      v-model="form.kode_wms"
+                    />
+                  </div>
+                  <div class="w-full">
+                    <input-form
                       label="Nama Item"
                       type="text"
                       name="nama_item"
@@ -466,11 +475,7 @@
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="group_item_id_4" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_item_id_4"
-                          >Group Item Level 4<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_item_id_4">Group Item Level 4</label>
                         <v-select
                           label="nama_group_item"
                           :loading="isLoadingGetGroupItem4"
@@ -509,11 +514,7 @@
                     </ValidationProvider>
                     <ValidationProvider name="group_item_id_5" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_item_id_5"
-                          >Group Item Level 5<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_item_id_5">Group Item Level 5</label>
                         <v-select
                           label="nama_group_item"
                           :loading="isLoadingGetGroupItem5"
@@ -557,11 +558,7 @@
                     class="w-full"
                   >
                     <div slot-scope="{ errors, valid }">
-                      <label for="kategori_id_1"
-                        >Kategori Item Level 1<span class="text-danger"
-                          >*</span
-                        ></label
-                      >
+                      <label for="kategori_id_1">Kategori Item Level 1</label>
                       <v-select
                         label="nama_kategori_item"
                         :loading="isLoadingGetKategoriItem1"
@@ -602,11 +599,7 @@
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="kategori_id_1" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="kategori_id_2"
-                          >Kategori Item Level 2<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="kategori_id_2">Kategori Item Level 2</label>
                         <v-select
                           label="nama_kategori_item"
                           :loading="isLoadingGetKategoriItem2"
@@ -645,11 +638,7 @@
                     </ValidationProvider>
                     <ValidationProvider name="kategori_id_3" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="kategori_id_3"
-                          >Kategori Item Level 3<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="kategori_id_3">Kategori Item Level 3</label>
                         <v-select
                           label="nama_kategori_item"
                           :loading="isLoadingGetKategoriItem3"
@@ -691,11 +680,7 @@
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="kategori_id_4" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="kategori_id_4"
-                          >Kategori Item Level 4<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="kategori_id_4">Kategori Item Level 4</label>
                         <v-select
                           label="nama_kategori_item"
                           :loading="isLoadingGetKategoriItem4"
@@ -734,11 +719,7 @@
                     </ValidationProvider>
                     <ValidationProvider name="kategori_id_5" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="kategori_id_5"
-                          >Kategori Item Level 5<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="kategori_id_5">Kategori Item Level 5</label>
                         <v-select
                           label="nama_kategori_item"
                           :loading="isLoadingGetKategoriItem5"
@@ -1061,6 +1042,7 @@ export default {
       url: "master/item",
       form: {
         item_id: "",
+        kode_wms: "",
         nama_item: "",
         kode_alternatif: "",
         kode_alternatif_2: "",
@@ -1093,6 +1075,7 @@ export default {
 
       default_form: {
         item_id: "",
+        kode_wms: "",
         nama_item: "",
         kode_alternatif: "",
         kode_alternatif_2: "",
@@ -1792,7 +1775,7 @@ export default {
           query:
             "?search=" +
             this.satuan_stocklevel_search +
-            "&jenis_satuan=Q" +
+            "&jenis_satuan=S" +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
@@ -1913,7 +1896,7 @@ export default {
             };
           }
 
-          this.$router.push("master/item-product-master");
+          this.$router.back();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);

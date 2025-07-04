@@ -11,11 +11,1030 @@
           Kembali
         </button>
       </div>
+
+      <div class="w-full">
+        <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
+          <form
+            @submit.prevent="validate().then(() => onSubmit(invalid))"
+            autocomplete="off"
+          >
+            <div class="w-full md:flex gap-3">
+              <div
+                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+              >
+                <div
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
+                >
+                  <ValidationProvider
+                    name="lokasi_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="lokasi_id"
+                        >Lokasi<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_lokasi"
+                        :loading="isLoadingGetLokasi"
+                        :options="lookup_location.data"
+                        :filterable="false"
+                        @search="onGetLokasi"
+                        v-model="form.lokasi_id"
+                        :reduce="(item) => item.lokasi_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_location.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_location.current_page > 1"
+                            @click="onGetLokasi(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_location.last_page >
+                              lookup_location.current_page
+                            "
+                            @click="onGetLokasi(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Kode Gudang SAP"
+                      type="text"
+                      name="kode_gudang_sap"
+                      :required="true"
+                      v-model="form.kode_gudang_sap"
+                    />
+                  </div>
+
+                  <ValidationProvider
+                    name="profit_cost_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="profit_cost_id"
+                        >Profit Cost Center<span class="text-danger"
+                          >*</span
+                        ></label
+                      >
+                      <v-select
+                        :loading="isLoadingGetProfitCost"
+                        :options="lookup_operator.data"
+                        :filterable="false"
+                        @search="onGetProfitCost"
+                        v-model="form.profit_cost_id"
+                        :reduce="(item) => item.profit_cost_id"
+                        class="w-full"
+                      >
+                        <template slot="option" slot-scope="option">
+                          {{
+                            option.nama_wilayah +
+                            " (" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template>
+                        <template slot="selected-option" slot-scope="option">
+                          {{
+                            option.nama_wilayah +
+                            " (" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template>
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_operator.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_operator.current_page > 1"
+                            @click="onGetProfitCost(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_operator.last_page >
+                              lookup_operator.current_page
+                            "
+                            @click="onGetProfitCost(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Kode Gudang"
+                      type="text"
+                      name="kode_gudang"
+                      :required="true"
+                      v-model="form.kode_gudang"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Nama Gudang"
+                      type="text"
+                      name="nama_gudang"
+                      :required="true"
+                      v-model="form.nama_gudang"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status_gudang"
+                      >Status Gudang<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_gudang"
+                      id="status_gudang"
+                      v-model="form.status_gudang"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="1">Aktif</option>
+                      <option value="0">Non Akitf</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status_konfig_outbound_sap"
+                      >Status Konfig<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_konfig_outbound_sap"
+                      id="status_konfig_outbound_sap"
+                      v-model="form.status_konfig_outbound_sap"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="1">Aktif</option>
+                      <option value="0">Non Akitf</option>
+                    </select>
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Nomor Rekening"
+                      type="text"
+                      name="nomor_rekening"
+                      :required="true"
+                      v-model="form.nomor_rekening"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Atas Nama Rekening"
+                      type="text"
+                      name="atas_nama_rekening"
+                      :required="true"
+                      v-model="form.atas_nama_rekening"
+                    />
+                  </div>
+
+                  <ValidationProvider
+                    name="group_gudang_id_1"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="group_gudang_id_1"
+                        >Group Gudang 1<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_group_gudang"
+                        :loading="isLoadingGetGroupGudang1"
+                        :options="lookup_custom1.data"
+                        :filterable="false"
+                        @search="onGetGroupGudang1"
+                        v-model="form.group_gudang_id_1"
+                        :reduce="(item) => item.group_gudang_id"
+                        class="w-full"
+                        @input="onSearchGroupGudang2"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom1.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom1.current_page > 1"
+                            @click="onGetGroupGudang1(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom1.last_page >
+                              lookup_custom1.current_page
+                            "
+                            @click="onGetGroupGudang1(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="grid grid-cols-2 w-full gap-2">
+                    <ValidationProvider
+                      name="group_gudang_id_2"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="group_gudang_id_2"
+                          >Group Gudang 2<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_group_gudang"
+                          :loading="isLoadingGetGroupGudang2"
+                          :options="lookup_custom2.data"
+                          :filterable="false"
+                          @search="onGetGroupGudang2"
+                          v-model="form.group_gudang_id_2"
+                          :reduce="(item) => item.group_gudang_id"
+                          class="w-full"
+                          @input="onSearchGroupGudang3"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom2.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom2.current_page > 1"
+                              @click="onGetGroupGudang2(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom2.last_page >
+                                lookup_custom2.current_page
+                              "
+                              @click="onGetGroupGudang2(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="group_gudang_id_3"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="group_gudang_id_3"
+                          >Group Gudang 3<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_group_gudang"
+                          :loading="isLoadingGetGroupGudang3"
+                          :options="lookup_custom3.data"
+                          :filterable="false"
+                          @search="onGetGroupGudang3"
+                          v-model="form.group_gudang_id_3"
+                          :reduce="(item) => item.group_gudang_id"
+                          class="w-full"
+                          @input="onSearchGroupGudang4"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom3.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom3.current_page > 1"
+                              @click="onGetGroupGudang3(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom3.last_page >
+                                lookup_custom3.current_page
+                              "
+                              @click="onGetGroupGudang3(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="grid grid-cols-2 w-full gap-2">
+                    <ValidationProvider
+                      name="group_gudang_id_4"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="group_gudang_id_4"
+                          >Group Gudang 4<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_group_gudang"
+                          :loading="isLoadingGetGroupGudang4"
+                          :options="lookup_suppliers.data"
+                          :filterable="false"
+                          @search="onGetGroupGudang2"
+                          v-model="form.group_gudang_id_4"
+                          :reduce="(item) => item.group_gudang_id"
+                          class="w-full"
+                          @input="onSearchGroupGudang5"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_suppliers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_suppliers.current_page > 1"
+                              @click="onGetGroupGudang4(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_suppliers.last_page >
+                                lookup_suppliers.current_page
+                              "
+                              @click="onGetGroupGudang4(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="group_gudang_id_5"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="group_gudang_id_5"
+                          >Group Gudang 5<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="nama_group_gudang"
+                          :loading="isLoadingGetGroupGudang5"
+                          :options="lookup_resellers.data"
+                          :filterable="false"
+                          @search="onGetGroupGudang5"
+                          v-model="form.group_gudang_id_5"
+                          :reduce="(item) => item.group_gudang_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_resellers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_resellers.current_page > 1"
+                              @click="onGetGroupGudang5(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_resellers.last_page >
+                                lookup_resellers.current_page
+                              "
+                              @click="onGetGroupGudang5(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      :required="true"
+                      v-model="form.longitude"
+                    />
+                  </div>
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      :required="true"
+                      v-model="form.latitude"
+                    />
+                  </div>
+
+                  <ValidationProvider
+                    name="negara_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="negara_id"
+                        >Negara<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_negara"
+                        :loading="isLoadingGetNegara"
+                        :options="lookup_packing.data"
+                        :filterable="false"
+                        @search="onGetNegara"
+                        v-model="form.negara_id"
+                        :reduce="(item) => item.negara_id"
+                        class="w-full"
+                        @input="onSearchProvinsi"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_packing.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_packing.current_page > 1"
+                            @click="onGetNegara(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_packing.last_page >
+                              lookup_packing.current_page
+                            "
+                            @click="onGetNegara(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="provinsi_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="peovinsi_id"
+                        >Provinsi<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_provinsi"
+                        :loading="isLoadingGetProvinsi"
+                        :options="lookup_beam.data"
+                        :filterable="false"
+                        @search="onGetProvinsi"
+                        v-model="form.provinsi_id"
+                        :reduce="(item) => item.provinsi_id"
+                        class="w-full"
+                        @input="onSearchKota"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_beam.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_beam.current_page > 1"
+                            @click="onGetProvinsi(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_beam.last_page > lookup_beam.current_page
+                            "
+                            @click="onGetProvinsi(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="kota_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="kota_id"
+                        >Kota<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_kota"
+                        :loading="isLoadingGetKota"
+                        :options="lookup_grade.data"
+                        :filterable="false"
+                        @search="onGetKota"
+                        v-model="form.kota_id"
+                        :reduce="(item) => item.kota_id"
+                        class="w-full"
+                        @input="onSearchKecamatan"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_grade.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_grade.current_page > 1"
+                            @click="onGetKota(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_grade.last_page > lookup_grade.current_page
+                            "
+                            @click="onGetKota(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="kecamatan_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="kecamatan_id"
+                        >Kecamatan<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_kecamatan"
+                        :loading="isLoadingGetKecamatan"
+                        :options="lookup_regus.data"
+                        :filterable="false"
+                        @search="onGetKecamatan"
+                        v-model="form.kecamatan_id"
+                        :reduce="(item) => item.kecamatan_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_regus.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_regus.current_page > 1"
+                            @click="onGetKecamatan(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_regus.last_page > lookup_regus.current_page
+                            "
+                            @click="onGetKecamatan(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group md:col-span-2 lg:col-span-3">
+                    <label>Alamat</label>
+                    <textarea
+                      name="alamat"
+                      v-model="form.alamat"
+                      class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    ></textarea>
+                  </div>
+
+                  <ValidationProvider
+                    name="vendor_id_pemilik"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="vendor_id_pemilik"
+                        >Vendor Pemilik<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_vendor"
+                        :loading="isLoadingGetVendorPemilik"
+                        :options="lookup_defects.data"
+                        :filterable="false"
+                        @search="onGetVendorPemilik"
+                        v-model="form.vendor_id_pemilik"
+                        :reduce="(item) => item.vendor_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_defects.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_defects.current_page > 1"
+                            @click="onGetVendorPemilik(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_defects.last_page >
+                              lookup_defects.current_page
+                            "
+                            @click="onGetVendorPemilik(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="vendor_id_operator"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="vendor_id_operator"
+                        >Vendor Operator<span class="text-danger"
+                          >*</span
+                        ></label
+                      >
+                      <v-select
+                        label="nama_vendor"
+                        :loading="isLoadingGetVendorOperator"
+                        :options="lookup_department.data"
+                        :filterable="false"
+                        @search="onGetVendorOperator"
+                        v-model="form.vendor_id_operator"
+                        :reduce="(item) => item.vendor_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_department.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_department.current_page > 1"
+                            @click="onGetVendorOperator(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_department.last_page >
+                              lookup_department.current_page
+                            "
+                            @click="onGetVendorOperator(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="fungsi_gudang_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="fungsi_gudang_id"
+                        >Fungsi Gudang<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_fungsi"
+                        :loading="isLoadingGetFungsiGudang"
+                        :options="lookup_mesin.data"
+                        :filterable="false"
+                        @search="onGetFungsiGudang"
+                        v-model="form.fungsi_gudang_id"
+                        :reduce="(item) => item.fungsi_gudang_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_mesin.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_mesin.current_page > 1"
+                            @click="onGetFungsiGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_mesin.last_page > lookup_mesin.current_page
+                            "
+                            @click="onGetFungsiGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="No Handphone"
+                      type="text"
+                      name="no_hp"
+                      :required="true"
+                      v-model="form.no_hp"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="No WhatsApp"
+                      type="text"
+                      name="no_wa"
+                      :required="true"
+                      v-model="form.no_wa"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Kapasitas"
+                      type="text"
+                      name="kapasitas"
+                      :required="true"
+                      v-model="form.kapasitas"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Kapasitas Bongkar"
+                      type="text"
+                      name="kapasitas_bongkar"
+                      :required="true"
+                      v-model="form.kapasitas_bongkar"
+                    />
+                  </div>
+
+                  <ValidationProvider
+                    name="fisik_gudang_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="fisik_gudang_id"
+                        >Fisik Gudang<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_fisik"
+                        :loading="isLoadingGetFisikGudang"
+                        :options="lookup_pengawas.data"
+                        :filterable="false"
+                        @search="onGetFisikGudang"
+                        v-model="form.fisik_gudang_id"
+                        :reduce="(item) => item.fisik_gudang_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_pengawas.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_pengawas.current_page > 1"
+                            @click="onGetFisikGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_pengawas.last_page >
+                              lookup_pengawas.current_page
+                            "
+                            @click="onGetFisikGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider
+                    name="ukuran_gudang_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="ukuran_gudang_id"
+                        >Ukuran Gudang<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_ukuran"
+                        :loading="isLoadingGetUkuranGudang"
+                        :options="lookup_parents.data"
+                        :filterable="false"
+                        @search="onGetUkuranGudang"
+                        v-model="form.ukuran_gudang_id"
+                        :reduce="(item) => item.ukuran_gudang_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_parents.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_parents.current_page > 1"
+                            @click="onGetUkuranGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_parents.last_page >
+                              lookup_parents.current_page
+                            "
+                            @click="onGetUkuranGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group">
+                    <label for="status_sewa"
+                      >Status Sewa<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_sewa"
+                      id="status_sewa"
+                      v-model="form.status_sewa"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="1">Sendiri</option>
+                      <option value="0">Sewa</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="status_satpam"
+                      >Status Satpam<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_satpam"
+                      id="status_satpam"
+                      v-model="form.status_satpam"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="1">Memiliki Satpam</option>
+                      <option value="0">Tidak Memiliki Satpam</option>
+                    </select>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2 w-full">
+                    <div class="w-full form-group">
+                      <input-form
+                        label="Luas Gudang"
+                        type="text"
+                        name="luas_gudang"
+                        :required="true"
+                        v-model="form.luas_gudang"
+                      />
+                    </div>
+                    <ValidationProvider
+                      name="satuan_id_luas"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id_luas"
+                          >Satuan Luas<span class="text-danger">*</span></label
+                        >
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuanLuas"
+                          :options="lookup_proces.data"
+                          :filterable="false"
+                          @search="onGetSatuanLuas"
+                          v-model="form.satuan_id_luas"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_proces.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_proces.current_page > 1"
+                              @click="onGetSatuanLuas(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_proces.last_page >
+                                lookup_proces.current_page
+                              "
+                              @click="onGetSatuanLuas(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </div>
+                    </ValidationProvider>
+
+                    <div class="grid grid-cols-2 w-full"></div>
+                  </div>
+                </div>
+                <modal-footer-section
+                  :isLoadingForm="isLoadingForm"
+                  @reset="formReset()"
+                />
+              </div>
+            </div>
+          </form>
+        </ValidationObserver>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
+import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
@@ -72,7 +1091,7 @@ export default {
         kapasitas_bongkar: "",
         fisik_gudang_id: "",
         ukuran_gudang_id: "",
-        file_layout: "",
+        file_layout: "abc",
         status_sewa: "",
         status_satpam: "",
         luas_gudang: "",
@@ -206,6 +1225,22 @@ export default {
 
   async mounted() {
     await this.onSearchLokasi();
+    await this.onSearchProfitCost();
+    await this.onSearchGroupGudang1();
+    await this.onSearchGroupGudang2();
+    await this.onSearchGroupGudang3();
+    await this.onSearchGroupGudang4();
+    await this.onSearchGroupGudang5();
+    await this.onSearchKecamatan();
+    await this.onSearchKota();
+    await this.onSearchProvinsi();
+    await this.onSearchNegara();
+    await this.onSearchVendorPemilik();
+    await this.onSearchVendorOperator();
+    await this.onSearchFungsiGudang();
+    await this.onSearchFisikGudang();
+    await this.onSearchUkuranGudang();
+    await this.onSearchSatuanLuas();
   },
 
   computed: {
@@ -239,6 +1274,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     onSubmit(isInvalid) {
+      console.log(this.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
@@ -478,6 +1514,495 @@ export default {
         });
 
         this.isLoadingGetGroupGudang3 = false;
+      }
+    },
+    //group gudang 4
+    onGetGroupGudang4(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupGudang4);
+
+      this.isStopSearchGroupGudang4 = setTimeout(() => {
+        this.group_gudang_4_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_suppliers.current_page = isNext
+            ? this.lookup_suppliers.current_page + 1
+            : this.lookup_suppliers.current_page - 1;
+        } else {
+          this.lookup_suppliers.current_page = 1;
+        }
+
+        this.onSearchGroupGudang4();
+      }, 600);
+    },
+
+    async onSearchGroupGudang4() {
+      if (!this.isLoadingGetGroupGudang4) {
+        this.isLoadingGetGroupGudang4 = true;
+
+        await this.lookUp({
+          url: "master/group-gudang/get-group-gudang",
+          lookup: "suppliers",
+          query:
+            "?search=" +
+            this.group_gudang_4_search +
+            "&status=3" +
+            "&page=" +
+            this.lookup_suppliers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupGudang4 = false;
+      }
+    },
+    //group gudang 5
+    onGetGroupGudang5(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupGudang5);
+
+      this.isStopSearchGroupGudang5 = setTimeout(() => {
+        this.group_gudang_5_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_resellers.current_page = isNext
+            ? this.lookup_resellers.current_page + 1
+            : this.lookup_resellers.current_page - 1;
+        } else {
+          this.lookup_resellers.current_page = 1;
+        }
+
+        this.onSearchGroupGudang5();
+      }, 600);
+    },
+
+    async onSearchGroupGudang5() {
+      if (!this.isLoadingGetGroupGudang5) {
+        this.isLoadingGetGroupGudang5 = true;
+
+        await this.lookUp({
+          url: "master/group-gudang/get-group-gudang",
+          lookup: "resellers",
+          query:
+            "?search=" +
+            this.group_gudang_5_search +
+            "&status=3" +
+            "&page=" +
+            this.lookup_resellers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupGudang5 = false;
+      }
+    },
+
+    //kecamatan
+    onGetKecamatan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKecamatan);
+
+      this.isStopSearchKecamatan = setTimeout(() => {
+        this.kecamatan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_regus.current_page = isNext
+            ? this.lookup_regus.current_page + 1
+            : this.lookup_regus.current_page - 1;
+        } else {
+          this.lookup_regus.current_page = 1;
+        }
+
+        this.onSearchKecamatan();
+      }, 600);
+    },
+
+    async onSearchKecamatan() {
+      if (!this.isLoadingGetKecamatan) {
+        this.isLoadingGetKecamatan = true;
+
+        await this.lookUp({
+          url: "master/kecamatan/get-kecamatan",
+          lookup: "regus",
+          query:
+            "?search=" +
+            this.kecamatan_search +
+            "&kota_id=" +
+            this.form.kota_id +
+            "&page=" +
+            this.lookup_regus.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKecamatan = false;
+      }
+    },
+
+    //kota
+    onGetKota(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKota);
+
+      this.isStopSearchKota = setTimeout(() => {
+        this.kota_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
+        } else {
+          this.lookup_grade.current_page = 1;
+        }
+
+        this.onSearchKota();
+      }, 600);
+    },
+
+    async onSearchKota() {
+      if (!this.isLoadingGetKota) {
+        this.isLoadingGetKota = true;
+
+        await this.lookUp({
+          url: "master/kota/get-kota",
+          lookup: "grade",
+          query:
+            "?search=" +
+            this.kota_search +
+            "&provinsi_id=" +
+            this.form.provinsi_id +
+            "&page=" +
+            this.lookup_grade.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKota = false;
+      }
+    },
+
+    //provinsi
+    onGetProvinsi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProvinsi);
+
+      this.isStopSearchProvinsi = setTimeout(() => {
+        this.provinsi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_beam.current_page = isNext
+            ? this.lookup_beam.current_page + 1
+            : this.lookup_beam.current_page - 1;
+        } else {
+          this.lookup_beam.current_page = 1;
+        }
+
+        this.onSearchProvinsi();
+      }, 600);
+    },
+
+    async onSearchProvinsi() {
+      if (!this.isLoadingGetProvinsi) {
+        this.isLoadingGetProvinsi = true;
+
+        await this.lookUp({
+          url: "master/provinsi/get-provinsi",
+          lookup: "beam",
+          query:
+            "?search=" +
+            this.provinsi_search +
+            "&negara_id=" +
+            this.form.negara_id +
+            "&page=" +
+            this.lookup_beam.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProvinsi = false;
+      }
+    },
+
+    //negara
+    onGetNegara(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchNegara);
+
+      this.isStopSearchNegara = setTimeout(() => {
+        this.negara_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_packing.current_page = isNext
+            ? this.lookup_packing.current_page + 1
+            : this.lookup_packing.current_page - 1;
+        } else {
+          this.lookup_packing.current_page = 1;
+        }
+
+        this.onSearchNegara();
+      }, 600);
+    },
+
+    async onSearchNegara() {
+      if (!this.isLoadingGetNegara) {
+        this.isLoadingGetNegara = true;
+
+        await this.lookUp({
+          url: "master/negara/get-negara",
+          lookup: "packing",
+          query:
+            "?search=" +
+            this.negara_search +
+            "&page=" +
+            this.lookup_packing.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetNegara = false;
+      }
+    },
+
+    //vendor_pemilik
+    onGetVendorPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendorPemilik);
+
+      this.isStopSearchVendorPemilik = setTimeout(() => {
+        this.vendor_pemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_defects.current_page = isNext
+            ? this.lookup_defects.current_page + 1
+            : this.lookup_defects.current_page - 1;
+        } else {
+          this.lookup_defects.current_page = 1;
+        }
+
+        this.onSearchVendorPemilik();
+      }, 600);
+    },
+
+    async onSearchVendorPemilik() {
+      if (!this.isLoadingGetVendorPemilik) {
+        this.isLoadingGetVendorPemilik = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "defects",
+          query:
+            "?search=" +
+            this.vendor_pemilik_search +
+            "&tipe_vendor=e" +
+            "&page=" +
+            this.lookup_defects.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendorPemilik = false;
+      }
+    },
+
+    //vendor_operator
+    onGetVendorOperator(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendorOperator);
+
+      this.isStopSearchVendorOperator = setTimeout(() => {
+        this.vendor_operator_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_department.current_page = isNext
+            ? this.lookup_department.current_page + 1
+            : this.lookup_department.current_page - 1;
+        } else {
+          this.lookup_department.current_page = 1;
+        }
+
+        this.onSearchVendorOperator();
+      }, 600);
+    },
+
+    async onSearchVendorOperator() {
+      if (!this.isLoadingGetVendorOperator) {
+        this.isLoadingGetVendorOperator = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "department",
+          query:
+            "?search=" +
+            this.vendor_operator_search +
+            "&tipe_vendor=o" +
+            "&page=" +
+            this.lookup_department.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendorOperator = false;
+      }
+    },
+
+    //fungsi_gudang
+    onGetFungsiGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchFungsiGudang);
+
+      this.isStopSearchFungsiGudang = setTimeout(() => {
+        this.fungsi_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_mesin.current_page = isNext
+            ? this.lookup_mesin.current_page + 1
+            : this.lookup_mesin.current_page - 1;
+        } else {
+          this.lookup_mesin.current_page = 1;
+        }
+
+        this.onSearchFungsiGudang();
+      }, 600);
+    },
+
+    async onSearchFungsiGudang() {
+      if (!this.isLoadingGetFungsiGudang) {
+        this.isLoadingGetFungsiGudang = true;
+
+        await this.lookUp({
+          url: "master/fungsi-gudang/get-fungsi-gudang",
+          lookup: "mesin",
+          query:
+            "?search=" +
+            this.fungsi_gudang_search +
+            "&page=" +
+            this.lookup_mesin.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetFungsiGudang = false;
+      }
+    },
+
+    //fisik_gudang
+    onGetFisikGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchFisikGudang);
+
+      this.isStopSearchFisikGudang = setTimeout(() => {
+        this.fisik_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_pengawas.current_page = isNext
+            ? this.lookup_pengawas.current_page + 1
+            : this.lookup_pengawas.current_page - 1;
+        } else {
+          this.lookup_pengawas.current_page = 1;
+        }
+
+        this.onSearchFisikGudang();
+      }, 600);
+    },
+
+    async onSearchFisikGudang() {
+      if (!this.isLoadingGetFisikGudang) {
+        this.isLoadingGetFisikGudang = true;
+
+        await this.lookUp({
+          url: "master/fisik-gudang/get-fisik-gudang",
+          lookup: "pengawas",
+          query:
+            "?search=" +
+            this.fisik_gudang_search +
+            "&page=" +
+            this.lookup_pengawas.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetFisikGudang = false;
+      }
+    },
+
+    //ukuran_gudang
+    onGetUkuranGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchUkuranGudang);
+
+      this.isStopSearchUkuranGudang = setTimeout(() => {
+        this.ukuran_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_parents.current_page = isNext
+            ? this.lookup_parents.current_page + 1
+            : this.lookup_parents.current_page - 1;
+        } else {
+          this.lookup_parents.current_page = 1;
+        }
+
+        this.onSearchUkuranGudang();
+      }, 600);
+    },
+
+    async onSearchUkuranGudang() {
+      if (!this.isLoadingGetUkuranGudang) {
+        this.isLoadingGetUkuranGudang = true;
+
+        await this.lookUp({
+          url: "master/ukuran-gudang/get-ukuran-gudang",
+          lookup: "parents",
+          query:
+            "?search=" +
+            this.ukuran_gudang_search +
+            "&page=" +
+            this.lookup_parents.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetUkuranGudang = false;
+      }
+    },
+
+    //satuan_luas
+    onGetSatuanLuas(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSatuanLuas);
+
+      this.isStopSearchSatuanLuas = setTimeout(() => {
+        this.satuan_luas_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_proces.current_page = isNext
+            ? this.lookup_proces.current_page + 1
+            : this.lookup_proces.current_page - 1;
+        } else {
+          this.lookup_proces.current_page = 1;
+        }
+
+        this.onSearchSatuanLuas();
+      }, 600);
+    },
+
+    async onSearchSatuanLuas() {
+      if (!this.isLoadingGetSatuanLuas) {
+        this.isLoadingGetSatuanLuas = true;
+
+        await this.lookUp({
+          url: "master/satuan/get-satuan",
+          lookup: "proces",
+          query:
+            "?search=" +
+            this.satuan_luas_search +
+            "&jenis_satuan=V" +
+            "&page=" +
+            this.lookup_proces.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSatuanLuas = false;
       }
     },
 
