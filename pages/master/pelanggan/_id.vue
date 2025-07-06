@@ -636,6 +636,299 @@
         </form>
       </ValidationObserver>
     </div>
+
+    <div
+      class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+    >
+      <div class="card-title">
+        <list-option-section :self="this" ref="form-option" />
+      </div>
+      <div class="w-full mt-3 mb-7">
+        <div
+          class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+        >
+          <div class="grid grid-flow-col grid-rows-3 gap-2">
+            <div class="flex w-[400px]">
+              <label class="w-[40%]" for="kategori_item_id_1"
+                >Kategori Item Level 1</label
+              >
+              <v-select
+                label="nama_kategori_item"
+                :loading="isLoadingGetKategoriItem1"
+                :options="lookup_products.data"
+                :filterable="false"
+                @search="onGetKategoriItem1"
+                v-model="filter_params.kategori_item_id_1"
+                :reduce="(item) => item.kategori_item_id"
+                class="w-[60%]"
+                @input="onSearchKategoriItem1"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_products.data.length || search"
+                >
+                  <span
+                    v-if="lookup_products.current_page > 1"
+                    @click="onGetKategoriItem1(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_products.last_page > lookup_products.current_page
+                    "
+                    @click="onGetKategoriItem1(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex">
+              <label class="w-[40%]" for="kategori_item_id_2"
+                >Kategori Item Level 2</label
+              >
+              <v-select
+                label="nama_kategori_item"
+                :loading="isLoadingGetKategoriItem2"
+                :options="lookup_packing.data"
+                :filterable="false"
+                @search="onGetKategoriItem2"
+                v-model="filter_params.kategori_item_id_2"
+                :reduce="(item) => item.kategori_item_id"
+                class="w-[60%]"
+                @input="onSearchKategoriItem2"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_packing.data.length || search"
+                >
+                  <span
+                    v-if="lookup_packing.current_page > 1"
+                    @click="onGetKategoriItem2(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_packing.last_page > lookup_packing.current_page
+                    "
+                    @click="onGetKategoriItem2(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex">
+              <label class="w-[40%]" for="kategori_item_id_3"
+                >Kategori Item Level 3</label
+              >
+              <v-select
+                label="nama_kategori_item"
+                :loading="isLoadingGetKategoriItem3"
+                :options="lookup_defects.data"
+                :filterable="false"
+                @search="onGetKategoriItem3"
+                v-model="filter_params.kategori_item_id_3"
+                :reduce="(item) => item.kategori_item_id"
+                class="w-[60%]"
+                @input="onSearchKategoriItem3"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_defects.data.length || search"
+                >
+                  <span
+                    v-if="lookup_defects.current_page > 1"
+                    @click="onGetKategoriItem3(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_defects.last_page > lookup_defects.current_page
+                    "
+                    @click="onGetKategoriItem3(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex w-[400px]">
+              <label class="w-[40%]" for="kategori_item_id_4"
+                >Kategori Item Level 4</label
+              >
+              <v-select
+                label="nama_kategori_item"
+                :loading="isLoadingGetKategoriItem4"
+                :options="lookup_customers.data"
+                :filterable="false"
+                @search="onGetKategoriItem4"
+                v-model="filter_params.kategori_item_id_4"
+                :reduce="(item) => item.kategori_item_id"
+                class="w-[60%]"
+                @input="onSearchKategoriItem4"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_customers.data.length || search"
+                >
+                  <span
+                    v-if="lookup_customers.current_page > 1"
+                    @click="onGetKategoriItem4(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_customers.last_page > lookup_customers.current_page
+                    "
+                    @click="onGetKategoriItem4(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex">
+              <label class="w-[40%]" for="kategori_item_id_5"
+                >Kategori Item Level 5</label
+              >
+              <v-select
+                label="nama_kategori_item"
+                :loading="isLoadingGetKategoriItem5"
+                :options="lookup_parents.data"
+                :filterable="false"
+                @search="onGetKategoriItem5"
+                v-model="filter_params.kategori_item_id_5"
+                :reduce="(item) => item.kategori_item_id"
+                class="w-[60%]"
+                @input="onSearchKategoriItem5"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_parents.data.length || search"
+                >
+                  <span
+                    v-if="lookup_parents.current_page > 1"
+                    @click="onGetKategoriItem4(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_parents.last_page > lookup_parents.current_page
+                    "
+                    @click="onGetKategoriItem5(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+          </div>
+          <div class="flex gap-3 ml-5 items-self-end">
+            <button
+              @click="onLoad"
+              class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+            >
+              <i class="fa fa-filter text-white font-bold mr-2"></i>
+              Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table ref="">
+          <thead>
+            <tr class="uppercase">
+              <th class="w-[5%] text-center">Details</th>
+              <th class="w-[5%] text-center">Delete</th>
+              <th class="w-[5%]">No</th>
+              <th>Kode Item</th>
+              <th>Referensi SAP</th>
+              <th
+                @click="
+                  onSort(
+                    'nama_item',
+                    parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                  )
+                "
+                class="cursor-pinter"
+              >
+                <div class="flex justify-between items-baseline">
+                  <div>Nama Item</div>
+                  <div>
+                    <i
+                      class="fas fa-caret-up"
+                      :class="
+                        parameters.params.order == 'nama_item' &&
+                        parameters.params.sort == 'asc'
+                          ? ''
+                          : 'light-gray'
+                      "
+                    ></i>
+                    <i
+                      class="fas fa-caret-down"
+                      :class="
+                        parameters.params.order == 'nama_item' &&
+                        parameters.params.sort == 'desc'
+                          ? ''
+                          : 'light-gray'
+                      "
+                    ></i>
+                  </div>
+                </div>
+              </th>
+              <th>Satuan</th>
+              <th>Berat</th>
+              <th>Volume</th>
+              <th>Group Item</th>
+            </tr>
+          </thead>
+          <tbody v-if="lookup_products.data.length > 0">
+            <tr v-for="item in lookup_products.data" :key="item.item_id">
+              <td>
+                <small-detail-button @click="onDetail(item)" />
+              </td>
+              <td>
+                <small-delete-button
+                  @click="onTrashed(item)"
+                  v-if="!item.deleted_at"
+                />
+              </td>
+              <td>
+                {{
+                  (parameters.params.page - 1) * parameters.params.per_page +
+                  i +
+                  1
+                }}
+              </td>
+              <td>{{ item.kode_wms }}</td>
+              <td></td>
+              <td>{{ item.nama_item }}</td>
+              <td>{{ item.satuan.nama_satuan }}</td>
+              <td>{{ item.berat + " " + item.satuan_berat.nama_satuan }}</td>
+              <td>{{ item.volume + " " + item.satuan_volume.nama_satuan }}</td>
+              <td>{{ item.group_item_1.nama_group_item }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -693,18 +986,49 @@ export default {
       isLoadingGetPelangganInduk: false,
       pelangganInduk_search: "",
 
-      isStopSearchPelangganItem: false,
-      isLoadingGetPelangganItem: false,
-      item_search: "",
+      isStopSearchKategoriItem1: false,
+      isLoadingGetKategoriItem1: false,
+      kategori1_search: "",
+
+      isStopSearchKategoriItem2: false,
+      isLoadingGetKategoriItem2: false,
+      kategori2_search: "",
+
+      isStopSearchKategoriItem3: false,
+      isLoadingGetKategoriItem3: false,
+      kategori3_search: "",
+
+      isStopSearchKategoriItem4: false,
+      isLoadingGetKategoriItem4: false,
+      kategori4_search: "",
+
+      isStopSearchKategoriItem5: false,
+      isLoadingGetKategoriItem5: false,
+      kategori5_search: "",
 
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Pelanggan",
-      titleItem: "Item Pelanggan",
+      itemTitle: "Item Pelanggan",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
+        kategori_item_id: "",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "item_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+          kategori_item_id_1: "",
+          kategori_item_id_2: "",
+          kategori_item_id_3: "",
+          kategori_item_id_4: "",
+          kategori_item_id_5: "",
+        },
         url: "master/pelanggan",
         form: {
           pelanggan_id_induk: "",
@@ -771,7 +1095,36 @@ export default {
           maksimum_tumpukan: "",
           supplier_id: "",
         },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
       },
+
+      filter_params: {
+        kategori_item_id_1: "",
+        kategori_item_id_2: "",
+        kategori_item_id_3: "",
+        kategori_item_id_4: "",
+        kategori_item_id_5: "",
+      },
+      selectList: [],
+
+      default_roles: {
+        store: true,
+        update: true,
+        destroy: true,
+        restore: true,
+        show: true,
+        export: true,
+        export_excel: true,
+        export_pdf: true,
+        print: true,
+        destroy_all: true,
+        restore_all: true,
+        import: true,
+      },
+      user: this.$auth.user,
     };
   },
 
@@ -785,8 +1138,8 @@ export default {
     } catch (error) {
       this.$router.push("/master/pelanggan");
     }
-    // this.set_data([]);
-    // this.onLoad();
+    this.set_data([]);
+    this.onLoad();
   },
 
   async mounted() {
@@ -799,41 +1152,51 @@ export default {
     await this.onSearchUserPIC();
     await this.onSearchLokasi();
     await this.onSearchPelangganInduk();
-    await this.onSearchItem();
-    // this.$refs["form-option"].isExport = false;
-    // this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isMaintenancePage = true;
-    // this.$refs["form-option"].isAddData = false;
+    await this.onSearchKategoriItem1();
+    await this.onSearchKategoriItem2();
+    await this.onSearchKategoriItem3();
+    await this.onSearchKategoriItem4();
+    await this.onSearchKategoriItem5();
 
-    // if (
-    //   this.getRoles.destroy ||
-    //   this.getRoles.destroy_all ||
-    //   this.getRoles.restore ||
-    //   this.getRoles.restore_all
-    // ) {
-    //   this.$refs["form-option"].isMaintenancePage = true;
-    // }
+    await this.lookUp({
+      url: "master/kategori-item/get-kategori-item",
+      lookup: "sellers",
+    });
 
-    // if (this.getRoles.store) {
-    //   this.$refs["form-option"].isAddData = true;
-    // }
+    this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isFilter = false;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = false;
 
-    // if (this.getRoles.export) {
-    //   this.$refs["form-option"].isExportFile = false;
+    if (
+      this.getRoles.destroy ||
+      this.getRoles.destroy_all ||
+      this.getRoles.restore ||
+      this.getRoles.restore_all
+    ) {
+      this.$refs["form-option"].isMaintenancePage = true;
+    }
 
-    //   this.$refs["form-option"].isExportFilePdf = false;
-    //   this.$refs["form-option"].isExportFileExcel = false;
+    if (this.getRoles.store) {
+      this.$refs["form-option"].isAddData = true;
+    }
 
-    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-    //     this.$refs["form-option"].isExportFileExcel =
-    //       this.getRoles.export_excel;
-    //   }
-    // }
+    if (this.getRoles.export) {
+      this.$refs["form-option"].isExportFile = false;
 
-    // if (this.getRoles.print) {
-    //   this.$refs["form-option"].isExportPrint = true;
-    // }
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
+
+      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+        this.$refs["form-option"].isExportFileExcel =
+          this.getRoles.export_excel;
+      }
+    }
+
+    if (this.getRoles.print) {
+      this.$refs["form-option"].isExportPrint = true;
+    }
   },
   computed: {
     ...mapState("moduleApi", [
@@ -850,29 +1213,33 @@ export default {
       "lookup_regus", //pelanggan_induk
       "lookup_location", //lokasi
       "lookup_sellers", //tipe vendor
-      "lookup_products", //item
+      "lookup_products", //kategori 1
+      "lookup_packing", //kategori 2
+      "lookup_defects", //kategori 3
+      "lookup_customers", //kategori 4
+      "lookup_parents", //kategori 5
     ]),
-    // getRoles() {
-    //   if (this.user.is_superadmin == 1) {
-    //     return this.default_roles;
-    //   } else {
-    //     let main_role = this.user.role.menus.find(
-    //       (item) => item.rute == "item"
-    //     );
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "item"
+        );
 
-    //     let roles = {};
+        let roles = {};
 
-    //     if (JSON.parse(main_role.pivot.operators).includes("all")) {
-    //       return this.default_roles;
-    //     }
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
 
-    //     JSON.parse(main_role.pivot.operators).forEach((item) => {
-    //       roles[item.replace("-", "_")] = true;
-    //     });
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
 
-    //     return roles;
-    //   }
-    // },
+        return roles;
+      }
+    },
   },
 
   methods: {
@@ -888,6 +1255,105 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    onFormShow() {
+      this.$router.push("/master/pelanggan/item-pelanggan/add");
+    },
+
+    onEdit(item) {
+      this.$router.push("/master/pelanggan/item-pelanggan/" + item.item_id);
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.item_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = page;
+
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      this.parameters.params.kategori_item_id_1 =
+        this.filter_params.kategori_item_id_1;
+      this.parameters.params.kategori_item_id_2 =
+        this.filter_params.kategori_item_id_2;
+      this.parameters.params.kategori_item_id_3 =
+        this.filter_params.kategori_item_id_3;
+      this.parameters.params.kategori_item_id_4 =
+        this.filter_params.kategori_item_id_4;
+      this.parameters.params.kategori_item_id_5 =
+        this.filter_params.kategori_item_id_5;
+
+      await this.getData(this.parameters);
+      this.parameters.selectedList = this.parameters;
+
+      if (this.result == true) {
+        loader.hide();
+
+        if (page == 1) {
+          this.$refs["pagination"].generatePage();
+        }
+
+        this.$refs["pagination"].active_page = this.parameters.params.page;
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
+      }
+
+      this.isLoadingData = false;
+    },
+
+    onSort(column, sort = "asc") {
+      this.parameters.params = {
+        ...this.parameters.params,
+        order: column,
+        sort: sort,
+      };
+
+      this.onLoad(this.parameters.params.page);
+    },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -994,6 +1460,7 @@ export default {
             this.lookup_custom1.current_page +
             "&per_page=10",
         });
+        this.isLoadingGetNegara = false;
       }
     },
 
@@ -1328,26 +1795,221 @@ export default {
       }
     },
 
-    async onSearchItem() {
-      if (!this.isLoadingGetItem) {
-        this.isLoadingGetItem = true;
+    //Item Methods Start
+    onGetItem(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchItem);
+
+      this.isStopSearchItem = setTimeout(() => {
+        this.item_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_regus.current_page = isNext
+            ? this.lookup_products.current_page + 1
+            : this.lookup_products.current_page - 1;
+        } else {
+          this.lookup_products.current_page = 1;
+        }
+
+        this.onSearchItem();
+      }, 600);
+    },
+
+    //Kategori Item Methods Start
+    onGetKategoriItem1(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKategoriItem1);
+
+      this.isStopSearchKategoriItem1 = setTimeout(() => {
+        this.kategori1_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_products.current_page = isNext
+            ? this.lookup_products.current_page + 1
+            : this.lookup_products.current_page - 1;
+        } else {
+          this.lookup_products.current_page = 1;
+        }
+
+        this.onSearchKategoriItem1();
+      }, 600);
+    },
+
+    async onSearchKategoriItem1() {
+      if (!this.isLoadingGetKategoriItem1) {
+        this.isLoadingGetKategoriItem1 = true;
 
         await this.lookUp({
           url: "master/item/get-item",
           lookup: "products",
           query:
-            "?kategori_item_id=1" +
-            // this.parameters.form.kategori_item_id +
-            // "?search=" +
-            // this.item_search +
-            // "&page=" +
+            "?search=" +
+            this.kategori1_search +
+            "&kategori_item_id=1" +
+            "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",
         });
+        this.isLoadingGetKategoriItem1 = false;
+      }
+    },
 
-        this.isLoadingGetItem = false;
-        this.lookup_products.data = this.parameters.formItem;
-        console.log("item", this.lookup_products.data);
+    onGetKategoriItem2(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKategoriItem2);
+
+      this.isStopSearchKategoriItem2 = setTimeout(() => {
+        this.kategori2_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_packing.current_page = isNext
+            ? this.lookup_packing.current_page + 1
+            : this.lookup_packing.current_page - 1;
+        } else {
+          this.lookup_packing.current_page = 1;
+        }
+
+        this.onSearchKategoriItem2();
+      }, 600);
+    },
+
+    async onSearchKategoriItem2() {
+      if (!this.isLoadingGetKategoriItem2) {
+        this.isLoadingGetKategoriItem2 = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "packing",
+          query:
+            "?search=" +
+            this.kategori2_search +
+            "&kategori_item_id=2" +
+            "&page=" +
+            this.lookup_packing.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetKategoriItem2 = false;
+      }
+    },
+
+    onGetKategoriItem3(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKategoriItem3);
+
+      this.isStopSearchKategoriItem3 = setTimeout(() => {
+        this.kategori3_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_defects.current_page = isNext
+            ? this.lookup_defects.current_page + 1
+            : this.lookup_defects.current_page - 1;
+        } else {
+          this.lookup_defects.current_page = 1;
+        }
+
+        this.onSearchKategoriItem3();
+      }, 600);
+    },
+
+    async onSearchKategoriItem3() {
+      if (!this.isLoadingGetKategoriItem3) {
+        this.isLoadingGetKategoriItem3 = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "defects",
+          query:
+            "?search=" +
+            this.kategori3_search +
+            "&kategori_item_id=3" +
+            "&page=" +
+            this.lookup_defects.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetKategoriItem3 = false;
+      }
+    },
+
+    onGetKategoriItem4(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKategoriItem4);
+
+      this.isStopSearchKategoriItem4 = setTimeout(() => {
+        this.kategori4_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchKategoriItem4();
+      }, 600);
+    },
+
+    async onSearchKategoriItem4() {
+      if (!this.isLoadingGetKategoriItem4) {
+        this.isLoadingGetKategoriItem4 = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.kategori4_search +
+            "&kategori_item_id=4" +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetKategoriItem4 = false;
+      }
+    },
+
+    onGetKategoriItem5(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKategoriItem5);
+
+      this.isStopSearchKategoriItem5 = setTimeout(() => {
+        this.kategori5_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_parents.current_page = isNext
+            ? this.lookup_parents.current_page + 1
+            : this.lookup_parents.current_page - 1;
+        } else {
+          this.lookup_parents.current_page = 1;
+        }
+
+        this.onSearchKategoriItem5();
+      }, 600);
+    },
+
+    async onSearchKategoriItem5() {
+      if (!this.isLoadingGetKategoriItem5) {
+        this.isLoadingGetKategoriItem5 = true;
+
+        await this.lookUp({
+          url: "master/item/get-item",
+          lookup: "parents",
+          query:
+            "?search=" +
+            this.kategori5_search +
+            "&kategori_item_id=5" +
+            "&page=" +
+            this.lookup_parents.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKategoriItem5 = false;
       }
     },
 

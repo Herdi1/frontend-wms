@@ -2,7 +2,7 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -16,9 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="w-full bg-white rounded-md p-2 px-4">
+      <!-- <div class="w-full bg-white rounded-md p-2 px-4">
         <FormInput :self="this" ref="formInput" />
-      </div>
+      </div> -->
       <div class="w-full relative bg-white rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
@@ -27,6 +27,8 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Jenis Kendaraan</th>
                 <th>Gudang</th>
@@ -38,68 +40,10 @@
                 <th>Minimal Muat</th>
                 <th>Maksimal Muat</th>
                 <th>Konsumsi BBM</th>
-                <th>Biaya (km)</th>
-                <th>Biaya BBM Muat</th>
-                <th>Biaya BBM Kosong</th>
-                <!-- <th
-                  @click="
-                    onSort(
-                      'nama_wilayah',
-                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                    )
-                  "
-                  class="cursor-pointer"
-                >
-                  <div class="flex justify-between align-baseline">
-                    <div>Nama Wilayah</div>
-                    <div>
-                      <i
-                        class="fas fa-caret-up"
-                        :class="
-                          parameters.params.order == 'nama_wilayah' &&
-                          parameters.params.sort == 'asc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                      <i
-                        class="fas fa-caret-down"
-                        :class="
-                          parameters.params.order == 'nama_wilayah' &&
-                          parameters.params.sort == 'desc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                    </div>
-                  </div>
-                </th> -->
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.jenis_kendaraan_id }}</td>
-                <td>{{ item.gudang_id }}</td>
-                <td>{{ item.kecepatan_isi }}</td>
-                <td>{{ item.kecepatan_kosong }}</td>
-                <td>{{ item.standar_muat }}</td>
-                <td>{{ item.standar_bongkar }}</td>
-                <td>{{ item.standar_istirahat }}</td>
-                <td>{{ item.minimal_muat }}</td>
-                <td>{{ item.maksimal_muat }}</td>
-                <td>{{ item.konsumsi_bbm }}</td>
-                <td>{{ item.nilai }}</td>
-                <td>{{ item.biaya_bbm_muat }}</td>
-                <td>{{ item.biaya_bbm_kosong }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -109,6 +53,23 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
+                <td>{{ item.gudang.nama_gudang }}</td>
+                <td>{{ item.kecepatan_isi }} km/jam</td>
+                <td>{{ item.kecepatan_kosong }} km/jam</td>
+                <td>{{ item.standar_muat }} jam</td>
+                <td>{{ item.standar_bongkar }} jam</td>
+                <td>{{ item.standar_istirahat }} /km</td>
+                <td>{{ item.minimal_muat }} kg</td>
+                <td>{{ item.maksimal_muat }} kg</td>
+                <td>{{ item.konsumsi_bbm }} km/liter</td>
               </tr>
             </tbody>
           </table>
@@ -142,7 +103,7 @@ export default {
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -153,7 +114,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -216,9 +177,6 @@ export default {
             minimal_muat: "",
             maksimal_muat: "",
             konsumsi_bbm: "",
-            nilai: "",
-            biaya_bbm_muat: "",
-            biaya_bbm_kosong: "",
           },
         },
         loadings: {
@@ -270,35 +228,13 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        jenis_kendaraan_id: "",
-        gudang_id: "",
-        kecapatan_isi: "",
-        kecepatan_kosong: "",
-        standar_muat: "",
-        standar_bongkar: "",
-        standar_istirahat: "",
-        minimal_muat: "",
-        maksimal_muat: "",
-        konsumsi_bbm: "",
-        nilai: "",
-        biaya_bbm_muat: "",
-        biaya_bbm_kosong: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/standar-kendaraan/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(
+        "/master/standar-kendaraan/" + item.standar_jenis_kendaraan_id
+      );
     },
 
     async onLoad(page = 1) {

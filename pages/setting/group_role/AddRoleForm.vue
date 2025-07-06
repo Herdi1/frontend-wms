@@ -82,7 +82,7 @@
                           :key="index"
                           style="border-top: 0.5px solid lightgray"
                         >
-                          <td>
+                          <td class="">
                             <v-select
                               label="judul"
                               :loading="isLoadingGetRole"
@@ -93,10 +93,17 @@
                               :required="true"
                             >
                               <template v-slot:option="option">
-                                <div class="row">
+                                <div class="flex justify-between items-center">
                                   <div class="text-sm">
                                     {{ option.judul }}
                                   </div>
+                                  <span>{{
+                                    option.status === "0"
+                                      ? "Website"
+                                      : option.status === "1"
+                                      ? "Mobile"
+                                      : ""
+                                  }}</span>
                                 </div>
                               </template>
                               <template #search="{ attributes, events }">
@@ -374,7 +381,7 @@
                           </td>
                           <td>
                             <i
-                              class="fas fa-trash"
+                              class="fas fa-trash ml-5"
                               style="cursor: pointer"
                               @click="onDeleteGrant(index)"
                             ></i>

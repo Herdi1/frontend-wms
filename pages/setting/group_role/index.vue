@@ -16,11 +16,11 @@
       </h5>
     </div>
     <div class="section-body">
-      <div class="flex sm:flex-col md:flex-row gap-5">
-        <div class="panel md:w-[45%] sm:w-full bg-white rounded-md p-2 px-4">
+      <div class="flex flex-col gap-5">
+        <div class="panel w-full bg-white rounded-md p-2 px-4">
           <AddForm :self="this" ref="AddForm" />
         </div>
-        <div class="panel md:w-[55%] sm:w-full bg-white rounded-md p-5">
+        <div class="panel w-full bg-white rounded-md p-5">
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
