@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Term Pembayaran</span>
+        <span>Slot Penyimpanan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -27,9 +27,9 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Term Pembayaran</th>
+                <th>Zona Gudang</th>
 
-                <th
+                <!-- <th
                   @click="
                     onSort(
                       'nama_term_pembayaran',
@@ -61,9 +61,12 @@
                       ></i>
                     </div>
                   </div>
-                </th>
-                <th>Keterangan</th>
-                <th>Durasi (Hari)</th>
+                </th> -->
+                <th>Gudang</th>
+                <th>Level</th>
+                <th>History Induk</th>
+                <th>Kode Lokasi</th>
+                <th>Kapasitas</th>
               </tr>
             </thead>
             <tbody>
@@ -84,10 +87,12 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_term_pembayaran }}</td>
-                <td>{{ item.nama_term_pembayaran }}</td>
-                <td>{{ item.keterangan }}</td>
-                <td>{{ item.durasi }}</td>
+                <td>{{ item.zona_gudang_id }}</td>
+                <td>{{ item.gudang_id }}</td>
+                <td>{{ item.level }}</td>
+                <td>{{ item.history_induk }}</td>
+                <td>{{ item.kode_lokasi }}</td>
+                <td>{{ item.kapasitas }}</td>
               </tr>
             </tbody>
           </table>
@@ -102,12 +107,13 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Term Pembayaran",
+      title: "Slot Penyimpanan",
     };
   },
 
@@ -154,7 +160,7 @@ export default {
 
   data() {
     return {
-      title: "Term Pembayaran",
+      title: "Slot Penyimpanan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -173,21 +179,23 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/term-pembayaran",
+        url: "master/lokasi-master-gudang",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "term_pembayaran_id",
+          order: "slot_penyimpanan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_term_pembayaran: "",
-            nama_term_pembayaran: "",
-            keterangan: "",
-            durasi: "",
+            zona_gudang_id: "",
+            gudang_id: "",
+            level: "",
+            history_induk: "",
+            kode_lokasi: "",
+            kapasitas: "",
           },
         },
         loadings: {
@@ -206,7 +214,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "term-pembayaran"
+          (item) => item.rute == "lokasi-master-gudang"
         );
 
         let roles = {};
@@ -235,11 +243,13 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/term-pembayaran/add");
+      this.$router.push("/master/lokasi-master-gudang/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/term-pembayaran/" + item.term_pembayaran_id);
+      this.$router.push(
+        "/master/lokasi-master-gudang/" + item.slot_penyimpanan_id
+      );
     },
 
     onTrashed(item) {
@@ -258,7 +268,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.term_pembayaran_id,
+              id: item.slot_penyimpanan_id,
               params: this.parameters.params,
             });
 

@@ -23,7 +23,7 @@
                 <label for="">Pelanggan Induk</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  v-model="parameters.form.pelanggan_id_induk"
+                  v-model="form.pelanggan_id_induk"
                   :loading="isLoadingGetPelangganInduk"
                   :filterable="false"
                   @search="onGetPelangganInduk"
@@ -65,7 +65,7 @@
                     :filterable="false"
                     @search="onGetTBH"
                     :reduce="(item) => item.tipe_badan_hukum_id"
-                    v-model="parameters.form.tipe_badan_hukum_id"
+                    v-model="form.tipe_badan_hukum_id"
                   >
                     <li
                       slot-scope="{ search }"
@@ -102,7 +102,7 @@
                   :filterable="false"
                   @search="onGetUserPIC"
                   :reduce="(item) => item.user_id"
-                  v-model="parameters.form.user_id_sales"
+                  v-model="form.user_id_sales"
                 >
                   <li
                     slot-scope="{ search }"
@@ -133,7 +133,7 @@
                   type="text"
                   name="kode_referensi"
                   :required="true"
-                  v-model="parameters.form.kode_referensi"
+                  v-model="form.kode_referensi"
                 />
               </div>
               <div class="form-group">
@@ -142,7 +142,7 @@
                   type="text"
                   name="kode_pelanggan"
                   :required="true"
-                  v-model="parameters.form.kode_pelanggan"
+                  v-model="form.kode_pelanggan"
                 />
               </div>
               <div class="form-group">
@@ -151,7 +151,7 @@
                   type="text"
                   name="no_npwp"
                   :required="false"
-                  v-model="parameters.form.no_npwp"
+                  v-model="form.no_npwp"
                 />
               </div>
             </div>
@@ -162,7 +162,7 @@
                   type="text"
                   name="nama_pelanggan"
                   :required="true"
-                  v-model="parameters.form.nama_pelanggan"
+                  v-model="form.nama_pelanggan"
                 />
               </div>
               <div class="form-group">
@@ -171,7 +171,7 @@
                   type="text"
                   name="alias"
                   :required="true"
-                  v-model="parameters.form.alias"
+                  v-model="form.alias"
                 />
               </div>
               <div class="form-group">
@@ -180,7 +180,7 @@
                   type="email"
                   name="email"
                   :required="false"
-                  v-model="parameters.form.email"
+                  v-model="form.email"
                 />
               </div>
             </div>
@@ -198,7 +198,7 @@
                     :filterable="false"
                     @search="onGetNegara"
                     :reduce="(item) => item.negara_id"
-                    v-model="parameters.form.negara_id"
+                    v-model="form.negara_id"
                     @input="onSelectNegara"
                   >
                     <li
@@ -241,7 +241,7 @@
                     :filterable="false"
                     @search="onGetProvinsi"
                     :reduce="(item) => item.provinsi_id"
-                    v-model="parameters.form.provinsi_id"
+                    v-model="form.provinsi_id"
                     @input="onSelectProvinsi"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -285,7 +285,7 @@
                     :filterable="false"
                     @search="onGetKota"
                     :reduce="(item) => item.kota_id"
-                    v-model="parameters.form.kota_id"
+                    v-model="form.kota_id"
                     @input="onSelectKota"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -331,7 +331,7 @@
                     :filterable="false"
                     @search="onGetKecamatan"
                     :reduce="(item) => item.kecamatan_id"
-                    v-model="parameters.form.kecamatan_id"
+                    v-model="form.kecamatan_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                     @input="onSelectKecamatan"
                   >
@@ -367,7 +367,7 @@
                   :filterable="false"
                   @search="onGetKelurahan"
                   :reduce="(item) => item.kelurahan_id"
-                  v-model="parameters.form.kelurahan_id"
+                  v-model="form.kelurahan_id"
                 >
                   <li
                     slot-scope="{ search }"
@@ -396,7 +396,7 @@
                   type="text"
                   name="kode_pos"
                   :required="false"
-                  v-model="parameters.form.kode_pos"
+                  v-model="form.kode_pos"
                 />
               </div>
             </div>
@@ -407,13 +407,13 @@
                   type="number"
                   name="rentang_retur_penjualan"
                   :required="false"
-                  v-model="parameters.form.rentang_retur_penjualan"
+                  v-model="form.rentang_retur_penjualan"
                 />
               </div>
               <div class="form-group col-12">
                 <label for="nilai_plafon">Nilai Plafon</label>
                 <money
-                  v-model="parameters.form.nilai_plafon"
+                  v-model="form.nilai_plafon"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
@@ -437,7 +437,7 @@
                     :filterable="false"
                     @search="onGetLokasi"
                     :reduce="(item) => item.lokasi_id"
-                    v-model="parameters.form.lokasi_id"
+                    v-model="form.lokasi_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
@@ -473,7 +473,7 @@
                   type="text"
                   name="nama_pemilik"
                   :required="true"
-                  v-model="parameters.form.nama_pemilik"
+                  v-model="form.nama_pemilik"
                 />
               </div>
               <div class="form-group">
@@ -482,7 +482,7 @@
                   type="text"
                   name="no_telp"
                   :required="false"
-                  v-model="parameters.form.no_telp"
+                  v-model="form.no_telp"
                 />
               </div>
               <div class="form-group">
@@ -491,7 +491,7 @@
                   type="text"
                   name="no_hp"
                   :required="false"
-                  v-model="parameters.form.no_hp"
+                  v-model="form.no_hp"
                 />
               </div>
             </div>
@@ -502,7 +502,7 @@
                   type="text"
                   name="nik_pemilik"
                   :required="false"
-                  v-model="parameters.form.nik_pemilik"
+                  v-model="form.nik_pemilik"
                 />
               </div>
               <div class="form-group">
@@ -511,7 +511,7 @@
                   type="text"
                   name="no_npwp_pemilik"
                   :required="false"
-                  v-model="parameters.form.no_npwp_pemilik"
+                  v-model="form.no_npwp_pemilik"
                 />
               </div>
               <div class="form-group">
@@ -520,7 +520,7 @@
                   type="text"
                   name="nomor_siup"
                   :required="false"
-                  v-model="parameters.form.nomor_siup"
+                  v-model="form.nomor_siup"
                 />
               </div>
             </div>
@@ -531,7 +531,7 @@
                   type="text"
                   name="nama_cp"
                   :required="false"
-                  v-model="parameters.form.nama_cp"
+                  v-model="form.nama_cp"
                 />
               </div>
               <div class="form-group">
@@ -540,7 +540,7 @@
                   type="text"
                   name="telp_cp"
                   :required="false"
-                  v-model="parameters.form.telp_cp"
+                  v-model="form.telp_cp"
                 />
               </div>
               <div class="form-group">
@@ -549,7 +549,7 @@
                   type="text"
                   name="hp_cp"
                   :required="false"
-                  v-model="parameters.form.hp_cp"
+                  v-model="form.hp_cp"
                 />
               </div>
             </div>
@@ -565,7 +565,7 @@
                     type="text"
                     name="longitude"
                     :required="true"
-                    v-model="parameters.form.longitude"
+                    v-model="form.longitude"
                   />
                 </div>
               </ValidationProvider>
@@ -580,7 +580,7 @@
                     type="text"
                     name="latitude"
                     :required="true"
-                    v-model="parameters.form.latitude"
+                    v-model="form.latitude"
                   />
                 </div>
               </ValidationProvider>
@@ -590,7 +590,7 @@
                     >Radius <span class="text-danger">*</span></label
                   >
                   <money
-                    v-model="parameters.form.radius"
+                    v-model="form.radius"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
@@ -610,7 +610,7 @@
                   placeholder="Alamat Pelanggan"
                   required
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.alamat_pelanggan"
+                  v-model="form.alamat_pelanggan"
                 ></textarea>
               </div>
               <div class="form-group">
@@ -621,7 +621,7 @@
                   placeholder="Alamat Pemilik"
                   required
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.alamat_pemilik"
+                  v-model="form.alamat_pemilik"
                 ></textarea>
               </div>
             </div>
@@ -640,9 +640,9 @@
     <div
       class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
     >
-      <div class="card-title">
+      <!-- <div class="card-title">
         <list-option-section :self="this" ref="form-option" />
-      </div>
+      </div> -->
       <div class="w-full mt-3 mb-7">
         <div
           class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
@@ -950,6 +950,47 @@ export default {
     return {
       id,
 
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
+      isLoadingForm: false,
+
+      title: "Pelanggan",
+      url: "master/pelanggan",
+      form: {
+        pelanggan_id_induk: "",
+        tipe_badan_hukum_id: "",
+        user_id_sales: "",
+        alias: "",
+        kode_referensi: "",
+        kode_pelanggan: "",
+        no_npwp: "",
+        nama_pelanggan: "",
+        email: "",
+        alamat_pelanggan: "",
+        kelurahan_id: "",
+        kecamatan_id: "",
+        kota_id: "",
+        provinsi_id: "",
+        negara_id: "",
+        kode_pos: "",
+        nama_pemilik: "",
+        alamat_pemilik: "",
+        no_telp: "",
+        no_hp: "",
+        nik_pemilik: "",
+        no_npwp_pemilik: "",
+        nomor_siup: "",
+        nama_cp: "",
+        telp_cp: "",
+        hp_cp: "",
+        nilai_plafon: "",
+        lokasi_id: "",
+        rentang_retur_penjualan: "",
+        longitude: "",
+        latitude: "",
+        radius: "",
+      },
+
       isStopSearchNegara: false,
       isLoadingGetNegara: false,
       negara_search: "",
@@ -986,6 +1027,39 @@ export default {
       isLoadingGetPelangganInduk: false,
       pelangganInduk_search: "",
 
+      // item_pelanggan
+      itemTitle: "Item Pelanggan",
+      isLoadingData: false,
+      isPaginate: true,
+      itemData: [],
+      parameters: {
+        url: "master/item",
+        type: "pdf",
+        // kategori_item_id: "",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "item_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+          kategori_item_id_1: "",
+          kategori_item_id_2: "",
+          kategori_item_id_3: "",
+          kategori_item_id_4: "",
+          kategori_item_id_5: "",
+        },
+      },
+
+      filter_params: {
+        kategori_item_id_1: "",
+        kategori_item_id_2: "",
+        kategori_item_id_3: "",
+        kategori_item_id_4: "",
+        kategori_item_id_5: "",
+      },
+
       isStopSearchKategoriItem1: false,
       isLoadingGetKategoriItem1: false,
       kategori1_search: "",
@@ -1006,125 +1080,58 @@ export default {
       isLoadingGetKategoriItem5: false,
       kategori5_search: "",
 
-      isEditable: Number.isInteger(id) ? true : false,
-      isLoadingPage: Number.isInteger(id) ? true : false,
-      isLoadingForm: false,
-      title: "Pelanggan",
-      itemTitle: "Item Pelanggan",
-      isLoadingData: false,
-      isPaginate: true,
-      parameters: {
-        kategori_item_id: "",
-        params: {
-          soft_deleted: "",
-          search: "",
-          order: "item_id",
-          sort: "desc",
-          all: "",
-          per_page: 10,
-          page: 1,
-          kategori_item_id_1: "",
-          kategori_item_id_2: "",
-          kategori_item_id_3: "",
-          kategori_item_id_4: "",
-          kategori_item_id_5: "",
-        },
-        url: "master/pelanggan",
-        form: {
-          pelanggan_id_induk: "",
-          tipe_badan_hukum_id: "",
-          user_id_sales: "",
-          alias: "",
-          kode_referensi: "",
-          kode_pelanggan: "",
-          no_npwp: "",
-          nama_pelanggan: "",
-          email: "",
-          alamat_pelanggan: "",
-          kelurahan_id: "",
-          kecamatan_id: "",
-          kota_id: "",
-          provinsi_id: "",
-          negara_id: "",
-          kode_pos: "",
-          nama_pemilik: "",
-          alamat_pemilik: "",
-          no_telp: "",
-          no_hp: "",
-          nik_pemilik: "",
-          no_npwp_pemilik: "",
-          nomor_siup: "",
-          nama_cp: "",
-          telp_cp: "",
-          hp_cp: "",
-          nilai_plafon: "",
-          lokasi_id: "",
-          rentang_retur_penjualan: "",
-          longitude: "",
-          latitude: "",
-          radius: "",
-        },
+      // formItem: {
+      //   item_id: "",
+      //   kode_wms: "",
+      //   kode_alternatif: "",
+      //   kode_alternatif_2: "",
+      //   nama_item: "",
+      //   satuan_id: "",
+      //   satuan_id_berat: "",
+      //   berat: "",
+      //   satuan_id_volume: "",
+      //   volume: "",
+      //   satuan_id_stocklevel: "",
+      //   value_stocklevel: "",
+      //   keterangan: "",
+      //   group_item_id_1: "",
+      //   group_item_id_2: "",
+      //   group_item_id_3: "",
+      //   group_item_id_4: "",
+      //   group_item_id_5: "",
+      //   batas_bawah: "",
+      //   batas_atas: "",
+      //   kategori_id_1: "",
+      //   kategori_id_2: "",
+      //   kategori_id_3: "",
+      //   kategori_id_4: "",
+      //   kategori_id_5: "",
+      //   kapasitas_palet: "",
+      //   maksimum_tumpukan: "",
+      //   supplier_id: "",
+      // },
+      // loadings: {
+      //   isDelete: false,
+      //   isRestore: false,
+      // },
 
-        formItem: {
-          item_id: "",
-          kode_wms: "",
-          kode_alternatif: "",
-          kode_alternatif_2: "",
-          nama_item: "",
-          satuan_id: "",
-          satuan_id_berat: "",
-          berat: "",
-          satuan_id_volume: "",
-          volume: "",
-          satuan_id_stocklevel: "",
-          value_stocklevel: "",
-          keterangan: "",
-          group_item_id_1: "",
-          group_item_id_2: "",
-          group_item_id_3: "",
-          group_item_id_4: "",
-          group_item_id_5: "",
-          batas_bawah: "",
-          batas_atas: "",
-          kategori_id_1: "",
-          kategori_id_2: "",
-          kategori_id_3: "",
-          kategori_id_4: "",
-          kategori_id_5: "",
-          kapasitas_palet: "",
-          maksimum_tumpukan: "",
-          supplier_id: "",
-        },
-        loadings: {
-          isDelete: false,
-          isRestore: false,
-        },
-      },
+      // selectList: [],
 
-      filter_params: {
-        kategori_item_id_1: "",
-        kategori_item_id_2: "",
-        kategori_item_id_3: "",
-        kategori_item_id_4: "",
-        kategori_item_id_5: "",
-      },
-      selectList: [],
-
-      default_roles: {
-        store: true,
-        update: true,
-        destroy: true,
-        restore: true,
-        show: true,
-        export: true,
-        export_excel: true,
-        export_pdf: true,
-        print: true,
-        destroy_all: true,
-        restore_all: true,
-        import: true,
-      },
-      user: this.$auth.user,
+      // default_roles: {
+      //   store: true,
+      //   update: true,
+      //   destroy: true,
+      //   restore: true,
+      //   show: true,
+      //   export: true,
+      //   export_excel: true,
+      //   export_pdf: true,
+      //   print: true,
+      //   destroy_all: true,
+      //   restore_all: true,
+      //   import: true,
+      // },
+      // user: this.$auth.user,
     };
   },
 
@@ -1132,7 +1139,7 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get("master/pelanggan/" + this.id);
-        this.parameters.form = res.data;
+        this.form = res.data;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1163,40 +1170,40 @@ export default {
       lookup: "sellers",
     });
 
-    this.$refs["form-option"].isExport = false;
-    this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isFilter = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
 
-    if (
-      this.getRoles.destroy ||
-      this.getRoles.destroy_all ||
-      this.getRoles.restore ||
-      this.getRoles.restore_all
-    ) {
-      this.$refs["form-option"].isMaintenancePage = true;
-    }
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = true;
+    // }
 
-    if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
-    }
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = true;
+    // }
 
-    if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+    //   this.$refs["form-option"].isExportFilePdf = false;
+    //   this.$refs["form-option"].isExportFileExcel = false;
 
-      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-        this.$refs["form-option"].isExportFileExcel =
-          this.getRoles.export_excel;
-      }
-    }
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
 
-    if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
-    }
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = true;
+    // }
   },
   computed: {
     ...mapState("moduleApi", [
@@ -1219,27 +1226,27 @@ export default {
       "lookup_customers", //kategori 4
       "lookup_parents", //kategori 5
     ]),
-    getRoles() {
-      if (this.user.is_superadmin == 1) {
-        return this.default_roles;
-      } else {
-        let main_role = this.user.role.menus.find(
-          (item) => item.rute == "item"
-        );
+    // getRoles() {
+    //   if (this.user.is_superadmin == 1) {
+    //     return this.default_roles;
+    //   } else {
+    //     let main_role = this.user.role.menus.find(
+    //       (item) => item.rute == "item"
+    //     );
 
-        let roles = {};
+    //     let roles = {};
 
-        if (JSON.parse(main_role.pivot.operators).includes("all")) {
-          return this.default_roles;
-        }
+    //     if (JSON.parse(main_role.pivot.operators).includes("all")) {
+    //       return this.default_roles;
+    //     }
 
-        JSON.parse(main_role.pivot.operators).forEach((item) => {
-          roles[item.replace("-", "_")] = true;
-        });
+    //     JSON.parse(main_role.pivot.operators).forEach((item) => {
+    //       roles[item.replace("-", "_")] = true;
+    //     });
 
-        return roles;
-      }
-    },
+    //     return roles;
+    //   }
+    // },
   },
 
   methods: {
@@ -1256,48 +1263,48 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
-    onFormShow() {
-      this.$router.push("/master/pelanggan/item-pelanggan/add");
-    },
+    // onFormShow() {
+    //   this.$router.push("/master/pelanggan/item-pelanggan/add");
+    // },
 
-    onEdit(item) {
-      this.$router.push("/master/pelanggan/item-pelanggan/" + item.item_id);
-    },
+    // onEdit(item) {
+    //   this.$router.push("/master/pelanggan/item-pelanggan/" + item.item_id);
+    // },
 
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
+    // onTrashed(item) {
+    //   if (this.parameters.loadings.isDelete) return;
 
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
+    //   this.$confirm({
+    //     auth: false,
+    //     message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+    //     button: {
+    //       no: "No",
+    //       yes: "Yes",
+    //     },
+    //     callback: async (confirm) => {
+    //       if (confirm) {
+    //         this.parameters.loadings.isDelete = true;
 
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.item_id,
-              params: this.parameters.params,
-            });
+    //         await this.deleteData({
+    //           url: this.parameters.url,
+    //           id: item.item_id,
+    //           params: this.parameters.params,
+    //         });
 
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
+    //         if (this.result == true) {
+    //           this.onLoad(this.parameters.params.page);
+    //           this.$toaster.success(
+    //             "Data berhasil di pindahkan ke dalam Trash!"
+    //           );
+    //         } else {
+    //           this.$globalErrorToaster(this.$toaster, this.error);
+    //         }
 
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
+    //         this.parameters.loadings.isDelete = false;
+    //       }
+    //     },
+    //   });
+    // },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -1305,10 +1312,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.form.checkboxs = [];
-      if (document.getElementById("checkAll")) {
-        document.getElementById("checkAll").checked = false;
-      }
+      // this.form.checkboxs = [];
+      // if (document.getElementById("checkAll")) {
+      //   document.getElementById("checkAll").checked = false;
+      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -1328,7 +1335,7 @@ export default {
         this.filter_params.kategori_item_id_5;
 
       await this.getData(this.parameters);
-      this.parameters.selectedList = this.parameters;
+      this.parameters.selectedList = { ...this.parameters.filter_list };
 
       if (this.result == true) {
         loader.hide();
@@ -1345,15 +1352,15 @@ export default {
       this.isLoadingData = false;
     },
 
-    onSort(column, sort = "asc") {
-      this.parameters.params = {
-        ...this.parameters.params,
-        order: column,
-        sort: sort,
-      };
+    // onSort(column, sort = "asc") {
+    //   this.parameters.params = {
+    //     ...this.parameters.params,
+    //     order: column,
+    //     sort: sort,
+    //   };
 
-      this.onLoad(this.parameters.params.page);
-    },
+    //   this.onLoad(this.parameters.params.page);
+    // },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -1363,10 +1370,8 @@ export default {
       let parameters = {
         ...this.parameters,
         form: {
-          ...this.parameters.form,
-          id: this.parameters.form.pelanggan_id
-            ? this.parameters.form.pelanggan_id
-            : "",
+          ...this.form,
+          id: this.form.pelanggan_id ? this.form.pelanggan_id : "",
         },
       };
 
@@ -1381,7 +1386,7 @@ export default {
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
         this.isEditable = false;
-        this.parameters.form = {
+        this.form = {
           pelanggan_id_induk: "",
           tipe_badan_hukum_id: "",
           user_id_sales: "",
@@ -1497,7 +1502,7 @@ export default {
             "?search=" +
             this.provinsi_search +
             "&negara_id=" +
-            this.parameters.form.negara_id +
+            this.form.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1540,7 +1545,7 @@ export default {
             "?search=" +
             this.kota_search +
             "&provinsi_id=" +
-            this.parameters.form.provinsi_id +
+            this.form.provinsi_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1583,7 +1588,7 @@ export default {
             "?search=" +
             this.kecamatan_search +
             "&kota_id=" +
-            this.parameters.form.kota_id +
+            this.form.kota_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -1625,7 +1630,7 @@ export default {
             "?search=" +
             this.kelurahan_search +
             "&kecamatan_id=" +
-            this.parameters.form.kecamatan_id +
+            this.form.kecamatan_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
@@ -2014,34 +2019,34 @@ export default {
     },
 
     onSelectNegara() {
-      this.parameters.form.provinsi_id = "";
-      this.parameters.form.kota_id = "";
-      this.parameters.form.kecamatan_id = "";
-      this.parameters.form.kelurahan_id = "";
+      this.form.provinsi_id = "";
+      this.form.kota_id = "";
+      this.form.kecamatan_id = "";
+      this.form.kelurahan_id = "";
       this.onSearchProvinsi();
     },
 
     onSelectProvinsi() {
-      this.parameters.form.kota_id = "";
-      this.parameters.form.kecamatan_id = "";
-      this.parameters.form.kelurahan_id = "";
+      this.form.kota_id = "";
+      this.form.kecamatan_id = "";
+      this.form.kelurahan_id = "";
       this.onSearchKota();
     },
 
     onSelectKota() {
-      this.parameters.form.kecamatan_id = "";
-      this.parameters.form.kelurahan_id = "";
+      this.form.kecamatan_id = "";
+      this.form.kelurahan_id = "";
       this.onSearchKecamatan();
     },
 
     onSelectKecamatan() {
-      this.parameters.form.kelurahan_id = "";
+      this.form.kelurahan_id = "";
       this.onSearchKelurahan();
     },
 
     formReset() {
       this.isEditable = false;
-      this.parameters.form = {
+      this.form = {
         pelanggan_id_induk: "",
         tipe_badan_hukum_id: "",
         user_id_sales: "",
