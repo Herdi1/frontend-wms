@@ -149,7 +149,13 @@
         </ul>
 
       </li> -->
-      <template v-for="item in menus">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search menu..."
+        class="w-full px-2 py-1 mb-4 rounded text-gray-500 my-3 mr:3 border border-gray-300 outline-none"
+      />
+      <template v-for="item in filteredMenus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
           <h2
             class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
@@ -271,6 +277,7 @@ export default {
     return {
       activeDropdown: "dashboard",
       subActive: "",
+      searchQuery: "",
     };
   },
   computed: {
@@ -303,6 +310,29 @@ export default {
       }
 
       return menus;
+    },
+    filteredMenus() {
+      const search = this.searchQuery.toLowerCase();
+      return this.menus
+        .map((parent) => {
+          let filteredChild = parent.childs.filter((child) =>
+            child.judul.toLowerCase().includes(search)
+          );
+
+          if (
+            parent.judul.toLowerCase().includes(search) ||
+            filteredChild.length > 0
+          ) {
+            return {
+              judul: parent.judul,
+              rute: parent.rute,
+              childs: filteredChild.length ? filteredChild : parent.childs,
+            };
+          }
+
+          return null;
+        })
+        .filter(Boolean);
     },
   },
   methods: {

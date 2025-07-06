@@ -245,7 +245,7 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
@@ -350,7 +350,24 @@
                   </th>
                   <th>Berat</th>
                   <th>Volume</th>
-                  <th>Group Item</th>
+                  <th>Stocklevel</th>
+                  <th>Group Item 1</th>
+                  <th>Group Item 2</th>
+                  <th>Group Item 3</th>
+                  <th>Group Item 4</th>
+                  <th>Group Item 5</th>
+                  <th>Batas Atas</th>
+                  <th>Batas Bawah</th>
+                  <th>Kategori Item 1</th>
+                  <th>Kategori Item 2</th>
+                  <th>Kategori Item 3</th>
+                  <th>Kategori Item 4</th>
+                  <th>Kategori Item 5</th>
+                  <th>Jumlah Palet</th>
+                  <th>Kebutuhan Palet</th>
+                  <th>Kapasitas Palet</th>
+                  <th>Maksimal Tumpukan</th>
+                  <th>Supplier</th>
                   <th class="w-[5%]">Detail</th>
                 </tr>
               </thead>
@@ -386,7 +403,96 @@
                   <td>
                     {{ item.volume + " " + item.satuan_volume.nama_satuan }}
                   </td>
-                  <td>{{ item.group_item_1.nama_group_item }}</td>
+                  <td>
+                    {{
+                      item.value_stocklevel +
+                      " " +
+                      item.satuan_stocklevel.nama_satuan
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.group_item_1
+                        ? item.group_item_1.nama_group_item
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.group_item_2
+                        ? item.group_item_2.nama_group_item
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.group_item_3
+                        ? item.group_item_3.nama_group_item
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.group_item_4
+                        ? item.group_item_4.nama_group_item
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.group_item_5
+                        ? item.group_item_5.nama_group_item
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>{{ item.batas_atas }}</td>
+                  <td>{{ item.batas_bawah }}</td>
+                  <td>
+                    {{
+                      item.kategori_1
+                        ? item.kategori_1.nama_kategori
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.kategori_2
+                        ? item.kategori_2.nama_kategori
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.kategori_3
+                        ? item.kategori_3.nama_kategori
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.kategori_4
+                        ? item.kategori_4.nama_kategori
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.kategori_5
+                        ? item.kategori_5.nama_kategori
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td>{{ item.jumlah_palet }}</td>
+                  <td>{{ item.kapasitas_palet }}</td>
+                  <td>{{ item.kebutuhan_palet }}</td>
+                  <td>{{ item.maksimal_tumpukan }}</td>
+                  <td>
+                    {{
+                      item.supplier
+                        ? item.supplier.nama_supplier
+                        : "Tidak Ditemukan"
+                    }}
+                  </td>
                   <td class="text-center">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -472,8 +578,6 @@ export default {
     await this.onSearchGroupItem3();
     await this.onSearchGroupItem4();
     await this.onSearchGroupItem5();
-
-    console.log(this.selectList.options);
   },
 
   data() {
