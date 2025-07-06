@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Jenis</span>
+        <span>Jalur Lokasi</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -27,23 +27,23 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Jenis Peralatan</th>
+                <th>Kode Jalur</th>
                 <th
                   @click="
                     onSort(
-                      'nama_jenis_peralatan',
+                      'nama_jalur',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Jenis Peralatan</div>
+                    <div>Nama Jalur</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_jenis_peralatan' &&
+                          parameters.params.order == 'nama_jalur' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -52,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_jenis_peralatan' &&
+                          parameters.params.order == 'nama_jalur' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -61,6 +61,7 @@
                     </div>
                   </div>
                 </th>
+                <th>Gudang</th>
               </tr>
             </thead>
             <tbody>
@@ -81,10 +82,18 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_jenis_peralatan }}</td>
-                <td>{{ item.nama_jenis_peralatan }}</td>
+                <td>{{ item.kode_jalur }}</td>
+                <td>{{ item.nama_jalur }}</td>
+                <td>
+                  {{
+                    item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
+                  }}
+                </td>
               </tr>
             </tbody>
+            <table-data-loading-section :self="this" />
+
+            <table-data-not-found-section :self="this" />
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
@@ -102,7 +111,7 @@ export default {
 
   head() {
     return {
-      title: "Jenis Peralatan",
+      title: "Jalur Lokasi",
     };
   },
 
@@ -155,7 +164,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jenis-peralatan"
+          (item) => item.rute == "jalur-lokasi"
         );
 
         let roles = {};
@@ -175,7 +184,7 @@ export default {
 
   data() {
     return {
-      title: "Jenis Peralatan",
+      title: "Jalur Lokasi",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -194,19 +203,20 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/jenis-peralatan",
+        url: "master/jalur-lokasi",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jenis_peralatan_id",
+          order: "jalur_lokasi_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_jenis_peralatan: "",
-            nama_jenis_peralatan: "",
+            kode_jalur: "",
+            nama_jalur: "",
+            gudang_id: "",
           },
         },
         loadings: {
@@ -257,11 +267,11 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/master/jenis-peralatan/add");
+      this.$router.push("/master/jalur-lokasi/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/jenis-peralatan/" + item.jenis_peralatan_id);
+      this.$router.push("/master/jalur-lokasi/" + item.jalur_lokasi_id);
     },
 
     onTrashed(item) {
@@ -280,7 +290,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.jenis_peralatan_id,
+              id: item.jalur_lokasi_id,
               params: this.parameters.params,
             });
 

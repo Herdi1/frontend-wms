@@ -129,8 +129,10 @@
                       </td>
                       <td>{{ item.username }}</td>
                       <td>{{ item.email }}</td>
-                      <td>{{ item.gudang_id }}</td>
-                      <td>{{ item.jabatan_id }}</td>
+                      <td>{{ item.gudang ? item.gudang.nama_gudang : "-" }}</td>
+                      <td>
+                        {{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}
+                      </td>
                       <td class="text-center">
                         <small-detail-button @click="onDetail(item)" />
                       </td>

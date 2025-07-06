@@ -24,6 +24,224 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
+          <div class="w-full mt-3 mb-7">
+            <div
+              class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+            >
+              <div class="grid grid-flow-col grid-rows-3 gap-2">
+                <div class="flex w-[400px]">
+                  <label class="w-[40%]" for="group_item_id_1"
+                    >Group Item Level 1</label
+                  >
+                  <v-select
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem1"
+                    :options="lookup_grade.data"
+                    :filterable="false"
+                    @search="onGetGroupItem1"
+                    v-model="filter_params.group_item_id_1"
+                    :reduce="(item) => item.group_item_id"
+                    class="w-[60%]"
+                    @input="onSearchGroupItem2"
+                  >
+                    <!-- <template #search="{ attributes, events }">
+                              <input
+                                class="w-full outline-none active:outline-none"
+                                :required="!form.vendor_id"
+                                v-bind="attributes"
+                                v-on="events"
+                              />
+                            </template> -->
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_grade.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_grade.current_page > 1"
+                        @click="onGetGroupItem1(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_grade.last_page > lookup_grade.current_page
+                        "
+                        @click="onGetGroupItem1(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="flex">
+                  <label class="w-[40%]" for="group_item_id_2"
+                    >Group Item Level 2</label
+                  >
+                  <v-select
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem2"
+                    :options="lookup_beam.data"
+                    :filterable="false"
+                    @search="onGetGroupItem2"
+                    v-model="filter_params.group_item_id_2"
+                    :reduce="(item) => item.group_item_id"
+                    class="w-[60%]"
+                    @input="onSearchGroupItem3"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_beam.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_beam.current_page > 1"
+                        @click="onGetGroupItem2(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="lookup_beam.last_page > lookup_beam.current_page"
+                        @click="onGetGroupItem2(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="flex">
+                  <label class="w-[40%]" for="group_item_id_3"
+                    >Group Item Level 3</label
+                  >
+                  <v-select
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem3"
+                    :options="lookup_packing.data"
+                    :filterable="false"
+                    @search="onGetGroupItem3"
+                    v-model="filter_params.group_item_id_3"
+                    :reduce="(item) => item.group_item_id"
+                    class="w-[60%]"
+                    @input="onSearchGroupItem4"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_packing.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_packing.current_page > 1"
+                        @click="onGetGroupItem3(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_packing.last_page > lookup_packing.current_page
+                        "
+                        @click="onGetGroupItem3(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="flex w-[400px]">
+                  <label class="w-[40%]" for="group_item_id_4"
+                    >Group Item Level 4</label
+                  >
+                  <v-select
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem4"
+                    :options="lookup_defects.data"
+                    :filterable="false"
+                    @search="onGetGroupItem4"
+                    v-model="filter_params.group_item_id_4"
+                    :reduce="(item) => item.group_item_id"
+                    class="w-[60%]"
+                    @input="onSearchGroupItem5"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_defects.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_defects.current_page > 1"
+                        @click="onGetGroupItem4(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_defects.last_page > lookup_defects.current_page
+                        "
+                        @click="onGetGroupItem4(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="flex">
+                  <label class="w-[40%]" for="group_item_id_5"
+                    >Group Item Level 5</label
+                  >
+                  <v-select
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem5"
+                    :options="lookup_department.data"
+                    :filterable="false"
+                    @search="onGetGroupItem5"
+                    v-model="filter_params.group_item_id_5"
+                    :reduce="(item) => item.group_item_id"
+                    class="w-[60%]"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_department.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_department.current_page > 1"
+                        @click="onGetGroupItem5(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_department.last_page >
+                          lookup_department.current_page
+                        "
+                        @click="onGetGroupItem5(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+              <div class="flex gap-3 ml-5 items-self-end">
+                <button
+                  @click="onLoad"
+                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+                >
+                  <i class="fa fa-filter text-white font-bold mr-2"></i>
+                  Filter
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
@@ -213,7 +431,7 @@ export default {
     ModalDetail,
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -248,10 +466,38 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    await this.onSearchGroupItem1();
+    await this.onSearchGroupItem2();
+    await this.onSearchGroupItem3();
+    await this.onSearchGroupItem4();
+    await this.onSearchGroupItem5();
+
+    console.log(this.selectList.options);
   },
 
   data() {
     return {
+      isStopSearchGroupItem1: false,
+      isLoadingGetGroupItem1: false,
+      group_item_1_search: "",
+
+      isStopSearchGroupItem2: false,
+      isLoadingGetGroupItem2: false,
+      group_item_2_search: "",
+
+      isStopSearchGroupItem3: false,
+      isLoadingGetGroupItem3: false,
+      group_item_3_search: "",
+
+      isStopSearchGroupItem4: false,
+      isLoadingGetGroupItem4: false,
+      group_item_4_search: "",
+
+      isStopSearchGroupItem5: false,
+      isLoadingGetGroupItem5: false,
+      group_item_5_search: "",
+
       title: "Item Produk Master",
       isLoadingData: false,
       isPaginate: true,
@@ -266,6 +512,11 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
         },
         form: {
           item_id: "",
@@ -302,6 +553,16 @@ export default {
           isRestore: false,
         },
       },
+
+      filter_params: {
+        group_item_id_1: "",
+        group_item_id_2: "",
+        group_item_id_3: "",
+        group_item_id_4: "",
+        group_item_id_5: "",
+      },
+      selectList: [],
+
       default_roles: {
         store: true,
         update: true,
@@ -321,7 +582,16 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", [
+      "data",
+      "error",
+      "result",
+      "lookup_grade",
+      "lookup_beam",
+      "lookup_packing",
+      "lookup_defects",
+      "lookup_department",
+    ]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -353,6 +623,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
@@ -425,6 +696,17 @@ export default {
         onCancel: this.onCancel,
       });
 
+      this.parameters.params.group_item_id_1 =
+        this.filter_params.group_item_id_1;
+      this.parameters.params.group_item_id_2 =
+        this.filter_params.group_item_id_2;
+      this.parameters.params.group_item_id_3 =
+        this.filter_params.group_item_id_3;
+      this.parameters.params.group_item_id_4 =
+        this.filter_params.group_item_id_4;
+      this.parameters.params.group_item_id_5 =
+        this.filter_params.group_item_id_5;
+
       await this.getData(this.parameters);
 
       if (this.result == true) {
@@ -450,6 +732,215 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    //group item
+    onGetGroupItem1(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem1);
+
+      this.isStopSearchGroupItem1 = setTimeout(() => {
+        this.group_item_1_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
+        } else {
+          this.lookup_grade.current_page = 1;
+        }
+
+        this.onSearchGroupItem1();
+      }, 600);
+    },
+
+    async onSearchGroupItem1() {
+      if (!this.isLoadingGetGroupItem1) {
+        this.isLoadingGetGroupItem1 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "grade",
+          query:
+            "?search=" +
+            this.group_item_1_search +
+            "&status=1" +
+            "&page=" +
+            this.lookup_grade.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem1 = false;
+      }
+    },
+
+    onGetGroupItem2(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem2);
+
+      this.isStopSearchGroupItem2 = setTimeout(() => {
+        this.group_item_2_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_beam.current_page = isNext
+            ? this.lookup_beam.current_page + 1
+            : this.lookup_beam.current_page - 1;
+        } else {
+          this.lookup_beam.current_page = 1;
+        }
+
+        this.onSearchGroupItem2();
+      }, 600);
+    },
+
+    async onSearchGroupItem2() {
+      if (!this.isLoadingGetGroupItem2) {
+        this.isLoadingGetGroupItem2 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "beam",
+          query:
+            "?search=" +
+            this.group_item_2_search +
+            "&status=2" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_1 +
+            "&page=" +
+            this.lookup_beam.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem2 = false;
+      }
+    },
+
+    onGetGroupItem3(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem3);
+
+      this.isStopSearchGroupItem3 = setTimeout(() => {
+        this.group_item_3_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_packing.current_page = isNext
+            ? this.lookup_packing.current_page + 1
+            : this.lookup_packing.current_page - 1;
+        } else {
+          this.lookup_packing.current_page = 1;
+        }
+
+        this.onSearchGroupItem3();
+      }, 600);
+    },
+
+    async onSearchGroupItem3() {
+      if (!this.isLoadingGetGroupItem3) {
+        this.isLoadingGetGroupItem3 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "packing",
+          query:
+            "?search=" +
+            this.group_item_3_search +
+            "&status=3" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_2 +
+            "&page=" +
+            this.lookup_packing.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem3 = false;
+      }
+    },
+
+    onGetGroupItem4(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem4);
+
+      this.isStopSearchGroupItem4 = setTimeout(() => {
+        this.group_item_4_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_defects.current_page = isNext
+            ? this.lookup_defects.current_page + 1
+            : this.lookup_defects.current_page - 1;
+        } else {
+          this.lookup_defects.current_page = 1;
+        }
+
+        this.onSearchGroupItem4();
+      }, 600);
+    },
+
+    async onSearchGroupItem4() {
+      if (!this.isLoadingGetGroupItem4) {
+        this.isLoadingGetGroupItem4 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "defects",
+          query:
+            "?search=" +
+            this.group_item_4_search +
+            "&status=4" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_3 +
+            "&page=" +
+            this.lookup_defects.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem4 = false;
+      }
+    },
+
+    onGetGroupItem5(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem5);
+
+      this.isStopSearchGroupItem5 = setTimeout(() => {
+        this.group_item_5_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_department.current_page = isNext
+            ? this.lookup_department.current_page + 1
+            : this.lookup_department.current_page - 1;
+        } else {
+          this.lookup_department.current_page = 1;
+        }
+
+        this.onSearchGroupItem5();
+      }, 600);
+    },
+
+    async onSearchGroupItem5() {
+      if (!this.isLoadingGetGroupItem5) {
+        this.isLoadingGetGroupItem5 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "department",
+          query:
+            "?search=" +
+            this.group_item_5_search +
+            "&status=5" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_4 +
+            "&page=" +
+            this.lookup_department.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem5 = false;
+      }
     },
   },
 };

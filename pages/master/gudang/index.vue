@@ -27,7 +27,7 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[3%]">Edit</th>
                   <th class="w-[3%]">Delete</th>
                   <th class="w-[3%]">No</th>
@@ -100,9 +100,9 @@
                       </div>
                     </div>
                   </th>
-                  <th>Status Konfig SAP</th>
-                  <td>Nomor Rekening</td>
-                  <th>Atas Nama Rekening</th>
+                  <!-- <th>Status Konfig SAP</th>
+                  <th>Nomor Rekening</th>
+                  <th>Atas Nama Rekening</th> -->
                   <th>Status Gudang</th>
                   <th>Group Gudang 1</th>
                   <th>Group Gudang 2</th>
@@ -116,20 +116,21 @@
                   <th>Kota</th>
                   <th>Provinsi</th>
                   <th>Negara</th>
-                  <th>Vendor Pemilik</th>
+                  <!-- <th>Vendor Pemilik</th> -->
                   <th>Vendor Operator</th>
                   <th>Fungsi Gudang</th>
                   <th>No Handphone</th>
                   <th>No WhatsApp</th>
                   <th>Kapasitas</th>
                   <th>Kapasitas Bongkar</th>
-                  <th>Fisik Gudang</th>
+                  <!-- <th>Fisik Gudang</th> -->
                   <th>Ukuran Gudang</th>
                   <th>File Layout</th>
-                  <th>Status Sewa</th>
-                  <th>Status Satpam</th>
-                  <th>Luas Gudang</th>
-                  <th>Satuan Luas</th>
+                  <!-- <th>Status Sewa</th>
+                  <th>Status Satpam</th> -->
+                  <!-- <th>Luas Gudang</th>
+                  <th>Satuan Luas</th> -->
+                  <th>Detail</th>
                 </tr>
               </thead>
               <tbody>
@@ -165,7 +166,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_gudang }}</td>
-                  <td>
+                  <!-- <td>
                     {{
                       item.status_konfig_outbound_sap == 1
                         ? "Aktif"
@@ -173,7 +174,7 @@
                     }}
                   </td>
                   <td>{{ item.nomor_rekening }}</td>
-                  <td>{{ item.atas_nama_rekening }}</td>
+                  <td>{{ item.atas_nama_rekening }}</td> -->
                   <td>{{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}</td>
                   <td>
                     {{
@@ -217,7 +218,7 @@
                   <td>{{ item.kota.nama_kota }}</td>
                   <td>{{ item.provinsi.nama_provinsi }}</td>
                   <td>{{ item.negara.nama_negara }}</td>
-                  <td>{{ item.vendor_pemilik.nama_vendor }}</td>
+                  <!-- <td>{{ item.vendor_pemilik.nama_vendor }}</td> -->
                   <td>
                     {{
                       item.vendor_operator
@@ -230,9 +231,9 @@
                   <td>{{ item.no_wa }}</td>
                   <td>{{ item.kapasitas }}</td>
                   <td>{{ item.kapasitas_bongkar }}</td>
-                  <td>{{ item.fisik_gudang.nama_fisik }}</td>
+                  <!-- <td>{{ item.fisik_gudang.nama_fisik }}</td> -->
                   <td>{{ item.ukuran_gudang.nama_ukuran }}</td>
-                  <td>
+                  <td class="text-center">
                     <button
                       @click="displayFile"
                       class="p-2 text-xl w-10 h-auto bg-blue-500 rounded-md"
@@ -240,7 +241,7 @@
                       <i class="fa fa-file text-white"></i>
                     </button>
                   </td>
-                  <td>{{ item.status_sewa == 0 ? "Sewa" : "Sendiri" }}</td>
+                  <!-- <td>{{ item.status_sewa == 0 ? "Sewa" : "Sendiri" }}</td>
                   <td>
                     {{
                       item.status_satpam == 0
@@ -249,7 +250,10 @@
                     }}
                   </td>
                   <td>{{ item.luas_gudang }}</td>
-                  <td>{{ item.satuan_luas.nama_satuan }}</td>
+                  <td>{{ item.satuan_luas.nama_satuan }}</td> -->
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -263,7 +267,6 @@
         </div>
       </div>
     </div>
-    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
@@ -283,8 +286,6 @@ export default {
     this.set_data([]);
     this.onLoad();
   },
-
-  components: {},
 
   mounted() {
     this.$refs["form-option"].isExport = false;
@@ -444,6 +445,10 @@ export default {
 
     onEdit(item) {
       this.$router.push("/master/gudang/" + item.gudang_id);
+    },
+
+    onDetail(item) {
+      this.$router.push(`/master/gudang/detail/${item.gudang_id}`);
     },
 
     onTrashed(item) {

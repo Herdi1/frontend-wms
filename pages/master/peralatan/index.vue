@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Jenis</span>
+        <span>Peralatan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -27,23 +27,23 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Jenis Peralatan</th>
+                <th>Kode Peralatan</th>
                 <th
                   @click="
                     onSort(
-                      'nama_jenis_peralatan',
+                      'nama_peralatan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Jenis Peralatan</div>
+                    <div>Nama Peralatan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_jenis_peralatan' &&
+                          parameters.params.order == 'nama_peralatan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -52,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_jenis_peralatan' &&
+                          parameters.params.order == 'nama_peralatan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -61,6 +61,10 @@
                     </div>
                   </div>
                 </th>
+                <th>Status Peralatan</th>
+                <th>Jenis Peralatan</th>
+                <th>Vendor</th>
+                <th>Gudang</th>
               </tr>
             </thead>
             <tbody>
@@ -81,8 +85,28 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_jenis_peralatan }}</td>
-                <td>{{ item.nama_jenis_peralatan }}</td>
+                <td>{{ item.kode_peralatan }}</td>
+                <td>{{ item.nama_peralatan }}</td>
+                <td>
+                  {{ item.status_peralatan == 1 ? "Aktif" : "Non Aktif" }}
+                </td>
+                <td>
+                  {{
+                    item.jenis_peralatan
+                      ? item.jenis_peralatan.nama_jenis_peralatan
+                      : "Tidak Ditemukan"
+                  }}
+                </td>
+                <td>
+                  {{
+                    item.vendor ? item.vendor.nama_vendor : "Tidak Ditemukan"
+                  }}
+                </td>
+                <td>
+                  {{
+                    item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -155,7 +179,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jenis-peralatan"
+          (item) => item.rute == "peralatan"
         );
 
         let roles = {};
@@ -175,7 +199,7 @@ export default {
 
   data() {
     return {
-      title: "Jenis Peralatan",
+      title: "Peralatan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -194,19 +218,23 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/jenis-peralatan",
+        url: "master/peralatan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jenis_peralatan_id",
+          order: "peralatan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_jenis_peralatan: "",
-            nama_jenis_peralatan: "",
+            kode_peralatan: "",
+            nama_peralatan: "",
+            status_peralatan: "",
+            jenis_peralatan_id: "",
+            vendor_id: "",
+            gudang_id: "",
           },
         },
         loadings: {
@@ -257,11 +285,11 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/master/jenis-peralatan/add");
+      this.$router.push("/master/peralatan/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/jenis-peralatan/" + item.jenis_peralatan_id);
+      this.$router.push("/master/peralatan/" + item.peralatan_id);
     },
 
     onTrashed(item) {
@@ -280,7 +308,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.jenis_peralatan_id,
+              id: item.peralatan_id,
               params: this.parameters.params,
             });
 

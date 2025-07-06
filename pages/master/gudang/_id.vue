@@ -1037,12 +1037,19 @@
                       <span class="text-danger">*</span></label
                     >
                     <input
-                      class="block w-full mb-2 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                       id="small_size"
                       type="file"
                       :required="!form.file_layout"
                       @change="handleFileChange"
                     />
+                    <button
+                      v-if="form.file_layout && isEditable"
+                      class="p-1 my-1 rounded-md bg-blue-500 text-white hover:bg-blue-400"
+                    >
+                      File Saat Ini :
+                      <span class="font-bold">{{ form.file_layout }}</span>
+                    </button>
                   </div>
                 </div>
                 <modal-footer-section
@@ -1116,7 +1123,7 @@ export default {
         kapasitas_bongkar: "",
         fisik_gudang_id: "",
         ukuran_gudang_id: "",
-        file_layout: "abc",
+        file_layout: "",
         status_sewa: "",
         status_satpam: "",
         luas_gudang: "",
@@ -1312,19 +1319,29 @@ export default {
 
       let url = "master/gudang";
 
+      this.form.luas_gudang = parseFloat(this.form.luas_gudang);
+      this.form.radius = parseFloat(this.form.radius);
+
       let formData = new FormData();
 
       Object.entries(this.form).forEach(([key, value]) => {
-        formData.append(key, value);
+        if (key != "file_layout") {
+          formData.append(key, value);
+        }
       });
+
+      if (this.form.file_layout instanceof File) {
+        formData.append("file_layout", this.form.file_layout);
+      }
 
       if (this.isEditable) {
         url += "/" + this.id;
+        formData.append("_method", "PUT");
       }
 
       this.$axios({
         url: url,
-        method: this.isEditable ? "put" : "post",
+        method: "post",
         data: formData,
       })
         .then((res) => {

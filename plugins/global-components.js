@@ -24,6 +24,8 @@ import ResetButton from "../components/forms/ResetButton.vue";
 import CloseButton from "../components/forms/CloseButton.vue";
 import TitleForm from "../components/forms/TitleForm.vue";
 import InputForm from "../components/InputForm/InputForm.vue";
+import SelectComponent from "../components/InputForm/SelectComponent.vue";
+import FilterData from "../components/section/FilterData.vue";
 
 
 const icons = {
@@ -138,3 +140,5 @@ Vue.component("reset-button", ResetButton);
 Vue.component("close-button", CloseButton);
 Vue.component("title-form", TitleForm);
 Vue.component("input-form", InputForm);
+Vue.component("select-component", SelectComponent);
+Vue.component("filter-data", FilterData);
