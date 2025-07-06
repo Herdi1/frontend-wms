@@ -2,12 +2,12 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Lokasi Toko</span>
+        <span>Lokasi Shipto</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -71,20 +71,15 @@
                 <th>No HP</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
-                <th>Radius</th>
+                <th>Radius (Meter)</th>
                 <th>Tipe Lokasi</th>
               </tr>
             </thead>
-            <!-- <tbody>
+            <tbody>
               <tr v-for="(item, i) in data" :key="i">
                 <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
+                  <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td>{{ item.nama_wilayah }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -94,8 +89,41 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.kode_lokasi }}</td>
+                <td>{{ item.nama_lokasi }}</td>
+                <td>{{ item.kode_pos }}</td>
+                <td>{{ item.kecamatan.nama_kecamatan }}</td>
+                <td>{{ item.kota.nama_kota }}</td>
+                <td>{{ item.provinsi.nama_provinsi }}</td>
+                <td>{{ item.negara ? item.negara.nama_negara : "" }}</td>
+                <td>{{ item.nama_pemilik }}</td>
+                <td>{{ item.no_telp }}</td>
+                <td>{{ item.no_hp }}</td>
+                <td>{{ item.longitude }}</td>
+                <td>{{ item.latitude }}</td>
+                <td>{{ item.radius }}</td>
+                <td>
+                  {{
+                    item.tipe_lokasi === "T"
+                      ? "Toko"
+                      : item.tipe_lokasi === "P"
+                      ? "Project"
+                      : item.tipe_lokasi === "V"
+                      ? "Vendor"
+                      : item.tipe_lokasi === "G"
+                      ? "Gudang"
+                      : ""
+                  }}
+                </td>
               </tr>
-            </tbody> -->
+            </tbody>
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
@@ -103,18 +131,20 @@
         </div>
       </div>
     </div>
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form";
+import ModalDetail from "./detail";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Lokasi Toko",
+      title: "Lokasi Shipto",
     };
   },
 
@@ -161,7 +191,7 @@ export default {
 
   data() {
     return {
-      title: "Lokasi Toko",
+      title: "Lokasi Shipto",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -192,23 +222,22 @@ export default {
           page: 1,
           form: {
             lokasi_id_induk: "",
+            tipe_lokasi: "T",
             kode_referensi: "",
             kode_lokasi: "",
             nama_lokasi: "",
-            alamat_lokasi: "",
-            kelurahan_id: "",
-            kecamatan_id: "",
-            kota_id: "",
-            provinsi_id: "",
             negara_id: "",
+            provinsi_id: "",
+            kota_id: "",
+            kecamatan_id: "",
+            kelurahan_id: "",
             kode_pos: "",
             nama_pemilik: "",
-            alamat_pemilik: "",
+            email: "",
+            nilai_plafon: "",
             no_telp: "",
             no_hp: "",
-            nilai_plafon: "",
             no_npwp: "",
-            email: "",
             longitude: "",
             latitude: "",
             radius: "",
@@ -219,7 +248,8 @@ export default {
             latitude3: "",
             radius3: "",
             alamat: "",
-            tipe_lokasi: "",
+            alamat_lokasi: "",
+            alamat_pemilik: "",
           },
         },
         loadings: {
@@ -232,6 +262,7 @@ export default {
 
   components: {
     FormInput,
+    ModalDetail,
   },
 
   computed: {
@@ -283,6 +314,7 @@ export default {
         ...item,
       };
       this.$refs.modalDetail.show();
+      console.log("item", item);
     },
 
     async onLoad(page = 1) {
