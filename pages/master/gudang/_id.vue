@@ -1068,10 +1068,10 @@
                     <div class="grid grid-flow-col grid-rows-3 gap-2">
                       <div class="flex w-[400px]">
                         <label class="w-[40%]" for="group_item_id_1"
-                          >Group Item Level 1</label
+                          >Kategori Item Level 1</label
                         >
                         <v-select
-                          label="nama_group_item"
+                          label="nama_kategori_item"
                           :loading="isLoadingGetGroupItem1"
                           :options="lookup_sellings.data"
                           :filterable="false"
@@ -1116,10 +1116,10 @@
 
                       <div class="flex">
                         <label class="w-[40%]" for="group_item_id_2"
-                          >Group Item Level 2</label
+                          >Kategori Item Level 2</label
                         >
                         <v-select
-                          label="nama_group_item"
+                          label="nama_kategori_item"
                           :loading="isLoadingGetGroupItem2"
                           :options="lookup_roles.data"
                           :filterable="false"
@@ -1156,10 +1156,10 @@
 
                       <div class="flex">
                         <label class="w-[40%]" for="group_item_id_3"
-                          >Group Item Level 3</label
+                          >Kategori Item Level 3</label
                         >
                         <v-select
-                          label="nama_group_item"
+                          label="nama_kategori_item"
                           :loading="isLoadingGetGroupItem3"
                           :options="lookup_sellers.data"
                           :filterable="false"
@@ -1196,10 +1196,10 @@
 
                       <div class="flex w-[400px]">
                         <label class="w-[40%]" for="group_item_id_4"
-                          >Group Item Level 4</label
+                          >Kategori Item Level 4</label
                         >
                         <v-select
-                          label="nama_group_item"
+                          label="nama_kategori_item"
                           :loading="isLoadingGetGroupItem4"
                           :options="lookup_quotations.data"
                           :filterable="false"
@@ -1236,10 +1236,10 @@
 
                       <div class="flex">
                         <label class="w-[40%]" for="group_item_id_5"
-                          >Group Item Level 5</label
+                          >Kategori Item Level 5</label
                         >
                         <v-select
-                          label="nama_group_item"
+                          label="nama_kategori_item"
                           :loading="isLoadingGetGroupItem5"
                           :options="lookup_customers.data"
                           :filterable="false"
@@ -1290,8 +1290,9 @@
                   <table class="mb-5" ref="formContainer">
                     <thead>
                       <tr class="text-base uppercase text-nowrap">
-                        <th class="w-[5%]">Edit</th>
-                        <th class="w-[5%]">Delete</th>
+                        <th class="w-[5%] text-center">
+                          <input type="checkbox" name="" id="" />
+                        </th>
                         <th class="w-[5%]">No</th>
                         <th
                           @click="
@@ -1418,13 +1419,7 @@
                     <tbody>
                       <tr v-for="(item, i) in data" :key="i">
                         <td class="text-center">
-                          <small-edit-button @click="onEdit(item)" />
-                        </td>
-                        <td class="text-center">
-                          <small-delete-button
-                            @click="onTrashed(item)"
-                            v-if="!item.deleted_at"
-                          />
+                          <input type="checkbox" name="" id="" />
                         </td>
                         <td>
                           {{
@@ -2704,7 +2699,7 @@ export default {
         this.isLoadingGetGroupItem1 = true;
 
         await this.lookUp({
-          url: "master/group-item/get-group-item",
+          url: "master/kategori-item/get-kategori-item",
           lookup: "sellings",
           query:
             "?search=" +
@@ -2744,14 +2739,12 @@ export default {
         this.isLoadingGetGroupItem2 = true;
 
         await this.lookUp({
-          url: "master/group-item/get-group-item",
+          url: "master/kategori-item/get-kategori-item",
           lookup: "roles",
           query:
             "?search=" +
             this.group_item_2_search +
             "&status=2" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_1 +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
@@ -2786,14 +2779,12 @@ export default {
         this.isLoadingGetGroupItem3 = true;
 
         await this.lookUp({
-          url: "master/group-item/get-group-item",
+          url: "master/kategori-item/get-kategori-item",
           lookup: "sellers",
           query:
             "?search=" +
             this.group_item_3_search +
             "&status=3" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_2 +
             "&page=" +
             this.lookup_sellers.current_page +
             "&per_page=10",
@@ -2828,14 +2819,12 @@ export default {
         this.isLoadingGetGroupItem4 = true;
 
         await this.lookUp({
-          url: "master/group-item/get-group-item",
+          url: "master/kategori-item/get-kategori-item",
           lookup: "customer_groups",
           query:
             "?search=" +
             this.group_item_4_search +
             "&status=4" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_3 +
             "&page=" +
             this.lookup_quotations.current_page +
             "&per_page=10",
@@ -2870,14 +2859,12 @@ export default {
         this.isLoadingGetGroupItem5 = true;
 
         await this.lookUp({
-          url: "master/group-item/get-group-item",
+          url: "master/kategori-item/get-kategori-item",
           lookup: "customers",
           query:
             "?search=" +
             this.group_item_5_search +
             "&status=5" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_4 +
             "&page=" +
             this.lookup_customers.current_page +
             "&per_page=10",
