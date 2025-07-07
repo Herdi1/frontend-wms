@@ -30,6 +30,24 @@
                   />
                 </div>
               </ValidationProvider>
+              <ValidationProvider
+                name="kode_jenis_biaya"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Jenis Biaya"
+                    type="text"
+                    name="kode_jenis_biaya"
+                    :required="true"
+                    v-model="parameters.form.kode_jenis_biaya"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
               <ValidationProvider name="status" rules="required">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12"
@@ -99,6 +117,7 @@ export default {
         url: "master/jenis-biaya",
         form: {
           nama_jenis_biaya: "",
+          kode_jenis_biaya: "",
           status: "",
           keterangan: "",
         },
@@ -151,6 +170,7 @@ export default {
         this.isEditable = false;
         this.parameters.form = {
           nama_jenis_biaya: "",
+          kode_jenis_biaya: "",
           status: "",
           keterangan: "",
         };
@@ -166,6 +186,7 @@ export default {
       this.isEditable = false;
       this.parameters.form = {
         nama_jenis_biaya: "",
+        kode_jenis_biaya: "",
         status: "",
         keterangan: "",
       };

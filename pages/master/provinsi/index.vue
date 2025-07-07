@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th class="w-[30%]">Kode Provinsi</th>
                   <th class="w-[30%]">Ibu Kota</th>
                   <th class="w-[25%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
@@ -84,6 +85,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_provinsi }}</td>
+                  <td>{{ item.kode_provinsi }}</td>
                   <td>{{ item.ibukota }}</td>
                   <td>{{ item.negara.nama_negara }}</td>
                   <td class="text-center">
@@ -191,6 +193,7 @@ export default {
         form: {
           negara_id: "",
           nama_provinsi: "",
+          kode_provinsi: "",
           ibukota: "",
           checkboxs: [],
         },
@@ -260,6 +263,7 @@ export default {
     onFormShow() {
       this.$refs.formInput.parameters.form = {
         negara_id: "",
+        kode_provinsi: "",
         nama_provinsi: "",
         ibukota: "",
       };

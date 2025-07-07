@@ -208,6 +208,24 @@
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
+                  name="kode_kelurahan"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Kelurahan"
+                      type="text"
+                      name="kode_kelurahan"
+                      v-model="parameters.form.kode_kelurahan"
+                      :required="true"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
                   name="koordinat"
                   rules="required"
                   ref="ruteProvider"
@@ -275,6 +293,7 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           nama_kelurahan: "",
+          kode_kelurahan: "",
           koordinat: "",
         },
       },
@@ -336,6 +355,7 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           nama_kelurahan: "",
+          kode_kelurahan: "",
           koordinat: "",
         };
         this.$refs.formValidate.reset();
@@ -520,6 +540,7 @@ export default {
         kota_id: "",
         kecamatan_id: "",
         nama_kelurahan: "",
+        kode_kelurahan: "",
         koordinat: "",
       };
     },

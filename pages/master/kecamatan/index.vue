@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th class="w-[17%]">Kode Kecamatan</th>
                   <th class="w-[17%]">Koordinat</th>
                   <th class="w-[17%]">Kota</th>
                   <th class="w-[17%]">Provinsi</th>
@@ -86,6 +87,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_kecamatan }}</td>
+                  <td>{{ item.kode_kecamatan }}</td>
                   <td>{{ item.koordinat }}</td>
                   <td>
                     {{ item.kota ? item.kota.nama_kota : "Tidak Ditemukan" }}
@@ -209,6 +211,7 @@ export default {
           provinsi_id: "",
           negara_id: "",
           nama_kecamatan: "",
+          kode_kecamatan: "",
           koordinat: "",
           ibukota: "",
           checkboxs: [],
@@ -278,6 +281,7 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
+        kode_kecamatan: "",
         nama_kecamatan: "",
         koordinat: "",
         ibukota: "",

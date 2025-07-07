@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Fungsi Zona</span>
+        <span>Gudang</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,14 +15,9 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div>
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -32,25 +27,26 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
-                  <th>Kode Fungsi Zona</th>
                   <th
                     @click="
                       onSort(
-                        'nama_fungsi_zona',
+                        'kode_jurnal',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Fungsi Zona</div>
+                      <div>Kode Jurnal</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_fungsi_zona' &&
+                            parameters.params.order == 'kode_jurnal' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -59,7 +55,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_fungsi_zona' &&
+                            parameters.params.order == 'kode_jurnal' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -68,22 +64,16 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th>Tanggal</th>
+                  <th>Gudang</th>
+                  <th>Keterangan</th>
+                  <th>Debit</th>
+                  <th>Kredit</th>
+                  <th class="w-[5%]">Detail</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
-                    {{
-                      (parameters.params.page - 1) *
-                        parameters.params.per_page +
-                      i +
-                      1
-                    }}
-                  </td>
-                  <td>{{ item.kode_fungsi_zona }}</td>
-                  <td>{{ item.nama_fungsi_zona }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -93,6 +83,37 @@
                       v-if="!item.deleted_at"
                     />
                   </td>
+                  <td>
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td>{{ item.kode_jurnal }}</td>
+                  <td>{{ item.tanggal }}</td>
+                  <td>
+                    {{
+                      item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
+                    }}
+                  </td>
+                  <td class="w-[30%]">{{ item.keterangan }}</td>
+                  <td>
+                    {{
+                      item.jurnal_details.debit ? item.jurnal_details.debit : ""
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.jurnal_details.kredit
+                        ? item.jurnal_details.kredit
+                        : ""
+                    }}
+                  </td>
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -100,7 +121,6 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
-
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
@@ -111,25 +131,21 @@
 </template>
 
 <script>
+import { data } from "autoprefixer";
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Fungsi Zona",
+      title: "Jurnal Manual",
     };
   },
 
   created() {
     this.set_data([]);
     this.onLoad();
-  },
-
-  components: {
-    FormInput,
   },
 
   mounted() {
@@ -148,7 +164,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -171,25 +187,32 @@ export default {
 
   data() {
     return {
-      title: "Fungsi Zona",
+      title: "Jurnal Manual",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/fungsi-zona",
+        url: "finance/jurnal_manual",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "fungsi_zona_id",
+          order: "jurnal_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          fungsi_zona_id: "",
-          kode_fungsi_zona: "",
-          nama_fungsi_zona: "",
+          jurnal_id: "",
+          tanggal: "",
+          keterangan: "",
+          keterangan_2: "",
+          keterangan_3: "",
+          kode_referensi: "",
+          kode_referensi_2: "",
+          kode_referensi_3: "",
+          gudang_id: "",
+          jurnal_details: [],
         },
         loadings: {
           isDelete: false,
@@ -213,7 +236,6 @@ export default {
       user: this.$auth.user,
     };
   },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
 
@@ -222,7 +244,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "fungsi-zona"
+          (item) => item.rute == "jurnal"
         );
 
         let roles = {};
@@ -252,24 +274,15 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_fungsi_zona: "",
-        nama_fungsi_zona: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/finance/jurnal-manual/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/finance/jurnal-manual/" + item.gudang_id);
+    },
+
+    onDetail(item) {
+      this.$router.push(`/finance/jurnal-manual/detail/${item.gudang_id}`);
     },
 
     onTrashed(item) {
@@ -288,7 +301,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.fungsi_zona_id,
+              id: item.jurnal_id,
               params: this.parameters.params,
             });
 

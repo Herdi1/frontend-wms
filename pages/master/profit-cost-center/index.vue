@@ -34,6 +34,7 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">No</th>
+                  <th>Kode Profit Cost</th>
                   <th
                     @click="
                       onSort(
@@ -151,6 +152,7 @@
                       1
                     }}
                   </td>
+                  <td>{{ item.kode_profit_cost }}</td>
                   <td>
                     {{
                       item.wilayah
@@ -276,6 +278,7 @@ export default {
         },
         form: {
           profit_cost_id: "",
+          kode_profit_cost: "",
           wilayah_id: "",
           cabang: "",
           profit_center: "",
@@ -346,6 +349,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
+        kode_profit_cost: "",
         wilayah_id: "",
         cabang: "",
         profit_center: "",

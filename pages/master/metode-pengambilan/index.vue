@@ -28,6 +28,7 @@
             <thead>
               <tr>
                 <th class="w-[5%]">No</th>
+                <th>Kode Metode Pengambilan</th>
                 <th
                   @click="
                     onSort(
@@ -74,6 +75,7 @@
                     1
                   }}
                 </td>
+                <td>{{ item.kode_metode }}</td>
                 <td>{{ item.nama_metode }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
@@ -181,6 +183,7 @@ export default {
           per_page: 10,
           page: 1,
           form: {
+            kode_metode: "",
             nama_metode: "",
           },
         },
@@ -234,6 +237,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
+        kode_metode: "",
         nama_metode: "",
       };
       this.$refs.formInput.isEditable = false;

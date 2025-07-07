@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th>Kode Kelurahan</th>
                   <th>Koordinat</th>
                   <th>Kecamatan</th>
                   <th>Kota</th>
@@ -87,6 +88,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_kelurahan }}</td>
+                  <td>{{ item.kode_kelurahan }}</td>
                   <td>{{ item.koordinat }}</td>
                   <td>
                     {{
@@ -234,6 +236,7 @@ export default {
           kecamatan_id: "",
           koodinat: "",
           nama_kelurahan: "",
+          kode_kelurahan: "",
         },
         loadings: {
           isDelete: false,
@@ -288,6 +291,7 @@ export default {
         kecamatan_id: "",
         koodinat: "",
         nama_kelurahan: "",
+        kode_kelurahan: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {

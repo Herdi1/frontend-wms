@@ -60,6 +60,7 @@
                     </div>
                   </div>
                 </th>
+                <th>Kode Jenis Biaya</th>
                 <th>Status</th>
                 <th>Keterangan</th>
                 <th class="w-[5%]">Edit</th>
@@ -76,6 +77,7 @@
                   }}
                 </td>
                 <td>{{ item.nama_jenis_biaya }}</td>
+                <td>{{ item.kode_jenis_biaya }}</td>
                 <td>{{ item.status_label }}</td>
                 <td>{{ item.keterangan }}</td>
                 <td>
@@ -185,6 +187,7 @@ export default {
           page: 1,
           form: {
             nama_jenis_biaya: "",
+            kode_jenis_biaya: "",
             status: "",
             keterangan: "",
           },
@@ -240,6 +243,7 @@ export default {
     onFormShow() {
       this.$refs.formInput.parameters.form = {
         nama_jenis_biaya: "",
+        kode_jenis_biaya: "",
         status: "",
         keterangan: "",
       };

@@ -27,6 +27,7 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
+                <th>Kode Rute Lokasi</th>
                 <th>Gudang</th>
                 <th>Lokasi Awal</th>
                 <th>Lokasi Tujuan</th>
@@ -51,6 +52,9 @@
                     i +
                     1
                   }}
+                </td>
+                <td>
+                  {{ item.kode_rute_lokasi }}
                 </td>
                 <td>
                   {{
@@ -200,6 +204,7 @@ export default {
           per_page: 10,
           page: 1,
           form: {
+            kode_rute_lokasi: "",
             gudang_id: "",
             lokasi_awal_id: "",
             lokasi_tujuan_id: "",

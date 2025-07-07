@@ -33,6 +33,24 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_jenis_kendaraan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Jenis Kendaraan"
+                      type="text"
+                      name="kode_jenis_kendaraan"
+                      :required="true"
+                      v-model="parameters.form.kode_jenis_kendaraan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="standar_ritase_hari"
                   rules="required"
                 >
@@ -78,6 +96,7 @@ export default {
       parameters: {
         url: "master/jenis-kendaraan",
         form: {
+          kode_jenis_kendaraan: "",
           nama_jenis_kendaraan: "",
           standar_ritase_hari: "",
         },
@@ -121,6 +140,7 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kode_jenis_kendaraan: "",
           nama_jenis_kendaraan: "",
           standar_ritase_hari: "",
         };
@@ -136,6 +156,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_jenis_kendaraan: "",
         nama_jenis_kendaraan: "",
         standar_ritase_hari: "",
       };

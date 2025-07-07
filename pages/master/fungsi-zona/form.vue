@@ -15,6 +15,24 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_fungsi_zona"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Fungsi Zona"
+                      type="text"
+                      name="kode_fungsi_zona"
+                      :required="true"
+                      v-model="parameters.form.kode_fungsi_zona"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="nama_fungsi_zona"
                   rules="required"
                 >
@@ -60,6 +78,7 @@ export default {
       parameters: {
         url: "master/fungsi-zona",
         form: {
+          kode_fungsi_zona: "",
           nama_fungsi_zona: "",
         },
       },
@@ -102,6 +121,7 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kode_fungsi_zona: "",
           nama_fungsi_zona: "",
         };
 
@@ -116,6 +136,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_fungsi_zona: "",
         nama_fungsi_zona: "",
       };
     },

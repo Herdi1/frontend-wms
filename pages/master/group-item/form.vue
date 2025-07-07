@@ -187,8 +187,7 @@ export default {
           group_item_id_induk: "",
           status: 0,
         };
-
-        this.$refs.formValidate.reset();
+        (this.group_item_search = ""), this.$refs.formValidate.reset();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -239,6 +238,8 @@ export default {
 
     onSelectStatus() {
       this.onSearchGroupItem();
+      this.parameters.form.group_item_id_induk = "";
+      this.group_item_search = "";
     },
 
     formReset() {
@@ -249,6 +250,7 @@ export default {
         group_item_id_induk: "",
         status: 0,
       };
+      this.group_item_search = "";
     },
   },
 };

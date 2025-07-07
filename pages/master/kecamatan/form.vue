@@ -185,6 +185,24 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_kecamatan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Kecamatan"
+                      type="text"
+                      name="kode_kecamatan"
+                      :required="true"
+                      v-model="parameters.form.kode_kecamatan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="koordinat"
                   rules="required"
                 >
@@ -242,6 +260,7 @@ export default {
         url: "master/kecamatan",
         form: {
           nama_kecamatan: "",
+          kode_kecamatan: "",
           koordinat: "",
           kota_id: "",
           provinsi_id: "",
@@ -302,6 +321,7 @@ export default {
           kota_id: "",
           provinsi_id: "",
           negara_id: "",
+          kode_kecamatan: "",
           nama_kecamatan: "",
           koordinat: "",
         };
@@ -457,6 +477,7 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
+        kode_kecamatan: "",
         nama_kecamatan: "",
         koordinat: "",
       };

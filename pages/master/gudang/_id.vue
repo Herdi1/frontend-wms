@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Item
+          {{ isEditable ? "Edit" : "Tambah" }} Gudang
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -1052,16 +1052,12 @@
                     </button>
                   </div>
                 </div>
-                <modal-footer-section
-                  :isLoadingForm="isLoadingForm"
-                  @reset="formReset()"
-                />
               </div>
 
               <div
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
-                <div class="w-full mt-3 mb-7">
+                <!-- <div class="w-full mt-3 mb-7">
                   <div
                     class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
                   >
@@ -1081,14 +1077,14 @@
                           class="w-[60%]"
                           @input="onSearchGroupItem2"
                         >
-                          <!-- <template #search="{ attributes, events }">
+                          <template #search="{ attributes, events }">
                               <input
                                 class="w-full outline-none active:outline-none"
                                 :required="!form.vendor_id"
                                 v-bind="attributes"
                                 v-on="events"
                               />
-                            </template> -->
+                            </template>
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -1283,10 +1279,20 @@
                         Filter
                       </button>
                     </div>
+                    <div class="flex gap-3 ml-5 items-self-end">
+                      <button
+                        type="button"
+                        @click="inserCheckbox"
+                        class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+                      >
+                        <i class="fa fa-filter text-white font-bold mr-2"></i>
+                        Input
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </div> -->
 
-                <div class="table-responsive">
+                <!-- <div class="table-responsive">
                   <table class="mb-5" ref="formContainer">
                     <thead>
                       <tr class="text-base uppercase text-nowrap">
@@ -1417,9 +1423,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, i) in data" :key="i">
+                      <tr
+                        v-for="(item, i) in form.item_gudang"
+                        :key="i"
+                        class="bg-blue-200"
+                      >
                         <td class="text-center">
-                          <input type="checkbox" name="" id="" />
+                          <input
+                            type="checkbox"
+                            name="checkboxs[]"
+                            :value="item"
+                            v-model="checkboxs"
+                            id=""
+                          />
                         </td>
                         <td>
                           {{
@@ -1432,26 +1448,133 @@
                         <td>{{ item.kode_wms }}</td>
                         <td>{{ item.nama_item }}</td>
                         <td>
-                          <!-- {{
+                          {{
+                            item.group_item_1
+                              ? item.group_item_1.nama_group_item
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.group_item_2
+                              ? item.group_item_2.nama_group_item
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.group_item_3
+                              ? item.group_item_3.nama_group_item
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.group_item_4
+                              ? item.group_item_4.nama_group_item
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.group_item_5
+                              ? item.group_item_5.nama_group_item
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>{{ item.batas_atas }}</td>
+                        <td>{{ item.batas_bawah }}</td>
+                        <td>
+                          {{
+                            item.kategori_1
+                              ? item.kategori_1.nama_kategori
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.kategori_2
+                              ? item.kategori_2.nama_kategori
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.kategori_3
+                              ? item.kategori_3.nama_kategori
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.kategori_4
+                              ? item.kategori_4.nama_kategori
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>
+                          {{
+                            item.kategori_5
+                              ? item.kategori_5.nama_kategori
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td>{{ item.jumlah_palet }}</td>
+                        <td>{{ item.kapasitas_palet }}</td>
+                        <td>{{ item.kebutuhan_palet }}</td>
+                        <td>{{ item.maksimal_tumpukan }}</td>
+                        <td>
+                          {{
+                            item.supplier
+                              ? item.supplier.nama_supplier
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td class="text-center">
+                          <small-detail-button @click="onDetail(item)" />
+                        </td>
+                      </tr>
+                      <tr v-for="(item, i) in data" :key="i">
+                        <td class="text-center">
+                          <input
+                            type="checkbox"
+                            name="checkboxs[]"
+                            :value="item"
+                            v-model="checkboxs"
+                            id=""
+                          />
+                        </td>
+                        <td>
+                          {{
+                            (parameters.params.page - 1) *
+                              parameters.params.per_page +
+                            i +
+                            1
+                          }}
+                        </td>
+                        <td>{{ item.kode_wms }}</td>
+                        <td>{{ item.nama_item }}</td>
+                        <td>
+                          {{
                             item.satuan
                               ? item.satuan.nama_satuan
                               : "Tidak Ditemukan"
-                          }} -->
+                          }}
                         </td>
                         <td>
-                          <!-- {{ item.berat + " " + item.satuan_berat.nama_satuan }} -->
+                          {{ item.berat + " " + item.satuan_berat.nama_satuan }}
                         </td>
                         <td>
-                          <!-- {{
+                          {{
                             item.volume + " " + item.satuan_volume.nama_satuan
-                          }} -->
+                          }}
                         </td>
                         <td>
-                          <!-- {{
+                          {{
                             item.value_stocklevel +
                             " " +
                             item.satuan_stocklevel.nama_satuan
-                          }} -->
+                          }}
                         </td>
                         <td>
                           {{
@@ -1540,23 +1663,24 @@
                           <small-detail-button @click="onDetail(item)" />
                         </td>
                       </tr>
-                      <tr v-if="!data">
-                        Datanya gaada bjir
-                      </tr>
                     </tbody>
                     <table-data-loading-section :self="{ data: data }" />
 
                     <table-data-not-found-section :self="{ data: data }" />
                   </table>
-                </div>
+                </div> -->
 
-                <div class="mx-3 mt-2 mb-4">
+                <!-- <div class="mx-3 mt-2 mb-4">
                   <pagination-section
                     :self="{ isPaginate, onLoad }"
                     ref="pagination"
                   />
-                </div>
+                </div> -->
               </div>
+              <modal-footer-section
+                :isLoadingForm="isLoadingForm"
+                @reset="formReset()"
+              />
             </div>
           </form>
         </ValidationObserver>
@@ -1791,6 +1915,9 @@ export default {
       isStopSearchGroupItem5: false,
       isLoadingGetGroupItem5: false,
       group_item_5_search: "",
+
+      //checkbox
+      checkboxs: [],
     };
   },
 
@@ -2421,7 +2548,7 @@ export default {
           query:
             "?search=" +
             this.vendor_pemilik_search +
-            "&tipe_vendor=e" +
+            // "&tipe_vendor=v" +
             "&page=" +
             this.lookup_defects.current_page +
             "&per_page=10",
@@ -2918,6 +3045,16 @@ export default {
       }
 
       this.isLoadingData = false;
+    },
+
+    inserCheckbox() {
+      if (!this.form.item_gudang?.length) {
+        this.form.item_gudang = [];
+      }
+      this.checkboxs.forEach((item) => {
+        this.form.item_gudang.push(item);
+      });
+      console.log(this.form.item_gudang);
     },
   },
 };

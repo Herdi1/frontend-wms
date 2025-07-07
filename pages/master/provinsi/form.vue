@@ -33,6 +33,24 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_provinsi"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Provinsi"
+                      type="text"
+                      name="kode_provinsi"
+                      :required="true"
+                      v-model="parameters.form.kode_provinsi"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="ibukota"
                   rules="required"
                 >
@@ -127,6 +145,7 @@ export default {
         url: "master/provinsi",
         form: {
           negara_id: "",
+          kode_provinsi: "",
           nama_provinsi: "",
           ibukota: "",
         },
@@ -175,6 +194,7 @@ export default {
         this.isEditable = false;
         this.parameters.form = {
           negara_id: "",
+          kode_provinsi: "",
           nama_provinsi: "",
           ibukota: "",
         };
@@ -230,6 +250,7 @@ export default {
       this.isEditable = false;
       this.parameters.form = {
         negara_id: "",
+        kode_provinsi: "",
         nama_provinsi: "",
         ibukota: "",
       };

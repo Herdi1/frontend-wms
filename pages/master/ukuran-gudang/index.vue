@@ -44,7 +44,7 @@
                     class="cursor-pinter w-[20%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Fungsi</div>
+                      <div>Kode Ukuran</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -67,7 +67,7 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[25%]">Nama Fungsi</th>
+                  <th class="w-[25%]">Nama Ukuran</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
@@ -171,7 +171,7 @@ export default {
 
   data() {
     return {
-      title: "Fungsi Gudang",
+      title: "Ukuran Gudang",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
