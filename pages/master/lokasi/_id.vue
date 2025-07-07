@@ -1,5 +1,7 @@
 <template>
-  <section class="section bg-white rounded-md px-4 py-2 shadow-sm">
+  <section
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+  >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -610,8 +612,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      this.$router.back();
     }
   },
 
@@ -708,7 +709,6 @@ export default {
         this.$router.back();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        console.log("error", this.error);
       }
 
       this.isLoadingForm = false;

@@ -96,11 +96,13 @@
                                     <div class="text-sm">
                                       {{ option.judul }}
                                     </div>
-                                    <!-- <div class="text-right">
-                                      {{
-                                        option.parent ? option.parent.title : ""
-                                      }}
-                                    </div> -->
+                                    <span>{{
+                                      option.status === "0"
+                                        ? "Website"
+                                        : option.status === "1"
+                                        ? "Mobile"
+                                        : ""
+                                    }}</span>
                                   </div>
                                 </template>
                                 <template #search="{ attributes, events }">

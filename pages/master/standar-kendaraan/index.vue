@@ -16,10 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <!-- <div class="w-full bg-white rounded-md p-2 px-4">
-        <FormInput :self="this" ref="formInput" />
-      </div> -->
-      <div class="w-full relative bg-white rounded-md p-2 px-4">
+      <div
+        class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>

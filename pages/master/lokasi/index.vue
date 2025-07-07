@@ -16,7 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="w-full relative bg-white rounded-md p-2 px-4">
+      <div
+        class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -314,7 +316,6 @@ export default {
         ...item,
       };
       this.$refs.modalDetail.show();
-      console.log("item", item);
     },
 
     async onLoad(page = 1) {
@@ -332,7 +333,6 @@ export default {
       await this.getData(this.parameters);
 
       if (this.result == true) {
-        // console.log("data", this.data);
         loader.hide();
 
         if (page == 1) {

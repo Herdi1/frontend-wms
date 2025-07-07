@@ -16,10 +16,14 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div class="sm:w-full md:w-4/12 bg-white rounded-md p-2 px-4">
+      <div
+        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <FormInput :self="this" ref="formInput" />
       </div>
-      <div class="sm:w-full md:w-8/12 bg-white rounded-md p-2 px-4">
+      <div
+        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -113,7 +117,6 @@ export default {
   created() {
     this.set_data([]);
     this.onLoad();
-    // console.log("store data", this.$store.state.moduleApi.data);
   },
 
   mounted() {
