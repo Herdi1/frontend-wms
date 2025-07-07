@@ -2,7 +2,7 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -16,7 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="relative w-full bg-white rounded-md p-2 px-4">
+      <div
+        class="relative w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>

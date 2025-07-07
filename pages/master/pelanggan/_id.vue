@@ -421,7 +421,7 @@
                 />
                 <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
-              <ValidationProvider name="tipe_badan_hukum" rules="required">
+              <!-- <ValidationProvider name="tipe_badan_hukum" rules="required">
                 <div
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
@@ -464,7 +464,7 @@
                     </li>
                   </v-select>
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
@@ -1800,26 +1800,26 @@ export default {
       }
     },
 
-    //Item Methods Start
-    onGetItem(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // //Item Methods Start
+    // onGetItem(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchItem);
+    //   clearTimeout(this.isStopSearchItem);
 
-      this.isStopSearchItem = setTimeout(() => {
-        this.item_search = search;
+    //   this.isStopSearchItem = setTimeout(() => {
+    //     this.item_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_regus.current_page = isNext
-            ? this.lookup_products.current_page + 1
-            : this.lookup_products.current_page - 1;
-        } else {
-          this.lookup_products.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_regus.current_page = isNext
+    //         ? this.lookup_products.current_page + 1
+    //         : this.lookup_products.current_page - 1;
+    //     } else {
+    //       this.lookup_products.current_page = 1;
+    //     }
 
-        this.onSearchItem();
-      }, 600);
-    },
+    //     this.onSearchItem();
+    //   }, 600);
+    // },
 
     //Kategori Item Methods Start
     onGetKategoriItem1(search, isNext) {

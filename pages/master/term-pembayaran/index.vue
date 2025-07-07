@@ -16,7 +16,7 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div class="w-full bg-white rounded-md p-2 px-4">
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -27,7 +27,6 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Term Pembayaran</th>
 
                 <th
                   @click="
@@ -62,6 +61,8 @@
                     </div>
                   </div>
                 </th>
+                <th>Kode Term Pembayaran</th>
+
                 <th>Keterangan</th>
                 <th>Durasi (Hari)</th>
               </tr>
@@ -84,8 +85,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_term_pembayaran }}</td>
                 <td>{{ item.nama_term_pembayaran }}</td>
+                <td>{{ item.kode_term_pembayaran }}</td>
                 <td>{{ item.keterangan }}</td>
                 <td>{{ item.durasi }}</td>
               </tr>
