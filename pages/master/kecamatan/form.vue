@@ -13,7 +13,7 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
-                <ValidationProvider
+                <!-- <ValidationProvider
                   ref="inputProvider"
                   name="negara_id"
                   rules="required"
@@ -113,7 +113,7 @@
                       </v-select>
                     </div>
                   </div>
-                </ValidationProvider>
+                </ValidationProvider> -->
 
                 <ValidationProvider
                   ref="inputProvider"
@@ -132,7 +132,7 @@
                         :options="lookup_custom1.data"
                         :filterable="false"
                         @search="onGetKota"
-                        :reduce="(item) => item.kota_id"
+                        @input="onSelectKota"
                         v-model="parameters.form.kota_id"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -164,6 +164,26 @@
                     </div>
                   </div>
                 </ValidationProvider>
+
+                <div class="form-group">
+                  <input-form
+                    label="Provinsi"
+                    type="text"
+                    name="provinsi_id"
+                    :disabled="true"
+                    v-model="parameters.form.provinsi_id.nama_provinsi"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input-form
+                    label="Negara"
+                    type="text"
+                    name="negara_id"
+                    :disabled="true"
+                    v-model="parameters.form.negara_id.nama_negara"
+                  />
+                </div>
 
                 <ValidationProvider
                   ref="inputProvider"
@@ -340,6 +360,18 @@ export default {
           id: this.parameters.form.kecamatan_id
             ? this.parameters.form.kecamatan_id
             : "",
+          kota_id:
+            typeof this.parameters.form.kota_id == "object"
+              ? this.parameters.form.kota_id.kota_id
+              : this.parameters.form.kota_id,
+          provinsi_id:
+            typeof this.parameters.form.provinsi_id == "object"
+              ? this.parameters.form.provinsi_id.provinsi_id
+              : this.parameters.form.provinsi_id,
+          negara_id:
+            typeof this.parameters.form.negara_id == "object"
+              ? this.parameters.form.negara_id.negara_id
+              : this.parameters.form.negara_id,
         },
       };
 
@@ -501,13 +533,6 @@ export default {
       }
     },
 
-    // onSelectKota(kota_id) {
-    //   const item = this.lookup_custom1.data.find((a) => a.kota_id === kota_id);
-    //   if (item) {
-    //     this.parameters.form.negara_id = item.negara_id;
-    //   }
-    // },
-
     changeProv() {
       this.parameters.kota_id = "";
     },
@@ -516,8 +541,8 @@ export default {
       this.isEditable = false;
       this.parameters.form = {
         kota_id: "",
-        provinsi_id: "",
-        negara_id: "",
+        provinsi_id: {},
+        negara_id: {},
         kode_kecamatan: "",
         kode_alternatif: "",
         nama_kecamatan: "",
@@ -526,14 +551,9 @@ export default {
       };
     },
 
-    onSelectNegara() {
-      this.parameters.form.provinsi_id = "";
-      this.parameters.form.kota_id = "";
-      this.onSearchProvinsi();
-    },
-    onSelectProvinsi() {
-      this.parameters.form.kota_id = "";
-      this.onSearchKota();
+    onSelectKota(item) {
+      this.parameters.form.negara_id = item.negara;
+      this.parameters.form.provinsi_id = item.provinsi;
     },
   },
 };

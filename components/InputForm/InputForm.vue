@@ -10,6 +10,7 @@
       :name="name"
       :required="required"
       :class="inputClass"
+      :disabled="disabled"
       class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"
@@ -23,6 +24,11 @@ export default {
     required: {
       type: Boolean,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     type: {
       type: String,

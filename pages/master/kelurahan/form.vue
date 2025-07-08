@@ -13,7 +13,7 @@
               autocomplete="off"
             >
               <!-- Negara -->
-              <ValidationProvider name="id_negara" rules="required">
+              <!-- <ValidationProvider name="id_negara" rules="required">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12"
                     >Negara <span class="text-danger">*</span></label
@@ -52,10 +52,10 @@
                     </li>
                   </v-select>
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
 
               <!-- Provinsi -->
-              <ValidationProvider name="id_provinsi" rules="required">
+              <!-- <ValidationProvider name="id_provinsi" rules="required">
                 <div
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
@@ -98,10 +98,10 @@
                     </li>
                   </v-select>
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
 
               <!-- Kota -->
-              <ValidationProvider name="id_kota" rules="required">
+              <!-- <ValidationProvider name="id_kota" rules="required">
                 <div
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
@@ -144,7 +144,7 @@
                     </li>
                   </v-select>
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
 
               <!-- Kecamatan -->
               <ValidationProvider name="id_kecamatan" rules="required">
@@ -153,7 +153,7 @@
                   slot-scope="{ errors, valid }"
                 >
                   <label for="" class="w-4/12"
-                    >Kecamatan <span class="text-danger">*</span></label
+                    >Kecamatan<span class="text-danger">*</span></label
                   >
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -162,7 +162,7 @@
                     :options="lookup_beam.data"
                     :filterable="false"
                     @search="onGetKecamatan"
-                    :reduce="(item) => item.kecamatan_id"
+                    @input="onSelectKecamatan"
                     v-model="parameters.form.kecamatan_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -188,6 +188,36 @@
                   </v-select>
                 </div>
               </ValidationProvider>
+
+              <div class="form-group">
+                <input-form
+                  label="Kota"
+                  type="text"
+                  name="kota_id"
+                  :disabled="true"
+                  v-model="parameters.form.kota_id.nama_kota"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="Provinsi"
+                  type="text"
+                  name="provinsi_id"
+                  :disabled="true"
+                  v-model="parameters.form.provinsi_id.nama_provinsi"
+                />
+              </div>
+
+              <div class="form-group">
+                <input-form
+                  label="Negara"
+                  type="text"
+                  name="negara_id"
+                  :disabled="true"
+                  v-model="parameters.form.negara_id.nama_negara"
+                />
+              </div>
+
               <div class="modal-body mt-4">
                 <ValidationProvider
                   name="nama_kelurahan"
@@ -353,6 +383,22 @@ export default {
           id: this.parameters.form.kelurahan_id
             ? this.parameters.form.kelurahan_id
             : "",
+          kecamatan_id:
+            typeof this.parameters.form.kecamatan_id == "object"
+              ? this.parameters.form.kecamatan_id.kecamatan_id
+              : this.parameters.form.kecamatan_id,
+          kota_id:
+            typeof this.parameters.form.kota_id == "object"
+              ? this.parameters.form.kota_id.kota_id
+              : this.parameters.form.kota_id,
+          provinsi_id:
+            typeof this.parameters.form.provinsi_id == "object"
+              ? this.parameters.form.provinsi_id.provinsi_id
+              : this.parameters.form.provinsi_id,
+          negara_id:
+            typeof this.parameters.form.negara_id == "object"
+              ? this.parameters.form.negara_id.negara_id
+              : this.parameters.form.negara_id,
         },
       };
 
@@ -368,17 +414,18 @@ export default {
           "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
-        this.isEditable = false;
-        this.parameters.form = {
-          negara_id: "",
-          provinsi_id: "",
-          kota_id: "",
-          kecamatan_id: "",
-          nama_kelurahan: "",
-          kode_kelurahan: "",
-          longitude: "",
-          latitude: "",
-        };
+        this.formReset();
+        // this.isEditable = false;
+        // this.parameters.form = {
+        //   negara_id: "",
+        //   provinsi_id: "",
+        //   kota_id: "",
+        //   kecamatan_id: "",
+        //   nama_kelurahan: "",
+        //   kode_kelurahan: "",
+        //   longitude: "",
+        //   latitude: "",
+        // };
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
       } else {
@@ -556,9 +603,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        negara_id: "",
-        provinsi_id: "",
-        kota_id: "",
+        negara_id: {},
+        provinsi_id: {},
+        kota_id: {},
         kecamatan_id: "",
         nama_kelurahan: "",
         kode_kelurahan: "",
@@ -567,22 +614,10 @@ export default {
       };
     },
 
-    onSelectNegara() {
-      this.parameters.form.provinsi_id = "";
-      this.parameters.form.kota_id = "";
-      this.parameters.form.kecamatan_id = "";
-      this.onSearchProvinsi();
-    },
-
-    onSelectProvinsi() {
-      this.parameters.form.kota_id = "";
-      this.parameters.form.kecamatan_id = "";
-      this.onSearchKota();
-    },
-
-    onSelectKota() {
-      this.parameters.form.kecamatan_id = "";
-      this.onSearchKecamatan();
+    onSelectKecamatan(item) {
+      this.parameters.form.negara_id = item.negara;
+      this.parameters.form.provinsi_id = item.provinsi;
+      this.parameters.form.kota_id = item.kota;
     },
 
     changeStatus() {

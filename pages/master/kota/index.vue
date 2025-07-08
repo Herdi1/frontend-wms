@@ -290,7 +290,10 @@ export default {
       this.$refs.formInput.isEditable = true;
       this.$refs.formInput.parameters.form = {
         ...item,
+        provinsi_id: item.provinsi,
+        negara_id: item.negara,
       };
+      // this.$refs.formInput.onSelectProvinsi(item.provinsi);
       this.$nextTick(() => {
         this.$refs.formInput?.$refs?.formValidate?.reset();
       });

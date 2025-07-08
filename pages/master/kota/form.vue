@@ -75,7 +75,7 @@
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
-                      :reduce="(item) => onSelectProvinsi(item)"
+                      @input="onSelectProvinsi"
                     >
                       <li
                         slot-scope="{ search }"
@@ -108,7 +108,7 @@
                     label="Negara"
                     type="text"
                     name="negara_id"
-                    disabled
+                    :disabled="true"
                     v-model="parameters.form.negara_id.nama_negara"
                   />
                 </div>
@@ -389,8 +389,6 @@ export default {
           query:
             "?search=" +
             this.provinsi_search +
-            "&negara_id=" +
-            this.parameters.form.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -418,8 +416,8 @@ export default {
     },
 
     onSelectProvinsi(item) {
+      console.log(item);
       this.parameters.form.negara_id = item.negara;
-      this.parameters.form.provinsi_id = item.provinsi_id;
     },
   },
 };
