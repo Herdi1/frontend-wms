@@ -34,6 +34,7 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">No</th>
+                  <th>Kode Group Zona</th>
                   <th
                     @click="
                       onSort(
@@ -81,6 +82,7 @@
                       1
                     }}
                   </td>
+                  <td>{{ item.kode_group_zona }}</td>
                   <td>{{ item.nama_group_zona }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
@@ -186,6 +188,7 @@ export default {
         },
         form: {
           // group_zona_id: "",
+          kode_group_zona: "",
           nama_group_zona: "",
         },
         loadings: {
@@ -250,6 +253,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
+        kode_group_zona: "",
         nama_group_zona: "",
       };
       this.$refs.formInput.isEditable = false;

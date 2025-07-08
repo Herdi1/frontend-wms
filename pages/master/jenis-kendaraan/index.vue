@@ -34,6 +34,7 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">No</th>
+                  <th>Kode Jenis Kendaraan</th>
                   <th
                     @click="
                       onSort(
@@ -114,6 +115,7 @@
                       1
                     }}
                   </td>
+                  <td>{{ item.kode_jenis_kendaraan }}</td>
                   <td>{{ item.nama_jenis_kendaraan }}</td>
                   <td>{{ item.standar_ritase_hari }}</td>
                   <td class="text-center">
@@ -220,6 +222,7 @@ export default {
         },
         form: {
           jenis_kendaraan_id: "",
+          kode_jenis_kendaraan: "",
           nama_jenis_kendaraan: "",
           standar_ritase_hari: "",
         },

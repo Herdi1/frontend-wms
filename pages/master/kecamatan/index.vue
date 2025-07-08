@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th class="w-[17%]">Kode Kecamatan</th>
                   <th class="w-[17%]">Longitude</th>
                   <th class="w-[17%]">Latitude</th>
                   <th class="w-[17%]">Kota</th>
@@ -87,6 +88,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_kecamatan }}</td>
+                  <td>{{ item.kode_kecamatan }}</td>
                   <td>{{ item.logitude }}</td>
                   <td>{{ item.latitude }}</td>
                   <td>
@@ -211,6 +213,7 @@ export default {
           provinsi_id: "",
           negara_id: "",
           nama_kecamatan: "",
+          kode_kecamatan: "",
           longitude: "",
           latitude: "",
           ibukota: "",
@@ -281,6 +284,7 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
+        kode_kecamatan: "",
         nama_kecamatan: "",
         longitude: "",
         latitude: "",

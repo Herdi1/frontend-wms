@@ -32,6 +32,7 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">No</th>
+                <th>Kode Wilayah</th>
                 <th
                   @click="
                     onSort(
@@ -78,6 +79,7 @@
                     1
                   }}
                 </td>
+                <td>{{ item.kode_wilayah && item.kode_wilayah }}</td>
                 <td>{{ item.nama_wilayah }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />

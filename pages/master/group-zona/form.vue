@@ -15,6 +15,15 @@
               <div class="modal-body mt-4">
                 <div class="form-group">
                   <input-form
+                    label="Kode Group Zona"
+                    type="text"
+                    name="kode_group_zona"
+                    v-model="parameters.form.nama_group_zona"
+                    :required="true"
+                  />
+                </div>
+                <div class="form-group">
+                  <input-form
                     label="Nama Group Zona"
                     type="text"
                     name="nama_group_zona"
@@ -51,6 +60,7 @@ export default {
       parameters: {
         url: "master/group-zona",
         form: {
+          kode_group_zona: "",
           nama_group_zona: "",
         },
       },
@@ -93,6 +103,7 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kode_group_zona: "",
           nama_group_zona: "",
         };
 
@@ -107,6 +118,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_group_zona: "",
         nama_group_zona: "",
       };
     },

@@ -13,6 +13,24 @@
           >
             <div class="modal-body mt-4">
               <ValidationProvider
+                name="kode_metode"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Metode"
+                    type="text"
+                    name="kode_metode"
+                    v-model="parameters.form.kode_metode"
+                    :required="true"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
                 name="nama_metode"
                 rules="required"
                 ref="ruteProvider"
@@ -57,6 +75,7 @@ export default {
       parameters: {
         url: "master/metode-pengambilan",
         form: {
+          kode_metode: "",
           nama_metode: "",
         },
       },
@@ -98,6 +117,7 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
+          kode_metode: "",
           nama_metode: "",
         };
         this.$refs.ruteProvider.reset();
@@ -111,6 +131,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_metode: "",
         nama_metode: "",
       };
     },

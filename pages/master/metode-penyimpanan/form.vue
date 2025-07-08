@@ -15,6 +15,24 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_metode_penyimpanan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Metode Penyimpanan"
+                      type="text"
+                      name="kode_metode_penyimpanan"
+                      :required="true"
+                      v-model="parameters.form.kode_metode_penyimpanan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="nama_metode_penyimpanan"
                   rules="required"
                 >
@@ -60,6 +78,7 @@ export default {
       parameters: {
         url: "master/metode-penyimpanan",
         form: {
+          kode_metode_penyimpanan: "",
           nama_metode_penyimpanan: "",
         },
       },
@@ -102,6 +121,7 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kode_metode_penyimpanan: "",
           nama_metode_penyimpanan: "",
         };
 
@@ -116,6 +136,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_metode_penyimpanan: "",
         nama_metode_penyimpanan: "",
       };
     },

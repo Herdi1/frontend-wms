@@ -18,6 +18,15 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
+          <div class="form-group">
+            <input-form
+              label="Kode Rute Lokasi"
+              type="text"
+              name="kode_rute_lokasi"
+              v-model="parameters.form.kode_rute_lokasi"
+              :required="false"
+            />
+          </div>
           <div>
             <label for="gudang_id"
               >Gudang<span class="text-danger">*</span></label
@@ -193,6 +202,7 @@ export default {
       parameters: {
         url: "master/rute-lokasi",
         form: {
+          kode_rute_lokasi: "",
           jarak: "",
           status_approve: "p",
           lokasi_id_awal: "",
@@ -261,6 +271,7 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
+          kode_rute_lokasi: "",
           jarak: "",
           status_approve: "p",
           lokasi_id_awal: "",
@@ -278,6 +289,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_rute_lokasi: "",
         jarak: "",
         status_approve: "p",
         lokasi_id_awal: "",

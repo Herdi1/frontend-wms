@@ -283,13 +283,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/item-pelanggan/add");
+      this.$router.push("/master/item-gudang/add");
     },
 
     onEdit(item) {
-      this.$router.push(
-        "/master/item-pelanggan/edit/" + item.item_pelanggan_id
-      );
+      this.$router.push("/master/item-gudang/edit/" + item.item_pelanggan_id);
     },
 
     onDetail(item) {

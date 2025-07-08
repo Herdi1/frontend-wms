@@ -267,11 +267,11 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/master/jalur-lokasi/add");
+      this.$router.push("/master/rute-pelanggan/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/jalur-lokasi/" + item.jalur_lokasi_id);
+      this.$router.push("/master/rute-pelanggan/" + item.jalur_lokasi_id);
     },
 
     onTrashed(item) {

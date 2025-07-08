@@ -1,0 +1,802 @@
+<template>
+  <section>
+    <div class="section-body mb-10" v-if="!isLoadingPage">
+      <div class="mt- justify-between items-center flex">
+        <h1 class="text-xl font-bold">
+          {{ isEditable ? "Edit" : "Tambah" }} Jurnal Manual
+        </h1>
+
+        <button class="btn btn-primary my-2" @click="$router.back()">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Kembali
+        </button>
+      </div>
+
+      <div class="w-full">
+        <ValidationObserver v-slot="{ invalid, validate }" ref="formVaidate">
+          <form
+            @submit.prevent="validate().then(() => onSubmit(invalid))"
+            autocomplete="off"
+          >
+            <div class="w-full gap-3">
+              <div
+                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+              >
+                <div
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-2 items-top w-full"
+                >
+                  <ValidationProvider
+                    name="gudang_id"
+                    rules="required"
+                    class="w-full mt-1"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="gudang_id"
+                        >Gudang <span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_gudang"
+                        :loading="isLoadingGetGudang"
+                        :options="lookup_custom1.data"
+                        :filterable="false"
+                        @search="onGetGudang"
+                        v-model="form.gudang_id"
+                        :reduce="(item) => item.gudang_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom1.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom1.current_page > 1"
+                            @click="onGetGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom1.last_page >
+                              lookup_custom1.current_page
+                            "
+                            @click="onGetGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+                  <div class="form-group">
+                    <input-form
+                      label="Tanggal"
+                      type="date"
+                      name="tanggal"
+                      :required="true"
+                      v-model="form.tanggal"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-2 items-top w-full mb-5"
+                >
+                  <div class="form-group">
+                    <input-form
+                      label="Kode Referensi 1"
+                      type="text"
+                      name="kode_referensi"
+                      :required="true"
+                      v-model="form.kode_referensi"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input-form
+                      label="Kode Referensi 2"
+                      type="text"
+                      name="kode_referensi_2"
+                      :required="true"
+                      v-model="form.kode_referensi_2"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input-form
+                      label="Kode Referensi 3"
+                      type="text"
+                      name="kode_referensi_3"
+                      :required="true"
+                      v-model="form.kode_referensi_3"
+                    />
+                  </div>
+                </div>
+                <div class="w-full mb-5">
+                  <h1 class="text-xl font-bold">Detail Jurnal</h1>
+                  <div class="w-full flex justify-end gap-2">
+                    <button
+                      type="button"
+                      @click="addJurnalDetails"
+                      class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    >
+                      <i class="fas fa-plus"></i>
+                      <p class="text-xs font-medium">Tambah Detail Jurnal</p>
+                    </button>
+                  </div>
+                  <div
+                    class="table-responsive"
+                    style="max-height: 500px"
+                    :style="
+                      form.jurnal_details.length ? 'min-height:200px' : ''
+                    "
+                  >
+                    <table
+                      class="table mt-5 h-full overflow-x-auto table-fixed"
+                    >
+                      <thead>
+                        <tr class="text-base uppercase text-nowrap">
+                          <th class="w-[100px]">Kode</th>
+                          <th class="w-[200px]">COA</th>
+                          <th class="w-[200px]">Tipe</th>
+                          <th class="w-[200px]">Jumlah</th>
+                          <th class="w-[200px]">Divisi</th>
+                          <th class="w-[200px]">Jenis Biaya</th>
+                          <th class="w-[200px]">Zona Gudang</th>
+                          <th class="w-[200px]">Keterangan</th>
+                          <th class="w-10">Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(item, index) in form.jurnal_details"
+                          :key="index"
+                          style="border-top: 0.5px solid lightgray"
+                          class="align-top"
+                        >
+                          <td>{{ index + 1 }}</td>
+                          <td>
+                            <v-select
+                              label="nama_coa"
+                              :loading="isLoadingGetCoa"
+                              :options="lookup_custom2.data"
+                              :filterable="false"
+                              @search="onGetCoa"
+                              v-model="item.coa_id"
+                              :reduce="(item) => item.coa_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom2.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom2.current_page > 1"
+                                  @click="onGetCoa(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom2.last_page >
+                                    lookup_custom2.current_page
+                                  "
+                                  @click="onGetCoa(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td>
+                            <select
+                              class="w-full pl-2 py-1 border rounded focus:outline-none"
+                              name="tipe"
+                              id="tipe"
+                              v-model="item.tipe"
+                            >
+                              <option value="">Pilih</option>
+                              <option value="DEBIT">Debit</option>
+                              <option value="CREDIT">Kredit</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              required
+                              v-model="item.jumlah"
+                              class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                            />
+                          </td>
+                          <td>
+                            <v-select
+                              label="nama_divisi"
+                              :loading="isLoadingGetDivisi"
+                              :options="lookup_custom3.data"
+                              :filterable="false"
+                              @search="onGetDivisi"
+                              :reduce="(item) => item.divisi_id"
+                              v-model="item.divisi_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom3.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom3.current_page > 1"
+                                  @click="onGetDivisi(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom3.last_page >
+                                    lookup_custom3.current_page
+                                  "
+                                  @click="onGetDivisi(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td>
+                            <v-select
+                              label="nama_jenis_biaya"
+                              :loading="isLoadingGetJenisBiaya"
+                              :options="lookup_suppliers.data"
+                              :filterable="false"
+                              @search="onGetJenisBiaya"
+                              :reduce="(item) => item.jenis_biaya_id"
+                              v-model="item.jenis_biaya_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_suppliers.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_suppliers.current_page > 1"
+                                  @click="onGetJenisBiaya(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_suppliers.last_page >
+                                    lookup_suppliers.current_page
+                                  "
+                                  @click="onGetJenisBiaya(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td>
+                            <v-select
+                              label="nama_zona_gudang"
+                              :loading="isLoadingGetZonaGudang"
+                              :options="lookup_resellers.data"
+                              :filterable="false"
+                              @search="onGetZonaGudang"
+                              :reduce="(item) => item.zona_gudang_id"
+                              v-model="item.zona_gudang_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_resellers.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_resellers.current_page > 1"
+                                  @click="onGetZonaGudang(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_resellers.last_page >
+                                    lookup_resellers.current_page
+                                  "
+                                  @click="onGetZonaGudang(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td>
+                            <textarea
+                              name="keterangan"
+                              v-model="item.keterangan"
+                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                            ></textarea>
+                          </td>
+                          <!-- <td>
+                            <textarea
+                              name="keterangan_pindah_gudang"
+                              v-model="item.keterangan_2"
+                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                            ></textarea>
+                          </td>
+                          <td>
+                            <textarea
+                              name="keterangan_pindah_gudang"
+                              v-model="item.keterangan_3"
+                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                            ></textarea>
+                          </td> -->
+                          <td class="text-center text-gray-600">
+                            <i
+                              class="fas fa-trash mx-auto"
+                              style="cursor: pointer"
+                              @click="onDeleteItem(index)"
+                            ></i>
+                          </td>
+                        </tr>
+                        <tr
+                          v-if="!form.jurnal_details.length > 0"
+                          class="justifiy-center col-span-5"
+                        >
+                          Data tidak ditemukan
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="w-full grid grid-cols-2 my-7 items-center">
+                    <div class="form-group">
+                      <label for="keterangan"> Keterangan </label>
+                      <textarea
+                        name="keterangan"
+                        v-model="form.keterangan"
+                        class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                      ></textarea>
+                    </div>
+                    <div class="w-full">
+                      <div class="flex items-baseline ml-10">
+                        <p class="w-[100px]">Balance</p>
+                        <div
+                          class="w-[150px] border border-gray-300 p-1 rounded-sm"
+                        >
+                          {{ balance }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <modal-footer-section
+                  :isLoadingForm="isLoadingForm"
+                  @reset="formReset()"
+                />
+              </div>
+            </div>
+          </form>
+        </ValidationObserver>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { ValidationObserver } from "vee-validate";
+import { mapActions, mapMutations, mapState } from "vuex";
+
+export default {
+  middleware: ["checkRoleUserDetail"],
+
+  head() {
+    return {
+      title: "Jurnal Manual",
+    };
+  },
+
+  data() {
+    let id = parseInt(this.$route.params.id);
+
+    return {
+      id,
+
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
+      isLoadingForm: false,
+
+      title: "Gudang",
+
+      url: "master/gudang",
+      form: {
+        jurnal_id: "",
+        tanggal: "",
+        keterangan: "",
+        keterangan_2: "",
+        keterangan_3: "",
+        kode_referensi: "",
+        kode_referensi_2: "",
+        kode_referensi_3: "",
+        gudang_id: "",
+        jurnal_details: [],
+      },
+      default_form: {
+        jurnal_id: "",
+        tanggal: "",
+        keterangan: "",
+        keterangan_2: "",
+        keterangan_3: "",
+        kode_referensi: "",
+        kode_referensi_2: "",
+        kode_referensi_3: "",
+        gudang_id: "",
+        jurnal_details: [],
+      },
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      isStopSearchCoa: false,
+      isLoadingGetCoa: false,
+      coa_search: "",
+
+      isStopSearchDivisi: false,
+      isLoadingGetDivisi: false,
+      divisi_search: "",
+
+      isStopSearchJenisBiaya: false,
+      isLoadingGetJenisBiaya: false,
+      jenis_biaya_search: "",
+
+      isStopSearchZonaGudang: false,
+      isLoadingGetZonaGudang: false,
+      zona_gudang_search: "",
+    };
+  },
+
+  async created() {
+    try {
+      if (this.isEditable) {
+        let response = await this.$axios.get(
+          "finance/jurnal_manual/" + this.id
+        );
+
+        Object.keys(this.form).forEach((item) => {
+          if (item != "jurnal_details") {
+            this.form[item] = response.data[item];
+          }
+        });
+
+        this.form.jurnal_details = response.data.jurnal_details.map((item) => {
+          return {
+            ...item,
+            jurnal_details_id: item || null,
+          };
+        });
+
+        this.isLoadingPage = false;
+      }
+    } catch (error) {
+      this.$router.push("/finance/jurnal-manual");
+    }
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
+    await this.onSearchCoa();
+    await this.onSearchDivisi();
+    await this.onSearchJenisBiaya();
+    await this.onSearchZonaGudang();
+  },
+
+  computed: {
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+      "lookup_custom3",
+      "lookup_suppliers",
+      "lookup_resellers",
+    ]),
+
+    balance() {
+      return this.form.jurnal_details.reduce(
+        (acc, item) => acc + parseInt(item.jumlah),
+        0
+      );
+    },
+  },
+
+  methods: {
+    ...mapActions("moduleApi", ["lookUp"]),
+
+    onSubmit(isInvalid) {
+      console.log(this.form);
+      if (isInvalid || this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+
+      let url = "finance/jurnal_manual";
+
+      let formData = {
+        ...this.form,
+      };
+
+      formData.jurnal_details = formData.jurnal_details.map((item) => {
+        return {
+          ...item,
+          // jurnal_details_id:
+          //   typeof item.jurnal_details_id == "object"
+          //     ? item.jurnal_details_id.jurnal_details_id
+          //     : "",
+          // coa_id: typeof item.coa_id == "object" ? item.coa_id.coa_id : "",
+        };
+      });
+
+      if (this.isEditable) {
+        url += "/" + this.id;
+      }
+
+      console.log(formData);
+      console.log("sampe sini");
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "put" : "post",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              " Jurnal Manual"
+          );
+
+          if (!this.isEditable) {
+            this.form = {
+              ...this.default_form,
+              jurnal_details: [],
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+    },
+
+    addJurnalDetails() {
+      this.form.jurnal_details.push({
+        jurnal_details_id: null,
+        coa_id: null,
+        divisi_id: null,
+        zona_gudang_id: null,
+        tipe: null,
+        jumlah: 0,
+        keterangan: null,
+        keterangan_2: null,
+        keterangan_3: null,
+      });
+    },
+
+    onDeleteItem(index) {
+      this.form.jurnal_details = this.form.jurnal_details.filter(
+        (_, itemIndex) => index != itemIndex
+      );
+    },
+
+    formReset() {
+      this.$refs.formValidate.reset();
+      this.form = this.default_form;
+      this.form.jurnal_details = [];
+    },
+
+    //gudang
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    //coa
+    onGetCoa(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCoa);
+
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchCoa();
+      }, 600);
+    },
+
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
+
+        await this.lookUp({
+          url: "finance/coa/get-coa",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.coa_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCoa = false;
+      }
+    },
+
+    //divisi
+    onGetDivisi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchDivisi);
+
+      this.isStopSearchDivisi = setTimeout(() => {
+        this.divisi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchDivisi();
+      }, 600);
+    },
+
+    async onSearchDivisi() {
+      if (!this.isLoadingGetDivisi) {
+        this.isLoadingGetDivisi = true;
+
+        await this.lookUp({
+          url: "master/divisi/get-divisi",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.divisi_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetDivisi = false;
+      }
+    },
+
+    //jenis biaya
+    onGetJenisBiaya(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchJenisBiaya);
+
+      this.isStopSearchJenisBiaya = setTimeout(() => {
+        this.divisi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_suppliers.current_page = isNext
+            ? this.lookup_suppliers.current_page + 1
+            : this.lookup_suppliers.current_page - 1;
+        } else {
+          this.lookup_suppliers.current_page = 1;
+        }
+
+        this.onSearchJenisBiaya();
+      }, 600);
+    },
+
+    async onSearchJenisBiaya() {
+      if (!this.isLoadingGetJenisBiaya) {
+        this.isLoadingGetJenisBiaya = true;
+
+        await this.lookUp({
+          url: "master/jenis-biaya/get-jenis-biaya",
+          lookup: "suppliers",
+          query:
+            "?search=" +
+            this.jenis_biaya_search +
+            "&page=" +
+            this.lookup_suppliers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetJenisBiaya = false;
+      }
+    },
+
+    //zona gudang
+    onGetZonaGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchZonaGudang);
+
+      this.isStopSearchZonaGudang = setTimeout(() => {
+        this.divisi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_resellers.current_page = isNext
+            ? this.lookup_resellers.current_page + 1
+            : this.lookup_resellers.current_page - 1;
+        } else {
+          this.lookup_resellers.current_page = 1;
+        }
+
+        this.onSearchZonaGudang();
+      }, 600);
+    },
+
+    async onSearchZonaGudang() {
+      if (!this.isLoadingGetZonaGudang) {
+        this.isLoadingGetZonaGudang = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "resellers",
+          query:
+            "?search=" +
+            this.zona_gudang_search +
+            "&page=" +
+            this.lookup_resellers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaGudang = false;
+      }
+    },
+  },
+};
+</script>

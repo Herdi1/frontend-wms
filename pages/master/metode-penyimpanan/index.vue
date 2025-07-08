@@ -34,6 +34,7 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">No</th>
+                  <th>Kode Metode Penyimpanan</th>
                   <th
                     @click="
                       onSort(
@@ -83,6 +84,7 @@
                       1
                     }}
                   </td>
+                  <td>{{ item.kode_metode_penyimpanan }}</td>
                   <td>{{ item.nama_metode_penyimpanan }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
@@ -188,6 +190,7 @@ export default {
         },
         form: {
           metode_penyimpanan_id: "",
+          kode_metode_penyimpanan: "",
           nama_metode_penyimpanan: "",
         },
         loadings: {
@@ -252,6 +255,7 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.parameters.form = {
+        kode_metode_penyimpanan: "",
         nama_metode_penyimpanan: "",
       };
       this.$refs.formInput.isEditable = false;

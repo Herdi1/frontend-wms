@@ -21,6 +21,15 @@
                   :required="true"
                 />
               </div>
+              <div class="form-group">
+                <input-form
+                  label="Kode Wilayah"
+                  type="text"
+                  name="kode_wilayah"
+                  v-model="parameters.form.kode_wilayah"
+                  :required="true"
+                />
+              </div>
             </div>
             <modal-footer-section
               class="mt-5"
@@ -48,6 +57,7 @@ export default {
       parameters: {
         url: "master/wilayah",
         form: {
+          kode_wilayah: "",
           nama_wilayah: "",
         },
       },
@@ -89,6 +99,7 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
+          kode_wilayah: "",
           nama_wilayah: "",
         };
         this.$refs.formValidate.reset();
@@ -102,6 +113,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_wilayah: "",
         nama_wilayah: "",
       };
     },

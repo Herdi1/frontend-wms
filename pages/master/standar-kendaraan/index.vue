@@ -29,6 +29,7 @@
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
+                <th>Kode Standar Jenis</th>
                 <th>Jenis Kendaraan</th>
                 <th>Gudang</th>
                 <th>Kecepatan Isi</th>
@@ -59,6 +60,7 @@
                     1
                   }}
                 </td>
+                <td>{{ item.kode_standar_jenis_kendaraan }}</td>
                 <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
                 <td>{{ item.gudang.nama_gudang }}</td>
                 <td>{{ item.kecepatan_isi }} km/jam</td>
@@ -166,6 +168,7 @@ export default {
           per_page: 10,
           page: 1,
           form: {
+            kode_standar_jenis_kendaraan: "",
             jenis_kendaraan_id: "",
             gudang_id: "",
             kecapatan_isi: "",
