@@ -19,33 +19,25 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-2 gap-3 w-full">
               <div class="form-group">
                 <input-horizontal
-                  label="Kode SAP"
+                  label="Referensi SAP"
                   type="text"
                   name="kode_sap"
                   :isHorizontal="true"
                   v-model="parameters.form.kode_asp"
                   :required="false"
                 />
-                <!-- <input-form
-                  label="Kode SAP"
-                  type="text"
-                  name="kode_sap"
-                  :isHorizontal="true"
-                  v-model="parameters.form.kode_asp"
-                  :required="false"
-                /> -->
               </div>
-              <div v-if="lookup_beam.gudang_id === null" class="w-1/4">
+              <div v-if="lookup_beam.gudang_id === null" class="w-full">
                 <ValidationProvider name="gudang" rules="required">
-                  <div class="form-group w-full items-center">
-                    <label for=""
+                  <div class="form-group w-full flex justify-between">
+                    <label for="" class="w-1/2"
                       >Gudang <span class="text-danger">*</span></label
                     >
                     <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_gudang"
                       :loading="isLoadingGetGudang"
                       :options="lookup_roles.data"
@@ -79,8 +71,8 @@
                   </div>
                 </ValidationProvider>
               </div>
-              <div class="form-group w-1/4">
-                <input-form
+              <div class="form-group">
+                <input-horiontal
                   label="Doc Type SAP"
                   type="text"
                   name="doc_type_sap"
@@ -88,8 +80,8 @@
                   :required="false"
                 />
               </div>
-              <div class="form-group w-1/4">
-                <input-form
+              <div class="form-group">
+                <input-horiontal
                   label="Tanggal Pembuatan"
                   type="date"
                   name="tanggal"
@@ -97,13 +89,11 @@
                   :required="true"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-4 gap-2 w-full">
               <ValidationProvider name="lokasi">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="">Lokasi Asal Muat</label>
+                <div class="form-group w-full flex justify-between mb-5">
+                  <label for="" class="w-1/2">Lokasi Asal Muat</label>
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_lokasi"
                     :loading="isLoadingGetLokasi"
                     :options="lookup_location.data"
@@ -138,7 +128,7 @@
                 </div>
               </ValidationProvider>
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Asal Muat"
                   type="text"
                   name="asal_muat"
@@ -147,13 +137,13 @@
                 />
               </div>
               <ValidationProvider name="vendor" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for=""
+                <div class="form-group w-full flex justify-between mb-5">
+                  <label for="" class="w-1/2"
                     >Vendor Transporter
                     <span class="text-danger">*</span></label
                   >
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_vendor"
                     :loading="isLoadingGetVendor"
                     :options="lookup_custom1.data"
@@ -187,7 +177,7 @@
                 </div>
               </ValidationProvider>
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Nama Transporter"
                   type="text"
                   name="nama_transporter"
@@ -195,10 +185,8 @@
                   :required="false"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-3 gap2 w-full">
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Surat Jalan"
                   type="text"
                   name="surat_jalan"
@@ -207,7 +195,7 @@
                 />
               </div>
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Nomor Referensi"
                   type="text"
                   name="no_referensi"
@@ -216,7 +204,7 @@
                 />
               </div>
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Nomor Referensi 2"
                   type="text"
                   name="no_referensi_2"
@@ -224,15 +212,13 @@
                   :required="false"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-4 gap-2 w-full">
               <ValidationProvider name="kendaraan" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for=""
+                <div class="form-group w-full flex justify-between mb-5">
+                  <label for="" class="w-1/2"
                     >Kendaraan <span class="text-danger">*</span></label
                   >
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kendaraan"
                     :loading="isLoadingGetKendaraan"
                     :options="lookup_custom2.data"
@@ -266,12 +252,12 @@
                 </div>
               </ValidationProvider>
               <ValidationProvider name="pengemudi" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for=""
+                <div class="form-group w-full flex justify-between mb-5">
+                  <label for="" class="w-1/2"
                     >Pengemudi <span class="text-danger">*</span></label
                   >
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_pengemudi"
                     :loading="isLoadingGetPengemudi"
                     :options="lookup_custom3.data"
@@ -305,10 +291,10 @@
                 </div>
               </ValidationProvider>
               <ValidationProvider name="supplier">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="">Supplier</label>
+                <div class="form-group w-full flex justify-between mb-5">
+                  <label for="" class="w-1/2">Supplier</label>
                   <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_supplier"
                     :loading="isLoadingGetSupplier"
                     :options="lookup_suppliers.data"
@@ -342,19 +328,17 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <div class="form-group">
-                <label for="">Perkiraan Tiba</label>
+              <div class="form-group mb-2 flex justify-between">
+                <label for="" class="w-1/2">Perkiraan Tiba</label>
                 <input
                   type="datetime-local"
                   step="1"
                   v-model="parameters.form.perkiraan_tiba"
-                  class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Kebutuhan Peralatan"
                   type="text"
                   name="kebutuhan_peralatan"
@@ -363,7 +347,7 @@
                 />
               </div>
               <div class="form-group">
-                <input-form
+                <input-horiontal
                   label="Handling Instruction"
                   type="text"
                   name="handling_instruction"
@@ -372,8 +356,8 @@
                 />
               </div>
               <div class="form-group">
-                <input-form
-                  label="catatan"
+                <input-horiontal
+                  label="Catatan"
                   type="text"
                   name="catatan"
                   v-model="parameters.form.catatan"
@@ -384,11 +368,273 @@
           </div>
           <div class="my-5 text-xl font-bold uppercase">
             <h1>ASN Detail</h1>
+            <div class="w-full relative flex justify-end gap-2">
+              <button
+                type="button"
+                @click="addAsnDetail"
+                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+              >
+                <i class="fas fa-plus"></i>
+                <p class="text-xs font-medium">Tambah Detail Jurnal</p>
+              </button>
+            </div>
           </div>
           <div
-            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            class="mt-4 overflow-auto bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-4 gap-2 w-full">
+            <table>
+              <thead>
+                <tr class="text-sm uppercase">
+                  <th class="w-80 border border-gray-300">Item</th>
+                  <th class="w-80 border border-gray-300">Item Pelanggan</th>
+                  <th class="w-80 border border-gray-300">Item Gudang</th>
+                  <th class="w-80 border border-gray-300">Zona Gudang</th>
+                  <th class="w-80 border border-gray-300">Quantity</th>
+                  <th class="w-80 border border-gray-300">Serial Number</th>
+                  <th class="w-80 border border-gray-300">Nomor Referensi</th>
+                  <th class="w-80 border border-gray-300">Panjang</th>
+                  <th class="w-80 border border-gray-300">Lebar</th>
+                  <th class="w-80 border border-gray-300">Tinggi</th>
+                  <th class="w-80 border border-gray-300">Berat</th>
+                  <th class="w-80 border border-gray-300">Note</th>
+                  <th class="w-80 border border-gray-300">Aisle Plan</th>
+                  <th class="w-80 border border-gray-300">Rack Plan</th>
+                  <th class="w-80 border border-gray-300">Level Plan</th>
+                  <th class="w-80 border border-gray-300">Bin Plan</th>
+                  <th class="w-80 border border-gray-300">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item, index) in parameters.form.asn_details"
+                  :key="index"
+                  class="border-t border-gray-400"
+                >
+                  <td class="border border-gray-300">
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_item"
+                      :loading="isLoadingGetItem"
+                      :options="lookup_packing.data"
+                      :filterable="false"
+                      @search="onGetItem"
+                      :reduce="(item) => item.item_id"
+                      v-model="item.item_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_packing.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_packing.current_page > 1"
+                          @click="onGetItem(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_packing.last_page >
+                            lookup_packing.current_page
+                          "
+                          @click="onGetItem(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </td>
+                  <td class="border border-gray-300">
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_item_pelanggan"
+                      :loading="isLoadingGetPelanggan"
+                      :options="lookup_department.data"
+                      :filterable="false"
+                      @search="onGetPelanggan"
+                      :reduce="(item) => item.item_pelanggan_id"
+                      v-model="item.item_pelanggan_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_department.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_department.current_page > 1"
+                          @click="onGetPelanggan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_department.last_page >
+                            lookup_department.current_page
+                          "
+                          @click="onGetPelanggan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </td>
+                  <td class="border border-gray-300">
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_item_gudang"
+                      :loading="isLoadingGetItemGudang"
+                      :options="lookup_defects.data"
+                      :filterable="false"
+                      @search="onGetItemGudang"
+                      :reduce="(item) => item.item_gudang_id"
+                      v-model="item.item_gudang_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_defects.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_defects.current_page > 1"
+                          @click="onGetItemGudang(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_defects.last_page >
+                            lookup_defects.current_page
+                          "
+                          @click="onGetItemGudang(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </td>
+                  <td class="border border-gray-300">
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_zona_gudang"
+                      :loading="isLoadingGetZonaGudang"
+                      :options="lookup_regus.data"
+                      :filterable="false"
+                      @search="onGetZonaGudang"
+                      :reduce="(item) => item.zona_gudang_id"
+                      v-model="item.zona_gudang_id_plan"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_regus.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_regus.current_page > 1"
+                          @click="onGetZonaGudang(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_regus.last_page > lookup_regus.current_page
+                          "
+                          @click="onGetZonaGudang(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.quantity"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <input-form
+                      label="Serial Number"
+                      type="text"
+                      name="serial_number"
+                      :required="false"
+                      v-model="item.serial_number"
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <input-form
+                      label="No Referensi"
+                      type="text"
+                      name="no_referensi"
+                      :required="false"
+                      v-model="item.no_referensi"
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.panjang"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.lebar"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.tinggi"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.berat"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </td>
+                  <td class="border border-gray-300">
+                    <textarea
+                      placeholder="Note"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      v-model="item.note"
+                    ></textarea>
+                  </td>
+                </tr>
+              </tbody>
+              <tr v-if="!parameters.form.asn_details.length > 0">
+                <td colspan="12" class="text-center">
+                  <span class="flex justify-center">
+                    <img
+                      src="/img/data-not-found.svg"
+                      alt="Data Tidak Ditemukan"
+                      class="h-64 object-cover"
+                    />
+                  </span>
+                  <div class="mt-3">Data Tidak Ditemukan</div>
+                </td>
+              </tr>
+            </table>
+            <!-- <div class="grid grid-cols-4 gap-2 w-full">
               <ValidationProvider name="item" rules="required">
                 <div class="form-group w-full items-center mb-5">
                   <label for="">Item <span class="text-danger">*</span></label>
@@ -542,8 +788,8 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
+            </div> -->
+            <!-- <div class="grid grid-cols-3 gap-2 w-full">
               <ValidationProvider name="quantity" rules="required">
                 <div class="form-group col-12">
                   <label for="radius"
@@ -556,7 +802,6 @@
                       $event.key === '-' ? $event.preventDefault() : null
                     "
                   />
-                  <!-- <div class="text-muted text-small">* Meter</div> -->
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -577,8 +822,8 @@
                   v-model="formAsn.no_referensi"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-4 gap-2 w-full">
+            </div> -->
+            <!-- <div class="grid grid-cols-4 gap-2 w-full">
               <div class="form-group">
                 <label for="panjang">Panjang</label>
                 <money
@@ -588,7 +833,6 @@
                     $event.key === '-' ? $event.preventDefault() : null
                   "
                 />
-                <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
               <div class="form-group">
                 <label for="lebar">Lebar</label>
@@ -599,7 +843,6 @@
                     $event.key === '-' ? $event.preventDefault() : null
                   "
                 />
-                <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
               <div class="form-group">
                 <label for="tinggi">Tinggi</label>
@@ -610,7 +853,6 @@
                     $event.key === '-' ? $event.preventDefault() : null
                   "
                 />
-                <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
               <div class="form-group">
                 <label for="berat">Berat</label>
@@ -621,17 +863,16 @@
                     $event.key === '-' ? $event.preventDefault() : null
                   "
                 />
-                <!-- <div class="text-muted text-small">* Meter</div> -->
               </div>
-            </div>
-            <div class="form-group">
+            </div> -->
+            <!-- <div class="form-group">
               <label for="alamat_vendor">Note</label>
               <textarea
                 placeholder="Note"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="formAsn.note"
               ></textarea>
-            </div>
+            </div> -->
           </div>
           <modal-footer-section
             class="mt-5"
@@ -757,7 +998,17 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(`inbound/asn/${this.id}`);
-        this.parameters.form = res.data;
+        Object.keys(this.parameters.form).forEach((item) => {
+          this.parameters.form[item] = res.data[item];
+        });
+
+        this.parameters.form.asn_details = res.data.asn_details.map((item) => {
+          return {
+            ...item,
+            asn_details_id: item || null,
+          };
+        });
+
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -866,7 +1117,7 @@ export default {
         },
       };
 
-      console.log("form", this.parameters.form);
+      // console.log("form", this.parameters.form);
 
       if (this.isEditable) {
         await this.updateData(parameters);
@@ -916,6 +1167,34 @@ export default {
 
       this.isLoadingForm = false;
     },
+
+    AddAsnDetails() {
+      this.parameters.form.asn_details.push({
+        item_id: 1,
+        item_pelanggan_id: 1,
+        item_gudang_id: 1,
+        quantity: "",
+        serial_number: "",
+        panjang: "",
+        lebar: "",
+        tinggi: "",
+        berat: "",
+        no_referensi: "",
+        note: "",
+        zona_gudang_id_plan: "",
+        slot_penyimpanan_id_aisle_plan: "",
+        slot_penyimpanan_id_rack_plan: "",
+        slot_penyimpanan_id_level_plan: "",
+        slot_penyimpanan_id_bin_plan: "",
+      });
+    },
+
+    // onDeleteItem(index) {
+    //   this.parameters.form.asn_details =
+    //     this.parameters.form.asn_details.filter(
+    //       (_, itemIndex) => index !== itemIndex
+    //     );
+    // },
 
     // Get Vendor
     onGetVendor(search, isNext) {

@@ -315,7 +315,7 @@
               </li>
             </v-select>
           </div>
-          <ValidationProvider name="kode_pos" rules="required">
+          <ValidationProvider name="id_kode_pos" rules="required">
             <div class="form-group w-full items-center mb-5">
               <label for="" class="w-4/12"
                 >Kode Pos <span class="text-danger">*</span></label
