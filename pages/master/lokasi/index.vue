@@ -233,7 +233,7 @@ export default {
             kota_id: "",
             kecamatan_id: "",
             kelurahan_id: "",
-            kode_pos: "",
+            kode_pos_id: "",
             nama_pemilik: "",
             email: "",
             nilai_plafon: "",

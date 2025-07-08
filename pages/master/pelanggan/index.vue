@@ -228,7 +228,7 @@ export default {
             kota_id: "",
             provinsi_id: "",
             negara_id: "",
-            kode_pos: "",
+            kode_pos_id: "",
             nama_pemilik: "",
             alamat_pemilik: "",
             no_telp: "",

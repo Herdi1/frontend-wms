@@ -243,9 +243,6 @@ export default {
         let main_role = this.user.role.menus.find((item) => item.rute == "asn");
 
         let roles = {};
-        console.log("kkk_role");
-
-        console.log(main_role);
 
         if (JSON.parse(main_role.pivot.operators).includes("all")) {
           return this.default_roles;
