@@ -19,15 +19,24 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="flex gap-2 w-full">
-              <div class="form-group w-1/4">
-                <input-form
+            <div class="grid grid-cols-2 gap-2 w-full">
+              <div class="form-group">
+                <input-horizontal
                   label="Kode SAP"
                   type="text"
                   name="kode_sap"
+                  :isHorizontal="true"
                   v-model="parameters.form.kode_asp"
                   :required="false"
                 />
+                <!-- <input-form
+                  label="Kode SAP"
+                  type="text"
+                  name="kode_sap"
+                  :isHorizontal="true"
+                  v-model="parameters.form.kode_asp"
+                  :required="false"
+                /> -->
               </div>
               <div v-if="lookup_beam.gudang_id === null" class="w-1/4">
                 <ValidationProvider name="gudang" rules="required">
@@ -694,19 +703,19 @@ export default {
       parameters: {
         url: "inbound/asn",
         form: {
-          gudang_id: "",
+          gudang_id: 1,
           kode_asp: "",
           doc_type_sap: "",
           tanggal: "",
           lokasi_id_asal_muat: "",
           asal_muat: "",
-          vendor_id_transporter: "",
+          vendor_id_transporter: 1,
           nama_transporter: "",
           surat_jalan: "",
           no_referensi: "",
           no_referensi_2: "",
-          kendaraan_id: "",
-          pengemudi_id: "",
+          kendaraan_id: 1,
+          pengemudi_id: 1,
           supplier_id: "",
           perkiraan_tiba: "",
           kebutuhan_peralatan: "",
@@ -724,7 +733,7 @@ export default {
         },
       },
       formAsn: {
-        item_id: "",
+        item_id: 1,
         item_pelanggan_id: 1,
         item_gudang_id: 1,
         quantity: "",
@@ -772,7 +781,9 @@ export default {
       url: "me",
       lookup: "beam",
     });
-    // console.log("me", this.lookup_beam.gudang_id);
+
+    this.getGeoLocation();
+    this.getUserAgent();
   },
 
   computed: {
@@ -801,6 +812,46 @@ export default {
       this.resetFormAsn();
     },
 
+    getUserAgent() {
+      this.parameters.form.user_agent = navigator.userAgent;
+      if (this.parameters.form.user_agent.includes("Mobile")) {
+        this.parameters.form.device = "Mobile";
+      } else if (this.parameters.form.user_agent.includes("Tablet")) {
+        this.parameters.form.device = "Tablet";
+      } else {
+        this.parameters.form.device = "Desktop";
+      }
+      // console.log("user agent", this.parameters.form.user_agent);
+      // console.log("device", this.parameters.form.device);
+    },
+
+    getGeoLocation() {
+      if ("geolocation" in navigator) {
+        this.isLoadingForm = true;
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.parameters.form.longitude = position.coords.longitude;
+            this.parameters.form.latitude = position.coords.latitude;
+            this.isLoadingForm = false;
+            // console.log(
+            //   "latitude",
+            //   this.parameters.form.latitude,
+            //   "longitude",
+            //   this.parameters.form.longitude
+            // );
+          },
+          (error) => {
+            this.isLoadingForm = false;
+            this.$toaster.error(error.message);
+          }
+        );
+      } else {
+        this.$toaster.error("geolocation not supported");
+        // console.log("geolocation not supported");
+      }
+    },
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
@@ -815,13 +866,13 @@ export default {
         },
       };
 
+      console.log("form", this.parameters.form);
+
       if (this.isEditable) {
         await this.updateData(parameters);
       } else {
         await this.addData(parameters);
       }
-
-      console.log("form", this.parameters.form);
 
       if (this.result == true) {
         this.$toaster.success(

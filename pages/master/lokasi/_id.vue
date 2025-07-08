@@ -315,15 +315,43 @@
               </li>
             </v-select>
           </div>
-          <div class="form-group">
-            <input-form
-              label="Kode Pos"
-              type="text"
-              name="kode_pos"
-              :required="true"
-              v-model="parameters.form.kode_pos"
-            />
-          </div>
+          <ValidationProvider name="kode_pos" rules="required">
+            <div class="form-group w-full items-center mb-5">
+              <label for="" class="w-4/12"
+                >Kode Pos <span class="text-danger">*</span></label
+              >
+              <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_kode_pos"
+                :loading="isLoadingGetKodePos"
+                :options="lookup_roles.data"
+                :filterable="false"
+                @search="onGetKodePos"
+                :reduce="(item) => item.kode_pos_id"
+                v-model="parameters.form.kode_pos_id"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_roles.data.length || search"
+                >
+                  <span
+                    v-if="lookup_roles.current_page > 1"
+                    @click="onGetKodePos(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="lookup_roles.last_page > lookup_roles.current_page"
+                    @click="onGetKodePos(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+          </ValidationProvider>
         </div>
         <div class="grid grid-cols-3 gap-2 w-full">
           <div class="form-group">
@@ -558,6 +586,10 @@ export default {
       isLoadingGetLokasi: false,
       lokasi_search: "",
 
+      isStopSearchKodePos: false,
+      isLoadingGetKodePos: false,
+      kodePos_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -575,7 +607,7 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           kelurahan_id: "",
-          kode_pos: "",
+          kode_pos_id: "",
           nama_pemilik: "",
           email: "",
           nilai_plafon: "",
@@ -623,6 +655,7 @@ export default {
     await this.onSearchKecamatan();
     await this.onSearchKelurahan();
     await this.onSearchLokasi();
+    await this.onSearchKodePos();
     await this.lookUp({
       url: "utility",
       lookup: "sellers",
@@ -641,6 +674,7 @@ export default {
       "lookup_grade", //kelurahan
       "lookup_location", //lokasi
       "lookup_sellers", //tipe lokasi
+      "lookup_roles", //kode_pos
     ]),
   },
 
@@ -685,7 +719,7 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           kelurahan_id: "",
-          kode_pos: "",
+          kode_pos_id: "",
           nama_pemilik: "",
           email: "",
           nilai_plafon: "",
@@ -965,6 +999,46 @@ export default {
       }
     },
 
+    //Get Kode Pos
+    onGetKodePos(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKodePos);
+
+      this.isStopSearchKodePos = setTimeout(() => {
+        this.kodePos_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_roles.current_page = isNext
+            ? this.lookup_roles.current_page + 1
+            : this.lookup_roles.current_page - 1;
+        } else {
+          this.lookup_roles.current_page = 1;
+        }
+
+        this.onSearchKodePos();
+      }, 600);
+    },
+
+    async onSearchKodePos() {
+      if (!this.isLoadingGetKodePos) {
+        this.isLoadingGetKodePos = true;
+
+        await this.lookUp({
+          url: "master/kode-pos/get-kode-pos",
+          lookup: "roles",
+          query:
+            "?search=" +
+            this.kodePos_search +
+            "&page=" +
+            this.lookup_roles.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKodePos = false;
+      }
+    },
+
     onSelectNegara() {
       this.parameters.form.provinsi_id = "";
       this.parameters.form.kota_id = "";
@@ -1004,7 +1078,7 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
-        kode_pos: "",
+        kode_pos_id: "",
         nama_pemilik: "",
         alamat_pemilik: "",
         no_telp: "",
