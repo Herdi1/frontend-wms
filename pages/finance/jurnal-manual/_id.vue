@@ -43,6 +43,7 @@
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
                         class="w-full"
+                        @input="onSearchZonaGudang"
                       >
                         <li
                           slot-scope="{ search }"
@@ -125,9 +126,7 @@
                   <div
                     class="table-responsive"
                     style="max-height: 500px"
-                    :style="
-                      form.jurnal_details.length ? 'min-height:200px' : ''
-                    "
+                    :style="form.jurnal_details.length ? '' : ''"
                   >
                     <table
                       class="table mt-5 h-full overflow-x-auto table-fixed"
@@ -152,7 +151,9 @@
                           style="border-top: 0.5px solid lightgray"
                           class="align-top"
                         >
-                          <td>{{ index + 1 }}</td>
+                          <td>
+                            {{ item.coa_id ? item.coa_id.kode_coa : "-" }}
+                          </td>
                           <td>
                             <v-select
                               label="nama_coa"
@@ -161,7 +162,6 @@
                               :filterable="false"
                               @search="onGetCoa"
                               v-model="item.coa_id"
-                              :reduce="(item) => item.coa_id"
                               class="w-full"
                             >
                               <li
@@ -341,11 +341,10 @@
                             ></i>
                           </td>
                         </tr>
-                        <tr
-                          v-if="!form.jurnal_details.length > 0"
-                          class="justifiy-center col-span-5"
-                        >
-                          Data tidak ditemukan
+                        <tr v-if="!form.jurnal_details.length > 0">
+                          <td colspan="9" class="justify-center">
+                            <p class="mx-auto">Data tidak ditemukan</p>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -474,6 +473,7 @@ export default {
           return {
             ...item,
             jurnal_details_id: item || null,
+            coa_id: item.coa || "",
           };
         });
 
@@ -504,10 +504,21 @@ export default {
     ]),
 
     balance() {
-      return this.form.jurnal_details.reduce(
-        (acc, item) => acc + parseInt(item.jumlah),
-        0
-      );
+      let debitValue = this.form.jurnal_details.reduce((acc, item) => {
+        if (item.tipe == "DEBIT") {
+          return acc + item.jumlah;
+        }
+
+        return acc;
+      }, 0);
+      let kreditValue = this.form.jurnal_details.reduce((acc, item) => {
+        if (item.tipe == "CREDIT") {
+          return acc + item.jumlah;
+        }
+
+        return acc;
+      }, 0);
+      return debitValue - kreditValue;
     },
   },
 
@@ -533,7 +544,8 @@ export default {
           //   typeof item.jurnal_details_id == "object"
           //     ? item.jurnal_details_id.jurnal_details_id
           //     : "",
-          // coa_id: typeof item.coa_id == "object" ? item.coa_id.coa_id : "",
+          coa_id:
+            typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
         };
       });
 
@@ -592,10 +604,15 @@ export default {
       );
     },
 
-    formReset() {
+    async formReset() {
       this.$refs.formValidate.reset();
       this.form = this.default_form;
       this.form.jurnal_details = [];
+      await this.onSearchGudang();
+      await this.onSearchCoa();
+      await this.onSearchDivisi();
+      await this.onSearchJenisBiaya();
+      await this.onSearchZonaGudang();
     },
 
     //gudang
@@ -789,6 +806,8 @@ export default {
           query:
             "?search=" +
             this.zona_gudang_search +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",

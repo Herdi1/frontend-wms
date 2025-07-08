@@ -139,6 +139,24 @@
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
+                  name="kode_alternatif"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Alternatif"
+                      type="text"
+                      name="kode_alternatif"
+                      :required="true"
+                      v-model="parameters.form.kode_alternatif"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
                   name="koordinat"
                   rules="required"
                   ref="ruteProvider"
@@ -196,6 +214,7 @@ export default {
           provinsi_id: "",
           nama_kota: "",
           kode_kota: "",
+          kode_alternatif: "",
           koordinat: "",
         },
       },
@@ -249,6 +268,7 @@ export default {
           provinsi_id: "",
           nama_kota: "",
           kode_kota: "",
+          kode_alternatif: "",
           koordinat: "",
         };
         this.$refs.formValidate.reset();
@@ -356,6 +376,7 @@ export default {
         provinsi_id: "",
         nama_kota: "",
         kode_kota: "",
+        kode_alternatif: "",
         koordinat: "",
       };
     },

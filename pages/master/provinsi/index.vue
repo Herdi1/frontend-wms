@@ -32,7 +32,7 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -68,6 +68,7 @@
                     </div>
                   </th>
                   <th class="w-[30%]">Kode Provinsi</th>
+                  <th class="w-[30%]">Kode Alternatif</th>
                   <th class="w-[30%]">Ibu Kota</th>
                   <th class="w-[25%]">Negara</th>
                   <th class="w-[5%]">Edit</th>
@@ -86,6 +87,7 @@
                   </td>
                   <td>{{ item.nama_provinsi }}</td>
                   <td>{{ item.kode_provinsi }}</td>
+                  <td>{{ item.kode_alternatif }}</td>
                   <td>{{ item.ibukota }}</td>
                   <td>{{ item.negara.nama_negara }}</td>
                   <td class="text-center">
@@ -194,6 +196,7 @@ export default {
           negara_id: "",
           nama_provinsi: "",
           kode_provinsi: "",
+          kode_alternatif: "",
           ibukota: "",
           checkboxs: [],
         },
@@ -264,6 +267,7 @@ export default {
       this.$refs.formInput.parameters.form = {
         negara_id: "",
         kode_provinsi: "",
+        kode_alternatif: "",
         nama_provinsi: "",
         ibukota: "",
       };

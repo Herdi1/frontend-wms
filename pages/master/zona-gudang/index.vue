@@ -26,7 +26,7 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
@@ -96,6 +96,7 @@
                       </div>
                     </div>
                   </th>
+                  <th>Gudang</th>
                   <th>Vendor</th>
                   <th>Pelanggan</th>
                   <th>Profit Cost</th>
@@ -136,6 +137,7 @@
                   </td>
                   <td>{{ item.kode_zona_gudang }}</td>
                   <td>{{ item.nama_zona_gudang }}</td>
+                  <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                   <td>{{ item.vendor ? item.vendor.nama_vendor : "" }}</td>
                   <td>
                     {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "" }}
@@ -282,6 +284,9 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    this.user_agent = navigator.userAgent;
+    console.log(this.user_agent);
   },
 
   data() {
@@ -342,6 +347,7 @@ export default {
         import: true,
       },
       user: this.$auth.user,
+      user_agent: "",
     };
   },
 

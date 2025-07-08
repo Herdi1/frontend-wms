@@ -101,14 +101,24 @@
                   <td class="w-[30%]">{{ item.keterangan }}</td>
                   <td>
                     {{
-                      item.jurnal_details.debit ? item.jurnal_details.debit : ""
+                      item.jurnal_details.reduce((acc, item) => {
+                        if (item.tipe == "DEBIT") {
+                          return acc + item.jumlah;
+                        }
+
+                        return acc;
+                      }, 0)
                     }}
                   </td>
                   <td>
                     {{
-                      item.jurnal_details.kredit
-                        ? item.jurnal_details.kredit
-                        : ""
+                      item.jurnal_details.reduce((acc, item) => {
+                        if (item.tipe == "CREDIT") {
+                          return acc + item.jumlah;
+                        }
+
+                        return acc;
+                      }, 0)
                     }}
                   </td>
                   <td class="text-center">

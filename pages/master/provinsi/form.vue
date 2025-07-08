@@ -51,6 +51,24 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_alternatif"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Alternatif"
+                      type="text"
+                      name="kode_alternatif"
+                      :required="true"
+                      v-model="parameters.form.kode_alternatif"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="ibukota"
                   rules="required"
                 >
@@ -146,6 +164,7 @@ export default {
         form: {
           negara_id: "",
           kode_provinsi: "",
+          kode_alternatif: "",
           nama_provinsi: "",
           ibukota: "",
         },
@@ -195,6 +214,7 @@ export default {
         this.parameters.form = {
           negara_id: "",
           kode_provinsi: "",
+          kode_alternatif: "",
           nama_provinsi: "",
           ibukota: "",
         };
@@ -251,6 +271,7 @@ export default {
       this.parameters.form = {
         negara_id: "",
         kode_provinsi: "",
+        kode_alternatif: "",
         nama_provinsi: "",
         ibukota: "",
       };
