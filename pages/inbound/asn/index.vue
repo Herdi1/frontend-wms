@@ -208,7 +208,7 @@ export default {
           device: "",
           longitude: "",
           latitude: "",
-          asn_detail: [],
+          asn_details: [],
         },
         loadings: {
           isDelete: false,

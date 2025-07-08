@@ -103,24 +103,6 @@
                 </ValidationProvider>
 
                 <ValidationProvider
-                  name="nama_kota"
-                  rules="required"
-                  ref="ruteProvider"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Kota"
-                      type="text"
-                      name="nama_kota"
-                      :required="true"
-                      v-model="parameters.form.nama_kota"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider
                   name="kode_kota"
                   rules="required"
                   ref="ruteProvider"
@@ -138,6 +120,7 @@
                     />
                   </div>
                 </ValidationProvider>
+
                 <ValidationProvider
                   name="kode_alternatif"
                   rules="required"
@@ -156,17 +139,56 @@
                     />
                   </div>
                 </ValidationProvider>
+
                 <ValidationProvider
-                  name="koordinat"
+                  name="nama_kota"
                   rules="required"
                   ref="ruteProvider"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
-                      label="Koordinat"
+                      label="Nama Kota"
                       type="text"
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
+                      name="nama_kota"
+                      :required="true"
+                      v-model="parameters.form.nama_kota"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider
+                  name="longitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      v-model="parameters.form.longitude"
+                      :required="true"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider
+                  name="latitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      v-model="parameters.form.latitude"
                       :required="true"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -215,7 +237,8 @@ export default {
           nama_kota: "",
           kode_kota: "",
           kode_alternatif: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         },
       },
     };
@@ -269,7 +292,8 @@ export default {
           nama_kota: "",
           kode_kota: "",
           kode_alternatif: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         };
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
@@ -377,7 +401,8 @@ export default {
         nama_kota: "",
         kode_kota: "",
         kode_alternatif: "",
-        koordinat: "",
+        longitude: "",
+        latitude: "",
       };
     },
 

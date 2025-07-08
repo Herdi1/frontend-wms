@@ -203,19 +203,56 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
-                  name="koordinat"
+                  name="kode_alternatif"
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <label>Koordinat <span class="text-danger">*</span></label>
-                    <textarea
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
-                      :class="
+                    <input-form
+                      label="Kode Alternatif"
+                      type="text"
+                      name="kode_alternatif"
+                      :required="true"
+                      v-model="parameters.form.kode_alternatif"
+                      :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
-                      class="w-full border border-gray-300 rounded-md bg-white outline-none active:outline-none"
-                    ></textarea>
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="longitude"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      :required="true"
+                      v-model="parameters.form.longitude"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="latitude"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      :required="true"
+                      v-model="parameters.form.latitude"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
                   </div>
                 </ValidationProvider>
               </div>
@@ -261,7 +298,9 @@ export default {
         form: {
           nama_kecamatan: "",
           kode_kecamatan: "",
-          koordinat: "",
+          kode_alternatif: "",
+          longitude: "",
+          latitude: "",
           kota_id: "",
           provinsi_id: "",
           negara_id: "",
@@ -322,8 +361,10 @@ export default {
           provinsi_id: "",
           negara_id: "",
           kode_kecamatan: "",
+          kode_alternatif: "",
           nama_kecamatan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         };
 
         this.$refs.formValidate.reset();
@@ -478,8 +519,10 @@ export default {
         provinsi_id: "",
         negara_id: "",
         kode_kecamatan: "",
+        kode_alternatif: "",
         nama_kecamatan: "",
-        koordinat: "",
+        longitude: "",
+        latitude: "",
       };
     },
 

@@ -1,9 +1,6 @@
 <template>
   <section class="section h-screen">
-    <div
-      class="section-body mb-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-      v-if="!isLoadingPage"
-    >
+    <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
           Edit Data
@@ -19,7 +16,9 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="mt-4">
+          <div
+            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="flex gap-2 w-full">
               <div class="form-group w-1/4">
                 <input-form
@@ -335,13 +334,6 @@
                 </div>
               </ValidationProvider>
               <div class="form-group">
-                <!-- <input-form
-                  label="Perkiraan Tiba"
-                  type="datetime-local"
-                  name="perkiraan_tiba"
-                  v-model="parameters.form.perkiraan_tiba"
-                  :required="false"
-                /> -->
                 <label for="">Perkiraan Tiba</label>
                 <input
                   type="datetime-local"
@@ -380,14 +372,256 @@
                 />
               </div>
             </div>
+          </div>
+          <div class="my-5 text-xl font-bold uppercase">
+            <h1>ASN Detail</h1>
+          </div>
+          <div
+            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
+            <div class="grid grid-cols-4 gap-2 w-full">
+              <ValidationProvider name="item" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="">Item <span class="text-danger">*</span></label>
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_item"
+                    :loading="isLoadingGetItem"
+                    :options="lookup_packing.data"
+                    :filterable="false"
+                    @search="onGetItem"
+                    :reduce="(item) => item.item_id"
+                    v-model="formAsn.item_id"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_packing.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_packing.current_page > 1"
+                        @click="onGetItem(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_packing.last_page > lookup_packing.current_page
+                        "
+                        @click="onGetItem(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="item_pelanggan" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for=""
+                    >Item Pelanggan<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_item_pelanggan"
+                    :loading="isLoadingGetPelanggan"
+                    :options="lookup_department.data"
+                    :filterable="false"
+                    @search="onGetPelanggan"
+                    :reduce="(item) => item.item_pelanggan_id"
+                    v-model="formAsn.item_pelanggan_id"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_department.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_department.current_page > 1"
+                        @click="onGetPelanggan(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_department.last_page >
+                          lookup_department.current_page
+                        "
+                        @click="onGetPelanggan(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="item_gudang" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for=""
+                    >Item Gudang<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_item_gudang"
+                    :loading="isLoadingGetItemGudang"
+                    :options="lookup_defects.data"
+                    :filterable="false"
+                    @search="onGetItemGudang"
+                    :reduce="(item) => item.item_gudang_id"
+                    v-model="formAsn.item_gudang_id"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_defects.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_defects.current_page > 1"
+                        @click="onGetItemGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_defects.last_page > lookup_defects.current_page
+                        "
+                        @click="onGetItemGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="zona_gudang">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="">Zona Gudang</label>
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_zona_gudang"
+                    :loading="isLoadingGetZonaGudang"
+                    :options="lookup_regus.data"
+                    :filterable="false"
+                    @search="onGetZonaGudang"
+                    :reduce="(item) => item.zona_gudang_id"
+                    v-model="formAsn.zona_gudang_id_plan"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_regus.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_regus.current_page > 1"
+                        @click="onGetZonaGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_regus.last_page > lookup_regus.current_page
+                        "
+                        @click="onGetZonaGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <ValidationProvider name="quantity" rules="required">
+                <div class="form-group col-12">
+                  <label for="radius"
+                    >Quantity <span class="text-danger">*</span></label
+                  >
+                  <money
+                    v-model="formAsn.quantity"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                  <!-- <div class="text-muted text-small">* Meter</div> -->
+                </div>
+              </ValidationProvider>
+              <div class="form-group">
+                <input-form
+                  label="Serial Number"
+                  type="text"
+                  name="serial_number"
+                  :required="false"
+                  v-model="formAsn.serial_number"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No Referensi"
+                  type="text"
+                  name="no_referensi"
+                  :required="false"
+                  v-model="formAsn.no_referensi"
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-4 gap-2 w-full">
+              <div class="form-group">
+                <label for="panjang">Panjang</label>
+                <money
+                  v-model="formAsn.panjang"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <!-- <div class="text-muted text-small">* Meter</div> -->
+              </div>
+              <div class="form-group">
+                <label for="lebar">Lebar</label>
+                <money
+                  v-model="formAsn.lebar"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <!-- <div class="text-muted text-small">* Meter</div> -->
+              </div>
+              <div class="form-group">
+                <label for="tinggi">Tinggi</label>
+                <money
+                  v-model="formAsn.tinggi"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <!-- <div class="text-muted text-small">* Meter</div> -->
+              </div>
+              <div class="form-group">
+                <label for="berat">Berat</label>
+                <money
+                  v-model="formAsn.berat"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <!-- <div class="text-muted text-small">* Meter</div> -->
+              </div>
+            </div>
             <div class="form-group">
-              <input-form
-                label="Serial Number"
-                type="text"
-                name="serial_number"
-                v-model="formAsn.serial_number"
-                :required="false"
-              />
+              <label for="alamat_vendor">Note</label>
+              <textarea
+                placeholder="Note"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                v-model="formAsn.note"
+              ></textarea>
             </div>
           </div>
           <modal-footer-section
@@ -486,14 +720,14 @@ export default {
           latitude: "",
 
           // asn detail
-          asn_detail: [],
+          asn_details: [],
         },
       },
       formAsn: {
         item_id: "",
-        item_pelanggan_id: "",
-        item_gudang_id: "",
-        quantitiy: "",
+        item_pelanggan_id: 1,
+        item_gudang_id: 1,
+        quantity: "",
         serial_number: "",
         panjang: "",
         lebar: "",
@@ -563,7 +797,7 @@ export default {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     addAsnDetail() {
-      this.parameters.form.asn_detail.push({ ...this.formAsn });
+      this.parameters.form.asn_details.push({ ...this.formAsn });
       this.resetFormAsn();
     },
 
@@ -571,6 +805,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
+      this.parameters.form.asn_details.push({ ...this.formAsn });
 
       let parameters = {
         ...this.parameters,
@@ -586,8 +821,7 @@ export default {
         await this.addData(parameters);
       }
 
-      this.parameters.form.asn_detail.push({ ...this.formAsn });
-      // console.log("asn detail", this.parameters.form.asn_detail);
+      console.log("form", this.parameters.form);
 
       if (this.result == true) {
         this.$toaster.success(
@@ -620,7 +854,7 @@ export default {
           device: "",
           longitude: "",
           latitude: "",
-          asn_detail: [],
+          asn_details: [],
         };
         this.$refs.formValidate.reset();
         // this.$refs.ruteProvider.reset();
@@ -912,7 +1146,125 @@ export default {
       }
     },
 
-    //Get Pelanggan
+    //Get Item Pelanggan
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPelanggan);
+
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_department.current_page = isNext
+            ? this.lookup_department.current_page + 1
+            : this.lookup_department.current_page - 1;
+        } else {
+          this.lookup_department.current_page = 1;
+        }
+
+        this.onSearchPelanggan();
+      }, 600);
+    },
+
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
+
+        await this.lookUp({
+          url: "master/item-pelanggan/get-item-pelanggan",
+          lookup: "department",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_department.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPelanggan = false;
+      }
+    },
+
+    // Get Item Gudang
+    onGetItemGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchItemGudang);
+
+      this.isStopSearchItemGudang = setTimeout(() => {
+        this.item_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_defects.current_page = isNext
+            ? this.lookup_defects.current_page + 1
+            : this.lookup_defects.current_page - 1;
+        } else {
+          this.lookup_defects.current_page = 1;
+        }
+
+        this.onSearchItemGudang();
+      }, 600);
+    },
+
+    async onSearchItemGudang() {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
+
+        await this.lookUp({
+          url: "master/item-gudang/get-item-gudang",
+          lookup: "defects",
+          query:
+            "?search=" +
+            this.item_gudang_search +
+            "&page=" +
+            this.lookup_defects.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    //Get Zona Gudang
+    onGetZonaGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchZonaGudang);
+
+      this.isStopSearchZonaGudang = setTimeout(() => {
+        this.zona_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_regus.current_page = isNext
+            ? this.lookup_regus.current_page + 1
+            : this.lookup_regus.current_page - 1;
+        } else {
+          this.lookup_regus.current_page = 1;
+        }
+
+        this.onSearchZonaGudang();
+      }, 600);
+    },
+
+    async onSearchZonaGudang() {
+      if (!this.isLoadingGetZonaGudang) {
+        this.isLoadingGetZonaGudang = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "regus",
+          query:
+            "?search=" +
+            this.zona_gudang_search +
+            "&page=" +
+            this.lookup_regus.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaGudang = false;
+      }
+    },
 
     formReset() {
       this.isEditable = false;
@@ -948,7 +1300,7 @@ export default {
         item_id: "",
         item_pelanggan_id: "",
         item_gudang_id: "",
-        quantitiy: "",
+        quantity: "",
         serial_number: "",
         panjang: "",
         lebar: "",

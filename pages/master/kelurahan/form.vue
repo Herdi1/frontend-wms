@@ -226,16 +226,52 @@
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
-                  name="koordinat"
+                  name="kode_alternatif"
                   rules="required"
                   ref="ruteProvider"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
-                      label="Koordinat"
+                      label="Kode Alternatif"
                       type="text"
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
+                      name="kode_alternatif"
+                      v-model="parameters.form.kode_alternatif"
+                      :required="true"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  name="longitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      v-model="parameters.form.longitude"
+                      :required="true"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  name="Latitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      v-model="parameters.form.latitude"
                       :required="true"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -294,7 +330,9 @@ export default {
           kecamatan_id: "",
           nama_kelurahan: "",
           kode_kelurahan: "",
-          koordinat: "",
+          kode_alternatif: "",
+          longitude: "",
+          latitude: "",
         },
       },
     };
@@ -356,7 +394,9 @@ export default {
           kecamatan_id: "",
           nama_kelurahan: "",
           kode_kelurahan: "",
-          koordinat: "",
+          kode_alternatif: "",
+          longitude: "",
+          latitude: "",
         };
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
@@ -541,7 +581,9 @@ export default {
         kecamatan_id: "",
         nama_kelurahan: "",
         kode_kelurahan: "",
-        koordinat: "",
+        kode_alternatif: "",
+        longitude: "",
+        latitude: "",
       };
     },
 

@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="bg-white rounded-md px-4 py-2 shadow-sm mb-10">
+    <div class="">
       <div class="section-body mb-4" v-if="!isLoadingPage">
         <div class="flex justify-between items-center w-full">
           <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -17,7 +17,7 @@
       </div>
       <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
         <form @submit.prevent="validate().then(() => onSubmit(invalid))">
-          <div class="modal-body mt-4">
+          <div class="modal-body my-4 bg-white rounded-md px-4 py-2 shadow-sm">
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group w-full items-center mb-5">
                 <label for="">Pelanggan Induk</label>
@@ -155,7 +155,7 @@
                 />
               </div>
             </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-2 gap-2 w-full">
               <div class="form-group">
                 <input-form
                   label="Nama Pelanggan"
@@ -174,6 +174,8 @@
                   v-model="form.alias"
                 />
               </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
                 <input-form
                   label="Email"
@@ -181,6 +183,24 @@
                   name="email"
                   :required="false"
                   v-model="form.email"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No Telpone"
+                  type="text"
+                  name="no_telp"
+                  :required="false"
+                  v-model="form.no_telp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No HP"
+                  type="text"
+                  name="no_hp"
+                  :required="false"
+                  v-model="form.no_hp"
                 />
               </div>
             </div>
@@ -401,159 +421,6 @@
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
-              <div class="form-group">
-                <input-form
-                  label="Rentang Retur Penjualan"
-                  type="number"
-                  name="rentang_retur_penjualan"
-                  :required="false"
-                  v-model="form.rentang_retur_penjualan"
-                />
-              </div>
-              <div class="form-group col-12">
-                <label for="nilai_plafon">Nilai Plafon</label>
-                <money
-                  v-model="form.nilai_plafon"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  @keydown.native="
-                    $event.key === '-' ? $event.preventDefault() : null
-                  "
-                />
-                <!-- <div class="text-muted text-small">* Meter</div> -->
-              </div>
-              <!-- <ValidationProvider name="tipe_badan_hukum" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Lokasi <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_lokasi"
-                    :loading="isLoadingGetLokasi"
-                    :options="lookup_location.data"
-                    :filterable="false"
-                    @search="onGetLokasi"
-                    :reduce="(item) => item.lokasi_id"
-                    v-model="form.lokasi_id"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_location.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_location.current_page > 1"
-                        @click="onGetLokasi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_location.last_page >
-                          lookup_location.current_page
-                        "
-                        @click="onGetLokasi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider> -->
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <div class="form-group">
-                <input-form
-                  label="Nama Pemilik"
-                  type="text"
-                  name="nama_pemilik"
-                  :required="true"
-                  v-model="form.nama_pemilik"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No Telpone"
-                  type="text"
-                  name="no_telp"
-                  :required="false"
-                  v-model="form.no_telp"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No HP"
-                  type="text"
-                  name="no_hp"
-                  :required="false"
-                  v-model="form.no_hp"
-                />
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <div class="form-group">
-                <input-form
-                  label="NIK Pemilik"
-                  type="text"
-                  name="nik_pemilik"
-                  :required="false"
-                  v-model="form.nik_pemilik"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No NPWP Pemilik"
-                  type="text"
-                  name="no_npwp_pemilik"
-                  :required="false"
-                  v-model="form.no_npwp_pemilik"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="Nomor SIUP"
-                  type="text"
-                  name="nomor_siup"
-                  :required="false"
-                  v-model="form.nomor_siup"
-                />
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
-              <div class="form-group">
-                <input-form
-                  label="Nama Contact Person"
-                  type="text"
-                  name="nama_cp"
-                  :required="false"
-                  v-model="form.nama_cp"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No Telepon Contact Person"
-                  type="text"
-                  name="telp_cp"
-                  :required="false"
-                  v-model="form.telp_cp"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No HP Contact Person"
-                  type="text"
-                  name="hp_cp"
-                  :required="false"
-                  v-model="form.hp_cp"
-                />
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
               <ValidationProvider
                 name="longitude"
                 rules="required"
@@ -601,29 +468,430 @@
                 </div>
               </ValidationProvider>
             </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
-                <label for="alamat_pelanggan"
-                  >Alamat Pelanggan <span class="text-danger">*</span></label
-                >
-                <textarea
-                  placeholder="Alamat Pelanggan"
-                  required
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="form.alamat_pelanggan"
-                ></textarea>
+                <input-form
+                  label="Nomor SIUP"
+                  type="text"
+                  name="nomor_siup"
+                  :required="false"
+                  v-model="form.nomor_siup"
+                />
               </div>
               <div class="form-group">
-                <label for="alamat_pemilik"
-                  >Alamat Pemilik <span class="text-danger">*</span></label
-                >
-                <textarea
-                  placeholder="Alamat Pemilik"
-                  required
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="form.alamat_pemilik"
-                ></textarea>
+                <input-form
+                  label="Rentang Retur Penjualan"
+                  type="number"
+                  name="rentang_retur_penjualan"
+                  :required="false"
+                  v-model="form.rentang_retur_penjualan"
+                />
               </div>
+              <div class="form-group col-12">
+                <label for="nilai_plafon">Nilai Plafon</label>
+                <money
+                  v-model="form.nilai_plafon"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <!-- <div class="text-muted text-small">* Meter</div> -->
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Nama Contact Person"
+                  type="text"
+                  name="nama_cp"
+                  :required="false"
+                  v-model="form.nama_cp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No Telepon Contact Person"
+                  type="text"
+                  name="telp_cp"
+                  :required="false"
+                  v-model="form.telp_cp"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No HP Contact Person"
+                  type="text"
+                  name="hp_cp"
+                  :required="false"
+                  v-model="form.hp_cp"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="alamat_pelanggan"
+                >Alamat Pelanggan <span class="text-danger">*</span></label
+              >
+              <textarea
+                placeholder="Alamat Pelanggan"
+                required
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                v-model="form.alamat_pelanggan"
+              ></textarea>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+              Edit Data Pemilik
+            </h1>
+            <h1 v-else class="text-xl font-bold mb-2 uppercase">
+              Tambah Data Pemilik
+            </h1>
+          </div>
+          <div class="my-4 bg-white rounded-md px-4 py-2 shadow-sm">
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <div class="form-group">
+                <input-form
+                  label="Nama Pemilik"
+                  type="text"
+                  name="nama_pemilik"
+                  :required="true"
+                  v-model="form.nama_pemilik"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="NIK Pemilik"
+                  type="text"
+                  name="nik_pemilik"
+                  :required="false"
+                  v-model="form.nik_pemilik"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
+                  label="No NPWP Pemilik"
+                  type="text"
+                  name="no_npwp_pemilik"
+                  :required="false"
+                  v-model="form.no_npwp_pemilik"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="alamat_pemilik"
+                >Alamat Pemilik <span class="text-danger">*</span></label
+              >
+              <textarea
+                placeholder="Alamat Pemilik"
+                required
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                v-model="form.alamat_pemilik"
+              ></textarea>
+            </div>
+          </div>
+          <div
+            class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-4"
+          >
+            <!-- <div class="card-title">
+        <list-option-section :self="this" ref="form-option" />
+      </div> -->
+            <div class="w-full mt-3 mb-7">
+              <div
+                class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+              >
+                <div class="grid grid-flow-col grid-rows-3 gap-2">
+                  <div class="flex w-[400px]">
+                    <label class="w-[40%]" for="kategori_item_id_1"
+                      >Kategori Item Level 1</label
+                    >
+                    <v-select
+                      label="nama_kategori_item"
+                      :loading="isLoadingGetKategoriItem1"
+                      :options="lookup_products.data"
+                      :filterable="false"
+                      @search="onGetKategoriItem1"
+                      v-model="filter_params.kategori_item_id_1"
+                      :reduce="(item) => item.kategori_item_id"
+                      class="w-[60%]"
+                      @input="onSearchKategoriItem1"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_products.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_products.current_page > 1"
+                          @click="onGetKategoriItem1(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_products.last_page >
+                            lookup_products.current_page
+                          "
+                          @click="onGetKategoriItem1(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="flex">
+                    <label class="w-[40%]" for="kategori_item_id_2"
+                      >Kategori Item Level 2</label
+                    >
+                    <v-select
+                      label="nama_kategori_item"
+                      :loading="isLoadingGetKategoriItem2"
+                      :options="lookup_packing.data"
+                      :filterable="false"
+                      @search="onGetKategoriItem2"
+                      v-model="filter_params.kategori_item_id_2"
+                      :reduce="(item) => item.kategori_item_id"
+                      class="w-[60%]"
+                      @input="onSearchKategoriItem2"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_packing.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_packing.current_page > 1"
+                          @click="onGetKategoriItem2(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_packing.last_page >
+                            lookup_packing.current_page
+                          "
+                          @click="onGetKategoriItem2(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="flex">
+                    <label class="w-[40%]" for="kategori_item_id_3"
+                      >Kategori Item Level 3</label
+                    >
+                    <v-select
+                      label="nama_kategori_item"
+                      :loading="isLoadingGetKategoriItem3"
+                      :options="lookup_defects.data"
+                      :filterable="false"
+                      @search="onGetKategoriItem3"
+                      v-model="filter_params.kategori_item_id_3"
+                      :reduce="(item) => item.kategori_item_id"
+                      class="w-[60%]"
+                      @input="onSearchKategoriItem3"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_defects.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_defects.current_page > 1"
+                          @click="onGetKategoriItem3(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_defects.last_page >
+                            lookup_defects.current_page
+                          "
+                          @click="onGetKategoriItem3(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="flex w-[400px]">
+                    <label class="w-[40%]" for="kategori_item_id_4"
+                      >Kategori Item Level 4</label
+                    >
+                    <v-select
+                      label="nama_kategori_item"
+                      :loading="isLoadingGetKategoriItem4"
+                      :options="lookup_customers.data"
+                      :filterable="false"
+                      @search="onGetKategoriItem4"
+                      v-model="filter_params.kategori_item_id_4"
+                      :reduce="(item) => item.kategori_item_id"
+                      class="w-[60%]"
+                      @input="onSearchKategoriItem4"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_customers.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_customers.current_page > 1"
+                          @click="onGetKategoriItem4(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_customers.last_page >
+                            lookup_customers.current_page
+                          "
+                          @click="onGetKategoriItem4(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="flex">
+                    <label class="w-[40%]" for="kategori_item_id_5"
+                      >Kategori Item Level 5</label
+                    >
+                    <v-select
+                      label="nama_kategori_item"
+                      :loading="isLoadingGetKategoriItem5"
+                      :options="lookup_parents.data"
+                      :filterable="false"
+                      @search="onGetKategoriItem5"
+                      v-model="filter_params.kategori_item_id_5"
+                      :reduce="(item) => item.kategori_item_id"
+                      class="w-[60%]"
+                      @input="onSearchKategoriItem5"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_parents.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_parents.current_page > 1"
+                          @click="onGetKategoriItem4(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_parents.last_page >
+                            lookup_parents.current_page
+                          "
+                          @click="onGetKategoriItem5(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </div>
+                <div class="flex gap-3 ml-5 items-self-end">
+                  <button
+                    @click="onLoad"
+                    class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+                  >
+                    <i class="fa fa-filter text-white font-bold mr-2"></i>
+                    Filter
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table ref="">
+                <thead>
+                  <tr class="uppercase">
+                    <th class="w-[5%] text-center">Details</th>
+                    <th class="w-[5%] text-center">Delete</th>
+                    <th class="w-[5%]">No</th>
+                    <th>Kode Item</th>
+                    <th>Referensi SAP</th>
+                    <th
+                      @click="
+                        onSort(
+                          'nama_item',
+                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                        )
+                      "
+                      class="cursor-pinter"
+                    >
+                      <div class="flex justify-between items-baseline">
+                        <div>Nama Item</div>
+                        <div>
+                          <i
+                            class="fas fa-caret-up"
+                            :class="
+                              parameters.params.order == 'nama_item' &&
+                              parameters.params.sort == 'asc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                          <i
+                            class="fas fa-caret-down"
+                            :class="
+                              parameters.params.order == 'nama_item' &&
+                              parameters.params.sort == 'desc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                        </div>
+                      </div>
+                    </th>
+                    <th>Satuan</th>
+                    <th>Berat</th>
+                    <th>Volume</th>
+                    <th>Group Item</th>
+                  </tr>
+                </thead>
+                <tbody v-if="lookup_products.data.length > 0">
+                  <tr v-for="item in lookup_products.data" :key="item.item_id">
+                    <td>
+                      <small-detail-button @click="onDetail(item)" />
+                    </td>
+                    <td>
+                      <small-delete-button
+                        @click="onTrashed(item)"
+                        v-if="!item.deleted_at"
+                      />
+                    </td>
+                    <td>
+                      {{
+                        (parameters.params.page - 1) *
+                          parameters.params.per_page +
+                        i +
+                        1
+                      }}
+                    </td>
+                    <td>{{ item.kode_wms }}</td>
+                    <td></td>
+                    <td>{{ item.nama_item }}</td>
+                    <td>{{ item.satuan.nama_satuan }}</td>
+                    <td>
+                      {{ item.berat + " " + item.satuan_berat.nama_satuan }}
+                    </td>
+                    <td>
+                      {{ item.volume + " " + item.satuan_volume.nama_satuan }}
+                    </td>
+                    <td>{{ item.group_item_1.nama_group_item }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="w-full flex justify-start">
@@ -635,299 +903,6 @@
           </div>
         </form>
       </ValidationObserver>
-    </div>
-
-    <div
-      class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-    >
-      <!-- <div class="card-title">
-        <list-option-section :self="this" ref="form-option" />
-      </div> -->
-      <div class="w-full mt-3 mb-7">
-        <div
-          class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
-        >
-          <div class="grid grid-flow-col grid-rows-3 gap-2">
-            <div class="flex w-[400px]">
-              <label class="w-[40%]" for="kategori_item_id_1"
-                >Kategori Item Level 1</label
-              >
-              <v-select
-                label="nama_kategori_item"
-                :loading="isLoadingGetKategoriItem1"
-                :options="lookup_products.data"
-                :filterable="false"
-                @search="onGetKategoriItem1"
-                v-model="filter_params.kategori_item_id_1"
-                :reduce="(item) => item.kategori_item_id"
-                class="w-[60%]"
-                @input="onSearchKategoriItem1"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_products.data.length || search"
-                >
-                  <span
-                    v-if="lookup_products.current_page > 1"
-                    @click="onGetKategoriItem1(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_products.last_page > lookup_products.current_page
-                    "
-                    @click="onGetKategoriItem1(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex">
-              <label class="w-[40%]" for="kategori_item_id_2"
-                >Kategori Item Level 2</label
-              >
-              <v-select
-                label="nama_kategori_item"
-                :loading="isLoadingGetKategoriItem2"
-                :options="lookup_packing.data"
-                :filterable="false"
-                @search="onGetKategoriItem2"
-                v-model="filter_params.kategori_item_id_2"
-                :reduce="(item) => item.kategori_item_id"
-                class="w-[60%]"
-                @input="onSearchKategoriItem2"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_packing.data.length || search"
-                >
-                  <span
-                    v-if="lookup_packing.current_page > 1"
-                    @click="onGetKategoriItem2(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_packing.last_page > lookup_packing.current_page
-                    "
-                    @click="onGetKategoriItem2(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex">
-              <label class="w-[40%]" for="kategori_item_id_3"
-                >Kategori Item Level 3</label
-              >
-              <v-select
-                label="nama_kategori_item"
-                :loading="isLoadingGetKategoriItem3"
-                :options="lookup_defects.data"
-                :filterable="false"
-                @search="onGetKategoriItem3"
-                v-model="filter_params.kategori_item_id_3"
-                :reduce="(item) => item.kategori_item_id"
-                class="w-[60%]"
-                @input="onSearchKategoriItem3"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_defects.data.length || search"
-                >
-                  <span
-                    v-if="lookup_defects.current_page > 1"
-                    @click="onGetKategoriItem3(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_defects.last_page > lookup_defects.current_page
-                    "
-                    @click="onGetKategoriItem3(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex w-[400px]">
-              <label class="w-[40%]" for="kategori_item_id_4"
-                >Kategori Item Level 4</label
-              >
-              <v-select
-                label="nama_kategori_item"
-                :loading="isLoadingGetKategoriItem4"
-                :options="lookup_customers.data"
-                :filterable="false"
-                @search="onGetKategoriItem4"
-                v-model="filter_params.kategori_item_id_4"
-                :reduce="(item) => item.kategori_item_id"
-                class="w-[60%]"
-                @input="onSearchKategoriItem4"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_customers.data.length || search"
-                >
-                  <span
-                    v-if="lookup_customers.current_page > 1"
-                    @click="onGetKategoriItem4(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_customers.last_page > lookup_customers.current_page
-                    "
-                    @click="onGetKategoriItem4(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex">
-              <label class="w-[40%]" for="kategori_item_id_5"
-                >Kategori Item Level 5</label
-              >
-              <v-select
-                label="nama_kategori_item"
-                :loading="isLoadingGetKategoriItem5"
-                :options="lookup_parents.data"
-                :filterable="false"
-                @search="onGetKategoriItem5"
-                v-model="filter_params.kategori_item_id_5"
-                :reduce="(item) => item.kategori_item_id"
-                class="w-[60%]"
-                @input="onSearchKategoriItem5"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_parents.data.length || search"
-                >
-                  <span
-                    v-if="lookup_parents.current_page > 1"
-                    @click="onGetKategoriItem4(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_parents.last_page > lookup_parents.current_page
-                    "
-                    @click="onGetKategoriItem5(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-          </div>
-          <div class="flex gap-3 ml-5 items-self-end">
-            <button
-              @click="onLoad"
-              class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
-            >
-              <i class="fa fa-filter text-white font-bold mr-2"></i>
-              Filter
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table ref="">
-          <thead>
-            <tr class="uppercase">
-              <th class="w-[5%] text-center">Details</th>
-              <th class="w-[5%] text-center">Delete</th>
-              <th class="w-[5%]">No</th>
-              <th>Kode Item</th>
-              <th>Referensi SAP</th>
-              <th
-                @click="
-                  onSort(
-                    'nama_item',
-                    parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                  )
-                "
-                class="cursor-pinter"
-              >
-                <div class="flex justify-between items-baseline">
-                  <div>Nama Item</div>
-                  <div>
-                    <i
-                      class="fas fa-caret-up"
-                      :class="
-                        parameters.params.order == 'nama_item' &&
-                        parameters.params.sort == 'asc'
-                          ? ''
-                          : 'light-gray'
-                      "
-                    ></i>
-                    <i
-                      class="fas fa-caret-down"
-                      :class="
-                        parameters.params.order == 'nama_item' &&
-                        parameters.params.sort == 'desc'
-                          ? ''
-                          : 'light-gray'
-                      "
-                    ></i>
-                  </div>
-                </div>
-              </th>
-              <th>Satuan</th>
-              <th>Berat</th>
-              <th>Volume</th>
-              <th>Group Item</th>
-            </tr>
-          </thead>
-          <tbody v-if="lookup_products.data.length > 0">
-            <tr v-for="item in lookup_products.data" :key="item.item_id">
-              <td>
-                <small-detail-button @click="onDetail(item)" />
-              </td>
-              <td>
-                <small-delete-button
-                  @click="onTrashed(item)"
-                  v-if="!item.deleted_at"
-                />
-              </td>
-              <td>
-                {{
-                  (parameters.params.page - 1) * parameters.params.per_page +
-                  i +
-                  1
-                }}
-              </td>
-              <td>{{ item.kode_wms }}</td>
-              <td></td>
-              <td>{{ item.nama_item }}</td>
-              <td>{{ item.satuan.nama_satuan }}</td>
-              <td>{{ item.berat + " " + item.satuan_berat.nama_satuan }}</td>
-              <td>{{ item.volume + " " + item.satuan_volume.nama_satuan }}</td>
-              <td>{{ item.group_item_1.nama_group_item }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </section>
 </template>

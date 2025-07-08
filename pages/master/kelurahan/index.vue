@@ -32,7 +32,7 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -68,7 +68,9 @@
                     </div>
                   </th>
                   <th>Kode Kelurahan</th>
-                  <th>Koordinat</th>
+                  <th>Kode Alternatif</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
                   <th>Kecamatan</th>
                   <th>Kota</th>
                   <th>Provinsi</th>
@@ -89,7 +91,9 @@
                   </td>
                   <td>{{ item.nama_kelurahan }}</td>
                   <td>{{ item.kode_kelurahan }}</td>
-                  <td>{{ item.koordinat }}</td>
+                  <td>{{ item.kode_alternatif }}</td>
+                  <td>{{ item.longitude }}</td>
+                  <td>{{ item.latitude }}</td>
                   <td>
                     {{
                       item.kecamatan
@@ -234,9 +238,11 @@ export default {
           provinsi_id: "",
           kota_id: "",
           kecamatan_id: "",
-          koodinat: "",
+          longitude: "",
+          latitude: "",
           nama_kelurahan: "",
           kode_kelurahan: "",
+          kode_alternatif: "",
         },
         loadings: {
           isDelete: false,
@@ -289,9 +295,11 @@ export default {
         provinsi_id: "",
         kota_id: "",
         kecamatan_id: "",
-        koodinat: "",
+        longitude: "",
+        latitude: "",
         nama_kelurahan: "",
         kode_kelurahan: "",
+        kode_alternatif: "",
       };
       this.$refs.formInput.isEditable = false;
       this.$nextTick(() => {
