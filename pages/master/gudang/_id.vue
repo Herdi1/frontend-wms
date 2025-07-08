@@ -661,7 +661,7 @@
                     </div>
                   </div>
 
-                  <div class="grid grid-cols-2 gap-3">
+                  <div class="grid grid-cols-2 gap-2">
                     <div class="form-group">
                       <label for="status_sewa"
                         >Status Sewa<span class="text-danger">*</span></label
@@ -1042,6 +1042,55 @@
                               lookup_regus.last_page > lookup_regus.current_page
                             "
                             @click="onGetKecamatan(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+                  <ValidationProvider
+                    name="kode_pos_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="kode_pos_id"
+                        >Kode Pos<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_kode_pos"
+                        :loading="isLoadingGetKodePos"
+                        :options="lookup_users.data"
+                        :filterable="false"
+                        @search="onGetKodePos"
+                        v-model="form.kode_pos_id"
+                        :reduce="(item) => item.kode_pos_id"
+                        class="w-full"
+                      >
+                        <template slot="option" slot-scope="option">
+                          {{ option.nama_kode_pos + " " + option.kode_pos }}
+                        </template>
+                        <template slot="selected-option" slot-scope="option">
+                          {{ option.nama_kode_pos + " " + option.kode_pos }}
+                        </template>
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_users.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_users.current_page > 1"
+                            @click="onGetKodePos(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_users.last_page > lookup_users.current_page
+                            "
+                            @click="onGetKodePos(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -1801,6 +1850,7 @@ export default {
         luas_gudang: "",
         satuan_id_luas: "",
         radius: "",
+        kode_pos_id: "",
         item_gudang: [],
       },
 
@@ -1871,6 +1921,10 @@ export default {
       isStopSearchSatuanLuas: false,
       isLoadingGetSatuanLuas: false,
       satuan_luas_search: "",
+
+      isStopSearchKodePos: false,
+      isLoadingGetKodePos: false,
+      kode_pos_search: "",
 
       //list item gudang
       isLoadingData: false,
@@ -1964,6 +2018,7 @@ export default {
     await this.onSearchFisikGudang();
     await this.onSearchUkuranGudang();
     await this.onSearchSatuanLuas();
+    await this.onSearchKodePos();
 
     //filter
     await this.onSearchGroupItem1();
@@ -2003,6 +2058,7 @@ export default {
       "lookup_sellers",
       "lookup_quotations",
       "lookup_customers",
+      "lookup_users",
     ]),
   },
 
@@ -2596,7 +2652,7 @@ export default {
           query:
             "?search=" +
             this.vendor_operator_search +
-            "&tipe_vendor=o" +
+            "&tipe_vendor_id=1" +
             "&page=" +
             this.lookup_department.current_page +
             "&per_page=10",
@@ -2764,6 +2820,46 @@ export default {
         });
 
         this.isLoadingGetSatuanLuas = false;
+      }
+    },
+
+    //kode pos
+    onGetKodePos(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKodePos);
+
+      this.isStopSearchKodePos = setTimeout(() => {
+        this.kode_pos_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_users.current_page = isNext
+            ? this.lookup_users.current_page + 1
+            : this.lookup_users.current_page - 1;
+        } else {
+          this.lookup_users.current_page = 1;
+        }
+
+        this.onSearchKodePos();
+      }, 600);
+    },
+
+    async onSearchKodePos() {
+      if (!this.isLoadingGetKodePos) {
+        this.isLoadingGetKodePos = true;
+
+        await this.lookUp({
+          url: "master/kode-pos/get-kode-pos",
+          lookup: "users",
+          query:
+            "?search=" +
+            this.kode_pos_search +
+            "&page=" +
+            this.lookup_users.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKodePos = false;
       }
     },
 
