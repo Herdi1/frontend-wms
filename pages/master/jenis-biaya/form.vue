@@ -61,9 +61,9 @@
                     <option
                       v-for="(itemValue, i) in lookup_custom1"
                       :key="i"
-                      :value="itemValue.value"
+                      :value="itemValue.status_jenis_biaya_id"
                     >
-                      {{ itemValue.label }}
+                      {{ itemValue.nama_status_jenis_biaya }}
                     </option>
                   </select>
                   <!-- <v-select

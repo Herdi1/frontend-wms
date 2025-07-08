@@ -35,7 +35,7 @@
                 <th>Proses</th>
                 <th>Modul</th>
                 <th>Kode Transaksi</th>
-                <th
+                <!-- <th
                   @click="
                     onSort(
                       'nama_status_transaksi',
@@ -68,7 +68,7 @@
                     </div>
                   </div>
                 </th>
-                <th>Progres</th>
+                <th>Progres</th> -->
                 <th>Keterangan Transaksi</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
@@ -92,8 +92,8 @@
                 </td>
                 <td>{{ item.modul }}</td>
                 <td>{{ item.kode_status_transaksi }}</td>
-                <td>{{ item.nama_status_transaksi }}</td>
-                <td>{{ item.progres }}</td>
+                <!-- <td>{{ item.nama_status_transaksi }}</td>
+                <td>{{ item.progres }}</td> -->
                 <td>
                   {{
                     item.keterangan_transaksi ? item.keterangan_transaksi : ""

@@ -15,6 +15,24 @@
               <div class="modal-body mt-4">
                 <ValidationProvider
                   ref="inputProvider"
+                  name="kode_satuan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Kode Satuan"
+                      type="text"
+                      name="kode_satuan"
+                      :required="true"
+                      v-model="parameters.form.kode_satuan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="nama_satuan"
                   rules="required"
                 >
@@ -42,17 +60,17 @@
                     >
                     <select
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      name="jenis_satuan"
-                      id="jenis_satuan"
-                      v-model="parameters.form.jenis_satuan"
+                      name="jenis_satuan_id"
+                      id="jenis_satuan_id"
+                      v-model="parameters.form.jenis_satuan_id"
                     >
                       <option value="">Pilih</option>
                       <option
                         v-for="(jenis_satuan, index) in lookup_custom1"
                         :key="index"
-                        :value="jenis_satuan.value"
+                        :value="jenis_satuan.jenis_satuan_id"
                       >
-                        {{ jenis_satuan.label }}
+                        {{ jenis_satuan.nama_jenis_satuan }}
                       </option>
                     </select>
                     <!-- <v-select
@@ -134,8 +152,9 @@ export default {
       parameters: {
         url: "master/satuan",
         form: {
+          kode_satuan: "",
           nama_satuan: "",
-          jenis_satuan: "",
+          jenis_satuan_id: "",
         },
       },
     };
@@ -177,8 +196,9 @@ export default {
 
         this.isEditable = false;
         this.parameters.form = {
+          kode_satuan: "",
           nama_satuan: "",
-          jenis_satuan: "",
+          jenis_satuan_id: "",
         };
 
         this.$refs.formValidate.reset();
@@ -206,8 +226,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_satuan: "",
         nama_satuan: "",
-        jenis_satuan: "",
+        jenis_satuan_id: "",
       };
     },
   },

@@ -15,14 +15,9 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div>
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -33,91 +28,79 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%]">No</th>
-                  <th>Kode Satuan</th>
-                  <th
-                    @click="
-                      onSort(
-                        'nama_satuan',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Nama Satuan</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'nama_satuan' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'nama_satuan' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    @click="
-                      onSort(
-                        'jenis_satuan',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Jenis Satuan</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'jenis_satuan' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'jenis_satuan' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_pos',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Pos</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_pos' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_pos' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'nama_kode_pos',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Nama Kode Pos</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'nama_kode_pos' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'nama_kode_pos' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
-                    {{
-                      (parameters.params.page - 1) *
-                        parameters.params.per_page +
-                      i +
-                      1
-                    }}
-                  </td>
-                  <td>{{ item.kode_satuan }}</td>
-                  <td>{{ item.nama_satuan }}</td>
-                  <td>{{ item.jenis_satuan.nama_jenis_satuan }}</td>
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -127,6 +110,16 @@
                       v-if="!item.deleted_at"
                     />
                   </td>
+                  <td>
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td>{{ item.kode_pos }}</td>
+                  <td>{{ item.nama_kode_pos }}</td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -146,24 +139,19 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Satuan",
+      title: "Kode Post",
     };
   },
 
   created() {
     this.set_data([]);
     this.onLoad();
-  },
-
-  components: {
-    FormInput,
   },
 
   mounted() {
@@ -182,7 +170,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -205,26 +193,25 @@ export default {
 
   data() {
     return {
-      title: "Satuan",
+      title: "Kode Pos",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/satuan",
+        url: "master/kode-pos",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "satuan_id",
+          order: "kode_pos_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          satuan_id: "",
-          kode_satuan: "",
-          nama_satuan: "",
-          jenis_satuan: "",
+          kode_pos_id: "",
+          kode_pos: "",
+          nama_kode_pos: "",
         },
         loadings: {
           isDelete: false,
@@ -257,7 +244,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "satuan"
+          (item) => item.rute == "kode-pos"
         );
 
         let roles = {};
@@ -287,25 +274,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_satuan: "",
-        nama_satuan: "",
-        jenis_satuan: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/kode-pos/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/kode-pos/" + item.kode_pos_id);
     },
 
     onTrashed(item) {
@@ -324,7 +297,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.satuan_id,
+              id: item.kode_pos_id,
               params: this.parameters.params,
             });
 

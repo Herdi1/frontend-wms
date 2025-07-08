@@ -25,12 +25,21 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-2 items-top w-full"
                 >
+                  <div class="form-group">
+                    <input-form
+                      label="Tanggal"
+                      type="date"
+                      name="tanggal"
+                      :required="true"
+                      v-model="form.tanggal"
+                    />
+                  </div>
                   <ValidationProvider
                     name="gudang_id"
                     rules="required"
                     class="w-full mt-1"
                   >
-                    <div slot-scope="{ errors, valid }">
+                    <div slot-scope="{ errors, valid }" v-if="!user.gudang_id">
                       <label for="gudang_id"
                         >Gudang <span class="text-danger">*</span></label
                       >
@@ -70,15 +79,6 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <div class="form-group">
-                    <input-form
-                      label="Tanggal"
-                      type="date"
-                      name="tanggal"
-                      :required="true"
-                      v-model="form.tanggal"
-                    />
-                  </div>
                 </div>
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-2 items-top w-full mb-5"
@@ -129,19 +129,29 @@
                     :style="form.jurnal_details.length ? '' : ''"
                   >
                     <table
-                      class="table mt-5 h-full overflow-x-auto table-fixed"
+                      class="table border-collapse border border-gray-300 mt-5 h-full overflow-x-auto table-fixed"
                     >
                       <thead>
-                        <tr class="text-base uppercase text-nowrap">
-                          <th class="w-[100px]">Kode</th>
-                          <th class="w-[200px]">COA</th>
-                          <th class="w-[200px]">Tipe</th>
-                          <th class="w-[200px]">Jumlah</th>
-                          <th class="w-[200px]">Divisi</th>
-                          <th class="w-[200px]">Jenis Biaya</th>
-                          <th class="w-[200px]">Zona Gudang</th>
-                          <th class="w-[200px]">Keterangan</th>
-                          <th class="w-10">Delete</th>
+                        <tr class="text-sm uppercase text-nowrap">
+                          <th class="w-[100px] border border-gray-300">Kode</th>
+                          <th class="w-[200px] border border-gray-300">COA</th>
+                          <th class="w-[100px] border border-gray-300">Tipe</th>
+                          <th class="w-[200px] border border-gray-300">
+                            Jumlah
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Divisi
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Jenis Biaya
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Zona Gudang
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Keterangan
+                          </th>
+                          <th class="w-20 border border-gray-300">Del</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -149,12 +159,12 @@
                           v-for="(item, index) in form.jurnal_details"
                           :key="index"
                           style="border-top: 0.5px solid lightgray"
-                          class="align-top"
+                          class="align-top mx-0"
                         >
-                          <td>
+                          <td class="border border-gray-300">
                             {{ item.coa_id ? item.coa_id.kode_coa : "-" }}
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <v-select
                               label="nama_coa"
                               :loading="isLoadingGetCoa"
@@ -188,26 +198,25 @@
                               </li>
                             </v-select>
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <select
                               class="w-full pl-2 py-1 border rounded focus:outline-none"
                               name="tipe"
                               id="tipe"
                               v-model="item.tipe"
                             >
-                              <option value="">Pilih</option>
                               <option value="DEBIT">Debit</option>
                               <option value="CREDIT">Kredit</option>
                             </select>
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <input
                               required
                               v-model="item.jumlah"
                               class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                             />
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <v-select
                               label="nama_divisi"
                               :loading="isLoadingGetDivisi"
@@ -242,7 +251,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <v-select
                               label="nama_jenis_biaya"
                               :loading="isLoadingGetJenisBiaya"
@@ -277,7 +286,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <v-select
                               label="nama_zona_gudang"
                               :loading="isLoadingGetZonaGudang"
@@ -312,7 +321,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <td>
+                          <td class="border border-gray-300">
                             <textarea
                               name="keterangan"
                               v-model="item.keterangan"
@@ -333,7 +342,9 @@
                               class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                             ></textarea>
                           </td> -->
-                          <td class="text-center text-gray-600">
+                          <td
+                            class="text-center text-gray-600 border border-gray-300"
+                          >
                             <i
                               class="fas fa-trash mx-auto"
                               style="cursor: pointer"
@@ -341,12 +352,18 @@
                             ></i>
                           </td>
                         </tr>
-                        <tr v-if="!form.jurnal_details.length > 0">
-                          <td colspan="9" class="justify-center">
-                            <p class="mx-auto">Data tidak ditemukan</p>
-                          </td>
-                        </tr>
                       </tbody>
+                      <tr v-if="!form.jurnal_details.length > 0">
+                        <td colspan="100" class="text-center">
+                          <span class="flex justify-center">
+                            <img
+                              src="/img/data-not-found.svg"
+                              style="height: 250px; object-fit: cover"
+                            />
+                          </span>
+                          <div class="mt-3">Data Tidak Ditemukan</div>
+                        </td>
+                      </tr>
                     </table>
                   </div>
                   <div class="w-full grid grid-cols-2 my-7 items-center">
@@ -453,6 +470,8 @@ export default {
       isStopSearchZonaGudang: false,
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
+
+      user: this.$auth.user,
     };
   },
 
@@ -526,12 +545,15 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     onSubmit(isInvalid) {
-      console.log(this.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
 
       let url = "finance/jurnal_manual";
+
+      if (this.user.gudang_id) {
+        this.form.gudang_id = this.user.gudang_id;
+      }
 
       let formData = {
         ...this.form,
