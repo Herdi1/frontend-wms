@@ -68,7 +68,8 @@
                     </div>
                   </th>
                   <th>Kode Kota</th>
-                  <th>Koordinat</th>
+                  <th>Longitude</th>
+                  <th>Latitude</th>
                   <th>Provinsi</th>
                   <th>Negara</th>
                   <th class="w-[5%] text-center">Edit</th>
@@ -87,7 +88,8 @@
                   </td>
                   <td>{{ item.nama_kota }}</td>
                   <td>{{ item.kode_kota ? item.kode_kota : "-" }}</td>
-                  <td>{{ item.koordinat }}</td>
+                  <td>{{ item.longitude }}</td>
+                  <td>{{ item.latitude }}</td>
                   <td>
                     {{
                       item.provinsi
@@ -219,7 +221,8 @@ export default {
         form: {
           negara_id: "",
           provinsi_id: "",
-          koodinat: "",
+          longitude: "",
+          latitude: "",
           nama_kota: "",
           kode_kota: "",
         },
@@ -272,7 +275,8 @@ export default {
       this.$refs.formInput.parameters.form = {
         negara_id: "",
         provinsi_id: "",
-        koodinat: "",
+        longitude: "",
+        latitude: "",
         nama_kota: "",
         kode_kota: "",
       };

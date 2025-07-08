@@ -185,19 +185,38 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
-                  name="koordinat"
+                  name="longitude"
                   rules="required"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
-                    <label>Koordinat <span class="text-danger">*</span></label>
-                    <textarea
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
-                      :class="
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      :required="true"
+                      v-model="parameters.form.longitude"
+                      :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
-                      class="w-full border border-gray-300 rounded-md bg-white outline-none active:outline-none"
-                    ></textarea>
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
+                  name="latitude"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      :required="true"
+                      v-model="parameters.form.latitude"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
                   </div>
                 </ValidationProvider>
               </div>
@@ -242,7 +261,8 @@ export default {
         url: "master/kecamatan",
         form: {
           nama_kecamatan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
           kota_id: "",
           provinsi_id: "",
           negara_id: "",
@@ -303,7 +323,8 @@ export default {
           provinsi_id: "",
           negara_id: "",
           nama_kecamatan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         };
 
         this.$refs.formValidate.reset();
@@ -458,7 +479,8 @@ export default {
         provinsi_id: "",
         negara_id: "",
         nama_kecamatan: "",
-        koordinat: "",
+        longitude: "",
+        latitude: "",
       };
     },
 

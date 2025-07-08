@@ -67,7 +67,8 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[17%]">Koordinat</th>
+                  <th class="w-[17%]">Longitude</th>
+                  <th class="w-[17%]">Latitude</th>
                   <th class="w-[17%]">Kota</th>
                   <th class="w-[17%]">Provinsi</th>
                   <th class="w-[17%]">Negara</th>
@@ -86,7 +87,8 @@
                     }}
                   </td>
                   <td>{{ item.nama_kecamatan }}</td>
-                  <td>{{ item.koordinat }}</td>
+                  <td>{{ item.logitude }}</td>
+                  <td>{{ item.latitude }}</td>
                   <td>
                     {{ item.kota ? item.kota.nama_kota : "Tidak Ditemukan" }}
                   </td>
@@ -209,7 +211,8 @@ export default {
           provinsi_id: "",
           negara_id: "",
           nama_kecamatan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
           ibukota: "",
           checkboxs: [],
         },
@@ -279,7 +282,8 @@ export default {
         provinsi_id: "",
         negara_id: "",
         nama_kecamatan: "",
-        koordinat: "",
+        longitude: "",
+        latitude: "",
         ibukota: "",
       };
       this.$refs.formInput.isEditable = false;

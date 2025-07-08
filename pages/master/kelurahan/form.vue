@@ -208,16 +208,34 @@
                   </div>
                 </ValidationProvider>
                 <ValidationProvider
-                  name="koordinat"
+                  name="longitude"
                   rules="required"
                   ref="ruteProvider"
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
-                      label="Koordinat"
+                      label="Longitude"
                       type="text"
-                      name="koordinat"
-                      v-model="parameters.form.koordinat"
+                      name="longitude"
+                      v-model="parameters.form.longitude"
+                      :required="true"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  name="Latitude"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Latitude"
+                      type="text"
+                      name="latitude"
+                      v-model="parameters.form.latitude"
                       :required="true"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -275,7 +293,8 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           nama_kelurahan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         },
       },
     };
@@ -336,7 +355,8 @@ export default {
           kota_id: "",
           kecamatan_id: "",
           nama_kelurahan: "",
-          koordinat: "",
+          longitude: "",
+          latitude: "",
         };
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
@@ -520,7 +540,8 @@ export default {
         kota_id: "",
         kecamatan_id: "",
         nama_kelurahan: "",
-        koordinat: "",
+        longitude: "",
+        latitude: "",
       };
     },
 

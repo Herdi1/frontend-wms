@@ -1,13 +1,13 @@
 <template>
-  <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-  >
+  <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data
+          Edit Data Vendor
         </h1>
-        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+        <h1 v-else class="text-xl font-bold mb-2 uppercase">
+          Tambah Data Vendor
+        </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
           Kembali
@@ -18,7 +18,9 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="modal-body mt-4">
+          <div
+            class="modal-body mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="grid grid-cols-3 gap-2 w-full">
               <!-- Kode Vendor -->
               <ValidationProvider
@@ -522,41 +524,6 @@
             </div>
 
             <div class="grid grid-cols-3 gap-2 w-full">
-              <!-- Nama Pemilik -->
-              <div class="form-group">
-                <input-form
-                  label="Nama Pemilik"
-                  type="text"
-                  name="nama_pemilik"
-                  :required="false"
-                  v-model="parameters.form.nama_pemilik"
-                />
-              </div>
-
-              <!-- NIK Pemilik -->
-              <div class="form-group">
-                <input-form
-                  label="NIK Pemilik"
-                  type="text"
-                  name="nik_pemilik"
-                  :required="false"
-                  v-model="parameters.form.nik_pemilik"
-                />
-              </div>
-
-              <!-- No NPWP Pemilik -->
-              <div class="form-group">
-                <input-form
-                  label="No NPWP Pemilik"
-                  type="text"
-                  name="no_npwp_pemilik"
-                  :required="false"
-                  v-model="parameters.form.no_npwp_pemilik"
-                />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 w-full">
               <!-- Longitude -->
               <ValidationProvider
                 name="longitude"
@@ -651,26 +618,68 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 w-full">
-              <!-- Alamat Vendor -->
+            <!-- Alamat Vendor -->
+            <div class="form-group">
+              <label for="alamat_vendor">Alamat Vendor</label>
+              <textarea
+                placeholder="Alamat Vendor"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                v-model="parameters.form.alamat_vendor"
+              ></textarea>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+              Edit Data Pemilik
+            </h1>
+            <h1 v-else class="text-xl font-bold mb-2 uppercase">
+              Tambah Data Pemilik
+            </h1>
+          </div>
+          <div
+            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <!-- Nama Pemilik -->
               <div class="form-group">
-                <label for="alamat_vendor">Alamat Vendor</label>
-                <textarea
-                  placeholder="Alamat Vendor"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.alamat_vendor"
-                ></textarea>
+                <input-form
+                  label="Nama Pemilik"
+                  type="text"
+                  name="nama_pemilik"
+                  :required="false"
+                  v-model="parameters.form.nama_pemilik"
+                />
               </div>
 
-              <!-- Alamat Pemilik -->
+              <!-- NIK Pemilik -->
               <div class="form-group">
-                <label for="alamat_pemilik">Alamat Pemilik</label>
-                <textarea
-                  placeholder="Alamat Pemilik"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.alamat_pemilik"
-                ></textarea>
+                <input-form
+                  label="NIK Pemilik"
+                  type="text"
+                  name="nik_pemilik"
+                  :required="false"
+                  v-model="parameters.form.nik_pemilik"
+                />
               </div>
+
+              <!-- No NPWP Pemilik -->
+              <div class="form-group">
+                <input-form
+                  label="No NPWP Pemilik"
+                  type="text"
+                  name="no_npwp_pemilik"
+                  :required="false"
+                  v-model="parameters.form.no_npwp_pemilik"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="alamat_pemilik">Alamat Pemilik</label>
+              <textarea
+                placeholder="Alamat Pemilik"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                v-model="parameters.form.alamat_pemilik"
+              ></textarea>
             </div>
           </div>
           <div class="flex w-full justify-start">
