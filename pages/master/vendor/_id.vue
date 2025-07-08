@@ -267,18 +267,18 @@
                   >
                   <select
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    v-model="parameters.form.tipe_vendor"
+                    v-model="parameters.form.tipe_vendor_id"
                   >
                     <option value="">Pilih Tipe</option>
                     <option
                       v-for="(itemValue, i) in lookup_sellers"
                       :key="i"
-                      :value="itemValue.value"
+                      :value="itemValue.tipe_vendor_id"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
-                      {{ itemValue.label }}
+                      {{ itemValue.nama_tipe_vendor }}
                     </option>
                   </select>
                 </div>
@@ -772,7 +772,7 @@ export default {
           nomor_siup: "",
           group: "",
           user_id_pic: "",
-          tipe_vendor: "",
+          tipe_vendor_id: "",
           longitude: "",
           latitude: "",
           radius: "",
@@ -887,7 +887,7 @@ export default {
           nomor_siup: "",
           group: "",
           user_id_pic: "",
-          tipe_vendor: "",
+          tipe_vendor_id: "",
           longitude: "",
           latitude: "",
           radius: "",
@@ -1290,7 +1290,7 @@ export default {
         nomor_siup: "",
         group: "",
         user_id_pic: "",
-        tipe_vendor: "",
+        tipe_vendor_id: "",
         longitude: "",
         latitude: "",
         radius: "",

@@ -87,7 +87,7 @@
                   />
                 </div>
               </ValidationProvider>
-              <ValidationProvider
+              <!-- <ValidationProvider
                 name="nama_status_transaksi"
                 rules="required"
                 ref="ruteProvider"
@@ -122,7 +122,7 @@
                     "
                   />
                 </div>
-              </ValidationProvider>
+              </ValidationProvider> -->
               <div class="form-group">
                 <label for="keterangan_transaksi"
                   >Keterangan Transaksi<span class="text-danger">*</span></label
