@@ -1,0 +1,942 @@
+<template>
+  <div>
+    <div class="w-full mt-3 mb-7">
+      <div
+        class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+      >
+        <div class="grid grid-flow-col grid-rows-3 gap-2">
+          <div class="flex w-[400px]">
+            <label class="w-[40%]" for="group_item_id_1"
+              >Group Item Level 1</label
+            >
+            <v-select
+              label="nama_group_item"
+              :loading="isLoadingGetGroupItem1"
+              :options="lookup_sellings.data"
+              :filterable="false"
+              @search="onGetGroupItem1"
+              v-model="filter_params.group_item_id_1"
+              :reduce="(item) => item.group_item_id"
+              class="w-[60%]"
+              @input="onSearchGroupItem2"
+            >
+              <!-- <template #search="{ attributes, events }">
+                <input
+                  class="w-full outline-none active:outline-none"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template> -->
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_sellings.data.length || search"
+              >
+                <span
+                  v-if="lookup_sellings.current_page > 1"
+                  @click="onGetGroupItem1(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="
+                    lookup_sellings.last_page > lookup_sellings.current_page
+                  "
+                  @click="onGetGroupItem1(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+
+          <div class="flex">
+            <label class="w-[40%]" for="group_item_id_2"
+              >Group Item Level 2</label
+            >
+            <v-select
+              label="nama_group_item"
+              :loading="isLoadingGetGroupItem2"
+              :options="lookup_roles.data"
+              :filterable="false"
+              @search="onGetGroupItem2"
+              v-model="filter_params.group_item_id_2"
+              :reduce="(item) => item.group_item_id"
+              class="w-[60%]"
+              @input="onSearchGroupItem3"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_roles.data.length || search"
+              >
+                <span
+                  v-if="lookup_roles.current_page > 1"
+                  @click="onGetGroupItem2(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_roles.last_page > lookup_roles.current_page"
+                  @click="onGetGroupItem2(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+
+          <div class="flex">
+            <label class="w-[40%]" for="group_item_id_3"
+              >Group Item Level 3</label
+            >
+            <v-select
+              label="nama_group_item"
+              :loading="isLoadingGetGroupItem3"
+              :options="lookup_sellers.data"
+              :filterable="false"
+              @search="onGetGroupItem3"
+              v-model="filter_params.group_item_id_3"
+              :reduce="(item) => item.group_item_id"
+              class="w-[60%]"
+              @input="onSearchGroupItem4"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_sellers.data.length || search"
+              >
+                <span
+                  v-if="lookup_sellers.current_page > 1"
+                  @click="onGetGroupItem3(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_sellers.last_page > lookup_sellers.current_page"
+                  @click="onGetGroupItem3(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+
+          <div class="flex w-[400px]">
+            <label class="w-[40%]" for="group_item_id_4"
+              >Group Item Level 4</label
+            >
+            <v-select
+              label="nama_group_item"
+              :loading="isLoadingGetGroupItem4"
+              :options="lookup_quotations.data"
+              :filterable="false"
+              @search="onGetGroupItem4"
+              v-model="filter_params.group_item_id_4"
+              :reduce="(item) => item.group_item_id"
+              class="w-[60%]"
+              @input="onSearchGroupItem5"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_quotations.data.length || search"
+              >
+                <span
+                  v-if="lookup_quotations.current_page > 1"
+                  @click="onGetGroupItem4(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="
+                    lookup_quotations.last_page > lookup_quotations.current_page
+                  "
+                  @click="onGetGroupItem4(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+
+          <div class="flex">
+            <label class="w-[40%]" for="group_item_id_5"
+              >Group Item Level 5</label
+            >
+            <v-select
+              label="nama_group_item"
+              :loading="isLoadingGetGroupItem5"
+              :options="lookup_customers.data"
+              :filterable="false"
+              @search="onGetGroupItem5"
+              v-model="filter_params.group_item_id_5"
+              :reduce="(item) => item.group_item_id"
+              class="w-[60%]"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_customers.data.length || search"
+              >
+                <span
+                  v-if="lookup_customers.current_page > 1"
+                  @click="onGetGroupItem5(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="
+                    lookup_customers.last_page > lookup_customers.current_page
+                  "
+                  @click="onGetGroupItem5(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+        </div>
+        <div class="flex gap-3 ml-5 items-self-end">
+          <button
+            type="button"
+            @click="onLoad"
+            class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+          >
+            <i class="fa fa-filter text-white font-bold mr-2"></i>
+            Filter
+          </button>
+        </div>
+        <div class="flex gap-3 ml-5 items-self-end">
+          <button
+            type="button"
+            @click="inserCheckbox"
+            class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+          >
+            <i class="fa fa-filter text-white font-bold mr-2"></i>
+            Input
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="mb-5" ref="formContainer">
+        <thead>
+          <tr class="text-base uppercase text-nowrap">
+            <th class="w-[5%] text-center">
+              <input type="checkbox" name="" id="" />
+            </th>
+            <th class="w-[5%]">No</th>
+            <th
+              @click="
+                onSort(
+                  'kode_wms',
+                  parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                )
+              "
+              class="cursor-pinter"
+            >
+              <div class="flex justify-between items-baseline">
+                <div>Kode Item</div>
+                <div>
+                  <i
+                    class="fas fa-caret-up"
+                    :class="
+                      parameters.params.order == 'kode_wms' &&
+                      parameters.params.sort == 'asc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                  <i
+                    class="fas fa-caret-down"
+                    :class="
+                      parameters.params.order == 'kode_wms' &&
+                      parameters.params.sort == 'desc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                </div>
+              </div>
+            </th>
+            <th
+              @click="
+                onSort(
+                  'nama_item',
+                  parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                )
+              "
+              class="cursor-pinter"
+            >
+              <div class="flex justify-between items-baseline">
+                <div>Nama Item</div>
+                <div>
+                  <i
+                    class="fas fa-caret-up"
+                    :class="
+                      parameters.params.order == 'nama_item' &&
+                      parameters.params.sort == 'asc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                  <i
+                    class="fas fa-caret-down"
+                    :class="
+                      parameters.params.order == 'nama_item' &&
+                      parameters.params.sort == 'desc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                </div>
+              </div>
+            </th>
+            <th
+              @click="
+                onSort(
+                  'satuan_id',
+                  parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                )
+              "
+              class="cursor-pinter"
+            >
+              <div class="flex justify-between items-baseline">
+                <div>Satuan</div>
+                <div>
+                  <i
+                    class="fas fa-caret-up"
+                    :class="
+                      parameters.params.order == 'satuan_id' &&
+                      parameters.params.sort == 'asc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                  <i
+                    class="fas fa-caret-down"
+                    :class="
+                      parameters.params.order == 'satuan_id' &&
+                      parameters.params.sort == 'desc'
+                        ? ''
+                        : 'light-gray'
+                    "
+                  ></i>
+                </div>
+              </div>
+            </th>
+            <th>Berat</th>
+            <th>Volume</th>
+            <th>Stocklevel</th>
+            <th>Group Item 1</th>
+            <th>Group Item 2</th>
+            <th>Group Item 3</th>
+            <th>Group Item 4</th>
+            <th>Group Item 5</th>
+            <th>Batas Atas</th>
+            <th>Batas Bawah</th>
+            <th>Kategori Item 1</th>
+            <th>Kategori Item 2</th>
+            <th>Kategori Item 3</th>
+            <th>Kategori Item 4</th>
+            <th>Kategori Item 5</th>
+            <th>Jumlah Palet</th>
+            <th>Kebutuhan Palet</th>
+            <th>Kapasitas Palet</th>
+            <th>Maksimal Tumpukan</th>
+            <th>Supplier</th>
+            <th class="w-[5%]">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr
+            v-for="(item, i) in form.item_gudang"
+            :key="i"
+            class="bg-blue-200"
+          >
+            <td class="text-center">
+              <input
+                type="checkbox"
+                name="checkboxs[]"
+                :value="item"
+                v-model="checkboxs"
+                id=""
+              />
+            </td>
+            <td>
+              {{
+                (parameters.params.page - 1) * parameters.params.per_page +
+                i +
+                1
+              }}
+            </td>
+            <td>{{ item.kode_wms }}</td>
+            <td>{{ item.nama_item }}</td>
+            <td>
+              {{
+                item.group_item_1
+                  ? item.group_item_1.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_2
+                  ? item.group_item_2.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_3
+                  ? item.group_item_3.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_4
+                  ? item.group_item_4.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_5
+                  ? item.group_item_5.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>{{ item.batas_atas }}</td>
+            <td>{{ item.batas_bawah }}</td>
+            <td>
+              {{
+                item.kategori_1
+                  ? item.kategori_1.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_2
+                  ? item.kategori_2.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_3
+                  ? item.kategori_3.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_4
+                  ? item.kategori_4.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_5
+                  ? item.kategori_5.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>{{ item.jumlah_palet }}</td>
+            <td>{{ item.kapasitas_palet }}</td>
+            <td>{{ item.kebutuhan_palet }}</td>
+            <td>{{ item.maksimal_tumpukan }}</td>
+            <td>
+              {{
+                item.supplier ? item.supplier.nama_supplier : "Tidak Ditemukan"
+              }}
+            </td>
+            <td class="text-center">
+              <small-detail-button @click="onDetail(item)" />
+            </td>
+          </tr> -->
+          <tr v-for="(item, i) in data" :key="i">
+            <td class="text-center">
+              <input
+                type="checkbox"
+                name="checkboxs[]"
+                :value="item"
+                v-model="checkboxs"
+                id=""
+              />
+            </td>
+            <td>
+              {{
+                (parameters.params.page - 1) * parameters.params.per_page +
+                i +
+                1
+              }}
+            </td>
+            <td>{{ item.kode_wms }}</td>
+            <td>{{ item.nama_item }}</td>
+            <td>
+              {{ item.satuan ? item.satuan.nama_satuan : "Tidak Ditemukan" }}
+            </td>
+            <td>
+              {{ item.berat + " " + item.satuan_berat.nama_satuan }}
+            </td>
+            <td>
+              {{ item.volume + " " + item.satuan_volume.nama_satuan }}
+            </td>
+            <td>
+              {{
+                item.value_stocklevel + " " + item.satuan_stocklevel.nama_satuan
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_1
+                  ? item.group_item_1.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_2
+                  ? item.group_item_2.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_3
+                  ? item.group_item_3.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_4
+                  ? item.group_item_4.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.group_item_5
+                  ? item.group_item_5.nama_group_item
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>{{ item.batas_atas }}</td>
+            <td>{{ item.batas_bawah }}</td>
+            <td>
+              {{
+                item.kategori_1
+                  ? item.kategori_1.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_2
+                  ? item.kategori_2.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_3
+                  ? item.kategori_3.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_4
+                  ? item.kategori_4.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>
+              {{
+                item.kategori_5
+                  ? item.kategori_5.nama_kategori
+                  : "Tidak Ditemukan"
+              }}
+            </td>
+            <td>{{ item.jumlah_palet }}</td>
+            <td>{{ item.kapasitas_palet }}</td>
+            <td>{{ item.kebutuhan_palet }}</td>
+            <td>{{ item.maksimal_tumpukan }}</td>
+            <td>
+              {{
+                item.supplier ? item.supplier.nama_supplier : "Tidak Ditemukan"
+              }}
+            </td>
+            <td class="text-center">
+              <small-detail-button @click="onDetail(item)" />
+            </td>
+          </tr>
+        </tbody>
+        <!-- <table-data-loading-section :self="{ data: data }" /> -->
+
+        <!-- <table-data-not-found-section :self="{ data: data }" /> -->
+      </table>
+    </div>
+
+    <div class="mx-3 mt-2 mb-4">
+      <pagination-section :self="{ isPaginate, onLoad }" ref="pagination" />
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapMutations, mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      //list item gudang
+      isLoadingData: false,
+      isPaginate: true,
+      itemData: [],
+      parameters: {
+        url: "master/item-pelanggan",
+        type: "pdf",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "item_pelanggan_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
+        },
+      },
+
+      filter_params: {
+        group_item_id_1: "",
+        group_item_id_2: "",
+        group_item_id_3: "",
+        group_item_id_4: "",
+        group_item_id_5: "",
+      },
+
+      isStopSearchGroupItem1: false,
+      isLoadingGetGroupItem1: false,
+      group_item_1_search: "",
+
+      isStopSearchGroupItem2: false,
+      isLoadingGetGroupItem2: false,
+      group_item_2_search: "",
+
+      isStopSearchGroupItem3: false,
+      isLoadingGetGroupItem3: false,
+      group_item_3_search: "",
+
+      isStopSearchGroupItem4: false,
+      isLoadingGetGroupItem4: false,
+      group_item_4_search: "",
+
+      isStopSearchGroupItem5: false,
+      isLoadingGetGroupItem5: false,
+      group_item_5_search: "",
+
+      //checkbox
+      checkboxs: [],
+    };
+  },
+
+  async mounted() {
+    await this.onSearchGroupItem1();
+    await this.onSearchGroupItem2();
+    await this.onSearchGroupItem3();
+    await this.onSearchGroupItem4();
+    await this.onSearchGroupItem5();
+  },
+
+  computed: {
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_sellings",
+      "lookup_roles",
+      "lookup_sellers",
+      "lookup_quotations",
+      "lookup_customers",
+      "lookup_users",
+    ]),
+  },
+
+  methods: {
+    ...mapActions("moduleApi", ["lookUp", "getData"]),
+    ...mapMutations("moduleApi", ["set_data"]),
+
+    onGetGroupItem1(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem1);
+
+      this.isStopSearchGroupItem1 = setTimeout(() => {
+        this.group_item_1_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_sellings.current_page = isNext
+            ? this.lookup_sellings.current_page + 1
+            : this.lookup_sellings.current_page - 1;
+        } else {
+          this.lookup_sellings.current_page = 1;
+        }
+
+        this.onSearchGroupItem1();
+      }, 600);
+    },
+
+    async onSearchGroupItem1() {
+      if (!this.isLoadingGetGroupItem1) {
+        this.isLoadingGetGroupItem1 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "sellings",
+          query:
+            "?search=" +
+            this.group_item_1_search +
+            "&status=1" +
+            "&page=" +
+            this.lookup_sellings.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem1 = false;
+      }
+    },
+
+    onGetGroupItem2(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem2);
+
+      this.isStopSearchGroupItem2 = setTimeout(() => {
+        this.group_item_2_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_roles.current_page = isNext
+            ? this.lookup_roles.current_page + 1
+            : this.lookup_roles.current_page - 1;
+        } else {
+          this.lookup_roles.current_page = 1;
+        }
+
+        this.onSearchGroupItem2();
+      }, 600);
+    },
+
+    async onSearchGroupItem2() {
+      if (!this.isLoadingGetGroupItem2) {
+        this.isLoadingGetGroupItem2 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "roles",
+          query:
+            "?search=" +
+            this.group_item_2_search +
+            "&status=2" +
+            "&page=" +
+            this.lookup_roles.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem2 = false;
+      }
+    },
+
+    onGetGroupItem3(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem3);
+
+      this.isStopSearchGroupItem3 = setTimeout(() => {
+        this.group_item_3_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_sellers.current_page = isNext
+            ? this.lookup_sellers.current_page + 1
+            : this.lookup_sellers.current_page - 1;
+        } else {
+          this.lookup_sellers.current_page = 1;
+        }
+
+        this.onSearchGroupItem3();
+      }, 600);
+    },
+
+    async onSearchGroupItem3() {
+      if (!this.isLoadingGetGroupItem3) {
+        this.isLoadingGetGroupItem3 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "sellers",
+          query:
+            "?search=" +
+            this.group_item_3_search +
+            "&status=3" +
+            "&page=" +
+            this.lookup_sellers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem3 = false;
+      }
+    },
+
+    onGetGroupItem4(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem4);
+
+      this.isStopSearchGroupItem4 = setTimeout(() => {
+        this.group_item_4_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_quotations.current_page = isNext
+            ? this.lookup_quotations.current_page + 1
+            : this.lookup_quotations.current_page - 1;
+        } else {
+          this.lookup_quotations.current_page = 1;
+        }
+
+        this.onSearchGroupItem4();
+      }, 600);
+    },
+
+    async onSearchGroupItem4() {
+      if (!this.isLoadingGetGroupItem4) {
+        this.isLoadingGetGroupItem4 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "customer_groups",
+          query:
+            "?search=" +
+            this.group_item_4_search +
+            "&status=4" +
+            "&page=" +
+            this.lookup_quotations.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem4 = false;
+      }
+    },
+
+    onGetGroupItem5(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem5);
+
+      this.isStopSearchGroupItem5 = setTimeout(() => {
+        this.group_item_5_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchGroupItem5();
+      }, 600);
+    },
+
+    async onSearchGroupItem5() {
+      if (!this.isLoadingGetGroupItem5) {
+        this.isLoadingGetGroupItem5 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.group_item_5_search +
+            "&status=5" +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem5 = false;
+      }
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = page;
+
+      // this.parameters.form.checkboxs = [];
+      // if (document.getElementById("checkAll")) {
+      //   document.getElementById("checkAll").checked = false;
+      // }
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      this.parameters.params.group_item_id_1 =
+        this.filter_params.group_item_id_1;
+      this.parameters.params.group_item_id_2 =
+        this.filter_params.group_item_id_2;
+      this.parameters.params.group_item_id_3 =
+        this.filter_params.group_item_id_3;
+      this.parameters.params.group_item_id_4 =
+        this.filter_params.group_item_id_4;
+      this.parameters.params.group_item_id_5 =
+        this.filter_params.group_item_id_5;
+
+      await this.getData(this.parameters);
+      // console.log(await this.getData(this.parameters));
+
+      if (this.result == true) {
+        loader.hide();
+
+        if (page == 1) {
+          this.$refs["pagination"].generatePage();
+        }
+
+        this.$refs["pagination"].active_page = this.parameters.params.page;
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
+      }
+
+      this.isLoadingData = false;
+    },
+
+    inserCheckbox() {
+      if (!this.form.item_gudang?.length) {
+        this.form.item_gudang = [];
+      }
+      this.checkboxs.forEach((item) => {
+        this.form.item_gudang.push(item);
+      });
+      console.log(this.form.item_gudang);
+    },
+  },
+};
+</script>

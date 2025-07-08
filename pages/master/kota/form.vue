@@ -13,6 +13,7 @@
               autocomplete="off"
             >
               <div class="modal-body mt-4">
+                <!--
                 <ValidationProvider name="id_negara" rules="required">
                   <div class="form-group w-full items-center mb-5">
                     <label for="" class="w-4/12"
@@ -53,7 +54,7 @@
                       </li>
                     </v-select>
                   </div>
-                </ValidationProvider>
+                </ValidationProvider> -->
 
                 <ValidationProvider name="id_provinsi" rules="required">
                   <div
@@ -70,11 +71,11 @@
                       :options="lookup_custom2.data"
                       :filterable="false"
                       @search="onGetProvinsi"
-                      :reduce="(item) => item.provinsi_id"
                       v-model="parameters.form.provinsi_id"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
+                      :reduce="(item) => onSelectProvinsi(item)"
                     >
                       <li
                         slot-scope="{ search }"
@@ -101,6 +102,16 @@
                     </v-select>
                   </div>
                 </ValidationProvider>
+
+                <div class="form-group">
+                  <input-form
+                    label="Negara"
+                    type="text"
+                    name="negara_id"
+                    disabled
+                    v-model="parameters.form.negara_id.nama_negara"
+                  />
+                </div>
 
                 <ValidationProvider
                   name="kode_kota"
@@ -245,7 +256,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchNegara();
+    // await this.onSearchNegara();
     await this.onSearchProvinsi();
   },
 
@@ -261,6 +272,7 @@ export default {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
+      console.log(this.parameters.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
@@ -270,6 +282,14 @@ export default {
         form: {
           ...this.parameters.form,
           id: this.parameters.form.kota_id ? this.parameters.form.kota_id : "",
+          provinsi_id:
+            typeof this.parameters.form.provinsi_id == "object"
+              ? this.parameters.form.provinsi_id.provinsi_id
+              : this.parameters.form.provinsi_id,
+          negara_id:
+            typeof this.parameters.form.negara_id == "object"
+              ? this.parameters.form.negara_id.negara_id
+              : this.parameters.form.negara_id,
         },
       };
 
@@ -285,16 +305,7 @@ export default {
           "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
-        this.isEditable = false;
-        this.parameters.form = {
-          negara_id: "",
-          provinsi_id: "",
-          nama_kota: "",
-          kode_kota: "",
-          kode_alternatif: "",
-          longitude: "",
-          latitude: "",
-        };
+        this.formReset();
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
       } else {
@@ -396,8 +407,8 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        negara_id: "",
-        provinsi_id: "",
+        negara_id: {},
+        provinsi_id: {},
         nama_kota: "",
         kode_kota: "",
         kode_alternatif: "",
@@ -406,9 +417,9 @@ export default {
       };
     },
 
-    onSelectNegara() {
-      this.parameters.form.provinsi_id = "";
-      this.onSearchProvinsi();
+    onSelectProvinsi(item) {
+      this.parameters.form.negara_id = item.negara;
+      this.parameters.form.provinsi_id = item.provinsi_id;
     },
   },
 };
