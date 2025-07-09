@@ -778,7 +778,7 @@ export default {
           query:
             "?search=" +
             this.vendor_search +
-            "&tipe_vendor=e" +
+            "&tipe_vendor_id=4" +
             "&page=" +
             this.lookup_operator.current_page +
             "&per_page=10",

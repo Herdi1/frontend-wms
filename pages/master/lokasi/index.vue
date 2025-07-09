@@ -100,7 +100,7 @@
                 </td>
                 <td>{{ item.kode_lokasi }}</td>
                 <td>{{ item.nama_lokasi }}</td>
-                <td>{{ item.kode_pos }}</td>
+                <td>{{ item.kode_pos.nama_kode_pos }}</td>
                 <td>{{ item.kecamatan.nama_kecamatan }}</td>
                 <td>{{ item.kota.nama_kota }}</td>
                 <td>{{ item.provinsi.nama_provinsi }}</td>
@@ -234,7 +234,6 @@ export default {
             kecamatan_id: "",
             kelurahan_id: "",
             kode_pos_id: "",
-            nama_pemilik: "",
             email: "",
             nilai_plafon: "",
             no_telp: "",
@@ -251,6 +250,14 @@ export default {
             radius3: "",
             alamat: "",
             alamat_lokasi: "",
+            nama_pemilik: "",
+            nik_pemilik: "",
+            npwp_pemilik: "",
+            negara_id_pemilik: "",
+            provinsi_id_pemilik: "",
+            kota_id_pemilik: "",
+            kecamatan_id_pemilik: "",
+            kelurahan_id_pemilik: "",
             alamat_pemilik: "",
           },
         },

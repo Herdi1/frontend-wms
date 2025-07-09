@@ -51,6 +51,15 @@
               </div>
               <div class="form-group">
                 <input-form
+                  label="Kode Pengemudi"
+                  type="text"
+                  name="kode_pengemudi"
+                  v-model="parameters.form.kode_pengemudi"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group">
+                <input-form
                   label="Nama Pengemudi"
                   type="text"
                   name="nama_pengemudi"
@@ -126,6 +135,7 @@ export default {
         form: {
           vendor_id_operator: "",
           nama_pengemudi: "",
+          kode_pengemudi: "",
           alamat: "",
           status_pengemudi: "",
           status_aktif: "",
@@ -175,6 +185,7 @@ export default {
         this.parameters.form = {
           vendor_id_operator: "",
           nama_pengemudi: "",
+          kode_pengemudi: "",
           alamat: "",
           status_pengemudi: "",
           status_aktif: "",
@@ -233,6 +244,7 @@ export default {
       this.parameters.form = {
         vendor_id_operator: "",
         nama_pengemudi: "",
+        kode_pengemudi: "",
         alamat: "",
         status_pengemudi: "",
         status_aktif: "",

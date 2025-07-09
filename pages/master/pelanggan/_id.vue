@@ -604,6 +604,208 @@
                 />
               </div>
             </div>
+            <div class="grid grid-cols-3 gap-2 w-full">
+              <ValidationProvider name="id_negara_pemilik" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="" class="w-4/12"
+                    >Negara Pemilik<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_negara"
+                    :loading="isLoadingGetNegaraPemilik"
+                    :options="lookup_mesin.data"
+                    :filterable="false"
+                    @search="onGetNegaraPemilik"
+                    :reduce="(item) => item.negara_id"
+                    v-model="form.negara_id_pemilik"
+                    @input="onSelectNegaraPemilik"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_mesin.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_mesin.current_page > 1"
+                        @click="onGetNegaraPemilik(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_mesin.last_page > lookup_mesin.current_page
+                        "
+                        @click="onGetNegaraPemilik(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="id_provinsi_pemilik" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="" class="w-4/12"
+                    >Provinsi Pemilik<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_provinsi"
+                    :loading="isLoadingGetProvinsiPemilik"
+                    :options="lookup_sellings.data"
+                    :filterable="false"
+                    @search="onGetProvinsiPemilik"
+                    :reduce="(item) => item.provinsi_id"
+                    v-model="form.provinsi_id_pemilik"
+                    @input="onSelectProvinsiPemilik"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_sellings.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_sellings.current_page > 1"
+                        @click="onGetProvinsiPemilik(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_sellings.last_page >
+                          lookup_sellings.current_page
+                        "
+                        @click="onGetProvinsiPemilik(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="id_kota_pemilik" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="" class="w-4/12"
+                    >Kota Pemilik<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_kota"
+                    :loading="isLoadingGetKotaPemilik"
+                    :options="lookup_resellers.data"
+                    :filterable="false"
+                    @search="onGetKotaPemilik"
+                    :reduce="(item) => item.kota_id"
+                    v-model="form.kota_id_pemilik"
+                    @input="onSelectKotaPemilik"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_resellers.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_resellers.current_page > 1"
+                        @click="onGetKotaPemilik(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_resellers.last_page >
+                          lookup_resellers.current_page
+                        "
+                        @click="onGetKotaPemilik(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+            </div>
+            <div class="grid grid-cols-2 gap-2 w-full">
+              <ValidationProvider name="id_kecamatan_pemilik" rules="required">
+                <div class="form-group w-full items-center mb-5">
+                  <label for="" class="w-4/12"
+                    >Kecamatan Pemilik<span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_kecamatan"
+                    :loading="isLoadingGetKecamatanPemilik"
+                    :options="lookup_pengawas.data"
+                    :filterable="false"
+                    @search="onGetKecamatanPemilik"
+                    :reduce="(item) => item.kecamatan_id"
+                    v-model="form.kecamatan_id_pemilik"
+                    @input="onSelectKecamatanPemilik"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_pengawas.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_pengawas.current_page > 1"
+                        @click="onGetKecamatanPemilik(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_pengawas.last_page >
+                          lookup_pengawas.current_page
+                        "
+                        @click="onGetKecamatanPemilik(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="w-4/12">Kelurahan Pemilik</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_kelurahan"
+                  :loading="isLoadingGetKelurahanPemilik"
+                  :options="lookup_operator.data"
+                  :filterable="false"
+                  @search="onGetKelurahanPemilik"
+                  :reduce="(item) => item.kelurahan_id"
+                  v-model="form.kelurahan_id_pemilik"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_operator.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_operator.current_page > 1"
+                      @click="onGetKelurahanPemilik(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_operator.last_page > lookup_regus.current_page
+                      "
+                      @click="onGetKelurahanPemilik(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
             <div class="form-group">
               <label for="alamat_pemilik"
                 >Alamat Pemilik <span class="text-danger">*</span></label
@@ -972,12 +1174,8 @@ export default {
         provinsi_id: "",
         negara_id: "",
         kode_pos_id: "",
-        nama_pemilik: "",
-        alamat_pemilik: "",
         no_telp: "",
         no_hp: "",
-        nik_pemilik: "",
-        no_npwp_pemilik: "",
         nomor_siup: "",
         nama_cp: "",
         telp_cp: "",
@@ -988,6 +1186,15 @@ export default {
         longitude: "",
         latitude: "",
         radius: "",
+        nama_pemilik: "",
+        alamat_pemilik: "",
+        nik_pemilik: "",
+        no_npwp_pemilik: "",
+        negara_id_pemilik: "",
+        provinsi_id_pemilik: "",
+        kota_id_pemilik: "",
+        kecamatan_id_pemilik: "",
+        kelurahan_id_pemilik: "",
       },
 
       isStopSearchNegara: false,
@@ -1029,6 +1236,26 @@ export default {
       isStopSearchKodePos: false,
       isLoadingGetKodePos: false,
       kodePos_search: "",
+
+      isStopSearchNegaraPemilik: false,
+      isLoadingGetNegaraPemilik: false,
+      negaraPemilik_search: "",
+
+      isStopSearchProvinsiPemilik: false,
+      isLoadingGetProvinsiPemilik: false,
+      provinsiPemilik_search: "",
+
+      isStopSearchKotaPemilik: false,
+      isLoadingGetKotaPemilik: false,
+      kotaPemilik_search: "",
+
+      isStopSearchKecamatanPemilik: false,
+      isLoadingGetKecamatanPemilik: false,
+      kecamatanPemilik_search: "",
+
+      isStopSearchKelurahanPemilik: false,
+      isLoadingGetKelurahanPemilik: false,
+      kelurahanPemilik_search: "",
 
       // item_pelanggan
       itemTitle: "Item Pelanggan",
@@ -1168,6 +1395,11 @@ export default {
     await this.onSearchKategoriItem4();
     await this.onSearchKategoriItem5();
     await this.onSearchKodePos();
+    await this.onSearchNegaraPemilik();
+    await this.onSearchProvinsiPemilik();
+    await this.onSearchKotaPemilik();
+    await this.onSearchKecamatanPemilik();
+    await this.onSearchKelurahanPemilik();
 
     await this.lookUp({
       url: "master/kategori-item/get-kategori-item",
@@ -1230,6 +1462,11 @@ export default {
       "lookup_customers", //kategori 4
       "lookup_parents", //kategori 5
       "lookup_roles", //kode_pos
+      "lookup_mesin", //negara pemilik
+      "lookup_sellings", //provinsi pemilik
+      "lookup_resellers", //kota pemilik
+      "lookup_pengawas", //kecamatan pemilik
+      "lookup_operator", //kelurahan pemilik
     ]),
     // getRoles() {
     //   if (this.user.is_superadmin == 1) {
@@ -1408,12 +1645,8 @@ export default {
           provinsi_id: "",
           negara_id: "",
           kode_pos_id: "",
-          nama_pemilik: "",
-          alamat_pemilik: "",
           no_telp: "",
           no_hp: "",
-          nik_pemilik: "",
-          no_npwp_pemilik: "",
           nomor_siup: "",
           nama_cp: "",
           telp_cp: "",
@@ -1424,6 +1657,15 @@ export default {
           longitude: "",
           latitude: "",
           radius: "",
+          nama_pemilik: "",
+          alamat_pemilik: "",
+          nik_pemilik: "",
+          no_npwp_pemilik: "",
+          negara_id_pemilik: "",
+          provinsi_id_pemilik: "",
+          kota_id_pemilik: "",
+          kecamatan_id_pemilik: "",
+          kelurahan_id_pemilik: "",
         };
         this.$refs.formValidate.reset();
         this.$refs.ruteProvider.reset();
@@ -2089,6 +2331,244 @@ export default {
       this.onSearchKelurahan();
     },
 
+    //Negara Pemilik Methods Start
+    onGetNegaraPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchNegaraPemilik);
+
+      this.isStopSearchNegaraPemilik = setTimeout(() => {
+        this.negaraPemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_mesin.current_page = isNext
+            ? this.lookup_mesin.current_page + 1
+            : this.lookup_mesin.current_page - 1;
+        } else {
+          this.lookup_mesin.current_page = 1;
+        }
+
+        this.onSearchNegaraPemilik();
+      }, 600);
+      // this.onSearchProvinsiPemilik();
+    },
+
+    async onSearchNegaraPemilik() {
+      if (!this.isLoadingGetNegaraPemilik) {
+        this.isLoadingGetNegaraPemilik = true;
+
+        await this.lookUp({
+          url: "master/negara/get-negara",
+          lookup: "mesin",
+          query:
+            "?search=" +
+            this.negaraPemilik_search +
+            "&page=" +
+            this.lookup_mesin.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetNegaraPemilik = false;
+      }
+    },
+
+    //Provinsi Pemilik Methods Start
+    onGetProvinsiPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProvinsiPemilik);
+
+      this.isStopSearchProvinsiPemilik = setTimeout(() => {
+        this.provinsiPemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_sellings.current_page = isNext
+            ? this.lookup_sellings.current_page + 1
+            : this.lookup_sellings.current_page - 1;
+        } else {
+          this.lookup_sellings.current_page = 1;
+        }
+
+        this.onSearchProvinsiPemilik();
+      }, 600);
+      this.onSearchKotaPemilik();
+    },
+
+    async onSearchProvinsiPemilik() {
+      if (!this.isLoadingGetProvinsiPemilik) {
+        this.isLoadingGetProvinsiPemilik = true;
+
+        await this.lookUp({
+          url: "master/provinsi/get-provinsi",
+          lookup: "sellings",
+          query:
+            "?search=" +
+            this.provinsiPemilik_search +
+            "&negara_id=" +
+            this.form.negara_id_pemilik +
+            "&page=" +
+            this.lookup_sellings.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProvinsiPemilik = false;
+      }
+    },
+
+    //Kota Pemilik Methods Start
+    onGetKotaPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKotaPemilik);
+
+      this.isStopSearchKotaPemilik = setTimeout(() => {
+        this.kotaPemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_resellers.current_page = isNext
+            ? this.lookup_resellers.current_page + 1
+            : this.lookup_resellers.current_page - 1;
+        } else {
+          this.lookup_resellers.current_page = 1;
+        }
+
+        this.onSearchKotaPemilik();
+      }, 600);
+      this.onSearchKecamatanPemilik();
+    },
+
+    async onSearchKotaPemilik() {
+      if (!this.isLoadingGetKotaPemilik) {
+        this.isLoadingGetKotaPemilik = true;
+
+        await this.lookUp({
+          url: "master/kota/get-kota",
+          lookup: "resellers",
+          query:
+            "?search=" +
+            this.kotaPemilik_search +
+            "&provinsi_id=" +
+            this.form.provinsi_id_pemilik +
+            "&page=" +
+            this.lookup_resellers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKotaPemilik = false;
+      }
+    },
+
+    //Kecamatan Methods Start
+    onGetKecamatanPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKecamatanPemilik);
+
+      this.isStopSearchKecamatanPemilik = setTimeout(() => {
+        this.kecamatanPemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_pengawas.current_page = isNext
+            ? this.lookup_pengawas.current_page + 1
+            : this.lookup_pengawas.current_page - 1;
+        } else {
+          this.lookup_pengawas.current_page = 1;
+        }
+
+        this.onSearchKecamatanPemilik();
+      }, 600);
+      // this.onSearchKelurahanPemilik();
+    },
+
+    async onSearchKecamatanPemilik() {
+      if (!this.isLoadingGetKecamatanPemilik) {
+        this.isLoadingGetKecamatanPemilik = true;
+
+        await this.lookUp({
+          url: "master/kecamatan/get-kecamatan",
+          lookup: "pengawas",
+          query:
+            "?search=" +
+            this.kecamatanPemilik_search +
+            "&kota_id=" +
+            this.form.kota_id_pemilik +
+            "&page=" +
+            this.lookup_pengawas.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKecamatanPemilik = false;
+      }
+    },
+
+    //Kelurahan Pemilik Methods Start
+    onGetKelurahanPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKelurahanPemilik);
+
+      this.isStopSearchKelurahanPemilik = setTimeout(() => {
+        this.kelurahanPemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_operator.current_page = isNext
+            ? this.lookup_operator.current_page + 1
+            : this.lookup_operator.current_page - 1;
+        } else {
+          this.lookup_operator.current_page = 1;
+        }
+
+        this.onSearchKelurahanPemilik();
+      }, 600);
+    },
+
+    async onSearchKelurahanPemilik() {
+      if (!this.isLoadingGetKelurahanPemilik) {
+        this.isLoadingGetKelurahanPemilik = true;
+
+        await this.lookUp({
+          url: "master/kelurahan/get-kelurahan",
+          lookup: "operator",
+          query:
+            "?search=" +
+            this.kelurahanPemilik_search +
+            "&kecamatan_id=" +
+            this.form.kecamatan_id_pemilik +
+            "&page=" +
+            this.lookup_operator.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKelurahanPemilik = false;
+      }
+    },
+
+    onSelectNegaraPemilik() {
+      this.parameters.form.provinsi_id_pemilik = "";
+      this.parameters.form.kota_id_pemilik = "";
+      this.parameters.form.kecamatan_id_pemilik = "";
+      this.parameters.form.kelurahan_id_pemilik = "";
+      this.onSearchProvinsiPemilik();
+    },
+
+    onSelectProvinsiPemilik() {
+      this.parameters.form.kota_id_pemilik = "";
+      this.parameters.form.kecamatan_id_pemilik = "";
+      this.parameters.form.kelurahan_id_pemilik = "";
+      this.onSearchKotaPemilik();
+    },
+
+    onSelectKotaPemilik() {
+      this.parameters.form.kecamatan_id_pemilik = "";
+      this.parameters.form.kelurahan_id_pemilik = "";
+      this.onSearchKecamatanPemilik();
+    },
+
+    onSelectKecamatanPemilik() {
+      this.parameters.form.kelurahan_id_pemilik = "";
+      this.onSearchKelurahanPemilik();
+    },
+
     formReset() {
       this.isEditable = false;
       this.form = {
@@ -2108,12 +2588,8 @@ export default {
         provinsi_id: "",
         negara_id: "",
         kode_pos_id: "",
-        nama_pemilik: "",
-        alamat_pemilik: "",
         no_telp: "",
         no_hp: "",
-        nik_pemilik: "",
-        no_npwp_pemilik: "",
         nomor_siup: "",
         nama_cp: "",
         telp_cp: "",
@@ -2124,6 +2600,15 @@ export default {
         longitude: "",
         latitude: "",
         radius: "",
+        nama_pemilik: "",
+        alamat_pemilik: "",
+        nik_pemilik: "",
+        no_npwp_pemilik: "",
+        negara_id_pemilik: "",
+        provinsi_id_pemilik: "",
+        kota_id_pemilik: "",
+        kecamatan_id_pemilik: "",
+        kelurahan_id_pemilik: "",
       };
     },
   },

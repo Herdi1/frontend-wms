@@ -66,6 +66,7 @@
                     </div>
                   </div>
                 </th>
+                <th>Kode Pengemudi</th>
                 <th>Alamat</th>
                 <th>Status Aktif</th>
                 <th>Status Pengemudi</th>
@@ -84,6 +85,7 @@
                 </td>
                 <td>{{ item.vendor_operator.nama_vendor }}</td>
                 <td>{{ item.nama_pengemudi }}</td>
+                <td>{{ item.kode_pengemudi }}</td>
                 <td>{{ item.alamat }}</td>
 
                 <td>
@@ -212,6 +214,7 @@ export default {
           form: {
             vendor_id_operator: "",
             nama_pengemudi: "",
+            kode_pengemudi: "",
             alamat: "",
             status_pengemudi: "",
             status_aktif: "",
@@ -269,6 +272,7 @@ export default {
       this.$refs.formInput.parameters.form = {
         vendor_id_operator: "",
         nama_pengemudi: "",
+        kode_pengemudi: "",
         alamat: "",
         status_pengemudi: "",
         status_aktif: "",

@@ -30,7 +30,7 @@
                   :required="false"
                 />
               </div>
-              <div v-if="lookup_beam.gudang_id === null" class="w-full">
+              <div v-if="!user.gudang_id" class="w-full">
                 <ValidationProvider name="gudang" rules="required">
                   <div class="form-group w-full flex justify-between">
                     <label for="" class="w-1/2"
@@ -382,34 +382,41 @@
           <div
             class="mt-4 overflow-auto bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <table>
+            <table
+              class="table border-collapse border border-gray-300 mt-5 h-full table-fixed"
+            >
               <thead>
                 <tr class="text-sm uppercase">
-                  <th class="w-80 border border-gray-300">Item</th>
-                  <th class="w-80 border border-gray-300">Item Pelanggan</th>
-                  <th class="w-80 border border-gray-300">Item Gudang</th>
-                  <th class="w-80 border border-gray-300">Zona Gudang</th>
-                  <th class="w-80 border border-gray-300">Quantity</th>
-                  <th class="w-80 border border-gray-300">Serial Number</th>
-                  <th class="w-80 border border-gray-300">Nomor Referensi</th>
-                  <th class="w-80 border border-gray-300">Panjang</th>
-                  <th class="w-80 border border-gray-300">Lebar</th>
-                  <th class="w-80 border border-gray-300">Tinggi</th>
-                  <th class="w-80 border border-gray-300">Berat</th>
-                  <th class="w-80 border border-gray-300">Note</th>
-                  <th class="w-80 border border-gray-300">Aisle Plan</th>
-                  <th class="w-80 border border-gray-300">Rack Plan</th>
-                  <th class="w-80 border border-gray-300">Level Plan</th>
-                  <th class="w-80 border border-gray-300">Bin Plan</th>
-                  <th class="w-80 border border-gray-300">Delete</th>
+                  <th class="w-20 border border-gray-300 text-center">
+                    Delete
+                  </th>
+                  <th class="w-40 border border-gray-300">Item</th>
+                  <th class="w-40 border border-gray-300">Item Pelanggan</th>
+                  <th class="w-40 border border-gray-300">Item Gudang</th>
+                  <th class="w-40 border border-gray-300">Zona Gudang</th>
+                  <th class="w-40 border border-gray-300">Quantity</th>
+                  <th class="w-40 border border-gray-300">Serial Number</th>
+                  <th class="w-40 border border-gray-300">Nomor Referensi</th>
+                  <th class="w-40 border border-gray-300">Dimensi</th>
+                  <!-- <th class="w-40 border border-gray-300">Lebar</th>
+                  <th class="w-40 border border-gray-300">Tinggi</th>
+                  <th class="w-40 border border-gray-300">Berat</th> -->
+                  <th class="w-40 border border-gray-300">Note</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   v-for="(item, index) in parameters.form.asn_details"
                   :key="index"
-                  class="border-t border-gray-400"
+                  class="border-t border-gray-400 align-top"
                 >
+                  <td class="text-center text-gray-600 border border-gray-300">
+                    <i
+                      class="fas fa-trash mx-auto"
+                      style="cursor: pointer"
+                      @click="onDeleteItem(index)"
+                    ></i>
+                  </td>
                   <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -560,7 +567,7 @@
                   </td>
                   <td class="border border-gray-300">
                     <input-form
-                      label="Serial Number"
+                      label=""
                       type="text"
                       name="serial_number"
                       :required="false"
@@ -569,7 +576,7 @@
                   </td>
                   <td class="border border-gray-300">
                     <input-form
-                      label="No Referensi"
+                      label=""
                       type="text"
                       name="no_referensi"
                       :required="false"
@@ -577,41 +584,52 @@
                     />
                   </td>
                   <td class="border border-gray-300">
-                    <money
-                      v-model="item.panjang"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
+                    <span>
+                      <label for="" class="text-[10px]">Panjang</label>
+
+                      <money
+                        v-model="item.panjang"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </span>
+                    <span>
+                      <label for="" class="text-[10px]">Lebar</label>
+
+                      <money
+                        v-model="item.lebar"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </span>
+                    <span>
+                      <label for="" class="text-[10px]">Tinggi</label>
+                      <money
+                        v-model="item.tinggi"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </span>
+                    <span>
+                      <label for="" class="text-[10px]">Berat</label>
+                      <money
+                        v-model="item.berat"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </span>
                   </td>
-                  <td class="border border-gray-300">
-                    <money
-                      v-model="item.lebar"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                  </td>
-                  <td class="border border-gray-300">
-                    <money
-                      v-model="item.tinggi"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                  </td>
-                  <td class="border border-gray-300">
-                    <money
-                      v-model="item.berat"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                  </td>
+                  <!-- <td class="border border-gray-300"></td>
+                  <td class="border border-gray-300"></td>
+                  <td class="border border-gray-300"></td> -->
                   <td class="border border-gray-300">
                     <textarea
                       placeholder="Note"
@@ -623,256 +641,17 @@
               </tbody>
               <tr v-if="!parameters.form.asn_details.length > 0">
                 <td colspan="12" class="text-center">
-                  <span class="flex justify-center">
+                  <span class="flex justify-center w-1/2">
                     <img
                       src="/img/data-not-found.svg"
                       alt="Data Tidak Ditemukan"
                       class="h-64 object-cover"
                     />
                   </span>
-                  <div class="mt-3">Data Tidak Ditemukan</div>
+                  <div class="mt-3 w-1/2">Data Tidak Ditemukan</div>
                 </td>
               </tr>
             </table>
-            <!-- <div class="grid grid-cols-4 gap-2 w-full">
-              <ValidationProvider name="item" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="">Item <span class="text-danger">*</span></label>
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_item"
-                    :loading="isLoadingGetItem"
-                    :options="lookup_packing.data"
-                    :filterable="false"
-                    @search="onGetItem"
-                    :reduce="(item) => item.item_id"
-                    v-model="formAsn.item_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_packing.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_packing.current_page > 1"
-                        @click="onGetItem(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_packing.last_page > lookup_packing.current_page
-                        "
-                        @click="onGetItem(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider name="item_pelanggan" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for=""
-                    >Item Pelanggan<span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_item_pelanggan"
-                    :loading="isLoadingGetPelanggan"
-                    :options="lookup_department.data"
-                    :filterable="false"
-                    @search="onGetPelanggan"
-                    :reduce="(item) => item.item_pelanggan_id"
-                    v-model="formAsn.item_pelanggan_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_department.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_department.current_page > 1"
-                        @click="onGetPelanggan(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_department.last_page >
-                          lookup_department.current_page
-                        "
-                        @click="onGetPelanggan(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider name="item_gudang" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for=""
-                    >Item Gudang<span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_item_gudang"
-                    :loading="isLoadingGetItemGudang"
-                    :options="lookup_defects.data"
-                    :filterable="false"
-                    @search="onGetItemGudang"
-                    :reduce="(item) => item.item_gudang_id"
-                    v-model="formAsn.item_gudang_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_defects.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_defects.current_page > 1"
-                        @click="onGetItemGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_defects.last_page > lookup_defects.current_page
-                        "
-                        @click="onGetItemGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider name="zona_gudang">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="">Zona Gudang</label>
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_zona_gudang"
-                    :loading="isLoadingGetZonaGudang"
-                    :options="lookup_regus.data"
-                    :filterable="false"
-                    @search="onGetZonaGudang"
-                    :reduce="(item) => item.zona_gudang_id"
-                    v-model="formAsn.zona_gudang_id_plan"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_regus.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_regus.current_page > 1"
-                        @click="onGetZonaGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_regus.last_page > lookup_regus.current_page
-                        "
-                        @click="onGetZonaGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-            </div> -->
-            <!-- <div class="grid grid-cols-3 gap-2 w-full">
-              <ValidationProvider name="quantity" rules="required">
-                <div class="form-group col-12">
-                  <label for="radius"
-                    >Quantity <span class="text-danger">*</span></label
-                  >
-                  <money
-                    v-model="formAsn.quantity"
-                    class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div>
-              </ValidationProvider>
-              <div class="form-group">
-                <input-form
-                  label="Serial Number"
-                  type="text"
-                  name="serial_number"
-                  :required="false"
-                  v-model="formAsn.serial_number"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="No Referensi"
-                  type="text"
-                  name="no_referensi"
-                  :required="false"
-                  v-model="formAsn.no_referensi"
-                />
-              </div>
-            </div> -->
-            <!-- <div class="grid grid-cols-4 gap-2 w-full">
-              <div class="form-group">
-                <label for="panjang">Panjang</label>
-                <money
-                  v-model="formAsn.panjang"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  @keydown.native="
-                    $event.key === '-' ? $event.preventDefault() : null
-                  "
-                />
-              </div>
-              <div class="form-group">
-                <label for="lebar">Lebar</label>
-                <money
-                  v-model="formAsn.lebar"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  @keydown.native="
-                    $event.key === '-' ? $event.preventDefault() : null
-                  "
-                />
-              </div>
-              <div class="form-group">
-                <label for="tinggi">Tinggi</label>
-                <money
-                  v-model="formAsn.tinggi"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  @keydown.native="
-                    $event.key === '-' ? $event.preventDefault() : null
-                  "
-                />
-              </div>
-              <div class="form-group">
-                <label for="berat">Berat</label>
-                <money
-                  v-model="formAsn.berat"
-                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                  @keydown.native="
-                    $event.key === '-' ? $event.preventDefault() : null
-                  "
-                />
-              </div>
-            </div> -->
-            <!-- <div class="form-group">
-              <label for="alamat_vendor">Note</label>
-              <textarea
-                placeholder="Note"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                v-model="formAsn.note"
-              ></textarea>
-            </div> -->
           </div>
           <modal-footer-section
             class="mt-5"
@@ -937,6 +716,8 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      user: this.$auth.user,
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -944,19 +725,19 @@ export default {
       parameters: {
         url: "inbound/asn",
         form: {
-          gudang_id: 1,
+          gudang_id: "",
           kode_asp: "",
           doc_type_sap: "",
           tanggal: "",
           lokasi_id_asal_muat: "",
           asal_muat: "",
-          vendor_id_transporter: 1,
+          vendor_id_transporter: "",
           nama_transporter: "",
           surat_jalan: "",
           no_referensi: "",
           no_referensi_2: "",
-          kendaraan_id: 1,
-          pengemudi_id: 1,
+          kendaraan_id: "",
+          pengemudi_id: "",
           supplier_id: "",
           perkiraan_tiba: "",
           kebutuhan_peralatan: "",
@@ -974,9 +755,9 @@ export default {
         },
       },
       formAsn: {
-        item_id: 1,
-        item_pelanggan_id: 1,
-        item_gudang_id: 1,
+        item_id: "",
+        item_pelanggan_id: "",
+        item_gudang_id: "",
         quantity: "",
         serial_number: "",
         panjang: "",
@@ -986,10 +767,6 @@ export default {
         no_referensi: "",
         note: "",
         zona_gudang_id_plan: "",
-        slot_penyimpanan_id_aisle_plan: "",
-        slot_penyimpanan_id_rack_plan: "",
-        slot_penyimpanan_id_level_plan: "",
-        slot_penyimpanan_id_bin_plan: "",
       },
     };
   },
@@ -1028,11 +805,6 @@ export default {
     await this.onSearchPelanggan();
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
-    await this.lookUp({
-      url: "me",
-      lookup: "beam",
-    });
-
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -1107,72 +879,126 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
+      let url = "inbound/asn";
       this.parameters.form.asn_details.push({ ...this.formAsn });
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.asn_id ? this.parameters.form.asn_id : "",
-        },
+      let formData = {
+        ...this.parameters.form,
       };
+
+      formData.asn_details = formData.asn_details.map((item) => {
+        return {
+          ...item,
+        };
+      });
+
+      if (this.user.gudang_id) {
+        this.parameters.form.gudang_id = this.user.gudang_id;
+      }
 
       // console.log("form", this.parameters.form);
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
+      console.log(formData);
 
-        this.isEditable = false;
-        this.parameters.form = {
-          gudang_id: "",
-          kode_asp: "",
-          doc_type_sap: "",
-          tanggal: "",
-          lokasi_id_asal_muat: "",
-          asal_muat: "",
-          vendor_id_transporter: "",
-          nama_transporter: "",
-          surat_jalan: "",
-          no_referensi: "",
-          no_referensi_2: "",
-          kendaraan_id: "",
-          pengemudi_id: "",
-          supplier_id: "",
-          perkiraan_tiba: "",
-          kebutuhan_peralatan: "",
-          handling_instruction: "",
-          catatan: "",
+      this.$axios({
+        method: this.isEditable ? "put" : "post",
+        url: url,
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Data berhasil di " +
+              (this.isEditable == true ? "Diedit" : "Tambah")
+          );
 
-          //Tracking
-          user_agent: "",
-          device: "",
-          longitude: "",
-          latitude: "",
-          asn_details: [],
-        };
-        this.$refs.formValidate.reset();
-        // this.$refs.ruteProvider.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
+          if (!this.isEditable) {
+            this.parameters.form = {
+              gudang_id: "",
+              kode_asp: "",
+              doc_type_sap: "",
+              tanggal: "",
+              lokasi_id_asal_muat: "",
+              asal_muat: "",
+              vendor_id_transporter: "",
+              nama_transporter: "",
+              surat_jalan: "",
+              no_referensi: "",
+              no_referensi_2: "",
+              kendaraan_id: "",
+              pengemudi_id: "",
+              supplier_id: "",
+              perkiraan_tiba: "",
+              kebutuhan_peralatan: "",
+              handling_instruction: "",
+              catatan: "",
 
-      this.isLoadingForm = false;
+              //Tracking
+              user_agent: "",
+              device: "",
+              longitude: "",
+              latitude: "",
+              asn_details: [],
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+      // if (this.result == true) {
+      //   this.$toaster.success(
+      //     "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
+      //   );
+
+      //   this.isEditable = false;
+      //   this.parameters.form = {
+      //     gudang_id: "",
+      //     kode_asp: "",
+      //     doc_type_sap: "",
+      //     tanggal: "",
+      //     lokasi_id_asal_muat: "",
+      //     asal_muat: "",
+      //     vendor_id_transporter: "",
+      //     nama_transporter: "",
+      //     surat_jalan: "",
+      //     no_referensi: "",
+      //     no_referensi_2: "",
+      //     kendaraan_id: "",
+      //     pengemudi_id: "",
+      //     supplier_id: "",
+      //     perkiraan_tiba: "",
+      //     kebutuhan_peralatan: "",
+      //     handling_instruction: "",
+      //     catatan: "",
+
+      //     //Tracking
+      //     user_agent: "",
+      //     device: "",
+      //     longitude: "",
+      //     latitude: "",
+      //     asn_details: [],
+      //   };
+      //   this.$refs.formValidate.reset();
+      //   // this.$refs.ruteProvider.reset();
+      //   this.$router.back();
+      // } else {
+      //   this.$globalErrorToaster(this.$toaster, this.error);
+      // }
     },
 
     AddAsnDetails() {
       this.parameters.form.asn_details.push({
-        item_id: 1,
-        item_pelanggan_id: 1,
-        item_gudang_id: 1,
+        item_id: "",
+        item_pelanggan_id: "",
+        item_gudang_id: "",
         quantity: "",
         serial_number: "",
         panjang: "",
@@ -1182,19 +1008,15 @@ export default {
         no_referensi: "",
         note: "",
         zona_gudang_id_plan: "",
-        slot_penyimpanan_id_aisle_plan: "",
-        slot_penyimpanan_id_rack_plan: "",
-        slot_penyimpanan_id_level_plan: "",
-        slot_penyimpanan_id_bin_plan: "",
       });
     },
 
-    // onDeleteItem(index) {
-    //   this.parameters.form.asn_details =
-    //     this.parameters.form.asn_details.filter(
-    //       (_, itemIndex) => index !== itemIndex
-    //     );
-    // },
+    onDeleteItem(index) {
+      this.parameters.form.asn_details =
+        this.parameters.form.asn_details.filter(
+          (_, itemIndex) => index !== itemIndex
+        );
+    },
 
     // Get Vendor
     onGetVendor(search, isNext) {
@@ -1639,10 +1461,6 @@ export default {
         no_referensi: "",
         note: "",
         zona_gudang_id_plan: "",
-        slot_penyimpanan_id_aisle_plan: "",
-        slot_penyimpanan_id_rack_plan: "",
-        slot_penyimpanan_id_level_plan: "",
-        slot_penyimpanan_id_bin_plan: "",
       };
     },
   },
