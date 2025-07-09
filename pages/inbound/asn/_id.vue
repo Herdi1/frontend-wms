@@ -366,8 +366,12 @@
               </div>
             </div>
           </div>
-          <div class="my-5 text-xl font-bold uppercase">
-            <h1>ASN Detail</h1>
+          <div
+            class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
+          >
+            <span class="w-1/2">
+              <h1>ASN Detail</h1>
+            </span>
             <div class="w-full relative flex justify-end gap-2">
               <button
                 type="button"
@@ -391,7 +395,7 @@
                     Delete
                   </th>
                   <th class="w-40 border border-gray-300">Item</th>
-                  <th class="w-40 border border-gray-300">Item Pelanggan</th>
+                  <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
                   <th class="w-40 border border-gray-300">Item Gudang</th>
                   <th class="w-40 border border-gray-300">Zona Gudang</th>
                   <th class="w-40 border border-gray-300">Quantity</th>
@@ -452,7 +456,7 @@
                       </li>
                     </v-select>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_item_pelanggan"
@@ -486,7 +490,7 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -627,9 +631,7 @@
                       />
                     </span>
                   </td>
-                  <!-- <td class="border border-gray-300"></td>
-                  <td class="border border-gray-300"></td>
-                  <td class="border border-gray-300"></td> -->
+
                   <td class="border border-gray-300">
                     <textarea
                       placeholder="Note"
@@ -641,14 +643,14 @@
               </tbody>
               <tr v-if="!parameters.form.asn_details.length > 0">
                 <td colspan="12" class="text-center">
-                  <span class="flex justify-center w-1/2">
+                  <span class="flex justify-center w-3/4">
                     <img
                       src="/img/data-not-found.svg"
                       alt="Data Tidak Ditemukan"
                       class="h-64 object-cover"
                     />
                   </span>
-                  <div class="mt-3 w-1/2">Data Tidak Ditemukan</div>
+                  <div class="mt-3 w-3/4">Data Tidak Ditemukan</div>
                 </td>
               </tr>
             </table>
@@ -704,9 +706,9 @@ export default {
       isLoadingGetItem: false,
       item_search: "",
 
-      isStopSearchPelanggan: false,
-      isLoadingGetPelanggan: false,
-      pelanggan_search: "",
+      // isStopSearchPelanggan: false,
+      // isLoadingGetPelanggan: false,
+      // pelanggan_search: "",
 
       isStopSearchItemGudang: false,
       isLoadingGetItemGudang: false,
@@ -756,7 +758,7 @@ export default {
       },
       formAsn: {
         item_id: "",
-        item_pelanggan_id: "",
+        // item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
         serial_number: "",
@@ -802,7 +804,7 @@ export default {
     await this.onSearchLokasi();
     await this.onSearchGudang();
     await this.onSearchItem();
-    await this.onSearchPelanggan();
+    // await this.onSearchPelanggan();
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
     this.getGeoLocation();
@@ -820,7 +822,7 @@ export default {
       "lookup_location", //lokasi
       "lookup_roles", //gudang
       "lookup_packing", //item
-      "lookup_department", //pelanggan
+      // "lookup_department", //pelanggan
       "lookup_defects", //item gudang
       "lookup_regus", //zona gudang
       "lookup_beam", // get superadmin / no
@@ -997,7 +999,7 @@ export default {
     AddAsnDetails() {
       this.parameters.form.asn_details.push({
         item_id: "",
-        item_pelanggan_id: "",
+        // item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
         serial_number: "",
@@ -1299,44 +1301,44 @@ export default {
     },
 
     //Get Item Pelanggan
-    onGetPelanggan(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // onGetPelanggan(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchPelanggan);
+    //   clearTimeout(this.isStopSearchPelanggan);
 
-      this.isStopSearchPelanggan = setTimeout(() => {
-        this.pelanggan_search = search;
+    //   this.isStopSearchPelanggan = setTimeout(() => {
+    //     this.pelanggan_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_department.current_page = isNext
-            ? this.lookup_department.current_page + 1
-            : this.lookup_department.current_page - 1;
-        } else {
-          this.lookup_department.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_department.current_page = isNext
+    //         ? this.lookup_department.current_page + 1
+    //         : this.lookup_department.current_page - 1;
+    //     } else {
+    //       this.lookup_department.current_page = 1;
+    //     }
 
-        this.onSearchPelanggan();
-      }, 600);
-    },
+    //     this.onSearchPelanggan();
+    //   }, 600);
+    // },
 
-    async onSearchPelanggan() {
-      if (!this.isLoadingGetPelanggan) {
-        this.isLoadingGetPelanggan = true;
+    // async onSearchPelanggan() {
+    //   if (!this.isLoadingGetPelanggan) {
+    //     this.isLoadingGetPelanggan = true;
 
-        await this.lookUp({
-          url: "master/item-pelanggan/get-item-pelanggan",
-          lookup: "department",
-          query:
-            "?search=" +
-            this.pelanggan_search +
-            "&page=" +
-            this.lookup_department.current_page +
-            "&per_page=10",
-        });
+    //     await this.lookUp({
+    //       url: "master/item-pelanggan/get-item-pelanggan",
+    //       lookup: "department",
+    //       query:
+    //         "?search=" +
+    //         this.pelanggan_search +
+    //         "&page=" +
+    //         this.lookup_department.current_page +
+    //         "&per_page=10",
+    //     });
 
-        this.isLoadingGetPelanggan = false;
-      }
-    },
+    //     this.isLoadingGetPelanggan = false;
+    //   }
+    // },
 
     // Get Item Gudang
     onGetItemGudang(search, isNext) {
@@ -1450,7 +1452,7 @@ export default {
     resetFormAsn() {
       this.formAsn = {
         item_id: "",
-        item_pelanggan_id: "",
+        // item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
         serial_number: "",
