@@ -697,11 +697,9 @@
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
-              <ValidationProvider name="id_negara_pemilik" rules="required">
+              <ValidationProvider name="id_negara_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Negara Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Negara Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_negara"
@@ -738,11 +736,9 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="id_provinsi_pemilik" rules="required">
+              <ValidationProvider name="id_provinsi_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Provinsi Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Provinsi Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_provinsi"
@@ -779,11 +775,9 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="id_kota_pemilik" rules="required">
+              <ValidationProvider name="id_kota_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Kota Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Kota Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
@@ -822,11 +816,9 @@
               </ValidationProvider>
             </div>
             <div class="grid grid-cols-2 gap-2 w-full">
-              <ValidationProvider name="id_kecamatan_pemilik" rules="required">
+              <ValidationProvider name="id_kecamatan_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Kecamatan Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Kecamatan Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kecamatan"

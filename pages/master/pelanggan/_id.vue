@@ -605,11 +605,9 @@
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
-              <ValidationProvider name="id_negara_pemilik" rules="required">
+              <ValidationProvider name="id_negara_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Negara Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Negara Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_negara"
@@ -645,11 +643,9 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="id_provinsi_pemilik" rules="required">
+              <ValidationProvider name="id_provinsi_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Provinsi Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Provinsi Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_provinsi"
@@ -686,11 +682,9 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="id_kota_pemilik" rules="required">
+              <ValidationProvider name="id_kota_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Kota Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Kota Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
@@ -729,11 +723,9 @@
               </ValidationProvider>
             </div>
             <div class="grid grid-cols-2 gap-2 w-full">
-              <ValidationProvider name="id_kecamatan_pemilik" rules="required">
+              <ValidationProvider name="id_kecamatan_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Kecamatan Pemilik<span class="text-danger">*</span></label
-                  >
+                  <label for="" class="w-4/12">Kecamatan Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kecamatan"
@@ -831,18 +823,18 @@
                 <div class="grid grid-flow-col grid-rows-3 gap-2">
                   <div class="flex w-[400px]">
                     <label class="w-[40%]" for="kategori_item_id_1"
-                      >Kategori Item Level 1</label
+                      >Group Item Level 1</label
                     >
                     <v-select
-                      label="nama_kategori_item"
-                      :loading="isLoadingGetKategoriItem1"
+                      label="nama_group_item"
+                      :loading="isLoadingGetGroupItem1"
                       :options="lookup_products.data"
                       :filterable="false"
-                      @search="onGetKategoriItem1"
-                      v-model="filter_params.kategori_item_id_1"
-                      :reduce="(item) => item.kategori_item_id"
+                      @search="onGetGroupItem1"
+                      v-model="filter_params.group_item_id_1"
+                      :reduce="(item) => item.group_item_id"
                       class="w-[60%]"
-                      @input="onSearchKategoriItem1"
+                      @input="onSearchGroupItem1"
                     >
                       <li
                         slot-scope="{ search }"
@@ -852,7 +844,7 @@
                       >
                         <span
                           v-if="lookup_products.current_page > 1"
-                          @click="onGetKategoriItem1(search, false)"
+                          @click="onGetGroupItem1(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -861,7 +853,7 @@
                             lookup_products.last_page >
                             lookup_products.current_page
                           "
-                          @click="onGetKategoriItem1(search, true)"
+                          @click="onGetGroupItem1(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -870,18 +862,18 @@
                   </div>
                   <div class="flex">
                     <label class="w-[40%]" for="kategori_item_id_2"
-                      >Kategori Item Level 2</label
+                      >Group Item Level 2</label
                     >
                     <v-select
-                      label="nama_kategori_item"
-                      :loading="isLoadingGetKategoriItem2"
+                      label="nama_group_item"
+                      :loading="isLoadingGetGroupItem2"
                       :options="lookup_packing.data"
                       :filterable="false"
-                      @search="onGetKategoriItem2"
-                      v-model="filter_params.kategori_item_id_2"
-                      :reduce="(item) => item.kategori_item_id"
+                      @search="onGetGroupItem2"
+                      v-model="filter_params.group_item_id_2"
+                      :reduce="(item) => item.group_item_id"
                       class="w-[60%]"
-                      @input="onSearchKategoriItem2"
+                      @input="onSearchGroupItem2"
                     >
                       <li
                         slot-scope="{ search }"
@@ -891,7 +883,7 @@
                       >
                         <span
                           v-if="lookup_packing.current_page > 1"
-                          @click="onGetKategoriItem2(search, false)"
+                          @click="onGetGroupItem2(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -900,7 +892,7 @@
                             lookup_packing.last_page >
                             lookup_packing.current_page
                           "
-                          @click="onGetKategoriItem2(search, true)"
+                          @click="onGetGroupItem2(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -909,18 +901,18 @@
                   </div>
                   <div class="flex">
                     <label class="w-[40%]" for="kategori_item_id_3"
-                      >Kategori Item Level 3</label
+                      >Group Item Level 3</label
                     >
                     <v-select
-                      label="nama_kategori_item"
-                      :loading="isLoadingGetKategoriItem3"
+                      label="nama_group_item"
+                      :loading="isLoadingGetGroupItem3"
                       :options="lookup_defects.data"
                       :filterable="false"
-                      @search="onGetKategoriItem3"
-                      v-model="filter_params.kategori_item_id_3"
-                      :reduce="(item) => item.kategori_item_id"
+                      @search="onGetGroupItem3"
+                      v-model="filter_params.group_item_id_3"
+                      :reduce="(item) => item.group_item_id"
                       class="w-[60%]"
-                      @input="onSearchKategoriItem3"
+                      @input="onSearchGroupItem3"
                     >
                       <li
                         slot-scope="{ search }"
@@ -930,7 +922,7 @@
                       >
                         <span
                           v-if="lookup_defects.current_page > 1"
-                          @click="onGetKategoriItem3(search, false)"
+                          @click="onGetGroupItem3(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -939,7 +931,7 @@
                             lookup_defects.last_page >
                             lookup_defects.current_page
                           "
-                          @click="onGetKategoriItem3(search, true)"
+                          @click="onGetGroupItem3(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -948,18 +940,18 @@
                   </div>
                   <div class="flex w-[400px]">
                     <label class="w-[40%]" for="kategori_item_id_4"
-                      >Kategori Item Level 4</label
+                      >Group Item Level 4</label
                     >
                     <v-select
-                      label="nama_kategori_item"
-                      :loading="isLoadingGetKategoriItem4"
+                      label="nama_group_item"
+                      :loading="isLoadingGetGroupItem4"
                       :options="lookup_customers.data"
                       :filterable="false"
-                      @search="onGetKategoriItem4"
-                      v-model="filter_params.kategori_item_id_4"
-                      :reduce="(item) => item.kategori_item_id"
+                      @search="onGetGroupItem4"
+                      v-model="filter_params.group_item_id_4"
+                      :reduce="(item) => item.group_item_id"
                       class="w-[60%]"
-                      @input="onSearchKategoriItem4"
+                      @input="onSearchGroupItem4"
                     >
                       <li
                         slot-scope="{ search }"
@@ -969,7 +961,7 @@
                       >
                         <span
                           v-if="lookup_customers.current_page > 1"
-                          @click="onGetKategoriItem4(search, false)"
+                          @click="onGetGroupItem4(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -978,7 +970,7 @@
                             lookup_customers.last_page >
                             lookup_customers.current_page
                           "
-                          @click="onGetKategoriItem4(search, true)"
+                          @click="onGetGroupItem4(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -987,18 +979,18 @@
                   </div>
                   <div class="flex">
                     <label class="w-[40%]" for="kategori_item_id_5"
-                      >Kategori Item Level 5</label
+                      >Group Item Level 5</label
                     >
                     <v-select
-                      label="nama_kategori_item"
-                      :loading="isLoadingGetKategoriItem5"
+                      label="nama_group_item"
+                      :loading="isLoadingGetGroupItem5"
                       :options="lookup_parents.data"
                       :filterable="false"
-                      @search="onGetKategoriItem5"
-                      v-model="filter_params.kategori_item_id_5"
-                      :reduce="(item) => item.kategori_item_id"
+                      @search="onGetGroupItem5"
+                      v-model="filter_params.group_item_id_5"
+                      :reduce="(item) => item.group_item_id"
                       class="w-[60%]"
-                      @input="onSearchKategoriItem5"
+                      @input="onSearchGroupItem5"
                     >
                       <li
                         slot-scope="{ search }"
@@ -1008,7 +1000,7 @@
                       >
                         <span
                           v-if="lookup_parents.current_page > 1"
-                          @click="onGetKategoriItem4(search, false)"
+                          @click="onGetGroupItem4(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
@@ -1017,7 +1009,7 @@
                             lookup_parents.last_page >
                             lookup_parents.current_page
                           "
-                          @click="onGetKategoriItem5(search, true)"
+                          @click="onGetGroupItem5(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Selanjutnya</span
                         >
@@ -1107,14 +1099,14 @@
                     <td>{{ item.kode_wms }}</td>
                     <td></td>
                     <td>{{ item.nama_item }}</td>
-                    <td>{{ item.satuan.nama_satuan }}</td>
+                    <!-- <td>{{ item.satuan.nama_satuan }}</td>
                     <td>
                       {{ item.berat + " " + item.satuan_berat.nama_satuan }}
                     </td>
                     <td>
                       {{ item.volume + " " + item.satuan_volume.nama_satuan }}
                     </td>
-                    <td>{{ item.group_item_1.nama_group_item }}</td>
+                    <td>{{ item.group_item_1.nama_group_item }}</td> -->
                   </tr>
                 </tbody>
               </table>
@@ -1274,41 +1266,41 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
-          kategori_item_id_1: "",
-          kategori_item_id_2: "",
-          kategori_item_id_3: "",
-          kategori_item_id_4: "",
-          kategori_item_id_5: "",
+          group_item_id_1: "",
+          group_item_id_2: "",
+          group_item_id_3: "",
+          group_item_id_4: "",
+          group_item_id_5: "",
         },
       },
 
       filter_params: {
-        kategori_item_id_1: "",
-        kategori_item_id_2: "",
-        kategori_item_id_3: "",
-        kategori_item_id_4: "",
-        kategori_item_id_5: "",
+        group_item_id_1: "",
+        group_item_id_2: "",
+        group_item_id_3: "",
+        group_item_id_4: "",
+        group_item_id_5: "",
       },
 
-      isStopSearchKategoriItem1: false,
-      isLoadingGetKategoriItem1: false,
-      kategori1_search: "",
+      isStopSearchGroupItem1: false,
+      isLoadingGetGroupItem1: false,
+      group1_search: "",
 
-      isStopSearchKategoriItem2: false,
-      isLoadingGetKategoriItem2: false,
-      kategori2_search: "",
+      isStopSearchGroupItem2: false,
+      isLoadingGetGroupItem2: false,
+      group2_search: "",
 
-      isStopSearchKategoriItem3: false,
-      isLoadingGetKategoriItem3: false,
-      kategori3_search: "",
+      isStopSearchGroupItem3: false,
+      isLoadingGetGroupItem3: false,
+      group3_search: "",
 
-      isStopSearchKategoriItem4: false,
-      isLoadingGetKategoriItem4: false,
-      kategori4_search: "",
+      isStopSearchGroupItem4: false,
+      isLoadingGetGroupItem4: false,
+      group4_search: "",
 
-      isStopSearchKategoriItem5: false,
-      isLoadingGetKategoriItem5: false,
-      kategori5_search: "",
+      isStopSearchGroupItem5: false,
+      isLoadingGetGroupItem5: false,
+      group5_search: "",
 
       // formItem: {
       //   item_id: "",
@@ -1389,11 +1381,11 @@ export default {
     await this.onSearchUserPIC();
     await this.onSearchLokasi();
     await this.onSearchPelangganInduk();
-    await this.onSearchKategoriItem1();
-    await this.onSearchKategoriItem2();
-    await this.onSearchKategoriItem3();
-    await this.onSearchKategoriItem4();
-    await this.onSearchKategoriItem5();
+    await this.onSearchGroupItem1();
+    await this.onSearchGroupItem2();
+    await this.onSearchGroupItem3();
+    await this.onSearchGroupItem4();
+    await this.onSearchGroupItem5();
     await this.onSearchKodePos();
     await this.onSearchNegaraPemilik();
     await this.onSearchProvinsiPemilik();
@@ -1456,11 +1448,11 @@ export default {
       "lookup_regus", //pelanggan_induk
       "lookup_location", //lokasi
       "lookup_sellers", //tipe vendor
-      "lookup_products", //kategori 1
-      "lookup_packing", //kategori 2
-      "lookup_defects", //kategori 3
-      "lookup_customers", //kategori 4
-      "lookup_parents", //kategori 5
+      "lookup_products", //group 1
+      "lookup_packing", //group 2
+      "lookup_defects", //group 3
+      "lookup_customers", //group 4
+      "lookup_parents", //group 5
       "lookup_roles", //kode_pos
       "lookup_mesin", //negara pemilik
       "lookup_sellings", //provinsi pemilik
@@ -1565,16 +1557,16 @@ export default {
         onCancel: this.onCancel,
       });
 
-      this.parameters.params.kategori_item_id_1 =
-        this.filter_params.kategori_item_id_1;
-      this.parameters.params.kategori_item_id_2 =
-        this.filter_params.kategori_item_id_2;
-      this.parameters.params.kategori_item_id_3 =
-        this.filter_params.kategori_item_id_3;
-      this.parameters.params.kategori_item_id_4 =
-        this.filter_params.kategori_item_id_4;
-      this.parameters.params.kategori_item_id_5 =
-        this.filter_params.kategori_item_id_5;
+      this.parameters.params.group_item_id_1 =
+        this.filter_params.group_item_id_1;
+      this.parameters.params.group_item_id_2 =
+        this.filter_params.group_item_id_2;
+      this.parameters.params.group_item_id_3 =
+        this.filter_params.group_item_id_3;
+      this.parameters.params.group_item_id_4 =
+        this.filter_params.group_item_id_4;
+      this.parameters.params.group_item_id_5 =
+        this.filter_params.group_item_id_5;
 
       await this.getData(this.parameters);
       this.parameters.selectedList = { ...this.parameters.filter_list };
@@ -2069,13 +2061,13 @@ export default {
     // },
 
     //Kategori Item Methods Start
-    onGetKategoriItem1(search, isNext) {
+    onGetGroupItem1(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchKategoriItem1);
+      clearTimeout(this.isStopSearchGroupItem1);
 
-      this.isStopSearchKategoriItem1 = setTimeout(() => {
-        this.kategori1_search = search;
+      this.isStopSearchGroupItem1 = setTimeout(() => {
+        this.group1_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_products.current_page = isNext
@@ -2085,36 +2077,36 @@ export default {
           this.lookup_products.current_page = 1;
         }
 
-        this.onSearchKategoriItem1();
+        this.onSearchGroupItem1();
       }, 600);
     },
 
-    async onSearchKategoriItem1() {
-      if (!this.isLoadingGetKategoriItem1) {
-        this.isLoadingGetKategoriItem1 = true;
+    async onSearchGroupItem1() {
+      if (!this.isLoadingGetGroupItem1) {
+        this.isLoadingGetGroupItem1 = true;
 
         await this.lookUp({
-          url: "master/item/get-item",
+          url: "master/group-item/get-group-item",
           lookup: "products",
           query:
             "?search=" +
-            this.kategori1_search +
+            this.group1_search +
             "&kategori_item_id=1" +
             "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",
         });
-        this.isLoadingGetKategoriItem1 = false;
+        this.isLoadingGetGroupItem1 = false;
       }
     },
 
-    onGetKategoriItem2(search, isNext) {
+    onGetGroupItem2(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchKategoriItem2);
+      clearTimeout(this.isStopSearchGroupItem2);
 
-      this.isStopSearchKategoriItem2 = setTimeout(() => {
-        this.kategori2_search = search;
+      this.isStopSearchGroupItem2 = setTimeout(() => {
+        this.group2_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_packing.current_page = isNext
@@ -2124,36 +2116,36 @@ export default {
           this.lookup_packing.current_page = 1;
         }
 
-        this.onSearchKategoriItem2();
+        this.onSearchGroupItem2();
       }, 600);
     },
 
-    async onSearchKategoriItem2() {
-      if (!this.isLoadingGetKategoriItem2) {
-        this.isLoadingGetKategoriItem2 = true;
+    async onSearchGroupItem2() {
+      if (!this.isLoadingGetGroupItem2) {
+        this.isLoadingGetGroupItem2 = true;
 
         await this.lookUp({
-          url: "master/item/get-item",
+          url: "master/group-item/get-group-item",
           lookup: "packing",
           query:
             "?search=" +
-            this.kategori2_search +
+            this.group2_search +
             "&kategori_item_id=2" +
             "&page=" +
             this.lookup_packing.current_page +
             "&per_page=10",
         });
-        this.isLoadingGetKategoriItem2 = false;
+        this.isLoadingGetGroupItem2 = false;
       }
     },
 
-    onGetKategoriItem3(search, isNext) {
+    onGetGroupItem3(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchKategoriItem3);
+      clearTimeout(this.isStopSearchGroupItem3);
 
-      this.isStopSearchKategoriItem3 = setTimeout(() => {
-        this.kategori3_search = search;
+      this.isStopSearchGroupItem3 = setTimeout(() => {
+        this.group3_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_defects.current_page = isNext
@@ -2163,36 +2155,36 @@ export default {
           this.lookup_defects.current_page = 1;
         }
 
-        this.onSearchKategoriItem3();
+        this.onSearchGroupItem3();
       }, 600);
     },
 
-    async onSearchKategoriItem3() {
-      if (!this.isLoadingGetKategoriItem3) {
-        this.isLoadingGetKategoriItem3 = true;
+    async onSearchGroupItem3() {
+      if (!this.isLoadingGetGroupItem3) {
+        this.isLoadingGetGroupItem3 = true;
 
         await this.lookUp({
-          url: "master/item/get-item",
+          url: "master/group-item/get-group-item",
           lookup: "defects",
           query:
             "?search=" +
-            this.kategori3_search +
+            this.group3_search +
             "&kategori_item_id=3" +
             "&page=" +
             this.lookup_defects.current_page +
             "&per_page=10",
         });
-        this.isLoadingGetKategoriItem3 = false;
+        this.isLoadingGetGroupItem3 = false;
       }
     },
 
-    onGetKategoriItem4(search, isNext) {
+    onGetGroupItem4(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchKategoriItem4);
+      clearTimeout(this.isStopSearchGroupItem4);
 
-      this.isStopSearchKategoriItem4 = setTimeout(() => {
-        this.kategori4_search = search;
+      this.isStopSearchGroupItem4 = setTimeout(() => {
+        this.group4_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_customers.current_page = isNext
@@ -2202,36 +2194,36 @@ export default {
           this.lookup_customers.current_page = 1;
         }
 
-        this.onSearchKategoriItem4();
+        this.onSearchGroupItem4();
       }, 600);
     },
 
-    async onSearchKategoriItem4() {
-      if (!this.isLoadingGetKategoriItem4) {
-        this.isLoadingGetKategoriItem4 = true;
+    async onSearchGroupItem4() {
+      if (!this.isLoadingGetGroupItem4) {
+        this.isLoadingGetGroupItem4 = true;
 
         await this.lookUp({
-          url: "master/item/get-item",
+          url: "master/group-item/get-group-item",
           lookup: "customers",
           query:
             "?search=" +
-            this.kategori4_search +
+            this.group4_search +
             "&kategori_item_id=4" +
             "&page=" +
             this.lookup_customers.current_page +
             "&per_page=10",
         });
-        this.isLoadingGetKategoriItem4 = false;
+        this.isLoadingGetGroupItem4 = false;
       }
     },
 
-    onGetKategoriItem5(search, isNext) {
+    onGetGroupItem5(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchKategoriItem5);
+      clearTimeout(this.isStopSearchGroupItem5);
 
-      this.isStopSearchKategoriItem5 = setTimeout(() => {
-        this.kategori5_search = search;
+      this.isStopSearchGroupItem5 = setTimeout(() => {
+        this.group5_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_parents.current_page = isNext
@@ -2241,27 +2233,27 @@ export default {
           this.lookup_parents.current_page = 1;
         }
 
-        this.onSearchKategoriItem5();
+        this.onSearchGroupItem5();
       }, 600);
     },
 
-    async onSearchKategoriItem5() {
-      if (!this.isLoadingGetKategoriItem5) {
-        this.isLoadingGetKategoriItem5 = true;
+    async onSearchGroupItem5() {
+      if (!this.isLoadingGetGroupItem5) {
+        this.isLoadingGetGroupItem5 = true;
 
         await this.lookUp({
-          url: "master/item/get-item",
+          url: "master/group-item/get-group-item",
           lookup: "parents",
           query:
             "?search=" +
-            this.kategori5_search +
+            this.group5_search +
             "&kategori_item_id=5" +
             "&page=" +
             this.lookup_parents.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetKategoriItem5 = false;
+        this.isLoadingGetGroupItem5 = false;
       }
     },
 
