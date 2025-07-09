@@ -1111,7 +1111,7 @@
               </div>
 
               <div class="w-full">
-                <div>
+                <!-- <div>
                   <ul class="flex gap-1">
                     <li
                       class="bg-white p-2 rounded-t-md border border-gray-300"
@@ -1129,12 +1129,25 @@
                       Kendaraan Gudang
                     </li>
                   </ul>
-                </div>
-                <div
+                </div> -->
+                <!-- <div
                   class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
                 >
                   <ItemGudang :self="{ form, parameters }" />
-                </div>
+                </div> -->
+                <TabComponent :tabs="tabs">
+                  <template #ItemGudang>
+                    <ItemGudang :self="{ form, parameters }" />
+                  </template>
+                  <template #StatusTransfer>
+                    <!-- <ItemGudang :self="{ form, parameters }" /> -->
+                    <p>Status Transaksi</p>
+                  </template>
+                  <template #KendaraanGudang>
+                    <!-- <ItemGudang :self="{ form, parameters }" /> -->
+                    <p>Kendaraan Gudang</p>
+                  </template>
+                </TabComponent>
               </div>
               <modal-footer-section
                 :isLoadingForm="isLoadingForm"
@@ -1152,6 +1165,7 @@
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
 import ItemGudang from "./itemGudang.vue";
+import TabComponent from "./tabComponent.vue";
 
 export default {
   middleware: ["checkRoleUserDetail"],
@@ -1164,12 +1178,19 @@ export default {
 
   components: {
     ItemGudang,
+    TabComponent,
   },
 
   data() {
     let id = parseInt(this.$route.params.id);
 
     return {
+      tabs: [
+        { name: "ItemGudang" },
+        { name: "StatusTransfer" },
+        { name: "KendaraanGudang" },
+      ],
+
       id,
 
       isEditable: Number.isInteger(id) ? true : false,

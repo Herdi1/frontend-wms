@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="w-full mt-3 mb-7">
+      <!-- <div
+        class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+      > -->
       <div
         class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
       >
