@@ -724,3 +724,19 @@ hover:text-primary hover:before:!bg-primary before:mr-2 rtl:before:ml-2 dark:bef
 .no-animtion [data-height-collapsible] {
   transition: none !important;
 }
+
+
+/* GLOBAL SCROLLBAR STYLES */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eee;
+}

@@ -1110,7 +1110,7 @@
                 </div>
               </div>
 
-              <div class="w-full">
+              <div class="w-full mb-5">
                 <!-- <div>
                   <ul class="flex gap-1">
                     <li
@@ -1130,21 +1130,14 @@
                     </li>
                   </ul>
                 </div> -->
-                <!-- <div
-                  class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
-                >
-                  <ItemGudang :self="{ form, parameters }" />
-                </div> -->
                 <TabComponent :tabs="tabs">
                   <template #ItemGudang>
                     <ItemGudang :self="{ form, parameters }" />
                   </template>
-                  <template #StatusTransfer>
-                    <!-- <ItemGudang :self="{ form, parameters }" /> -->
+                  <template #StatusTransaksi>
                     <p>Status Transaksi</p>
                   </template>
                   <template #KendaraanGudang>
-                    <!-- <ItemGudang :self="{ form, parameters }" /> -->
                     <p>Kendaraan Gudang</p>
                   </template>
                 </TabComponent>
@@ -1187,7 +1180,7 @@ export default {
     return {
       tabs: [
         { name: "ItemGudang" },
-        { name: "StatusTransfer" },
+        { name: "StatusTransaksi" },
         { name: "KendaraanGudang" },
       ],
 
@@ -1506,9 +1499,44 @@ export default {
       let formData = new FormData();
 
       Object.entries(this.form).forEach(([key, value]) => {
-        if (key != "file_layout") {
-          formData.append(key, value);
+        if (key !== "item_gudang") {
+          if (key != "file_layout") {
+            formData.append(key, value);
+          }
         }
+      });
+
+      this.form.item_gudang.forEach((item, index) => {
+        formData.append(
+          `item_gudangs[${index}].item_gudang_id`,
+          item.item_gudang_id
+        );
+        formData.append(`item_gudangs[${index}].item_id`, item.item_id);
+        formData.append(`item_gudangs[${index}].vendor_id`, item.vendor_id);
+        formData.append(
+          `item_gudangs[${index}].berat_bersih`,
+          item.berat_bersih
+        );
+        formData.append(`item_gudangs[${index}].berat_kotor`, item.berat_kotor);
+        formData.append(`item_gudangs[${index}].panjang`, item.panjang);
+        formData.append(`item_gudangs[${index}].lebar`, item.lebar);
+        formData.append(`item_gudangs[${index}].tebal`, item.tebal);
+        formData.append(`item_gudangs[${index}].volume`, item.volume);
+        formData.append(`item_gudangs[${index}].warna`, item.warna);
+        formData.append(
+          `item_gudangs[${index}].biaya_gaji_sopir`,
+          item.biaya_gaji_sopir
+        );
+        formData.append(
+          `item_gudangs[${index}].biaya_bongkartoko`,
+          item.biaya_bongkartoko
+        );
+        formData.append(
+          `item_gudangs[${index}].biaya_bongkar`,
+          item.biaya_bongkar
+        );
+        formData.append(`item_gudangs[${index}].biaya_muat`, item.biaya_muat);
+        formData.append(`item_gudangs[${index}].biaya_pok`, item.biaya_pok);
       });
 
       if (this.form.file_layout instanceof File) {

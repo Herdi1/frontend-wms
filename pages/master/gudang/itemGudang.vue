@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-full mt-3 mb-7">
+    <div class="w-full mb-7">
       <!-- <div
         class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
       > -->
@@ -571,6 +571,16 @@
                   <label for="lebar">Lebar</label>
                   <money
                     v-model="item.lebar"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="tebal">Tebal</label>
+                  <money
+                    v-model="item.tebal"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null

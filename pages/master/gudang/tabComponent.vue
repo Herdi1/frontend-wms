@@ -1,6 +1,6 @@
 <template>
-  <div class="px-3 bg-white border rounded">
-    <div class="flex border-b mb-4">
+  <div class="px-3 bg-white border border-gray-300 rounded-md">
+    <div class="flex border-b mb-2">
       <button
         type="button"
         v-for="(tab, index) in tabs"
