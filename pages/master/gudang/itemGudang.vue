@@ -21,7 +21,7 @@
               v-model="filter_params.group_item_id_1"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem2"
+              @input="onSelectGroupItem1"
             >
               <!-- <template #search="{ attributes, events }">
                 <input
@@ -67,7 +67,7 @@
               v-model="filter_params.group_item_id_2"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem3"
+              @input="onSelectGroupItem2"
             >
               <li
                 slot-scope="{ search }"
@@ -104,7 +104,7 @@
               v-model="filter_params.group_item_id_3"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem4"
+              @input="onSelectGroupItem3"
             >
               <li
                 slot-scope="{ search }"
@@ -141,7 +141,7 @@
               v-model="filter_params.group_item_id_4"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem5"
+              @input="onSelectGroupItem4"
             >
               <li
                 slot-scope="{ search }"
@@ -211,7 +211,7 @@
             @click="onLoad"
             class="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-plus text-white font-bold mr-2"></i>
+            <i class="fa fa-plus text-white font-bold"></i>
             <!-- Tambah ke Item Gudang -->
           </button>
           <button
@@ -219,7 +219,7 @@
             @click="deleteSelectedItem"
             class="bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-trash text-white font-bold mr-2"></i>
+            <i class="fa fa-trash text-white font-bold"></i>
             <!-- Tambah ke Item Gudang -->
           </button>
         </div>
@@ -241,7 +241,6 @@
                 @change="toggleAllCheckboxes"
               />
             </th>
-            <th class="w-[50px] border border-gray-300">No</th>
             <th
               @click="
                 onSort(
@@ -363,7 +362,7 @@
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Berat</th>
             <th class="w-[200px] border border-gray-300">Dimensi</th>
-            <th class="w-[200px] border border-gray-300">Biaya</th>
+            <!-- <th class="w-[200px] border border-gray-300">Biaya</th> -->
             <th class="w-[75px] border border-gray-300">Detail</th>
           </tr>
         </thead>
@@ -382,13 +381,6 @@
                 @change="checkIfAllSelected"
                 id=""
               />
-            </td>
-            <td class="border border-gray-300">
-              {{
-                (parameters.params.page - 1) * parameters.params.per_page +
-                i +
-                1
-              }}
             </td>
             <td class="border border-gray-300">{{ item.kode_wms }}</td>
             <td class="border border-gray-300">{{ item.nama_item }}</td>
@@ -609,7 +601,7 @@
                 </div>
               </div>
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               <div>
                 <div class="form-group">
                   <label for="biaya_gaji_sopir">Biaya Gaji Sopir</label>
@@ -662,7 +654,7 @@
                   />
                 </div>
               </div>
-            </td>
+            </td> -->
             <td class="border border-gray-300 text-center">
               <small-detail-button @click="onDetail(item)" />
             </td>
@@ -792,9 +784,9 @@
       </table>
     </div>
 
-    <div class="mx-3 mt-2 mb-4">
+    <!-- <div class="mx-3 mt-2 mb-4">
       <pagination-section :self="{ isPaginate, onLoad }" ref="pagination" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -874,10 +866,10 @@ export default {
 
   async mounted() {
     await this.onSearchGroupItem1();
-    await this.onSearchGroupItem2();
-    await this.onSearchGroupItem3();
-    await this.onSearchGroupItem4();
-    await this.onSearchGroupItem5();
+    // await this.onSearchGroupItem2();
+    // await this.onSearchGroupItem3();
+    // await this.onSearchGroupItem4();
+    // await this.onSearchGroupItem5();
     await this.onSearchVendorPemilik();
   },
 
@@ -961,6 +953,7 @@ export default {
     },
 
     async onSearchGroupItem2() {
+      this.lookup_roles = {};
       if (!this.isLoadingGetGroupItem2) {
         this.isLoadingGetGroupItem2 = true;
 
@@ -971,6 +964,8 @@ export default {
             "?search=" +
             this.group_item_2_search +
             "&status=2" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_1 +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
@@ -1011,6 +1006,8 @@ export default {
             "?search=" +
             this.group_item_3_search +
             "&status=3" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_2 +
             "&page=" +
             this.lookup_sellers.current_page +
             "&per_page=10",
@@ -1051,6 +1048,8 @@ export default {
             "?search=" +
             this.group_item_4_search +
             "&status=4" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_3 +
             "&page=" +
             this.lookup_quotations.current_page +
             "&per_page=10",
@@ -1091,6 +1090,8 @@ export default {
             "?search=" +
             this.group_item_5_search +
             "&status=5" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_4 +
             "&page=" +
             this.lookup_customers.current_page +
             "&per_page=10",
@@ -1168,8 +1169,13 @@ export default {
       this.parameters.params.group_item_id_5 =
         this.filter_params.group_item_id_5;
 
-      await this.getData(this.parameters);
-
+      if (this.parameters.params.group_item_id_1) {
+        // this.$globalErrorToaster(
+        //   this.$toaster,
+        //   "Pilih Group Item Terlebih Dahulu"
+        // );
+        await this.getData(this.parameters);
+      }
       if (this.data) {
         this.data.forEach((item) => {
           if (!this.self.form.item_gudang.find((data) => data.id === item.id)) {
@@ -1177,8 +1183,6 @@ export default {
           }
         });
       }
-
-      console.log(this.self.form.item_gudang);
 
       if (this.result == true) {
         loader.hide();
@@ -1227,6 +1231,25 @@ export default {
     checkIfAllSelected() {
       this.selectAll =
         this.checkboxs.length === this.self.form.item_gudang.length;
+    },
+
+    //dropdown
+    async onSelectGroupItem1() {
+      console.log(this.filter_params);
+      await this.onSearchGroupItem2();
+      this.filter_params.group_item_id_2 = "";
+    },
+    async onSelectGroupItem2() {
+      await this.onSearchGroupItem3();
+      this.filter_params.group_item_id_3 = "";
+    },
+    async onSelectGroupItem3() {
+      await this.onSearchGroupItem4();
+      this.filter_params.group_item_id_4 = "";
+    },
+    async onSelectGroupItem4() {
+      await this.onSearchGroupItem5();
+      this.filter_params.group_item_id_5 = "";
     },
   },
 };

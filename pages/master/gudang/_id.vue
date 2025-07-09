@@ -1135,7 +1135,7 @@
                     <ItemGudang :self="{ form, parameters }" />
                   </template>
                   <template #StatusTransaksi>
-                    <p>Status Transaksi</p>
+                    <StatusTransaksi :self="{ form }" />
                   </template>
                   <template #KendaraanGudang>
                     <p>Kendaraan Gudang</p>
@@ -1158,6 +1158,7 @@
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
 import ItemGudang from "./itemGudang.vue";
+import StatusTransaksi from "./statusTransaksi.vue";
 import TabComponent from "./tabComponent.vue";
 
 export default {
@@ -1171,6 +1172,7 @@ export default {
 
   components: {
     ItemGudang,
+    StatusTransaksi,
     TabComponent,
   },
 
@@ -1232,6 +1234,7 @@ export default {
         satuan_id_luas: "",
         radius: "",
         item_gudang: [],
+        status_transaksis: [],
       },
 
       default_form: {
@@ -1274,6 +1277,7 @@ export default {
         radius: "",
         kode_pos_id: "",
         item_gudang: [],
+        status_transaksis: [],
       },
 
       isStopSearchLokasi: false,

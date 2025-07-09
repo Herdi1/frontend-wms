@@ -23,7 +23,7 @@
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-2 items-top w-full"
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 items-top w-full"
                 >
                   <div class="form-group">
                     <input-horizontal
@@ -85,7 +85,7 @@
                   </ValidationProvider>
                 </div>
                 <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-2 items-top w-full mb-5"
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3 items-top w-full mb-5"
                 >
                   <div class="form-group">
                     <input-horizontal
@@ -116,16 +116,18 @@
                   </div>
                 </div>
                 <div class="w-full mb-5">
-                  <h1 class="text-xl font-bold">Detail Jurnal</h1>
-                  <div class="w-full flex justify-end gap-2">
-                    <button
-                      type="button"
-                      @click="addJurnalDetails"
-                      class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                    >
-                      <i class="fas fa-plus"></i>
-                      <p class="text-xs font-medium">Tambah Detail Jurnal</p>
-                    </button>
+                  <div class="w-full flex justify-between items-center">
+                    <h1 class="text-xl font-bold">Detail Jurnal</h1>
+                    <div class=" ">
+                      <button
+                        type="button"
+                        @click="addJurnalDetails"
+                        class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                      >
+                        <i class="fas fa-plus"></i>
+                        <p class="text-xs font-medium">Tambah Detail Jurnal</p>
+                      </button>
+                    </div>
                   </div>
                   <div
                     class="table-responsive"
