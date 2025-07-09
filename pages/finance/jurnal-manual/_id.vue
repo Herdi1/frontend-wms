@@ -26,7 +26,7 @@
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-2 items-top w-full"
                 >
                   <div class="form-group">
-                    <input-form
+                    <input-horizontal
                       label="Tanggal"
                       type="date"
                       name="tanggal"
@@ -39,8 +39,12 @@
                     rules="required"
                     class="w-full mt-1"
                   >
-                    <div slot-scope="{ errors, valid }" v-if="!user.gudang_id">
-                      <label for="gudang_id"
+                    <div
+                      slot-scope="{ errors, valid }"
+                      v-if="!user.gudang_id"
+                      class="flex"
+                    >
+                      <label for="gudang_id" class="w-1/2"
                         >Gudang <span class="text-danger">*</span></label
                       >
                       <v-select
@@ -51,7 +55,7 @@
                         @search="onGetGudang"
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
-                        class="w-full"
+                        class="w-1/2"
                         @input="onSearchZonaGudang"
                       >
                         <li
@@ -84,7 +88,7 @@
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-2 items-top w-full mb-5"
                 >
                   <div class="form-group">
-                    <input-form
+                    <input-horizontal
                       label="Kode Referensi 1"
                       type="text"
                       name="kode_referensi"
@@ -93,7 +97,7 @@
                     />
                   </div>
                   <div class="form-group">
-                    <input-form
+                    <input-horizontal
                       label="Kode Referensi 2"
                       type="text"
                       name="kode_referensi_2"
@@ -102,7 +106,7 @@
                     />
                   </div>
                   <div class="form-group">
-                    <input-form
+                    <input-horizontal
                       label="Kode Referensi 3"
                       type="text"
                       name="kode_referensi_3"

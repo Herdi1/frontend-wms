@@ -206,33 +206,34 @@
           <button
             type="button"
             @click="onLoad"
-            class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+            class="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-filter text-white font-bold mr-2"></i>
-            Filter
+            <i class="fa fa-plus text-white font-bold mr-2"></i>
+            <!-- Tambah ke Item Gudang -->
           </button>
-        </div>
-        <div class="flex gap-3 ml-5 items-self-end">
           <button
             type="button"
-            @click="inserCheckbox"
-            class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+            @click="deleteSelectedItem"
+            class="bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-filter text-white font-bold mr-2"></i>
-            Input
+            <i class="fa fa-trash text-white font-bold mr-2"></i>
+            <!-- Tambah ke Item Gudang -->
           </button>
         </div>
       </div>
     </div>
 
     <div class="table-responsive">
-      <table class="mb-5" ref="formContainer">
+      <table
+        class="mb-5 table-fixed border border-collapse border-gray-300"
+        ref="formContainer"
+      >
         <thead>
           <tr class="text-base uppercase text-nowrap">
-            <th class="w-[5%] text-center">
-              <input type="checkbox" name="" id="" />
+            <th class="w-[50px] text-center border border-gray-300">
+              <input type="checkbox" name="" id="" v-model="checkboxs" />
             </th>
-            <th class="w-[5%]">No</th>
+            <th class="w-[50px] border border-gray-300">No</th>
             <th
               @click="
                 onSort(
@@ -240,7 +241,7 @@
                   parameters.params.sort == 'asc' ? 'desc' : 'asc'
                 )
               "
-              class="cursor-pinter"
+              class="w-[100px] border border-gray-300"
             >
               <div class="flex justify-between items-baseline">
                 <div>Kode Item</div>
@@ -273,7 +274,7 @@
                   parameters.params.sort == 'asc' ? 'desc' : 'asc'
                 )
               "
-              class="cursor-pinter"
+              class="w-[200px] border border-gray-300"
             >
               <div class="flex justify-between items-baseline">
                 <div>Nama Item</div>
@@ -299,7 +300,7 @@
                 </div>
               </div>
             </th>
-            <th
+            <!-- <th
               @click="
                 onSort(
                   'satuan_id',
@@ -331,140 +332,200 @@
                   ></i>
                 </div>
               </div>
-            </th>
-            <th>Berat</th>
+            </th> -->
+            <!-- <th>Berat</th>
             <th>Volume</th>
-            <th>Stocklevel</th>
-            <th>Group Item 1</th>
-            <th>Group Item 2</th>
+            <th>Stocklevel</th> -->
+            <th class="w-[200px] border border-gray-300">Group Item</th>
+            <!-- <th>Group Item 2</th>
             <th>Group Item 3</th>
             <th>Group Item 4</th>
-            <th>Group Item 5</th>
-            <th>Batas Atas</th>
-            <th>Batas Bawah</th>
-            <th>Kategori Item 1</th>
-            <th>Kategori Item 2</th>
+            <th>Group Item 5</th> -->
+            <th class="w-[200px] border border-gray-300">Batas Item</th>
+            <th class="w-[200px] border border-gray-300">Kategori Item</th>
+            <!-- <th>Kategori Item 2</th>
             <th>Kategori Item 3</th>
             <th>Kategori Item 4</th>
-            <th>Kategori Item 5</th>
-            <th>Jumlah Palet</th>
-            <th>Kebutuhan Palet</th>
-            <th>Kapasitas Palet</th>
-            <th>Maksimal Tumpukan</th>
-            <th>Supplier</th>
-            <th class="w-[5%]">Detail</th>
+            <th>Kategori Item 5</th> -->
+            <th class="w-[200px] border border-gray-300">Jumlah Palet</th>
+            <th class="w-[200px] border border-gray-300">Kebutuhan Palet</th>
+            <th class="w-[200px] border border-gray-300">Kapasitas Palet</th>
+            <th class="w-[200px] border border-gray-300">Maksimal Tumpukan</th>
+            <th class="w-[200px] border border-gray-300">Supplier</th>
+            <th class="w-[200px] border border-gray-300">Dimensi</th>
+            <th class="w-[75px] border border-gray-300">Detail</th>
           </tr>
         </thead>
         <tbody>
-          <!-- <tr
-            v-for="(item, i) in form.item_gudang"
+          <tr
+            v-for="(item, i) in this.self.form.item_gudang"
             :key="i"
-            class="bg-blue-200"
+            class="align-top"
           >
-            <td class="text-center">
+            <td class="border border-gray-300 text-center">
               <input
                 type="checkbox"
                 name="checkboxs[]"
-                :value="item"
+                :value="item.item_id"
                 v-model="checkboxs"
                 id=""
               />
             </td>
-            <td>
+            <td class="border border-gray-300">
               {{
                 (parameters.params.page - 1) * parameters.params.per_page +
                 i +
                 1
               }}
             </td>
-            <td>{{ item.kode_wms }}</td>
-            <td>{{ item.nama_item }}</td>
-            <td>
-              {{
-                item.group_item_1
-                  ? item.group_item_1.nama_group_item
-                  : "Tidak Ditemukan"
-              }}
+            <td class="border border-gray-300">{{ item.kode_wms }}</td>
+            <td class="border border-gray-300">{{ item.nama_item }}</td>
+            <td class="border border-gray-300">
+              <div>
+                <p v-if="item.group_item_1">
+                  {{
+                    item.group_item_1
+                      ? item.group_item_1.nama_group_item
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.group_item_2">
+                  {{
+                    item.group_item_2
+                      ? item.group_item_2.nama_group_item
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.group_item_3">
+                  {{
+                    item.group_item_3
+                      ? item.group_item_3.nama_group_item
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.group_item_4">
+                  {{
+                    item.group_item_4
+                      ? item.group_item_4.nama_group_item
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.group_item_5">
+                  {{
+                    item.group_item_5
+                      ? item.group_item_5.nama_group_item
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+              </div>
             </td>
-            <td>
-              {{
-                item.group_item_2
-                  ? item.group_item_2.nama_group_item
-                  : "Tidak Ditemukan"
-              }}
+            <td class="border border-gray-300">
+              <div class="flex gap-2">
+                <i class="fa fa-caret-up text-green-300"></i>
+                <p>{{ item.batas_atas }}</p>
+              </div>
+              <div class="flex gap-2">
+                <i class="fa fa-caret-down text-red-300"></i>
+                <p>{{ item.batas_bawah }}</p>
+              </div>
             </td>
-            <td>
-              {{
-                item.group_item_3
-                  ? item.group_item_3.nama_group_item
-                  : "Tidak Ditemukan"
-              }}
+            <td class="border border-gray-300">
+              <div>
+                <p v-if="item.kategori_1">
+                  {{
+                    item.kategori_1
+                      ? item.kategori_1.nama_kategori
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.kategori_2">
+                  {{
+                    item.kategori_2
+                      ? item.kategori_2.nama_kategori
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.kategori_3">
+                  {{
+                    item.kategori_3
+                      ? item.kategori_3.nama_kategori
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.kategori_4">
+                  {{
+                    item.kategori_4
+                      ? item.kategori_4.nama_kategori
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+                <p v-if="item.kategori_5">
+                  {{
+                    item.kategori_5
+                      ? item.kategori_5.nama_kategori
+                      : "Tidak Ditemukan"
+                  }}
+                </p>
+              </div>
             </td>
-            <td>
-              {{
-                item.group_item_4
-                  ? item.group_item_4.nama_group_item
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>
-              {{
-                item.group_item_5
-                  ? item.group_item_5.nama_group_item
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>{{ item.batas_atas }}</td>
-            <td>{{ item.batas_bawah }}</td>
-            <td>
-              {{
-                item.kategori_1
-                  ? item.kategori_1.nama_kategori
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>
-              {{
-                item.kategori_2
-                  ? item.kategori_2.nama_kategori
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>
-              {{
-                item.kategori_3
-                  ? item.kategori_3.nama_kategori
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>
-              {{
-                item.kategori_4
-                  ? item.kategori_4.nama_kategori
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>
-              {{
-                item.kategori_5
-                  ? item.kategori_5.nama_kategori
-                  : "Tidak Ditemukan"
-              }}
-            </td>
-            <td>{{ item.jumlah_palet }}</td>
-            <td>{{ item.kapasitas_palet }}</td>
-            <td>{{ item.kebutuhan_palet }}</td>
-            <td>{{ item.maksimal_tumpukan }}</td>
-            <td>
+            <td class="border border-gray-300">{{ item.jumlah_palet }}</td>
+            <td class="border border-gray-300">{{ item.kapasitas_palet }}</td>
+            <td class="border border-gray-300">{{ item.kebutuhan_palet }}</td>
+            <td class="border border-gray-300">{{ item.maksimal_tumpukan }}</td>
+            <td class="border border-gray-300">
               {{
                 item.supplier ? item.supplier.nama_supplier : "Tidak Ditemukan"
               }}
             </td>
-            <td class="text-center">
+            <td class="border border-gray-300">
+              <div>
+                <div class="form-group">
+                  <label for="panjang">Panjang</label>
+                  <money
+                    v-model="item.panjang"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="lebar">Lebar</label>
+                  <money
+                    v-model="item.lebar"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="volume">Volume</label>
+                  <money
+                    v-model="item.volume"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="warna">Warna</label>
+                  <money
+                    v-model="item.warna"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+              </div>
+            </td>
+            <td class="border border-gray-300 text-center">
               <small-detail-button @click="onDetail(item)" />
             </td>
-          </tr> -->
-          <tr v-for="(item, i) in data" :key="i">
+          </tr>
+          <!-- <tr v-for="(item, i) in data" :key="i">
             <td class="text-center">
               <input
                 type="checkbox"
@@ -581,7 +642,7 @@
             <td class="text-center">
               <small-detail-button @click="onDetail(item)" />
             </td>
-          </tr>
+          </tr> -->
         </tbody>
         <!-- <table-data-loading-section :self="{ data: data }" /> -->
 
@@ -599,6 +660,13 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
+  props: ["self"],
+
+  created() {
+    this.set_data([]);
+    // this.onLoad();
+  },
+
   data() {
     return {
       //list item gudang
@@ -667,6 +735,7 @@ export default {
 
   computed: {
     ...mapState("moduleApi", [
+      "data",
       "error",
       "result",
       "lookup_sellings",
@@ -888,10 +957,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
+      // this.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -911,7 +980,16 @@ export default {
         this.filter_params.group_item_id_5;
 
       await this.getData(this.parameters);
-      // console.log(await this.getData(this.parameters));
+
+      if (this.data) {
+        this.data.forEach((item) => {
+          if (!this.self.form.item_gudang.find((data) => data.id === item.id)) {
+            this.self.form.item_gudang.push(item);
+          }
+        });
+      }
+
+      console.log(this.self.form.item_gudang);
 
       if (this.result == true) {
         loader.hide();
@@ -926,6 +1004,17 @@ export default {
       }
 
       this.isLoadingData = false;
+    },
+
+    deleteSelectedItem() {
+      this.checkboxs.forEach((item) => {
+        let index = this.self.form.item_gudang.findIndex(
+          (data) => data.item_id == item
+        );
+        if (index !== -1) {
+          this.self.form.item_gudang.splice(index, 1);
+        }
+      });
     },
 
     inserCheckbox() {
