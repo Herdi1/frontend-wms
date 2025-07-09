@@ -12,140 +12,6 @@
               @submit.prevent="validate().then(() => onSubmit(invalid))"
               autocomplete="off"
             >
-              <!-- Negara -->
-              <!-- <ValidationProvider name="id_negara" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Negara <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_negara"
-                    :loading="isLoadingGetNegara"
-                    :options="lookup_custom1.data"
-                    :filterable="false"
-                    @search="onGetNegara"
-                    :reduce="(item) => item.negara_id"
-                    v-model="parameters.form.negara_id"
-                    @input="onSelectNegara"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom1.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom1.current_page > 1"
-                        @click="onGetNegara(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom1.last_page > lookup_custom1.current_page
-                        "
-                        @click="onGetNegara(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider> -->
-
-              <!-- Provinsi -->
-              <!-- <ValidationProvider name="id_provinsi" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Provinsi <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_provinsi"
-                    :loading="isLoadingGetProvinsi"
-                    :options="lookup_custom2.data"
-                    :filterable="false"
-                    @search="onGetProvinsi"
-                    :reduce="(item) => item.provinsi_id"
-                    v-model="parameters.form.provinsi_id"
-                    @input="onSelectProvinsi"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom2.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom2.current_page > 1"
-                        @click="onGetProvinsi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom2.last_page > lookup_custom2.current_page
-                        "
-                        @click="onGetProvinsi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider> -->
-
-              <!-- Kota -->
-              <!-- <ValidationProvider name="id_kota" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Kota <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_kota"
-                    :loading="isLoadingGetKota"
-                    :options="lookup_custom3.data"
-                    :filterable="false"
-                    @search="onGetKota"
-                    :reduce="(item) => item.kota_id"
-                    v-model="parameters.form.kota_id"
-                    @input="onSelectKota"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom3.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom3.current_page > 1"
-                        @click="onGetKota(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom3.last_page > lookup_custom3.current_page
-                        "
-                        @click="onGetKota(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider> -->
-
               <!-- Kecamatan -->
               <ValidationProvider name="id_kecamatan" rules="required">
                 <div
@@ -166,6 +32,28 @@
                     v-model="parameters.form.kecamatan_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
+                    <template slot="option" slot-scope="option">
+                      {{
+                        option.nama_kecamatan +
+                        ", " +
+                        option.kota.nama_kota +
+                        ", " +
+                        option.provinsi.nama_provinsi +
+                        ", " +
+                        option.negara.nama_negara
+                      }}
+                    </template>
+                    <template slot="option-selected" slot-scope="option">
+                      {{
+                        option.nama_kecamatan +
+                        ", " +
+                        option.kota.nama_kota +
+                        ", " +
+                        option.provinsi.nama_provinsi +
+                        ", " +
+                        option.negara.nama_negara
+                      }}
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -615,9 +503,15 @@ export default {
     },
 
     onSelectKecamatan(item) {
-      this.parameters.form.negara_id = item.negara;
-      this.parameters.form.provinsi_id = item.provinsi;
-      this.parameters.form.kota_id = item.kota;
+      if (item) {
+        this.parameters.form.negara_id = item.negara;
+        this.parameters.form.provinsi_id = item.provinsi;
+        this.parameters.form.kota_id = item.kota;
+      } else {
+        this.parameters.form.negara_id = {};
+        this.parameters.form.provinsi_id = {};
+        this.parameters.form.kota_id = {};
+      }
     },
 
     changeStatus() {

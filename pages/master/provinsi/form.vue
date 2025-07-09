@@ -33,6 +33,24 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="singkatan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Singkatan"
+                      type="text"
+                      name="singkatan"
+                      :required="true"
+                      v-model="parameters.form.singkatan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="kode_provinsi"
                   rules="required"
                 >
@@ -166,6 +184,7 @@ export default {
           kode_provinsi: "",
           kode_alternatif: "",
           nama_provinsi: "",
+          singkatan: "",
           ibukota: "",
         },
       },
@@ -216,6 +235,7 @@ export default {
           kode_provinsi: "",
           kode_alternatif: "",
           nama_provinsi: "",
+          singkatan: "",
           ibukota: "",
         };
 
@@ -273,6 +293,7 @@ export default {
         kode_provinsi: "",
         kode_alternatif: "",
         nama_provinsi: "",
+        singkatan: "",
         ibukota: "",
       };
     },

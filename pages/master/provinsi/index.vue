@@ -67,6 +67,7 @@
                       </div>
                     </div>
                   </th>
+                  <th>Singkatan</th>
                   <th class="w-[30%]">Kode Provinsi</th>
                   <th class="w-[30%]">Kode Alternatif</th>
                   <th class="w-[30%]">Ibu Kota</th>
@@ -86,6 +87,7 @@
                     }}
                   </td>
                   <td>{{ item.nama_provinsi }}</td>
+                  <td>{{ item.singkatan }}</td>
                   <td>{{ item.kode_provinsi }}</td>
                   <td>{{ item.kode_alternatif }}</td>
                   <td>{{ item.ibukota }}</td>
@@ -195,6 +197,7 @@ export default {
         form: {
           negara_id: "",
           nama_provinsi: "",
+          singkatan: "",
           kode_provinsi: "",
           kode_alternatif: "",
           ibukota: "",
@@ -269,6 +272,7 @@ export default {
         kode_provinsi: "",
         kode_alternatif: "",
         nama_provinsi: "",
+        singkatan: "",
         ibukota: "",
       };
       this.$refs.formInput.isEditable = false;

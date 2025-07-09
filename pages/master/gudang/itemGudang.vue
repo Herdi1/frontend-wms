@@ -606,12 +606,12 @@ export default {
       isPaginate: true,
       itemData: [],
       parameters: {
-        url: "master/item-pelanggan",
+        url: "master/item",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "item_pelanggan_id",
+          order: "item_id",
           sort: "desc",
           all: "",
           per_page: 10,

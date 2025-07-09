@@ -138,6 +138,24 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <template slot="option" slot-scope="option">
+                          {{
+                            option.nama_kota +
+                            ", " +
+                            option.provinsi.nama_provinsi +
+                            ", " +
+                            option.negara.nama_negara
+                          }}
+                        </template>
+                        <template slot="option-selected" slot-scope="option">
+                          {{
+                            option.nama_kota +
+                            ", " +
+                            option.provinsi.nama_provinsi +
+                            ", " +
+                            option.negara.nama_negara
+                          }}
+                        </template>
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -290,6 +308,7 @@
 </template>
 
 <script>
+import { options } from "sanitize-html";
 import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 
@@ -552,8 +571,13 @@ export default {
     },
 
     onSelectKota(item) {
-      this.parameters.form.negara_id = item.negara;
-      this.parameters.form.provinsi_id = item.provinsi;
+      if (item) {
+        this.parameters.form.negara_id = item.negara;
+        this.parameters.form.provinsi_id = item.provinsi;
+      } else {
+        this.parameters.form.negara_id = {};
+        this.parameters.form.provinsi_id = {};
+      }
     },
   },
 };

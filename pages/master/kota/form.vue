@@ -77,6 +77,20 @@
                       "
                       @input="onSelectProvinsi"
                     >
+                      <template slot="option" slot-scope="option">
+                        {{
+                          option.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
+                      <template slot="option-selected" slot-scope="option">
+                        {{
+                          option.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -416,8 +430,11 @@ export default {
     },
 
     onSelectProvinsi(item) {
-      console.log(item);
-      this.parameters.form.negara_id = item.negara;
+      if (item) {
+        this.parameters.form.negara_id = item.negara;
+      } else {
+        this.parameters.form.negara_id = {};
+      }
     },
   },
 };
