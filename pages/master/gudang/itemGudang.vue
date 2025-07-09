@@ -231,7 +231,12 @@
         <thead>
           <tr class="text-base uppercase text-nowrap">
             <th class="w-[50px] text-center border border-gray-300">
-              <input type="checkbox" name="" id="" v-model="checkboxs" />
+              <input
+                type="checkbox"
+                name=""
+                v-model="selectAll"
+                @change="toggleAllCheckboxes"
+              />
             </th>
             <th class="w-[50px] border border-gray-300">No</th>
             <th
@@ -241,7 +246,7 @@
                   parameters.params.sort == 'asc' ? 'desc' : 'asc'
                 )
               "
-              class="w-[100px] border border-gray-300"
+              class="w-[200px] border border-gray-300"
             >
               <div class="flex justify-between items-baseline">
                 <div>Kode Item</div>
@@ -352,7 +357,10 @@
             <th class="w-[200px] border border-gray-300">Kapasitas Palet</th>
             <th class="w-[200px] border border-gray-300">Maksimal Tumpukan</th>
             <th class="w-[200px] border border-gray-300">Supplier</th>
+            <th class="w-[200px] border border-gray-300">Vendor</th>
+            <th class="w-[200px] border border-gray-300">Berat</th>
             <th class="w-[200px] border border-gray-300">Dimensi</th>
+            <th class="w-[200px] border border-gray-300">Biaya</th>
             <th class="w-[75px] border border-gray-300">Detail</th>
           </tr>
         </thead>
@@ -365,9 +373,10 @@
             <td class="border border-gray-300 text-center">
               <input
                 type="checkbox"
-                name="checkboxs[]"
+                name="item"
                 :value="item.item_id"
                 v-model="checkboxs"
+                @change="checkIfAllSelected"
                 id=""
               />
             </td>
@@ -478,6 +487,72 @@
               }}
             </td>
             <td class="border border-gray-300">
+              <ValidationProvider
+                name="vendor_id"
+                rules="required"
+                class="w-full"
+              >
+                <div slot-scope="{ errors, valid }">
+                  <v-select
+                    label="nama_vendor"
+                    :loading="isLoadingGetVendorPemilik"
+                    :options="lookup_chart_of_accounts.data"
+                    :filterable="false"
+                    @search="onGetVendorPemilik"
+                    v-model="item.vendor_id"
+                    :reduce="(item) => item.vendor_id"
+                    class="w-full"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                    >
+                      <span
+                        v-if="lookup_chart_of_accounts.current_page > 1"
+                        @click="onGetVendorPemilik(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_chart_of_accounts.last_page >
+                          lookup_chart_of_accounts.current_page
+                        "
+                        @click="onGetVendorPemilik(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+            </td>
+            <td class="border border-gray-300">
+              <div>
+                <div class="form-group">
+                  <label for="berat_bersih">Berat Bersih</label>
+                  <money
+                    v-model="item.berat_bersih"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="berat_kotor">Berat Kotor</label>
+                  <money
+                    v-model="item.berat_kotor"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+              </div>
+            </td>
+            <td class="border border-gray-300">
               <div>
                 <div class="form-group">
                   <label for="panjang">Panjang</label>
@@ -513,6 +588,60 @@
                   <label for="warna">Warna</label>
                   <money
                     v-model="item.warna"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+              </div>
+            </td>
+            <td class="border border-gray-300">
+              <div>
+                <div class="form-group">
+                  <label for="biaya_gaji_sopir">Biaya Gaji Sopir</label>
+                  <money
+                    v-model="item.biaya_gaji_sopir"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="biaya_bongkartoko">Biaya Bongkar Toko</label>
+                  <money
+                    v-model="item.biaya_bongkartoko"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="biaya_bongkar">Biaya Bongkar </label>
+                  <money
+                    v-model="item.biaya_bongkar"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="biaya_muat">Biaya Muat</label>
+                  <money
+                    v-model="item.biaya_muat"
+                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="biaya_pok">Biaya Pok</label>
+                  <money
+                    v-model="item.biaya_pok"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
@@ -720,7 +849,12 @@ export default {
       isLoadingGetGroupItem5: false,
       group_item_5_search: "",
 
+      isStopSearchVendorPemilik: false,
+      isLoadingGetVendorPemilik: false,
+      vendor_pemilik_search: "",
+
       //checkbox
+      selectAll: false,
       checkboxs: [],
     };
   },
@@ -731,6 +865,7 @@ export default {
     await this.onSearchGroupItem3();
     await this.onSearchGroupItem4();
     await this.onSearchGroupItem5();
+    await this.onSearchVendorPemilik();
   },
 
   computed: {
@@ -744,6 +879,7 @@ export default {
       "lookup_quotations",
       "lookup_customers",
       "lookup_users",
+      "lookup_chart_of_accounts",
     ]),
   },
 
@@ -951,6 +1087,46 @@ export default {
       }
     },
 
+    onGetVendorPemilik(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendorPemilik);
+
+      this.isStopSearchVendorPemilik = setTimeout(() => {
+        this.vendor_pemilik_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_chart_of_accounts.current_page = isNext
+            ? this.lookup_chart_of_accounts.current_page + 1
+            : this.lookup_chart_of_accounts.current_page - 1;
+        } else {
+          this.lookup_chart_of_accounts.current_page = 1;
+        }
+
+        this.onSearchVendorPemilik();
+      }, 600);
+    },
+
+    async onSearchVendorPemilik() {
+      if (!this.isLoadingGetVendorPemilik) {
+        this.isLoadingGetVendorPemilik = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "chart_of_accounts",
+          query:
+            "?search=" +
+            this.vendor_pemilik_search +
+            // "&tipe_vendor=v" +
+            "&page=" +
+            this.lookup_chart_of_accounts.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendorPemilik = false;
+      }
+    },
+
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
 
@@ -1025,6 +1201,19 @@ export default {
         this.form.item_gudang.push(item);
       });
       console.log(this.form.item_gudang);
+    },
+
+    toggleAllCheckboxes() {
+      if (this.selectAll) {
+        this.checkboxs = this.self.form.item_gudang.map((item) => item.item_id);
+      } else {
+        this.checkboxs = [];
+      }
+    },
+
+    checkIfAllSelected() {
+      this.selectAll =
+        this.checkboxs.length === this.self.form.item_gudang.length;
     },
   },
 };
