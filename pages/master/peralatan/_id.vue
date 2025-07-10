@@ -37,131 +37,160 @@
             />
           </div>
 
-          <div class="form-group">
-            <label for="status_peralatan"
-              >Status Peralatan<span class="text-danger">*</span></label
-            >
-            <select
-              class="mb-2 w-full pl-2 py-1 border rounded focus:outline-none"
-              name="status_peralatan"
-              id="status_peralatan"
-              v-model="parameters.form.status_peralatan"
-            >
-              <option value="">Pilih</option>
-              <option value="1">Aktif</option>
-              <option value="0">Non Aktif</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="jenis_peralatan_id"
-              >Jenis Peralatan<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_jenis_peralatan"
-              :loading="isLoadingGetJenisPeralatan"
-              :options="lookup_custom1.data"
-              :filterable="false"
-              @search="onGetJenisPeralatan"
-              v-model="parameters.form.jenis_peralatan_id"
-              :reduce="(item) => item.jenis_peralatan_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_custom1.data.length || search"
+          <ValidationProvider rules="required">
+            <div class="form-group" slot-scope="{ errors, valid }">
+              <label for="status_peralatan"
+                >Status Peralatan<span class="text-danger">*</span></label
               >
-                <span
-                  v-if="lookup_custom1.current_page > 1"
-                  @click="onGetJenisPeralatan(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
-                >
-                <span
-                  v-if="lookup_custom1.last_page > lookup_custom1.current_page"
-                  @click="onGetJenisPeralatan(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
-                >
-              </li>
-            </v-select>
-          </div>
-
-          <div>
-            <label for="vendor_id"
-              >Vendor<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_vendor"
-              :loading="isLoadingGetVendorPemilik"
-              :options="lookup_defects.data"
-              :filterable="false"
-              @search="onGetVendorPemilik"
-              v-model="parameters.form.vendor_id"
-              :reduce="(item) => item.vendor_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_defects.data.length || search"
+              <select
+                class="mb-2 w-full pl-2 py-1 border rounded focus:outline-none"
+                name="status_peralatan"
+                id="status_peralatan"
+                v-model="parameters.form.status_peralatan"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
-                <span
-                  v-if="lookup_defects.current_page > 1"
-                  @click="onGetVendorPemilik(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
-                >
-                <span
-                  v-if="lookup_defects.last_page > lookup_defects.current_page"
-                  @click="onGetVendorPemilik(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
-                >
-              </li>
-            </v-select>
-          </div>
+                <option value="">Pilih</option>
+                <option value="1">Aktif</option>
+                <option value="0">Non Aktif</option>
+              </select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
 
-          <div>
-            <label for="gudang_id"
-              >Gudang<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_gudang"
-              :loading="isLoadingGetGudang"
-              :options="lookup_location.data"
-              :filterable="false"
-              @search="onGetGudang"
-              v-model="parameters.form.gudang_id"
-              :reduce="(item) => item.gudang_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_location.data.length || search"
+          <ValidationProvider rules="required">
+            <div slot-scope="{ errors, valid }">
+              <label for="jenis_peralatan_id"
+                >Jenis Peralatan<span class="text-danger">*</span></label
               >
-                <span
-                  v-if="lookup_location.current_page > 1"
-                  @click="onGetGudang(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
+              <v-select
+                label="nama_jenis_peralatan"
+                :loading="isLoadingGetJenisPeralatan"
+                :options="lookup_custom1.data"
+                :filterable="false"
+                @search="onGetJenisPeralatan"
+                v-model="parameters.form.jenis_peralatan_id"
+                :reduce="(item) => item.jenis_peralatan_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom1.data.length || search"
                 >
-                <span
-                  v-if="
-                    lookup_location.last_page > lookup_location.current_page
-                  "
-                  @click="onGetGudang(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
+                  <span
+                    v-if="lookup_custom1.current_page > 1"
+                    @click="onGetJenisPeralatan(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom1.last_page > lookup_custom1.current_page
+                    "
+                    @click="onGetJenisPeralatan(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider rules="required">
+            <div slot-scope="{ errors, valid }">
+              <label for="vendor_id"
+                >Vendor<span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_vendor"
+                :loading="isLoadingGetVendorPemilik"
+                :options="lookup_defects.data"
+                :filterable="false"
+                @search="onGetVendorPemilik"
+                v-model="parameters.form.vendor_id"
+                :reduce="(item) => item.vendor_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_defects.data.length || search"
                 >
-              </li>
-            </v-select>
-          </div>
+                  <span
+                    v-if="lookup_defects.current_page > 1"
+                    @click="onGetVendorPemilik(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_defects.last_page > lookup_defects.current_page
+                    "
+                    @click="onGetVendorPemilik(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider rules="required">
+            <div slot-scope="{ errors, valid }">
+              <label for="gudang_id"
+                >Gudang<span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_gudang"
+                :loading="isLoadingGetGudang"
+                :options="lookup_location.data"
+                :filterable="false"
+                @search="onGetGudang"
+                v-model="parameters.form.gudang_id"
+                :reduce="(item) => item.gudang_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_location.data.length || search"
+                >
+                  <span
+                    v-if="lookup_location.current_page > 1"
+                    @click="onGetGudang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_location.last_page > lookup_location.current_page
+                    "
+                    @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
           <modal-footer-section
             class="mt-5"
             :isLoadingForm="isLoadingForm"

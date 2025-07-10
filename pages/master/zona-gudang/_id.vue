@@ -43,6 +43,9 @@
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -67,6 +70,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <div class="w-full">
@@ -105,6 +111,9 @@
                         v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -129,6 +138,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -150,6 +162,9 @@
                         v-model="form.profit_cost_id"
                         :reduce="(item) => item.profit_cost_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <template slot="option" slot-scope="option">
                           {{
@@ -194,6 +209,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -214,6 +232,9 @@
                         v-model="form.pelanggan_id"
                         :reduce="(item) => item.pelanggan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -238,6 +259,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -260,6 +284,9 @@
                         v-model="form.jenis_zona_gudang_id"
                         :reduce="(item) => item.jenis_zona_gudang_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -284,6 +311,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -306,6 +336,9 @@
                         v-model="form.satuan_id_stoklevel"
                         :reduce="(item) => item.satuan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -330,6 +363,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -350,6 +386,9 @@
                         v-model="form.satuan_id_suhu"
                         :reduce="(item) => item.satuan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -374,10 +413,13 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
-                  <div class="form-group">
+                  <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="status_zona"
                       >Status Zona<span class="text-danger">*</span></label
                     >
@@ -386,13 +428,19 @@
                       name="status_zona"
                       id="status_zona"
                       v-model="form.status_zona"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                     >
                       <option value="">Pilih</option>
                       <option value="f ">Fisik</option>
                       <option value="v ">Virtual</option>
                     </select>
+                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                      errors[0]
+                    }}</span>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="allow_overstock"
                       >Allow Overstock<span class="text-danger">*</span></label
                     >
@@ -401,13 +449,19 @@
                       name="allow_overstock"
                       id="allow_overstock"
                       v-model="form.allow_overstock"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                     >
                       <option value="">Pilih</option>
                       <option value="1">Ijinkan</option>
                       <option value="0">Tidak Diijinkan</option>
                     </select>
+                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                      errors[0]
+                    }}</span>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" slot-scope="{ errors, valid }">
                     <label for="status_zona_aktif"
                       >Status Zona Aktif<span class="text-danger"
                         >*</span
@@ -418,11 +472,17 @@
                       name="status_zona_aktif"
                       id="status_zona_aktif"
                       v-model="form.status_zona_aktif"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
                     >
                       <option value="">Pilih</option>
                       <option value="1">Aktif</option>
                       <option value="0">Non Aktif</option>
                     </select>
+                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                      errors[0]
+                    }}</span>
                   </div>
 
                   <ValidationProvider
@@ -445,6 +505,9 @@
                         v-model="form.metode_pengambilan_id"
                         :reduce="(item) => item.metode_pengambilan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -469,6 +532,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -490,6 +556,9 @@
                         v-model="form.fungsi_zona_id"
                         :reduce="(item) => item.fungsi_zona_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -513,6 +582,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -534,6 +606,9 @@
                         v-model="form.group_zona_id"
                         :reduce="(item) => item.group_zona_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -557,6 +632,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -580,6 +658,9 @@
                         v-model="form.metode_penyimpanan_id"
                         :reduce="(item) => item.metode_penyimpanan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -603,6 +684,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                 </div>

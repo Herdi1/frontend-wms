@@ -328,6 +328,7 @@ export default {
         urutan: "",
         status: "",
         status_menu: "",
+        file_icon: "",
       };
       this.$refs.formInput.isEditable = false;
       // this.$refs.formInput.show();
