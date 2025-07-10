@@ -188,6 +188,34 @@ const defaultState = {
         data: [],
         current_page: 1,
     },
+    lookup_custom4: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom5: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom6: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom7: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom8: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom9: {
+        data: [],
+        current_page: 1,
+    },
+    lookup_custom10: {
+        data: [],
+        current_page: 1,
+    },
 };
 
 const state = defaultState;

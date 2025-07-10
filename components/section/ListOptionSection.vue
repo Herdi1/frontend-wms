@@ -49,7 +49,7 @@
 
         <div class="col-md-1 mt-2">
           <button
-            class="btn btn-sm btn-primary"
+            class="btn btn-sm btn-primary text-nowrap"
             data-toggle="tooltip"
             data-placement="top"
             data-original-title="Cari"
@@ -60,12 +60,12 @@
         </div>
 
         <div
-          class="flex mt-2"
+          class="flex mt-2 w-full justify-between"
           :class="!isSearching && !isShowingPage ? 'col-md-12' : 'col-md-7'"
         >
           <!-- Maintenance Page (All, Active, Trashed) -->
-          <div class="flex mx-2" v-if="isMaintenancePage">
-            <!-- <button
+          <!-- <div class="flex mx-2" v-if="isMaintenancePage"> -->
+          <!-- <button
               class="btn btn-sm"
               :class="
                 self.parameters.params.soft_deleted == 'all'
@@ -91,7 +91,7 @@
               ></i>
               <span class="badge badge-danger">{{ total }}</span>
             </button> -->
-            <!-- <button
+          <!-- <button
               class="btn btn-sm"
               :class="
                 self.parameters.params.soft_deleted == ''
@@ -114,7 +114,7 @@
               ></i>
               <span class="badge badge-danger">999</span>
             </button> -->
-            <!-- <button
+          <!-- <button
               class="btn btn-sm"
               :class="
                 self.parameters.params.soft_deleted == 'deleted'
@@ -140,7 +140,7 @@
               ></i>
               <span class="badge badge-primary">999</span>
             </button> -->
-          </div>
+          <!-- </div> -->
 
           <!-- Filter -->
           <div class="btn-group" v-if="isFilter">
@@ -163,14 +163,17 @@
               data-original-title="Tambah Data"
               @click="self.onFormShow()"
             >
-              <i class="fas fa-plus"></i> Tambah Data
+              <i class="fas fa-plus mr-2"></i> Tambah Data
             </button>
           </div>
 
           <!-- SLOT FOR DOWNLOD DATA SCHOOL DAPODIK -->
 
           <!-- Export (Excel, Pdf, Print) -->
-          <div class="btn-group float-right" v-if="isExport">
+          <div
+            class="btn-group float-right ml-2 flex gap-1 align-self-end"
+            v-if="isExport"
+          >
             <button
               class="btn btn-sm btn-primary btn-block"
               data-toggle="tooltip"
@@ -181,16 +184,18 @@
               "
               v-if="isExportFile && isExportFileExcel"
             >
-              <i class="fas fa-file-excel"></i> Excel
+              <i class="fas fa-file-excel mr-2"></i> Excel
             </button>
-            <!-- <button class="btn btn-sm btn-primary btn-block"
+            <button
+              class="btn btn-sm btn-primary btn-block"
               data-toggle="tooltip"
               data-placement="top"
               data-original-title="Download Pdf"
-              @click="exportFile({type : 'pdf',parameters : self.parameters})"
-              v-if="isExportFile && isExportFilePdf">
-              <i class="fas fa-file-pdf"></i> PDF
-            </button> -->
+              @click="exportFile({ type: 'pdf', parameters: self.parameters })"
+              v-if="isExportFile && isExportFilePdf"
+            >
+              <i class="fas fa-file-pdf mr-2"></i> PDF
+            </button>
             <button
               class="btn btn-sm btn-primary btn-block"
               data-toggle="tooltip"

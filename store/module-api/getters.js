@@ -140,4 +140,25 @@ export default {
     getLookUpLocation(state) {
         return state.lookup_location;
     },
+    getLookUpCustom4(state) {
+        return state.lookup_custom4;
+    },
+    getLookUpCustom5(state) {
+        return state.lookup_custom5;
+    },
+    getLookUpCustom6(state) {
+        return state.lookup_custom6;
+    },
+    getLookUpCustom7(state) {
+        return state.lookup_custom7;
+    },
+    getLookUpCustom8(state) {
+        return state.lookup_custom8;
+    },
+    getLookUpCustom9(state) {
+        return state.lookup_custom9;
+    },
+    getLookUpCustom10(state) {
+        return state.lookup_custom10;
+    },
 };

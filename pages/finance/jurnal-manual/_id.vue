@@ -23,7 +23,7 @@
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-5 items-top w-full"
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-1 items-top w-full"
                 >
                   <div class="form-group">
                     <input-horizontal
@@ -34,19 +34,13 @@
                       v-model="form.tanggal"
                     />
                   </div>
-                  <ValidationProvider
-                    name="gudang_id"
-                    rules="required"
-                    class="w-full mt-1"
-                  >
+                  <ValidationProvider name="gudang_id" class="w-full mt-1">
                     <div
                       slot-scope="{ errors, valid }"
                       v-if="!user.gudang_id"
                       class="flex"
                     >
-                      <label for="gudang_id" class="w-1/2"
-                        >Gudang <span class="text-danger">*</span></label
-                      >
+                      <label for="gudang_id" class="w-1/2">Gudang </label>
                       <v-select
                         label="nama_gudang"
                         :loading="isLoadingGetGudang"
@@ -83,16 +77,11 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                </div>
-                <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3 items-top w-full mb-5"
-                >
                   <div class="form-group">
                     <input-horizontal
                       label="Kode Referensi 1"
                       type="text"
                       name="kode_referensi"
-                      :required="true"
                       v-model="form.kode_referensi"
                     />
                   </div>
@@ -101,7 +90,6 @@
                       label="Kode Referensi 2"
                       type="text"
                       name="kode_referensi_2"
-                      :required="true"
                       v-model="form.kode_referensi_2"
                     />
                   </div>
@@ -110,11 +98,15 @@
                       label="Kode Referensi 3"
                       type="text"
                       name="kode_referensi_3"
-                      :required="true"
                       v-model="form.kode_referensi_3"
                     />
                   </div>
                 </div>
+                <!-- <div
+                  class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3 items-top w-full mb-5"
+                >
+
+                </div> -->
                 <div class="w-full mb-5">
                   <div class="w-full flex justify-between items-center">
                     <h1 class="text-xl font-bold">Detail Jurnal</h1>
@@ -130,12 +122,13 @@
                     </div>
                   </div>
                   <div
-                    class="table-responsive"
-                    style="max-height: 500px"
-                    :style="form.jurnal_details.length ? '' : ''"
+                    class="table-responsive overflow-y-hidden"
+                    :style="
+                      form.jurnal_details.length ? 'min-height:500px' : ''
+                    "
                   >
                     <table
-                      class="table border-collapse border border-gray-300 mt-5 h-full overflow-x-auto table-fixed"
+                      class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
                     >
                       <thead>
                         <tr class="text-sm uppercase text-nowrap">
@@ -153,6 +146,12 @@
                           </th>
                           <th class="w-[200px] border border-gray-300">
                             Zona Gudang
+                          </th>
+                          <th
+                            v-if="!user.gudang_id"
+                            class="w-[200px] border border-gray-300"
+                          >
+                            Profit & Cost Center
                           </th>
                           <th class="w-[200px] border border-gray-300">
                             Keterangan
@@ -180,6 +179,15 @@
                               v-model="item.coa_id"
                               class="w-full"
                             >
+                              <template slot="option" slot-scope="option">
+                                {{ option.nama_coa + " - " + option.kode_coa }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{ option.nama_coa + " - " + option.kode_coa }}
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -327,6 +335,117 @@
                               </li>
                             </v-select>
                           </td>
+                          <td
+                            v-if="!user.gudang_id"
+                            class="border border-gray-300"
+                          >
+                            <div class="w-full">
+                              <label for="">Profit Center</label>
+                              <v-select
+                                label="kode_profit_center"
+                                :loading="isLoadingGetProfit"
+                                :options="lookup_regus.data"
+                                :filterable="false"
+                                @search="onGetProfit"
+                                :reduce="(item) => item.profit_center_id"
+                                v-model="item.profit_center_id"
+                                class="w-full"
+                              >
+                                <!-- <template slot="option" slot-scope="option">
+                                  {{
+                                    option.wilayah.nama_wilayah +
+                                    " - " +
+                                    option.kode_profit_center
+                                  }}
+                                </template>
+                                <template
+                                  slot="selected-option"
+                                  slot-scope="option"
+                                >
+                                  {{
+                                    option.wilayah.nama_wilayah +
+                                    " - " +
+                                    option.kode_profit_center
+                                  }}
+                                </template> -->
+                                <li
+                                  slot-scope="{ search }"
+                                  slot="list-footer"
+                                  class="p-1 border-t flex justify-between"
+                                  v-if="lookup_regus.data.length || search"
+                                >
+                                  <span
+                                    v-if="lookup_regus.current_page > 1"
+                                    @click="onGetProfit(search, false)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Sebelumnya</span
+                                  >
+                                  <span
+                                    v-if="
+                                      lookup_regus.last_page >
+                                      lookup_regus.current_page
+                                    "
+                                    @click="onGetProfit(search, true)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Selanjutnya</span
+                                  >
+                                </li>
+                              </v-select>
+                            </div>
+                            <div class="w-full">
+                              <label for="">Cost Center</label>
+                              <v-select
+                                label="kode_cost_center"
+                                :loading="isLoadingGetCost"
+                                :options="lookup_grade.data"
+                                :filterable="false"
+                                @search="onGetCost"
+                                :reduce="(item) => item.cost_center_id"
+                                v-model="item.cost_center_id"
+                                class="w-full"
+                              >
+                                <!-- <template slot="option" slot-scope="option">
+                                  {{
+                                    option.wilayah.nama_wilayah +
+                                    " - " +
+                                    option.kode_cost_center
+                                  }}
+                                </template>
+                                <template
+                                  slot="selected-option"
+                                  slot-scope="option"
+                                >
+                                  {{
+                                    option.wilayah.nama_wilayah +
+                                    " - " +
+                                    option.kode_cost_center
+                                  }}
+                                </template> -->
+                                <li
+                                  slot-scope="{ search }"
+                                  slot="list-footer"
+                                  class="p-1 border-t flex justify-between"
+                                  v-if="lookup_grade.data.length || search"
+                                >
+                                  <span
+                                    v-if="lookup_grade.current_page > 1"
+                                    @click="onGetCost(search, false)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Sebelumnya</span
+                                  >
+                                  <span
+                                    v-if="
+                                      lookup_grade.last_page >
+                                      lookup_grade.current_page
+                                    "
+                                    @click="onGetCost(search, true)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Selanjutnya</span
+                                  >
+                                </li>
+                              </v-select>
+                            </div>
+                          </td>
                           <td class="border border-gray-300">
                             <textarea
                               name="keterangan"
@@ -371,23 +490,25 @@
                         </td>
                       </tr>
                     </table>
-                  </div>
-                  <div class="w-full grid grid-cols-2 my-7 items-center">
-                    <div class="form-group">
-                      <label for="keterangan"> Keterangan </label>
-                      <textarea
-                        name="keterangan"
-                        v-model="form.keterangan"
-                        class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div>
-                    <div class="w-full">
-                      <div class="flex items-baseline ml-10">
-                        <p class="w-[100px]">Balance</p>
-                        <div
-                          class="w-[150px] border border-gray-300 p-1 rounded-sm"
-                        >
-                          {{ balance }}
+                    <div
+                      class="w-full grid grid-cols-2 my-7 min-h-[200px] items-start"
+                    >
+                      <div class="form-group">
+                        <label for="keterangan"> Keterangan </label>
+                        <textarea
+                          name="keterangan"
+                          v-model="form.keterangan"
+                          class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                        ></textarea>
+                      </div>
+                      <div class="w-full mt-2">
+                        <div class="ml-10">
+                          <p class="w-[100px] mb-1">Balance</p>
+                          <div
+                            class="w-[150px] border border-gray-300 p-1 rounded-md"
+                          >
+                            {{ balance }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -429,9 +550,9 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      title: "Gudang",
+      title: "Jurnal Manual",
 
-      url: "master/gudang",
+      url: "finance/jurnal",
       form: {
         jurnal_id: "",
         tanggal: "",
@@ -477,6 +598,14 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      isStopSearchProfit: false,
+      isLoadingGetProfit: false,
+      profit_search: "",
+
+      isStopSearchCost: false,
+      isLoadingGetCost: false,
+      cost_search: "",
+
       user: this.$auth.user,
     };
   },
@@ -484,9 +613,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let response = await this.$axios.get(
-          "finance/jurnal_manual/" + this.id
-        );
+        let response = await this.$axios.get("finance/jurnal/" + this.id);
 
         Object.keys(this.form).forEach((item) => {
           if (item != "jurnal_details") {
@@ -499,6 +626,9 @@ export default {
             ...item,
             jurnal_details_id: item || null,
             coa_id: item.coa || "",
+            jenis_biaya_id: item.jenis_biaya_id || "",
+            divisi_id: item.divisi_id || "",
+            zona_gudang_id: item.zona_gudang_id || "",
           };
         });
 
@@ -515,6 +645,8 @@ export default {
     await this.onSearchDivisi();
     await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
+    await this.onSearchProfit();
+    await this.onSearchCost();
   },
 
   computed: {
@@ -526,6 +658,8 @@ export default {
       "lookup_custom3",
       "lookup_suppliers",
       "lookup_resellers",
+      "lookup_regus",
+      "lookup_grade",
     ]),
 
     balance() {
@@ -555,7 +689,7 @@ export default {
 
       this.isLoadingForm = true;
 
-      let url = "finance/jurnal_manual";
+      let url = "finance/jurnal";
 
       if (this.user.gudang_id) {
         this.form.gudang_id = this.user.gudang_id;
@@ -574,6 +708,11 @@ export default {
           //     : "",
           coa_id:
             typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
+          jenis_biaya_id: item.jenis_biaya_id || "",
+          divisi_id: item.divisi_id || "",
+          zona_gudang_id: item.zona_gudang_id || "",
+          profit_center_id: item.profit_center_id || "",
+          cost_center_id: item.cost_center_id || "",
         };
       });
 
@@ -641,6 +780,8 @@ export default {
       await this.onSearchDivisi();
       await this.onSearchJenisBiaya();
       await this.onSearchZonaGudang();
+      await this.onSearchProfit();
+      await this.onSearchCost();
     },
 
     //gudang
@@ -810,7 +951,7 @@ export default {
       clearTimeout(this.isStopSearchZonaGudang);
 
       this.isStopSearchZonaGudang = setTimeout(() => {
-        this.divisi_search = search;
+        this.zona_gudang_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_resellers.current_page = isNext
@@ -842,6 +983,86 @@ export default {
         });
 
         this.isLoadingGetZonaGudang = false;
+      }
+    },
+
+    //Profit
+    onGetProfit(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProfit);
+
+      this.isStopSearchProfit = setTimeout(() => {
+        this.profit_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_regus.current_page = isNext
+            ? this.lookup_regus.current_page + 1
+            : this.lookup_regus.current_page - 1;
+        } else {
+          this.lookup_regus.current_page = 1;
+        }
+
+        this.onSearchProfit();
+      }, 600);
+    },
+
+    async onSearchProfit() {
+      if (!this.isLoadingGetProfit) {
+        this.isLoadingGetProfit = true;
+
+        await this.lookUp({
+          url: "master/profit-center/get-profit-center",
+          lookup: "regus",
+          query:
+            "?search=" +
+            this.profit_search +
+            "&page=" +
+            this.lookup_regus.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProfit = false;
+      }
+    },
+
+    //cost
+    onGetCost(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCost);
+
+      this.isStopSearchCost = setTimeout(() => {
+        this.cost_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
+        } else {
+          this.lookup_grade.current_page = 1;
+        }
+
+        this.onSearchCost();
+      }, 600);
+    },
+
+    async onSearchCost() {
+      if (!this.isLoadingGetCost) {
+        this.isLoadingGetCost = true;
+
+        await this.lookUp({
+          url: "master/cost-center/get-cost-center",
+          lookup: "grade",
+          query:
+            "?search=" +
+            this.cost_search +
+            "&page=" +
+            this.lookup_grade.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCost = false;
       }
     },
   },
