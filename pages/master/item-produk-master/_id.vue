@@ -82,6 +82,9 @@
                         v-model="form.satuan_id"
                         :reduce="(item) => item.satuan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -106,6 +109,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -135,6 +141,9 @@
                           v-model="form.satuan_id_berat"
                           :reduce="(item) => item.satuan_id"
                           class="w-full"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -159,6 +168,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
@@ -191,6 +205,9 @@
                           v-model="form.satuan_id_volume"
                           :reduce="(item) => item.satuan_id"
                           class="w-full"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -215,6 +232,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
@@ -247,6 +269,9 @@
                           v-model="form.satuan_id_stocklevel"
                           :reduce="(item) => item.satuan_id"
                           class="w-full"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -271,6 +296,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
@@ -293,6 +323,9 @@
                         v-model="form.supplier_id"
                         :reduce="(item) => item.supplier_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <!-- <template #search="{ attributes, events }">
                           <input
@@ -325,6 +358,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -349,6 +385,9 @@
                         :reduce="(item) => item.group_item_id"
                         class="w-full"
                         @input="onSearchGroupItem2"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <!-- <template #search="{ attributes, events }">
                           <input
@@ -381,6 +420,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -402,6 +444,9 @@
                           :reduce="(item) => item.group_item_id"
                           class="w-full"
                           @input="onSearchGroupItem3"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -425,6 +470,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                     <ValidationProvider name="group_item_id_3" class="w-full">
@@ -444,6 +494,9 @@
                           :reduce="(item) => item.group_item_id"
                           class="w-full"
                           @input="onSearchGroupItem4"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -468,13 +521,18 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="group_item_id_4" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="group_item_id_4">Group Item Level 4</label>
                         <v-select
                           label="nama_group_item"
@@ -513,7 +571,7 @@
                       </div>
                     </ValidationProvider>
                     <ValidationProvider name="group_item_id_5" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="group_item_id_5">Group Item Level 5</label>
                         <v-select
                           label="nama_group_item"
@@ -557,7 +615,7 @@
                     rules="required"
                     class="w-full"
                   >
-                    <div slot-scope="{ errors, valid }">
+                    <div>
                       <label for="kategori_id_1">Kategori Item Level 1</label>
                       <v-select
                         label="nama_kategori_item"
@@ -598,7 +656,7 @@
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="kategori_id_1" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="kategori_id_2">Kategori Item Level 2</label>
                         <v-select
                           label="nama_kategori_item"
@@ -637,7 +695,7 @@
                       </div>
                     </ValidationProvider>
                     <ValidationProvider name="kategori_id_3" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="kategori_id_3">Kategori Item Level 3</label>
                         <v-select
                           label="nama_kategori_item"
@@ -679,7 +737,7 @@
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <ValidationProvider name="kategori_id_4" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="kategori_id_4">Kategori Item Level 4</label>
                         <v-select
                           label="nama_kategori_item"
@@ -718,7 +776,7 @@
                       </div>
                     </ValidationProvider>
                     <ValidationProvider name="kategori_id_5" class="w-full">
-                      <div slot-scope="{ errors, valid }">
+                      <div>
                         <label for="kategori_id_5">Kategori Item Level 5</label>
                         <v-select
                           label="nama_kategori_item"

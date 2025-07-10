@@ -53,7 +53,10 @@
                 </v-select>
               </div>
               <ValidationProvider name="tipe_badan_hukum" rules="required">
-                <div class="form-group w-full items-center mb-5">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
                   <label for=""
                     >Tipe Badan Hukum <span class="text-danger">*</span></label
                   >
@@ -66,6 +69,7 @@
                     @search="onGetTBH"
                     :reduce="(item) => item.tipe_badan_hukum_id"
                     v-model="form.tipe_badan_hukum_id"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -90,10 +94,13 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">User Sales</label>
+                <label for="">User Sales</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_lengkap"
@@ -206,8 +213,11 @@
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
               <ValidationProvider name="id_negara" rules="required">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
+                  <label for=""
                     >Negara <span class="text-danger">*</span></label
                   >
                   <v-select
@@ -220,6 +230,7 @@
                     :reduce="(item) => item.negara_id"
                     v-model="form.negara_id"
                     @input="onSelectNegara"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -243,6 +254,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="id_provinsi" rules="required">
@@ -250,7 +264,7 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12"
+                  <label for=""
                     >Provinsi <span class="text-danger">*</span></label
                   >
                   <v-select
@@ -287,6 +301,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="id_kota" rules="required">
@@ -294,9 +311,7 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12"
-                    >Kota <span class="text-danger">*</span></label
-                  >
+                  <label for="">Kota <span class="text-danger">*</span></label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
@@ -331,6 +346,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
             </div>
@@ -340,7 +358,7 @@
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
                 >
-                  <label for="" class="w-4/12"
+                  <label for=""
                     >Kecamatan <span class="text-danger">*</span></label
                   >
                   <v-select
@@ -375,10 +393,13 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Kelurahan</label>
+                <label for="">Kelurahan</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_kelurahan"
@@ -411,7 +432,7 @@
                 </v-select>
               </div>
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Kode Pos</label>
+                <label for="">Kode Pos</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_kode_pos"
@@ -489,6 +510,9 @@
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   />
                   <div class="text-muted text-small">* Meter</div>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
             </div>
@@ -607,7 +631,7 @@
             <div class="grid grid-cols-3 gap-2 w-full">
               <ValidationProvider name="id_negara_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Negara Pemilik</label>
+                  <label for="">Negara Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_negara"
@@ -645,7 +669,7 @@
               </ValidationProvider>
               <ValidationProvider name="id_provinsi_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Provinsi Pemilik</label>
+                  <label for="">Provinsi Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_provinsi"
@@ -684,7 +708,7 @@
               </ValidationProvider>
               <ValidationProvider name="id_kota_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Kota Pemilik</label>
+                  <label for="">Kota Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kota"
@@ -725,7 +749,7 @@
             <div class="grid grid-cols-2 gap-2 w-full">
               <ValidationProvider name="id_kecamatan_pemilik">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Kecamatan Pemilik</label>
+                  <label for="">Kecamatan Pemilik</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_kecamatan"
@@ -763,7 +787,7 @@
                 </div>
               </ValidationProvider>
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Kelurahan Pemilik</label>
+                <label for="">Kelurahan Pemilik</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_kelurahan"
@@ -810,7 +834,7 @@
               ></textarea>
             </div>
           </div>
-          <div
+          <!-- <div
             class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-4"
           >
             <div class="w-full mt-3 mb-7">
@@ -1096,18 +1120,17 @@
                     <td>{{ item.kode_wms }}</td>
                     <td></td>
                     <td>{{ item.nama_item }}</td>
-                    <!-- <td>{{ item.satuan.nama_satuan }}</td>
-                    <td>
-                      {{ item.berat + " " + item.satuan_berat.nama_satuan }}
-                    </td>
-                    <td>
-                      {{ item.volume + " " + item.satuan_volume.nama_satuan }}
-                    </td>
-                    <td>{{ item.group_item_1.nama_group_item }}</td> -->
                   </tr>
                 </tbody>
               </table>
             </div>
+          </div> -->
+          <div class="w-full mb-5">
+            <TabComponent :tabs="tabs">
+              <template #ItemPelanggan>
+                <ItemPelanggan :self="{ form, parameters }" />
+              </template>
+            </TabComponent>
           </div>
           <div class="w-full flex justify-start">
             <modal-footer-section
@@ -1126,7 +1149,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState, mapMutations } from "vuex";
 import ItemPelanggan from "./itemPelanggan.vue";
-import tabComponent from "./tabComponent.vue";
+import TabComponent from "./tabComponent.vue";
 export default {
   // props: ["self"],
   middleware: ["checkRoleUser"],
@@ -1139,13 +1162,14 @@ export default {
 
   components: {
     ItemPelanggan,
-    tabComponent,
+    TabComponent,
   },
 
   data() {
     let id = parseInt(this.$route.params.id);
     return {
       tabs: [{ name: "ItemPelanggan" }, { name: "Shipto" }],
+
       id,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -1192,6 +1216,7 @@ export default {
         kota_id_pemilik: "",
         kecamatan_id_pemilik: "",
         kelurahan_id_pemilik: "",
+        item_pelanggans: [],
       },
 
       isStopSearchNegara: false,
@@ -1254,7 +1279,7 @@ export default {
       isLoadingGetKelurahanPemilik: false,
       kelurahanPemilik_search: "",
 
-      // item_pelanggan
+      // item_pelanggans
       itemTitle: "Item Pelanggan",
       isLoadingData: false,
       isPaginate: true,
@@ -1366,14 +1391,18 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get("master/pelanggan/" + this.id);
-        this.form = res.data;
+
+        Object.keys(this.form).forEach((item) => {
+          this.form[item] = res.data[item];
+        });
+
         this.isLoadingPage = false;
       }
     } catch (error) {
       this.$router.push("/master/pelanggan");
     }
-    this.set_data([]);
-    this.onLoad();
+    // this.set_data([]);
+    // this.onLoad();
   },
 
   async mounted() {
@@ -1545,51 +1574,51 @@ export default {
     //   });
     // },
 
-    async onLoad(page = 1) {
-      if (this.isLoadingData) return;
+    // async onLoad(page = 1) {
+    //   if (this.isLoadingData) return;
 
-      this.isLoadingData = true;
-      this.parameters.params.page = page;
+    //   this.isLoadingData = true;
+    //   this.parameters.params.page = page;
 
-      // this.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
+    //   this.form.checkboxs = [];
+    //   if (document.getElementById("checkAll")) {
+    //     document.getElementById("checkAll").checked = false;
+    //   }
 
-      let loader = this.$loading.show({
-        container: this.$refs.formContainer,
-        canCancel: true,
-        onCancel: this.onCancel,
-      });
+    //   let loader = this.$loading.show({
+    //     container: this.$refs.formContainer,
+    //     canCancel: true,
+    //     onCancel: this.onCancel,
+    //   });
 
-      this.parameters.params.group_item_id_1 =
-        this.filter_params.group_item_id_1;
-      this.parameters.params.group_item_id_2 =
-        this.filter_params.group_item_id_2;
-      this.parameters.params.group_item_id_3 =
-        this.filter_params.group_item_id_3;
-      this.parameters.params.group_item_id_4 =
-        this.filter_params.group_item_id_4;
-      this.parameters.params.group_item_id_5 =
-        this.filter_params.group_item_id_5;
+    //   this.parameters.params.group_item_id_1 =
+    //     this.filter_params.group_item_id_1;
+    //   this.parameters.params.group_item_id_2 =
+    //     this.filter_params.group_item_id_2;
+    //   this.parameters.params.group_item_id_3 =
+    //     this.filter_params.group_item_id_3;
+    //   this.parameters.params.group_item_id_4 =
+    //     this.filter_params.group_item_id_4;
+    //   this.parameters.params.group_item_id_5 =
+    //     this.filter_params.group_item_id_5;
 
-      await this.getData(this.parameters);
-      this.parameters.selectedList = { ...this.parameters.filter_list };
+    //   await this.getData(this.parameters);
+    //   this.parameters.selectedList = { ...this.parameters.filter_list };
 
-      if (this.result == true) {
-        loader.hide();
+    //   if (this.result == true) {
+    //     loader.hide();
 
-        if (page == 1) {
-          this.$refs["pagination"].generatePage();
-        }
+    //     if (page == 1) {
+    //       this.$refs["pagination"].generatePage();
+    //     }
 
-        this.$refs["pagination"].active_page = this.parameters.params.page;
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
+    //     this.$refs["pagination"].active_page = this.parameters.params.page;
+    //   } else {
+    //     this.$globalErrorToaster(this.$toaster, this.error);
+    //   }
 
-      this.isLoadingData = false;
-    },
+    //   this.isLoadingData = false;
+    // },
 
     // onSort(column, sort = "asc") {
     //   this.parameters.params = {
@@ -1606,71 +1635,163 @@ export default {
 
       this.isLoadingForm = true;
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.form,
-          id: this.form.pelanggan_id ? this.form.pelanggan_id : "",
-        },
-      };
+      let url = "master/pelanggan";
+
+      let formData = new FormData();
+
+      this.form.item_pelanggans.forEach((item, i) => {
+        formData.append(
+          `item_pelanggans[${i}].item_pelanggans_id`,
+          item.item_pelanggans_id
+        );
+        formData.append(`item_pelanggans[${i}].item_id`, item.item_id);
+        formData.append(`item_pelanggans[${i}].vendor_id`, item.vendor_id);
+        formData.append(`item_pelanggans[${i}].kode_sap`, item.kode_sap);
+        formData.append(`item_pelanggans[${i}].kode_sap`, item.kode_sap);
+        formData.append(
+          `item_pelanggans[${i}].berat_bersih`,
+          item.berat_bersih
+        );
+        formData.append(`item_pelanggans[${i}].berat_kotor`, item.berat_kotor);
+        formData.append(`item_pelanggans[${i}].panjang`, item.panjang);
+        formData.append(`item_pelanggans[${i}].lebar`, item.lebar);
+        formData.append(`item_pelanggans[${i}].tebal`, item.tebal);
+        formData.append(`item_pelanggans[${i}].volume`, item.volume);
+        formData.append(`item_pelanggans[${i}].warna`, item.warna);
+      });
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-        this.isEditable = false;
-        this.form = {
-          pelanggan_id_induk: "",
-          tipe_badan_hukum_id: "",
-          user_id_sales: "",
-          alias: "",
-          kode_referensi: "",
-          kode_pelanggan: "",
-          no_npwp: "",
-          nama_pelanggan: "",
-          email: "",
-          alamat_pelanggan: "",
-          kelurahan_id: "",
-          kecamatan_id: "",
-          kota_id: "",
-          provinsi_id: "",
-          negara_id: "",
-          kode_pos_id: "",
-          no_telp: "",
-          no_hp: "",
-          nomor_siup: "",
-          nama_cp: "",
-          telp_cp: "",
-          hp_cp: "",
-          nilai_plafon: "",
-          lokasi_id: "",
-          rentang_retur_penjualan: "",
-          longitude: "",
-          latitude: "",
-          radius: "",
-          nama_pemilik: "",
-          alamat_pemilik: "",
-          nik_pemilik: "",
-          no_npwp_pemilik: "",
-          negara_id_pemilik: "",
-          provinsi_id_pemilik: "",
-          kota_id_pemilik: "",
-          kecamatan_id_pemilik: "",
-          kelurahan_id_pemilik: "",
-        };
-        this.$refs.formValidate.reset();
-        this.$refs.ruteProvider.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-      this.isLoadingForm = false;
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "PUT" : "POST",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " + (this.isEditable ? "Update" : "Tambah") + " Gudang"
+          );
+
+          if (!this.isEditable) {
+            this.form = {
+              pelanggan_id_induk: "",
+              tipe_badan_hukum_id: "",
+              user_id_sales: "",
+              alias: "",
+              kode_referensi: "",
+              kode_pelanggan: "",
+              no_npwp: "",
+              nama_pelanggan: "",
+              email: "",
+              alamat_pelanggan: "",
+              kelurahan_id: "",
+              kecamatan_id: "",
+              kota_id: "",
+              provinsi_id: "",
+              negara_id: "",
+              kode_pos_id: "",
+              no_telp: "",
+              no_hp: "",
+              nomor_siup: "",
+              nama_cp: "",
+              telp_cp: "",
+              hp_cp: "",
+              nilai_plafon: "",
+              lokasi_id: "",
+              rentang_retur_penjualan: "",
+              longitude: "",
+              latitude: "",
+              radius: "",
+              nama_pemilik: "",
+              alamat_pemilik: "",
+              nik_pemilik: "",
+              no_npwp_pemilik: "",
+              negara_id_pemilik: "",
+              provinsi_id_pemilik: "",
+              kota_id_pemilik: "",
+              kecamatan_id_pemilik: "",
+              kelurahan_id_pemilik: "",
+              item_pelanggans: [],
+            };
+          }
+          this.$router.push("/master/pelanggan");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+          this.$refs.ruteProvider.reset();
+        });
+
+      // let parameters = {
+      //   ...this.parameters,
+      //   form: {
+      //     ...this.form,
+      //     id: this.form.pelanggan_id ? this.form.pelanggan_id : "",
+      //   },
+      // };
+
+      // if (this.isEditable) {
+      //   await this.updateData(parameters);
+      // } else {
+      //   await this.addData(parameters);
+      // }
+
+      // if (this.result == true) {
+      //   this.$toaster.success(
+      //     "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
+      //   );
+      //   this.isEditable = false;
+      //   this.form = {
+      //     pelanggan_id_induk: "",
+      //     tipe_badan_hukum_id: "",
+      //     user_id_sales: "",
+      //     alias: "",
+      //     kode_referensi: "",
+      //     kode_pelanggan: "",
+      //     no_npwp: "",
+      //     nama_pelanggan: "",
+      //     email: "",
+      //     alamat_pelanggan: "",
+      //     kelurahan_id: "",
+      //     kecamatan_id: "",
+      //     kota_id: "",
+      //     provinsi_id: "",
+      //     negara_id: "",
+      //     kode_pos_id: "",
+      //     no_telp: "",
+      //     no_hp: "",
+      //     nomor_siup: "",
+      //     nama_cp: "",
+      //     telp_cp: "",
+      //     hp_cp: "",
+      //     nilai_plafon: "",
+      //     lokasi_id: "",
+      //     rentang_retur_penjualan: "",
+      //     longitude: "",
+      //     latitude: "",
+      //     radius: "",
+      //     nama_pemilik: "",
+      //     alamat_pemilik: "",
+      //     nik_pemilik: "",
+      //     no_npwp_pemilik: "",
+      //     negara_id_pemilik: "",
+      //     provinsi_id_pemilik: "",
+      //     kota_id_pemilik: "",
+      //     kecamatan_id_pemilik: "",
+      //     kelurahan_id_pemilik: "",
+      //   };
+      //   this.$refs.formValidate.reset();
+      //   this.$refs.ruteProvider.reset();
+      //   this.$router.back();
+      // } else {
+      //   this.$globalErrorToaster(this.$toaster, this.error);
+      // }
+      // this.isLoadingForm = false;
     },
 
     //Negara Methods Start

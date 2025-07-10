@@ -75,6 +75,9 @@
                         v-model="form.profit_cost_id"
                         :reduce="(item) => item.profit_cost_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <template slot="option" slot-scope="option">
                           {{
@@ -119,6 +122,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -161,6 +167,9 @@
                         :reduce="(item) => item.group_gudang_id"
                         class="w-full"
                         @input="onSelectGroup1"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -185,6 +194,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
@@ -210,6 +222,9 @@
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup2"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -234,6 +249,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                     <ValidationProvider
@@ -257,6 +277,9 @@
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup3"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -281,6 +304,11 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
