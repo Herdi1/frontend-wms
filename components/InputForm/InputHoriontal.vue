@@ -1,6 +1,6 @@
 <template>
-  <div class="mb-2 flex justify-between">
-    <label :for="name" class="w-1/2"
+  <div class="mb-2 flex justify-between items-center">
+    <label :for="name" :class="labelWidth"
       >{{ label }} <span v-if="required" class="text-danger">*</span></label
     >
     <input
@@ -9,8 +9,8 @@
       :value="value"
       :name="name"
       :required="required"
-      :class="inputClass"
-      class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+      :class="inputWidth"
+      class="pl-2 py-1 border border-gray-300 rounded focus:outline-none"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"
     />
@@ -40,9 +40,13 @@ export default {
       type: [String, Number],
       default: "",
     },
-    inputClass: {
-      type: [String, Object, Array],
-      default: "",
+    inputWidth: {
+      type: String,
+      default: "w-1/2",
+    },
+    labelWidth: {
+      type: String,
+      default: "w-1/2",
     },
   },
 };

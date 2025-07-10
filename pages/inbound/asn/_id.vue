@@ -360,6 +360,8 @@
                   label="Catatan"
                   type="text"
                   name="catatan"
+                  :labelWidth="'w-1/2'"
+                  :inputWidth="'w-1/2'"
                   v-model="parameters.form.catatan"
                   :required="false"
                 />

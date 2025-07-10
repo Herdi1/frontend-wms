@@ -813,9 +813,6 @@
           <div
             class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-4"
           >
-            <!-- <div class="card-title">
-        <list-option-section :self="this" ref="form-option" />
-      </div> -->
             <div class="w-full mt-3 mb-7">
               <div
                 class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
@@ -1128,8 +1125,10 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState, mapMutations } from "vuex";
+import ItemPelanggan from "./itemPelanggan.vue";
+import tabComponent from "./tabComponent.vue";
 export default {
-  props: ["self"],
+  // props: ["self"],
   middleware: ["checkRoleUser"],
 
   head() {
@@ -1138,9 +1137,15 @@ export default {
     };
   },
 
+  components: {
+    ItemPelanggan,
+    tabComponent,
+  },
+
   data() {
     let id = parseInt(this.$route.params.id);
     return {
+      tabs: [{ name: "ItemPelanggan" }, { name: "Shipto" }],
       id,
 
       isEditable: Number.isInteger(id) ? true : false,

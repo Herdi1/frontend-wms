@@ -255,6 +255,7 @@
                 </div>
               </div>
             </th>
+            <th class="w-[200px] border border-gray-300">Referensi SAP</th>
             <th class="w-[200px] border border-gray-300">Supplier</th>
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Group Item</th>
@@ -297,6 +298,15 @@
               }}
             </td>
             <td class="border border-gray-300">{{ item.nama_item }}</td>
+            <td class="border border-gray-300">
+              <input-form
+                label=""
+                type="text"
+                name="referensi_sap"
+                :required="false"
+                v-model="item.referensi_sap"
+              />
+            </td>
             <td class="border border-gray-300">
               {{
                 item.supplier ? item.supplier.nama_supplier : "Tidak Ditemukan"
@@ -505,20 +515,16 @@
                     "
                   />
                 </div>
-                <div class="form-group">
-                  <label for="warna">Warna</label>
-                  <money
-                    v-model="item.warna"
-                    class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div>
               </div>
             </td>
             <td class="border border-gray-300">
-              {{ item.warna ? item.warna : "Tidak Ditemukan" }}
+              <input-form
+                label=""
+                type="text"
+                name="warna"
+                :required="false"
+                v-model="item.warna"
+              />
             </td>
           </tr>
         </tbody>
