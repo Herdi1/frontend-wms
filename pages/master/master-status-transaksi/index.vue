@@ -35,40 +35,6 @@
                 <th>Proses</th>
                 <th>Modul</th>
                 <th>Kode Transaksi</th>
-                <!-- <th
-                  @click="
-                    onSort(
-                      'nama_status_transaksi',
-                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                    )
-                  "
-                  class="cursor-pointer"
-                >
-                  <div class="flex justify-between align-baseline">
-                    <div>Nama Status Transaksi</div>
-                    <div>
-                      <i
-                        class="fas fa-caret-up"
-                        :class="
-                          parameters.params.order == 'nama_status_transaksi' &&
-                          parameters.params.sort == 'asc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                      <i
-                        class="fas fa-caret-down"
-                        :class="
-                          parameters.params.order == 'nama_status_transaksi' &&
-                          parameters.params.sort == 'desc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                    </div>
-                  </div>
-                </th>
-                <th>Progres</th> -->
                 <th>Keterangan Transaksi</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>

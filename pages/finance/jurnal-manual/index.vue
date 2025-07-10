@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Gudang</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -91,7 +91,14 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_jurnal }}</td>
+                  <td>
+                    <div>
+                      {{ item.kode_jurnal }}
+                      <span class="text-blue-500"
+                        ><i>Dibuat oleh: {{ item.user.nama_lengkap }}</i></span
+                      >
+                    </div>
+                  </td>
                   <td>{{ item.tanggal }}</td>
                   <td>
                     {{
