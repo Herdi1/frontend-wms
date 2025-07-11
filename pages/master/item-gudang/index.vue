@@ -293,32 +293,34 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"
                   />
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.item_id }}</td>
-                <td>{{ item.vendor_id }}</td>
-                <td>{{ item.supplier_id }}</td>
-                <td>{{ item.nama_item }}</td>
-                <td>{{ item.group_item_id_1 }}</td>
-                <td>{{ item.batas_atas }}</td>
-                <td>{{ item.kode_sap }}</td>
-                <td>{{ item.batas_bawah }}</td>
-                <td>{{ item.kategori_id_1 }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.item_id }}</td>
+                <td class="border border-gray-300">{{ item.vendor_id }}</td>
+                <td class="border border-gray-300">{{ item.supplier_id }}</td>
+                <td class="border border-gray-300">{{ item.nama_item }}</td>
+                <td class="border border-gray-300">
+                  {{ item.group_item_id_1 }}
+                </td>
+                <td class="border border-gray-300">{{ item.batas_atas }}</td>
+                <td class="border border-gray-300">{{ item.kode_sap }}</td>
+                <td class="border border-gray-300">{{ item.batas_bawah }}</td>
+                <td class="border border-gray-300">{{ item.kategori_id_1 }}</td>
+                <td class="border border-gray-300">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
               </tr>
@@ -351,6 +353,8 @@ export default {
 
   created() {
     this.set_data([]);
+    // this.parameters.params.gudang_id = this.user.gudang_id;
+
     this.onLoad();
   },
 
@@ -432,6 +436,7 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          gudang_id: "",
           group_item_id_1: "",
           group_item_id_2: "",
           group_item_id_3: "",
@@ -557,7 +562,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/master/item-gudang/edit/" + item.item_id);
+      this.$router.push("/master/item-gudang/" + item.item_gudang_id);
     },
 
     onDetail(item) {
@@ -614,6 +619,7 @@ export default {
         onCancel: this.onCancel,
       });
 
+      this.parameters.params.gudang_id = this.user.gudang_id;
       this.parameters.params.group_item_id_1 =
         this.filter_params.group_item_id_1;
       this.parameters.params.group_item_id_2 =

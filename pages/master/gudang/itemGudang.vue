@@ -1039,7 +1039,7 @@ export default {
 
         await this.lookUp({
           url: "master/group-item/get-group-item",
-          lookup: "customer_groups",
+          lookup: "quotations",
           query:
             "?search=" +
             this.group_item_4_search +
