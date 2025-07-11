@@ -33,17 +33,53 @@ export default {
       isLoadingGetVendor: false,
       vendor_search: "",
 
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
+
       isStopSearchSuppliers: false,
       isLoadingGetSuppliers: false,
       suppliers_search: "",
 
-      isStopSearchGroup: false,
-      isLoadingGetGroup: false,
-      group_search: "",
+      isStopSearchGroup1: false,
+      isLoadingGetGroup1: false,
+      group1_search: "",
 
-      isStopSearchCategory: false,
-      isLoadingGetCategory: false,
-      category_search: "",
+      isStopSearchGroup2: false,
+      isLoadingGetGroup2: false,
+      group2_search: "",
+
+      isStopSearchGroup3: false,
+      isLoadingGetGroup3: false,
+      group3_search: "",
+
+      isStopSearchGroup4: false,
+      isLoadingGetGroup4: false,
+      group4_search: "",
+
+      isStopSearchGroup5: false,
+      isLoadingGetGroup5: false,
+      group5_search: "",
+
+      isStopSearchKategori1: false,
+      isLoadingGetKategori1: false,
+      kategori1_search: "",
+
+      isStopSearchKategori2: false,
+      isLoadingGetKategori2: false,
+      kategori2_search: "",
+
+      isStopSearchKategori3: false,
+      isLoadingGetKategori3: false,
+      kategori3_search: "",
+
+      isStopSearchKategori4: false,
+      isLoadingGetKategori4: false,
+      kategori4_search: "",
+
+      isStopSearchKategori5: false,
+      isLoadingGetKategori5: false,
+      kategori5_search: "",
 
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
@@ -101,9 +137,15 @@ export default {
   async mounted() {
     await this.onSearchItem();
     await this.onSearchVendor();
-    await this.onSearchGroup();
+    await this.onSearchPelanggan();
     await this.onSearchSuppliers();
-    await this.onSearchCategory();
+
+    await this.onSearchGroup1();
+    await this.onSearchKategori1();
+    await this.onSearchKategori2();
+    await this.onSearchKategori3();
+    await this.onSearchKategori4();
+    await this.onSearchKategori5();
   },
 
   computed: {
@@ -112,9 +154,14 @@ export default {
       "result",
       "lookup_custom1", //item
       "lookup_custom2", //vendor
-      "lookup_custom3", //grup
-      "lookup_suppliers", //supplier
-      "lookup_grade", //kategori
+      "lookup_custom3", //pelanggan
+      "lookup_custom4", //supplier
+      "lookup_custom5", //group1
+      "lookup_custom6", //kategori1
+      "lookup_custom7", //kategori2
+      "lookup_custom8", //kategori3
+      "lookup_custom9", //kategori4
+      "lookup_custom10", //kategori5
     ]),
   },
 
@@ -126,65 +173,121 @@ export default {
 
       this.isLoadingForm = true;
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.item_pelanggan_id
-            ? this.parameters.form.item_pelanggan_id
-            : "",
-        },
+      let url = "master/item-pelanggan";
+
+      let formData = {
+        ...this.form,
+        item_id:
+          typeof this.parameters.form.item_id == "object"
+            ? this.parameters.form.item_id.item_id
+            : this.parameters.form.item_id,
       };
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-        this.isEditable = false;
-        this.parameters.form = {
-          item_id: "",
-          vendor_id: "",
-          supplier_id: "",
-          supplier_code: "",
-          nama_item: "",
-          group_item_id_1: "",
-          group_item_id_2: "",
-          group_item_id_3: "",
-          group_item_id_4: "",
-          group_item_id_5: "",
-          batas_atas: "",
-          kode_sap: "",
-          batas_bawah: "",
-          kategori_id_1: "",
-          kategori_id_2: "",
-          kategori_id_3: "",
-          kategori_id_4: "",
-          kategori_id_5: "",
-          jumlah_palet: "",
-          kapasitas_palet: "",
-          kebutuhan_palet: "",
-          maksimal_tumpukan: "",
-          berat_bersih: "",
-          berat_kotor: "",
-          panjang: "",
-          lebar: "",
-          tebal: "",
-          volume: "",
-          warna: "",
-        };
-        this.$refs.formValidate.reset();
-        this.$refs.ruteProvider.reset();
-        this.$router.back();
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "PUT" : "POST",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              "Item Pelanggan"
+          );
+
+          if (!this.isEditable) {
+            this.parameters.form = {
+              item_id: "",
+              vendor_id: "",
+              supplier_id: "",
+              supplier_code: "",
+              nama_item: "",
+              group_item_id_1: "",
+              group_item_id_2: "",
+              group_item_id_3: "",
+              group_item_id_4: "",
+              group_item_id_5: "",
+              batas_atas: "",
+              kode_sap: "",
+              batas_bawah: "",
+              kategori_id_1: "",
+              kategori_id_2: "",
+              kategori_id_3: "",
+              kategori_id_4: "",
+              kategori_id_5: "",
+              jumlah_palet: "",
+              kapasitas_palet: "",
+              kebutuhan_palet: "",
+              maksimal_tumpukan: "",
+              berat_bersih: "",
+              berat_kotor: "",
+              panjang: "",
+              lebar: "",
+              tebal: "",
+              volume: "",
+              warna: "",
+            };
+          }
+
+          this.$router.push("/master/item-pelanggan");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+    },
+
+    onSelectItem(item) {
+      if (item) {
+        this.parameters.form.nama_item = item.nama_item;
+        this.parameters.form.supplier_id = item.supplier_id;
+        this.parameters.form.supplier_code = item.supplier_code;
+        this.parameters.form.batas_atas = item.batas_atas;
+        this.parameters.form.batas_bawah = item.batas_bawah;
+        this.parameters.form.jumlah_palet = item.jumlah_palet;
+        this.parameters.form.kapasitas_palet = item.kapasitas_palet;
+        this.parameters.form.kebutuhan_palet = item.kebutuhan_palet;
+        this.parameters.form.maksimal_tumpukan = item.maksimal_tumpukan;
+        this.parameters.form.volume = item.volume;
+        this.parameters.form.group_item_id_1 = item.group_item_id_1;
+        this.parameters.form.group_item_id_2 = item.group_item_id_2;
+        this.parameters.form.group_item_id_3 = item.group_item_id_3;
+        this.parameters.form.group_item_id_4 = item.group_item_id_4;
+        this.parameters.form.group_item_id_5 = item.group_item_id_5;
+        this.parameters.form.kategori_id_1 = item.kategori_id_1;
+        this.parameters.form.kategori_id_2 = item.kategori_id_2;
+        this.parameters.form.kategori_id_3 = item.kategori_id_3;
+        this.parameters.form.kategori_id_4 = item.kategori_id_4;
+        this.parameters.form.kategori_id_5 = item.kategori_id_5;
       } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
+        this.parameters.form.nama_item = "";
+        this.parameters.form.supplier_id = "";
+        this.parameters.form.supplier_code = "";
+        this.parameters.form.batas_atas = "";
+        this.parameters.form.batas_bawah = "";
+        this.parameters.form.jumlah_palet = "";
+        this.parameters.form.kapasitas_palet = "";
+        this.parameters.form.kebutuhan_palet = "";
+        this.parameters.form.maksimal_tumpukan = "";
+        this.parameters.form.volume = "";
+        this.parameters.form.group_item_id_1 = "";
+        this.parameters.form.group_item_id_2 = "";
+        this.parameters.form.group_item_id_3 = "";
+        this.parameters.form.group_item_id_4 = "";
+        this.parameters.form.group_item_id_5 = "";
+        this.parameters.form.kategori_id_1 = "";
+        this.parameters.form.kategori_id_2 = "";
+        this.parameters.form.kategori_id_3 = "";
+        this.parameters.form.kategori_id_4 = "";
+        this.parameters.form.kategori_id_5 = "";
       }
-      this.isLoadingForm = false;
     },
 
     onGetItem(search, isNext) {
