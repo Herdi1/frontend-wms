@@ -250,7 +250,7 @@
                 <th class="w-[200px] border border-gray-300">Item</th>
                 <th class="w-[200px] border border-gray-300">Vendor</th>
                 <th class="w-[200px] border border-gray-300">Supplier</th>
-                <th
+                <!-- <th
                   @click="
                     onSort(
                       'nama_item',
@@ -282,11 +282,10 @@
                       ></i>
                     </div>
                   </div>
-                </th>
+                </th> -->
                 <th class="w-[200px] border border-gray-300">Group Item</th>
-                <th class="w-[200px] border border-gray-300">Batas Atas</th>
-                <th class="w-[200px] border border-gray-300">Batas Bawah</th>
-                <th class="w-[200px] border border-gray-300">Kode SAP</th>
+                <th class="w-[200px] border border-gray-300">Batas item</th>
+                <!-- <th class="w-[200px] border border-gray-300">Kode SAP</th> -->
                 <th class="w-[200px] border border-gray-300">Kategori</th>
                 <th class="w-[75px] border border-gray-300">Details</th>
               </tr>
@@ -309,17 +308,105 @@
                     1
                   }}
                 </td>
-                <td class="border border-gray-300">{{ item.item_id }}</td>
-                <td class="border border-gray-300">{{ item.vendor_id }}</td>
-                <td class="border border-gray-300">{{ item.supplier_id }}</td>
-                <td class="border border-gray-300">{{ item.nama_item }}</td>
                 <td class="border border-gray-300">
-                  {{ item.group_item_id_1 }}
+                  <div>{{ item.nama_item }}</div>
                 </td>
-                <td class="border border-gray-300">{{ item.batas_atas }}</td>
-                <td class="border border-gray-300">{{ item.kode_sap }}</td>
-                <td class="border border-gray-300">{{ item.batas_bawah }}</td>
-                <td class="border border-gray-300">{{ item.kategori_id_1 }}</td>
+                <td class="border border-gray-300">
+                  {{ item.vendor.nama_vendor }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.supplier.nama_supplier }}
+                </td>
+                <!-- <td class="border border-gray-300">{{ item.nama_item }}</td> -->
+                <td class="border border-gray-300">
+                  <div>
+                    <p v-if="item.group_item_1">
+                      {{
+                        item.group_item_1
+                          ? item.group_item_1.nama_group_item
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_item_2">
+                      {{
+                        item.group_item_2
+                          ? item.group_item_2.nama_group_item
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_item_3">
+                      {{
+                        item.group_item_3
+                          ? item.group_item_3.nama_group_item
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_item_4">
+                      {{
+                        item.group_item_4
+                          ? item.group_item_4.nama_group_item
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_item_5">
+                      {{
+                        item.group_item_5
+                          ? item.group_item_5.nama_group_item
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                  </div>
+                </td>
+                <td class="border border-gray-300">
+                  <div class="flex gap-2">
+                    <i class="fa fa-caret-up text-green-300"></i>
+                    <p>{{ item.batas_atas }}</p>
+                  </div>
+                  <div class="flex gap-2">
+                    <i class="fa fa-caret-down text-red-300"></i>
+                    <p>{{ item.batas_bawah }}</p>
+                  </div>
+                </td>
+                <!-- <td class="border border-gray-300">{{ item.kode_sap }}</td> -->
+                <td class="border border-gray-300">
+                  <div>
+                    <p v-if="item.kategori_1">
+                      {{
+                        item.kategori_1
+                          ? item.kategori_1.nama_kategori
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.kategori_2">
+                      {{
+                        item.kategori_2
+                          ? item.kategori_2.nama_kategori
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.kategori_3">
+                      {{
+                        item.kategori_3
+                          ? item.kategori_3.nama_kategori
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.kategori_4">
+                      {{
+                        item.kategori_4
+                          ? item.kategori_4.nama_kategori
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.kategori_5">
+                      {{
+                        item.kategori_5
+                          ? item.kategori_5.nama_kategori
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                  </div>
+                </td>
                 <td class="border border-gray-300">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
