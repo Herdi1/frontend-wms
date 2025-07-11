@@ -102,7 +102,7 @@
                 <td>{{ item.nama_pelanggan }}</td>
                 <td>{{ item.kecamatan.nama_kecamatan }}</td>
                 <td>{{ item.kota.nama_kota }}</td>
-                <td>{{ item.provinsi.nama_provinsi }}</td>
+                <td>{{ item.provinsi?.nama_provinsi }}</td>
                 <td>{{ item.negara.nama_negara }}</td>
                 <td>{{ item.nama_pemilik }}</td>
                 <td>{{ item.lokasi.nama_lokasi }}</td>

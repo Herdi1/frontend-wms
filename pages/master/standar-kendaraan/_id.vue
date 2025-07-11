@@ -118,9 +118,19 @@
               </ValidationProvider>
             </div>
 
-            <div class="flex gap-2">
+            <div class="grid grid-cols-3 gap-2">
+              <!-- Kode Standara Jenis Kendaraan -->
+              <div class="form-group">
+                <input-form
+                  label="Kode Standar Jenis Kendaraan"
+                  type="text"
+                  name="kode_standar_jenis_kendaraan"
+                  :required="true"
+                  v-model="parameters.form.kode_standar_jenis_kendaraan"
+                />
+              </div>
               <!-- Kecepatan Isi -->
-              <div class="form-group col-12 w-1/2">
+              <div class="form-group col-12">
                 <label for="kecepatan_isi"
                   >Kecepatan Isi <span class="text-danger">*</span></label
                 >
@@ -135,7 +145,7 @@
               </div>
 
               <!-- Kecepatan Kosong -->
-              <div class="form-group col-12 w-1/2">
+              <div class="form-group col-12">
                 <label for="kecepatan_kosong"
                   >Kecepatan Kosong <span class="text-danger">*</span></label
                 >
@@ -280,6 +290,7 @@ export default {
       parameters: {
         url: "master/standar-jenis-kendaraan",
         form: {
+          kode_standar_jenis_kendaraan: "",
           jenis_kendaraan_id: "",
           gudang_id: "",
           kecapatan_isi: "",
@@ -353,6 +364,7 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
+          kode_standar_jenis_kendaraan: "",
           jenis_kendaraan_id: "",
           gudang_id: "",
           kecapatan_isi: "",
@@ -451,6 +463,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_standar_jenis_kendaraan: "",
         jenis_kendaraan_id: "",
         gudang_id: "",
         kecapatan_isi: "",
