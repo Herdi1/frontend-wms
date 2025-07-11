@@ -4,37 +4,38 @@
       <div
         class="flex flex-col w-full justify-between p-2 border border-gray-300 rounded-md"
       >
-        <div class="grid grid-flow-col grid-rows-5 md:grid-rows-3 gap-3">
+        <div class="grid grid-flow-col grid-rows-5 md:grid-rows-3 gap-2">
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_1">
-              Group Item Level 1
+            <label for="group_item_1" class="w-1/2">
+              Group Item Level 1 <span class="text-danger">*</span>
             </label>
             <v-select
               label="nama_group_item"
               :loading="isLoadingGetGroupItem1"
-              :options="lookup_custom1.data"
+              :options="lookup_custom4.data"
               :filterable="false"
               @search="onGetGroupItem1"
               v-model="filter_params.group_item_id_1"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2"
               @input="onSelectGroupItem1"
             >
+              <!-- @input="onSelectGroupItem1" -->
               <li
                 slot-scope="{ search }"
                 slot="list-footer"
                 class="p-1 border-t flex justify-between"
-                v-if="lookup_custom1.data.length || search"
+                v-if="lookup_custom4.data.length || search"
               >
                 <span
-                  v-if="lookup_custom1.current_page > 1"
-                  @click="onGetGroupItem1(search, false)"
+                  v-if="lookup_custom4.current_page > 1"
+                  @click="onGetGroupItem1(search, true)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Sebelumnya</span
                 >
                 <span
-                  v-if="lookup_custom1.last_page > lookup_custom1.current_page"
-                  @click="onGetGroupItem1(search, true)"
+                  v-if="lookup_custom4.last_page > lookup_custom4.current_page"
+                  @click="onGetGroupItem1(search, false)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Selanjutnya</span
                 >
@@ -42,35 +43,33 @@
             </v-select>
           </div>
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_2"
-              >Group Item Level 2</label
-            >
+            <label for="group_item_2" class="w-1/2"> Group Item Level 2 </label>
             <v-select
               label="nama_group_item"
               :loading="isLoadingGetGroupItem2"
-              :options="lookup_custom2.data"
+              :options="lookup_custom5.data"
               :filterable="false"
               @search="onGetGroupItem2"
               v-model="filter_params.group_item_id_2"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2"
               @input="onSelectGroupItem2"
             >
               <li
                 slot-scope="{ search }"
                 slot="list-footer"
                 class="p-1 border-t flex justify-between"
-                v-if="lookup_custom2.data.length || search"
+                v-if="lookup_custom5.data.length || search"
               >
                 <span
-                  v-if="lookup_custom2.current_page > 1"
-                  @click="onGetGroupItem2(search, false)"
+                  v-if="lookup_custom5.current_page > 1"
+                  @click="onGetGroupItem2(search, true)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Sebelumnya</span
                 >
                 <span
-                  v-if="lookup_custom2.last_page > lookup_custom2.current_page"
-                  @click="onGetGroupItem2(search, true)"
+                  v-if="lookup_custom5.last_page > lookup_custom5.current_page"
+                  @click="onGetGroupItem2(search, false)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Selanjutnya</span
                 >
@@ -78,35 +77,33 @@
             </v-select>
           </div>
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_3"
-              >Group Item Level 3</label
-            >
+            <label for="group_item_3" class="w-1/2"> Group Item Level 3 </label>
             <v-select
               label="nama_group_item"
               :loading="isLoadingGetGroupItem3"
-              :options="lookup_custom3.data"
+              :options="lookup_custom6.data"
               :filterable="false"
               @search="onGetGroupItem3"
               v-model="filter_params.group_item_id_3"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2"
               @input="onSelectGroupItem3"
             >
               <li
                 slot-scope="{ search }"
                 slot="list-footer"
                 class="p-1 border-t flex justify-between"
-                v-if="lookup_custom3.data.length || search"
+                v-if="lookup_custom6.data.length || search"
               >
                 <span
-                  v-if="lookup_custom3.current_page > 1"
-                  @click="onGetGroupItem3(search, false)"
+                  v-if="lookup_custom6.current_page > 1"
+                  @click="onGetGroupItem3(search, true)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Sebelumnya</span
                 >
                 <span
-                  v-if="lookup_custom3.last_page > lookup_custom3.current_page"
-                  @click="onGetGroupItem3(search, true)"
+                  v-if="lookup_custom6.last_page > lookup_custom6.current_page"
+                  @click="onGetGroupItem3(search, false)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Selanjutnya</span
                 >
@@ -114,35 +111,33 @@
             </v-select>
           </div>
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_4"
-              >Group Item Level 4</label
-            >
+            <label for="group_item_4" class="w-1/2"> Group Item Level 4 </label>
             <v-select
               label="nama_group_item"
               :loading="isLoadingGetGroupItem4"
-              :options="lookup_roles.data"
+              :options="lookup_custom7.data"
               :filterable="false"
               @search="onGetGroupItem4"
               v-model="filter_params.group_item_id_4"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2"
               @input="onSelectGroupItem4"
             >
               <li
                 slot-scope="{ search }"
                 slot="list-footer"
                 class="p-1 border-t flex justify-between"
-                v-if="lookup_roles.data.length || search"
+                v-if="lookup_custom7.data.length || search"
               >
                 <span
-                  v-if="lookup_roles.current_page > 1"
-                  @click="onGetGroupItem4(search, false)"
+                  v-if="lookup_custom7.current_page > 1"
+                  @click="onGetGroupItem4(search, true)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Sebelumnya</span
                 >
                 <span
-                  v-if="lookup_roles.last_page > lookup_roles.current_page"
-                  @click="onGetGroupItem4(search, true)"
+                  v-if="lookup_custom7.last_page > lookup_custom7.current_page"
+                  @click="onGetGroupItem4(search, false)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Selanjutnya</span
                 >
@@ -150,34 +145,32 @@
             </v-select>
           </div>
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_5"
-              >Group Item Level 5</label
-            >
+            <label for="group_item_5" class="w-1/2"> Group Item Level 5 </label>
             <v-select
               label="nama_group_item"
               :loading="isLoadingGetGroupItem5"
-              :options="lookup_mesin.data"
+              :options="lookup_custom8.data"
               :filterable="false"
               @search="onGetGroupItem5"
               v-model="filter_params.group_item_id_5"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2"
             >
               <li
                 slot-scope="{ search }"
                 slot="list-footer"
                 class="p-1 border-t flex justify-between"
-                v-if="lookup_mesin.data.length || search"
+                v-if="lookup_custom8.data.length || search"
               >
                 <span
-                  v-if="lookup_mesin.current_page > 1"
-                  @click="onGetGroupItem5(search, false)"
+                  v-if="lookup_custom8.current_page > 1"
+                  @click="onGetGroupItem5(search, true)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Sebelumnya</span
                 >
                 <span
-                  v-if="lookup_mesin.last_page > lookup_mesin.current_page"
-                  @click="onGetGroupItem5(search, true)"
+                  v-if="lookup_custom8.last_page > lookup_custom8.current_page"
+                  @click="onGetGroupItem5(search, false)"
                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                   >Selanjutnya</span
                 >
@@ -262,7 +255,6 @@
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Group Item</th>
             <th class="w-[200px] border border-gray-300">Batas Item</th>
-            <th class="w-[200px] border border-gray-300">Kode SAP</th>
             <th class="w-[200px] border border-gray-300">Kategori Item</th>
             <th class="w-[200px] border border-gray-300">Jumlah Palet</th>
             <th class="w-[200px] border border-gray-300">Kapasitas Palet</th>
@@ -275,7 +267,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, i) in this.self.form.item_pelanggan"
+            v-for="(item, i) in this.self.form.item_pelanggans"
             :key="i"
             class="align-top"
           >
@@ -304,9 +296,9 @@
               <input-form
                 label=""
                 type="text"
-                name="referensi_sap"
+                name="kode_sap"
                 :required="false"
-                v-model="item.referensi_sap"
+                v-model="item.kode_sap"
               />
             </td>
             <td class="border border-gray-300">
@@ -323,10 +315,10 @@
                 <div>
                   <v-select
                     label="nama_vendor"
-                    :loading="isLoadingGetVendorPemilik"
-                    :options="lookup_users.data"
+                    :loading="isLoadingGetVendor"
+                    :options="lookup_custom9.data"
                     :filterable="false"
-                    @search="onGetVendorPemilik"
+                    @search="onGetVendor"
                     v-model="item.vendor_id"
                     :reduce="(item) => item.vendor_id"
                     class="w-full"
@@ -337,16 +329,16 @@
                       class="p-1 border-t flex justify-between"
                     >
                       <span
-                        v-if="lookup_users.current_page > 1"
-                        @click="onGetVendorPemilik(search, false)"
+                        @click="onGetVendor(search, false)"
+                        v-if="lookup_custom9.current_page > 1"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
                         v-if="
-                          lookup_users.last_page > lookup_users.current_page
+                          lookup_custom9.last_page > lookup_custom9.current_page
                         "
-                        @click="onGetVendorPemilik(search, true)"
+                        @click="onGetVendor(search, true)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
@@ -405,43 +397,41 @@
                 <p>{{ item.batas_bawah }}</p>
               </div>
             </td>
-            <td class="border border-gray-300">
-              {{ item.kode_sap }}
-            </td>
+
             <td class="border border-gray-300">
               <div>
                 <p v-if="item.kategori_1">
                   {{
                     item.kategori_1
-                      ? item.kategori_1.nama_kategori
+                      ? item.kategori_1.nama_kategori_item
                       : "Tidak Ditemukan"
                   }}
                 </p>
                 <p v-if="item.kategori_2">
                   {{
                     item.kategori_2
-                      ? item.kategori_2.nama_kategori
+                      ? item.kategori_2.nama_kategori_item
                       : "Tidak Ditemukan"
                   }}
                 </p>
                 <p v-if="item.kategori_3">
                   {{
                     item.kategori_3
-                      ? item.kategori_3.nama_kategori
+                      ? item.kategori_3.nama_kategori_item
                       : "Tidak Ditemukan"
                   }}
                 </p>
                 <p v-if="item.kategori_4">
                   {{
                     item.kategori_4
-                      ? item.kategori_4.nama_kategori
+                      ? item.kategori_4.nama_kategori_item
                       : "Tidak Ditemukan"
                   }}
                 </p>
                 <p v-if="item.kategori_5">
                   {{
                     item.kategori_5
-                      ? item.kategori_5.nama_kategori
+                      ? item.kategori_5.nama_kategori_item
                       : "Tidak Ditemukan"
                   }}
                 </p>
@@ -610,10 +600,10 @@ export default {
 
   async mounted() {
     await this.onSearchGroupItem1();
-    await this.onSearchGroupItem2();
-    await this.onSearchGroupItem3();
-    await this.onSearchGroupItem4();
-    await this.onSearchGroupItem5();
+    // await this.onSearchGroupItem2();
+    // await this.onSearchGroupItem3();
+    // await this.onSearchGroupItem4();
+    // await this.onSearchGroupItem5();
     await this.onSearchVendor();
   },
 
@@ -622,18 +612,270 @@ export default {
       "data",
       "error",
       "result",
-      "lookup_custom1",
-      "lookup_custom2",
-      "lookup_custom3",
-      "lookup_roles",
-      "lookup_mesin",
-      "lookup_users",
+      "lookup_custom4",
+      "lookup_custom5",
+      "lookup_custom6",
+      "lookup_custom7",
+      "lookup_custom8",
+      "lookup_custom9",
     ]),
   },
 
   methods: {
     ...mapMutations("moduleApi", ["set_data"]),
     ...mapActions("moduleApi", ["lookUp", "getData"]),
+
+    onGetGroupItem1(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem1);
+
+      this.isStopSearchGroupItem1 = setTimeout(() => {
+        this.group_item_1_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchGroupItem1();
+      }, 600);
+    },
+
+    async onSearchGroupItem1() {
+      if (!this.isLoadingGetGroupItem1) {
+        this.isLoadingGetGroupItem1 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.group_item_1_search +
+            "&status=1" +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGroupItem1 = false;
+      }
+    },
+
+    onGetGroupItem2(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem2);
+
+      this.isStopSearchGroupItem2 = setTimeout(() => {
+        this.group_item_2_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchGroupItem2();
+      }, 600);
+    },
+
+    async onSearchGroupItem2() {
+      if (!this.isLoadingGetGroupItem2) {
+        this.isLoadingGetGroupItem2 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.group_item_2_search +
+            "&status=2" +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGroupItem2 = false;
+      }
+    },
+
+    onGetGroupItem3(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem3);
+
+      this.isStopSearchGroupItem3 = setTimeout(() => {
+        this.group_item_3_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchGroupItem3();
+      }, 600);
+    },
+
+    async onSearchGroupItem3() {
+      if (!this.isLoadingGetGroupItem3) {
+        this.isLoadingGetGroupItem3 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.group_item_3_search +
+            "&status=3" +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGroupItem3 = false;
+      }
+    },
+
+    onGetGroupItem4(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem4);
+
+      this.isStopSearchGroupItem4 = setTimeout(() => {
+        this.group_item_4_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
+        } else {
+          this.lookup_custom7.current_page = 1;
+        }
+
+        this.onSearchGroupItem4();
+      }, 600);
+    },
+
+    async onSearchGroupItem4() {
+      if (!this.isLoadingGetGroupItem4) {
+        this.isLoadingGetGroupItem4 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom7",
+          query:
+            "?search=" +
+            this.group_item_4_search +
+            "&status=4" +
+            "&page=" +
+            this.lookup_custom7.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGroupItem4 = false;
+      }
+    },
+
+    onGetGroupItem5(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem5);
+
+      this.isStopSearchGroupItem5 = setTimeout(() => {
+        this.group_item_5_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom8.current_page = isNext
+            ? this.lookup_custom8.current_page + 1
+            : this.lookup_custom8.current_page - 1;
+        } else {
+          this.lookup_custom8.current_page = 1;
+        }
+
+        this.onSearchGroupItem5();
+      }, 600);
+    },
+
+    async onSearchGroupItem5() {
+      if (!this.isLoadingGetGroupItem5) {
+        this.isLoadingGetGroupItem5 = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom8",
+          query:
+            "?search=" +
+            this.group_item_5_search +
+            "&status=5" +
+            "&page=" +
+            this.lookup_custom8.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGroupItem5 = false;
+      }
+    },
+
+    onGetVendor(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendor);
+
+      this.isStopSearchVendor = setTimeout(() => {
+        this.vendor_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom9.current_page = isNext
+            ? this.lookup_custom9.current_page + 1
+            : this.lookup_custom9.current_page - 1;
+        } else {
+          this.lookup_custom9.current_page = 1;
+        }
+
+        this.onSearchVendor();
+      }, 600);
+    },
+
+    async onSearchVendor() {
+      if (!this.isLoadingGetVendor) {
+        this.isLoadingGetVendor = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "custom9",
+          query:
+            "?search=" +
+            this.vendor_search +
+            "&page=" +
+            this.lookup_custom9.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetVendor = false;
+      }
+    },
+
+    //reset filter
+    async onSelectGroupItem1() {
+      console.log(this.filter_params);
+      await this.onSearchGroupItem2();
+      this.filter_params.group_item_id_2 = "";
+    },
+    async onSelectGroupItem2() {
+      await this.onSearchGroupItem3();
+      this.filter_params.group_item_id_3 = "";
+    },
+    async onSelectGroupItem3() {
+      await this.onSearchGroupItem4();
+      this.filter_params.group_item_id_4 = "";
+    },
+    async onSelectGroupItem4() {
+      await this.onSearchGroupItem5();
+      this.filter_params.group_item_id_5 = "";
+    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -662,26 +904,41 @@ export default {
       this.parameters.params.group_item_id_5 =
         this.filter_params.group_item_id_5;
 
-      await this.getData(this.parameters);
+      if (this.parameters.params.group_item_id_1) {
+        await this.getData(this.parameters);
+      }
 
       if (this.data) {
         this.data.forEach((item) => {
-          if (
-            !this.self.form.item_pelanggan.find((data) => data.id === item.id)
-          ) {
-            this.self.form.item_pelanggan.push(item);
+          if (this.self.isEditable) {
+            let index = this.self.form.item_pelanggans.findIndex(
+              (data) => data.item_id === item.item_id
+            );
+            if (index !== -1) {
+              this.self.form.item_pelanggans.splice(index, 1, item);
+            }
+          } else {
+            if (
+              !this.self.form.item_pelanggans.find(
+                (data) => data.item_id === item.item_id
+              )
+            ) {
+              this.self.form.item_pelanggans.push(item);
+            }
           }
         });
       }
 
+      console.log(this.self.form.item_pelanggans);
+
       if (this.result == true) {
         loader.hide();
 
-        if (page == 1) {
-          this.$refs["pagination"].generatePage();
-        }
+        // if (page == 1) {
+        //   this.$refs["pagination"].generatePage();
+        // }
 
-        this.$refs["pagination"].active_page = this.parameters.params.page;
+        // this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -689,11 +946,11 @@ export default {
 
     deleteSelectedItem() {
       this.checkboxs.forEach((item) => {
-        let index = this.self.form.item_pelanggan.findIndex(
+        let index = this.self.form.item_pelanggans.findIndex(
           (data) => data.item.id == item
         );
         if (index !== -1) {
-          this.self.form.item_pelanggan.splice(index, 1);
+          this.self.form.item_pelanggans.splice(index, 1);
         }
       });
     },
@@ -709,7 +966,7 @@ export default {
 
     toggleAllCheckboxs() {
       if (this.selectAll) {
-        this.checkboxs = this.self.form.item_pelanggan.map((item) => item.id);
+        this.checkboxs = this.self.form.item_pelanggans.map((item) => item.id);
       } else {
         this.checkboxs = [];
       }
@@ -717,273 +974,7 @@ export default {
 
     checkIfAllSelected() {
       this.selectAll =
-        this.checkboxs.length === this.self.form.item_pelanggan.length;
-    },
-
-    onGetGroupItem1(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGroupItem1);
-
-      this.isStopSearchGroupItem1 = setTimeout(() => {
-        this.group_item_1_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
-        } else {
-          this.lookup_custom1.current_page = 1;
-        }
-
-        this.onSearchGroupItem1();
-      }, 600);
-    },
-
-    async onSearchGroupItem1() {
-      if (!this.isLoadingGetGroupItem1) {
-        this.isLoadingGetGroupItem1 = true;
-
-        await this.lookUp({
-          url: "master/group-item/get-group-item",
-          lookup: "custom1",
-          query:
-            "?search=" +
-            this.group_item_1_search +
-            "&status=1" +
-            "&page=" +
-            this.lookup_custom1.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetGroupItem1 = false;
-        console.log("Group Item 1", this.lookup_custom1.data);
-      }
-    },
-
-    onGetGroupItem2(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGroupItem2);
-
-      this.isStopSearchGroupItem2 = setTimeout(() => {
-        this.group_item_2_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
-
-        this.onSearchGroupItem2();
-      }, 600);
-    },
-
-    async onSearchGroupItem2() {
-      if (!this.isLoadingGetGroupItem2) {
-        this.isLoadingGetGroupItem2 = true;
-
-        await this.lookUp({
-          url: "master/group-item/get-group-item",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.group_item_2_search +
-            "&status=2" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_1 +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetGroupItem2 = false;
-        console.log("Group Item 2", this.lookup_custom2.data);
-      }
-    },
-
-    onGetGroupItem3(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGroupItem3);
-
-      this.isStopSearchGroupItem3 = setTimeout(() => {
-        this.group_item_3_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom3.current_page = isNext
-            ? this.lookup_custom3.current_page + 1
-            : this.lookup_custom3.current_page - 1;
-        } else {
-          this.lookup_custom3.current_page = 1;
-        }
-
-        this.onSearchGroupItem3();
-      }, 600);
-    },
-
-    async onSearchGroupItem3() {
-      if (!this.isLoadingGetGroupItem3) {
-        this.isLoadingGetGroupItem3 = true;
-
-        await this.lookUp({
-          url: "master/group-item/get-group-item",
-          lookup: "custom3",
-          query:
-            "?search=" +
-            this.group_item_3_search +
-            "&status=3" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_2 +
-            "&page=" +
-            this.lookup_custom3.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetGroupItem3 = false;
-        console.log("Group Item 3", this.lookup_custom3.data);
-      }
-    },
-
-    onGetGroupItem4(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGroupItem4);
-
-      this.isStopSearchGroupItem4 = setTimeout(() => {
-        this.group_item_4_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_roles.current_page = isNext
-            ? this.lookup_roles.current_page + 1
-            : this.lookup_roles.current_page - 1;
-        } else {
-          this.lookup_roles.current_page = 1;
-        }
-
-        this.onSearchGroupItem4();
-      }, 600);
-    },
-
-    async onSearchGroupItem4() {
-      if (!this.isLoadingGetGroupItem4) {
-        this.isLoadingGetGroupItem4 = true;
-
-        await this.lookUp({
-          url: "master/group-item/get-group-item",
-          lookup: "roles",
-          query:
-            "?search=" +
-            this.group_item_4_search +
-            "&status=4" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_3 +
-            "&page=" +
-            this.lookup_roles.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetGroupItem4 = false;
-        console.log("Group Item 4", this.lookup_roles.data);
-      }
-    },
-
-    onGetGroupItem5(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchGroupItem5);
-
-      this.isStopSearchGroupItem5 = setTimeout(() => {
-        this.group_item_5_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_mesin.current_page = isNext
-            ? this.lookup_mesin.current_page + 1
-            : this.lookup_mesin.current_page - 1;
-        } else {
-          this.lookup_mesin.current_page = 1;
-        }
-
-        this.onSearchGroupItem5();
-      }, 600);
-    },
-
-    async onSearchGroupItem5() {
-      if (!this.isLoadingGetGroupItem5) {
-        this.isLoadingGetGroupItem5 = true;
-
-        await this.lookUp({
-          url: "master/group-item/get-group-item",
-          lookup: "mesin",
-          query:
-            "?search=" +
-            this.group_item_5_search +
-            "&status=5" +
-            "&group_item_id_induk=" +
-            this.filter_params.group_item_id_4 +
-            "&page=" +
-            this.lookup_mesin.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetGroupItem5 = false;
-        console.log("Group Item 5", this.lookup_mesin.data);
-      }
-    },
-
-    onGetVendor() {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchVendor);
-
-      this.isStopSearchVendor = setTimeout(() => {
-        this.vendor_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_users.current_page = isNext
-            ? this.lookup_users.current_page + 1
-            : this.lookup_users.current_page - 1;
-        } else {
-          this.lookup_users.current_page = 1;
-        }
-
-        this.onSearchVendor();
-      }, 600);
-    },
-
-    async onSearchVendor() {
-      if (!this.isLoadingGetVendor) {
-        this.isLoadingGetVendor = true;
-
-        await this.lookUp({
-          url: "master/vendor/get-vendor",
-          lookup: "users",
-          query:
-            "?search=" +
-            this.vendor_search +
-            // "&tipe_vendor=v" +
-            "&page=" +
-            this.lookup_users.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetVendor = false;
-      }
-    },
-
-    //reset filter
-    async onSelectGroupItem1() {
-      await this.onSearchGroupItem2();
-      this.filter_params.group_item_id_2 = "";
-    },
-    async onSelectGroupItem2() {
-      await this.onSearchGroupItem3();
-      this.filter_params.group_item_id_3 = "";
-    },
-    async onSelectGroupItem3() {
-      await this.onSearchGroupItem3();
-      this.filter_params.group_item_id_3 = "";
-    },
-    async onSelectGroupItem4() {
-      await this.onSearchGroupItem4();
-      this.filter_params.group_item_id_4 = "";
+        this.checkboxs.length === this.self.form.item_pelanggans.length;
     },
   },
 };

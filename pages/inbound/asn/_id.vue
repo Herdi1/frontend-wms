@@ -435,7 +435,7 @@
             </div>
           </div>
           <div
-            class="mt-4 overflow-auto bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            class="mt-4 overflow-auto h-96 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <table
               class="table border-collapse border border-gray-300 mt-5 h-full table-fixed"
@@ -545,7 +545,7 @@
                   <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_item_gudang"
+                      label="nama_item"
                       :loading="isLoadingGetItemGudang"
                       :options="lookup_defects.data"
                       :filterable="false"
@@ -706,11 +706,13 @@
               </tr>
             </table>
           </div>
-          <modal-footer-section
-            class="mt-5"
-            :isLoadingForm="isLoadingForm"
-            @reset="formReset()"
-          />
+          <div class="w-full flex justify-start items-center">
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
+          </div>
         </form>
       </ValidationObserver>
     </div>

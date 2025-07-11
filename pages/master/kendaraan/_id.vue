@@ -250,7 +250,7 @@
                         ></label
                       >
                       <v-select
-                        label="nilai"
+                        label="kode_standar_jenis_kendaraan"
                         :loading="isLoadingGetStandarJenis"
                         :options="lookup_custom2.data"
                         :filterable="false"
@@ -332,7 +332,17 @@
                       v-model="form.nomor_mesin"
                     />
                   </div>
-
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
+                  <div>
+                    <input-form
+                      label="Kode Kendaraan"
+                      type="text"
+                      name="kode_kendaraan"
+                      :required="true"
+                      v-model="form.kode_kendaraan"
+                    />
+                  </div>
                   <div>
                     <input-form
                       label="Tahun Dibuat"
@@ -360,7 +370,7 @@
                     />
                   </div>
                 </div>
-                <div class="grid grid-cols-4 gap-2 w-full">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
                   <div>
                     <input-form
                       label="Nomor KIR"
@@ -371,7 +381,10 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="status_digunakan">Status Digunakan</label>
+                    <label for="status_digunakan"
+                      >Status Digunakan
+                      <span class="text-danger">*</span></label
+                    >
                     <select
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       name="status_digunakan"
@@ -384,7 +397,9 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="status_normal">Status Normal</label>
+                    <label for="status_normal"
+                      >Status Normal <span class="text-danger">*</span></label
+                    >
                     <select
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       name="status_normal"
@@ -608,6 +623,7 @@ export default {
         vendor_id_operator: "",
         standar_jenis_kendaraan_id: "",
         nama_kendaraan: "",
+        kode_kendaraan: "",
         keterangan_pindah_gudang: "",
         plat_nomor: "",
         cc: "",
@@ -630,6 +646,7 @@ export default {
         vendor_id_operator: "",
         standar_jenis_kendaraan_id: "",
         nama_kendaraan: "",
+        kode_kendaraan: "",
         keterangan_pindah_gudang: "",
         plat_nomor: "",
         cc: "",
@@ -897,6 +914,7 @@ export default {
         });
 
         this.isLoadingGetStandarJenis = false;
+        console.log("standar", this.lookup_custom2.data);
       }
     },
 

@@ -129,6 +129,7 @@
                     </div>
                   </th>
                   <th>Nama Kendaraan</th>
+                  <th>Kode Kendaraan</th>
                   <th>Plat Nomor</th>
                   <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">Edit</th>
@@ -266,6 +267,7 @@ export default {
           vendor_id_operator: "",
           standar_jenis_kendaraan_id: "",
           nama_kendaraan: "",
+          kode_kendaraan: "",
           keterangan_pindah_gudang: "",
           plat_nomor: "",
           cc: "",
