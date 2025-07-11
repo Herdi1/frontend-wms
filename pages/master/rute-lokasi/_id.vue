@@ -27,115 +27,137 @@
               :required="false"
             />
           </div>
-          <div>
-            <label for="gudang_id"
-              >Gudang<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_gudang"
-              :loading="isLoadingGetGudang"
-              :options="lookup_location.data"
-              :filterable="false"
-              @search="onGetGudang"
-              v-model="parameters.form.gudang_id"
-              :reduce="(item) => item.gudang_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_location.data.length || search"
+          <ValidationProvider rules="required">
+            <div class="form-group" slot-scope="{ errors, valid }">
+              <label for="gudang_id"
+                >Gudang<span class="text-danger">*</span></label
               >
-                <span
-                  v-if="lookup_location.current_page > 1"
-                  @click="onGetGudang(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
+              <v-select
+                label="nama_gudang"
+                :loading="isLoadingGetGudang"
+                :options="lookup_location.data"
+                :filterable="false"
+                @search="onGetGudang"
+                v-model="parameters.form.gudang_id"
+                :reduce="(item) => item.gudang_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_location.data.length || search"
                 >
-                <span
-                  v-if="
-                    lookup_location.last_page > lookup_location.current_page
-                  "
-                  @click="onGetGudang(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
-                >
-              </li>
-            </v-select>
-          </div>
+                  <span
+                    v-if="lookup_location.current_page > 1"
+                    @click="onGetGudang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_location.last_page > lookup_location.current_page
+                    "
+                    @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
 
-          <div>
-            <label for="lokasi_id_awal"
-              >Lokasi Awal<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_lokasi"
-              :loading="isLoadingGeLokasiAwal"
-              :options="lookup_custom1.data"
-              :filterable="false"
-              @search="onGetLokasiAwal"
-              v-model="parameters.form.lokasi_id_awal"
-              :reduce="(item) => item.lokasi_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_custom1.data.length || search"
+          <ValidationProvider rules="required">
+            <div class="form-group" slot-scope="{ errors, valid }">
+              <label for="lokasi_id_awal"
+                >Lokasi Awal<span class="text-danger">*</span></label
               >
-                <span
-                  v-if="lookup_custom1.current_page > 1"
-                  @click="onGetLokasiAwal(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
+              <v-select
+                label="nama_lokasi"
+                :loading="isLoadingGeLokasiAwal"
+                :options="lookup_custom1.data"
+                :filterable="false"
+                @search="onGetLokasiAwal"
+                v-model="parameters.form.lokasi_id_awal"
+                :reduce="(item) => item.lokasi_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom1.data.length || search"
                 >
-                <span
-                  v-if="lookup_custom1.last_page > lookup_custom1.current_page"
-                  @click="onGetLokasiAwal(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
-                >
-              </li>
-            </v-select>
-          </div>
+                  <span
+                    v-if="lookup_custom1.current_page > 1"
+                    @click="onGetLokasiAwal(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom1.last_page > lookup_custom1.current_page
+                    "
+                    @click="onGetLokasiAwal(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
 
-          <div>
-            <label for="lokasi_id_tujuan"
-              >Lokasi Tujuan<span class="text-danger">*</span></label
-            >
-            <v-select
-              label="nama_lokasi"
-              :loading="isLoadingGetLokasiTujuan"
-              :options="lookup_defects.data"
-              :filterable="false"
-              @search="onGetLokasiTujuan"
-              v-model="parameters.form.lokasi_id_tujuan"
-              :reduce="(item) => item.lokasi_id"
-              class="w-full mb-2"
-            >
-              <li
-                slot-scope="{ search }"
-                slot="list-footer"
-                class="p-1 border-t flex justify-between"
-                v-if="lookup_defects.data.length || search"
+          <ValidationProvider rules="required">
+            <div class="form-group" slot-scope="{ errors, valid }">
+              <label for="lokasi_id_tujuan"
+                >Lokasi Tujuan<span class="text-danger">*</span></label
               >
-                <span
-                  v-if="lookup_defects.current_page > 1"
-                  @click="onGetLokasiTujuan(search, false)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Sebelumnya</span
+              <v-select
+                label="nama_lokasi"
+                :loading="isLoadingGetLokasiTujuan"
+                :options="lookup_defects.data"
+                :filterable="false"
+                @search="onGetLokasiTujuan"
+                v-model="parameters.form.lokasi_id_tujuan"
+                :reduce="(item) => item.lokasi_id"
+                class="w-full mb-2"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_defects.data.length || search"
                 >
-                <span
-                  v-if="lookup_defects.last_page > lookup_defects.current_page"
-                  @click="onGetLokasiTujuan(search, true)"
-                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                  >Selanjutnya</span
-                >
-              </li>
-            </v-select>
-          </div>
+                  <span
+                    v-if="lookup_defects.current_page > 1"
+                    @click="onGetLokasiTujuan(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_defects.last_page > lookup_defects.current_page
+                    "
+                    @click="onGetLokasiTujuan(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
 
           <div class="form-group">
             <input-form
@@ -147,21 +169,27 @@
             />
           </div>
 
-          <div class="form-group">
-            <label for="status_approve"
-              >Status Approve<span class="text-danger">*</span></label
-            >
-            <select
-              class="mb-2 w-full pl-2 py-1 border rounded focus:outline-none"
-              name="status_approve"
-              id="status_approve"
-              v-model="parameters.form.status_approve"
-            >
-              <option value="">Pilih</option>
-              <option value="a">Approve</option>
-              <option value="p">Pending</option>
-            </select>
-          </div>
+          <ValidationProvider rules="required">
+            <div class="form-group" slot-scope="{ errors, valid }">
+              <label for="status_approve"
+                >Status Approve<span class="text-danger">*</span></label
+              >
+              <select
+                class="mb-2 w-full pl-2 py-1 border rounded focus:outline-none"
+                name="status_approve"
+                id="status_approve"
+                v-model="parameters.form.status_approve"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <option value="">Pilih</option>
+                <option value="a">Approve</option>
+                <option value="p">Pending</option>
+              </select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
 
           <modal-footer-section
             class="mt-5"

@@ -16,9 +16,9 @@
         <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
           <form
             @submit.prevent="validate().then(() => onSubmit(invalid))"
-            autocomplete="off"
             enctype="multipart/form-data"
           >
+            <!-- autocomplete="off" -->
             <div class="w-full gap-3">
               <div
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
@@ -26,12 +26,50 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
                 >
+                  <ValidationProvider name="lokasi_id" class="w-full">
+                    <div slot-scope="{ errors, valid }">
+                      <label for="lokasi_id">Lokasi</label>
+                      <v-select
+                        label="nama_lokasi"
+                        :loading="isLoadingGetLokasi"
+                        :options="lookup_location.data"
+                        :filterable="false"
+                        @search="onGetLokasi"
+                        v-model="form.lokasi_id"
+                        class="w-full"
+                        @input="onSelectLokasi"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_location.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_location.current_page > 1"
+                            @click="onGetLokasi(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_location.last_page >
+                              lookup_location.current_page
+                            "
+                            @click="onGetLokasi(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
+
                   <div class="w-full form-group">
                     <input-form
                       label="Kode Gudang SAP"
                       type="text"
                       name="kode_gudang_sap"
-                      :required="true"
                       v-model="form.kode_gudang_sap"
                     />
                   </div>
@@ -41,7 +79,6 @@
                       label="Kode Gudang"
                       type="text"
                       name="kode_gudang"
-                      :required="true"
                       v-model="form.kode_gudang"
                     />
                   </div>
@@ -56,7 +93,7 @@
                     />
                   </div>
 
-                  <ValidationProvider
+                  <!-- <ValidationProvider
                     name="profit_cost_id"
                     rules="required"
                     class="w-full"
@@ -75,6 +112,9 @@
                         v-model="form.profit_cost_id"
                         :reduce="(item) => item.profit_cost_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <template slot="option" slot-scope="option">
                           {{
@@ -119,15 +159,159 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
-                  </ValidationProvider>
+                  </ValidationProvider> -->
+
+                  <div class="grid grid-cols-2 w-full gap-2">
+                    <ValidationProvider
+                      name="profit_center_id"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="profit_center_id"
+                          >Profit Center<span class="text-danger"
+                            >*</span
+                          ></label
+                        >
+                        <v-select
+                          label="kode_profit_center"
+                          :loading="isLoadingGetProfit"
+                          :options="lookup_custom4.data"
+                          :filterable="false"
+                          @search="onGetProfit"
+                          v-model="form.profit_center_id"
+                          :reduce="(item) => item.profit_center_id"
+                          class="w-full"
+                        >
+                          <!-- <template slot="option" slot-scope="option">
+                          {{
+                            option.wilayah.nama_wilayah +
+                            " -" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template>
+                        <template slot="selected-option" slot-scope="option">
+                          {{
+                            option.nama_wilayah +
+                            " (" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template> -->
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom4.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom4.current_page > 1"
+                              @click="onGetProfit(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom4.last_page >
+                                lookup_custom4.current_page
+                              "
+                              @click="onGetProfit(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                        <div v-if="errors[0]" class="text-danger">
+                          {{ errors[0] }}
+                        </div>
+                      </div>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="cost_center_id"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="cost_center_id"
+                          >Cost Center<span class="text-danger">*</span></label
+                        >
+                        <v-select
+                          label="kode_cost_center"
+                          :loading="isLoadingGetCost"
+                          :options="lookup_custom5.data"
+                          :filterable="false"
+                          @search="onGetCost"
+                          v-model="form.cost_center_id"
+                          :reduce="(item) => item.cost_center_id"
+                          class="w-full"
+                        >
+                          <!-- <template slot="option" slot-scope="option">
+                          {{
+                            option.wilayah.nama_wilayah +
+                            " -" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template>
+                        <template slot="selected-option" slot-scope="option">
+                          {{
+                            option.nama_wilayah +
+                            " (" +
+                            option.profit_center +
+                            "-" +
+                            option.cost_center +
+                            ")"
+                          }}
+                        </template> -->
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom5.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom5.current_page > 1"
+                              @click="onGetCost(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom5.last_page >
+                                lookup_custom5.current_page
+                              "
+                              @click="onGetCost(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                        <div v-if="errors[0]" class="text-danger">
+                          {{ errors[0] }}
+                        </div>
+                      </div>
+                    </ValidationProvider>
+                  </div>
 
                   <div class="w-full form-group">
                     <input-form
                       label="Nomor Rekening"
                       type="text"
                       name="nomor_rekening"
-                      :required="true"
                       v-model="form.nomor_rekening"
                     />
                   </div>
@@ -137,7 +321,6 @@
                       label="Atas Nama Rekening"
                       type="text"
                       name="atas_nama_rekening"
-                      :required="true"
                       v-model="form.atas_nama_rekening"
                     />
                   </div>
@@ -161,6 +344,9 @@
                         :reduce="(item) => item.group_gudang_id"
                         class="w-full"
                         @input="onSelectGroup1"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -185,21 +371,16 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
 
                   <div class="grid grid-cols-2 w-full gap-2">
-                    <ValidationProvider
-                      name="group_gudang_id_2"
-                      rules="required"
-                      class="w-full"
-                    >
+                    <ValidationProvider name="group_gudang_id_2" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_gudang_id_2"
-                          >Group Gudang 2<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_gudang_id_2">Group Gudang 2</label>
                         <v-select
                           label="nama_group_gudang"
                           :loading="isLoadingGetGroupGudang2"
@@ -210,6 +391,9 @@
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup2"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -234,19 +418,16 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
-                    <ValidationProvider
-                      name="group_gudang_id_3"
-                      rules="required"
-                      class="w-full"
-                    >
+                    <ValidationProvider name="group_gudang_id_3" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_gudang_id_3"
-                          >Group Gudang 3<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_gudang_id_3">Group Gudang 3</label>
                         <v-select
                           label="nama_group_gudang"
                           :loading="isLoadingGetGroupGudang3"
@@ -257,6 +438,9 @@
                           :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup3"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
                         >
                           <li
                             slot-scope="{ search }"
@@ -281,22 +465,19 @@
                             >
                           </li>
                         </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
                       </div>
                     </ValidationProvider>
                   </div>
 
                   <div class="grid grid-cols-2 w-full gap-2">
-                    <ValidationProvider
-                      name="group_gudang_id_4"
-                      rules="required"
-                      class="w-full"
-                    >
+                    <ValidationProvider name="group_gudang_id_4" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_gudang_id_4"
-                          >Group Gudang 4<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_gudang_id_4">Group Gudang 4</label>
                         <v-select
                           label="nama_group_gudang"
                           :loading="isLoadingGetGroupGudang4"
@@ -333,17 +514,9 @@
                         </v-select>
                       </div>
                     </ValidationProvider>
-                    <ValidationProvider
-                      name="group_gudang_id_5"
-                      rules="required"
-                      class="w-full"
-                    >
+                    <ValidationProvider name="group_gudang_id_5" class="w-full">
                       <div slot-scope="{ errors, valid }">
-                        <label for="group_gudang_id_5"
-                          >Group Gudang 5<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
+                        <label for="group_gudang_id_5">Group Gudang 5</label>
                         <v-select
                           label="nama_group_gudang"
                           :loading="isLoadingGetGroupGudang5"
@@ -423,20 +596,15 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider
-                    name="vendor_id_operator"
-                    rules="required"
-                    class="w-full"
-                  >
+                  <ValidationProvider name="vendor_id_operator" class="w-full">
                     <div slot-scope="{ errors, valid }">
-                      <label for="vendor_id_operator"
-                        >Vendor Operator<span class="text-danger"
-                          >*</span
-                        ></label
-                      >
+                      <label for="vendor_id_operator">Vendor Operator</label>
                       <v-select
                         label="nama_vendor"
                         :loading="isLoadingGetVendorOperator"
@@ -478,7 +646,6 @@
                       label="No Handphone"
                       type="text"
                       name="no_hp"
-                      :required="true"
                       v-model="form.no_hp"
                     />
                   </div>
@@ -488,7 +655,6 @@
                       label="No WhatsApp"
                       type="text"
                       name="no_wa"
-                      :required="true"
                       v-model="form.no_wa"
                     />
                   </div>
@@ -534,6 +700,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -579,6 +748,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -624,6 +796,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -699,7 +874,6 @@
                       label="Kapasitas"
                       type="text"
                       name="kapasitas"
-                      :required="true"
                       v-model="form.kapasitas"
                     />
                   </div>
@@ -709,7 +883,6 @@
                       label="Kapasitas Bongkar"
                       type="text"
                       name="kapasitas_bongkar"
-                      :required="true"
                       v-model="form.kapasitas_bongkar"
                     />
                   </div>
@@ -766,6 +939,9 @@
                             >
                           </li>
                         </v-select>
+                        <div v-if="errors[0]" class="text-danger">
+                          {{ errors[0] }}
+                        </div>
                       </div>
                     </ValidationProvider>
                   </div>
@@ -785,13 +961,11 @@
                       for="file_layout"
                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >File Layout Gudang
-                      <span class="text-danger">*</span></label
-                    >
+                    </label>
                     <input
                       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                       id="small_size"
                       type="file"
-                      :required="!form.file_layout"
                       @change="handleFileChange"
                     />
                     <button
@@ -807,50 +981,6 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-5"
                 >
-                  <ValidationProvider
-                    name="lokasi_id"
-                    rules="required"
-                    class="w-full"
-                  >
-                    <div slot-scope="{ errors, valid }">
-                      <label for="lokasi_id"
-                        >Lokasi<span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_lokasi"
-                        :loading="isLoadingGetLokasi"
-                        :options="lookup_location.data"
-                        :filterable="false"
-                        @search="onGetLokasi"
-                        v-model="form.lokasi_id"
-                        :reduce="(item) => item.lokasi_id"
-                        class="w-full"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_location.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_location.current_page > 1"
-                            @click="onGetLokasi(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_location.last_page >
-                              lookup_location.current_page
-                            "
-                            @click="onGetLokasi(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
                   <div class="w-full form-group">
                     <input-form
                       label="Longitude"
@@ -913,6 +1043,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -958,6 +1091,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -1003,6 +1139,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
 
@@ -1047,6 +1186,9 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -1096,6 +1238,48 @@
                           >
                         </li>
                       </v-select>
+                      <div v-if="errors[0]" class="text-danger">
+                        {{ errors[0] }}
+                      </div>
+                    </div>
+                  </ValidationProvider>
+
+                  <ValidationProvider ref="inputProvider" name="wilayah_id">
+                    <div class="form-group w-full items-center mb-5">
+                      <label for="" class="w-4/12">Regional</label>
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_wilayah"
+                        :loading="isLoadingGetWilayah"
+                        :options="lookup_custom6.data"
+                        :filterable="false"
+                        @search="onGetWilayah"
+                        :reduce="(item) => item.wilayah_id"
+                        v-model="form.wilayah_id"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom6.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom6.current_page > 1"
+                            @click="onGetWilayah(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom6.last_page >
+                              lookup_custom6.current_page
+                            "
+                            @click="onGetWilayah(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
                     </div>
                   </ValidationProvider>
 
@@ -1132,10 +1316,10 @@
                 </div> -->
                 <TabComponent :tabs="tabs">
                   <template #ItemGudang>
-                    <ItemGudang :self="{ form, parameters }" />
+                    <ItemGudang :self="{ form, parameters, isEditable }" />
                   </template>
                   <template #StatusTransaksi>
-                    <StatusTransaksi :self="{ form }" />
+                    <StatusTransaksi :self="{ form, isEditable }" />
                   </template>
                   <template #KendaraanGudang>
                     <p>Kendaraan Gudang</p>
@@ -1199,7 +1383,9 @@ export default {
         gudang_id: "",
         lokasi_id: "",
         kode_gudang_sap: "",
-        profit_cost_id: "",
+        // profit_cost_id: "",
+        profit_center_id: "",
+        cost_center_id: "",
         kode_gudang: "",
         nama_gudang: "",
         status_konfig_outbound_sap: "",
@@ -1218,13 +1404,15 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
+        kode_pos_id: "",
+        wilayah_id: "",
         vendor_id_pemilik: "",
         vendor_id_operator: "",
         fungsi_gudang_id: "",
         no_hp: "",
         no_wa: "",
-        kapasitas: "",
-        kapasitas_bongkar: "",
+        kapasitas: 0,
+        kapasitas_bongkar: 0,
         fisik_gudang_id: "",
         ukuran_gudang_id: "",
         file_layout: "",
@@ -1241,7 +1429,9 @@ export default {
         gudang_id: "",
         lokasi_id: "",
         kode_gudang_sap: "",
-        profit_cost_id: "",
+        // profit_cost_id: "",
+        profit_center_id: "",
+        cost_center_id: "",
         kode_gudang: "",
         nama_gudang: "",
         status_konfig_outbound_sap: "",
@@ -1260,13 +1450,14 @@ export default {
         kota_id: "",
         provinsi_id: "",
         negara_id: "",
+        wilayah_id: "",
         vendor_id_pemilik: "",
         vendor_id_operator: "",
         fungsi_gudang_id: "",
         no_hp: "",
         no_wa: "",
-        kapasitas: "",
-        kapasitas_bongkar: "",
+        kapasitas: 0,
+        kapasitas_bongkar: 0,
         fisik_gudang_id: "",
         ukuran_gudang_id: "",
         file_layout: "",
@@ -1352,6 +1543,18 @@ export default {
       isLoadingGetKodePos: false,
       kode_pos_search: "",
 
+      isStopSearchProfit: false,
+      isLoadingGetProfit: false,
+      profit_search: "",
+
+      isStopSearchCost: false,
+      isLoadingGetCost: false,
+      cost_search: "",
+
+      isStopSearchWilayah: false,
+      isLoadingGetWilayah: false,
+      wilayah_search: "",
+
       //list item gudang
       isLoadingData: false,
       isPaginate: true,
@@ -1414,8 +1617,14 @@ export default {
         let response = await this.$axios.get("master/gudang/" + this.id);
 
         Object.keys(this.form).forEach((item) => {
+          // if (item !== "item_gudang") {
           this.form[item] = response.data[item];
+          // }
         });
+
+        // response.data.item_gudangs.forEach((item) => {
+        //   this.form.item_gudang.push(item);
+        // });
 
         this.isLoadingPage = false;
       }
@@ -1428,7 +1637,7 @@ export default {
 
   async mounted() {
     await this.onSearchLokasi();
-    await this.onSearchProfitCost();
+    // await this.onSearchProfitCost();
     await this.onSearchGroupGudang1();
     await this.onSearchGroupGudang2();
     await this.onSearchGroupGudang3();
@@ -1445,6 +1654,9 @@ export default {
     await this.onSearchUkuranGudang();
     await this.onSearchSatuanLuas();
     await this.onSearchKodePos();
+    await this.onSearchCost();
+    await this.onSearchProfit();
+    await this.onSearchWilayah();
   },
 
   computed: {
@@ -1478,6 +1690,10 @@ export default {
       "lookup_quotations",
       "lookup_customers",
       "lookup_users",
+
+      "lookup_custom4",
+      "lookup_custom5",
+      "lookup_custom6",
     ]),
   },
 
@@ -1505,43 +1721,66 @@ export default {
       Object.entries(this.form).forEach(([key, value]) => {
         if (key !== "item_gudang") {
           if (key != "file_layout") {
-            formData.append(key, value);
+            formData.append(key, value ?? "");
           }
         }
       });
 
+      console.log("sampe sini", formData);
+
       this.form.item_gudang.forEach((item, index) => {
+        if (item.item_gudang_id) {
+          formData.append(
+            `item_gudangs[${index}][item_gudang_id]`,
+            item.item_gudang_id ?? ""
+          );
+        }
+        formData.append(`item_gudangs[${index}][item_id]`, item.item_id ?? "");
         formData.append(
-          `item_gudangs[${index}].item_gudang_id`,
-          item.item_gudang_id
-        );
-        formData.append(`item_gudangs[${index}].item_id`, item.item_id);
-        formData.append(`item_gudangs[${index}].vendor_id`, item.vendor_id);
-        formData.append(
-          `item_gudangs[${index}].berat_bersih`,
-          item.berat_bersih
-        );
-        formData.append(`item_gudangs[${index}].berat_kotor`, item.berat_kotor);
-        formData.append(`item_gudangs[${index}].panjang`, item.panjang);
-        formData.append(`item_gudangs[${index}].lebar`, item.lebar);
-        formData.append(`item_gudangs[${index}].tebal`, item.tebal);
-        formData.append(`item_gudangs[${index}].volume`, item.volume);
-        formData.append(`item_gudangs[${index}].warna`, item.warna);
-        formData.append(
-          `item_gudangs[${index}].biaya_gaji_sopir`,
-          item.biaya_gaji_sopir
+          `item_gudangs[${index}][vendor_id]`,
+          item.vendor_id ?? ""
         );
         formData.append(
-          `item_gudangs[${index}].biaya_bongkartoko`,
-          item.biaya_bongkartoko
+          `item_gudangs[${index}][berat_bersih]`,
+          item.berat_bersih ?? ""
         );
         formData.append(
-          `item_gudangs[${index}].biaya_bongkar`,
-          item.biaya_bongkar
+          `item_gudangs[${index}][berat_kotor]`,
+          item.berat_kotor ?? ""
         );
-        formData.append(`item_gudangs[${index}].biaya_muat`, item.biaya_muat);
-        formData.append(`item_gudangs[${index}].biaya_pok`, item.biaya_pok);
+        formData.append(`item_gudangs[${index}][panjang]`, item.panjang ?? "");
+        formData.append(`item_gudangs[${index}][lebar]`, item.lebar ?? "");
+        formData.append(`item_gudangs[${index}][tebal]`, item.tebal ?? "");
+        formData.append(`item_gudangs[${index}][volume]`, item.volume ?? "");
+        formData.append(`item_gudangs[${index}][warna]`, item.warna ?? "");
+        formData.append(
+          `item_gudangs[${index}][biaya_gaji_sopir]`,
+          item.biaya_gaji_sopir ?? ""
+        );
+        formData.append(
+          `item_gudangs[${index}][biaya_bongkartoko]`,
+          item.biaya_bongkartoko ?? ""
+        );
+        formData.append(
+          `item_gudangs[${index}][biaya_bongkar]`,
+          item.biaya_bongkar ?? ""
+        );
+        formData.append(
+          `item_gudangs[${index}][biaya_muat]`,
+          item.biaya_muat ?? ""
+        );
+        formData.append(
+          `item_gudangs[${index}][biaya_pok]`,
+          item.biaya_pok ?? ""
+        );
       });
+
+      if (this.form.status_transaksis) {
+        let statusTransaksi = this.form.status_transaksis.map(
+          (item) => item.master_status_transaksi_id
+        );
+        formData.append("status_transaksis", statusTransaksi);
+      }
 
       if (this.form.file_layout instanceof File) {
         formData.append("file_layout", this.form.file_layout);
@@ -2317,6 +2556,125 @@ export default {
       }
     },
 
+    //profit
+    onGetProfit(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProfit);
+
+      this.isStopSearchProfit = setTimeout(() => {
+        this.profit_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchProfit();
+      }, 600);
+    },
+
+    async onSearchProfit() {
+      if (!this.isLoadingGetProfit) {
+        this.isLoadingGetProfit = true;
+
+        await this.lookUp({
+          url: "master/profit-center/get-profit-center",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.profit_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProfit = false;
+      }
+    },
+
+    // cost
+    onGetCost(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCost);
+
+      this.isStopSearchCost = setTimeout(() => {
+        this.cost_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchCost();
+      }, 600);
+    },
+
+    async onSearchCost() {
+      if (!this.isLoadingGetCost) {
+        this.isLoadingGetCost = true;
+
+        await this.lookUp({
+          url: "master/cost-center/get-cost-center",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.cost_search +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCost = false;
+      }
+    },
+
+    onGetWilayah(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchWilayah);
+
+      this.isStopSearchWilayah = setTimeout(() => {
+        this.wilayah_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchWilayah();
+      }, 600);
+    },
+
+    async onSearchWilayah() {
+      if (!this.isLoadingGetWilayah) {
+        this.isLoadingGetWilayah = true;
+
+        await this.lookUp({
+          url: "master/wilayah/get-wilayah",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.wilayah_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetWilayah = false;
+      }
+    },
+
     onSelectGroup1() {
       this.form.group_gudang_id_2 = "";
       this.onSearchGroupGudang2();
@@ -2555,6 +2913,27 @@ export default {
         });
 
         this.isLoadingGetGroupItem5 = false;
+      }
+    },
+
+    //onSelectLokasi
+    onSelectLokasi(item) {
+      if (item) {
+        this.form.longitude = item.longitude;
+        this.form.latitude = item.latitude;
+        this.form.negara_id = item.negara_id;
+        this.form.provinsi_id = item.provinsi_id;
+        this.form.kota_id = item.kota_id;
+        this.form.kecamatan_id = item.kecamatan_id;
+        this.form.kode_pos_id = item.kode_pos_id;
+      } else {
+        this.form.longitude = "";
+        this.form.latitude = "";
+        this.form.negara_id = "";
+        this.form.provinsi_id = "";
+        this.form.kota_id = "";
+        this.form.kecamatan_id = "";
+        this.form.kode_pos_id = "";
       }
     },
 

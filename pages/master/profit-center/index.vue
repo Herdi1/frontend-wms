@@ -15,9 +15,9 @@
         {{ this.title }}
       </h5>
     </div>
-    <div>
+    <div class="flex gap-5">
       <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -27,26 +27,27 @@
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase text-nowrap">
+                <tr class="text-base uppercase">
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
+                  <th>Kode Profit Center</th>
                   <th
                     @click="
                       onSort(
-                        'kode_jurnal',
+                        'wilayah_id',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Jurnal</div>
+                      <div>Wilayah</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_jurnal' &&
+                            parameters.params.order == 'wilayah_id' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -55,7 +56,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_jurnal' &&
+                            parameters.params.order == 'wilayah_id' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -64,12 +65,7 @@
                       </div>
                     </div>
                   </th>
-                  <th>Tanggal</th>
-                  <th>Gudang</th>
-                  <th>Keterangan</th>
-                  <th>Debit</th>
-                  <th>Kredit</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th>Profit Center</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,48 +87,15 @@
                       1
                     }}
                   </td>
-                  <td>
-                    <div>
-                      <div>
-                        {{ item.kode_jurnal }}
-                      </div>
-                      <span class="text-blue-500"
-                        ><i>Dibuat oleh: {{ item.user.nama_lengkap }}</i></span
-                      >
-                    </div>
-                  </td>
-                  <td>{{ item.tanggal }}</td>
+                  <td>{{ item.kode_profit_center }}</td>
                   <td>
                     {{
-                      item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
+                      item.wilayah
+                        ? item.wilayah.nama_wilayah
+                        : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td class="w-[30%]">{{ item.keterangan }}</td>
-                  <td>
-                    {{
-                      item.jurnal_details.reduce((acc, item) => {
-                        if (item.tipe == "DEBIT") {
-                          return acc + item.jumlah;
-                        }
-
-                        return acc;
-                      }, 0)
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.jurnal_details.reduce((acc, item) => {
-                        if (item.tipe == "CREDIT") {
-                          return acc + item.jumlah;
-                        }
-
-                        return acc;
-                      }, 0)
-                    }}
-                  </td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
+                  <td>{{ item.nama_profit_center }}</td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -140,6 +103,7 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
+
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
@@ -150,7 +114,6 @@
 </template>
 
 <script>
-import { data } from "autoprefixer";
 import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
@@ -158,7 +121,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Manual",
+      title: "Profit Center",
     };
   },
 
@@ -171,7 +134,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -206,32 +169,26 @@ export default {
 
   data() {
     return {
-      title: "Jurnal Manual",
+      title: "Profit Center",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/jurnal",
+        url: "master/profit-center",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jurnal_id",
+          order: "profit_center_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          jurnal_id: "",
-          tanggal: "",
-          keterangan: "",
-          keterangan_2: "",
-          keterangan_3: "",
-          kode_referensi: "",
-          kode_referensi_2: "",
-          kode_referensi_3: "",
-          gudang_id: "",
-          jurnal_details: [],
+          profit_center_id: "",
+          kode_profit_center: "",
+          wilayah_id: "",
+          nama_profit_center: "",
         },
         loadings: {
           isDelete: false,
@@ -255,6 +212,7 @@ export default {
       user: this.$auth.user,
     };
   },
+
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
 
@@ -263,7 +221,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jurnal"
+          (item) => item.rute == "profit"
         );
 
         let roles = {};
@@ -293,15 +251,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/finance/jurnal-manual/add");
+      this.$router.push("/master/profit-center/add");
     },
 
     onEdit(item) {
-      this.$router.push("/finance/jurnal-manual/" + item.jurnal_id);
-    },
-
-    onDetail(item) {
-      this.$router.push(`/finance/jurnal-manual/detail/${item.gudang_id}`);
+      this.$router.push("/master/profit-center/" + item.profit_center_id);
     },
 
     onTrashed(item) {
@@ -320,7 +274,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.jurnal_id,
+              id: item.profit_center_id,
               params: this.parameters.params,
             });
 

@@ -45,6 +45,9 @@
                         v-model="form.jenis_kendaraan_id"
                         :reduce="(item) => item.jenis_kendaraan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -69,6 +72,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -89,6 +95,9 @@
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -113,6 +122,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -133,6 +145,9 @@
                         v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <!-- <template #search="{ attributes, events }">
                           <input
@@ -166,6 +181,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -188,6 +206,9 @@
                         v-model="form.vendor_id_operator"
                         :reduce="(item) => item.vendor_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -212,6 +233,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -234,6 +258,9 @@
                         v-model="form.standar_jenis_kendaraan_id"
                         :reduce="(item) => item.standar_jenis_kendaraan_id"
                         class="w-full"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
                       >
                         <li
                           slot-scope="{ search }"
@@ -258,6 +285,9 @@
                           >
                         </li>
                       </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -265,7 +295,7 @@
                     rules="required"
                     class="w-full"
                   >
-                    <div slot-scope="{ errors, valid }">
+                    <div>
                       <input-form
                         label="Nama Kendaraan"
                         type="text"
@@ -329,7 +359,8 @@
                       v-model="form.stnk"
                     />
                   </div>
-
+                </div>
+                <div class="grid grid-cols-4 gap-2 w-full">
                   <div>
                     <input-form
                       label="Nomor KIR"
@@ -339,37 +370,37 @@
                     />
                   </div>
 
-                  <div class="grid grid-flow-row grid-cols-2 gap-2 w-full">
-                    <div class="form-group">
-                      <label for="status_digunakan">Status Digunakan</label>
-                      <select
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        name="status_digunakan"
-                        id="status_digunakan"
-                        v-model="form.status_digunakan"
-                      >
-                        <option value="">Pilih</option>
-                        <option value="0">Tidak Digunakan</option>
-                        <option value="1">Digunakan</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="status_normal">Status Normal</label>
-                      <select
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        name="status_normal"
-                        id="status_normal"
-                        v-model="form.status_normal"
-                      >
-                        <option value="">Pilih</option>
-                        <option value="0">Rusak</option>
-                        <option value="1">Prima</option>
-                      </select>
-                    </div>
+                  <div class="form-group">
+                    <label for="status_digunakan">Status Digunakan</label>
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_digunakan"
+                      id="status_digunakan"
+                      v-model="form.status_digunakan"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="0">Tidak Digunakan</option>
+                      <option value="1">Digunakan</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="status_normal">Status Normal</label>
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_normal"
+                      id="status_normal"
+                      v-model="form.status_normal"
+                    >
+                      <option value="">Pilih</option>
+                      <option value="0">Rusak</option>
+                      <option value="1">Prima</option>
+                    </select>
                   </div>
 
                   <div class="form-group">
-                    <label for="status_driver">Status Driver</label>
+                    <label for="status_driver"
+                      >Status Driver <span class="text-danger">*</span></label
+                    >
                     <select
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       name="status_driver"
@@ -382,16 +413,16 @@
                       <option value="share">Share</option>
                     </select>
                   </div>
+                </div>
 
-                  <div class="form-group md:col-span-2 lg:col-span-3">
-                    <label>Keterangan Pindah Gudang</label>
-                    <textarea
-                      name="keterangan_pindah_gudang"
-                      v-model="form.keterangan_pindah_gudang"
-                      class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                    ></textarea>
-                    <p>*Diisi jika terjadi perpindahan gudang</p>
-                  </div>
+                <div class="form-group md:col-span-2 lg:col-span-3">
+                  <label>Keterangan Pindah Gudang</label>
+                  <textarea
+                    name="keterangan_pindah_gudang"
+                    v-model="form.keterangan_pindah_gudang"
+                    class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                  ></textarea>
+                  <p>*Diisi jika terjadi perpindahan gudang</p>
                 </div>
                 <modal-footer-section
                   :isLoadingForm="isLoadingForm"

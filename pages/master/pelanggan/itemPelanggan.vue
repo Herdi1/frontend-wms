@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="w-full mb-7">
+    <div class="w-full mb-5">
       <div
-        class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+        class="flex flex-col w-full justify-between p-2 border border-gray-300 rounded-md"
       >
-        <div class="grid grid-flow-col grid-rows-3 gap-2">
-          <div class="flex w-[400px]">
+        <div class="grid grid-flow-col grid-rows-5 md:grid-rows-3 gap-3">
+          <div class="flex">
             <label class="w-[40%]" for="group_item_id_1">
               Group Item Level 1
             </label>
@@ -18,7 +18,7 @@
               v-model="filter_params.group_item_id_1"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem2"
+              @input="onSelectGroupItem1"
             >
               <li
                 slot-scope="{ search }"
@@ -54,7 +54,7 @@
               v-model="filter_params.group_item_id_2"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem3"
+              @input="onSelectGroupItem2"
             >
               <li
                 slot-scope="{ search }"
@@ -90,7 +90,7 @@
               v-model="filter_params.group_item_id_3"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem4"
+              @input="onSelectGroupItem3"
             >
               <li
                 slot-scope="{ search }"
@@ -113,7 +113,7 @@
               </li>
             </v-select>
           </div>
-          <div class="flex w-[400px]">
+          <div class="flex">
             <label class="w-[40%]" for="group_item_id_4"
               >Group Item Level 4</label
             >
@@ -126,7 +126,7 @@
               v-model="filter_params.group_item_id_4"
               :reduce="(item) => item.group_item_id"
               class="w-[60%]"
-              @input="onSearchGroupItem5"
+              @input="onSelectGroupItem4"
             >
               <li
                 slot-scope="{ search }"
@@ -185,24 +185,26 @@
             </v-select>
           </div>
         </div>
-        <div class="flex gap-3 ml-5 items-self-end">
-          <button
-            type="button"
-            @click="onLoad"
-            class="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
-          >
-            <i class="fa fa-plus text-white font-bold mr-2"></i>
-            <!-- Tambah ke Item Gudang -->
-          </button>
-          <button
-            type="button"
-            @click="deleteSelectedItem"
-            class="bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
-          >
-            <i class="fa fa-trash text-white font-bold mr-2"></i>
-            <!-- Tambah ke Item Gudang -->
-          </button>
-        </div>
+      </div>
+      <div class="flex mt-5 gap-3">
+        <button
+          type="button"
+          @click="onLoad"
+          class="bg-blue-500 flex gap-1 justify-center items-center hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
+        >
+          <i class="fa fa-plus text-white font-bold mr-2"></i>
+          <p>Tambah</p>
+          <!-- Tambah ke Item Gudang -->
+        </button>
+        <button
+          type="button"
+          @click="deleteSelectedItem"
+          class="flex gap-1 justify-center items-center bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
+        >
+          <i class="fa fa-trash text-white font-bold mr-2"></i>
+          <p>Hapus</p>
+          <!-- Hapus Item Gudang -->
+        </button>
       </div>
     </div>
     <div class="table-responsive">
@@ -255,6 +257,7 @@
                 </div>
               </div>
             </th>
+            <th class="w-[200px] border border-gray-300">Referensi SAP</th>
             <th class="w-[200px] border border-gray-300">Supplier</th>
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Group Item</th>
@@ -297,6 +300,15 @@
               }}
             </td>
             <td class="border border-gray-300">{{ item.nama_item }}</td>
+            <td class="border border-gray-300">
+              <input-form
+                label=""
+                type="text"
+                name="referensi_sap"
+                :required="false"
+                v-model="item.referensi_sap"
+              />
+            </td>
             <td class="border border-gray-300">
               {{
                 item.supplier ? item.supplier.nama_supplier : "Tidak Ditemukan"
@@ -505,20 +517,16 @@
                     "
                   />
                 </div>
-                <div class="form-group">
-                  <label for="warna">Warna</label>
-                  <money
-                    v-model="item.warna"
-                    class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div>
               </div>
             </td>
             <td class="border border-gray-300">
-              {{ item.warna ? item.warna : "Tidak Ditemukan" }}
+              <input-form
+                label=""
+                type="text"
+                name="warna"
+                :required="false"
+                v-model="item.warna"
+              />
             </td>
           </tr>
         </tbody>
@@ -625,7 +633,7 @@ export default {
 
   methods: {
     ...mapMutations("moduleApi", ["set_data"]),
-    ...mapActions("moduleApi", ["lookUp"]),
+    ...mapActions("moduleApi", ["lookUp", "getData"]),
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
@@ -748,6 +756,7 @@ export default {
             "&per_page=10",
         });
         this.isLoadingGetGroupItem1 = false;
+        console.log("Group Item 1", this.lookup_custom1.data);
       }
     },
 
@@ -782,11 +791,14 @@ export default {
             "?search=" +
             this.group_item_2_search +
             "&status=2" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_1 +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
         });
         this.isLoadingGetGroupItem2 = false;
+        console.log("Group Item 2", this.lookup_custom2.data);
       }
     },
 
@@ -821,11 +833,14 @@ export default {
             "?search=" +
             this.group_item_3_search +
             "&status=3" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_2 +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
         });
         this.isLoadingGetGroupItem3 = false;
+        console.log("Group Item 3", this.lookup_custom3.data);
       }
     },
 
@@ -860,11 +875,14 @@ export default {
             "?search=" +
             this.group_item_4_search +
             "&status=4" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_3 +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
         });
         this.isLoadingGetGroupItem4 = false;
+        console.log("Group Item 4", this.lookup_roles.data);
       }
     },
 
@@ -899,11 +917,14 @@ export default {
             "?search=" +
             this.group_item_5_search +
             "&status=5" +
+            "&group_item_id_induk=" +
+            this.filter_params.group_item_id_4 +
             "&page=" +
             this.lookup_mesin.current_page +
             "&per_page=10",
         });
         this.isLoadingGetGroupItem5 = false;
+        console.log("Group Item 5", this.lookup_mesin.data);
       }
     },
 
@@ -945,6 +966,24 @@ export default {
 
         this.isLoadingGetVendor = false;
       }
+    },
+
+    //reset filter
+    async onSelectGroupItem1() {
+      await this.onSearchGroupItem2();
+      this.filter_params.group_item_id_2 = "";
+    },
+    async onSelectGroupItem2() {
+      await this.onSearchGroupItem3();
+      this.filter_params.group_item_id_3 = "";
+    },
+    async onSelectGroupItem3() {
+      await this.onSearchGroupItem3();
+      this.filter_params.group_item_id_3 = "";
+    },
+    async onSelectGroupItem4() {
+      await this.onSearchGroupItem4();
+      this.filter_params.group_item_id_4 = "";
     },
   },
 };

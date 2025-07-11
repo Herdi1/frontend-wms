@@ -30,7 +30,7 @@
                 @change="toggleAllCheckboxes"
               />
             </th>
-            <th class="w-[50px] text-center border border-gray-300">No</th>
+            <!-- <th class="w-[50px] text-center border border-gray-300">No</th> -->
             <th class="w-[200px] border border-gray-300">Proses</th>
             <th class="w-[200px] border border-gray-300">Modul</th>
             <th class="w-[200px] border border-gray-300">Kode Transaksi</th>
@@ -51,13 +51,13 @@
                 id=""
               />
             </td>
-            <td class="border border-gray-300 text-center">
-              <!-- {{
+            <!-- <td class="border border-gray-300 text-center">
+              {{
                 (parameters.params.page - 1) * parameters.params.per_page +
                 i +
                 1
-              }} -->
-            </td>
+              }}
+            </td> -->
             <td class="border border-gray-300 text-center">
               {{
                 item.jenis_proses_transaksi
@@ -86,8 +86,11 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   props: ["self"],
 
-  created() {
+  async created() {
     this.set_data([]);
+    if (this.self.isEditable) {
+      await this.onLoad();
+    }
   },
 
   data() {
@@ -157,17 +160,30 @@ export default {
       }
 
       if (this.data) {
-        this.data.forEach((item) => {
-          if (
-            !this.self.form.status_transaksis.find(
+        if (this.self.isEditable) {
+          this.data.forEach((item) => {
+            let index = this.self.form.status_transaksis.findIndex(
               (data) =>
                 data.master_status_transaksi_id ===
                 item.master_status_transaksi_id
-            )
-          ) {
-            this.self.form.status_transaksis.push(item);
-          }
-        });
+            );
+            if (index !== -1) {
+              this.self.form.status_transaksis.splice(index, 1, item);
+            }
+          });
+        } else {
+          this.data.forEach((item) => {
+            if (
+              !this.self.form.status_transaksis.find(
+                (data) =>
+                  data.master_status_transaksi_id ===
+                  item.master_status_transaksi_id
+              )
+            ) {
+              this.self.form.status_transaksis.push(item);
+            }
+          });
+        }
       }
 
       if (this.result == true) {

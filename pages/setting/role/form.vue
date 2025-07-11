@@ -208,6 +208,18 @@
                 >
                 </v-select>
               </div>
+              <div class="for-group mb-7">
+                <input-form
+                  label="File Icon"
+                  type="file"
+                  name="file_icon"
+                  :required="false"
+                  v-model="parameters.form.file_icon"
+                />
+                <span class="text-muted text-xs">
+                  *Ukuran file maksimal 1 MB (.png, .jpg, .jpeg, .svg)
+                </span>
+              </div>
 
               <modal-footer-section
                 :isLoadingForm="isLoadingForm"
@@ -260,6 +272,7 @@ export default {
           urutan: "",
           status: "",
           status_menu: "",
+          file_icon: "",
         },
       },
     };
@@ -316,6 +329,7 @@ export default {
           urutan: "",
           status: "",
           status_menu: "",
+          file_icon: "",
         };
 
         this.$refs.formValidate.reset();
@@ -436,6 +450,7 @@ export default {
         urutan: "",
         status: "",
         status_menu: "",
+        file_icon: "",
       };
     },
   },

@@ -482,11 +482,7 @@
               }}
             </td>
             <td class="border border-gray-300">
-              <ValidationProvider
-                name="vendor_id"
-                rules="required"
-                class="w-full"
-              >
+              <ValidationProvider name="vendor_id" class="w-full">
                 <div slot-scope="{ errors, valid }">
                   <v-select
                     label="nama_vendor"
@@ -1178,8 +1174,21 @@ export default {
       }
       if (this.data) {
         this.data.forEach((item) => {
-          if (!this.self.form.item_gudang.find((data) => data.id === item.id)) {
-            this.self.form.item_gudang.push(item);
+          if (this.self.isEditable) {
+            let index = this.self.form.item_gudang.findIndex(
+              (data) => data.item_id === item.item_id
+            );
+            if (index !== -1) {
+              this.self.form.item_gudang.splice(index, 1, item);
+            }
+          } else {
+            if (
+              !this.self.form.item_gudang.find(
+                (data) => data.item_id === item.item_id
+              )
+            ) {
+              this.self.form.item_gudang.push(item);
+            }
           }
         });
       }
@@ -1188,10 +1197,10 @@ export default {
         loader.hide();
 
         if (page == 1) {
-          this.$refs["pagination"].generatePage();
+          // this.$refs["pagination"].generatePage();
         }
 
-        this.$refs["pagination"].active_page = this.parameters.params.page;
+        // this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

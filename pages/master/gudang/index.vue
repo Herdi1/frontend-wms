@@ -104,11 +104,7 @@
                   <th>Nomor Rekening</th>
                   <th>Atas Nama Rekening</th> -->
                   <th>Status Gudang</th>
-                  <th>Group Gudang 1</th>
-                  <th>Group Gudang 2</th>
-                  <th>Group Gudang 3</th>
-                  <th>Group Gudang 4</th>
-                  <th>Group Gudang 5</th>
+                  <th>Group Gudang</th>
                   <th>Longitude</th>
                   <th>Latitude</th>
                   <th>Alamat</th>
@@ -156,14 +152,22 @@
                   <td>{{ item.kode_gudang_sap }}</td>
                   <td>{{ item.kode_gudang }}</td>
                   <td>
-                    {{
+                    <!-- {{
                       item.profit_cost.nama_wilayah +
                       " (" +
                       item.profit_cost.profit_center +
                       "-" +
                       item.profit_cost.cost_center +
                       ")"
-                    }}
+                    }} -->
+                    <div>
+                      Profit Center:
+                      {{ item.profit_center.kode_profit_center }}
+                    </div>
+                    <div>
+                      Cost Center:
+                      {{ item.cost_center.kode_cost_center }}
+                    </div>
                   </td>
                   <td>{{ item.nama_gudang }}</td>
                   <!-- <td>
@@ -177,39 +181,41 @@
                   <td>{{ item.atas_nama_rekening }}</td> -->
                   <td>{{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}</td>
                   <td>
-                    {{
-                      item.group_gudang_1
-                        ? item.group_gudang_1.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_2
-                        ? item.group_gudang_2.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_3
-                        ? item.group_gudang_3.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_4
-                        ? item.group_gudang_4.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_gudang_5
-                        ? item.group_gudang_5.nama_group_gudang
-                        : "Tidak Ditemukan"
-                    }}
+                    <p v-if="item.group_gudang_1">
+                      {{
+                        item.group_gudang_1
+                          ? item.group_gudang_1.nama_group_gudang
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_gudang_2">
+                      {{
+                        item.group_gudang_2
+                          ? item.group_gudang_2.nama_group_gudang
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_gudang_3">
+                      {{
+                        item.group_gudang_3
+                          ? item.group_gudang_3.nama_group_gudang
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_gudang_4">
+                      {{
+                        item.group_gudang_4
+                          ? item.group_gudang_4.nama_group_gudang
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
+                    <p v-if="item.group_gudang_5">
+                      {{
+                        item.group_gudang_5
+                          ? item.group_gudang_5.nama_group_gudang
+                          : "Tidak Ditemukan"
+                      }}
+                    </p>
                   </td>
                   <td>{{ item.longitude }}</td>
                   <td>{{ item.latitude }}</td>

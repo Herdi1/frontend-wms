@@ -127,6 +127,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <!-- Vendor Induk -->
@@ -281,6 +284,9 @@
                       {{ itemValue.nama_tipe_vendor }}
                     </option>
                   </select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
 
@@ -299,7 +305,10 @@
             <div class="grid grid-cols-3 gap-2 w-full">
               <!-- Negara -->
               <ValidationProvider name="id_negara" rules="required">
-                <div class="form-group w-full items-center mb-5">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
+                >
                   <label for="" class="w-4/12"
                     >Negara <span class="text-danger">*</span></label
                   >
@@ -313,6 +322,7 @@
                     :reduce="(item) => item.negara_id"
                     v-model="parameters.form.negara_id"
                     @input="onSelectNegara"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
                     <li
                       slot-scope="{ search }"
@@ -336,6 +346,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
 
@@ -382,6 +395,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
 
@@ -428,6 +444,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
             </div>
@@ -474,6 +493,9 @@
                       >
                     </li>
                   </v-select>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
               <!-- Kelurahan -->
@@ -553,16 +575,13 @@
                 rules="required"
                 ref="ruteProvider"
               >
-                <div class="form-group" slot-scope="{ errors, valid }">
+                <div class="form-group">
                   <input-form
                     label="Longitude"
                     type="text"
                     name="longitude"
                     :required="true"
                     v-model="parameters.form.longitude"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
                   />
                 </div>
               </ValidationProvider>
@@ -573,16 +592,13 @@
                 rules="required"
                 ref="ruteProvider"
               >
-                <div class="form-group" slot-scope="{ errors, valid }">
+                <div class="form-group">
                   <input-form
                     label="Latitude"
                     type="text"
                     name="latitude"
                     :required="true"
                     v-model="parameters.form.latitude"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
                   />
                 </div>
               </ValidationProvider>
@@ -602,6 +618,9 @@
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   />
                   <div class="text-muted text-small">* Meter</div>
+                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                    errors[0]
+                  }}</span>
                 </div>
               </ValidationProvider>
             </div>

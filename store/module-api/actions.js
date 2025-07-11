@@ -259,6 +259,27 @@ export default {
                     case "location":
                         commit("set_lookup_location", response.data);
                         break;
+                    case "custom4":
+                        commit("set_lookup_custom4", response.data);
+                        break;
+                    case "custom5":
+                        commit("set_lookup_custom5", response.data);
+                        break;
+                    case "custom6":
+                        commit("set_lookup_custom6", response.data);
+                        break;
+                    case "custom7":
+                        commit("set_lookup_custom7", response.data);
+                        break;
+                    case "custom8":
+                        commit("set_lookup_custom8", response.data);
+                        break;
+                    case "custom9":
+                        commit("set_lookup_custom9", response.data);
+                        break;
+                    case "custom10":
+                        commit("set_lookup_custom10", response.data);
+                        break;
                 }
             })
             .catch((error) => {

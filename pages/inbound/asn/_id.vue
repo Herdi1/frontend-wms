@@ -32,42 +32,54 @@
               </div>
               <div v-if="!user.gudang_id" class="w-full">
                 <ValidationProvider name="gudang" rules="required">
-                  <div class="form-group w-full flex justify-between">
-                    <label for="" class="w-1/2"
-                      >Gudang <span class="text-danger">*</span></label
-                    >
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_gudang"
-                      :loading="isLoadingGetGudang"
-                      :options="lookup_roles.data"
-                      :filterable="false"
-                      @search="onGetGudang"
-                      :reduce="(item) => item.gudang_id"
-                      v-model="parameters.form.gudang_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_roles.data.length || search"
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <div class="w-full flex justify-between">
+                      <label for="" class="w-1/2"
+                        >Gudang <span class="text-danger">*</span></label
                       >
-                        <span
-                          v-if="lookup_roles.current_page > 1"
-                          @click="onGetGudang(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
+                      <v-select
+                        class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_gudang"
+                        :loading="isLoadingGetGudang"
+                        :options="lookup_roles.data"
+                        :filterable="false"
+                        @search="onGetGudang"
+                        :reduce="(item) => item.gudang_id"
+                        v-model="parameters.form.gudang_id"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_roles.data.length || search"
                         >
-                        <span
-                          v-if="
-                            lookup_roles.last_page > lookup_roles.current_page
-                          "
-                          @click="onGetGudang(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
+                          <span
+                            v-if="lookup_roles.current_page > 1"
+                            @click="onGetGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_roles.last_page > lookup_roles.current_page
+                            "
+                            @click="onGetGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                    <div class="w-full flex justify-end">
+                      <span
+                        class="text-danger text-xs pl-1 w-1/2"
+                        v-if="errors[0]"
+                        >{{ errors[0] }}</span
+                      >
+                    </div>
                   </div>
                 </ValidationProvider>
               </div>
@@ -137,43 +149,56 @@
                 />
               </div>
               <ValidationProvider name="vendor" rules="required">
-                <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2"
-                    >Vendor Transporter
-                    <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_vendor"
-                    :loading="isLoadingGetVendor"
-                    :options="lookup_custom1.data"
-                    :filterable="false"
-                    @search="onGetVendor"
-                    :reduce="(item) => item.vendor_id"
-                    v-model="parameters.form.vendor_id_transporter"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom1.data.length || search"
+                <div class="form-group mb-5" slot-scope="{ errors, valid }">
+                  <div class="w-full flex justify-between">
+                    <label for="" class="w-1/2"
+                      >Vendor Transporter
+                      <span class="text-danger">*</span></label
                     >
-                      <span
-                        v-if="lookup_custom1.current_page > 1"
-                        @click="onGetVendor(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
+                    <v-select
+                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_vendor"
+                      :loading="isLoadingGetVendor"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetVendor"
+                      :reduce="(item) => item.vendor_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                      v-model="parameters.form.vendor_id_transporter"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
                       >
-                      <span
-                        v-if="
-                          lookup_custom1.last_page > lookup_custom1.current_page
-                        "
-                        @click="onGetVendor(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetVendor(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetVendor(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="w-full flex justify-end">
+                    <span
+                      class="text-danger text-xs pl-1 w-1/2"
+                      v-if="errors[0]"
+                      >{{ errors[0] }}</span
+                    >
+                  </div>
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -213,81 +238,107 @@
                 />
               </div>
               <ValidationProvider name="kendaraan" rules="required">
-                <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2"
-                    >Kendaraan <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_kendaraan"
-                    :loading="isLoadingGetKendaraan"
-                    :options="lookup_custom2.data"
-                    :filterable="false"
-                    @search="onGetKendaraan"
-                    :reduce="(item) => item.kendaraan_id"
-                    v-model="parameters.form.kendaraan_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom2.data.length || search"
+                <div class="form-group mb-5" slot-scope="{ errors, valid }">
+                  <div class="w-full flex justify-between">
+                    <label for="" class="w-1/2"
+                      >Kendaraan <span class="text-danger">*</span></label
                     >
-                      <span
-                        v-if="lookup_custom2.current_page > 1"
-                        @click="onGetKendaraan(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
+                    <v-select
+                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_kendaraan"
+                      :loading="isLoadingGetKendaraan"
+                      :options="lookup_custom2.data"
+                      :filterable="false"
+                      @search="onGetKendaraan"
+                      :reduce="(item) => item.kendaraan_id"
+                      v-model="parameters.form.kendaraan_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom2.data.length || search"
                       >
-                      <span
-                        v-if="
-                          lookup_custom2.last_page > lookup_custom2.current_page
-                        "
-                        @click="onGetKendaraan(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
+                        <span
+                          v-if="lookup_custom2.current_page > 1"
+                          @click="onGetKendaraan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom2.last_page >
+                            lookup_custom2.current_page
+                          "
+                          @click="onGetKendaraan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="w-full flex justify-end">
+                    <span
+                      class="text-danger text-xs pl-1 w-1/2"
+                      v-if="errors[0]"
+                      >{{ errors[0] }}</span
+                    >
+                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="pengemudi" rules="required">
-                <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2"
-                    >Pengemudi <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_pengemudi"
-                    :loading="isLoadingGetPengemudi"
-                    :options="lookup_custom3.data"
-                    :filterable="false"
-                    @search="onGetPengemudi"
-                    :reduce="(item) => item.pengemudi_id"
-                    v-model="parameters.form.pengemudi_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom3.data.length || search"
+                <div class="form-group mb-5" slot-scope="{ errors, valid }">
+                  <div class="w-full flex justify-between">
+                    <label for="" class="w-1/2"
+                      >Pengemudi <span class="text-danger">*</span></label
                     >
-                      <span
-                        v-if="lookup_custom3.current_page > 1"
-                        @click="onGetPengemudi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
+                    <v-select
+                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_pengemudi"
+                      :loading="isLoadingGetPengemudi"
+                      :options="lookup_custom3.data"
+                      :filterable="false"
+                      @search="onGetPengemudi"
+                      :reduce="(item) => item.pengemudi_id"
+                      v-model="parameters.form.pengemudi_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom3.data.length || search"
                       >
-                      <span
-                        v-if="
-                          lookup_custom3.last_page > lookup_custom3.current_page
-                        "
-                        @click="onGetPengemudi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
+                        <span
+                          v-if="lookup_custom3.current_page > 1"
+                          @click="onGetPengemudi(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom3.last_page >
+                            lookup_custom3.current_page
+                          "
+                          @click="onGetPengemudi(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div class="w-full flex justify-end">
+                    <span
+                      class="text-danger text-xs pl-1 w-1/2"
+                      v-if="errors[0]"
+                      >{{ errors[0] }}</span
+                    >
+                  </div>
                 </div>
               </ValidationProvider>
               <ValidationProvider name="supplier">
