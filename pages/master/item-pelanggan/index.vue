@@ -296,7 +296,7 @@
                   }}
                 </td>
                 <td>{{ item.nama_item }}</td>
-                <td>{{ item.vendor?.nama_vendor }}</td>
+                <td>{{ item.vendor.nama_vendor }}</td>
                 <td>{{ item.supplier?.nama_supplier }}</td>
                 <td>
                   <div>
