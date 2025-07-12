@@ -137,6 +137,7 @@
                       </th>
 
                       <th class="w-[5%]">Icon</th>
+                      <th class="w-[5%]">File Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
                       <th class="w-[5%]">Detail</th>
@@ -165,6 +166,18 @@
                       <td>{{ item.judul }}</td>
                       <td>{{ item.rute }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
+                      <td>
+                        <span v-if="item.file_icon !== '/menu_icon/'">
+                          <img
+                            class="size-6 flex items-center justify-center rounded-full"
+                            :src="
+                              `http://202.56.167.166:88/api/public/` +
+                              item.file_icon
+                            "
+                            alt=""
+                        /></span>
+                        <!-- <span v-else>-</span> -->
+                      </td>
                       <td>
                         <span
                           v-if="item.parent"
@@ -270,6 +283,7 @@ export default {
 
   data() {
     return {
+      imageUrl: process.env.VUE_IMAGES_API_URL,
       title: "Menu",
       isLoadingData: false,
       isPaginate: true,
@@ -304,6 +318,9 @@ export default {
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
   },
+  // imageUrl(url) {
+  //   return `${process.env.VUE_IMAGES_API_URL}${url}`;
+  // },
 
   methods: {
     ...mapActions("setting", ["setSetting"]),
