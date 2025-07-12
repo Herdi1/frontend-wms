@@ -445,7 +445,7 @@
                   <th class="w-20 border border-gray-300 text-center">
                     Delete
                   </th>
-                  <th class="w-40 border border-gray-300">Item</th>
+                  <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Gudang</th> -->
                   <th class="w-40 border border-gray-300">Zona Gudang</th>

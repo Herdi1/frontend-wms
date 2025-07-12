@@ -11,7 +11,7 @@
           <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
             <form
               @submit.prevent="validate().then(() => onSubmit(invalid))"
-              autocomplete="off"
+              enctype="multipart/form-data"
             >
               <div class="modal-body">
                 <ValidationProvider
@@ -208,17 +208,37 @@
                 >
                 </v-select>
               </div>
-              <div class="for-group mb-7">
-                <input-form
-                  label="File Icon"
+              <div class="form-group">
+                <label
+                  for="file_icon"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >File Icon
+                </label>
+                <input
+                  class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  id="small_size"
                   type="file"
-                  name="file_icon"
-                  :required="false"
-                  v-model="parameters.form.file_icon"
+                  @change="handleFileChange"
                 />
+                <button
+                  v-if="parameters.form.file_icon && isEditable"
+                  class="p-1 my-1 rounded-md bg-blue-500 text-white hover:bg-blue-400"
+                >
+                  File Saat Ini :
+                  <span class="font-bold">{{ parameters.form.file_icon }}</span>
+                </button>
                 <span class="text-muted text-xs">
                   *Ukuran file maksimal 1 MB (.png, .jpg, .jpeg, .svg)
                 </span>
+              </div>
+              <div>
+                <input-form
+                  label="Urutan"
+                  type="number"
+                  name="urutan"
+                  v-model="parameters.form.urutan"
+                  :required="false"
+                />
               </div>
 
               <modal-footer-section
@@ -290,54 +310,86 @@ export default {
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.parameters.form.file_icon = file;
+    },
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          urutan: 0,
-          id: this.parameters.form.menu_id ? this.parameters.form.menu_id : "",
-          menu_id: this.parameters.form.menu_id
-            ? this.parameters.form.menu_id
-            : "",
-          // menu_id: this.parameters.form.menu_id,
-        },
-      };
+      let url = "setting/menu";
+
+      let formData = new FormData();
+
+      // this.parameters.form.forEach((item, i) => {
+      //   formData.append("rute", item.rute);
+      //   formData.append("judul", item.judul);
+      //   formData.append("icon", item.icon);
+      //   formData.append("menu_id_induk", item.menu_id_induk);
+      //   formData.append("menu_id_induk_2", item.menu_id_induk_2);
+      //   formData.append("urutan", item.urutan);
+      //   formData.append("status", item.status);
+      //   formData.append("status_menu", item.status_menu);
+      //   formData.append("file_icon", item.file_icon);
+      // });
+
+      Object.entries(this.parameters.form).forEach(([key, value]) => {
+        if (key !== "file_icon") {
+          formData.append(key, value || "");
+        }
+      });
+
+      if (this.parameters.form.file_icon instanceof File) {
+        formData.append("file_icon", this.parameters.form.file_icon);
+      }
+
+      // console.log(this.parameters.form.file_icon instanceof File);
+      [...formData.entries()].forEach(([k, v]) => console.log(k, v));
+
+      // console.log("formdata", formData);
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.parameters.form.menu_id;
+        formData.append("_method", "PUT");
       }
 
-      if (this.result == true) {
-        this.self.onLoad(this.self.parameters.params.page);
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-        this.isEditable = false;
-        this.parameters.form = {
-          rute: "",
-          judul: "",
-          icon: "",
-          menu_id_induk: "",
-          menu_id_induk_2: "",
-          urutan: "",
-          status: "",
-          status_menu: "",
-          file_icon: "",
-        };
+      this.$axios({
+        url: url,
+        method: "POST",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Data berhasil di " +
+              (this.isEditable == true ? "Diedit" : "Tambah")
+          );
 
-        this.$refs.formValidate.reset();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.isLoadingForm = false;
+          if (!this.isEditable) {
+          }
+          this.parameters.form = {
+            rute: "",
+            judul: "",
+            icon: "",
+            menu_id_induk: "",
+            menu_id_induk_2: "",
+            urutan: "",
+            status: "",
+            status_menu: "",
+            file_icon: "",
+          };
+          this.self.onLoad(this.self.parameters.params.page);
+          // this.$router.push("/setting/role");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
     },
 
     //get modul
