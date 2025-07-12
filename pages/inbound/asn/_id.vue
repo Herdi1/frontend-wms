@@ -445,9 +445,9 @@
                   <th class="w-20 border border-gray-300 text-center">
                     Delete
                   </th>
-                  <th class="w-40 border border-gray-300">Item</th>
+                  <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-40 border border-gray-300">Item Gudang</th>
+                  <th class="w-40 border border-gray-300">Item</th>
                   <th class="w-40 border border-gray-300">Zona Gudang</th>
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
@@ -472,7 +472,7 @@
                       @click="onDeleteItem(index)"
                     ></i>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_item"
@@ -506,7 +506,7 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"

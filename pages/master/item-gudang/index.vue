@@ -358,11 +358,11 @@
                   </div>
                 </td>
                 <td class="border border-gray-300">
-                  <div class="flex gap-2">
+                  <div class="flex items-center gap-2">
                     <i class="fa fa-caret-up text-green-300"></i>
                     <p>{{ item.batas_atas }}</p>
                   </div>
-                  <div class="flex gap-2">
+                  <div class="flex items-center gap-2">
                     <i class="fa fa-caret-down text-red-300"></i>
                     <p>{{ item.batas_bawah }}</p>
                   </div>
@@ -373,35 +373,35 @@
                     <p v-if="item.kategori_1">
                       {{
                         item.kategori_1
-                          ? item.kategori_1.nama_kategori
+                          ? item.kategori_1.nama_kategori_item
                           : "Tidak Ditemukan"
                       }}
                     </p>
                     <p v-if="item.kategori_2">
                       {{
                         item.kategori_2
-                          ? item.kategori_2.nama_kategori
+                          ? item.kategori_2.nama_kategori_item
                           : "Tidak Ditemukan"
                       }}
                     </p>
                     <p v-if="item.kategori_3">
                       {{
                         item.kategori_3
-                          ? item.kategori_3.nama_kategori
+                          ? item.kategori_3.nama_kategori_item
                           : "Tidak Ditemukan"
                       }}
                     </p>
                     <p v-if="item.kategori_4">
                       {{
                         item.kategori_4
-                          ? item.kategori_4.nama_kategori
+                          ? item.kategori_4.nama_kategori_item
                           : "Tidak Ditemukan"
                       }}
                     </p>
                     <p v-if="item.kategori_5">
                       {{
                         item.kategori_5
-                          ? item.kategori_5.nama_kategori
+                          ? item.kategori_5.nama_kategori_item
                           : "Tidak Ditemukan"
                       }}
                     </p>
