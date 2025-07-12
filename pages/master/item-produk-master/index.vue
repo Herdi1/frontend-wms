@@ -348,7 +348,8 @@
                       </div>
                     </div>
                   </th>
-                  <th>Berat</th>
+                  <th>Berat Bersih</th>
+                  <th>Berat Kotor</th>
                   <th>Volume</th>
                   <th>Stocklevel</th>
                   <th>Group Item 1</th>
@@ -398,7 +399,12 @@
                     }}
                   </td>
                   <td>
-                    {{ item.berat + " " + item.satuan_berat.nama_satuan }}
+                    {{
+                      item.berat_bersih + " " + item.satuan_berat.nama_satuan
+                    }}
+                  </td>
+                  <td>
+                    {{ item.berat_kotor + " " + item.satuan_berat.nama_satuan }}
                   </td>
                   <td>
                     {{ item.volume + " " + item.satuan_volume.nama_satuan }}
@@ -630,7 +636,8 @@ export default {
           nama_item: "",
           satuan_id: "",
           satuan_id_berat: "",
-          berat: "",
+          berat_bersih: "",
+          berat_kotor: "",
           satuan_id_volume: "",
           volume: "",
           satuan_id_stocklevel: "",

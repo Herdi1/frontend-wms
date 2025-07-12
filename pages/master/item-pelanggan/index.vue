@@ -296,7 +296,7 @@
                   }}
                 </td>
                 <td>{{ item.nama_item }}</td>
-                <td>{{ item.vendor?.nama_vendor }}</td>
+                <td>{{ item.vendor.nama_vendor }}</td>
                 <td>{{ item.supplier?.nama_supplier }}</td>
                 <td>
                   <div>
@@ -504,17 +504,14 @@ export default {
             item_id: "",
             vendor_id: "",
             pelanggan_id: "",
-            supplier_id: "",
-            supplier_code: "",
             nama_item: "",
+            kode_item_pelanggan: "",
+            kode_sap: "",
             group_item_id_1: "",
             group_item_id_2: "",
             group_item_id_3: "",
             group_item_id_4: "",
             group_item_id_5: "",
-            batas_atas: "",
-            kode_sap: "",
-            batas_bawah: "",
             kategori_id_1: "",
             kategori_id_2: "",
             kategori_id_3: "",
@@ -523,14 +520,24 @@ export default {
             jumlah_palet: "",
             kapasitas_palet: "",
             kebutuhan_palet: "",
+            batas_atas: "",
+            batas_bawah: "",
             maksimal_tumpukan: "",
+            supplier_id: "",
+            supplier_code: "",
+            satuan_id: "",
             berat_bersih: "",
             berat_kotor: "",
+            satuan_id_berat: "",
             panjang: "",
             lebar: "",
             tebal: "",
             volume: "",
+            satuan_id_volume: "",
+            value_stocklevel: "",
+            satuan_id_stocklevel: "",
             warna: "",
+            keterangan: "",
           },
         },
         loadings: {
