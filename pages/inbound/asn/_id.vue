@@ -447,7 +447,7 @@
                   </th>
                   <th class="w-40 border border-gray-300">Item</th>
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-40 border border-gray-300">Item Gudang</th>
+                  <!-- <th class="w-40 border border-gray-300">Item Gudang</th> -->
                   <th class="w-40 border border-gray-300">Zona Gudang</th>
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
@@ -472,7 +472,7 @@
                       @click="onDeleteItem(index)"
                     ></i>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_item"
@@ -506,7 +506,7 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -543,39 +543,40 @@
                     </v-select>
                   </td> -->
                   <td class="border border-gray-300">
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_item"
-                      :loading="isLoadingGetItemGudang"
-                      :options="lookup_defects.data"
-                      :filterable="false"
-                      @search="onGetItemGudang"
-                      :reduce="(item) => item.item_gudang_id"
-                      v-model="item.item_gudang_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_defects.data.length || search"
+                    <div class="w-full">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
+                        label="nama_item"
+                        :loading="isLoadingGetItemGudang"
+                        :options="lookup_defects.data"
+                        :filterable="false"
+                        @search="onGetItemGudang"
+                        v-model="item.item_gudang_id"
                       >
-                        <span
-                          v-if="lookup_defects.current_page > 1"
-                          @click="onGetItemGudang(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_defects.data.length || search"
                         >
-                        <span
-                          v-if="
-                            lookup_defects.last_page >
-                            lookup_defects.current_page
-                          "
-                          @click="onGetItemGudang(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
+                          <span
+                            v-if="lookup_defects.current_page > 1"
+                            @click="onGetItemGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_defects.last_page >
+                              lookup_defects.current_page
+                            "
+                            @click="onGetItemGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     <v-select

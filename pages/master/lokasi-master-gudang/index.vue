@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Slot Penyimpanan</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -21,13 +21,17 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
-          <table ref="formContainer">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
-              <tr class="uppercase">
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
-                <th class="w-[5%]">No</th>
-                <th>Zona Gudang</th>
+              <tr class="uppercase text-nowrap">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
+                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="border border-gray-300">Kode Slot Penyimpanan</th>
+                <th class="border border-gray-300">Nama Slot Penyimpanan</th>
+                <th class="border border-gray-300">Zona Gudang</th>
 
                 <!-- <th
                   @click="
@@ -62,39 +66,70 @@
                     </div>
                   </div>
                 </th> -->
-                <th>Gudang</th>
-                <th>Level</th>
-                <th>History Induk</th>
-                <th>Kode Lokasi</th>
-                <th>Kapasitas</th>
+                <th class="border border-gray-300">Gudang</th>
+                <th class="border border-gray-300">Level</th>
+                <th class="border border-gray-300">Slot Penyimpanan</th>
+                <th class="border border-gray-300">Kapasitas</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"
                   />
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.zona_gudang_id }}</td>
-                <td>{{ item.gudang_id }}</td>
-                <td>{{ item.level }}</td>
-                <td>{{ item.history_induk }}</td>
-                <td>{{ item.kode_lokasi }}</td>
-                <td>{{ item.kapasitas }}</td>
+                <td class="border border-gray-300">
+                  {{ item.kode_slot_penyimpanan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.nama_slot_penyimpanan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{
+                    item.zona_gudang ? item.zona_gudang.nama_zona_gudang : ""
+                  }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.gudang ? item.gudang.nama_gudang : "" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{
+                    item.level == 1
+                      ? "Aisle"
+                      : item.level == 2
+                      ? "Rack"
+                      : item.level == 3
+                      ? "Level"
+                      : "Bin"
+                  }}
+                </td>
+                <td class="border border-gray-300">
+                  {{
+                    item.slot_penyimpanan_induk
+                      ? item.slot_penyimpanan_induk.kode_slot_penyimpanan +
+                        " " +
+                        item.slot_penyimpanan_induk.nama_slot_penyimpanan
+                      : ""
+                  }}
+                </td>
+                <td class="border border-gray-300">{{ item.kapasitas }}</td>
               </tr>
             </tbody>
+            <table-data-loading-section :self="this" />
+
+            <table-data-not-found-section :self="this" />
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
@@ -179,7 +214,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/lokasi-master-gudang",
+        url: "master/slot-penyimpanan",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -191,10 +226,11 @@ export default {
           page: 1,
           form: {
             zona_gudang_id: "",
+            kode_slot_penyimpanan: "",
+            nama_slot_penyimpanan: "",
             gudang_id: "",
             level: "",
             history_induk: "",
-            kode_lokasi: "",
             kapasitas: "",
           },
         },

@@ -1617,14 +1617,19 @@ export default {
         let response = await this.$axios.get("master/gudang/" + this.id);
 
         Object.keys(this.form).forEach((item) => {
-          // if (item !== "item_gudang") {
-          this.form[item] = response.data[item];
-          // }
+          if (item !== "item_gudang") {
+            this.form[item] = response.data[item];
+          }
         });
 
-        // response.data.item_gudangs.forEach((item) => {
-        //   this.form.item_gudang.push(item);
-        // });
+        if (Array.isArray(response.data.item_gudang)) {
+          response.data.item_gudang.forEach((item) => {
+            this.form.item_gudang.push({
+              ...item,
+            });
+          });
+          console.log(this.form.item_gudang);
+        }
 
         this.isLoadingPage = false;
       }

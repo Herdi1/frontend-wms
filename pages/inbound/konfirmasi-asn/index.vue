@@ -67,8 +67,8 @@
                   <th>Tanggal</th>
                   <th>Status Konfirmasi</th>
                   <th>Catatan Konfirmasi</th>
-                  <th>Kendaraan</th>
-                  <th>Pengemudi</th>
+                  <!-- <th>Kendaraan</th>
+                  <th>Pengemudi</th> -->
                 </tr>
               </thead>
               <tbody>

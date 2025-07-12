@@ -1825,7 +1825,7 @@ export default {
 
         await this.lookUp({
           url: "master/kategori-item/get-kategori-item",
-          lookup: "units",
+          lookup: "sellings",
           query:
             "?search=" +
             this.kategori_5_search +
