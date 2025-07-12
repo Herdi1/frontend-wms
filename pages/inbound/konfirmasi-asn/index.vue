@@ -176,7 +176,7 @@ export default {
         params: {
           soft_deleted: "",
           search: "",
-          order: "konfirmasi_asn_id",
+          order: "asn_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -253,7 +253,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/konfirmasi-asn/" + item.konfirmasi_asn_id);
+      this.$router.push("/inbound/konfirmasi-asn/" + item.asn_id);
     },
 
     onTrashed(item) {

@@ -447,7 +447,7 @@
                   </th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <!-- <th class="w-40 border border-gray-300">Item Gudang</th> -->
+                  <th class="w-40 border border-gray-300">Item Gudang</th>
                   <th class="w-40 border border-gray-300">Zona Gudang</th>
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
@@ -552,6 +552,7 @@
                         :filterable="false"
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
+                        @input="(item) => onSelectItemGudang(item, index)"
                       >
                         <li
                           slot-scope="{ search }"
@@ -576,6 +577,8 @@
                           >
                         </li>
                       </v-select>
+
+                      <p>{{ item.item_gudang_id.nama_item }}</p>
                     </div>
                   </td>
                   <td class="border border-gray-300">
@@ -910,8 +913,9 @@ export default {
 
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.parameters.form.longitude = position.coords.longitude;
-            this.parameters.form.latitude = position.coords.latitude;
+            this.parameters.form.longitude =
+              position.coords.longitude.toString();
+            this.parameters.form.latitude = position.coords.latitude.toString();
             this.isLoadingForm = false;
             // console.log(
             //   "latitude",
@@ -936,7 +940,6 @@ export default {
 
       this.isLoadingForm = true;
       let url = "inbound/asn";
-      this.parameters.form.asn_details.push({ ...this.formAsn });
 
       let formData = {
         ...this.parameters.form,
@@ -945,6 +948,11 @@ export default {
       formData.asn_details = formData.asn_details.map((item) => {
         return {
           ...item,
+          asn_details_id: item.asn_details_id ? item.asn_details_id : "",
+          item_gudang_id:
+            typeof item.item_gudang_id === "object"
+              ? item.item_gudang_id.item_gudang_id
+              : item.item_gudang_id,
         };
       });
 
@@ -1472,6 +1480,11 @@ export default {
 
         this.isLoadingGetZonaGudang = false;
       }
+    },
+
+    //select item gudang
+    onSelectItemGudang(item, index) {
+      this.parameters.form.asn_details[index].item_id = item.item_id;
     },
 
     formReset() {
