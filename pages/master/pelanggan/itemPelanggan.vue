@@ -216,7 +216,6 @@
               />
             </th>
             <th class="w-[75px] border border-gray-300">Detail</th>
-            <th class="w-[50px] border border-gray-300">No</th>
             <th
               @click="
                 onSort(
@@ -284,13 +283,13 @@
             <td class="border border-gray-300 text-center">
               <small-detail-button @click="onDetail(item)" />
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               {{
                 (parameters.params.page - 1) * parameters.params.per_page +
                 i +
                 1
               }}
-            </td>
+            </td> -->
             <td class="border border-gray-300">{{ item.nama_item }}</td>
             <td class="border border-gray-300">
               <input-form
@@ -947,7 +946,7 @@ export default {
     deleteSelectedItem() {
       this.checkboxs.forEach((item) => {
         let index = this.self.form.item_pelanggans.findIndex(
-          (data) => data.item.id == item
+          (data) => data.item_id == item
         );
         if (index !== -1) {
           this.self.form.item_pelanggans.splice(index, 1);

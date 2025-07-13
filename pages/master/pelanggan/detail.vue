@@ -114,7 +114,7 @@
                 <label class="font-semibold">Kode Pos</label>
                 <span>{{
                   this.parameters.form.kode_pos
-                    ? this.parameters.form.kode_pos
+                    ? this.parameters.form.kode_pos.nama_kode_pos
                     : "Tidak Ditemukan"
                 }}</span>
               </div>

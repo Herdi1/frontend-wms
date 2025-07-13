@@ -228,7 +228,7 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
+                <!-- <th class="w-[5%] text-center">Details</th> -->
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
@@ -276,9 +276,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <!-- <td>
                   <small-detail-button @click="onDetail(item)" />
-                </td>
+                </td> -->
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
