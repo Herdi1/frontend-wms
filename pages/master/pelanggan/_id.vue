@@ -1801,28 +1801,28 @@ export default {
     },
 
     onSelectNegaraPemilik() {
-      this.parameters.form.provinsi_id_pemilik = "";
-      this.parameters.form.kota_id_pemilik = "";
-      this.parameters.form.kecamatan_id_pemilik = "";
-      this.parameters.form.kelurahan_id_pemilik = "";
+      this.form.provinsi_id_pemilik = "";
+      this.form.kota_id_pemilik = "";
+      this.form.kecamatan_id_pemilik = "";
+      this.form.kelurahan_id_pemilik = "";
       this.onSearchProvinsiPemilik();
     },
 
     onSelectProvinsiPemilik() {
-      this.parameters.form.kota_id_pemilik = "";
-      this.parameters.form.kecamatan_id_pemilik = "";
-      this.parameters.form.kelurahan_id_pemilik = "";
+      this.form.kota_id_pemilik = "";
+      this.form.kecamatan_id_pemilik = "";
+      this.form.kelurahan_id_pemilik = "";
       this.onSearchKotaPemilik();
     },
 
     onSelectKotaPemilik() {
-      this.parameters.form.kecamatan_id_pemilik = "";
-      this.parameters.form.kelurahan_id_pemilik = "";
+      this.form.kecamatan_id_pemilik = "";
+      this.form.kelurahan_id_pemilik = "";
       this.onSearchKecamatanPemilik();
     },
 
     onSelectKecamatanPemilik() {
-      this.parameters.form.kelurahan_id_pemilik = "";
+      this.form.kelurahan_id_pemilik = "";
       this.onSearchKelurahanPemilik();
     },
 

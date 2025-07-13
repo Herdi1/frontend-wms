@@ -63,65 +63,75 @@
                       v-model="form.kode_alternatif_2"
                     />
                   </div>
-
-                  <ValidationProvider
-                    name="satuan_id"
-                    rules="required"
-                    class="w-full"
-                  >
-                    <div slot-scope="{ errors, valid }">
-                      <label for="satuan_id"
-                        >Satuan<span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_satuan"
-                        :loading="isLoadingGetSatuan"
-                        :options="lookup_custom1.data"
-                        :filterable="false"
-                        @search="onGetSatuan"
-                        v-model="form.satuan_id"
-                        :reduce="(item) => item.satuan_id"
-                        class="w-full"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom1.data.length || search"
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <ValidationProvider
+                      name="satuan_id"
+                      rules="required"
+                      class="w-full"
+                    >
+                      <div slot-scope="{ errors, valid }">
+                        <label for="satuan_id"
+                          >Satuan<span class="text-danger">*</span></label
                         >
-                          <span
-                            v-if="lookup_custom1.current_page > 1"
-                            @click="onGetSatuan(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
+                        <v-select
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuan"
+                          :options="lookup_custom1.data"
+                          :filterable="false"
+                          @search="onGetSatuan"
+                          v-model="form.satuan_id"
+                          :reduce="(item) => item.satuan_id"
+                          class="w-full"
+                          :class="
+                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                          "
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom1.data.length || search"
                           >
-                          <span
-                            v-if="
-                              lookup_custom1.last_page >
-                              lookup_custom1.current_page
-                            "
-                            @click="onGetSatuan(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                        errors[0]
-                      }}</span>
-                    </div>
-                  </ValidationProvider>
+                            <span
+                              v-if="lookup_custom1.current_page > 1"
+                              @click="onGetSatuan(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom1.last_page >
+                                lookup_custom1.current_page
+                              "
+                              @click="onGetSatuan(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                        <span
+                          class="text-danger text-xs pl-1"
+                          v-if="errors[0]"
+                          >{{ errors[0] }}</span
+                        >
+                      </div>
+                    </ValidationProvider>
+                    <input-form
+                      label="Berat Bersih"
+                      type="text"
+                      name="berat_bersih"
+                      :required="true"
+                      v-model="form.berat_bersih"
+                    />
+                  </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <input-form
-                      label="Berat"
+                      label="Berat Kotor"
                       type="text"
-                      name="berat"
+                      name="berat_kotor"
                       :required="true"
-                      v-model="form.berat"
+                      v-model="form.berat_kotor"
                     />
                     <ValidationProvider
                       name="satuan_id_berat"
@@ -1106,7 +1116,8 @@ export default {
         kode_alternatif_2: "",
         satuan_id: "",
         satuan_id_berat: "",
-        berat: "",
+        berat_bersih: "",
+        berat_kotor: "",
         satuan_id_volume: "",
         volume: "",
         satuan_id_stocklevel: "",
@@ -1139,7 +1150,8 @@ export default {
         kode_alternatif_2: "",
         satuan_id: "",
         satuan_id_berat: "",
-        berat: "",
+        berat_bersih: "",
+        berat_kotor: "",
         satuan_id_volume: "",
         volume: "",
         satuan_id_stocklevel: "",
