@@ -31,22 +31,22 @@
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
-                  <!-- <th
+                  <th
                     @click="
                       onSort(
-                        'nama_provinsi',
+                        'kode_inbound',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter w-[30%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Provinsi</div>
+                      <div>Kode Inbound</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'kode_inbound' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -55,7 +55,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'kode_inbound' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -63,10 +63,10 @@
                         ></i>
                       </div>
                     </div>
-                  </th> -->
+                  </th>
+                  <th>Surat Jalan</th>
+                  <th>Nomor Referensi</th>
                   <th>Tanggal</th>
-                  <th>Status Konfirmasi</th>
-                  <th>Catatan Konfirmasi</th>
                   <!-- <th>Kendaraan</th>
                   <th>Pengemudi</th> -->
                 </tr>
@@ -90,17 +90,22 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.tanggal }}</td>
+                  <td>{{ item.kode_inbound }}</td>
+                  <td>{{ item.surat_jalan }}</td>
                   <td>
-                    <p
-                      class="text-green-500"
-                      v-if="item.status_konfirmasi == 1"
-                    >
-                      Dikonfirmasi
-                    </p>
-                    <p class="text-red-500" v-else>Pending</p>
+                    <div>
+                      <p v-if="item.no_referensi_1">
+                        {{ item.no_referensi_1 }}
+                      </p>
+                      <p v-if="item.no_referensi_2">
+                        {{ item.no_referensi_2 }}
+                      </p>
+                      <p v-if="item.no_referensi_3">
+                        {{ item.no_referensi_3 }}
+                      </p>
+                    </div>
                   </td>
-                  <td>{{ item.catatan_konfirmasi }}</td>
+                  <td>{{ item.tanggal }}</td>
                   <!-- <td>{{ item.kendaraan_id }}</td>
                   <td>{{ item.pengemudi_id }}</td> -->
                 </tr>
@@ -127,7 +132,7 @@ export default {
 
   head() {
     return {
-      title: "Konfirmasi ASN",
+      title: "Inbound",
     };
   },
 
@@ -140,7 +145,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -152,7 +157,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -175,26 +180,32 @@ export default {
 
   data() {
     return {
-      title: "Konfirmasi ASN",
+      title: "GR/Inbound",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/konfirmasi-asn",
+        url: "inbound/inbound",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "asn_id",
+          order: "inbound_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          status_konfirmasi: "",
-          tanggal_konfirmasi: "",
-          catatan_konfirmasi: "",
-          asn_details: [],
+          inbound_id: "",
+          asn_id: "",
+          surat_jalan: "",
+          doc_type_sap: "",
+          kode_inbound: "",
+          no_referensi_1: "",
+          no_referensi_2: "",
+          no_referensi_3: "",
+          tanggal: "",
+          inbound_details: [],
           user_agent: "",
           device: "",
           longitude: "",
@@ -227,7 +238,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "konfirmasi-asn"
+          (item) => item.rute == "inbound"
         );
 
         let roles = {};
@@ -257,11 +268,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/konfirmasi-asn/add");
+      this.$router.push("/inbound/gr-inbound/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/konfirmasi-asn/" + item.asn_id);
+      this.$router.push("/inbound/gr-inbound/" + item.inbound_id);
     },
 
     onTrashed(item) {
@@ -280,7 +291,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.konfirmasi_asn_id,
+              id: item.inbound_id,
               params: this.parameters.params,
             });
 

@@ -91,10 +91,32 @@
                     }}
                   </td>
                   <td>{{ item.tanggal }}</td>
-                  <td>{{ item.vendor_id_transporter }}</td>
+                  <td>
+                    {{
+                      item.vendor_transporter
+                        ? item.vendor_transporter.nama_vendor
+                        : "-"
+                    }}
+                  </td>
                   <td>{{ item.surat_jalan }}</td>
-                  <td>{{ item.kendaraan_id }}</td>
-                  <td>{{ item.pengemudi_id }}</td>
+                  <td>
+                    {{
+                      item.kendaraan
+                        ? item.kendaraan.nama_kendaraan +
+                          " - " +
+                          item.kendaraan.kode_kendaraan
+                        : "-"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.pengemudi
+                        ? item.pengemudi.nama_pengemudi +
+                          " - " +
+                          item.pengemudi.kode_pengemudi
+                        : "-"
+                    }}
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

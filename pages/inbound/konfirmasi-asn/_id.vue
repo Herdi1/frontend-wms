@@ -105,9 +105,22 @@
                     :required="false"
                   />
                 </div>
-                <div>
+                <div v-if="form.vendor_transporter">
                   <input-horizontal
-                    label="Nama Transporter"
+                    label="Transporter"
+                    type="text"
+                    name="nama_transporter"
+                    :disabled="true"
+                    labelWidth="w-[50%]"
+                    inputWidth="w-[50%]"
+                    :isHorizontal="true"
+                    v-model="form.vendor_transporter.nama_vendor"
+                    :required="false"
+                  />
+                </div>
+                <div v-else>
+                  <input-horizontal
+                    label="Transporter"
                     type="text"
                     name="nama_transporter"
                     :disabled="true"
@@ -157,7 +170,7 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="kendaraan">
+                <div v-if="form.kendaraan">
                   <input-horizontal
                     label="Kendaraan"
                     type="text"
@@ -170,7 +183,7 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="pengemudi">
+                <div v-if="form.pengemudi">
                   <input-horizontal
                     label="Pengemudi"
                     type="text"
@@ -183,7 +196,7 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="pengemudi">
+                <div v-if="form.perekiraan_tiba">
                   <input-horizontal
                     label="Perkiraan Tiba"
                     type="date"
@@ -330,6 +343,8 @@
                       <th class="w-[300px] border border-gray-300">Note</th>
                       <th class="w-[100px] border border-gray-300">Delete</th>
                     </tr>
+                  </thead>
+                  <tbody>
                     <tr
                       v-for="(item, index) in form.asn_details"
                       :key="index"
@@ -353,15 +368,13 @@
                         }}
                       </td> -->
                       <td class="border border-gray-300">
-                        {{
-                          item.item_gudang ? item.item_gudang.nama_item : "-"
-                        }}
+                        {{ item.item ? item.item.nama_item : "-" }}
                       </td>
                       <td class="border border-gray-300">
                         <div>
                           <p>
                             Serial Number:
-                            {{ item.serial_number ? item.setial_number : "-" }}
+                            {{ item.serial_number ? item.serial_number : "-" }}
                           </p>
                           <p>
                             Nomor Referensi:
@@ -622,11 +635,12 @@
                         <div class="mt-3">Data Tidak Ditemukan</div>
                       </td>
                     </tr>
-                  </thead>
+                  </tbody>
                 </table>
               </div>
             </div>
             <modal-footer-section
+              v-if="!status_konfirmasi == '1'"
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"
               class="mb-5"
@@ -688,6 +702,7 @@ export default {
         lokasi_asal_muat: {},
         asal_muat: "",
         nama_transporter: "",
+        vendor_transporter: {},
         surat_jalan: "",
         nomor_referensi: "",
         nomor_referensi_2: "",
@@ -793,8 +808,8 @@ export default {
 
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.form.longitude = position.coords.longitude;
-            this.form.latitude = position.coords.latitude;
+            this.form.longitude = position.coords.longitude.toString();
+            this.form.latitude = position.coords.latitude.toString();
             this.isLoadingForm = false;
             console.log(
               "latitude",
@@ -819,20 +834,20 @@ export default {
 
       this.isLoadingForm = true;
       let url = "inbound/konfirmasi-asn";
-      this.parameters.form.asn_details.push({ ...this.formAsn });
 
       let formData = {
-        ...this.parameters.form,
+        ...this.form,
       };
 
       formData.asn_details = formData.asn_details.map((item) => {
         return {
           ...item,
+          asn_detail_id: item.asn_detail_id ? item.asn_detail_id : "",
         };
       });
 
       if (this.user.gudang_id) {
-        this.parameters.form.gudang_id = this.user.gudang_id;
+        this.form.gudang_id = this.user.gudang_id;
       }
 
       // console.log("form", this.parameters.form);
@@ -855,7 +870,7 @@ export default {
           );
 
           if (!this.isEditable) {
-            this.parameters.form = this.default_form;
+            this.form = this.default_form;
             this.$router.back();
           }
         })

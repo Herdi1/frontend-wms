@@ -1,5 +1,5 @@
 <template>
-  <section class="section h-screen">
+  <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -435,10 +435,10 @@
             </div>
           </div>
           <div
-            class="mt-4 overflow-auto h-96 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            class="mt-4 overflow-auto bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <table
-              class="table border-collapse border border-gray-300 mt-5 h-full table-fixed"
+              class="table border-collapse border border-gray-300 mt-5 table-fixed"
             >
               <thead>
                 <tr class="text-sm uppercase">

@@ -48,11 +48,11 @@
               <div class="grid grid-cols-1 gap-5 w-full">
                 <div class="form-group">
                   <input-horizontal
-                    label="Periode Awal"
+                    label="Periode Akhir"
                     type="date"
-                    name="kode_sap"
+                    name="periode_akhir"
                     :isHorizontal="true"
-                    v-model="parameters.params.start_date"
+                    v-model="parameters.params.end_date"
                     :required="false"
                   />
                 </div>
