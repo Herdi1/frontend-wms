@@ -22,212 +22,211 @@
               <div
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
-
-              <ValidationProvider name="status" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5 flex"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Level<span class="text-danger">*</span></label
+                <ValidationProvider name="status" rules="required">
+                  <div
+                    class="form-group w-full items-center mb-5 flex"
+                    slot-scope="{ errors, valid }"
                   >
-                  <select
-                    class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12" 
-                    v-model="form.level"
-                    @change="onChangeLevel"
-                      :disabled="isEditable">
+                    <label for="" class="w-4/12"
+                      >Level<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      v-model="form.level"
+                      @change="onChangeLevel"
+                      :disabled="isEditable"
+                    >
                       <option value="">Pilih</option>
                       <option value="1">INDUK</option>
                       <option value="2">CHILD</option>
-                  </select>
-                </div>
-              </ValidationProvider>
+                    </select>
+                  </div>
+                </ValidationProvider>
 
-              <ValidationProvider name="status" rules="" v-show="
-                        form.level == 1
-                      ">
-                <div
-                  class="form-group w-full items-center mb-5 flex"
-                  slot-scope="{ errors, valid }"
+                <ValidationProvider
+                  name="status"
+                  rules=""
+                  v-show="form.level == 1"
                 >
-                  <label for="" class="w-4/12"
-                    >Tipe<span class="text-danger">*</span></label
+                  <div
+                    class="form-group w-full items-center mb-5 flex"
+                    slot-scope="{ errors, valid }"
                   >
-                  <select
-                    class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12" 
-                    v-model="form.tipe"
+                    <label for="" class="w-4/12"
+                      >Tipe<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      v-model="form.tipe"
                       @change="onChangeType"
-                      :disabled="isEditable">
+                      :disabled="isEditable"
+                    >
                       <option value="">Pilih</option>
                       <option value="HARTA">HARTA</option>
                       <option value="KEWAJIBAN">KEWAJIBAN</option>
                       <option value="MODAL">MODAL</option>
                       <option value="PENDAPATAN">PENDAPATAN</option>
                       <option value="BIAYA">BIAYA</option>
-                  </select>
-                </div>
-              </ValidationProvider>
+                    </select>
+                  </div>
+                </ValidationProvider>
 
-              <ValidationProvider
-                    name="gudang_id"
-                    rules="required"
-                    class="w-full mt-1"
-                  >
-                    <div
-                      slot-scope="{ errors, valid }"
-                      v-show="
-                        form.level == 2
-                      "
-                      class="form-group w-full items-center flex"
-                    >
-                      <label for="gudang_id" class="w-3/12"
-                        >Parent <span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_coa"
-                        :loading="isLoadingGetParent"
-                        :options="lookup_parents.data"
-                        :filterable="false"
-                        @search="onGetParent"
-                        v-model="form.coa_id_induk"
-                        class="w-9/12"
-                      >
-                      <template v-slot:option="option">                    
-                                                <div class="flex">
-                                                    <div class="w-8/12 p-1 m-0">
-                                                    {{ option.nama_coa }}
-                                                    </div>
-                                                    <div class="w-4/12 p-1 m-0 text-right">
-                                                        {{ option.kode_coa }}
-                                                    </div>
-                                                </div>
-                                            </template> 
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_parents.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_parents.current_page > 1"
-                            @click="onGetParent(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_parents.last_page >
-                              lookup_parents.current_page
-                            "
-                            @click="onGetParent(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
-
-                  <ValidationProvider name="status" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5 flex"
-                  slot-scope="{ errors, valid }"
+                <ValidationProvider
+                  name="gudang_id"
+                  rules="required"
+                  class="w-full mt-1"
                 >
-                  <label for="" class="w-4/12"
-                    >Fungsi COA<span class="text-danger">*</span></label
+                  <div
+                    slot-scope="{ errors, valid }"
+                    v-show="form.level == 2"
+                    class="form-group w-full items-center flex"
                   >
-                  <select
-                    class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12" 
-                    v-model="form.jenis_coa"
-                      :disabled="isEditable">
+                    <label for="gudang_id" class="w-3/12"
+                      >Parent <span class="text-danger">*</span></label
+                    >
+                    <v-select
+                      label="nama_coa"
+                      :loading="isLoadingGetParent"
+                      :options="lookup_parents.data"
+                      :filterable="false"
+                      @search="onGetParent"
+                      v-model="form.coa_id_induk"
+                      class="w-9/12"
+                    >
+                      <template v-slot:option="option">
+                        <div class="flex">
+                          <div class="w-8/12 p-1 m-0">
+                            {{ option.nama_coa }}
+                          </div>
+                          <div class="w-4/12 p-1 m-0 text-right">
+                            {{ option.kode_coa }}
+                          </div>
+                        </div>
+                      </template>
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_parents.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_parents.current_page > 1"
+                          @click="onGetParent(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_parents.last_page >
+                            lookup_parents.current_page
+                          "
+                          @click="onGetParent(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider name="status" rules="required">
+                  <div
+                    class="form-group w-full items-center mb-5 flex"
+                    slot-scope="{ errors, valid }"
+                  >
+                    <label for="" class="w-4/12"
+                      >Fungsi COA<span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      v-model="form.jenis_coa"
+                      :disabled="isEditable"
+                    >
                       <option value="UMUM">Umum</option>
                       <option value="SPESIFIK">Spesifik Gudang</option>
-                  </select>
-                </div>
-              </ValidationProvider>
+                    </select>
+                  </div>
+                </ValidationProvider>
 
-              <ValidationProvider
-                    name="gudang_id"
-                    rules=""
-                    class="w-full mt-1"
+                <ValidationProvider
+                  name="gudang_id"
+                  rules=""
+                  class="w-full mt-1"
+                >
+                  <div
+                    slot-scope="{ errors, valid }"
+                    v-show="form.jenis_coa == 'SPESIFIK'"
+                    class="form-group w-full items-center flex"
                   >
-                    <div
-                      slot-scope="{ errors, valid }"
-                      v-show="
-                        form.jenis_coa == 'SPESIFIK'
-                      "
-                      class="form-group w-full items-center flex"
+                    <label for="gudang_id" class="w-3/12"
+                      >Gudang <span class="text-danger">*</span></label
                     >
-                      <label for="gudang_id" class="w-3/12"
-                        >Gudang <span class="text-danger">*</span></label
+                    <v-select
+                      label="nama_gudang"
+                      :loading="isLoadingGetGudang"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetGudang"
+                      v-model="form.gudang_id"
+                      :reduce="(item) => item.gudang_id"
+                      class="w-9/12"
+                      @input="onSearchZonaGudang"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
                       >
-                      <v-select
-                        label="nama_gudang"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_custom1.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        v-model="form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
-                        class="w-9/12"
-                        @input="onSearchZonaGudang"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom1.data.length || search"
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetGudang(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
                         >
-                          <span
-                            v-if="lookup_custom1.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom1.last_page >
-                              lookup_custom1.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetGudang(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
 
                 <div class="form-group">
-                    <input-horizontal
-                      label="Kode COA"
-                      type="text"
-                      name="Kode COA"
-                      :required="true"
-                      v-model="form.kode_coa"
-                    />
+                  <input-horizontal
+                    label="Kode COA"
+                    type="text"
+                    name="Kode COA"
+                    :required="true"
+                    v-model="form.kode_coa"
+                  />
                 </div>
 
-                 <div class="form-group">
-                    <input-horizontal
-                      label="Kode Referensi SAP"
-                      type="text"
-                      name="Kode Referensi SAP"
-                      :required="true"
-                      v-model="form.kode_coa_sap"
-                    />
+                <div class="form-group">
+                  <input-horizontal
+                    label="Kode Referensi External"
+                    type="text"
+                    name="Kode Referensi External"
+                    :required="true"
+                    v-model="form.kode_coa_sap"
+                  />
                 </div>
                 <div class="form-group">
-                    <input-horizontal
-                      label="Nama"
-                      type="text"
-                      name="Nama"
-                      :required="true"
-                      v-model="form.nama_coa"
-                    />
+                  <input-horizontal
+                    label="Nama"
+                    type="text"
+                    name="Nama"
+                    :required="true"
+                    v-model="form.nama_coa"
+                  />
                 </div>
 
-                
                 <modal-footer-section
                   :isLoadingForm="isLoadingForm"
                   @reset="formReset()"
@@ -277,7 +276,6 @@ export default {
         coa_id_induk: "",
         jenis_coa: "",
         gudang_id: "",
-        
       },
       default_form: {
         coa_id: "",
@@ -289,16 +287,15 @@ export default {
         gudang_id: "",
         coa_id_induk: "",
         jenis_coa: "",
-
       },
 
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      isStopSearchParent : false,
-      isLoadingGetParent :  false,
-      parent_search : '',
+      isStopSearchParent: false,
+      isLoadingGetParent: false,
+      parent_search: "",
 
       user: this.$auth.user,
     };
@@ -307,17 +304,15 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let response = await this.$axios.get(
-          "finance/coa/" + this.id
-        );
+        let response = await this.$axios.get("finance/coa/" + this.id);
 
         Object.keys(this.form).forEach((item) => {
-            if(item === 'coa_id_induk'){
-                  this.form.coa_id_induk = response.data.parent || '';
-            }else{
-                  this.form[item] = response.data[item];
-            }
-          })
+          if (item === "coa_id_induk") {
+            this.form.coa_id_induk = response.data.parent || "";
+          } else {
+            this.form[item] = response.data[item];
+          }
+        });
 
         this.isLoadingPage = false;
       }
@@ -340,10 +335,8 @@ export default {
       "lookup_custom3",
       "lookup_suppliers",
       "lookup_resellers",
-      'lookup_parents'    
+      "lookup_parents",
     ]),
-
-   
   },
 
   methods: {
@@ -362,10 +355,10 @@ export default {
 
       let formData = {
         ...this.form,
-       
-         coa_id_induk : this.form.coa_id_induk
-            ? this.form.coa_id_induk.coa_id 
-            : this.form.coa_id_induk,   
+
+        coa_id_induk: this.form.coa_id_induk
+          ? this.form.coa_id_induk.coa_id
+          : this.form.coa_id_induk,
       };
 
       if (this.isEditable) {
@@ -429,47 +422,49 @@ export default {
       this.form.jurnal_details = [];
       await this.onSearchGudang();
       await this.onSearchParent();
-      
     },
 
-     onGetParent(search,isNext){      
-      if(!search.length && typeof isNext === "function") return false;             
+    onGetParent(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchParent);
-      
-      this.isStopSearchParent= setTimeout(() => {
+
+      this.isStopSearchParent = setTimeout(() => {
         this.parent_search = search;
 
-        if(typeof isNext !== "function"){
-          this.lookup_parents.current_page = isNext 
-            ? this.lookup_parents.current_page + 1 
-            : this.lookup_parents.current_page - 1;        
-        }else{
+        if (typeof isNext !== "function") {
+          this.lookup_parents.current_page = isNext
+            ? this.lookup_parents.current_page + 1
+            : this.lookup_parents.current_page - 1;
+        } else {
           this.lookup_parents.current_page = 1;
         }
 
         this.onSearchParent();
-      },600);        
+      }, 600);
     },
 
-    async onSearchParent(){
-      if(!this.isLoadingGetParent){
+    async onSearchParent() {
+      if (!this.isLoadingGetParent) {
         this.isLoadingGetParent = true;
-                
-        await this.lookUp({    
-          url : "finance/coa/get-parent",
-          lookup  : 'parents',
-          query : "?search=" + this.parent_search +
-          "&page=" + this.lookup_parents.current_page +
-          "&per_page=10"
-        })
 
-        this.isLoadingGetParent = false;      
+        await this.lookUp({
+          url: "finance/coa/get-parent",
+          lookup: "parents",
+          query:
+            "?search=" +
+            this.parent_search +
+            "&page=" +
+            this.lookup_parents.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetParent = false;
       }
     },
 
     // onSetParent(item){
-    //   if(item){        
+    //   if(item){
     //     if(item.coa_id == this.form.coa_id) {
     //       this.$toaster.warning("Anda tidak dapat memilih parent sendiri");
 
@@ -665,14 +660,14 @@ export default {
       }, 600);
     },
 
-    onChangeType(){
-      if(!this.isEditable){
+    onChangeType() {
+      if (!this.isEditable) {
         // this.setCode();
       }
     },
 
-    onChangeLevel(){
-      if(!this.isEditable){
+    onChangeLevel() {
+      if (!this.isEditable) {
         // this.setCode();
       }
     },

@@ -67,7 +67,7 @@
 
                   <div class="w-full form-group">
                     <input-form
-                      label="Kode Gudang SAP"
+                      label="Kode Gudang External"
                       type="text"
                       name="kode_gudang_sap"
                       v-model="form.kode_gudang_sap"

@@ -249,7 +249,7 @@
                 </div>
               </div>
             </th>
-            <th class="w-[200px] border border-gray-300">Referensi SAP</th>
+            <th class="w-[200px] border border-gray-300">Referensi External</th>
             <th class="w-[200px] border border-gray-300">Supplier</th>
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Group Item</th>

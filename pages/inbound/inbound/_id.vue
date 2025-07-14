@@ -78,7 +78,7 @@
                 </div>
                 <div class="form-group">
                   <input-horizontal
-                    label="Tipe Dokumen SAP"
+                    label="Tipe Dokumen External"
                     type="text"
                     name="doc_type_sap"
                     labelWidth="w-[30%]"
@@ -160,7 +160,7 @@
                     :required="false"
                   />
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Approve"
                     type="date"
@@ -171,7 +171,7 @@
                     v-model="form.tanggal_approve"
                     :required="false"
                   />
-                </div>
+                </div> -->
               </div>
 
               <tab-component :tabs="tabs">
@@ -196,7 +196,7 @@
                     >
                       <thead>
                         <tr class="text-sm uppercase text-nowrap">
-                          <th class="w-[200px] border border-gray-300">ASN</th>
+                          <!-- <th class="w-[200px] border border-gray-300">ASN</th> -->
                           <!-- <th class="w-[200px] border border-gray-300">Gudang</th> -->
                           <!-- <th class="w-[200px] border border-gray-300">Item</th> -->
                           <!-- <th class="w-[200px] border border-gray-300">
@@ -213,23 +213,23 @@
                             Quantity
                           </th>
                           <th class="w-[200px] border border-gray-300">
+                            Tanggal Expired
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
                             Dimensi
                           </th>
                           <th class="w-[200px] border border-gray-300">
-                            Zona Plan
+                            Lokasi Plan
                           </th>
+                          <th class="w-[200px] border border-gray-300">Zona</th>
                           <th class="w-[200px] border border-gray-300">
-                            Aisle Plan
+                            Aisle
                           </th>
+                          <th class="w-[200px] border border-gray-300">Rack</th>
                           <th class="w-[200px] border border-gray-300">
-                            Rack Plan
+                            Level
                           </th>
-                          <th class="w-[200px] border border-gray-300">
-                            Level Plan
-                          </th>
-                          <th class="w-[200px] border border-gray-300">
-                            Bin Plan
-                          </th>
+                          <th class="w-[200px] border border-gray-300">Bin</th>
                           <th class="w-[300px] border border-gray-300">
                             Keterangan
                           </th>
@@ -246,9 +246,9 @@
                           style="border-top: 0.5px solid lightgray"
                           class="align-top mx-0"
                         >
-                          <td class="border border-gray-300">
+                          <!-- <td class="border border-gray-300">
                             {{ item.asn ? item.asn : "-" }}
-                          </td>
+                          </td> -->
                           <td class="border border-gray-300">
                             {{ item.item ? item.item.nama_item : "-" }}
                           </td>
@@ -268,6 +268,7 @@
                               </p>
                             </div>
                           </td>
+
                           <td class="border border-gray-300">
                             <p>
                               Quantity:
@@ -318,6 +319,13 @@
                             </span>
                           </td>
                           <td class="border border-gray-300">
+                            <input
+                              class="w-full p-1 rounded-md border border-gray-300"
+                              type="date"
+                              v-model="item.tanggal_expired"
+                            />
+                          </td>
+                          <td class="border border-gray-300">
                             <div>
                               <p v-if="item.panjang">
                                 Panjang: {{ item.panjang }}
@@ -328,6 +336,52 @@
                               </p>
                               <p v-if="item.berat">Berat: {{ item.berat }}</p>
                             </div>
+                          </td>
+                          <td class="border border-gray-300">
+                            <p v-if="item.zona_gudang_plan">
+                              Zona Plan:
+                              {{ item.zona_gudang_plan.nama_zona_gudang }}
+                            </p>
+                            <p
+                              class="mt-2"
+                              v-if="item.slot_penyimpanan_aisle_plan"
+                            >
+                              Aisle Plan:
+                              {{
+                                item.slot_penyimpanan_aisle_plan
+                                  .nama_slot_penyimpanan
+                              }}
+                            </p>
+                            <p
+                              class="mt-2"
+                              v-if="item.slot_penyimpanan_rack_plan"
+                            >
+                              Rack Plan:
+                              {{
+                                item.slot_penyimpanan_rack_plan
+                                  .nama_slot_penyimpanan
+                              }}
+                            </p>
+                            <p
+                              class="mt-2"
+                              v-if="item.slot_penyimpanan_level_plan"
+                            >
+                              Level Plan:
+                              {{
+                                item.slot_penyimpanan_level_plan
+                                  .nama_slot_penyimpanan
+                              }}
+                            </p>
+                            <p
+                              class="mt-2"
+                              v-if="item.slot_penyimpanan_bin_plan"
+                            >
+                              Bin Plan:
+                              {{
+                                item.slot_penyimpanan_bin_plan
+                                  .nama_slot_penyimpanan
+                              }}
+                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
@@ -363,10 +417,6 @@
                                 >
                               </li>
                             </v-select>
-                            <p class="mt-2">
-                              Zona Plan:
-                              {{ item.zona_gudang_plan.nama_zona_gudang }}
-                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
@@ -402,13 +452,6 @@
                                 >
                               </li>
                             </v-select>
-                            <p class="mt-2">
-                              Aisle Plan:
-                              {{
-                                item.slot_penyimpanan_aisle_plan
-                                  .nama_slot_penyimpanan
-                              }}
-                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
@@ -444,13 +487,6 @@
                                 >
                               </li>
                             </v-select>
-                            <p class="mt-2">
-                              Rack Plan:
-                              {{
-                                item.slot_penyimpanan_rack_plan
-                                  .nama_slot_penyimpanan
-                              }}
-                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
@@ -486,13 +522,6 @@
                                 >
                               </li>
                             </v-select>
-                            <p class="mt-2">
-                              Level Plan:
-                              {{
-                                item.slot_penyimpanan_level_plan
-                                  .nama_slot_penyimpanan
-                              }}
-                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
@@ -528,13 +557,6 @@
                                 >
                               </li>
                             </v-select>
-                            <p class="mt-2">
-                              Bin Plan:
-                              {{
-                                item.slot_penyimpanan_bin_plan
-                                  .nama_slot_penyimpanan
-                              }}
-                            </p>
                           </td>
                           <td class="border border-gray-300">
                             <textarea
@@ -544,11 +566,39 @@
                             ></textarea>
                           </td>
                           <td class="border border-gray-300">
-                            <textarea
-                              placeholder="Alasan Beda Plan"
-                              class="w-full pl-2 py-1 border rounded focus:outline-none"
-                              v-model="item.alasan_beda_plan"
-                            ></textarea>
+                            <v-select
+                              label="nama_alasan_beda_plan"
+                              :loading="isLoadingGetAlasan"
+                              :options="lookup_grade.data"
+                              :filterable="false"
+                              @search="onGetAlasan"
+                              v-model="item.alasan_beda_plan_id"
+                              :reduce="(item) => item.alasan_beda_plan_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_grade.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_grade.current_page > 1"
+                                  @click="onGetAlasan(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_grade.last_page >
+                                    lookup_grade.current_page
+                                  "
+                                  @click="onGetAlasan(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
                           </td>
                           <!-- <td class="border border-gray-300 text-center">
                             <i
@@ -590,7 +640,7 @@
                   <div class="table-responsive overflow-y-hidden mb-7">
                     <table
                       class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                      :class="form.biaya_inbound.length ? 'mb-[300px]' : ''"
+                      :class="form.biaya_inbounds.length ? 'mb-[300px]' : ''"
                     >
                       <thead>
                         <tr class="text-sm uppercase text-nowrap">
@@ -613,11 +663,17 @@
                           <th class="w-[200px] border border-gray-300">
                             Vendor
                           </th>
+                          <th class="w-[300px] border border-gray-300">
+                            Keterangan
+                          </th>
+                          <th class="w-20 border border-gray-300 text-center">
+                            Delete
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr
-                          v-for="(item, index) in form.biaya_inbound"
+                          v-for="(item, index) in form.biaya_inbounds"
                           :key="index"
                           style="border-top: 0.5px solid lightgray"
                           class="align-top mx-0"
@@ -795,8 +851,24 @@
                               </li>
                             </v-select>
                           </td>
+                          <td>
+                            <textarea
+                              placeholder="Keterangan"
+                              class="w-full pl-2 py-1 border rounded focus:outline-none"
+                              v-model="item.keterangan"
+                            ></textarea>
+                          </td>
+                          <td
+                            class="text-center text-gray-600 border border-gray-300"
+                          >
+                            <i
+                              class="fas fa-trash mx-auto"
+                              style="cursor: pointer"
+                              @click="onDeleteItem(index)"
+                            ></i>
+                          </td>
                         </tr>
-                        <tr v-if="!form.biaya_inbound.length > 0">
+                        <tr v-if="!form.biaya_inbounds.length > 0">
                           <td colspan="100" class="text-center">
                             <span class="flex justify-center">
                               <img
@@ -879,6 +951,10 @@ export default {
       isLoadingGetVendor: false,
       vendor_search: "",
 
+      isStopSearchAlasan: false,
+      isLoadingGetAlasan: false,
+      alasan_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -902,7 +978,7 @@ export default {
         gudang_id: "",
 
         inbound_details: [],
-        biaya_inbound: [],
+        biaya_inbounds: [],
 
         user_agent: "",
         device: "",
@@ -924,7 +1000,7 @@ export default {
         gudang_id: "",
 
         inbound_details: [],
-        biaya_inbound: [],
+        biaya_inbounds: [],
 
         user_agent: "",
         device: "",
@@ -937,7 +1013,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inbound/konfirmasi-asn/${this.id}`);
+        let res = await this.$axios.get(`inbound/inbound/${this.id}`);
         Object.keys(this.form).forEach((item) => {
           if (item !== "inbound_details") {
             this.form[item] = res.data[item];
@@ -951,14 +1027,14 @@ export default {
           };
         });
 
-        this.form.biaya_inbound = res.data.biaya_inbound.map((item) => {
+        this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
           return { ...item, biaya_inbound_id: item || "" };
         });
 
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("/inbound/gr-inbound");
+      this.$router.push("/inbound/inbound");
     }
   },
 
@@ -974,6 +1050,7 @@ export default {
     await this.onSearchCoa();
     await this.onSearchDivisi();
     await this.onSearchVendor();
+    await this.onSearchAlasan();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -993,6 +1070,7 @@ export default {
       "lookup_custom8",
       "lookup_custom9",
       "lookup_custom10",
+      "lookup_grade",
     ]),
   },
 
@@ -1047,7 +1125,22 @@ export default {
 
       let formData = {
         ...this.form,
+        asn_id:
+          typeof this.form.asn_id === "object"
+            ? this.form.asn_id.asn_id
+            : this.form.asn_id,
+        gudang_id: this.form.asn_id.gudang_id,
+        supplier_id: this.form.asn_id.supplier_id,
       };
+
+      // today's date
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+      formData.tanggal_approve = formattedDate;
 
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
@@ -1058,7 +1151,7 @@ export default {
         };
       });
 
-      formData.biaya_inbound = formData.biaya_inbound.map((item) => {
+      formData.biaya_inbounds = formData.biaya_inbounds.map((item) => {
         return {
           ...item,
           biaya_inbound_id: item.biaya_inbound_id
@@ -1105,7 +1198,7 @@ export default {
     },
 
     AddBiayaInbound() {
-      this.form.biaya_inbound.push({
+      this.form.biaya_inbounds.push({
         biaya_inbound_id: "",
         jenis_biaya_id: "",
         nominal_satuan: "",
@@ -1118,7 +1211,7 @@ export default {
     },
 
     onDeleteItem(index) {
-      this.form.biaya_inbound = this.form.biaya_inbound.filter(
+      this.form.biaya_inbounds = this.form.biaya_inbounds.filter(
         (_, itemIndex) => index !== itemIndex
       );
     },
@@ -1375,12 +1468,17 @@ export default {
         this.form.no_referensi_2 = item.no_referensi_2;
         this.form.tanggal = item.tanggal;
         if (item.asn_details) {
-          item.asn_details.forEach((item) => {
-            this.form.inbound_details.push(item);
+          this.form.inbound_details = item.asn_details.map((data) => {
+            return {
+              ...data,
+              zona_gudang_id: data.zona_gudang_id_plan,
+              slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
+              slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
+              slot_penyimpanan_id_level: data.slot_penyimpanan_id_level_plan,
+              slot_penyimpanan_id_bin: data.slot_penyimpanan_id_bin_plan,
+            };
           });
         }
-        console.log(this.form);
-        console.log(this.asn_id);
       }
     },
 
@@ -1541,6 +1639,46 @@ export default {
         });
 
         this.isLoadingGetVendor = false;
+      }
+    },
+
+    // get alasan
+    onGetAlasan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchAlasan);
+
+      this.isStopSearchAlasan = setTimeout(() => {
+        this.alasan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
+        } else {
+          this.lookup_grade.current_page = 1;
+        }
+
+        this.onSearchAlasan();
+      }, 600);
+    },
+
+    async onSearchAlasan() {
+      if (!this.isLoadingGetAlasan) {
+        this.isLoadingGetAlasan = true;
+
+        await this.lookUp({
+          url: "master/alasan-beda-plan/get-alasan-beda-plan",
+          lookup: "grade",
+          query:
+            "?search=" +
+            this.alasan_search +
+            "&page=" +
+            this.lookup_grade.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetAlasan = false;
       }
     },
   },

@@ -42,7 +42,7 @@
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Wilayah</div>
+                      <div>Regional</div>
                       <div>
                         <i
                           class="fas fa-caret-up"

@@ -38,7 +38,7 @@
                 >
                   <div class="form-group w-full items-center mb-5">
                     <label for="" class="w-4/12"
-                      >Wilayah<span class="text-danger">*</span></label
+                      >Regional<span class="text-danger">*</span></label
                     >
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -136,7 +136,7 @@
                 >
                   <div class="form-group" slot-scope="{ errors, valid }">
                     <input-form
-                      label="Nama Wilayah"
+                      label="Nama Regional"
                       type="text"
                       name="nama_wilayah"
                       v-model="parameters.form.nama_wilayah"

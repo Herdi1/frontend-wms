@@ -269,7 +269,7 @@
                   </div>
                 </th> -->
                 <th>Group Item</th>
-                <th>Kode SAP</th>
+                <th>Kode External</th>
                 <th>Batas Item</th>
                 <th>Kategori Item</th>
               </tr>

@@ -41,7 +41,7 @@
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Referensi SAP</label>
+                <label class="font-semibold">Referensi External</label>
                 <span>{{
                   this.parameters.form.kode_sap
                     ? this.parameters.form.kode_sap

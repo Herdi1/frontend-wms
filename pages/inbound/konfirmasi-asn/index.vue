@@ -28,8 +28,7 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">Konfirmasi</th>
                   <th class="w-[5%]">No</th>
                   <!-- <th
                     @click="
@@ -64,6 +63,7 @@
                       </div>
                     </div>
                   </th> -->
+                  <th>Kode ASN</th>
                   <th>Tanggal</th>
                   <th>Status Konfirmasi</th>
                   <th>Catatan Konfirmasi</th>
@@ -76,12 +76,6 @@
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -89,6 +83,17 @@
                       i +
                       1
                     }}
+                  </td>
+                  <td>
+                    <div>
+                      {{ item.kode_asn }}
+                      <p v-if="item.user_id_input" class="text-blue-500">
+                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
+                      </p>
+                      <p v-else class="text-blue-500">
+                        <i>Dibuat oleh: Sistem</i>
+                      </p>
+                    </div>
                   </td>
                   <td>{{ item.tanggal }}</td>
                   <td>

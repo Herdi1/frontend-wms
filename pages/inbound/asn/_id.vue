@@ -20,13 +20,24 @@
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <div class="grid grid-cols-2 gap-3 w-full">
+              <div class="form-group" v-if="isEditable">
+                <input-horizontal
+                  label="Kode ASN"
+                  type="text"
+                  name="kode_asn"
+                  :isHorizontal="true"
+                  v-model="parameters.form.kode_asn"
+                  :required="false"
+                  :disabled="true"
+                />
+              </div>
               <div class="form-group">
                 <input-horizontal
-                  label="Referensi SAP"
+                  label="Referensi External"
                   type="text"
                   name="kode_sap"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_asp"
+                  v-model="parameters.form.kode_sap"
                   :required="false"
                 />
               </div>
@@ -85,14 +96,14 @@
               </div>
               <div class="form-group">
                 <input-horiontal
-                  label="Doc Type SAP"
+                  label="Doc Type External"
                   type="text"
                   name="doc_type_sap"
                   v-model="parameters.form.doc_type_sap"
                   :required="false"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Tanggal Pembuatan"
                   type="date"
@@ -100,7 +111,7 @@
                   v-model="parameters.form.tanggal"
                   :required="true"
                 />
-              </div>
+              </div> -->
               <ValidationProvider name="lokasi">
                 <div class="form-group w-full flex justify-between mb-5">
                   <label for="" class="w-1/2">Lokasi Asal Muat</label>
@@ -111,8 +122,8 @@
                     :options="lookup_location.data"
                     :filterable="false"
                     @search="onGetLokasi"
-                    :reduce="(item) => item.lokasi_id"
                     v-model="parameters.form.lokasi_id_asal_muat"
+                    @input="onSelectAsalMuat"
                   >
                     <li
                       slot-scope="{ search }"
@@ -148,13 +159,10 @@
                   :required="false"
                 />
               </div>
-              <ValidationProvider name="vendor" rules="required">
+              <ValidationProvider name="vendor">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2"
-                      >Vendor Transporter
-                      <span class="text-danger">*</span></label
-                    >
+                    <label for="" class="w-1/2">Vendor Transporter</label>
                     <v-select
                       class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_vendor"
@@ -162,11 +170,8 @@
                       :options="lookup_custom1.data"
                       :filterable="false"
                       @search="onGetVendor"
-                      :reduce="(item) => item.vendor_id"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
                       v-model="parameters.form.vendor_id_transporter"
+                      @input="onSelectTransporter"
                     >
                       <li
                         slot-scope="{ search }"
@@ -191,13 +196,6 @@
                         >
                       </li>
                     </v-select>
-                  </div>
-                  <div class="w-full flex justify-end">
-                    <span
-                      class="text-danger text-xs pl-1 w-1/2"
-                      v-if="errors[0]"
-                      >{{ errors[0] }}</span
-                    >
                   </div>
                 </div>
               </ValidationProvider>
@@ -237,12 +235,10 @@
                   :required="false"
                 />
               </div>
-              <ValidationProvider name="kendaraan" rules="required">
+              <ValidationProvider name="kendaraan">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2"
-                      >Kendaraan <span class="text-danger">*</span></label
-                    >
+                    <label for="" class="w-1/2">Kendaraan</label>
                     <v-select
                       class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_kendaraan"
@@ -250,11 +246,8 @@
                       :options="lookup_custom2.data"
                       :filterable="false"
                       @search="onGetKendaraan"
-                      :reduce="(item) => item.kendaraan_id"
                       v-model="parameters.form.kendaraan_id"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
+                      @input="onSelectKendaraan"
                     >
                       <li
                         slot-scope="{ search }"
@@ -280,21 +273,21 @@
                       </li>
                     </v-select>
                   </div>
-                  <div class="w-full flex justify-end">
-                    <span
-                      class="text-danger text-xs pl-1 w-1/2"
-                      v-if="errors[0]"
-                      >{{ errors[0] }}</span
-                    >
-                  </div>
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="pengemudi" rules="required">
+              <div class="form-group">
+                <input-horiontal
+                  label="Nama Kendaraan"
+                  type="text"
+                  name="nama_kendaraan"
+                  v-model="parameters.form.nama_kendaraan"
+                  :required="false"
+                />
+              </div>
+              <ValidationProvider name="pengemudi">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2"
-                      >Pengemudi <span class="text-danger">*</span></label
-                    >
+                    <label for="" class="w-1/2">Pengemudi </label>
                     <v-select
                       class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_pengemudi"
@@ -302,11 +295,8 @@
                       :options="lookup_custom3.data"
                       :filterable="false"
                       @search="onGetPengemudi"
-                      :reduce="(item) => item.pengemudi_id"
                       v-model="parameters.form.pengemudi_id"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
+                      @input="onSelectPengemudi"
                     >
                       <li
                         slot-scope="{ search }"
@@ -332,15 +322,17 @@
                       </li>
                     </v-select>
                   </div>
-                  <div class="w-full flex justify-end">
-                    <span
-                      class="text-danger text-xs pl-1 w-1/2"
-                      v-if="errors[0]"
-                      >{{ errors[0] }}</span
-                    >
-                  </div>
                 </div>
               </ValidationProvider>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nama Pengemudi"
+                  type="text"
+                  name="nama_pengemudi"
+                  v-model="parameters.form.nama_pengemudi"
+                  :required="false"
+                />
+              </div>
               <ValidationProvider name="supplier">
                 <div class="form-group w-full flex justify-between mb-5">
                   <label for="" class="w-1/2">Supplier</label>
@@ -785,7 +777,8 @@ export default {
         url: "inbound/asn",
         form: {
           gudang_id: "",
-          kode_asp: "",
+          kode_asn: "",
+          kode_sap: "",
           doc_type_sap: "",
           tanggal: "",
           lokasi_id_asal_muat: "",
@@ -796,7 +789,9 @@ export default {
           no_referensi: "",
           no_referensi_2: "",
           kendaraan_id: "",
+          nama_kendaraan: "",
           pengemudi_id: "",
+          nama_pengemudi: "",
           supplier_id: "",
           perkiraan_tiba: "",
           kebutuhan_peralatan: "",
@@ -837,6 +832,15 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
+
+        this.parameters.form.lokasi_id_asal_muat =
+          res.data.lokasi_asal_muat || "";
+        this.parameters.form.vendor_id_transporter =
+          res.data.vendor_transporter || "";
+        this.parameters.form.kendaraan_id = res.data.kendaraan || "";
+        this.onSelectKendaraan(res.data.kendaraan);
+        this.parameters.form.pengemudi_id = res.data.pengemudi || "";
+        this.onSelectPengemudi(res.data.pengemudi);
 
         this.parameters.form.asn_details = res.data.asn_details.map((item) => {
           return {
@@ -941,9 +945,35 @@ export default {
       this.isLoadingForm = true;
       let url = "inbound/asn";
 
+      // today's date
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+
       let formData = {
         ...this.parameters.form,
+        lokasi_id_asal_muat:
+          typeof this.parameters.form.lokasi_id_asal_muat === "object"
+            ? this.parameters.form.lokasi_id_asal_muat.lokasi_id
+            : "",
+        vendor_id_transporter:
+          typeof this.parameters.form.vendor_id_transporter === "object"
+            ? this.parameters.form.vendor_id_transporter.vendor_id
+            : "",
+        kendaraan_id:
+          typeof this.parameters.form.kendaraan_id === "object"
+            ? this.parameters.form.kendaraan_id.kendaraan_id
+            : "",
+        pengemudi_id:
+          typeof this.parameters.form.pengemudi_id === "object"
+            ? this.parameters.form.pengemudi_id.pengemudi_id
+            : "",
       };
+
+      formData.tanggal = formattedDate;
 
       formData.asn_details = formData.asn_details.map((item) => {
         return {
@@ -1485,6 +1515,22 @@ export default {
     //select item gudang
     onSelectItemGudang(item, index) {
       this.parameters.form.asn_details[index].item_id = item.item_id;
+    },
+
+    onSelectAsalMuat(item) {
+      this.parameters.form.asal_muat = item.nama_lokasi;
+    },
+
+    onSelectTransporter(item) {
+      this.parameters.form.nama_transporter = item.nama_vendor;
+    },
+
+    onSelectKendaraan(item) {
+      this.parameters.form.nama_kendaraan = item.plat_nomor;
+    },
+
+    onSelectPengemudi(item) {
+      this.parameters.form.nama_pengemudi = item.nama_pengemudi;
     },
 
     formReset() {

@@ -285,7 +285,7 @@
                 </th> -->
                 <th class="w-[200px] border border-gray-300">Group Item</th>
                 <th class="w-[200px] border border-gray-300">Batas item</th>
-                <!-- <th class="w-[200px] border border-gray-300">Kode SAP</th> -->
+                <!-- <th class="w-[200px] border border-gray-300">Kode External</th> -->
                 <th class="w-[200px] border border-gray-300">Kategori</th>
                 <th class="w-[75px] border border-gray-300">Details</th>
               </tr>

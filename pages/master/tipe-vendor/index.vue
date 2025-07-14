@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Negara</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,15 +15,8 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex sm:flex-col md:flex-row gap-5">
-      <div
-        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+    <div class="gap-5">
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -31,24 +24,26 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Negara</th>
+                <th>Kode Tipe Vendor</th>
                 <th
                   @click="
                     onSort(
-                      'nama_negara',
+                      'nama_tipe_vendor',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Negara</div>
+                    <div>Nama Tipe Vendor</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_negara' &&
+                          parameters.params.order == 'nama_tipe_vendor' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -57,7 +52,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_negara' &&
+                          parameters.params.order == 'nama_tipe_vendor' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -66,21 +61,10 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.kode_negara }}</td>
-                <td>{{ item.nama_negara }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -90,6 +74,15 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.kode_tipe_vendor }}</td>
+                <td>{{ item.nama_tipe_vendor }}</td>
               </tr>
             </tbody>
           </table>
@@ -104,13 +97,12 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Negara",
+      title: "Tipe Vendor",
     };
   },
 
@@ -123,7 +115,7 @@ export default {
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -134,7 +126,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -157,7 +149,7 @@ export default {
 
   data() {
     return {
-      title: "Negara",
+      title: "Tipe Vendor",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -176,19 +168,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/negara",
+        url: "master/tipe-vendor",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "negara_id",
+          order: "tipe_vendor_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_negara: "",
-            nama_negara: "",
+            kode_tipe_vendor: "",
+            nama_tipe_vendor: "",
             checkboxs: [],
           },
         },
@@ -199,9 +191,6 @@ export default {
       },
     };
   },
-  components: {
-    FormInput,
-  },
 
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
@@ -210,7 +199,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "negara"
+          (item) => item.rute == "tipe-vendor"
         );
 
         let roles = {};
@@ -239,28 +228,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_negara: "",
-        nama_negara: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
-      // this.$refs.formInput.$refs.formValidate.reset();
+      this.$router.push("/master/tipe-vendor/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        kode_negara: item.kode_negara,
-      };
-      // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/tipe-vendor/" + item.tipe_vendor_id);
     },
 
     // onDetail(item) {
@@ -320,7 +292,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.negara_id,
+              id: item.tipe_vendor_id,
               params: this.parameters.params,
             });
 

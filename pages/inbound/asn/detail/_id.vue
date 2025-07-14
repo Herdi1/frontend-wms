@@ -2,7 +2,7 @@
   <section class="section">
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold">Detail Gudang</h1>
+        <h1 class="text-xl font-bold">Detail ASN</h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -18,52 +18,69 @@
               class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 items-top w-full mb-5"
             >
               <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Lokasi</label>
+                <label class="w-[40%] font-bold">Kode ASN</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.lokasi
-                      ? this.detail_item.lokasi.nama_lokasi
-                      : "Lokasi tidak ditemukan"
+                    this.detail_item.kode_asn
+                      ? this.detail_item.kode_asn
+                      : "Tidak ditemukan"
+                  }}
+                </div>
+              </div>
+
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Referensi External</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_item.kode_sap
+                      ? this.detail_item.kode_sap
+                      : "Tidak ditemukan"
+                  }}
+                </div>
+              </div>
+
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold" for="fullname">Gudang</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_item.gudang
+                      ? this.detail_item.gudang.nama_gudang
+                      : "Tidak ditemukan"
                   }}
                 </div>
               </div>
 
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="fullname"
-                  >Kode Gudang External</label
+                  >Doc Type External</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kode_gudang_sap }}
+                  {{ this.detail_item.doc_type_sap }}
                 </div>
               </div>
 
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="fullname"
-                  >Kode Gudang</label
-                >
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kode_gudang }}
-                </div>
-              </div>
-
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold" for="fullname"
-                  >Nama Gudang</label
-                >
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.nama_gudang }}
-                </div>
-              </div>
-
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold" for="uername"
-                  >Profit Cost Center</label
+                  >Asal Muat</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.profit_cost
-                      ? `${this.detail_item.profit_cost.nama_wilayah} (${this.detail_item.profit_center} - ${this.detail_item.cost_center})`
-                      : "Tidak Ditemukan"
+                    this.detail_item.lokasi_asal_muat
+                      ? this.detail_item.lokasi_asal_muat.nama_lokasi
+                      : "Tidak ditemukan"
+                  }}
+                </div>
+              </div>
+
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold" for="fullname"
+                  >Transporter</label
+                >
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_item.vendor_transporter
+                      ? this.detail_item.vendor_transporter.nama_vendor
+                      : "Tidak ditemukan"
                   }}
                 </div>
               </div>
@@ -419,58 +436,33 @@ export default {
       isLoadingData: false,
       detail_item: {
         gudang_id: "",
-        lokasi_id: "",
-        kode_gudang_sap: "",
-        profit_cost_id: "",
-        kode_gudang: "",
-        nama_gudang: "",
-        status_konfig_outbound_sap: "",
-        nomor_rekening: "",
-        atas_nama_rekening: "",
-        status_gudang: "",
-        group_gudang_id_1: "",
-        group_gudang_id_2: "",
-        group_gudang_id_3: "",
-        group_gudang_id_4: "",
-        group_gudang_id_5: "",
+        kode_asn: "",
+        kode_sap: "",
+        doc_type_sap: "",
+        tanggal: "",
+        lokasi_id_asal_muat: "",
+        asal_muat: "",
+        vendor_id_transporter: "",
+        nama_transporter: "",
+        surat_jalan: "",
+        no_referensi: "",
+        no_referensi_2: "",
+        kendaraan_id: "",
+        pengemudi_id: "",
+        supplier_id: "",
+        perkiraan_tiba: "",
+        kebutuhan_peralatan: "",
+        handling_instruction: "",
+        catatan: "",
+
+        //Tracking
+        user_agent: "",
+        device: "",
         longitude: "",
         latitude: "",
-        alamat: "",
-        kecamatan_id: "",
-        kota_id: "",
-        provinsi_id: "",
-        negara_id: "",
-        vendor_id_pemilik: "",
-        vendor_id_operator: "",
-        fungsi_gudang_id: "",
-        no_hp: "",
-        no_wa: "",
-        kapasitas: "",
-        kapasitas_bongkar: "",
-        fisik_gudang_id: "",
-        ukuran_gudang_id: "",
-        file_layout: "",
-        status_sewa: "",
-        status_satpam: "",
-        luas_gudang: "",
-        satuan_id_luas: "",
-        fisik_gudang: {},
-        fungsi_gudang: {},
-        group_gudang_1: {},
-        group_gudang_2: {},
-        group_gudang_3: {},
-        group_gudang_4: {},
-        group_gudang_5: {},
-        kecamatan: {},
-        kota: {},
-        provinsi: {},
-        negara: {},
-        lokasi: {},
-        profit_cost: {},
-        satuan_luas: {},
-        ukuran_gudang: {},
-        vendor_pemilik: {},
-        vendor_operator: {},
+
+        // asn detail
+        asn_details: [],
       },
       form: {
         item_id: "",
@@ -480,14 +472,14 @@ export default {
 
   async created() {
     try {
-      let response = await this.$axios.get("master/gudang/" + this.id);
+      let response = await this.$axios.get("inbound/asn/" + this.id);
       Object.keys(this.detail_item).forEach((item) => {
         this.detail_item[item] = response.data[item];
       });
 
       this.isLoadingPage = false;
     } catch (error) {
-      this.$router.push("/master/gudang");
+      this.$router.push("/inbound/asn");
     }
   },
 

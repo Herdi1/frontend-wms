@@ -43,7 +43,7 @@
           >
             <div class="form-group w-full items-center mb-5">
               <label for="" class="w-4/12"
-                >Wilayah<span class="text-danger">*</span></label
+                >Regional<span class="text-danger">*</span></label
               >
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"

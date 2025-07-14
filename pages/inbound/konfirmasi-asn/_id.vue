@@ -1,11 +1,8 @@
 <template>
-  <section class="section h-screen">
+  <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
-        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data
-        </h1>
-        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
+        <h1 class="text-xl font-bold mb-2 uppercase">Konfirmasi ASN</h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
           Kembali
@@ -29,7 +26,7 @@
               >
                 <div>
                   <input-horizontal
-                    label="Kode SAP"
+                    label="Kode External"
                     type="text"
                     name="kode_sap"
                     :disabled="true"
@@ -40,7 +37,7 @@
                     :required="false"
                   />
                 </div>
-                <div>
+                <!-- <div>
                   <input-horizontal
                     label="Kode ASN"
                     type="text"
@@ -52,7 +49,7 @@
                     v-model="form.kode_asn"
                     :required="false"
                   />
-                </div>
+                </div> -->
                 <div>
                   <input-horizontal
                     label="Tanggal"
@@ -272,7 +269,7 @@
                     <option value="0">Ditolak</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Konfirmasi"
                     type="date"
@@ -283,7 +280,7 @@
                     v-model="form.tanggal_konfirmasi"
                     :required="false"
                   />
-                </div>
+                </div> -->
                 <div class="col-span-2">
                   <label for="catatan_konfirmasi">Catatan Konfirmasi</label>
                   <textarea
@@ -309,12 +306,12 @@
               </div>
               <div class="table-responsive overflow-y-hidden mb-7">
                 <table
-                  class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                  class="table border-collapse border border-gray-300 mt-5 overflow-auto table-fixed"
                   :class="form.asn_details.length ? 'mb-[300px]' : ''"
                 >
                   <thead>
                     <tr class="text-sm uppercase text-nowrap">
-                      <th class="w-[200px] border border-gray-300">ASN</th>
+                      <!-- <th class="w-[200px] border border-gray-300">ASN</th> -->
                       <!-- <th class="w-[200px] border border-gray-300">Gudang</th> -->
                       <!-- <th class="w-[200px] border border-gray-300">Item</th> -->
                       <!-- <th class="w-[200px] border border-gray-300">
@@ -351,9 +348,9 @@
                       style="border-top: 0.5px solid lightgray"
                       class="align-top mx-0"
                     >
-                      <td class="border border-gray-300">
+                      <!-- <td class="border border-gray-300">
                         {{ item.asn ? item.asn : "-" }}
-                      </td>
+                      </td> -->
                       <!-- <td class="border border-gray-300">
                         {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                       </td>
@@ -640,7 +637,6 @@
               </div>
             </div>
             <modal-footer-section
-              v-if="!status_konfirmasi == '1'"
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"
               class="mb-5"
@@ -839,6 +835,15 @@ export default {
         ...this.form,
       };
 
+      // today's date
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+      formData.tanggal_konfirmasi = formattedDate;
+
       formData.asn_details = formData.asn_details.map((item) => {
         return {
           ...item,
@@ -871,8 +876,8 @@ export default {
 
           if (!this.isEditable) {
             this.form = this.default_form;
-            this.$router.back();
           }
+          this.$router.push("/inbound/konfirmasi-asn");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);

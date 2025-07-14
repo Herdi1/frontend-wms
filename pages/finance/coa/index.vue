@@ -2,7 +2,9 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Cash Management</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Cash Management</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -64,7 +66,7 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode SAP</th>
+                  <th>Kode External</th>
                   <th>Nama</th>
                   <th>Induk</th>
                   <th>Tipe</th>
@@ -91,29 +93,41 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_coa }}
-                    <br/>
-                        <span class="text-blue-500"><i>Dibuat oleh : {{ item.user_input ? item.user_input.username : "-" }}</i></span>
+                  <td>
+                    {{ item.kode_coa }}
+                    <br />
+                    <span class="text-blue-500"
+                      ><i
+                        >Dibuat oleh :
+                        {{
+                          item.user_input ? item.user_input.username : "-"
+                        }}</i
+                      ></span
+                    >
                   </td>
                   <td>{{ item.kode_coa_sap }}</td>
                   <td>
-                    {{
-                      item.nama_coa
-                    }}
-                  </td>
-                  <td>{{ item.parent ? item.parent.nama_coa : "" }} {{ item.parent ? ' ('+item.parent.kode_coa+')' : "" }}</td>
-                  <td>
-                      <b>{{item.tipe || '-'}}</b>
+                    {{ item.nama_coa }}
                   </td>
                   <td>
-                      <b>{{checkStatus(item)}}</b>
+                    {{ item.parent ? item.parent.nama_coa : "" }}
+                    {{ item.parent ? " (" + item.parent.kode_coa + ")" : "" }}
+                  </td>
+                  <td>
+                    <b>{{ item.tipe || "-" }}</b>
+                  </td>
+                  <td>
+                    <b>{{ checkStatus(item) }}</b>
                   </td>
 
                   <td>
-                      <b>{{item.jenis_coa}}</b><br>
-                      <span v-if="item.jenis_coa == 'SPESIFIK'">Gudang : {{ item.gudang ?  item.gudang.nama_gudang : '' }}</span>
+                    <b>{{ item.jenis_coa }}</b
+                    ><br />
+                    <span v-if="item.jenis_coa == 'SPESIFIK'"
+                      >Gudang :
+                      {{ item.gudang ? item.gudang.nama_gudang : "" }}</span
+                    >
                   </td>
-                 
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -234,8 +248,7 @@ export default {
         import: true,
       },
       user: this.$auth.user,
-      passiva_types : ["MODAL","KEWAJIBAN","PENDAPATAN"],
-
+      passiva_types: ["MODAL", "KEWAJIBAN", "PENDAPATAN"],
     };
   },
   computed: {
@@ -245,9 +258,7 @@ export default {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
-        let main_role = this.user.role.menus.find(
-          (item) => item.rute == "coa"
-        );
+        let main_role = this.user.role.menus.find((item) => item.rute == "coa");
 
         let roles = {};
 
@@ -356,14 +367,14 @@ export default {
       this.isLoadingData = false;
     },
 
-    checkStatus(item){
-      if(!item.parent){
+    checkStatus(item) {
+      if (!item.parent) {
         return "-";
       }
 
-      if(this.passiva_types.includes(item.parent.type)){
+      if (this.passiva_types.includes(item.parent.type)) {
         return "Passiva";
-      }else{
+      } else {
         return "Activa";
       }
     },

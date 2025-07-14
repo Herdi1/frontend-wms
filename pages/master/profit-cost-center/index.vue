@@ -45,7 +45,7 @@
                     class="cursor-pinter"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Wilayah</div>
+                      <div>Regional</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -71,7 +71,7 @@
                   <th>Cabang</th>
                   <th>Profit Center</th>
                   <th>Cost Center</th>
-                  <!-- <th>Nama Wilayah</th> -->
+                  <!-- <th>Nama Regional</th> -->
                   <th
                     @click="
                       onSort(

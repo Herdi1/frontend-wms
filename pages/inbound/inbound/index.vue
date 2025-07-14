@@ -41,7 +41,7 @@
                     class="cursor-pinter w-[30%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Inbound</div>
+                      <div>Kode Put Away</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -90,7 +90,17 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_inbound }}</td>
+                  <td>
+                    <div>
+                      {{ item.kode_inbound }}
+                      <p v-if="item.user_input" class="text-blue-500">
+                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                      </p>
+                      <p v-else class="text-blue-500">
+                        <i>Dibuat oleh: Sistem</i>
+                      </p>
+                    </div>
+                  </td>
                   <td>{{ item.surat_jalan }}</td>
                   <td>
                     <div>
@@ -132,7 +142,7 @@ export default {
 
   head() {
     return {
-      title: "Inbound",
+      title: "Put Away",
     };
   },
 
@@ -180,7 +190,7 @@ export default {
 
   data() {
     return {
-      title: "GR/Inbound",
+      title: "Put Away",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -268,11 +278,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/gr-inbound/add");
+      this.$router.push("/inbound/inbound/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/gr-inbound/" + item.inbound_id);
+      this.$router.push("/inbound/inbound/" + item.inbound_id);
     },
 
     onTrashed(item) {

@@ -64,7 +64,7 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode Gudang SAP</th>
+                  <th>Kode Gudang External</th>
                   <th>Kode Gudang</th>
                   <th>Profit & Cost</th>
                   <th
@@ -100,7 +100,7 @@
                       </div>
                     </div>
                   </th>
-                  <!-- <th>Status Konfig SAP</th>
+                  <!-- <th>Status Konfig External</th>
                   <th>Nomor Rekening</th>
                   <th>Atas Nama Rekening</th> -->
                   <th>Status Gudang</th>
