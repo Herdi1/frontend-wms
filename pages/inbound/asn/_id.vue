@@ -34,7 +34,6 @@
               <div class="form-group">
                 <input-horizontal
                   label="Referensi External"
-                  label="Referensi External"
                   type="text"
                   name="kode_sap"
                   :isHorizontal="true"
