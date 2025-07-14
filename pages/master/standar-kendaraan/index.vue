@@ -62,7 +62,7 @@
                 </td>
                 <td>{{ item.kode_standar_jenis_kendaraan }}</td>
                 <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
-                <td>{{ item.gudang.nama_gudang }}</td>
+                <td>{{ item.gudang?.nama_gudang }}</td>
                 <td>{{ item.kecepatan_isi }} km/jam</td>
                 <td>{{ item.kecepatan_kosong }} km/jam</td>
                 <td>{{ item.standar_muat }} jam</td>

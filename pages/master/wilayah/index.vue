@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Wilayah</span>
+        <span>Regional</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -32,7 +32,7 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">No</th>
-                <th>Kode Wilayah</th>
+                <th>Kode Regional</th>
                 <th
                   @click="
                     onSort(
@@ -43,7 +43,7 @@
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Wilayah</div>
+                    <div>Nama Regional</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
@@ -110,7 +110,7 @@ export default {
 
   head() {
     return {
-      title: "Wilayah",
+      title: "Regional",
     };
   },
 
@@ -157,7 +157,7 @@ export default {
 
   data() {
     return {
-      title: "Wilayah",
+      title: "Regional",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,

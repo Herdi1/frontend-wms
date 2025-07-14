@@ -839,6 +839,9 @@
               <template #ItemPelanggan>
                 <ItemPelanggan :self="{ form, parameters }" />
               </template>
+              <template #Shipto>
+                <p>Shipto</p>
+              </template>
             </TabComponent>
           </div>
           <div class="w-full flex justify-start">
@@ -858,6 +861,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState, mapMutations } from "vuex";
 import ItemPelanggan from "./itemPelanggan.vue";
+import Lokasi from "./lokasi.vue";
 import TabComponent from "./tabComponent.vue";
 export default {
   // props: ["self"],

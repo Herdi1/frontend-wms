@@ -22,7 +22,7 @@
             <div class="grid grid-cols-2 gap-3 w-full">
               <div class="form-group">
                 <input-horizontal
-                  label="Referensi SAP"
+                  label="Referensi External"
                   type="text"
                   name="kode_sap"
                   :isHorizontal="true"
@@ -85,7 +85,7 @@
               </div>
               <div class="form-group">
                 <input-horiontal
-                  label="Doc Type SAP"
+                  label="Tipe Dokumen External"
                   type="text"
                   name="doc_type_sap"
                   v-model="parameters.form.doc_type_sap"
@@ -435,7 +435,7 @@
             </div>
           </div>
           <div
-            class="mt-4 overflow-auto bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            class="mt-4 overflow-auto w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <table
               class="table border-collapse border border-gray-300 mt-5 table-fixed"
@@ -698,14 +698,14 @@
               </tbody>
               <tr v-if="!parameters.form.asn_details.length > 0">
                 <td colspan="12" class="text-center">
-                  <span class="flex justify-center w-3/4">
+                  <span class="flex justify-center w-full">
                     <img
                       src="/img/data-not-found.svg"
                       alt="Data Tidak Ditemukan"
                       class="h-64 object-cover"
                     />
                   </span>
-                  <div class="mt-3 w-3/4">Data Tidak Ditemukan</div>
+                  <div class="mt-3 w-full">Data Tidak Ditemukan</div>
                 </td>
               </tr>
             </table>

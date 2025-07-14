@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Lokasi Shipto</span>
+        <span>Alasan Beda Plan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,37 +15,34 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex flex-col gap-5">
-      <div
-        class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+    <div class="flex sm:flex-col md:flex-row gap-5">
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
+        <div>
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Kode Lokasi</th>
                 <th
                   @click="
                     onSort(
-                      'nama_lokasi',
+                      'kode_alasan_beda_plan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Lokasi</div>
+                    <div>Kode Alasan Beda Plan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_lokasi' &&
+                          parameters.params.order == 'kode_alasan_beda_plan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -54,7 +51,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_lokasi' &&
+                          parameters.params.order == 'kode_alasan_beda_plan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -63,25 +60,43 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Pos</th>
-                <th>Kecamatan</th>
-                <th>Kota</th>
-                <th>Provinsi</th>
-                <th>Negara</th>
-                <th>Nama Pemilik</th>
-                <th>No Telp</th>
-                <th>No HP</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Radius (Meter)</th>
-                <th>Tipe Lokasi</th>
+                <th
+                  @click="
+                    onSort(
+                      'nama_alasan_beda_plan',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Nama Alasan Beda Plan</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  <small-detail-button @click="onDetail(item)" />
-                </td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -98,34 +113,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_lokasi }}</td>
-                <td>{{ item.nama_lokasi }}</td>
-                <td>{{ item.kode_pos ? item.kode_pos.nama_kode_pos : "" }}</td>
-                <td>
-                  {{ item.kecamatan ? item.kecamatan.nama_kecamatan : "" }}
-                </td>
-                <td>{{ item.kota ? item.kota.nama_kota : "" }}</td>
-                <td>{{ item.provinsi ? item.provinsi.nama_provinsi : "" }}</td>
-                <td>{{ item.negara ? item.negara.nama_negara : "" }}</td>
-                <td>{{ item.nama_pemilik }}</td>
-                <td>{{ item.no_telp }}</td>
-                <td>{{ item.no_hp }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.radius }}</td>
-                <td>
-                  {{
-                    item.tipe_lokasi === "T"
-                      ? "Toko"
-                      : item.tipe_lokasi === "P"
-                      ? "Project"
-                      : item.tipe_lokasi === "V"
-                      ? "Vendor"
-                      : item.tipe_lokasi === "G"
-                      ? "Gudang"
-                      : ""
-                  }}
-                </td>
+                <td>{{ item.kode_alasan_beda_plan }}</td>
+                <td>{{ item.nama_alasan_beda_plan }}</td>
               </tr>
             </tbody>
           </table>
@@ -135,20 +124,17 @@
         </div>
       </div>
     </div>
-    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
-import ModalDetail from "./detail";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Lokasi Shipto",
+      title: "Alasan Beda Plan",
     };
   },
 
@@ -195,7 +181,7 @@ export default {
 
   data() {
     return {
-      title: "Lokasi Shipto",
+      title: "Alasan Beda Plan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -214,53 +200,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/lokasi",
+        url: "master/alasan-beda-plan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "lokasi_id",
+          order: "alasan_beda_plan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            lokasi_id_induk: "",
-            tipe_lokasi: "T",
-            kode_referensi: "",
-            kode_lokasi: "",
-            nama_lokasi: "",
-            negara_id: "",
-            provinsi_id: "",
-            kota_id: "",
-            kecamatan_id: "",
-            kelurahan_id: "",
-            kode_pos_id: "",
-            email: "",
-            nilai_plafon: "",
-            no_telp: "",
-            no_hp: "",
-            no_npwp: "",
-            longitude: "",
-            latitude: "",
-            radius: "",
-            longitude2: "",
-            latitude2: "",
-            radius2: "",
-            longitude3: "",
-            latitude3: "",
-            radius3: "",
-            alamat: "",
-            alamat_lokasi: "",
-            nama_pemilik: "",
-            nik_pemilik: "",
-            npwp_pemilik: "",
-            negara_id_pemilik: "",
-            provinsi_id_pemilik: "",
-            kota_id_pemilik: "",
-            kecamatan_id_pemilik: "",
-            kelurahan_id_pemilik: "",
-            alamat_pemilik: "",
+            kode_alasan_beda_plan: "",
+            nama_alasan_beda_plan: "",
           },
         },
         loadings: {
@@ -271,11 +223,6 @@ export default {
     };
   },
 
-  components: {
-    FormInput,
-    ModalDetail,
-  },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
 
@@ -284,7 +231,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "lokasi"
+          (item) => item.rute == "alasan-beda-plan"
         );
 
         let roles = {};
@@ -313,18 +260,46 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/lokasi/add");
+      this.$router.push("/master/alasan-beda-plan/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/lokasi/" + item.lokasi_id);
+      this.$router.push("/master/alasan-beda-plan/" + item.alasan_beda_plan_id);
     },
 
-    onDetail(item) {
-      this.$refs.modalDetail.parameters.form = {
-        ...item,
-      };
-      this.$refs.modalDetail.show();
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.alasan_beda_plan_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
     },
 
     async onLoad(page = 1) {
@@ -354,62 +329,6 @@ export default {
       }
 
       this.isLoadingData = false;
-    },
-
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.lokasi_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
-
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.lokasi_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
     },
 
     onSort(column, sort = "asc") {

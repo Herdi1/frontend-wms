@@ -14,7 +14,7 @@
             <div class="modal-body mt-4">
               <div class="form-group">
                 <input-form
-                  label="Nama Wilayah"
+                  label="Nama Regional"
                   type="text"
                   name="nama_wilayah"
                   v-model="parameters.form.nama_wilayah"
@@ -23,7 +23,7 @@
               </div>
               <div class="form-group">
                 <input-form
-                  label="Kode Wilayah"
+                  label="Kode Regional"
                   type="text"
                   name="kode_wilayah"
                   v-model="parameters.form.kode_wilayah"
@@ -53,7 +53,7 @@ export default {
     return {
       isEditable: false,
       isLoadingForm: false,
-      title: "Wilayah",
+      title: "Regional",
       parameters: {
         url: "master/wilayah",
         form: {
