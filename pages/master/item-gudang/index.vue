@@ -422,13 +422,13 @@
         </div>
       </div>
     </div>
-    <!-- <ModalDetail :self="this" ref="modalDetail" /> -->
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import ModalDetail from "./detail";
+import ModalDetail from "./detail";
 export default {
   middleware: ["checkRoleUser"],
 
@@ -446,7 +446,7 @@ export default {
   },
 
   components: {
-    // ModalDetail,
+    ModalDetail,
   },
 
   async mounted() {

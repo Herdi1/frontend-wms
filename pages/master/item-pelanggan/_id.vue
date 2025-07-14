@@ -199,7 +199,7 @@
               </div>
               <div class="form-group">
                 <input-horizontal
-                  label="Referensi SAP"
+                  label="Referensi External"
                   type="text"
                   name="kode_sap"
                   :required="true"
