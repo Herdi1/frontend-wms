@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg-white dark:bg-slate-800">
     <div class="w-full mb-5">
       <div
-        class="flex flex-col w-full justify-between p-2 border border-gray-300 rounded-md"
+        class="flex flex-col w-full justify-between p-2 border bg-white dark:bg-slate-800 border-gray-300 rounded-md"
       >
         <div class="grid grid-flow-col grid-rows-5 md:grid-rows-3 gap-2">
           <div class="flex">
@@ -17,7 +17,7 @@
               @search="onGetGroupItem1"
               v-model="filter_params.group_item_id_1"
               :reduce="(item) => item.group_item_id"
-              class="w-1/2"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem1"
             >
               <!-- @input="onSelectGroupItem1" -->
@@ -52,7 +52,7 @@
               @search="onGetGroupItem2"
               v-model="filter_params.group_item_id_2"
               :reduce="(item) => item.group_item_id"
-              class="w-1/2"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem2"
             >
               <li
@@ -86,7 +86,7 @@
               @search="onGetGroupItem3"
               v-model="filter_params.group_item_id_3"
               :reduce="(item) => item.group_item_id"
-              class="w-1/2"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem3"
             >
               <li
@@ -120,7 +120,7 @@
               @search="onGetGroupItem4"
               v-model="filter_params.group_item_id_4"
               :reduce="(item) => item.group_item_id"
-              class="w-1/2"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem4"
             >
               <li
@@ -154,7 +154,7 @@
               @search="onGetGroupItem5"
               v-model="filter_params.group_item_id_5"
               :reduce="(item) => item.group_item_id"
-              class="w-1/2"
+              class="w-1/2 bg-white"
             >
               <li
                 slot-scope="{ search }"

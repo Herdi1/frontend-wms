@@ -1,5 +1,7 @@
 <template>
-  <section class="section bg-white rounded-md px-4 py-2 shadow-sm">
+  <section
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+  >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -49,7 +51,7 @@
               @search="onGetGudang"
               v-model="parameters.form.gudang_id"
               :reduce="(item) => item.gudang_id"
-              class="w-full mb-2"
+              class="w-full mb-2 bg-white"
             >
               <li
                 slot-scope="{ search }"

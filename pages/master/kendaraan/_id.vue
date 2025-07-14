@@ -44,7 +44,7 @@
                         @search="onGetJenisKendaraan"
                         v-model="form.jenis_kendaraan_id"
                         :reduce="(item) => item.jenis_kendaraan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -94,7 +94,7 @@
                         @search="onGetGudang"
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -144,7 +144,7 @@
                         @search="onGetVendor"
                         v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -205,7 +205,7 @@
                         @search="onGetVendorOperator"
                         v-model="form.vendor_id_operator"
                         :reduce="(item) => item.vendor_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -257,7 +257,7 @@
                         @search="onGetStandarJenis"
                         v-model="form.standar_jenis_kendaraan_id"
                         :reduce="(item) => item.standar_jenis_kendaraan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -502,7 +502,7 @@
                             @search="onGetDriver"
                             v-model="item.pengemudi_id"
                             :reduce="(item) => item.pengemudi_id"
-                            class="w-full"
+                            class="w-full bg-white"
                           >
                             <li
                               slot-scope="{ search }"

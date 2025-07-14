@@ -41,7 +41,7 @@
                         :filterable="false"
                         @search="onGetItem"
                         v-model="form.item_id"
-                        class="w-1/2"
+                        class="w-1/2 bg-white"
                         @input="onSelectItem"
                       >
                         <li
@@ -89,7 +89,7 @@
                         @search="onGetVendor"
                         v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
-                        class="w-1/2"
+                        class="w-1/2 bg-white"
                       >
                         <li
                           slot-scope="{ search }"
@@ -136,7 +136,7 @@
                         @search="onGetSuppliers"
                         v-model="form.supplier_id"
                         :reduce="(item) => item.supplier_id"
-                        class="w-1/2"
+                        class="w-1/2 bg-white"
                       >
                         <li
                           slot-scope="{ search }"
@@ -192,7 +192,7 @@
                         @search="onGetGudang"
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
-                        class="w-1/2"
+                        class="w-1/2 bg-white"
                       >
                         <li
                           slot-scope="{ search }"
@@ -239,7 +239,7 @@
                         @search="onGetZona"
                         v-model="form.zona_id"
                         :reduce="(item) => item.zona_gudang_id"
-                        class="w-1/2"
+                        class="w-1/2 bg-white"
                       >
                         <li
                           slot-scope="{ search }"
@@ -294,7 +294,7 @@
                         @search="onGetSatuan"
                         v-model="form.satuan_id"
                         :reduce="(item) => item.satuan_id"
-                        class="w-[50%]"
+                        class="w-[50%] bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -357,7 +357,7 @@
                       @search="onGetGroupItem1"
                       v-model="form.group_item_id_1"
                       :reduce="(item) => item.group_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSelectGroupItem1"
                     >
                       <!-- <template #search="{ attributes, events }">
@@ -404,7 +404,7 @@
                       @search="onGetGroupItem2"
                       v-model="form.group_item_id_2"
                       :reduce="(item) => item.group_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSelectGroupItem2"
                     >
                       <li
@@ -444,7 +444,7 @@
                       @search="onGetGroupItem3"
                       v-model="form.group_item_id_3"
                       :reduce="(item) => item.group_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSelectGroupItem3"
                     >
                       <li
@@ -484,7 +484,7 @@
                       @search="onGetGroupItem4"
                       v-model="form.group_item_id_4"
                       :reduce="(item) => item.group_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSelectGroupItem4"
                     >
                       <li
@@ -524,7 +524,7 @@
                       @search="onGetGroupItem5"
                       v-model="form.group_item_id_5"
                       :reduce="(item) => item.group_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                     >
                       <li
                         slot-scope="{ search }"
@@ -563,7 +563,7 @@
                       @search="onGetKategoriItem1"
                       v-model="form.kategori_id_1"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSearchKategoriItem2"
                     >
                       <li
@@ -603,7 +603,7 @@
                       @search="onGetKategoriItem2"
                       v-model="form.kategori_id_2"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSearchKategoriItem3"
                     >
                       <li
@@ -642,7 +642,7 @@
                       @search="onGetKategoriItem3"
                       v-model="form.kategori_id_3"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSearchKategoriItem4"
                     >
                       <li
@@ -680,7 +680,7 @@
                       @search="onGetKategoriItem4"
                       v-model="form.kategori_id_4"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                       @input="onSearchKategoriItem5"
                     >
                       <li
@@ -719,7 +719,7 @@
                       @search="onGetKategoriItem5"
                       v-model="form.kategori_id_5"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-[50%]"
+                      class="w-[50%] bg-white"
                     >
                       <li
                         slot-scope="{ search }"
@@ -851,7 +851,7 @@
                         @search="onGetSatuanBerat"
                         v-model="form.satuan_id_berat"
                         :reduce="(item) => item.satuan_id"
-                        class="w-[50%]"
+                        class="w-[50%] bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -933,7 +933,7 @@
                         @search="onGetSatuanVolume"
                         v-model="form.satuan_id_volume"
                         :reduce="(item) => item.satuan_id"
-                        class="w-[50%]"
+                        class="w-[50%] bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -992,7 +992,7 @@
                         @search="onGetSatuanStockLevel"
                         v-model="form.satuan_id_stocklevel"
                         :reduce="(item) => item.satuan_id"
-                        class="w-[50%]"
+                        class="w-[50%] bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "

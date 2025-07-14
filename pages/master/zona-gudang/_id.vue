@@ -42,7 +42,7 @@
                         @search="onGetGudang"
                         v-model="form.gudang_id"
                         :reduce="(item) => item.gudang_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -110,7 +110,7 @@
                         @search="onGetVendorPemilik"
                         v-model="form.vendor_id"
                         :reduce="(item) => item.vendor_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -161,7 +161,7 @@
                         @search="onGetProfitCost"
                         v-model="form.profit_cost_id"
                         :reduce="(item) => item.profit_cost_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -231,7 +231,7 @@
                         @search="onGetPelanggan"
                         v-model="form.pelanggan_id"
                         :reduce="(item) => item.pelanggan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -283,7 +283,7 @@
                         @search="onGetJenisZonaGudang"
                         v-model="form.jenis_zona_gudang_id"
                         :reduce="(item) => item.jenis_zona_gudang_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -335,7 +335,7 @@
                         @search="onGetSatuanStoklevel"
                         v-model="form.satuan_id_stoklevel"
                         :reduce="(item) => item.satuan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -385,7 +385,7 @@
                         @search="onGetSatuanSuhu"
                         v-model="form.satuan_id_suhu"
                         :reduce="(item) => item.satuan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -424,7 +424,7 @@
                       >Status Zona<span class="text-danger">*</span></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      class="w-full pl-2 py-1 border bg-white rounded focus:outline-none"
                       name="status_zona"
                       id="status_zona"
                       v-model="form.status_zona"
@@ -445,7 +445,7 @@
                       >Allow Overstock<span class="text-danger">*</span></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      class="w-full pl-2 py-1 border bg-white rounded focus:outline-none"
                       name="allow_overstock"
                       id="allow_overstock"
                       v-model="form.allow_overstock"
@@ -468,7 +468,7 @@
                       ></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      class="w-full pl-2 py-1 border bg-white rounded focus:outline-none"
                       name="status_zona_aktif"
                       id="status_zona_aktif"
                       v-model="form.status_zona_aktif"
@@ -504,7 +504,7 @@
                         @search="onGetMetodePengambilan"
                         v-model="form.metode_pengambilan_id"
                         :reduce="(item) => item.metode_pengambilan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -555,7 +555,7 @@
                         @search="onGetFungsiZona"
                         v-model="form.fungsi_zona_id"
                         :reduce="(item) => item.fungsi_zona_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -605,7 +605,7 @@
                         @search="onGetGroupZona"
                         v-model="form.group_zona_id"
                         :reduce="(item) => item.group_zona_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -657,7 +657,7 @@
                         @search="onGetMetodePenyimpanan"
                         v-model="form.metode_penyimpanan_id"
                         :reduce="(item) => item.metode_penyimpanan_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "

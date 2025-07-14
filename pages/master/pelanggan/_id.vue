@@ -17,7 +17,9 @@
       </div>
       <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
         <form @submit.prevent="validate().then(() => onSubmit(invalid))">
-          <div class="modal-body my-4 bg-white rounded-md px-4 py-2 shadow-sm">
+          <div
+            class="modal-body my-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group w-full items-center mb-5">
                 <label for="">Pelanggan Induk</label>
@@ -598,7 +600,9 @@
               Tambah Data Pemilik
             </h1>
           </div>
-          <div class="my-4 bg-white rounded-md px-4 py-2 shadow-sm">
+          <div
+            class="my-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
                 <input-form
@@ -834,7 +838,7 @@
               ></textarea>
             </div>
           </div>
-          <div class="w-full mb-5">
+          <div class="w-full mb-5 bg-white dark:bg-slate-800">
             <TabComponent :tabs="tabs">
               <template #ItemPelanggan>
                 <ItemPelanggan :self="{ form, parameters }" />
