@@ -32,7 +32,7 @@
                       :filterable="false"
                       @search="onGetItem"
                       v-model="parameters.form.item_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       @input="onSelectItem"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -85,7 +85,7 @@
                       @search="onGetVendor"
                       v-model="parameters.form.vendor_id"
                       :reduce="(item) => item.vendor_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -137,7 +137,7 @@
                       @search="onGetPelanggan"
                       v-model="parameters.form.pelanggan_id"
                       :reduce="(item) => item.pelanggan_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -225,7 +225,7 @@
                       @search="onGetGroup1"
                       v-model="parameters.form.group_item_id_1"
                       :reduce="(item) => item.group_item_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       @input="onSelectGroup1"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -274,7 +274,7 @@
                   @search="onGetGroup2"
                   v-model="parameters.form.group_item_id_2"
                   :reduce="(item) => item.group_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                   @input="onSelectGroup2"
                 >
                   <li
@@ -310,7 +310,7 @@
                   @search="onGetGroup3"
                   v-model="parameters.form.group_item_id_3"
                   :reduce="(item) => item.group_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                   @input="onSelectGroup3"
                 >
                   <li
@@ -350,7 +350,7 @@
                   @search="onGetGroup4"
                   v-model="parameters.form.group_item_id_4"
                   :reduce="(item) => item.group_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                   @input="onSelectGroup4"
                 >
                   <li
@@ -386,7 +386,7 @@
                   @search="onGetGroup5"
                   v-model="parameters.form.group_item_id_5"
                   :reduce="(item) => item.group_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -429,7 +429,7 @@
                       @search="onGetKategori1"
                       v-model="parameters.form.kategori_id_1"
                       :reduce="(item) => item.kategori_item_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -478,7 +478,7 @@
                   @search="onGetKategori2"
                   v-model="parameters.form.kategori_id_2"
                   :reduce="(item) => item.kategori_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                   @input="onSearchKategori3"
                 >
                   <li
@@ -513,7 +513,7 @@
                   v-model="parameters.form.kategori_id_3"
                   :reduce="(item) => item.kategori_item_id"
                   @input="onSearchKategori4"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -551,7 +551,7 @@
                   v-model="parameters.form.kategori_id_4"
                   :reduce="(item) => item.kategori_item_id"
                   @input="onSearchKategori5"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -584,7 +584,7 @@
                   @search="onGetKategori4"
                   v-model="parameters.form.kategori_id_5"
                   :reduce="(item) => item.kategori_item_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -706,7 +706,7 @@
                       @search="onGetSuppliers"
                       v-model="parameters.form.supplier_id"
                       :reduce="(item) => item.supplier_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -767,7 +767,7 @@
                       @search="onGetSatuan"
                       v-model="parameters.form.satuan_id"
                       :reduce="(item) => item.satuan_id"
-                      class="w-1/2"
+                      class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
@@ -839,7 +839,7 @@
                   @search="onGetSatuanBerat"
                   v-model="parameters.form.satuan_id_berat"
                   :reduce="(item) => item.satuan_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -923,7 +923,7 @@
                   @search="onGetSatuanVolume"
                   v-model="parameters.form.satuan_id_volume"
                   :reduce="(item) => item.satuan_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -982,7 +982,7 @@
                   @search="onGetSatuanStocklevel"
                   v-model="parameters.form.satuan_id_stocklevel"
                   :reduce="(item) => item.satuan_id"
-                  class="w-1/2"
+                  class="w-1/2 bg-white"
                 >
                   <li
                     slot-scope="{ search }"

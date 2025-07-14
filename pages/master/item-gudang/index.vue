@@ -16,7 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="relative w-full bg-white rounded-md p-2 px-4">
+      <div
+        class="relative w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -38,7 +40,7 @@
                   @search="onGetGroupItem1"
                   v-model="filter_params.group_item_id_1"
                   :reduce="(item) => item.group_item_id"
-                  class="w-[60%]"
+                  class="w-[60%] bg-white"
                   @input="onSearchGroupItem2"
                 >
                   <!-- <template #search="{ attributes, events }">
@@ -83,7 +85,7 @@
                   @search="onGetGroupItem2"
                   v-model="filter_params.group_item_id_2"
                   :reduce="(item) => item.group_item_id"
-                  class="w-[60%]"
+                  class="w-[60%] bg-white"
                   @input="onSearchGroupItem3"
                 >
                   <li
@@ -120,7 +122,7 @@
                   @search="onGetGroupItem3"
                   v-model="filter_params.group_item_id_3"
                   :reduce="(item) => item.group_item_id"
-                  class="w-[60%]"
+                  class="w-[60%] bg-white"
                   @input="onSearchGroupItem4"
                 >
                   <li
@@ -159,7 +161,7 @@
                   @search="onGetGroupItem4"
                   v-model="filter_params.group_item_id_4"
                   :reduce="(item) => item.group_item_id"
-                  class="w-[60%]"
+                  class="w-[60%] bg-white"
                   @input="onSearchGroupItem5"
                 >
                   <li
@@ -198,7 +200,7 @@
                   @search="onGetGroupItem5"
                   v-model="filter_params.group_item_id_5"
                   :reduce="(item) => item.group_item_id"
-                  class="w-[60%]"
+                  class="w-[60%] bg-white"
                 >
                   <li
                     slot-scope="{ search }"
@@ -422,13 +424,13 @@
         </div>
       </div>
     </div>
-    <!-- <ModalDetail :self="this" ref="modalDetail" /> -->
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import ModalDetail from "./detail";
+import ModalDetail from "./detail";
 export default {
   middleware: ["checkRoleUser"],
 
@@ -446,7 +448,7 @@ export default {
   },
 
   components: {
-    // ModalDetail,
+    ModalDetail,
   },
 
   async mounted() {

@@ -5,10 +5,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Jenis Peralatan
+          Edit Data Jenis Satuan
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Jenis Peralatan
+          Tambah Data Jenis Satuan
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -22,19 +22,19 @@
         >
           <div class="form-group">
             <input-form
-              label="Kode Jenis Peralatan"
+              label="Kode Jenis Satuan"
               type="text"
-              name="kode_jenis_peralatan"
-              v-model="parameters.form.kode_jenis_peralatan"
-              :required="false"
+              name="kode_jenis_satuan"
+              v-model="parameters.form.kode_jenis_satuan"
+              :required="true"
             />
           </div>
           <div class="form-group">
             <input-form
-              label="Nama Jenis Peralatan"
+              label="Nama Jenis Satuan"
               type="text"
-              name="nama_jenis_peralatan"
-              v-model="parameters.form.nama_jenis_peralatan"
+              name="nama_jenis_satuan"
+              v-model="parameters.form.nama_jenis_satuan"
               :required="true"
             />
           </div>
@@ -57,17 +57,18 @@ export default {
 
   data() {
     let id = parseInt(this.$route.params.id);
+
     return {
       id,
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Jenis Peralatan",
+      title: "Jenis Satuan",
       parameters: {
-        url: "master/jenis-peralatan",
+        url: "master/jenis-satuan",
         form: {
-          kode_jenis_peralatan: "",
-          nama_jenis_peralatan: "",
+          kode_jenis_satuan: "",
+          nama_jenis_satuan: "",
         },
       },
     };
@@ -76,12 +77,13 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`master/jenis-peralatan/${this.id}`);
+        let res = await this.$axios.get(`master/jenis-satuan/${this.id}`);
         this.parameters.form = res.data;
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.back();
+      console.log("error", error);
+      // this.$router.back();
     }
   },
 
@@ -101,8 +103,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.jenis_peralatan_id
-            ? this.parameters.form.jenis_peralatan_id
+          id: this.parameters.form.jenis_satuan_id
+            ? this.parameters.form.jenis_satuan_id
             : "",
         },
       };
@@ -119,8 +121,8 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          kode_jenis_peralatan: "",
-          nama_jenis_peralatan: "",
+          kode_jenis_satuan: "",
+          nama_jenis_satuan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -133,8 +135,8 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_jenis_peralatan: "",
-        nama_jenis_peralatan: "",
+        kode_jenis_satuan: "",
+        nama_jenis_satuan: "",
       };
     },
   },

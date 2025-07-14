@@ -38,6 +38,7 @@
                       @search="onGetPelanggan"
                       :reduce="(item) => item.vendor_id"
                       v-model="parameters.form.vendor_id_operator"
+                      class="bg-white"
                     >
                       <li
                         slot-scope="{ search }"

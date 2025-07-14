@@ -41,7 +41,7 @@
                     @search="onGetGroupItem1"
                     v-model="filter_params.group_item_id_1"
                     :reduce="(item) => item.group_item_id"
-                    class="w-[60%]"
+                    class="w-[60%] bg-white"
                     @input="onSearchGroupItem2"
                   >
                     <!-- <template #search="{ attributes, events }">
@@ -88,7 +88,7 @@
                     @search="onGetGroupItem2"
                     v-model="filter_params.group_item_id_2"
                     :reduce="(item) => item.group_item_id"
-                    class="w-[60%]"
+                    class="w-[60%] bg-white"
                     @input="onSearchGroupItem3"
                   >
                     <li
@@ -125,7 +125,7 @@
                     @search="onGetGroupItem3"
                     v-model="filter_params.group_item_id_3"
                     :reduce="(item) => item.group_item_id"
-                    class="w-[60%]"
+                    class="w-[60%] bg-white"
                     @input="onSearchGroupItem4"
                   >
                     <li
@@ -164,7 +164,7 @@
                     @search="onGetGroupItem4"
                     v-model="filter_params.group_item_id_4"
                     :reduce="(item) => item.group_item_id"
-                    class="w-[60%]"
+                    class="w-[60%] bg-white"
                     @input="onSearchGroupItem5"
                   >
                     <li
@@ -203,7 +203,7 @@
                     @search="onGetGroupItem5"
                     v-model="filter_params.group_item_id_5"
                     :reduce="(item) => item.group_item_id"
-                    class="w-[60%]"
+                    class="w-[60%] bg-white"
                   >
                     <li
                       slot-scope="{ search }"

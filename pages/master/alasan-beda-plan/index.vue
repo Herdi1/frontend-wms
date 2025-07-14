@@ -2,12 +2,12 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Jenis Biaya</span>
+        <span>Alasan Beda Plan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -16,37 +16,33 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div
-        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
           <table ref="formContainer">
             <thead>
-              <tr>
+              <tr class="uppercase">
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th
                   @click="
                     onSort(
-                      'nama_jenis_biaya',
+                      'kode_alasan_beda_plan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Jenis Biaya</div>
+                    <div>Kode Alasan Beda Plan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'kode_alasan_beda_plan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -55,7 +51,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'kode_alasan_beda_plan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -64,26 +60,43 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Jenis Biaya</th>
-                <th>Status</th>
-                <th>Keterangan</th>
-                <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+                <th
+                  @click="
+                    onSort(
+                      'nama_alasan_beda_plan',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Nama Alasan Beda Plan</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.nama_jenis_biaya }}</td>
-                <td>{{ item.kode_jenis_biaya }}</td>
-                <td>{{ item.status_label }}</td>
-                <td>{{ item.keterangan }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -93,6 +106,15 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.kode_alasan_beda_plan }}</td>
+                <td>{{ item.nama_alasan_beda_plan }}</td>
               </tr>
             </tbody>
           </table>
@@ -107,13 +129,12 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Jenis Biaya",
+      title: "Alasan Beda Plan",
     };
   },
 
@@ -126,7 +147,7 @@ export default {
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -137,7 +158,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -160,7 +181,7 @@ export default {
 
   data() {
     return {
-      title: "Jenis Biaya",
+      title: "Alasan Beda Plan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -179,21 +200,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/jenis-biaya",
+        url: "master/alasan-beda-plan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jenis_biaya_id",
+          order: "alasan_beda_plan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            nama_jenis_biaya: "",
-            kode_jenis_biaya: "",
-            status: "",
-            keterangan: "",
+            kode_alasan_beda_plan: "",
+            nama_alasan_beda_plan: "",
           },
         },
         loadings: {
@@ -204,10 +223,6 @@ export default {
     };
   },
 
-  components: {
-    FormInput,
-  },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
 
@@ -216,7 +231,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jenis-biaya"
+          (item) => item.rute == "alasan-beda-plan"
         );
 
         let roles = {};
@@ -245,25 +260,45 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        nama_jenis_biaya: "",
-        kode_jenis_biaya: "",
-        status: "",
-        keterangan: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/alasan-beda-plan/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
+      this.$router.push("/master/alasan-beda-plan/" + item.alasan_beda_plan_id);
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.alasan_beda_plan_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
       });
     },
 
@@ -294,62 +329,6 @@ export default {
       }
 
       this.isLoadingData = false;
-    },
-
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.jenis_biaya_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
-
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.jenis_biaya_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
     },
 
     onSort(column, sort = "asc") {

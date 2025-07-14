@@ -81,7 +81,7 @@
                           @search="onGetSatuan"
                           v-model="form.satuan_id"
                           :reduce="(item) => item.satuan_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
@@ -150,7 +150,7 @@
                           @search="onGetSatuanBerat"
                           v-model="form.satuan_id_berat"
                           :reduce="(item) => item.satuan_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
@@ -214,7 +214,7 @@
                           @search="onGetSatuanVolume"
                           v-model="form.satuan_id_volume"
                           :reduce="(item) => item.satuan_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
@@ -278,7 +278,7 @@
                           @search="onGetSatuanStockLevel"
                           v-model="form.satuan_id_stocklevel"
                           :reduce="(item) => item.satuan_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
@@ -332,7 +332,7 @@
                         @search="onGetVendor"
                         v-model="form.supplier_id"
                         :reduce="(item) => item.supplier_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
@@ -393,7 +393,7 @@
                         @search="onGetGroupItem1"
                         v-model="form.group_item_id_1"
                         :reduce="(item) => item.group_item_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         @input="onSearchGroupItem2"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -452,7 +452,7 @@
                           @search="onGetGroupItem2"
                           v-model="form.group_item_id_2"
                           :reduce="(item) => item.group_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchGroupItem3"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -502,7 +502,7 @@
                           @search="onGetGroupItem3"
                           v-model="form.group_item_id_3"
                           :reduce="(item) => item.group_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchGroupItem4"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -552,7 +552,7 @@
                           @search="onGetGroupItem4"
                           v-model="form.group_item_id_4"
                           :reduce="(item) => item.group_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchGroupItem5"
                         >
                           <li
@@ -591,7 +591,7 @@
                           @search="onGetGroupItem5"
                           v-model="form.group_item_id_5"
                           :reduce="(item) => item.group_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                         >
                           <li
                             slot-scope="{ search }"
@@ -635,7 +635,7 @@
                         @search="onGetKategoriItem1"
                         v-model="form.kategori_id_1"
                         :reduce="(item) => item.kategori_item_id"
-                        class="w-full"
+                        class="w-full bg-white"
                         @input="onSearchKategoriItem2"
                       >
                         <li
@@ -676,7 +676,7 @@
                           @search="onGetKategoriItem2"
                           v-model="form.kategori_id_2"
                           :reduce="(item) => item.kategori_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchKategoriItem3"
                         >
                           <li
@@ -715,7 +715,7 @@
                           @search="onGetKategoriItem3"
                           v-model="form.kategori_id_3"
                           :reduce="(item) => item.kategori_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchKategoriItem4"
                         >
                           <li
@@ -757,7 +757,7 @@
                           @search="onGetKategoriItem4"
                           v-model="form.kategori_id_4"
                           :reduce="(item) => item.kategori_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                           @input="onSearchKategoriItem5"
                         >
                           <li
@@ -796,7 +796,7 @@
                           @search="onGetKategoriItem5"
                           v-model="form.kategori_id_5"
                           :reduce="(item) => item.kategori_item_id"
-                          class="w-full"
+                          class="w-full bg-white"
                         >
                           <li
                             slot-scope="{ search }"

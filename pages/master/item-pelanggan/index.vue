@@ -16,7 +16,9 @@
       </h5>
     </div>
     <div class="flex flex-col gap-5">
-      <div class="relative w-full bg-white rounded-md p-2 px-4">
+      <div
+        class="relative w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -36,7 +38,7 @@
                 @search="onGetGroupItem1"
                 v-model="filter_params.group_item_id_1"
                 :reduce="(item) => item.group_item_id"
-                class="w-1/2"
+                class="w-1/2 bg-white"
                 @input="onSelectGroupItem1"
               >
                 <li
@@ -74,7 +76,7 @@
                 @search="onGetGroupItem2"
                 v-model="filter_params.group_item_id_2"
                 :reduce="(item) => item.group_item_id"
-                class="w-1/2"
+                class="w-1/2 bg-white"
                 @input="onSelectGroupItem2"
               >
                 <li
@@ -110,7 +112,7 @@
                 @search="onGetGroupItem3"
                 v-model="filter_params.group_item_id_3"
                 :reduce="(item) => item.group_item_id"
-                class="w-1/2"
+                class="w-1/2 bg-white"
                 @input="onSelectGroupItem3"
               >
                 <li
@@ -148,7 +150,7 @@
                 @search="onGetGroupItem4"
                 v-model="filter_params.group_item_id_4"
                 :reduce="(item) => item.group_item_id"
-                class="w-1/2"
+                class="w-1/2 bg-white"
                 @input="onSelectGroupItem4"
               >
                 <li
@@ -186,7 +188,7 @@
                 @search="onGetGroupItem5"
                 v-model="filter_params.group_item_id_5"
                 :reduce="(item) => item.group_item_id"
-                class="w-1/2"
+                class="w-1/2 bg-white"
                 @input="onSelectGroupItem5"
               >
                 <li
@@ -228,14 +230,12 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <!-- <th class="w-[5%] text-center">Details</th> -->
+                <th class="w-[5%] text-center">Details</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
-                <th>Item</th>
-                <th>Vendor</th>
-                <th>Supplier</th>
-                <!-- <th
+                <!-- <th>Item</th> -->
+                <th
                   @click="
                     onSort(
                       'nama_item',
@@ -267,7 +267,9 @@
                       ></i>
                     </div>
                   </div>
-                </th> -->
+                </th>
+                <th>Vendor</th>
+                <th>Supplier</th>
                 <th>Group Item</th>
                 <th>Kode External</th>
                 <th>Batas Item</th>
@@ -276,9 +278,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <!-- <td>
+                <td>
                   <small-detail-button @click="onDetail(item)" />
-                </td> -->
+                </td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -422,7 +424,7 @@ export default {
   },
 
   async mounted() {
-    this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isExport = true;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
     this.$refs["form-option"].isAddData = false;
@@ -501,12 +503,14 @@ export default {
           group_item_id_4: "",
           group_item_id_5: "",
           form: {
-            item_id: "",
-            vendor_id: "",
-            pelanggan_id: "",
             nama_item: "",
             kode_item_pelanggan: "",
             kode_sap: "",
+            item_id: "",
+            vendor_id: "",
+            pelanggan_id: "",
+            supplier_id: "",
+            supplier_code: "",
             group_item_id_1: "",
             group_item_id_2: "",
             group_item_id_3: "",
@@ -523,8 +527,6 @@ export default {
             batas_atas: "",
             batas_bawah: "",
             maksimal_tumpukan: "",
-            supplier_id: "",
-            supplier_code: "",
             satuan_id: "",
             berat_bersih: "",
             berat_kotor: "",

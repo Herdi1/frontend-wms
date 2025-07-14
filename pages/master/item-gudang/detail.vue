@@ -9,7 +9,7 @@
       <div class="modal-dialog relative w-full">
         <div class="modal-content overflow-y-auto">
           <div class="flex justify-between text-xl font-bold mb-3">
-            <h5 class="modal-title">Detail Item Pelanggan</h5>
+            <h5 class="modal-title">Detail Item Gudang</h5>
 
             <button
               type="button"
@@ -33,25 +33,7 @@
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Kode Item Pelanggan</label>
-                <span>{{
-                  this.parameters.form.kode_item_pelanggan
-                    ? this.parameters.form.kode_item_pelanggan
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
-                <label class="font-semibold">Referensi External</label>
-                <span>{{
-                  this.parameters.form.kode_sap
-                    ? this.parameters.form.kode_sap
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
-              <div>
-                <label class="font-semibold">Vendor</label>
+                <label class="font-semibold">Nama Vendor</label>
                 <span>{{
                   this.parameters.form.vendor
                     ? this.parameters.form.vendor.nama_vendor
@@ -59,23 +41,31 @@
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Pelanggan</label>
+                <label class="font-semibold">Nama Gudang</label>
                 <span>{{
-                  this.parameters.form.pelanggan
-                    ? this.parameters.form.pelanggan.nama_pelanggan
+                  this.parameters.form.gudang
+                    ? this.parameters.form.gudang.nama_gudang
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
+              <div>
+                <label class="font-semibold">Nama Zona Gudang</label>
+                <span>{{
+                  this.parameters.form.zona_gudang
+                    ? this.parameters.form.zona_gudang.nama_zona_gudang
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
               <div>
-                <label class="font-semibold">Supplier</label>
+                <label class="font-semibold">Nama Supplier</label>
                 <span>{{
                   this.parameters.form.supplier
                     ? this.parameters.form.supplier.nama_supplier
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
-            </div>
-            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
               <div>
                 <label class="font-semibold">Kode Supplier</label>
                 <span>{{
@@ -84,6 +74,8 @@
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
               <div>
                 <label class="font-semibold">Group Item</label>
                 <p>
@@ -170,6 +162,29 @@
                   }}
                 </p>
               </div>
+              <div>
+                <label class="font-semibold">Batas Item</label>
+                <div class="flex items-center gap-2">
+                  <i class="fa fa-caret-up text-green-300"></i>
+                  <p>
+                    {{
+                      this.parameters.form.batas_atas
+                        ? this.parameters.form.batas_atas
+                        : ""
+                    }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa fa-caret-down text-red-300"></i>
+                  <p>
+                    {{
+                      this.parameters.form.batas_bawah
+                        ? this.parameters.form.batas_bawah
+                        : ""
+                    }}
+                  </p>
+                </div>
+              </div>
             </div>
             <div class="grid grid-cols-3 gap-3 mb-3 my-1">
               <div>
@@ -193,32 +208,6 @@
                 <span>{{
                   this.parameters.form.kebutuhan_palet
                     ? this.parameters.form.kebutuhan_palet
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
-              <div>
-                <label class="font-semibold">Batas Atas</label>
-                <span>{{
-                  this.parameters.form.batas_atas
-                    ? this.parameters.form.batas_atas
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
-                <label class="font-semibold">Batas Bawah</label>
-                <span>{{
-                  this.parameters.form.batas_bawah
-                    ? this.parameters.form.batas_bawah
-                    : "Tidak Ditemukan"
-                }}</span>
-              </div>
-              <div>
-                <label class="font-semibold">Maksimal Tumpukkan</label>
-                <span>{{
-                  this.parameters.form.maksimal_tumpukan
-                    ? this.parameters.form.maksimal_tumpukan
                     : "Tidak Ditemukan"
                 }}</span>
               </div>
@@ -343,6 +332,40 @@
             </div>
             <div class="grid grid-cols-3 gap-3 mb-3 my-1">
               <div>
+                <label class="font-semibold">Biaya Gaji Sopir</label>
+                <span>{{
+                  this.parameters.form.biaya_gaji_sopir
+                    ? this.parameters.form.biaya_gaji_sopir
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Biaya Bongkar Toko</label>
+                <span>{{
+                  this.parameters.form.biaya_bongkartoko
+                    ? this.parameters.form.biaya_bongkartoko
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Biaya Bongkar</label>
+                <span>{{
+                  this.parameters.form.biaya_bongkar
+                    ? this.parameters.form.biaya_bongkar
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mb-3 my-1">
+              <div>
+                <label class="font-semibold">Biaya Muat</label>
+                <span>{{
+                  this.parameters.form.biaya_muat
+                    ? this.parameters.form.biaya_muat
+                    : "Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
                 <label class="font-semibold">Stocklevel</label>
                 <span class="flex gap-1">
                   <p>
@@ -363,24 +386,20 @@
               </div>
               <div>
                 <label class="font-semibold">Warna</label>
-                <span class="flex gap-1">
-                  {{
-                    this.parameters.form.warna
-                      ? this.parameters.form.warna
-                      : "Tidak Ditemukan"
-                  }}
-                </span>
+                <span>{{
+                  this.parameters.form.warna
+                    ? this.parameters.form.warna
+                    : "Tidak Ditemukan"
+                }}</span>
               </div>
-              <div>
-                <label class="font-semibold">Keterangan</label>
-                <span class="flex gap-1">
-                  {{
-                    this.parameters.form.keterangan
-                      ? this.parameters.form.keterangan
-                      : "Tidak Ditemukan"
-                  }}
-                </span>
-              </div>
+            </div>
+            <div>
+              <label class="font-semibold">Keterangan</label>
+              <span>{{
+                this.parameters.form.keterangan
+                  ? this.parameters.form.keterangan
+                  : "Tidak Ditemukan"
+              }}</span>
             </div>
           </div>
         </div>
@@ -401,40 +420,45 @@ export default {
       parameters: {
         item_id: "",
         vendor_id: "",
-        pelanggan_id: "",
+        gudang_id: "",
+        zona_id: "",
+        supplier_id: "",
+        supplier_code: "",
         nama_item: "",
-        kode_item_pelanggan: "",
-        kode_sap: "",
         group_item_id_1: "",
         group_item_id_2: "",
         group_item_id_3: "",
         group_item_id_4: "",
         group_item_id_5: "",
+        batas_atas: "",
+        kode_sap: "",
+        batas_bawah: "",
         kategori_id_1: "",
         kategori_id_2: "",
         kategori_id_3: "",
         kategori_id_4: "",
         kategori_id_5: "",
+        biaya_gaji_sopir: "",
+        biaya_bongkartoko: "",
+        biaya_bongkar: "",
+        biaya_muat: "",
+        biaya_pok: "",
         jumlah_palet: "",
         kapasitas_palet: "",
         kebutuhan_palet: "",
-        batas_atas: "",
-        batas_bawah: "",
         maksimal_tumpukan: "",
-        supplier_id: "",
-        supplier_code: "",
-        satuan_id: "",
         berat_bersih: "",
         berat_kotor: "",
-        satuan_id_berat: "",
         panjang: "",
         lebar: "",
         tebal: "",
         volume: "",
-        satuan_id_volume: "",
-        value_stocklevel: "",
-        satuan_id_stocklevel: "",
         warna: "",
+        satuan_id: "",
+        satuan_id_berat: "",
+        satuan_id_volume: "",
+        satuan_id_stocklevel: "",
+        value_stocklevel: "",
         keterangan: "",
       },
     };

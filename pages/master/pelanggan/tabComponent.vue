@@ -1,5 +1,7 @@
 <template>
-  <div class="px-3 bg-white border border-gray-300 rounded-md">
+  <div
+    class="px-3 bg-white dark:bg-slate-800 border border-gray-300 rounded-md"
+  >
     <div class="flex border-b mb-2">
       <button
         type="button"

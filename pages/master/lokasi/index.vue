@@ -100,10 +100,12 @@
                 </td>
                 <td>{{ item.kode_lokasi }}</td>
                 <td>{{ item.nama_lokasi }}</td>
-                <td>{{ item.kode_pos.nama_kode_pos }}</td>
-                <td>{{ item.kecamatan.nama_kecamatan }}</td>
-                <td>{{ item.kota.nama_kota }}</td>
-                <td>{{ item.provinsi.nama_provinsi }}</td>
+                <td>{{ item.kode_pos ? item.kode_pos.nama_kode_pos : "" }}</td>
+                <td>
+                  {{ item.kecamatan ? item.kecamatan.nama_kecamatan : "" }}
+                </td>
+                <td>{{ item.kota ? item.kota.nama_kota : "" }}</td>
+                <td>{{ item.provinsi ? item.provinsi.nama_provinsi : "" }}</td>
                 <td>{{ item.negara ? item.negara.nama_negara : "" }}</td>
                 <td>{{ item.nama_pemilik }}</td>
                 <td>{{ item.no_telp }}</td>
