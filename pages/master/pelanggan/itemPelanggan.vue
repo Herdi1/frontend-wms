@@ -212,7 +212,7 @@
                 type="checkbox"
                 name=""
                 v-model="selectAll"
-                @change="toggleAllCheckboxes"
+                @change="toggleAllCheckboxs"
               />
             </th>
             <th class="w-[75px] border border-gray-300">Detail</th>
@@ -965,7 +965,9 @@ export default {
 
     toggleAllCheckboxs() {
       if (this.selectAll) {
-        this.checkboxs = this.self.form.item_pelanggans.map((item) => item.id);
+        this.checkboxs = this.self.form.item_pelanggans.map(
+          (item) => item.item_id
+        );
       } else {
         this.checkboxs = [];
       }

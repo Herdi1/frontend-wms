@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Shipment Notice</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -23,66 +23,22 @@
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
-
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">Konfirmasi</th>
                   <th class="w-[5%]">No</th>
-                  <!-- <th
-                    @click="
-                      onSort(
-                        'nama_provinsi',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter w-[30%]"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Nama Provinsi</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'nama_provinsi' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'nama_provinsi' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th> -->
-                  <th>Kode ASN</th>
-                  <th>Tanggal</th>
-                  <th>Vendor</th>
-                  <th>Surat Jalan</th>
-                  <th>Kendaraan</th>
-                  <th>Pengemudi</th>
-                  <th>Details</th>
+                  <th>Kode Inbound</th>
+                  <th>Tanggal Bongkar</th>
+                  <th>Status Bongkar</th>
+                  <th>Catatan Bongkar</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
                   </td>
                   <td>
                     {{
@@ -93,56 +49,39 @@
                     }}
                   </td>
                   <td>
-                    <div>
-                      {{ item.kode_asn }}
-                      <p v-if="item.user_id_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
-                      </p>
-                      <p v-else class="text-blue-500">
-                        <i>Dibuat oleh: Sistem</i>
-                      </p>
-                    </div>
+                    {{ item.kode_inbound }}
+                    <p v-if="item.user_input" class="text-blue-500">
+                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                    </p>
+                    <p v-else class="text-blue-500">
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
                   </td>
-                  <td>{{ item.tanggal }}</td>
+                  <td>{{ item.tanggal_put_away }}</td>
                   <td>
-                    {{
-                      item.vendor_transporter
-                        ? item.vendor_transporter.nama_vendor
-                        : "-"
-                    }}
+                    <p
+                      v-if="item.status_put_away === 'MENUNGGU'"
+                      class="text-orange-500"
+                    >
+                      {{ item.status_put_away }}
+                    </p>
+                    <p
+                      v-if="item.status_put_away === 'DITERIMA'"
+                      class="text-green-500"
+                    >
+                      {{ item.status_put_away }}
+                    </p>
+                    <p
+                      v-if="item.status_put_away === 'DITOLAK'"
+                      class="text-red-500"
+                    >
+                      {{ item.status_put_away }}
+                    </p>
                   </td>
-                  <td>{{ item.surat_jalan }}</td>
-                  <td>
-                    {{
-                      item.kendaraan
-                        ? item.kendaraan.nama_kendaraan +
-                          " - " +
-                          item.kendaraan.kode_kendaraan
-                        : "-"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.pengemudi
-                        ? item.pengemudi.nama_pengemudi +
-                          " - " +
-                          item.pengemudi.kode_pengemudi
-                        : "-"
-                    }}
-                  </td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
+                  <td>{{ item.catatan_put_away }}</td>
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -158,7 +97,7 @@ export default {
 
   head() {
     return {
-      title: "Shipment Notice",
+      title: "Konfirmasi Put Away",
     };
   },
 
@@ -171,7 +110,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -183,7 +122,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -206,51 +145,29 @@ export default {
 
   data() {
     return {
-      title: "Shipment Notice",
+      title: "Konfirmasi Put Away",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/asn",
+        url: "inbound/konfirmasi-put-away",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "asn_id",
+          order: "inbound_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          gudang_id: "",
-          kode_asp: "",
-          doc_type_sap: "",
-          tanggal: "",
-          lokasi_id_asal_muat: "",
-          asal_muat: "",
-          vendor_id_transporter: "",
-          nama_transporter: "",
-          surat_jalan: "",
-          no_referensi: "",
-          no_referensi_2: "",
-          kendaraan_id: "",
-          pengemudi_id: "",
-          supplier_id: "",
-          perkiraan_tiba: "",
-          kebutuhan_peralatan: "",
-          handling_instruction: "",
-          catatan: "",
-
-          //Tracking
+          status_put_away: "",
+          tanggal_put_away: "",
+          catatan_put_away: "",
           user_agent: "",
           device: "",
           longitude: "",
           latitude: "",
-          asn_details: [],
-        },
-        loadings: {
-          isDelete: false,
-          isRestore: false,
         },
       },
       default_roles: {
@@ -278,7 +195,9 @@ export default {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
-        let main_role = this.user.role.menus.find((item) => item.rute == "asn");
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "konfirmasi-put-away"
+        );
 
         let roles = {};
 
@@ -307,15 +226,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/asn/add");
+      this.$router.push("/inbound/konfirmasi-put-away/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/asn/" + item.asn_id);
-    },
-
-    onDetail(item) {
-      this.$router.push("/inbound/asn/detail/" + item.asn_id);
+      this.$router.push("/inbound/konfirmasi-put-away/" + item.inbound_id);
     },
 
     onTrashed(item) {
@@ -334,7 +249,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.asn_id,
+              id: item.inbound_id,
               params: this.parameters.params,
             });
 

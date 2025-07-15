@@ -484,6 +484,7 @@ export default {
       Object.keys(this.detail_item).forEach((item) => {
         this.detail_item[item] = response.data[item];
       });
+      console.log(this.detail_item);
 
       this.isLoadingPage = false;
     } catch (error) {

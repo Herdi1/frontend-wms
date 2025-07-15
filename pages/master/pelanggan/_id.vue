@@ -844,7 +844,7 @@
                 <ItemPelanggan :self="{ form, parameters }" />
               </template>
               <template #Shipto>
-                <p>Shipto</p>
+                <Shipto :self="{ form, parameters }" />
               </template>
             </TabComponent>
           </div>
@@ -865,7 +865,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState, mapMutations } from "vuex";
 import ItemPelanggan from "./itemPelanggan.vue";
-import Lokasi from "./lokasi.vue";
+import Shipto from "./shipto.vue";
 import TabComponent from "./tabComponent.vue";
 export default {
   // props: ["self"],
@@ -879,6 +879,7 @@ export default {
 
   components: {
     ItemPelanggan,
+    Shipto,
     TabComponent,
   },
 
@@ -934,6 +935,7 @@ export default {
         kecamatan_id_pemilik: "",
         kelurahan_id_pemilik: "",
         item_pelanggans: [],
+        lokasi_pelanggans: [],
       },
 
       isStopSearchNegara: false,
@@ -1089,6 +1091,13 @@ export default {
         };
       });
 
+      formData.lokasi_pelanggans = formData.lokasi_pelanggans.map((item) => {
+        return {
+          ...item,
+          lokasi_id: item.lokasi_id,
+        };
+      });
+
       console.log("formdata", formData);
 
       if (this.isEditable) {
@@ -1145,6 +1154,7 @@ export default {
               kecamatan_id_pemilik: "",
               kelurahan_id_pemilik: "",
               item_pelanggans: [],
+              lokasi_pelanggans: [],
             };
           }
           this.$router.push("/master/pelanggan");
