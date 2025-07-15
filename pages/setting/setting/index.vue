@@ -33,7 +33,7 @@
     </div>
 
     <div
-      class="w-full bg-white rounded-md p-2 px-4 border border-gray-300"
+      class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4 border border-gray-300"
       v-if="!isLoadingPage"
     >
       <div class="row mt-sm-4" v-if="!isLoadingPage">
