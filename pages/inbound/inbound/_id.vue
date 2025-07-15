@@ -38,7 +38,7 @@
                 <div class="form-group flex items-center">
                   <label for="" class="w-[40%]">ASN</label>
                   <v-select
-                    label="tanggal"
+                    label="kode_asn"
                     :loading="isLoadingGetAsn"
                     :options="lookup_custom6.data"
                     :filterable="false"
@@ -47,12 +47,12 @@
                     class="w-[60%]"
                     @input="onSelectAsn"
                   >
-                    <template slot="option" slot-scope="option">
+                    <!-- <template slot="option" slot-scope="option">
                       {{ option.kode_asn + " - " + option.tanggal }}
                     </template>
                     <template slot="selected-option" slot-scope="option">
                       {{ option.kode_asn + " - " + option.tanggal }}
-                    </template>
+                    </template> -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -429,6 +429,23 @@
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                             >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -464,6 +481,23 @@
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                             >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -499,6 +533,23 @@
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                             >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -534,6 +585,23 @@
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                             >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -566,39 +634,53 @@
                             ></textarea>
                           </td>
                           <td class="border border-gray-300">
-                            <v-select
-                              label="nama_alasan_beda_plan"
-                              :loading="isLoadingGetAlasan"
-                              :options="lookup_grade.data"
-                              :filterable="false"
-                              @search="onGetAlasan"
-                              v-model="item.alasan_beda_plan_id"
-                              :reduce="(item) => item.alasan_beda_plan_id"
+                            <ValidationProvider
+                              name="alasan_beda_plan_id"
+                              :rules="isSameAsPlan"
                               class="w-full"
                             >
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_grade.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_grade.current_page > 1"
-                                  @click="onGetAlasan(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
+                              <div slot-scope="{ errors, valid }">
+                                <v-select
+                                  label="nama_alasan_beda_plan"
+                                  :loading="isLoadingGetAlasan"
+                                  :options="lookup_grade.data"
+                                  :filterable="false"
+                                  @search="onGetAlasan"
+                                  v-model="item.alasan_beda_plan_id"
+                                  :reduce="(item) => item.alasan_beda_plan_id"
+                                  class="w-full"
                                 >
+                                  <li
+                                    slot-scope="{ search }"
+                                    slot="list-footer"
+                                    class="p-1 border-t flex justify-between"
+                                    v-if="lookup_grade.data.length || search"
+                                  >
+                                    <span
+                                      v-if="lookup_grade.current_page > 1"
+                                      @click="onGetAlasan(search, false)"
+                                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                      >Sebelumnya</span
+                                    >
+                                    <span
+                                      v-if="
+                                        lookup_grade.last_page >
+                                        lookup_grade.current_page
+                                      "
+                                      @click="onGetAlasan(search, true)"
+                                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                      >Selanjutnya</span
+                                    >
+                                  </li>
+                                </v-select>
                                 <span
-                                  v-if="
-                                    lookup_grade.last_page >
-                                    lookup_grade.current_page
-                                  "
-                                  @click="onGetAlasan(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
+                                  class="text-danger text-xs pl-1"
+                                  v-if="errors[0]"
                                 >
-                              </li>
-                            </v-select>
+                                  {{ errors[0] }}
+                                </span>
+                              </div>
+                            </ValidationProvider>
                           </td>
                           <!-- <td class="border border-gray-300 text-center">
                             <i
@@ -893,6 +975,29 @@
           </div>
         </form>
       </ValidationObserver>
+      <success-modal
+        v-model="showModal"
+        :message="`Data Berhasil ${
+          isEditable ? 'Diedit' : 'Disimpan'
+        }! Cetak Label?`"
+      >
+        <template #footer>
+          <div class="flex justify-center gap-3">
+            <button
+              class="bg-orange-500 hover:bg-orange-400 p-2 rounded-md text-white"
+              @click="onCloseModal"
+            >
+              Kembali
+            </button>
+            <button
+              class="bg-green-500 hover:bg-green-400 p-2 rounded-md text-white"
+              @click="onPrintLabel"
+            >
+              Cetak Label
+            </button>
+          </div>
+        </template>
+      </success-modal>
     </div>
   </section>
 </template>
@@ -1007,6 +1112,7 @@ export default {
         longitude: "",
         latitude: "",
       },
+      showModal: false,
     };
   },
 
@@ -1020,21 +1126,30 @@ export default {
           }
         });
 
+        this.form.asn_id = res.data.asn;
+
         this.form.inbound_details = res.data.inbound_details.map((item) => {
           return {
             ...item,
-            detail_inbound_id: item || "",
+            detail_inbound_id: item,
           };
         });
 
-        this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
-          return { ...item, biaya_inbound_id: item || "" };
-        });
+        if (res.data.biaya_inbounds) {
+          this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
+            return { ...item, biaya_inbound_id: item };
+          });
+        }
+
+        if (this.user.gudang_id) {
+          this.form.gudang_id = this.user.gudang_id;
+        }
 
         this.isLoadingPage = false;
       }
     } catch (error) {
       this.$router.push("/inbound/inbound");
+      console.log(error);
     }
   },
 
@@ -1072,6 +1187,23 @@ export default {
       "lookup_custom10",
       "lookup_grade",
     ]),
+
+    //check if the real storaage slot is same as the plan
+    isSameAsPlan() {
+      let isSameAsPlan = this.form.inbound_details.every((data) => {
+        return (
+          data.zona_gudang_id === data.zona_gudang_id_plan &&
+          data.slot_penyimpanan_id_aisle ===
+            data.slot_penyimpanan_id_aisle_plan &&
+          data.slot_penyimpanan_id_rack ===
+            data.slot_penyimpanan_id_rack_plan &&
+          data.slot_penyimpanan_id_level ===
+            data.slot_penyimpanan_id_level_plan &&
+          data.slot_penyimpanan_id_bin === data.slot_penyimpanan_id_bin_plan
+        );
+      });
+      return isSameAsPlan ? "" : "required";
+    },
   },
 
   methods: {
@@ -1151,14 +1283,14 @@ export default {
         };
       });
 
-      formData.biaya_inbounds = formData.biaya_inbounds.map((item) => {
-        return {
-          ...item,
-          biaya_inbound_id: item.biaya_inbound_id
-            ? item.biaya_inbound_id.biaya_inbound_id
-            : "",
-        };
-      });
+      // formData.biaya_inbounds = formData.biaya_inbounds.map((item) => {
+      //   return {
+      //     ...item,
+      //     biaya_inbound_id: item.biaya_inbound_id
+      //       ? item.biaya_inbound_id.biaya_inbound_id
+      //       : "",
+      //   };
+      // });
 
       if (this.user.gudang_id) {
         this.form.gudang_id = this.user.gudang_id;
@@ -1185,8 +1317,8 @@ export default {
 
           if (!this.isEditable) {
             this.form = this.default_form;
-            this.$router.back();
           }
+          this.showModal = true;
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -1288,6 +1420,8 @@ export default {
             "?search=" +
             this.slot_aisle_search +
             "&level=1" +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1329,6 +1463,8 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=2" +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1370,6 +1506,8 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=3" +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1411,6 +1549,8 @@ export default {
             "?search=" +
             this.slot_bin_search +
             "&level=4" +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1460,13 +1600,14 @@ export default {
       }
     },
 
-    onSelectAsn(item) {
+    async onSelectAsn(item) {
       if (item) {
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
         this.form.tanggal = item.tanggal;
+        this.form.gudang_id = item.gudang_id;
         if (item.asn_details) {
           this.form.inbound_details = item.asn_details.map((data) => {
             return {
@@ -1479,6 +1620,10 @@ export default {
             };
           });
         }
+        await this.onSearchSlotAisle();
+        await this.onSearchSlotRack();
+        await this.onSearchSlotLevel();
+        await this.onSearchSlotBin();
       }
     },
 
@@ -1680,6 +1825,15 @@ export default {
 
         this.isLoadingGetAlasan = false;
       }
+    },
+
+    onCloseModal() {
+      this.showModal = false;
+      this.$router.push("/inbound/inbound");
+    },
+
+    onPrintLabel() {
+      console.log("printing label");
     },
   },
 };

@@ -28,25 +28,24 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">Konfirmasi</th>
                   <th class="w-[5%]">No</th>
-                  <th
+                  <!-- <th
                     @click="
                       onSort(
-                        'kode_inbound',
+                        'nama_provinsi',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter w-[30%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Put Away</div>
+                      <div>Nama Provinsi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.order == 'nama_provinsi' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -55,7 +54,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.order == 'nama_provinsi' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -63,12 +62,11 @@
                         ></i>
                       </div>
                     </div>
-                  </th>
-                  <th>Surat Jalan</th>
-                  <th>Nomor Referensi</th>
-                  <th>Tanggal</th>
-                  <th class="w-[5%]">Cetak Label</th>
-                  <th class="w-[5%]">Cetak GR</th>
+                  </th> -->
+                  <th>Kode ASN</th>
+                  <th>Tanggal Konfirmasi</th>
+                  <th>Status Konfirmasi</th>
+                  <th>Catatan Konfirmasi</th>
                   <!-- <th>Kendaraan</th>
                   <th>Pengemudi</th> -->
                 </tr>
@@ -77,12 +75,6 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
                   </td>
                   <td>
                     {{
@@ -94,44 +86,44 @@
                   </td>
                   <td>
                     <div>
-                      {{ item.kode_inbound }}
-                      <p v-if="item.user_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                      {{ item.kode_asn }}
+                      <p v-if="item.user_id_input" class="text-blue-500">
+                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
                       </p>
                       <p v-else class="text-blue-500">
                         <i>Dibuat oleh: Sistem</i>
                       </p>
                     </div>
                   </td>
-                  <td>{{ item.surat_jalan }}</td>
+                  <td>{{ item.tanggal_bongkar }}</td>
                   <td>
-                    <div>
-                      <p v-if="item.no_referensi_1">
-                        {{ item.no_referensi_1 }}
-                      </p>
-                      <p v-if="item.no_referensi_2">
-                        {{ item.no_referensi_2 }}
-                      </p>
-                      <p v-if="item.no_referensi_3">
-                        {{ item.no_referensi_3 }}
-                      </p>
-                    </div>
-                  </td>
-                  <td>{{ item.tanggal }}</td>
-                  <td class="text-center">
-                    <button
-                      class="px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-400 text-white text-enter text-lg"
+                    <!-- <p
+                      class="text-green-500"
+                      v-if="item.status_konfirmasi == 1"
                     >
-                      <i class="fa fa-book"></i>
-                    </button>
-                  </td>
-                  <td class="text-center">
-                    <button
-                      class="px-2 py-1 rounded-md bg-green-500 hover:bg-green-400 text-white text-enter text-lg"
+                      Dikonfirmasi
+                    </p>
+                    <p class="text-red-500" v-else>Pending</p> -->
+                    <p
+                      v-if="item.status_bongkar === 'MENUNGGU'"
+                      class="text-orange-500"
                     >
-                      <i class="fa fa-file" aria-hidden="true"></i>
-                    </button>
+                      {{ item.status_bongkar }}
+                    </p>
+                    <p
+                      v-if="item.status_bongkar === 'SELESAI'"
+                      class="text-green-500"
+                    >
+                      {{ item.status_bongkar }}
+                    </p>
+                    <p
+                      v-if="item.status_bongkar === 'DIPROSES'"
+                      class="text-blue-500"
+                    >
+                      {{ item.status_bongkar }}
+                    </p>
                   </td>
+                  <td>{{ item.catatan_bongkar }}</td>
                   <!-- <td>{{ item.kendaraan_id }}</td>
                   <td>{{ item.pengemudi_id }}</td> -->
                 </tr>
@@ -158,7 +150,7 @@ export default {
 
   head() {
     return {
-      title: "Put Away",
+      title: "Konfirmasi Bongkar ASN",
     };
   },
 
@@ -171,7 +163,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -183,7 +175,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -206,32 +198,25 @@ export default {
 
   data() {
     return {
-      title: "Put Away",
+      title: "Konfirmasi Bongkar ASN",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/inbound",
+        url: "inbound/konfirmasi-bongkar-asn",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "inbound_id",
+          order: "asn_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          inbound_id: "",
-          asn_id: "",
-          surat_jalan: "",
-          doc_type_sap: "",
-          kode_inbound: "",
-          no_referensi_1: "",
-          no_referensi_2: "",
-          no_referensi_3: "",
-          tanggal: "",
-          inbound_details: [],
+          status_bongkar: "",
+          tanggal_bongkar: "",
+          catatan_bongkar: "",
           user_agent: "",
           device: "",
           longitude: "",
@@ -264,7 +249,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "inbound"
+          (item) => item.rute == "konfirmasi-bongkar-asn"
         );
 
         let roles = {};
@@ -294,11 +279,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/inbound/add");
+      this.$router.push("/inbound/konfirmasi-bongkar/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/inbound/" + item.inbound_id);
+      this.$router.push("/inbound/konfirmasi-bongkar/" + item.asn_id);
     },
 
     onTrashed(item) {
@@ -317,7 +302,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.inbound_id,
+              id: item.asn_id,
               params: this.parameters.params,
             });
 

@@ -28,6 +28,7 @@ import SelectComponent from "../components/InputForm/SelectComponent.vue";
 import FilterData from "../components/section/FilterData.vue";
 import InputHoriontal from "../components/InputForm/InputHoriontal.vue";
 import TabComponent from "../pages/master/gudang/tabComponent.vue"
+import SuccessModal from "../components/SuccessModal.vue";
 
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
@@ -144,4 +145,5 @@ Vue.component("input-form", InputForm);
 Vue.component("select-component", SelectComponent);
 Vue.component("filter-data", FilterData);
 Vue.component("input-horizontal", InputHoriontal);
-Vue.component("tab-component", TabComponent)
+Vue.component("tab-component", TabComponent);
+Vue.component("success-modal", SuccessModal);

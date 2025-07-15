@@ -2,7 +2,7 @@
   <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
-        <h1 class="text-xl font-bold mb-2 uppercase">Konfirmasi ASN</h1>
+        <h1 class="text-xl font-bold mb-2 uppercase">Inspeksi ASN</h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
           Kembali
@@ -239,9 +239,9 @@
                 </div>
               </div>
 
-              <!-- konfirmasi -->
+              <!-- inspeksi -->
               <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Konfirmasi ASN</h1>
+                <h1 class="text-xl font-bold">Inspeksi ASN</h1>
                 <div class=" ">
                   <!-- <button
                     type="button"
@@ -255,23 +255,24 @@
               </div>
               <div class="grid grid-cols-2 gap-3 w-full mb-7">
                 <div class="form-group flex items-center">
-                  <label for="status_konfirmasi" class="w-[30%]"
-                    >Status Konfirmasi</label
+                  <label for="status_inspeksi" class="w-[30%]"
+                    >Status Inspeksi</label
                   >
                   <select
                     class="w-[70%] p-1 border rounded focus:outline-none"
-                    name="status_konfirmasi"
-                    id="status_konfirmasi"
-                    v-model="form.status_konfirmasi"
+                    name="status_inspeksi"
+                    id="status_inspeksi"
+                    v-model="form.status_inspeksi"
                   >
                     <option value="">Pilih</option>
-                    <option value="1">Dikonfirmasi</option>
-                    <option value="0">Ditolak</option>
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="DITERIMA">Diterima</option>
+                    <option value="DITOLAK">Ditolak</option>
                   </select>
                 </div>
                 <!-- <div class="form-group">
                   <input-horizontal
-                    label="Tanggal Konfirmasi"
+                    label="Tanggal Inspeksi"
                     type="date"
                     name="tanggal_konfirmasi"
                     labelWidth="w-[30%]"
@@ -282,46 +283,29 @@
                   />
                 </div> -->
                 <div class="col-span-2">
-                  <label for="catatan_konfirmasi">Catatan Konfirmasi</label>
+                  <label for="catatan_inspeksi">Catatan Inspeksi</label>
                   <textarea
-                    name="catatan_konfirmasi"
-                    v-model="form.catatan_konfirmasi"
+                    name="catatan_inspeksi"
+                    v-model="form.catatan_inspeksi"
                     class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                   ></textarea>
                 </div>
               </div>
 
-              <div class="w-full flex justify-between items-center">
+              <!-- <div class="w-full flex justify-between items-center">
                 <h1 class="text-xl font-bold">Detail ASN</h1>
                 <div class=" ">
-                  <!-- <button
-                    type="button"
-                    @click="AddAsnDetails"
-                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                  >
-                    <i class="fas fa-plus"></i>
-                    <p class="text-xs font-medium">Tambah Detail ASN</p>
-                  </button> -->
                 </div>
-              </div>
-              <div class="table-responsive overflow-y-hidden mb-7">
+              </div> -->
+              <!-- <div class="table-responsive overflow-y-hidden mb-7">
                 <table
                   class="table border-collapse border border-gray-300 mt-5 overflow-auto table-fixed"
                   :class="form.asn_details.length ? 'mb-[300px]' : ''"
                 >
                   <thead>
                     <tr class="text-sm uppercase text-nowrap">
-                      <!-- <th class="w-[200px] border border-gray-300">ASN</th> -->
-                      <!-- <th class="w-[200px] border border-gray-300">Gudang</th> -->
-                      <!-- <th class="w-[200px] border border-gray-300">Item</th> -->
-                      <!-- <th class="w-[200px] border border-gray-300">
-                        Item Pelanggan
-                      </th> -->
                       <th class="w-[200px] border border-gray-300">Item</th>
                       <th class="w-[200px] border border-gray-300">Nomor</th>
-                      <!-- <th class="w-[200px] border border-gray-300">
-                        Nomor Referensi
-                      </th> -->
                       <th class="w-[200px] border border-gray-300">Quantity</th>
                       <th class="w-[200px] border border-gray-300">Dimensi</th>
                       <th class="w-[200px] border border-gray-300">
@@ -348,22 +332,6 @@
                       style="border-top: 0.5px solid lightgray"
                       class="align-top mx-0"
                     >
-                      <!-- <td class="border border-gray-300">
-                        {{ item.asn ? item.asn : "-" }}
-                      </td> -->
-                      <!-- <td class="border border-gray-300">
-                        {{ item.gudang ? item.gudang.nama_gudang : "-" }}
-                      </td>
-                      <td class="border border-gray-300">
-                        {{ item.item ? item.item.nama_item : "-" }}
-                      </td>
-                      <td class="border border-gray-300">
-                        {{
-                          item.item_pelanggan
-                            ? item.item_pelanggan.nama_item
-                            : "-"
-                        }}
-                      </td> -->
                       <td class="border border-gray-300">
                         {{ item.item ? item.item.nama_item : "-" }}
                       </td>
@@ -379,8 +347,6 @@
                           </p>
                         </div>
                       </td>
-                      <!-- <td class="border border-gray-300">
-                      </td> -->
                       <td class="border border-gray-300">
                         {{ item.quantity ? item.quantity : "-" }}
                       </td>
@@ -403,15 +369,6 @@
                           :reduce="(item) => item.zona_gudang_id"
                           class="w-full"
                         >
-                          <!-- <template slot="option" slot-scope="option">
-                                  {{ option.nama_coa + " - " + option.kode_coa }}
-                                </template>
-                                <template
-                                  slot="selected-option"
-                                  slot-scope="option"
-                                >
-                                  {{ option.nama_coa + " - " + option.kode_coa }}
-                                </template> -->
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -447,20 +404,6 @@
                           :reduce="(item) => item.slot_penyimpanan_id"
                           class="w-full"
                         >
-                          <template slot="option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
-                          <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -496,20 +439,6 @@
                           :reduce="(item) => item.slot_penyimpanan_id"
                           class="w-full"
                         >
-                          <template slot="option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
-                          <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -545,20 +474,6 @@
                           :reduce="(item) => item.slot_penyimpanan_id"
                           class="w-full"
                         >
-                          <template slot="option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
-                          <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -594,20 +509,6 @@
                           :reduce="(item) => item.slot_penyimpanan_id"
                           class="w-full"
                         >
-                          <template slot="option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
-                          <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
-                          </template>
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -654,7 +555,7 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
             </div>
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
@@ -705,11 +606,11 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Konfirmasi ASN",
-      url: "inbound/konfirmasi-asn",
+      title: "Inspeksi ASN",
+      url: "inbound/inspeksi-asn",
 
       form: {
-        konfirmasi_asn_id: "",
+        inspeksi_asn_id: "",
         gudang_id: "",
         supplier_id: "",
         kode_sap: "",
@@ -730,9 +631,9 @@ export default {
         catatan: "",
         status_transaksi: {},
 
-        status_konfirmasi: "",
-        tanggal_konfirmasi: "",
-        catatan_konfirmasi: "",
+        status_inspeksi: "",
+        tanggal_inspeksi: "",
+        catatan_inspeksi: "",
         asn_details: [],
 
         user_agent: "",
@@ -741,11 +642,11 @@ export default {
         latitude: "",
       },
       default_form: {
-        konfirmasi_asn_id: "",
+        inspeksi_asn_id: "",
 
-        status_konfirmasi: "",
-        tanggal_konfirmasi: "",
-        catatan_konfirmasi: "",
+        status_inspeksi: "",
+        tanggal_inspeksi: "",
+        catatan_inspeksi: "",
         asn_details: [],
 
         user_agent: "",
@@ -759,7 +660,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inbound/konfirmasi-asn/${this.id}`);
+        let res = await this.$axios.get(`inbound/inspeksi-asn/${this.id}`);
         Object.keys(this.form).forEach((item) => {
           if (item !== "asn_details") {
             this.form[item] = res.data[item];
@@ -776,7 +677,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("/inbound/konfirmasi-asn");
+      this.$router.push("/inbound/inspeksi-asn");
     }
   },
 
@@ -849,7 +750,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inbound/konfirmasi-asn";
+      let url = "inbound/inspeksi-asn";
 
       let formData = {
         ...this.form,
@@ -862,7 +763,7 @@ export default {
       const day = today.getDate().toString().padStart(2, "0");
 
       const formattedDate = `${year}-${month}-${day}`;
-      formData.tanggal_konfirmasi = formattedDate;
+      formData.tanggal_inspeksi = formattedDate;
 
       formData.asn_details = formData.asn_details.map((item) => {
         return {
@@ -897,7 +798,7 @@ export default {
           if (!this.isEditable) {
             this.form = this.default_form;
           }
-          this.$router.push("/inbound/konfirmasi-asn");
+          this.$router.push("/inbound/inspeksi-asn");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -968,8 +869,6 @@ export default {
           query:
             "?search=" +
             this.zona_plan_search +
-            "&gudang_id=" +
-            this.form.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -1011,8 +910,6 @@ export default {
             "?search=" +
             this.slot_aisle_search +
             "&level=1" +
-            "&gudang_id=" +
-            this.form.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1054,8 +951,6 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=2" +
-            "&gudang_id=" +
-            this.form.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1097,8 +992,6 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=3" +
-            "&gudang_id=" +
-            this.form.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1140,8 +1033,6 @@ export default {
             "?search=" +
             this.slot_bin_search +
             "&level=4" +
-            "&gudang_id=" +
-            this.form.gudang_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
