@@ -122,6 +122,12 @@
                     >
                       {{ item.status_inspeksi }}
                     </p>
+                    <p
+                      v-if="item.status_inspeksi === null"
+                      class="text-orange-500"
+                    >
+                      MENUNGGU
+                    </p>
                   </td>
                   <td>{{ item.catatan_inspeksi }}</td>
                   <!-- <td>{{ item.kendaraan_id }}</td>

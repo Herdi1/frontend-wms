@@ -16,13 +16,13 @@
       </h5>
     </div>
     <div class="flex gap-5">
-      <div
+      <!-- <div
         class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <FormInput :self="this" ref="formInput" />
-      </div>
+      </div> -->
       <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -33,6 +33,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -72,12 +74,19 @@
                   <th class="w-[30%]">Kode Alternatif</th>
                   <th class="w-[30%]">Ibu Kota</th>
                   <th class="w-[25%]">Negara</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="text-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -92,15 +101,6 @@
                   <td>{{ item.kode_alternatif }}</td>
                   <td>{{ item.ibukota }}</td>
                   <td>{{ item.negara.nama_negara }}</td>
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -141,10 +141,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -156,14 +156,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -173,7 +173,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -267,28 +267,31 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        negara_id: "",
-        kode_provinsi: "",
-        kode_alternatif: "",
-        nama_provinsi: "",
-        singkatan: "",
-        ibukota: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/provinsi/add");
+      // this.$refs.formInput.parameters.form = {
+      //   negara_id: "",
+      //   kode_provinsi: "",
+      //   kode_alternatif: "",
+      //   nama_provinsi: "",
+      //   singkatan: "",
+      //   ibukota: "",
+      // };
+      // this.$refs.formInput.isEditable = false;
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(`/master/provinsi/${item.provinsi_id}`);
+
+      // this.$refs.formInput.isEditable = true;
+      // this.$refs.formInput.parameters.form = {
+      //   ...item,
+      // };
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onDetail(item) {

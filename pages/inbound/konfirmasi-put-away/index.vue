@@ -77,11 +77,23 @@
                     >
                       {{ item.status_put_away }}
                     </p>
+                    <p
+                      v-if="item.status_put_away === null"
+                      class="text-orange-500"
+                    >
+                      MENUNGGU
+                    </p>
                   </td>
                   <td>{{ item.catatan_put_away }}</td>
                 </tr>
               </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
             </table>
+          </div>
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>

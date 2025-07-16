@@ -13,14 +13,13 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div
-            class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-          >
-            <div class="w-full pt-3">
-              <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Data ASN</h1>
-                <div class=" "></div>
-              </div>
+          <div class="w-full pt-3">
+            <div class="w-full flex justify-between items-center">
+              <h1 class="text-xl font-bold">Data ASN</h1>
+            </div>
+            <div
+              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            >
               <div
                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full mb-7"
               >
@@ -239,22 +238,36 @@
                 </div>
               </div>
 
-              <!-- inspeksi -->
-              <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Konfirmasi Bongkar ASN</h1>
+              <!-- <div class="w-full flex justify-between items-center">
                 <div class=" ">
-                  <!-- <button
-                    type="button"
-                    @click="AddAsnDetails"
-                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  <button
+                  type="button"
+                  @click="AddAsnDetails"
+                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                   >
-                    <i class="fas fa-plus"></i>
-                    <p class="text-xs font-medium">Tambah Detail ASN</p>
-                  </button> -->
+                  <i class="fas fa-plus"></i>
+                  <p class="text-xs font-medium">Tambah Detail ASN</p>
+                </button>
                 </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3 w-full mb-7">
-                <div class="form-group flex items-center">
+              </div> -->
+            </div>
+
+            <!-- Detail ASN -->
+            <div>
+              <h1 class="text-xl font-bold">Detail ASN</h1>
+            </div>
+            <div
+              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            ></div>
+            <!-- inspeksi -->
+            <div>
+              <h1 class="text-xl font-bold">Konfirmasi Bongkar ASN</h1>
+            </div>
+            <div
+              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            >
+              <div class="w-full flex flex-col gap-5">
+                <div class="form-group flex items-center w-full">
                   <label for="status_bongkar" class="w-[30%]"
                     >Status Konfirmasi</label
                   >
@@ -282,12 +295,14 @@
                     :required="false"
                   />
                 </div> -->
-                <div class="col-span-2">
-                  <label for="catatan_bongkar">Catatan Konfirmasi</label>
+                <div class="col-span-2 flex items-center w-full">
+                  <label for="catatan_bongkar" class="w-[30%]"
+                    >Catatan Konfirmasi</label
+                  >
                   <textarea
                     name="catatan_bongkar"
                     v-model="form.catatan_bongkar"
-                    class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    class="w-[70%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                   ></textarea>
                 </div>
               </div>

@@ -14,36 +14,6 @@
           autocomplete="off"
         >
           <div class="w-full pt-3">
-            <div
-              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            >
-              <div class="flex justify-between items-center mb-5">
-                <label for="status_put_away" class="w[40%]"
-                  >Status Put Away</label
-                >
-                <select
-                  name="status_put_away"
-                  id="status_put_away"
-                  class="w-[60%] p-1 border rounded focus:outline-none"
-                  v-model="form.status_put_away"
-                >
-                  <option value="MENUNGGU">Menunggu</option>
-                  <option value="DITERIMA">Diterima</option>
-                  <option value="DITOLAK">Ditolak</option>
-                </select>
-              </div>
-              <div class="flex justify-between items-center">
-                <label for="catatan_put_away" class="w-[40%]"
-                  >Catatan Put Away</label
-                >
-                <textarea
-                  name="catatan_put_away"
-                  v-model="form.catatan_put_away"
-                  class="w-[60%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                ></textarea>
-              </div>
-            </div>
-
             <div>
               <h1 class="text-xl font-bold mb-2 uppercase">Data Inbound</h1>
             </div>
@@ -229,6 +199,41 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            <div>
+              <h1 class="text-xl font-bold mb-2 uppercase">
+                Konfirmasi Put Away
+              </h1>
+            </div>
+            <div
+              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            >
+              <div class="flex justify-between items-center mb-5">
+                <label for="status_put_away" class="w[40%]"
+                  >Status Put Away</label
+                >
+                <select
+                  name="status_put_away"
+                  id="status_put_away"
+                  class="w-[60%] p-1 border rounded focus:outline-none"
+                  v-model="form.status_put_away"
+                >
+                  <option value="MENUNGGU">Menunggu</option>
+                  <option value="DITERIMA">Diterima</option>
+                  <option value="DITOLAK">Ditolak</option>
+                </select>
+              </div>
+              <div class="flex justify-between items-center">
+                <label for="catatan_put_away" class="w-[40%]"
+                  >Catatan Put Away</label
+                >
+                <textarea
+                  name="catatan_put_away"
+                  v-model="form.catatan_put_away"
+                  class="w-[60%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                ></textarea>
               </div>
             </div>
             <modal-footer-section

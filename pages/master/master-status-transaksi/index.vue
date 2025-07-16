@@ -17,11 +17,6 @@
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
       <div
-        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
         class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
       >
         <div>
@@ -58,8 +53,7 @@
                 </td>
                 <td>{{ item.modul }}</td>
                 <td>{{ item.kode_status_transaksi }}</td>
-                <!-- <td>{{ item.nama_status_transaksi }}</td>
-                <td>{{ item.progres }}</td> -->
+
                 <td>
                   {{
                     item.keterangan_transaksi ? item.keterangan_transaksi : ""
@@ -104,10 +98,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isMaintenancePage = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -118,14 +112,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -135,7 +129,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -228,31 +222,13 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        jenis_proses_transaksi_id: "",
-        modul: "",
-        kode_status_transaksi: "",
-        nama_status_transaksi: "",
-        keterangan_transaksi: "",
-        progres: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/master-status-transaksi/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        master_status_transaksi_id: item.master_status_transaksi_id,
-        jenis_proses_transaksi_id: item.jenis_proses_transaksi_id,
-      };
-      this.$refs.formInput.onSelectModul();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(
+        `/master/master-status-transaksi/${item.master_status_transaksi_id}`
+      );
     },
 
     async onLoad(page = 1) {
