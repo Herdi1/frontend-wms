@@ -22,11 +22,11 @@
             <div class="grid grid-cols-2 gap-3 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
-                  label="Kode ASN"
+                  label="Kode PO"
                   type="text"
-                  name="kode_asn"
+                  name="kode_purchase_order"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_asn"
+                  v-model="parameters.form.kode_purchase_order"
                   :required="false"
                   :disabled="true"
                 />
@@ -44,46 +44,6 @@
               <div v-if="!user.gudang_id" class="w-full">
                 <ValidationProvider name="gudang" rules="required">
                   <div slot-scope="{ errors, valid }">
-                    <!-- <div class="w-full flex justify-between">
-                      <label for="" class="w-1/2"
-                        >Gudang <span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_gudang"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_roles.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        :reduce="(item) => item.gudang_id"
-                        v-model="parameters.form.gudang_id"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_roles.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_roles.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_roles.last_page > lookup_roles.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div> -->
                     <select-button
                       :self="{
                         label: 'Gudang',
@@ -139,42 +99,6 @@
                   width="w-[50%]"
                   class="mb-5"
                 />
-                <!-- <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2">Lokasi Asal Muat</label>
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_lokasi"
-                    :loading="isLoadingGetLokasi"
-                    :options="lookup_location.data"
-                    :filterable="false"
-                    @search="onGetLokasi"
-                    v-model="parameters.form.lokasi_id_asal_muat"
-                    @input="onSelectAsalMuat"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_location.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_location.current_page > 1"
-                        @click="onGetLokasi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_location.last_page >
-                          lookup_location.current_page
-                        "
-                        @click="onGetLokasi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div> -->
               </ValidationProvider>
               <div class="form-group">
                 <input-horiontal
@@ -200,42 +124,6 @@
                     width="w-[50%]"
                     class="mb-5"
                   />
-                  <!-- <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2">Vendor Transporter</label>
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_vendor"
-                      :loading="isLoadingGetVendor"
-                      :options="lookup_custom1.data"
-                      :filterable="false"
-                      @search="onGetVendor"
-                      v-model="parameters.form.vendor_id_transporter"
-                      @input="onSelectTransporter"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom1.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom1.current_page > 1"
-                          @click="onGetVendor(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom1.last_page >
-                            lookup_custom1.current_page
-                          "
-                          @click="onGetVendor(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </div> -->
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -289,42 +177,6 @@
                     width="w-[50%]"
                     class="mb-5"
                   />
-                  <!-- <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2">Kendaraan</label>
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_kendaraan"
-                      :loading="isLoadingGetKendaraan"
-                      :options="lookup_custom2.data"
-                      :filterable="false"
-                      @search="onGetKendaraan"
-                      v-model="parameters.form.kendaraan_id"
-                      @input="onSelectKendaraan"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom2.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom2.current_page > 1"
-                          @click="onGetKendaraan(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom2.last_page >
-                            lookup_custom2.current_page
-                          "
-                          @click="onGetKendaraan(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </div> -->
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -351,42 +203,6 @@
                     width="w-[50%]"
                     class="mb-5"
                   />
-                  <!-- <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2">Pengemudi </label>
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_pengemudi"
-                      :loading="isLoadingGetPengemudi"
-                      :options="lookup_custom3.data"
-                      :filterable="false"
-                      @search="onGetPengemudi"
-                      v-model="parameters.form.pengemudi_id"
-                      @input="onSelectPengemudi"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom3.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom3.current_page > 1"
-                          @click="onGetPengemudi(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom3.last_page >
-                            lookup_custom3.current_page
-                          "
-                          @click="onGetPengemudi(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </div> -->
                 </div>
               </ValidationProvider>
               <div class="form-group">
@@ -475,10 +291,10 @@
             </div>
           </div>
           <div
-            class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
+            class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-center w-full"
           >
             <span class="w-1/2">
-              <h1>ASN Detail</h1>
+              <h1>Purchase Order Detail</h1>
             </span>
             <div class="w-full relative flex justify-end gap-2">
               <button
@@ -487,7 +303,7 @@
                 class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
               >
                 <i class="fas fa-plus"></i>
-                <p class="text-xs font-medium">Tambah Detail ASN</p>
+                <p class="text-xs font-medium">Tambah Detail Purchase Order</p>
               </button>
             </div>
           </div>
@@ -518,7 +334,8 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(item, index) in parameters.form.asn_details"
+                  v-for="(item, index) in parameters.form
+                    .purchase_order_details"
                   :key="index"
                   class="border-t border-gray-400 align-top"
                 >
@@ -529,76 +346,6 @@
                       @click="onDeleteItem(index)"
                     ></i>
                   </td>
-                  <!-- <td class="border border-gray-300">
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_item"
-                      :loading="isLoadingGetItem"
-                      :options="lookup_packing.data"
-                      :filterable="false"
-                      @search="onGetItem"
-                      :reduce="(item) => item.item_id"
-                      v-model="item.item_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_packing.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_packing.current_page > 1"
-                          @click="onGetItem(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_packing.last_page >
-                            lookup_packing.current_page
-                          "
-                          @click="onGetItem(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </td> -->
-                  <!-- <td class="border border-gray-300">
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_item_pelanggan"
-                      :loading="isLoadingGetPelanggan"
-                      :options="lookup_department.data"
-                      :filterable="false"
-                      @search="onGetPelanggan"
-                      :reduce="(item) => item.item_pelanggan_id"
-                      v-model="item.item_pelanggan_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_department.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_department.current_page > 1"
-                          @click="onGetPelanggan(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_department.last_page >
-                            lookup_department.current_page
-                          "
-                          @click="onGetPelanggan(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </td> -->
                   <td class="border border-gray-300">
                     <div class="w-full">
                       <v-select
@@ -755,7 +502,7 @@
                   </td>
                 </tr>
               </tbody>
-              <tr v-if="!parameters.form.asn_details.length > 0">
+              <tr v-if="!parameters.form.purchase_order_details.length > 0">
                 <td colspan="12" class="text-center">
                   <span class="flex justify-center w-full">
                     <img
@@ -841,10 +588,10 @@ export default {
       isLoadingForm: false,
       title: "Shipment Notice",
       parameters: {
-        url: "inbound/asn",
+        url: "inbound/purchase_order",
         form: {
           gudang_id: "",
-          kode_asn: "",
+          kode_purchase_order: "",
           kode_sap: "",
           doc_type_sap: "",
           tanggal: "",
@@ -871,8 +618,8 @@ export default {
           longitude: "",
           latitude: "",
 
-          // asn detail
-          asn_details: [],
+          // purchase_order detail
+          purchase_order_details: [],
         },
       },
       formAsn: {
@@ -895,7 +642,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inbound/asn/${this.id}`);
+        let res = await this.$axios.get(`inbound/purchase_order/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
@@ -909,12 +656,13 @@ export default {
         this.parameters.form.pengemudi_id = res.data.pengemudi || "";
         this.onSelectPengemudi(res.data.pengemudi);
 
-        this.parameters.form.asn_details = res.data.asn_details.map((item) => {
-          return {
-            ...item,
-            asn_details_id: item || null,
-          };
-        });
+        this.parameters.form.purchase_order_details =
+          res.data.purchase_order_details.map((item) => {
+            return {
+              ...item,
+              purchase_order_details_id: item || null,
+            };
+          });
 
         this.isLoadingPage = false;
       }
@@ -961,7 +709,7 @@ export default {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     addAsnDetail() {
-      this.parameters.form.asn_details.push({ ...this.formAsn });
+      this.parameters.form.purchase_order_details.push({ ...this.formAsn });
       this.resetFormAsn();
     },
 
@@ -1010,7 +758,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inbound/asn";
+      let url = "inbound/purchase_order";
 
       // today's date
       const today = new Date();
@@ -1050,16 +798,20 @@ export default {
 
       formData.tanggal = formattedDate;
 
-      formData.asn_details = formData.asn_details.map((item) => {
-        return {
-          ...item,
-          asn_details_id: item.asn_details_id ? item.asn_details_id : "",
-          item_gudang_id:
-            typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id
-              : item.item_gudang_id,
-        };
-      });
+      formData.purchase_order_details = formData.purchase_order_details.map(
+        (item) => {
+          return {
+            ...item,
+            purchase_order_details_id: item.purchase_order_details_id
+              ? item.purchase_order_details_id
+              : "",
+            item_gudang_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_gudang_id
+                : item.item_gudang_id,
+          };
+        }
+      );
 
       if (this.user.gudang_id) {
         this.parameters.form.gudang_id = this.user.gudang_id;
@@ -1110,7 +862,7 @@ export default {
               device: "",
               longitude: "",
               latitude: "",
-              asn_details: [],
+              purchase_order_details: [],
             };
           }
           this.$router.back();
@@ -1153,7 +905,7 @@ export default {
       //     device: "",
       //     longitude: "",
       //     latitude: "",
-      //     asn_details: [],
+      //     purchase_order_details: [],
       //   };
       //   this.$refs.formValidate.reset();
       //   // this.$refs.ruteProvider.reset();
@@ -1164,7 +916,7 @@ export default {
     },
 
     AddAsnDetails() {
-      this.parameters.form.asn_details.push({
+      this.parameters.form.purchase_order_details.push({
         item_id: "",
         // item_pelanggan_id: "",
         item_gudang_id: "",
@@ -1181,8 +933,8 @@ export default {
     },
 
     onDeleteItem(index) {
-      this.parameters.form.asn_details =
-        this.parameters.form.asn_details.filter(
+      this.parameters.form.purchase_order_details =
+        this.parameters.form.purchase_order_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -1605,9 +1357,10 @@ export default {
     //select item gudang
     onSelectItemGudang(item, index) {
       if (item) {
-        this.parameters.form.asn_details[index].item_id = item.item_id;
+        this.parameters.form.purchase_order_details[index].item_id =
+          item.item_id;
       } else {
-        this.parameters.form.asn_details[index].item_id = "";
+        this.parameters.form.purchase_order_details[index].item_id = "";
       }
     },
 

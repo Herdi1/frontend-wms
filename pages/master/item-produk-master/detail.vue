@@ -1,6 +1,6 @@
 <template>
   <portal v-if="visible" to="modal-detail">
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+    <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
       class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-[700px] max-h-[800px] overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"

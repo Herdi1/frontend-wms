@@ -24,6 +24,48 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
+          <div class="w-full mt-3 mb-7">
+            <div
+              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
+            >
+              <div class="grid grid-cols-1 gap-5 w-full">
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Awal"
+                    type="date"
+                    name="kode_sap"
+                    :isHorizontal="true"
+                    v-model="parameters.params.start_date"
+                    :required="false"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 gap-5 w-full">
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Akhir"
+                    type="date"
+                    name="periode_akhir"
+                    :isHorizontal="true"
+                    v-model="parameters.params.end_date"
+                    :required="false"
+                  />
+                </div>
+              </div>
+
+              <div class="flex gap-3 ml-5">
+                <button
+                  @click="onLoad"
+                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+                >
+                  <i class="fa fa-filter text-white font-bold mr-2"></i>
+                  <div>Filter</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
@@ -194,6 +236,8 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          start_date: "",
+          end_date: "",
         },
         form: {
           status_konfirmasi: "",

@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Jurnal Manual
+          {{ isEditable ? "Edit" : "Tambah" }} Jurnal Entry
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -536,7 +536,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Manual",
+      title: "Jurnal Entry",
     };
   },
 
@@ -550,7 +550,7 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      title: "Jurnal Manual",
+      title: "Jurnal Entry",
 
       url: "finance/jurnal",
       form: {
@@ -731,7 +731,7 @@ export default {
           this.$toaster.success(
             "Berhasil " +
               (this.isEditable ? "Update" : "Tambah") +
-              " Jurnal Manual"
+              " Jurnal Entry"
           );
 
           if (!this.isEditable) {

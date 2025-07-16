@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>{{ this.title }}</span>
+        <span>Purchase Order</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -24,64 +24,65 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Awal"
-                    type="date"
-                    name="kode_sap"
-                    :isHorizontal="true"
-                    v-model="parameters.params.start_date"
-                    :required="false"
-                  />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Akhir"
-                    type="date"
-                    name="periode_akhir"
-                    :isHorizontal="true"
-                    v-model="parameters.params.end_date"
-                    :required="false"
-                  />
-                </div>
-              </div>
-
-              <div class="flex gap-3 ml-5">
-                <button
-                  @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
-                >
-                  <i class="fa fa-filter text-white font-bold mr-2"></i>
-                  <div>Filter</div>
-                </button>
-              </div>
-            </div>
-          </div>
-
           <div class="table-responsive">
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Konfirmasi</th>
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
-                  <th>Kode Inbound</th>
-                  <th>Tanggal Bongkar</th>
-                  <th>Status Bongkar</th>
-                  <th>Catatan Bongkar</th>
+                  <!-- <th
+                    @click="
+                      onSort(
+                        'nama_provinsi',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-[30%]"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Nama Provinsi</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th> -->
+                  <th>Kode PO</th>
+                  <th>Tanggal</th>
+                  <th>Vendor</th>
+                  <th>Surat Jalan</th>
+                  <th>Kendaraan</th>
+                  <th>Pengemudi</th>
+                  <th>Details</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                   <td>
                     {{
@@ -92,39 +93,56 @@
                     }}
                   </td>
                   <td>
-                    {{ item.kode_inbound }}
-                    <p v-if="item.user_input" class="text-blue-500">
-                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
-                    </p>
-                    <p v-else class="text-blue-500">
-                      <i>Dibuat oleh: Sistem</i>
-                    </p>
+                    <div>
+                      {{ item.kode_purchase_order }}
+                      <p v-if="item.user_id_input" class="text-blue-500">
+                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
+                      </p>
+                      <p v-else class="text-blue-500">
+                        <i>Dibuat oleh: Sistem</i>
+                      </p>
+                    </div>
                   </td>
-                  <td>{{ item.tanggal_put_away }}</td>
+                  <td>{{ item.tanggal }}</td>
                   <td>
-                    <p
-                      v-if="item.status_put_away === 'MENUNGGU'"
-                      class="text-orange-500"
-                    >
-                      {{ item.status_put_away }}
-                    </p>
-                    <p
-                      v-if="item.status_put_away === 'PROSES'"
-                      class="text-green-500"
-                    >
-                      {{ item.status_put_away }}
-                    </p>
-                    <p
-                      v-if="item.status_put_away === 'SELESAI'"
-                      class="text-red-500"
-                    >
-                      {{ item.status_put_away }}
-                    </p>
+                    {{
+                      item.vendor_transporter
+                        ? item.vendor_transporter.nama_vendor
+                        : "-"
+                    }}
                   </td>
-                  <td>{{ item.catatan_put_away }}</td>
+                  <td>{{ item.surat_jalan }}</td>
+                  <td>
+                    {{
+                      item.kendaraan
+                        ? item.kendaraan.nama_kendaraan +
+                          " - " +
+                          item.kendaraan.kode_kendaraan
+                        : "-"
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.pengemudi
+                        ? item.pengemudi.nama_pengemudi +
+                          " - " +
+                          item.pengemudi.kode_pengemudi
+                        : "-"
+                    }}
+                  </td>
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                 </tr>
               </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
             </table>
+          </div>
+
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -140,7 +158,7 @@ export default {
 
   head() {
     return {
-      title: "Konfirmasi Put Away",
+      title: "Purchase Order",
     };
   },
 
@@ -153,7 +171,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -165,7 +183,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -188,31 +206,51 @@ export default {
 
   data() {
     return {
-      title: "Konfirmasi Put Away",
+      title: "Purchase Order",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/konfirmasi-put-away",
+        url: "inbound/purchase-order",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "inbound_id",
+          order: "purchase_order_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          start_date: "",
-          end_date: "",
         },
         form: {
-          status_put_away: "",
-          tanggal_put_away: "",
-          catatan_put_away: "",
+          gudang_id: "",
+          kode_sap: "",
+          doc_type_sap: "",
+          tanggal: "",
+          lokasi_id_asal_muat: "",
+          asal_muat: "",
+          vendor_id_transporter: "",
+          nama_transporter: "",
+          surat_jalan: "",
+          no_referensi: "",
+          no_referensi_2: "",
+          kendaraan_id: "",
+          pengemudi_id: "",
+          supplier_id: "",
+          perkiraan_tiba: "",
+          kebutuhan_peralatan: "",
+          handling_instruction: "",
+          catatan: "",
+
+          //Tracking
           user_agent: "",
           device: "",
           longitude: "",
           latitude: "",
+          purchase_order_details: [],
+        },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
         },
       },
       default_roles: {
@@ -241,7 +279,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "konfirmasi-put-away"
+          (item) => item.rute == "purchase-order"
         );
 
         let roles = {};
@@ -271,11 +309,15 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/konfirmasi-put-away/add");
+      this.$router.push("/inbound/purchase-order/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/konfirmasi-put-away/" + item.inbound_id);
+      this.$router.push("/inbound/purchase-order/" + item.asn_id);
+    },
+
+    onDetail(item) {
+      this.$router.push("/inbound/purchase-order/detail/" + item.asn_id);
     },
 
     onTrashed(item) {
@@ -294,7 +336,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.inbound_id,
+              id: item.purchase_order_id,
               params: this.parameters.params,
             });
 

@@ -12,100 +12,6 @@
               @submit.prevent="validate().then(() => onSubmit(invalid))"
               autocomplete="off"
             >
-              <!-- Kecamatan -->
-              <ValidationProvider name="id_kecamatan" rules="required">
-                <div
-                  class="form-group w-full items-center mb-5"
-                  slot-scope="{ errors, valid }"
-                >
-                  <label for="" class="w-4/12"
-                    >Kecamatan<span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_kecamatan"
-                    :loading="isLoadingGetKecamatan"
-                    :options="lookup_beam.data"
-                    :filterable="false"
-                    @search="onGetKecamatan"
-                    @input="onSelectKecamatan"
-                    v-model="parameters.form.kecamatan_id"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <template slot="option" slot-scope="option">
-                      {{
-                        option.nama_kecamatan +
-                        ", " +
-                        option.kota.nama_kota +
-                        ", " +
-                        option.provinsi.nama_provinsi +
-                        ", " +
-                        option.negara.nama_negara
-                      }}
-                    </template>
-                    <template slot="option-selected" slot-scope="option">
-                      {{
-                        option.nama_kecamatan +
-                        ", " +
-                        option.kota.nama_kota +
-                        ", " +
-                        option.provinsi.nama_provinsi +
-                        ", " +
-                        option.negara.nama_negara
-                      }}
-                    </template>
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_beam.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_beam.current_page > 1"
-                        @click="onGetKecamatan(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="lookup_beam.last_page > lookup_beam.current_page"
-                        @click="onGetKecamatan(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-
-              <div class="form-group">
-                <input-form
-                  label="Kota"
-                  type="text"
-                  name="kota_id"
-                  :disabled="true"
-                  v-model="parameters.form.kota_id.nama_kota"
-                />
-              </div>
-              <div class="form-group">
-                <input-form
-                  label="Provinsi"
-                  type="text"
-                  name="provinsi_id"
-                  :disabled="true"
-                  v-model="parameters.form.provinsi_id.nama_provinsi"
-                />
-              </div>
-
-              <div class="form-group">
-                <input-form
-                  label="Negara"
-                  type="text"
-                  name="negara_id"
-                  :disabled="true"
-                  v-model="parameters.form.negara_id.nama_negara"
-                />
-              </div>
-
               <div class="modal-body mt-4">
                 <ValidationProvider
                   name="nama_kelurahan"
@@ -125,6 +31,104 @@
                     />
                   </div>
                 </ValidationProvider>
+                <!-- Kecamatan -->
+                <ValidationProvider name="id_kecamatan" rules="required">
+                  <div
+                    class="form-group w-full items-center mb-5"
+                    slot-scope="{ errors, valid }"
+                  >
+                    <label for="" class="w-4/12"
+                      >Kecamatan<span class="text-danger">*</span></label
+                    >
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_kecamatan"
+                      :loading="isLoadingGetKecamatan"
+                      :options="lookup_beam.data"
+                      :filterable="false"
+                      @search="onGetKecamatan"
+                      @input="onSelectKecamatan"
+                      v-model="parameters.form.kecamatan_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    >
+                      <template slot="option" slot-scope="option">
+                        {{
+                          option.nama_kecamatan +
+                          ", " +
+                          option.kota.nama_kota +
+                          ", " +
+                          option.provinsi.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
+                      <template slot="option-selected" slot-scope="option">
+                        {{
+                          option.nama_kecamatan +
+                          ", " +
+                          option.kota.nama_kota +
+                          ", " +
+                          option.provinsi.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_beam.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_beam.current_page > 1"
+                          @click="onGetKecamatan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_beam.last_page > lookup_beam.current_page
+                          "
+                          @click="onGetKecamatan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
+
+                <div class="form-group">
+                  <input-form
+                    label="Kota"
+                    type="text"
+                    name="kota_id"
+                    :disabled="true"
+                    v-model="parameters.form.kota_id.nama_kota"
+                  />
+                </div>
+                <div class="form-group">
+                  <input-form
+                    label="Provinsi"
+                    type="text"
+                    name="provinsi_id"
+                    :disabled="true"
+                    v-model="parameters.form.provinsi_id.nama_provinsi"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <input-form
+                    label="Negara"
+                    type="text"
+                    name="negara_id"
+                    :disabled="true"
+                    v-model="parameters.form.negara_id.nama_negara"
+                  />
+                </div>
+
                 <ValidationProvider
                   name="kode_kelurahan"
                   rules="required"

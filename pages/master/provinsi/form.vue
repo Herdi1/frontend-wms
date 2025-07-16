@@ -33,6 +33,50 @@
                 </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
+                  name="id_negara"
+                  rules="required"
+                >
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12"
+                      >Negara<span class="text-danger">*</span></label
+                    >
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_negara"
+                      :loading="isLoadingGetNegara"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetNegara"
+                      :reduce="(item) => item.negara_id"
+                      v-model="parameters.form.negara_id"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetNegara(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetNegara(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  ref="inputProvider"
                   name="singkatan"
                   rules="required"
                 >
@@ -101,50 +145,6 @@
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     />
-                  </div>
-                </ValidationProvider>
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="id_negara"
-                  rules="required"
-                >
-                  <div class="form-group w-full items-center mb-5">
-                    <label for="" class="w-4/12"
-                      >Negara<span class="text-danger">*</span></label
-                    >
-                    <v-select
-                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_negara"
-                      :loading="isLoadingGetNegara"
-                      :options="lookup_custom1.data"
-                      :filterable="false"
-                      @search="onGetNegara"
-                      :reduce="(item) => item.negara_id"
-                      v-model="parameters.form.negara_id"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom1.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom1.current_page > 1"
-                          @click="onGetNegara(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom1.last_page >
-                            lookup_custom1.current_page
-                          "
-                          @click="onGetNegara(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
                   </div>
                 </ValidationProvider>
               </div>

@@ -369,17 +369,18 @@ export default {
 
           if (!this.isEditable) {
           }
-          this.parameters.form = {
-            rute: "",
-            judul: "",
-            icon: "",
-            menu_id_induk: "",
-            menu_id_induk_2: "",
-            urutan: "",
-            status: "",
-            status_menu: "",
-            file_icon: "",
-          };
+          this.formReset();
+          // this.parameters.form = {
+          //   rute: "",
+          //   judul: "",
+          //   icon: "",
+          //   menu_id_induk: "",
+          //   menu_id_induk_2: "",
+          //   urutan: "",
+          //   status: "",
+          //   status_menu: "",
+          //   file_icon: "",
+          // };
           this.self.onLoad(this.self.parameters.params.page);
           // this.$router.push("/setting/role");
         })

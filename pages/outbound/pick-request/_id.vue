@@ -19,25 +19,52 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-2 gap-3 w-full">
+            <div class="grid grid-flow-col grid-rows-5 gap-3 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
-                  label="Kode ASN"
+                  label="Kode Pick Request"
                   type="text"
-                  name="kode_asn"
+                  name="kode_pick_request"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_asn"
+                  v-model="parameters.form.kode_request"
                   :required="false"
                   :disabled="true"
                 />
               </div>
               <div class="form-group">
                 <input-horizontal
-                  label="Referensi External"
+                  label="Doc Type External"
                   type="text"
-                  name="kode_sap"
+                  name="doc_type_sap"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_sap"
+                  v-model="parameters.form.doc_type_sap"
+                  :required="false"
+                />
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi"
+                  type="text"
+                  name="no_referensi_1"
+                  v-model="parameters.form.no_referensi_1"
+                  :required="false"
+                />
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi 2"
+                  type="text"
+                  name="no_referensi_2"
+                  v-model="parameters.form.no_referensi_2"
+                  :required="false"
+                />
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi 3"
+                  type="text"
+                  name="no_referensi_3"
+                  v-model="parameters.form.no_referensi_3"
                   :required="false"
                 />
               </div>
@@ -107,15 +134,21 @@
                   </div>
                 </ValidationProvider>
               </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Doc Type External"
-                  type="text"
-                  name="doc_type_sap"
-                  v-model="parameters.form.doc_type_sap"
-                  :required="false"
+              <ValidationProvider name="lokasi">
+                <select-button
+                  :self="{
+                    label: 'Lokasi',
+                    optionLabel: 'nama_lokasi',
+                    lookup: lookup_location,
+                    value: parameters.form.lokasi_id,
+                    onGet: onGetLokasi,
+                    isLoadingL: isLoadingGetLokasi,
+                    input: onSelectAsalMuat,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
                 />
-              </div>
+              </ValidationProvider>
               <!-- <div class="form-group">
                 <input-horiontal
                   label="Tanggal Pembuatan"
@@ -125,217 +158,17 @@
                   :required="true"
                 />
               </div> -->
-              <ValidationProvider name="lokasi">
-                <select-button
-                  :self="{
-                    label: 'Lokasi Asal Muat',
-                    optionLabel: 'nama_lokasi',
-                    lookup: lookup_location,
-                    value: parameters.form.lokasi_id_asal_muat,
-                    onGet: onGetGudang,
-                    isLoadingL: isLoadingGetGudang,
-                    input: onSelectAsalMuat,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-                <!-- <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2">Lokasi Asal Muat</label>
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_lokasi"
-                    :loading="isLoadingGetLokasi"
-                    :options="lookup_location.data"
-                    :filterable="false"
-                    @search="onGetLokasi"
-                    v-model="parameters.form.lokasi_id_asal_muat"
-                    @input="onSelectAsalMuat"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_location.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_location.current_page > 1"
-                        @click="onGetLokasi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_location.last_page >
-                          lookup_location.current_page
-                        "
-                        @click="onGetLokasi(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div> -->
-              </ValidationProvider>
+
               <div class="form-group">
                 <input-horiontal
-                  label="Asal Muat"
+                  label="Tanggal"
                   type="text"
-                  name="asal_muat"
-                  v-model="parameters.form.asal_muat"
-                  :required="false"
-                />
-              </div>
-              <ValidationProvider name="vendor">
-                <div class="form-group mb-5" slot-scope="{ errors, valid }">
-                  <select-button
-                    :self="{
-                      label: 'Vendor Transporter',
-                      optionLabel: 'nama_vendor',
-                      lookup: lookup_custom1,
-                      value: parameters.form.vendor_id_transporter,
-                      onGet: onGetVendor,
-                      isLoadingL: isLoadingGetVendor,
-                      input: onSelectTransporter,
-                    }"
-                    width="w-[50%]"
-                    class="mb-5"
-                  />
-                  <!-- <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2">Vendor Transporter</label>
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_vendor"
-                      :loading="isLoadingGetVendor"
-                      :options="lookup_custom1.data"
-                      :filterable="false"
-                      @search="onGetVendor"
-                      v-model="parameters.form.vendor_id_transporter"
-                      @input="onSelectTransporter"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom1.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom1.current_page > 1"
-                          @click="onGetVendor(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom1.last_page >
-                            lookup_custom1.current_page
-                          "
-                          @click="onGetVendor(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </div> -->
-                </div>
-              </ValidationProvider>
-              <div class="form-group">
-                <input-horiontal
-                  label="Nama Transporter"
-                  type="text"
-                  name="nama_transporter"
-                  v-model="parameters.form.nama_transporter"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Surat Jalan"
-                  type="text"
-                  name="surat_jalan"
-                  v-model="parameters.form.surat_jalan"
+                  name="tanggal"
+                  v-model="parameters.form.tanggal"
                   :required="true"
                 />
               </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Nomor Referensi"
-                  type="text"
-                  name="no_referensi"
-                  v-model="parameters.form.no_referensi"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Nomor Referensi 2"
-                  type="text"
-                  name="no_referensi_2"
-                  v-model="parameters.form.no_referensi_2"
-                  :required="false"
-                />
-              </div>
-              <ValidationProvider name="kendaraan">
-                <div class="form-group mb-5" slot-scope="{ errors, valid }">
-                  <select-button
-                    :self="{
-                      label: 'Kendaraan',
-                      optionLabel: 'nama_kendaraan',
-                      lookup: lookup_custom2,
-                      value: parameters.form.kendaraan_id,
-                      onGet: onGetKendaraan,
-                      isLoadingL: isLoadingGetKendaraan,
-                      input: onSelectKendaraan,
-                    }"
-                    width="w-[50%]"
-                    class="mb-5"
-                  />
-                  <!-- <div class="w-full flex justify-between">
-                    <label for="" class="w-1/2">Kendaraan</label>
-                    <v-select
-                      class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                      label="nama_kendaraan"
-                      :loading="isLoadingGetKendaraan"
-                      :options="lookup_custom2.data"
-                      :filterable="false"
-                      @search="onGetKendaraan"
-                      v-model="parameters.form.kendaraan_id"
-                      @input="onSelectKendaraan"
-                    >
-                      <li
-                        slot-scope="{ search }"
-                        slot="list-footer"
-                        class="p-1 border-t flex justify-between"
-                        v-if="lookup_custom2.data.length || search"
-                      >
-                        <span
-                          v-if="lookup_custom2.current_page > 1"
-                          @click="onGetKendaraan(search, false)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Sebelumnya</span
-                        >
-                        <span
-                          v-if="
-                            lookup_custom2.last_page >
-                            lookup_custom2.current_page
-                          "
-                          @click="onGetKendaraan(search, true)"
-                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                          >Selanjutnya</span
-                        >
-                      </li>
-                    </v-select>
-                  </div> -->
-                </div>
-              </ValidationProvider>
-              <div class="form-group">
-                <input-horiontal
-                  label="Nama Kendaraan"
-                  type="text"
-                  name="nama_kendaraan"
-                  v-model="parameters.form.nama_kendaraan"
-                  :required="false"
-                />
-              </div>
+
               <ValidationProvider name="pengemudi">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
@@ -391,84 +224,10 @@
               </ValidationProvider>
               <div class="form-group">
                 <input-horiontal
-                  label="Nama Pengemudi"
+                  label="Keterangan"
                   type="text"
-                  name="nama_pengemudi"
-                  v-model="parameters.form.nama_pengemudi"
-                  :required="false"
-                />
-              </div>
-              <ValidationProvider name="supplier">
-                <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2">Supplier</label>
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_supplier"
-                    :loading="isLoadingGetSupplier"
-                    :options="lookup_suppliers.data"
-                    :filterable="false"
-                    @search="onGetSupplier"
-                    :reduce="(item) => item.supplier_id"
-                    v-model="parameters.form.supplier_id"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_suppliers.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_suppliers.current_page > 1"
-                        @click="onGetSupplier(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_suppliers.last_page >
-                          lookup_suppliers.current_page
-                        "
-                        @click="onGetSupplier(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </ValidationProvider>
-              <div class="form-group mb-2 flex justify-between">
-                <label for="" class="w-1/2">Perkiraan Tiba</label>
-                <input
-                  type="datetime-local"
-                  step="1"
-                  v-model="parameters.form.perkiraan_tiba"
-                  class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Kebutuhan Peralatan"
-                  type="text"
-                  name="kebutuhan_peralatan"
-                  v-model="parameters.form.kebutuhan_peralatan"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Handling Instruction"
-                  type="text"
-                  name="handling_instruction"
-                  v-model="parameters.form.handling_instruction"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Catatan"
-                  type="text"
-                  name="catatan"
-                  v-model="parameters.form.catatan"
+                  name="keterangan"
+                  v-model="parameters.form.keterangan"
                   :required="false"
                 />
               </div>
@@ -478,12 +237,12 @@
             class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
           >
             <span class="w-1/2">
-              <h1>ASN Detail</h1>
+              <h1>Pick Request Detail</h1>
             </span>
             <div class="w-full relative flex justify-end gap-2">
               <button
                 type="button"
-                @click="addAsnDetail"
+                @click="addPickRequestDetail"
                 class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
               >
                 <i class="fas fa-plus"></i>
@@ -518,7 +277,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(item, index) in parameters.form.asn_details"
+                  v-for="(item, index) in parameters.form.detail_pick_request"
                   :key="index"
                   class="border-t border-gray-400 align-top"
                 >
@@ -755,7 +514,7 @@
                   </td>
                 </tr>
               </tbody>
-              <tr v-if="!parameters.form.asn_details.length > 0">
+              <tr v-if="!parameters.form.detail_pick_request.length > 0">
                 <td colspan="12" class="text-center">
                   <span class="flex justify-center w-full">
                     <img
@@ -839,31 +598,22 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Shipment Notice",
+      title: "Pick Request",
       parameters: {
-        url: "inbound/asn",
+        url: "outbound/pick-request",
         form: {
-          gudang_id: "",
-          kode_asn: "",
-          kode_sap: "",
+          pick_request_id: "",
+          kode_stok_transfer: "",
+          kode_pick_request: "",
           doc_type_sap: "",
           tanggal: "",
-          lokasi_id_asal_muat: "",
-          asal_muat: "",
-          vendor_id_transporter: "",
-          nama_transporter: "",
-          surat_jalan: "",
-          no_referensi: "",
+          no_referensi_1: "",
           no_referensi_2: "",
-          kendaraan_id: "",
-          nama_kendaraan: "",
-          pengemudi_id: "",
-          nama_pengemudi: "",
-          supplier_id: "",
-          perkiraan_tiba: "",
-          kebutuhan_peralatan: "",
-          handling_instruction: "",
-          catatan: "",
+          no_referensi_3: "",
+          lokasi_id: "",
+          gudang_id: "",
+          status_transaksi_id: "",
+          keterangan: "",
 
           //Tracking
           user_agent: "",
@@ -872,22 +622,19 @@ export default {
           latitude: "",
 
           // asn detail
-          asn_details: [],
+          detail_pick_request: [],
         },
       },
-      formAsn: {
+      formPickRequest: {
+        detail_pick_request_id: "",
         item_id: "",
-        // item_pelanggan_id: "",
+        item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
-        serial_number: "",
-        panjang: "",
-        lebar: "",
-        tinggi: "",
-        berat: "",
-        no_referensi: "",
-        note: "",
-        zona_gudang_id_plan: "",
+        quantity_order: "",
+        quantity_termuat: "",
+        quantity_terkirim: "",
+        keterangan: "",
       },
     };
   },
@@ -895,26 +642,26 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inbound/asn/${this.id}`);
+        let res = await this.$axios.get(`outbound/pick-request/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
 
-        this.parameters.form.lokasi_id_asal_muat =
-          res.data.lokasi_asal_muat || "";
-        this.parameters.form.vendor_id_transporter =
-          res.data.vendor_transporter || "";
-        this.parameters.form.kendaraan_id = res.data.kendaraan || "";
-        this.onSelectKendaraan(res.data.kendaraan);
-        this.parameters.form.pengemudi_id = res.data.pengemudi || "";
-        this.onSelectPengemudi(res.data.pengemudi);
+        this.parameters.form.gudang_id = res.data.gudang || "";
+        this.parameters.form.lokasi_id = res.data.lokasi || "";
+        this.parameters.form.status_transaksi_id =
+          res.data.status_transaksi || "";
+        // this.onSelectKendaraan(res.data.kendaraan);
+        // this.parameters.form.pengemudi_id = res.data.pengemudi || "";
+        // this.onSelectPengemudi(res.data.pengemudi);
 
-        this.parameters.form.asn_details = res.data.asn_details.map((item) => {
-          return {
-            ...item,
-            asn_details_id: item || null,
-          };
-        });
+        this.parameters.form.detail_pick_request =
+          res.data.detail_pick_request.map((item) => {
+            return {
+              ...item,
+              detail_pick_request_id: item || null,
+            };
+          });
 
         this.isLoadingPage = false;
       }
@@ -925,10 +672,10 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchVendor();
-    await this.onSearchKendaraan();
-    await this.onSearchPengemudi();
-    await this.onSearchSupplier();
+    // await this.onSearchVendor();
+    // await this.onSearchKendaraan();
+    // await this.onSearchPengemudi();
+    // await this.onSearchSupplier();
     await this.onSearchLokasi();
     await this.onSearchGudang();
     await this.onSearchItem();
@@ -960,9 +707,11 @@ export default {
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
-    addAsnDetail() {
-      this.parameters.form.asn_details.push({ ...this.formAsn });
-      this.resetFormAsn();
+    addPickRequestDetail() {
+      this.parameters.form.detail_pick_request.push({
+        ...this.formPickRequest,
+      });
+      this.resetFormPickRequest();
     },
 
     getUserAgent() {
@@ -1010,7 +759,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inbound/asn";
+      let url = "outbound/pick-request";
 
       // today's date
       const today = new Date();
@@ -1026,44 +775,48 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudamg_id,
-        supplier_id:
-          typeof this.parameters.form.supplier_id === "object"
-            ? this.parameters.form.supplier_id.supplier_id
-            : this.parameters.form.supplier_id,
-        lokasi_id_asal_muat:
-          typeof this.parameters.form.lokasi_id_asal_muat === "object"
-            ? this.parameters.form.lokasi_id_asal_muat.lokasi_id
-            : "",
-        vendor_id_transporter:
-          typeof this.parameters.form.vendor_id_transporter === "object"
-            ? this.parameters.form.vendor_id_transporter.vendor_id
-            : "",
-        kendaraan_id:
-          typeof this.parameters.form.kendaraan_id === "object"
-            ? this.parameters.form.kendaraan_id.kendaraan_id
-            : "",
-        pengemudi_id:
-          typeof this.parameters.form.pengemudi_id === "object"
-            ? this.parameters.form.pengemudi_id.pengemudi_id
-            : "",
+        status_transaksi_id:
+          typeof this.parameters.form.status_transaksi_id === "object"
+            ? this.parameters.form.status_transaksi_id.status_transaksi_id
+            : this.parameters.form.status_transaksi_id,
+        lokasi_id:
+          typeof this.parameters.form.lokasi_id === "object"
+            ? this.parameters.form.lokasi_id.lokasi_id
+            : this.parameters.form.lokasi_id,
+        // vendor_id_transporter:
+        //   typeof this.parameters.form.vendor_id_transporter === "object"
+        //     ? this.parameters.form.vendor_id_transporter.vendor_id
+        //     : "",
+        // kendaraan_id:
+        //   typeof this.parameters.form.kendaraan_id === "object"
+        //     ? this.parameters.form.kendaraan_id.kendaraan_id
+        //     : "",
+        // pengemudi_id:
+        //   typeof this.parameters.form.pengemudi_id === "object"
+        //     ? this.parameters.form.pengemudi_id.pengemudi_id
+        //     : "",
       };
 
-      formData.tanggal = formattedDate;
+      // formData.tanggal = formattedDate;
 
-      formData.asn_details = formData.asn_details.map((item) => {
-        return {
-          ...item,
-          asn_details_id: item.asn_details_id ? item.asn_details_id : "",
-          item_gudang_id:
-            typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id
-              : item.item_gudang_id,
-        };
-      });
+      formData.detail_pick_request = formData.detail_pick_request.map(
+        (item) => {
+          return {
+            ...item,
+            detail_pick_request_id: item.detail_pick_request_id
+              ? item.detail_pick_request_id
+              : "",
+            item_gudang_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_gudang_id
+                : item.item_gudang_id,
+          };
+        }
+      );
 
-      if (this.user.gudang_id) {
-        this.parameters.form.gudang_id = this.user.gudang_id;
-      }
+      // if (this.user.gudang_id) {
+      //   this.parameters.form.gudang_id = this.user.gudang_id;
+      // }
 
       // console.log("form", this.parameters.form);
 
@@ -1071,7 +824,7 @@ export default {
         url += "/" + this.id;
       }
 
-      console.log(formData);
+      // console.log(formData);
 
       this.$axios({
         method: this.isEditable ? "put" : "post",
@@ -1086,31 +839,25 @@ export default {
 
           if (!this.isEditable) {
             this.parameters.form = {
-              gudang_id: "",
-              kode_asp: "",
+              pick_request_id: "",
+              kode_pick_request: "",
               doc_type_sap: "",
               tanggal: "",
-              lokasi_id_asal_muat: "",
-              asal_muat: "",
-              vendor_id_transporter: "",
-              nama_transporter: "",
-              surat_jalan: "",
-              no_referensi: "",
+              no_referensi_1: "",
               no_referensi_2: "",
-              kendaraan_id: "",
-              pengemudi_id: "",
-              supplier_id: "",
-              perkiraan_tiba: "",
-              kebutuhan_peralatan: "",
-              handling_instruction: "",
-              catatan: "",
+              no_referensi_3: "",
+              lokasi_id: "",
+              gudang_id: "",
+              status_transaksi_id: "",
 
               //Tracking
               user_agent: "",
               device: "",
               longitude: "",
               latitude: "",
-              asn_details: [],
+
+              // asn detail
+              detail_pick_request: [],
             };
           }
           this.$router.back();
@@ -1163,26 +910,23 @@ export default {
       // }
     },
 
-    AddAsnDetails() {
-      this.parameters.form.asn_details.push({
+    AddPickRequestDetail() {
+      this.parameters.form.detail_pick_request.push({
+        detail_pick_request_id: "",
         item_id: "",
-        // item_pelanggan_id: "",
+        item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
-        serial_number: "",
-        panjang: "",
-        lebar: "",
-        tinggi: "",
-        berat: "",
-        no_referensi: "",
-        note: "",
-        zona_gudang_id_plan: "",
+        quantity_order: "",
+        quantity_termuat: "",
+        quantity_terkirim: "",
+        keterangan: "",
       });
     },
 
     onDeleteItem(index) {
-      this.parameters.form.asn_details =
-        this.parameters.form.asn_details.filter(
+      this.parameters.form.detail_pick_request =
+        this.parameters.form.detail_pick_request.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -1595,7 +1339,7 @@ export default {
         this.parameters.form.gudang_id = "";
       }
     },
-    onSelectGudang(item, index) {
+    onSelectSupplier(item, index) {
       if (item) {
         this.parameters.form.supplier_id = item;
       } else {
@@ -1654,46 +1398,40 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        gudang_id: "",
-        kode_asp: "",
+        pick_request_id: "",
+        kode_stok_transfer: "",
+        kode_pick_request: "",
         doc_type_sap: "",
         tanggal: "",
-        lokasi_id_asal_muat: "",
-        asal_muat: "",
-        vendor_id_transporter: "",
-        nama_transporter: "",
-        surat_jalan: "",
-        no_referensi: "",
+        no_referensi_1: "",
         no_referensi_2: "",
-        kendaraan_id: "",
-        pengemudi_id: "",
-        supplier_id: "",
-        perkiraan_tiba: "",
-        kebutuhan_peralatan: "",
-        handling_instruction: "",
-        catatan: "",
+        no_referensi_3: "",
+        lokasi_id: "",
+        gudang_id: "",
+        status_transaksi_id: "",
+        keterangan: "",
 
         //Tracking
         user_agent: "",
         device: "",
         longitude: "",
         latitude: "",
+
+        // asn detail
+        detail_pick_request: [],
       };
     },
-    resetFormAsn() {
-      this.formAsn = {
+    resetFormPickRequest() {
+      this.formPickRequest = {
+        detail_pick_request_id: "",
         item_id: "",
-        // item_pelanggan_id: "",
+        item_pelanggan_id: "",
         item_gudang_id: "",
         quantity: "",
-        serial_number: "",
-        panjang: "",
-        lebar: "",
-        tinggi: "",
-        berat: "",
-        no_referensi: "",
-        note: "",
-        zona_gudang_id_plan: "",
+        quantity_order: "",
+        quantity_termuat: "",
+        quantity_terkirim: "",
+        keterangan: "",
       };
     },
   },

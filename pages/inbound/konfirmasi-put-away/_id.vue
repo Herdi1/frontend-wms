@@ -28,8 +28,8 @@
                   v-model="form.status_put_away"
                 >
                   <option value="MENUNGGU">Menunggu</option>
-                  <option value="DITERIMA">Diterima</option>
-                  <option value="DITOLAK">Ditolak</option>
+                  <option value="PROSES">Proses</option>
+                  <option value="SELESAI">Selesai</option>
                 </select>
               </div>
               <div class="flex justify-between items-center">

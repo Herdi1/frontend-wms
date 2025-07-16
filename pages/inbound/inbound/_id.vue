@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section uppercase">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-3 w-full mb-7">
-                <div class="form-group flex items-center">
+                <!-- <div class="form-group flex items-center">
                   <label for="" class="w-[40%]">ASN</label>
                   <v-select
                     label="kode_asn"
@@ -47,12 +47,6 @@
                     class="w-[60%]"
                     @input="onSelectAsn"
                   >
-                    <!-- <template slot="option" slot-scope="option">
-                      {{ option.kode_asn + " - " + option.tanggal }}
-                    </template>
-                    <template slot="selected-option" slot-scope="option">
-                      {{ option.kode_asn + " - " + option.tanggal }}
-                    </template> -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -75,7 +69,45 @@
                       >
                     </li>
                   </v-select>
+                </div> -->
+                <div class="form-group flex items-center">
+                  <label for="" class="w-[40%]">Status Inbound</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="form.sumber_data"
+                    class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="PO">Purchase Order</option>
+                    <option value="ASN">ASN</option>
+                    <option value="NON">Non ASN/Non PO</option>
+                  </select>
                 </div>
+                <select-button
+                  v-if="form.sumber_data === 'ASN'"
+                  :self="{
+                    label: 'ASN',
+                    optionLabel: 'kode_asn',
+                    isLoading: isLoadingGetAsn,
+                    lookup: lookup_custom6,
+                    onGet: onGetAsn,
+                    value: form.asn_id,
+                    input: onSelectAsn,
+                  }"
+                  width="w-[60%]"
+                />
+                <select-button
+                  v-if="form.sumber_data === 'PO'"
+                  :self="{
+                    label: 'Purchase Order',
+                    optionLabel: 'kode_asn',
+                    isLoading: isLoadingGetAsn,
+                    lookup: lookup_custom6,
+                    onGet: onGetAsn,
+                    value: form.asn_id,
+                    input: onSelectAsn,
+                  }"
+                />
                 <div class="form-group">
                   <input-horizontal
                     label="Tipe Dokumen External"
@@ -272,10 +304,12 @@
                           <td class="border border-gray-300">
                             <p>
                               Quantity:
-                              {{ item.quantity ? item.quantity : "-" }}
+                              {{
+                                item.quantity ? parseInt(item.quantity) : "-"
+                              }}
                             </p>
                             <span>
-                              <label for="" class="text-[10px]">Bagus</label>
+                              <label for="" class="text-[10px]">Baik</label>
 
                               <money
                                 v-model="item.quantity_bagus"
@@ -1070,6 +1104,7 @@ export default {
 
       form: {
         inbound_id: "",
+        sumber_data: "ASN",
         asn_id: "",
         surat_jalan: "",
         doc_type_sap: "",
@@ -1092,6 +1127,7 @@ export default {
       },
       default_form: {
         inbound_id: "",
+        sumber_data: "ASN",
         asn_id: "",
         surat_jalan: "",
         doc_type_sap: "",
@@ -1163,7 +1199,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchAsn();
+    // await this.onSearchAsn();
     await this.onSearchZonaPlan();
     await this.onSearchSlotAisle();
     await this.onSearchSlotRack();
@@ -1613,6 +1649,7 @@ export default {
 
     async onSelectAsn(item) {
       if (item) {
+        this.form.asn_id = item;
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
@@ -1631,10 +1668,20 @@ export default {
             };
           });
         }
+        console.log(this.form);
         await this.onSearchSlotAisle();
         await this.onSearchSlotRack();
         await this.onSearchSlotLevel();
         await this.onSearchSlotBin();
+      } else {
+        this.form.asn_id = "";
+        this.form.doc_type_sap = "";
+        this.form.surat_jalan = "";
+        this.form.no_referensi_1 = "";
+        this.form.no_referensi_2 = "";
+        this.form.tanggal = "";
+        this.form.gudang_id = "";
+        this.form.inbound_details = [];
       }
     },
 

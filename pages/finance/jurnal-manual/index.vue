@@ -158,7 +158,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Manual",
+      title: "Jurnal Entry",
     };
   },
 
@@ -206,7 +206,7 @@ export default {
 
   data() {
     return {
-      title: "Jurnal Manual",
+      title: "Jurnal Entry",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

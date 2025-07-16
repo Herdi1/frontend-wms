@@ -56,6 +56,25 @@
                   </div>
                 </ValidationProvider> -->
 
+                <ValidationProvider
+                  name="nama_kota"
+                  rules="required"
+                  ref="ruteProvider"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nama Kota"
+                      type="text"
+                      name="nama_kota"
+                      :required="true"
+                      v-model="parameters.form.nama_kota"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+
                 <ValidationProvider name="id_provinsi" rules="required">
                   <div
                     class="form-group w-full items-center mb-5"
@@ -158,25 +177,6 @@
                       name="kode_alternatif"
                       :required="true"
                       v-model="parameters.form.kode_alternatif"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                  </div>
-                </ValidationProvider>
-
-                <ValidationProvider
-                  name="nama_kota"
-                  rules="required"
-                  ref="ruteProvider"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Kota"
-                      type="text"
-                      name="nama_kota"
-                      :required="true"
-                      v-model="parameters.form.nama_kota"
                       :inputClass="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "

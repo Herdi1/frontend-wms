@@ -144,7 +144,7 @@ export default {
         form: {},
       },
       form: {
-        stock_card_id: "",
+        stok_gudang_all_id: "",
       },
     };
   },
@@ -158,7 +158,7 @@ export default {
       this.isLoadingData = true;
       try {
         let response = await this.$axios.get(
-          "inventory/stock-card/" + this.parameters.form.kartu_stok_id
+          "inventory/stock/" + this.parameters.form.stok_gudang_all_id
         );
 
         this.parameters.form = response.data;

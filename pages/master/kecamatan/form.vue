@@ -117,6 +117,25 @@
 
                 <ValidationProvider
                   ref="inputProvider"
+                  name="nama_kecamatan"
+                  rules="required"
+                >
+                  <div class="form-group" slot-scope="{ errors, valid }">
+                    <input-form
+                      label="Nama Kecamatan"
+                      type="text"
+                      name="nama_kecamatan"
+                      :required="true"
+                      v-model="parameters.form.nama_kecamatan"
+                      :inputClass="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    />
+                  </div>
+                </ValidationProvider>
+
+                <ValidationProvider
+                  ref="inputProvider"
                   name="kota_id"
                   rules="required"
                 >
@@ -203,24 +222,6 @@
                   />
                 </div>
 
-                <ValidationProvider
-                  ref="inputProvider"
-                  name="nama_kecamatan"
-                  rules="required"
-                >
-                  <div class="form-group" slot-scope="{ errors, valid }">
-                    <input-form
-                      label="Nama Kecamatan"
-                      type="text"
-                      name="nama_kecamatan"
-                      :required="true"
-                      v-model="parameters.form.nama_kecamatan"
-                      :inputClass="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
-                    />
-                  </div>
-                </ValidationProvider>
                 <ValidationProvider
                   ref="inputProvider"
                   name="kode_kecamatan"
