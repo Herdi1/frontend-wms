@@ -24,9 +24,9 @@
                 <input-horizontal
                   label="Kode PO"
                   type="text"
-                  name="kode_purchase_order"
+                  name="kode_po"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_purchase_order"
+                  v-model="parameters.form.kode_po"
                   :required="false"
                   :disabled="true"
                 />
@@ -41,8 +41,8 @@
                   :required="false"
                 />
               </div>
-              <div v-if="!user.gudang_id" class="w-full">
-                <ValidationProvider name="gudang" rules="required">
+              <div class="w-full">
+                <ValidationProvider name="gudang_id">
                   <div slot-scope="{ errors, valid }">
                     <select-button
                       :self="{
@@ -321,7 +321,7 @@
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
                   <th class="w-40 border border-gray-300">Item Gudang</th>
-                  <th class="w-40 border border-gray-300">Zona Gudang</th>
+                  <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
                   <th class="w-40 border border-gray-300">Nomor Referensi</th>
@@ -384,10 +384,11 @@
 
                       <p v-if="item.item_gudang_id">
                         {{ item.item_gudang_id.nama_item }}
+                        {{ item.item_gudang_id.kode_item }}
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_zona_gudang"
@@ -420,7 +421,7 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
                     <money
                       v-model="item.quantity"
@@ -591,7 +592,7 @@ export default {
         url: "inbound/purchase_order",
         form: {
           gudang_id: "",
-          kode_purchase_order: "",
+          kode_po: "",
           kode_sap: "",
           doc_type_sap: "",
           tanggal: "",
@@ -642,11 +643,12 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inbound/purchase_order/${this.id}`);
+        let res = await this.$axios.get(`inbound/purchase-order/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
 
+        this.parameters.form.gudang_id = res.data.gudang || "";
         this.parameters.form.lokasi_id_asal_muat =
           res.data.lokasi_asal_muat || "";
         this.parameters.form.vendor_id_transporter =
@@ -661,6 +663,7 @@ export default {
             return {
               ...item,
               purchase_order_details_id: item || null,
+              item_gudang_id: item.item_gudang,
             };
           });
 
@@ -758,7 +761,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inbound/purchase_order";
+      let url = "inbound/purchase-order";
 
       // today's date
       const today = new Date();
@@ -1347,7 +1350,7 @@ export default {
         this.parameters.form.gudang_id = "";
       }
     },
-    onSelectGudang(item, index) {
+    onSelectSupplier(item, index) {
       if (item) {
         this.parameters.form.supplier_id = item;
       } else {

@@ -94,7 +94,7 @@
                   </td>
                   <td>
                     <div>
-                      {{ item.kode_purchase_order }}
+                      {{ item.kode_po }}
                       <p v-if="item.user_id_input" class="text-blue-500">
                         <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
                       </p>
@@ -313,7 +313,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/purchase-order/" + item.asn_id);
+      this.$router.push("/inbound/purchase-order/" + item.purchase_order_id);
     },
 
     onDetail(item) {

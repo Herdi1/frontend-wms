@@ -31,6 +31,21 @@
                   :disabled="true"
                 />
               </div>
+              <div class="form-group w-full">
+                <select-button
+                  :self="{
+                    label: 'Purchase Order',
+                    optionLabel: 'kode_po',
+                    lookup: lookup_custom4,
+                    value: parameters.form.purchase_order_id,
+                    onGet: onGetPo,
+                    isLoadingL: isLoadingGetPo,
+                    input: onSelectPo,
+                  }"
+                  width="w-[50%]"
+                  required="true"
+                />
+              </div>
               <div class="form-group">
                 <input-horizontal
                   label="Referensi External"
@@ -834,6 +849,10 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      isStopSearchPo: false,
+      isLoadingGetPo: false,
+      po_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -843,6 +862,7 @@ export default {
       parameters: {
         url: "inbound/asn",
         form: {
+          purchase_order_id: "",
           gudang_id: "",
           kode_asn: "",
           kode_sap: "",
@@ -954,6 +974,7 @@ export default {
       "lookup_defects", //item gudang
       "lookup_regus", //zona gudang
       "lookup_beam", // get superadmin / no
+      "lookup_custom4", //get po
     ]),
   },
 
@@ -1427,6 +1448,46 @@ export default {
       }
     },
 
+    //Get PO
+    onGetPo(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPo);
+
+      this.isStopSearchPo = setTimeout(() => {
+        this.po_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchPo();
+      }, 600);
+    },
+
+    async onSearchPo() {
+      if (!this.isLoadingGetPo) {
+        this.isLoadingGetPo = true;
+
+        await this.lookUp({
+          url: "master/purchase-order/get-purchase-order",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.po_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPo = false;
+      }
+    },
+
     // Get Item
     onGetItem(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -1595,7 +1656,7 @@ export default {
         this.parameters.form.gudang_id = "";
       }
     },
-    onSelectGudang(item, index) {
+    onSelectSupplier(item, index) {
       if (item) {
         this.parameters.form.supplier_id = item;
       } else {

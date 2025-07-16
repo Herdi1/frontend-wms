@@ -258,21 +258,21 @@
             >
               <thead>
                 <tr class="text-sm uppercase">
-                  <th class="w-20 border border-gray-300 text-center">
+                  <th class="w-[20%] border border-gray-300 text-center">
                     Delete
                   </th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-40 border border-gray-300">Item Gudang</th>
-                  <th class="w-40 border border-gray-300">Zona Gudang</th>
-                  <th class="w-40 border border-gray-300">Quantity</th>
-                  <th class="w-40 border border-gray-300">Serial Number</th>
-                  <th class="w-40 border border-gray-300">Nomor Referensi</th>
-                  <th class="w-40 border border-gray-300">Dimensi</th>
+                  <th class="w-[25%] border border-gray-300">Item</th>
+                  <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
+                  <th class="w-[25%] border border-gray-300">Quantity</th>
+                  <!-- <th class="w-40 border border-gray-300">Serial Number</th> -->
+                  <!-- <th class="w-40 border border-gray-300">Nomor Referensi</th> -->
+                  <!-- <th class="w-40 border border-gray-300">Dimensi</th> -->
                   <!-- <th class="w-40 border border-gray-300">Lebar</th>
                   <th class="w-40 border border-gray-300">Tinggi</th>
                   <th class="w-40 border border-gray-300">Berat</th> -->
-                  <th class="w-40 border border-gray-300">Note</th>
+                  <th class="w-[30%] border border-gray-300">Keterangan</th>
                 </tr>
               </thead>
               <tbody>
@@ -399,7 +399,7 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_zona_gudang"
@@ -432,17 +432,42 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
+                    <p>Quantity:</p>
                     <money
                       v-model="item.quantity"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <p>Quantity Order:</p>
+                    <money
+                      v-model="item.quantity_order"
+                      class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <p>Quantity Termuat:</p>
+                    <money
+                      v-model="item.quantity_termuat"
+                      class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <p>Quantity Terkirim:</p>
+                    <money
+                      v-model="item.quantity_terkirim"
+                      class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
                       @keydown.native="
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <input-form
                       label=""
                       type="text"
@@ -503,13 +528,13 @@
                         "
                       />
                     </span>
-                  </td>
+                  </td> -->
 
                   <td class="border border-gray-300">
                     <textarea
-                      placeholder="Note"
+                      placeholder="keterangan"
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      v-model="item.note"
+                      v-model="item.keterangan"
                     ></textarea>
                   </td>
                 </tr>
@@ -1282,6 +1307,8 @@ export default {
           query:
             "?search=" +
             this.item_gudang_search +
+            "&gudang_id" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_defects.current_page +
             "&per_page=10",
@@ -1349,9 +1376,10 @@ export default {
     //select item gudang
     onSelectItemGudang(item, index) {
       if (item) {
-        this.parameters.form.asn_details[index].item_id = item.item_id;
+        this.parameters.form.detail_pick_request[index].item_gudang_id =
+          item.item_gudang_id;
       } else {
-        this.parameters.form.asn_details[index].item_id = "";
+        this.parameters.form.detail_pick_request[index].item_gudang_id = "";
       }
     },
 
