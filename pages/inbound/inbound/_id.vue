@@ -1132,6 +1132,15 @@ export default {
           return {
             ...item,
             detail_inbound_id: item,
+            zona_gudang_id_plan: item.asn_detail.zona_gudang_id_plan,
+            slot_penyimpanan_id_aisle_plan:
+              item.asn_detail.slot_penyimpanan_id_aisle_plan,
+            slot_penyimpanan_id_rack_plan:
+              item.asn_detail.slot_penyimpanan_id_rack_plan,
+            slot_penyimpanan_id_level_plan:
+              item.asn_detail.slot_penyimpanan_id_level_plan,
+            slot_penyimpanan_id_bin_plan:
+              item.asn_detail.slot_penyimpanan_id_bin_plan,
           };
         });
 
@@ -1261,7 +1270,9 @@ export default {
           typeof this.form.asn_id === "object"
             ? this.form.asn_id.asn_id
             : this.form.asn_id,
-        gudang_id: this.form.asn_id.gudang_id,
+        // gudang_id: this.form.asn_id
+        //   ? this.form.asn_id.gudang_id
+        //   : this.form.gudang_id,
         supplier_id: this.form.asn_id.supplier_id,
       };
 

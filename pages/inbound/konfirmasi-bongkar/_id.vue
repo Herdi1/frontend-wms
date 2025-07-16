@@ -815,7 +815,7 @@ export default {
           if (!this.isEditable) {
             this.form = this.default_form;
           }
-          this.$router.push("/inbound/inspeksi-asn");
+          this.$router.push("/inbound/konfirmasi-bongkar");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
