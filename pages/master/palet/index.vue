@@ -16,14 +16,12 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div
+      <!-- <div
         class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
       >
         <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+      </div> -->
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -126,10 +124,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isMaintenancePage = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -140,14 +138,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -157,7 +155,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -248,27 +246,29 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_palet: "",
-        nama_palet: "",
-        rfid: "",
-        status_palet: "a",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/palet/add");
+      // this.$refs.formInput.parameters.form = {
+      //   kode_palet: "",
+      //   nama_palet: "",
+      //   rfid: "",
+      //   status_palet: "a",
+      // };
+      // this.$refs.formInput.isEditable = false;
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        status_palet: (item.status_palet || "").trim(),
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/palet/" + item.palet_id);
+      // this.$refs.formInput.isEditable = true;
+      // this.$refs.formInput.parameters.form = {
+      //   ...item,
+      //   status_palet: (item.status_palet || "").trim(),
+      // };
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     async onLoad(page = 1) {

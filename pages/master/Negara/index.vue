@@ -16,14 +16,7 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div
-        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
@@ -31,6 +24,8 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Negara</th>
                 <th
@@ -66,21 +61,10 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  {{
-                    (parameters.params.page - 1) * parameters.params.per_page +
-                    i +
-                    1
-                  }}
-                </td>
-                <td>{{ item.kode_negara }}</td>
-                <td>{{ item.nama_negara }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -90,6 +74,15 @@
                     v-if="!item.deleted_at"
                   />
                 </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>{{ item.kode_negara }}</td>
+                <td>{{ item.nama_negara }}</td>
               </tr>
             </tbody>
           </table>
@@ -120,10 +113,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isMaintenancePage = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isAddData = false;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -134,14 +127,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -151,7 +144,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -239,47 +232,18 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_negara: "",
-        nama_negara: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
-      // this.$refs.formInput.$refs.formValidate.reset();
+      this.$router.push("/master/negara/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        kode_negara: item.kode_negara,
-      };
-      // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(`/master/negara/${item.negara_id}`);
     },
-
-    // onDetail(item) {
-    //   this.$refs.modalDetail.parameters.form = {
-    //     ...item,
-    //   };
-    //   this.$refs.modalDetail.show();
-    // },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
       this.parameters.params.page = page;
-
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

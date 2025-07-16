@@ -164,6 +164,12 @@
                     >
                       {{ item.status_bongkar }}
                     </p>
+                    <p
+                      v-if="item.status_put_away === null"
+                      class="text-orange-500"
+                    >
+                      MENUNGGU
+                    </p>
                   </td>
                   <td>{{ item.catatan_bongkar }}</td>
                   <!-- <td>{{ item.kendaraan_id }}</td>

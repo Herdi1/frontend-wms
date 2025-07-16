@@ -16,21 +16,21 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div
+      <!-- <div
         class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
       >
         <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="sm:w-full md:w-8/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
+      </div> -->
+      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
           <table ref="formContainer">
             <thead>
-              <tr>
+              <tr class="uppercase">
+                <th class="w-[5%]">Edit</th>
+                <th class="w-[5%]">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th
                   @click="
@@ -65,14 +65,21 @@
                   </div>
                 </th>
                 <th>Kode Jenis Biaya</th>
-                <th>Status</th>
+                <th>Status Jenis Biaya</th>
                 <th>Keterangan</th>
-                <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td>
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -84,15 +91,6 @@
                 <td>{{ item.kode_jenis_biaya }}</td>
                 <td>{{ item.status_label }}</td>
                 <td>{{ item.keterangan }}</td>
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
               </tr>
             </tbody>
           </table>
@@ -123,10 +121,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isMaintenancePage = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -137,14 +135,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -154,7 +152,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -192,7 +190,7 @@ export default {
           form: {
             nama_jenis_biaya: "",
             kode_jenis_biaya: "",
-            status: "",
+            status_jenis_biaya_id: "",
             keterangan: "",
           },
         },
@@ -245,26 +243,21 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        nama_jenis_biaya: "",
-        kode_jenis_biaya: "",
-        status: "",
-        keterangan: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(`/master/jenis-biaya/add`);
+      // this.$refs.formInput.parameters.form = {
+      //   nama_jenis_biaya: "",
+      //   kode_jenis_biaya: "",
+      //   status: "",
+      //   keterangan: "",
+      // };
+      // this.$refs.formInput.isEditable = false;
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push(`/master/jenis-biaya/${item.jenis_biaya_id}`);
     },
 
     async onLoad(page = 1) {

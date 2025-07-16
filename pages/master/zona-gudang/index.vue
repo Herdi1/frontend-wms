@@ -250,10 +250,10 @@ export default {
   components: {},
 
   mounted() {
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -282,7 +282,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
 
     this.user_agent = navigator.userAgent;

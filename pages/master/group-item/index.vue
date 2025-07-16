@@ -17,12 +17,7 @@
     </div>
     <div class="flex gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div>
-      <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -239,10 +234,10 @@ export default {
   },
 
   mounted() {
-    this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -254,14 +249,14 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -271,7 +266,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -360,25 +355,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        group_item_id_induk: "",
-        nama_group_item: "",
-        status: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/group-item/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/group-item/" + item.group_item_id);
     },
 
     onTrashed(item) {
