@@ -19,7 +19,7 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-flow-col grid-rows-5 gap-3 w-full">
+            <div class="grid grid-flow-col grid-rows-5 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
                   label="Kode Pick Request"
