@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <div class="col-md-1 mt-2">
+        <div class="col-md-1 mt-2" v-if="isSearching">
           <button
             class="btn btn-sm btn-primary text-nowrap"
             data-toggle="tooltip"

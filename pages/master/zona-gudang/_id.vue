@@ -419,7 +419,7 @@
                     </div>
                   </ValidationProvider>
 
-                  <div class="form-group" slot-scope="{ errors, valid }">
+                  <div class="form-group">
                     <label for="status_zona"
                       >Status Zona<span class="text-danger">*</span></label
                     >
@@ -428,19 +428,13 @@
                       name="status_zona"
                       id="status_zona"
                       v-model="form.status_zona"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
                     >
                       <option value="">Pilih</option>
                       <option value="f ">Fisik</option>
                       <option value="v ">Virtual</option>
                     </select>
-                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                      errors[0]
-                    }}</span>
                   </div>
-                  <div class="form-group" slot-scope="{ errors, valid }">
+                  <div class="form-group">
                     <label for="allow_overstock"
                       >Allow Overstock<span class="text-danger">*</span></label
                     >
@@ -449,19 +443,13 @@
                       name="allow_overstock"
                       id="allow_overstock"
                       v-model="form.allow_overstock"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
                     >
                       <option value="">Pilih</option>
                       <option value="1">Ijinkan</option>
                       <option value="0">Tidak Diijinkan</option>
                     </select>
-                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                      errors[0]
-                    }}</span>
                   </div>
-                  <div class="form-group" slot-scope="{ errors, valid }">
+                  <div class="form-group">
                     <label for="status_zona_aktif"
                       >Status Zona Aktif<span class="text-danger"
                         >*</span
@@ -472,17 +460,11 @@
                       name="status_zona_aktif"
                       id="status_zona_aktif"
                       v-model="form.status_zona_aktif"
-                      :class="
-                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                      "
                     >
                       <option value="">Pilih</option>
                       <option value="1">Aktif</option>
                       <option value="0">Non Aktif</option>
                     </select>
-                    <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                      errors[0]
-                    }}</span>
                   </div>
 
                   <ValidationProvider

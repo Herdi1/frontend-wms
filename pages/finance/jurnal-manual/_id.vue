@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Jurnal Entry
+          {{ isEditable ? "Edit" : "Tambah" }} Jurnal Entri
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -224,10 +224,14 @@
                             </select>
                           </td>
                           <td class="border border-gray-300">
-                            <input
-                              required
+                            <money
                               v-model="item.jumlah"
-                              class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                              class="w-full pl-2 py-1 border rounded focus:outline-none"
+                              @keydown.native="
+                                $event.key === '-'
+                                  ? $event.preventDefault()
+                                  : null
+                              "
                             />
                           </td>
                           <td class="border border-gray-300">
@@ -536,7 +540,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Entry",
+      title: "Jurnal Entri",
     };
   },
 
@@ -550,7 +554,7 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      title: "Jurnal Entry",
+      title: "Jurnal Entri",
 
       url: "finance/jurnal",
       form: {
@@ -612,6 +616,13 @@ export default {
 
   async created() {
     try {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+      this.form.tanggal = formattedDate;
       if (this.isEditable) {
         let response = await this.$axios.get("finance/jurnal/" + this.id);
 
@@ -702,10 +713,10 @@ export default {
       formData.jurnal_details = formData.jurnal_details.map((item) => {
         return {
           ...item,
-          // jurnal_details_id:
-          //   typeof item.jurnal_details_id == "object"
-          //     ? item.jurnal_details_id.jurnal_details_id
-          //     : "",
+          jurnal_detail_id:
+            typeof item.jurnal_detail_id == "object"
+              ? item.jurnal_detail_id.jurnal_detail_id
+              : item.jurnal_detail_id,
           coa_id:
             typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
           jenis_biaya_id: item.jenis_biaya_id || "",
@@ -731,7 +742,7 @@ export default {
           this.$toaster.success(
             "Berhasil " +
               (this.isEditable ? "Update" : "Tambah") +
-              " Jurnal Entry"
+              " Jurnal Entri"
           );
 
           if (!this.isEditable) {
@@ -850,7 +861,7 @@ export default {
         this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "finance/coa/get-coa",
+          url: "finance/jurnal/get-coa",
           lookup: "custom2",
           query:
             "?search=" +

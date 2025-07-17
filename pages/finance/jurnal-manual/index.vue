@@ -69,7 +69,7 @@
                   <th>Keterangan</th>
                   <th>Debit</th>
                   <th>Kredit</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th class="w-[5%]">Print</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,29 +109,20 @@
                   </td>
                   <td class="w-[30%]">{{ item.keterangan }}</td>
                   <td>
-                    {{
-                      item.jurnal_details.reduce((acc, item) => {
-                        if (item.tipe == "DEBIT") {
-                          return acc + item.jumlah;
-                        }
-
-                        return acc;
-                      }, 0)
-                    }}
+                    {{ item.total_debit ?? "" | formatPrice }}
                   </td>
                   <td>
-                    {{
-                      item.jurnal_details.reduce((acc, item) => {
-                        if (item.tipe == "CREDIT") {
-                          return acc + item.jumlah;
-                        }
-
-                        return acc;
-                      }, 0)
-                    }}
+                    {{ item.total_credit ?? "" | formatPrice }}
                   </td>
                   <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                    <button
+                      class="btn btn-sm"
+                      v-if="!item.deleted_at"
+                      @click="onPrintDetail(item)"
+                      title="Print Invoice Jurnal"
+                    >
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -158,7 +149,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Entry",
+      title: "Jurnal Entri",
     };
   },
 
@@ -206,7 +197,7 @@ export default {
 
   data() {
     return {
-      title: "Jurnal Entry",
+      title: "Jurnal Entri",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -381,6 +372,18 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    onPrintDetail(item) {
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "/finance/jurnal/get-print-detail/" +
+          item.jurnal_id +
+          "?token=" +
+          token,
+        "_blank"
+      );
     },
   },
 };

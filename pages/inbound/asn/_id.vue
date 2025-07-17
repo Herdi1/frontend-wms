@@ -1079,7 +1079,11 @@ export default {
       formData.asn_details = formData.asn_details.map((item) => {
         return {
           ...item,
-          asn_details_id: item.asn_details_id ? item.asn_details_id : "",
+          asn_detail_id: item.asn_details_id ? item.asn_details_id : "",
+          purchase_order_detail_id: item.purchase_order_detail_id
+            ? item.purchase_order_detail_id
+            : "",
+
           item_gudang_id:
             typeof item.item_gudang_id === "object"
               ? item.item_gudang_id.item_gudang_id
@@ -1741,6 +1745,7 @@ export default {
               return {
                 ...item,
                 asn_details_id: item || null,
+                purchase_order_detail_id: item.purchase_order_detail_id,
                 item_gudang_id: item.item_gudang ? item.item_gudang : "",
               };
             }

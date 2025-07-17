@@ -38,7 +38,7 @@
                   class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Tipe Vendor</div>
+                    <div>Nama Valuation</div>
                     <div>
                       <i
                         class="fas fa-caret-up"

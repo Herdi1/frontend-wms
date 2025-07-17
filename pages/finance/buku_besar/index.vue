@@ -136,6 +136,62 @@
                   </li>
                 </v-select>
               </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2"><b>Gudang</b></div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  @input="onSetGudang"
+                  v-model="gudang_id"
+                >
+                  <template v-slot:option="option">
+                    <div class="flex">
+                      <div class="col-md-5 p-1 m-0 w-8/12">
+                        {{ option.nama_gudang }}
+                      </div>
+                      <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                        {{ option.kode_gudang }}
+                      </div>
+                    </div>
+                  </template>
+                  <template #search="{ attributes, events }">
+                    <input
+                      class="vs__search"
+                      :required="!gudang_id"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="d-flex justify-content-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
 
               <div class="flex gap-3 ml-5">
                 <button
@@ -369,6 +425,7 @@ export default {
           start_date: "",
           end_date: "",
           coa_id: "",
+          gudang_id: "",
         },
         default_params: {
           soft_deleted: "",
@@ -382,6 +439,7 @@ export default {
           start_date: "",
           end_date: "",
           coa_id: "",
+          gudang_id: "",
         },
         form: {
           checkboxs: [],
@@ -413,6 +471,12 @@ export default {
 
       coa_id: "",
 
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      gudang_id: "",
+
       passiva_types: ["MODAL", "KEWAJIBAN", "PENDAPATAN"],
     };
   },
@@ -422,7 +486,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["lookup_chart_of_accounts"]),
+    ...mapState("moduleApi", ["lookup_chart_of_accounts", "lookup_custom1"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -480,6 +544,11 @@ export default {
         this.chart_of_account_id = "";
       }
     },
+    "parameters.params.gudang_id": function (newValue, oldValue) {
+      if (!newValue) {
+        this.gudang_id = "";
+      }
+    },
   },
 
   methods: {
@@ -501,6 +570,8 @@ export default {
         "?page=1" +
         "&coa_id=" +
         this.parameters.params.coa_id +
+        "&gudang_id=" +
+        this.parameters.params.gudang_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -649,7 +720,7 @@ export default {
         this.isLoadingGetChartOfAccount = true;
 
         await this.lookUp({
-          url: "finance/coa/get-coa",
+          url: "finance/jurnal/get-coa",
           lookup: "chart_of_accounts",
           query:
             "?search=" +
@@ -665,6 +736,50 @@ export default {
 
     onSetChartOfAccount(item) {
       this.parameters.params.coa_id = item ? item.coa_id : "";
+    },
+
+    //gudang
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSetGudang(item) {
+      this.parameters.params.gudang_id = item ? item.gudang_id : "";
     },
 
     onDetail(item) {

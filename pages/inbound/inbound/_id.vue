@@ -37,16 +37,20 @@
               <div class="grid grid-cols-2 gap-3 w-full mb-7">
                 <!-- <div class="form-group flex items-center">
                   <label for="" class="w-[40%]">ASN</label>
-                  <v-select
-                    label="kode_asn"
-                    :loading="isLoadingGetAsn"
-                    :options="lookup_custom6.data"
-                    :filterable="false"
-                    @search="onGetAsn"
-                    v-model="form.asn_id"
-                    class="w-[60%]"
-                    @input="onSelectAsn"
-                  >
+                  let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
+            if (!acc[data.item.nama_item]) {
+              acc[data.item.nama_item] = 0;
+            }
+            acc[data.item.nama_item] += data.quantity;
+            return acc;
+          }, {});
+
+          const result = Object.entries(itemsQuantity).map(
+            ([nama_item, quantity]) => ({
+              nama_item,
+              quantity,
+            })
+          );
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -100,13 +104,14 @@
                   v-if="form.sumber_data === 'PO'"
                   :self="{
                     label: 'Purchase Order',
-                    optionLabel: 'kode_asn',
-                    isLoading: isLoadingGetAsn,
-                    lookup: lookup_custom6,
-                    onGet: onGetAsn,
-                    value: form.asn_id,
-                    input: onSelectAsn,
+                    optionLabel: 'kode_po',
+                    isLoading: isLoadingGetPurchaseOrder,
+                    lookup: lookup_beam,
+                    onGet: onGetPurchaseOrder,
+                    value: form.purchase_order_id,
+                    input: onSelectPo,
                   }"
+                  width="w-[60%]"
                 />
                 <div class="form-group">
                   <input-horizontal
@@ -211,14 +216,14 @@
                   <div class="w-full flex justify-between items-center">
                     <h1 class="text-xl font-bold">Detail Inbound</h1>
                     <div class=" ">
-                      <!-- <button
+                      <button
                         type="button"
-                        @click="AddBiayaInbound"
+                        @click="AddDetailInbound"
                         class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                       >
                         <i class="fas fa-plus"></i>
                         <p class="text-xs font-medium">Tambah Detail ASN</p>
-                      </button> -->
+                      </button>
                     </div>
                   </div>
                   <div class="table-responsive overflow-y-hidden mb-7">
@@ -282,7 +287,21 @@
                             {{ item.asn ? item.asn : "-" }}
                           </td> -->
                           <td class="border border-gray-300">
-                            {{ item.item ? item.item.nama_item : "-" }}
+                            <v-select
+                              label="nama_item"
+                              :options="items"
+                              :filterable="false"
+                              v-model="item.item_id"
+                              class="w-full"
+                              @input="(item) => onSelectItemDetail(item, index)"
+                            >
+                              <template
+                                slot="option-selected"
+                                slot-scope="option"
+                                >{{ option.nama_item }}</template
+                              >
+                            </v-select>
+                            <!-- {{ item.nama_item ? item.nama_item : "-" }} -->
                           </td>
                           <td class="border border-gray-300">
                             <div>
@@ -294,6 +313,10 @@
                               </p>
                               <p>
                                 Nomor Referensi:
+                                <!-- <input
+                                  v-model="item.no_referensi"
+                                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                                /> -->
                                 {{
                                   item.no_referensi ? item.no_referensi : "-"
                                 }}
@@ -302,55 +325,54 @@
                           </td>
 
                           <td class="border border-gray-300">
-                            <p>
+                            <p class="mb-2">
                               Quantity:
-                              {{
-                                item.quantity ? parseInt(item.quantity) : "-"
-                              }}
+                              <money
+                                v-model="item.quantity"
+                                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                                @keydown.native="
+                                  $event.key === '-'
+                                    ? $event.preventDefault()
+                                    : null
+                                "
+                              />
                             </p>
-                            <span>
-                              <label for="" class="text-[10px]">Baik</label>
-
-                              <money
-                                v-model="item.quantity_bagus"
-                                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                                @keydown.native="
-                                  $event.key === '-'
-                                    ? $event.preventDefault()
-                                    : null
-                                "
-                              />
-                            </span>
-                            <span>
-                              <label for="" class="text-[10px]"
-                                >Rusak Membatu</label
+                            <div>
+                              <p class="mb-2">Valuation:</p>
+                              <v-select
+                                label="nama_valuation"
+                                :loading="isLoadingGetValuation"
+                                :options="lookup_warehouses.data"
+                                :filterable="false"
+                                @search="onGetValuation"
+                                v-model="item.valuation_id"
+                                :reduce="(item) => item.valuation_id"
+                                class="w-full"
                               >
-
-                              <money
-                                v-model="item.quantity_rusak_membatu"
-                                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                                @keydown.native="
-                                  $event.key === '-'
-                                    ? $event.preventDefault()
-                                    : null
-                                "
-                              />
-                            </span>
-                            <span>
-                              <label for="" class="text-[10px]"
-                                >Rusak Pecah</label
-                              >
-
-                              <money
-                                v-model="item.quantity_rusak_pecah"
-                                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                                @keydown.native="
-                                  $event.key === '-'
-                                    ? $event.preventDefault()
-                                    : null
-                                "
-                              />
-                            </span>
+                                <li
+                                  slot-scope="{ search }"
+                                  slot="list-footer"
+                                  class="p-1 border-t flex justify-between"
+                                  v-if="lookup_warehouses.data.length || search"
+                                >
+                                  <span
+                                    v-if="lookup_warehouses.current_page > 1"
+                                    @click="onGetValuation(search, false)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Sebelumnya</span
+                                  >
+                                  <span
+                                    v-if="
+                                      lookup_warehouses.last_page >
+                                      lookup_warehouses.current_page
+                                    "
+                                    @click="onGetValuation(search, true)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Selanjutnya</span
+                                  >
+                                </li>
+                              </v-select>
+                            </div>
                           </td>
                           <td class="border border-gray-300">
                             <input
@@ -670,9 +692,9 @@
                           <td class="border border-gray-300">
                             <ValidationProvider
                               name="alasan_beda_plan_id"
-                              :rules="isSameAsPlan"
                               class="w-full"
                             >
+                              <!-- :rules="isSameAsPlan" -->
                               <div slot-scope="{ errors, valid }">
                                 <v-select
                                   label="nama_alasan_beda_plan"
@@ -737,6 +759,23 @@
                         </tr>
                       </tbody>
                     </table>
+
+                    <div class="mb-20 ml-20">
+                      <ul class="flex gap-2">
+                        <li
+                          class="mb-2 flex items-center"
+                          v-for="(item, i) in itemsQuantity"
+                          :key="i"
+                        >
+                          <p class="w-40">{{ item.nama_item }}</p>
+                          <div
+                            class="p-1 border border-gray-300 rounded-md w-[200px]"
+                          >
+                            {{ item.quantity || formatPrice }}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </template>
                 <template #BiayaInbound>
@@ -1046,7 +1085,10 @@ export default {
     let id = parseInt(this.$route.params.id);
 
     return {
-      tabs: [{ name: "DetailInbound" }, { name: "BiayaInbound" }],
+      tabs: [
+        { name: "DETAIL INBOUND", slotName: "DetailInbound" },
+        { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
+      ],
 
       id,
 
@@ -1074,6 +1116,10 @@ export default {
       isLoadingGetAsn: false,
       asn_search: "",
 
+      isStopSearchPurchaseOrder: false,
+      isLoadingGetPurchaseOrder: false,
+      po_search: "",
+
       isStopSearchJenisBiaya: false,
       isLoadingGetJenisBiaya: false,
       jenis_biaya_search: "",
@@ -1093,6 +1139,10 @@ export default {
       isStopSearchAlasan: false,
       isLoadingGetAlasan: false,
       alasan_search: "",
+
+      isStopSearchValuation: false,
+      isLoadingGetValuation: false,
+      valuation_search: "",
 
       user: this.$auth.user,
 
@@ -1148,6 +1198,8 @@ export default {
         longitude: "",
         latitude: "",
       },
+      items: [],
+      items_quantity: [],
       showModal: false,
     };
   },
@@ -1200,6 +1252,7 @@ export default {
 
   async mounted() {
     // await this.onSearchAsn();
+    await this.onSearchValuation();
     await this.onSearchZonaPlan();
     await this.onSearchSlotAisle();
     await this.onSearchSlotRack();
@@ -1231,6 +1284,8 @@ export default {
       "lookup_custom9",
       "lookup_custom10",
       "lookup_grade",
+      "lookup_beam",
+      "lookup_warehouses",
     ]),
 
     //check if the real storaage slot is same as the plan
@@ -1248,6 +1303,26 @@ export default {
         );
       });
       return isSameAsPlan ? "" : "required";
+    },
+
+    //check total item quantity
+    itemsQuantity() {
+      let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
+        if (!acc[data.item_id.nama_item]) {
+          acc[data.item_id.nama_item] = 0;
+        }
+        acc[data.item_id.nama_item] += data.quantity;
+        return acc;
+      }, {});
+
+      const result = Object.entries(itemsQuantity).map(
+        ([nama_item, quantity]) => ({
+          nama_item,
+          quantity,
+        })
+      );
+
+      return result;
     },
   },
 
@@ -1306,6 +1381,10 @@ export default {
           typeof this.form.asn_id === "object"
             ? this.form.asn_id.asn_id
             : this.form.asn_id,
+        purchase_order_id:
+          typeof this.form.purchase_order_id === "object"
+            ? this.form.purchase_order_id.purchase_order_id
+            : this.form.purchase_order_id,
         // gudang_id: this.form.asn_id
         //   ? this.form.asn_id.gudang_id
         //   : this.form.gudang_id,
@@ -1376,6 +1455,27 @@ export default {
         });
     },
 
+    AddDetailInbound() {
+      this.form.inbound_details.push({
+        detail_inbound_id: "",
+        item_id: "",
+        serial_number: "",
+        quantity: "",
+        valuation_id: "",
+        panjang: "",
+        lebar: "",
+        tinggi: "",
+        berat: "",
+        zona_id: "",
+        slot_penyimpanan_id_aisle: "",
+        slot_penyimpanan_id_rack: "",
+        slot_penyimpanan_id_level: "",
+        slot_penyimpanan_id_bin: "",
+        keterangan: "",
+        alasan_beda_plan_id: "",
+      });
+    },
+
     AddBiayaInbound() {
       this.form.biaya_inbounds.push({
         biaya_inbound_id: "",
@@ -1393,6 +1493,46 @@ export default {
       this.form.biaya_inbounds = this.form.biaya_inbounds.filter(
         (_, itemIndex) => index !== itemIndex
       );
+    },
+
+    // Get zona plan
+    onGetValuation(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchValuation);
+
+      this.isStopSearchValuation = setTimeout(() => {
+        this.valuation_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_warehouses.current_page = isNext
+            ? this.lookup_warehouses.current_page + 1
+            : this.lookup_warehouses.current_page - 1;
+        } else {
+          this.lookup_warehouses.current_page = 1;
+        }
+
+        this.onSearchValuation();
+      }, 600);
+    },
+
+    async onSearchValuation() {
+      if (!this.isLoadingGetValuation) {
+        this.isLoadingGetValuation = true;
+
+        await this.lookUp({
+          url: "master/valuation/get-valuation",
+          lookup: "warehouses",
+          query:
+            "?search=" +
+            this.valuation_search +
+            "&page=" +
+            this.lookup_warehouses.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetValuation = false;
+      }
     },
 
     // Get zona plan
@@ -1647,6 +1787,46 @@ export default {
       }
     },
 
+    // get po
+    onGetPurchaseOrder(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPurchaseOrder);
+
+      this.isStopSearchPurchaseOrder = setTimeout(() => {
+        this.po_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_beam.current_page = isNext
+            ? this.lookup_beam.current_page + 1
+            : this.lookup_beam.current_page - 1;
+        } else {
+          this.lookup_beam.current_page = 1;
+        }
+
+        this.onSearchPurchaseOrder();
+      }, 600);
+    },
+
+    async onSearchPurchaseOrder() {
+      if (!this.isLoadingGetPurchaseOrder) {
+        this.isLoadingGetPurchaseOrder = true;
+
+        await this.lookUp({
+          url: "inbound/purchase-order/get-purchase-order",
+          lookup: "beam",
+          query:
+            "?search=" +
+            this.po_search +
+            "&page=" +
+            this.lookup_beam.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPurchaseOrder = false;
+      }
+    },
+
     async onSelectAsn(item) {
       if (item) {
         this.form.asn_id = item;
@@ -1657,9 +1837,12 @@ export default {
         this.form.tanggal = item.tanggal;
         this.form.gudang_id = item.gudang_id;
         if (item.asn_details) {
-          this.form.inbound_details = item.asn_details.map((data) => {
+          this.items = item.asn_details.map((data) => {
             return {
               ...data,
+              nama_item: data.item.nama_item,
+              asn_detail_id: data.asn_detail_id,
+              purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               zona_gudang_id: data.zona_gudang_id_plan,
               slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
               slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
@@ -1667,8 +1850,27 @@ export default {
               slot_penyimpanan_id_bin: data.slot_penyimpanan_id_bin_plan,
             };
           });
+          console.log(this.items);
+          let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
+            if (!acc[data.item.nama_item]) {
+              acc[data.item.nama_item] = 0;
+            }
+            acc[data.item.nama_item] += parseFloat(data.quantity) || 0;
+            console.log(data.quantity);
+            return acc;
+          }, {});
+
+          const result = Object.entries(itemsQuantity).map(
+            ([nama_item, quantity]) => ({
+              nama_item,
+              quantity,
+            })
+          );
+
+          this.items_quantity = result;
         }
-        console.log(this.form);
+
+        await this.onSearchValuation();
         await this.onSearchSlotAisle();
         await this.onSearchSlotRack();
         await this.onSearchSlotLevel();
@@ -1685,6 +1887,67 @@ export default {
       }
     },
 
+    async onSelectPo(item) {
+      if (item) {
+        this.form.purchase_order_id = item;
+        this.form.doc_type_sap = item.doc_type_sap;
+        this.form.surat_jalan = item.surat_jalan;
+        this.form.no_referensi_1 = item.no_referensi;
+        this.form.no_referensi_2 = item.no_referensi_2;
+        this.form.tanggal = item.tanggal;
+        this.form.gudang_id = item.gudang_id;
+        if (item.purchase_order_details) {
+          this.items = item.purchase_order_details.map((data) => {
+            return {
+              ...data,
+              nama_item: data.item.nama_item,
+              purchase_order_detail_id: data.purchase_order_detail_id ?? "",
+              zona_gudang_id: data.zona_gudang_id_plan,
+              slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
+              slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
+              slot_penyimpanan_id_level: data.slot_penyimpanan_id_level_plan,
+              slot_penyimpanan_id_bin: data.slot_penyimpanan_id_bin_plan,
+            };
+          });
+          console.log(this.items);
+          let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
+            if (!acc[data.item.nama_item]) {
+              acc[data.item.nama_item] = 0;
+            }
+            acc[data.item.nama_item] += data.quantity;
+            return acc;
+          }, {});
+
+          const result = Object.entries(itemsQuantity).map(
+            ([nama_item, quantity]) => ({
+              nama_item,
+              quantity,
+            })
+          );
+
+          this.items_quantity = result;
+        }
+
+        await this.onSearchValuation();
+        await this.onSearchSlotAisle();
+        await this.onSearchSlotRack();
+        await this.onSearchSlotLevel();
+        await this.onSearchSlotBin();
+      } else {
+        this.form.purchase_order_id = "";
+        this.form.doc_type_sap = "";
+        this.form.surat_jalan = "";
+        this.form.no_referensi_1 = "";
+        this.form.no_referensi_2 = "";
+        this.form.tanggal = "";
+        this.form.gudang_id = "";
+        this.form.inbound_details = [];
+      }
+    },
+
+    onSelectItemDetail(item, index) {
+      this.form.inbound_details[index] = { ...item };
+    },
     // get jenis biaya
     onGetJenisBiaya(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
