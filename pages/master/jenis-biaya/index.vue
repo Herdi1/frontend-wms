@@ -89,7 +89,7 @@
                 </td>
                 <td>{{ item.nama_jenis_biaya }}</td>
                 <td>{{ item.kode_jenis_biaya }}</td>
-                <td>{{ item.status_label }}</td>
+                <td>{{ item.status_jenis_biaya.nama_status_jenis_biaya }}</td>
                 <td>{{ item.keterangan }}</td>
               </tr>
             </tbody>
