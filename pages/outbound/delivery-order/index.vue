@@ -19,115 +19,114 @@
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <div class="card-body">
-          <div class="card-title">
-            <list-option-section :self="this" ref="form-option" />
-          </div>
-          <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Awal"
-                    type="date"
-                    name="kode_sap"
-                    :isHorizontal="true"
-                    v-model="parameters.params.start_date"
-                    :required="false"
-                  />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Akhir"
-                    type="date"
-                    name="periode_akhir"
-                    :isHorizontal="true"
-                    v-model="parameters.params.end_date"
-                    :required="false"
-                  />
-                </div>
-              </div>
-
-              <div class="flex gap-3 ml-5">
-                <button
-                  @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
-                >
-                  <i class="fa fa-filter text-white font-bold mr-2"></i>
-                  <div>Filter</div>
-                </button>
+        <div class="card-title">
+          <list-option-section :self="this" ref="form-option" />
+        </div>
+        <div class="w-full mt-3 mb-7 relative">
+          <div
+            class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md overflow-auto"
+          >
+            <div class="grid grid-cols-1 gap-5 w-full">
+              <div class="form-group">
+                <input-horizontal
+                  label="Periode Awal"
+                  type="date"
+                  name="kode_sap"
+                  :isHorizontal="true"
+                  v-model="parameters.params.start_date"
+                  :required="false"
+                />
               </div>
             </div>
-          </div>
-          <div class="table-responsive w-full relative">
-            <table class="mb-5 overflow-auto" ref="formContainer">
-              <thead>
-                <tr class="uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
-                  <th>Kode Pick Order</th>
-                  <th>User PIC</th>
-                  <th>Tanggal</th>
-                  <th>No Referensi 1</th>
-                  <th>No Referensi 2</th>
-                  <th>No Referensi 3</th>
-                  <th>Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
-                  <td>
-                    {{
-                      (parameters.params.page - 1) *
-                        parameters.params.per_page +
-                      i +
-                      1
-                    }}
-                  </td>
-                  <td>
-                    <div>
-                      {{ item.kode_pick_order }}
-                      <p v-if="item.user_id_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
-                      </p>
-                      <p v-else class="text-blue-500">
-                        <i>Dibuat oleh: Sistem</i>
-                      </p>
-                    </div>
-                  </td>
-                  <td>{{ item.user_id_pic }}</td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>{{ item.no_referensi_1 }}</td>
-                  <td>{{ item.no_referensi_2 }}</td>
-                  <td>{{ item.no_referensi_3 }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
-                </tr>
-              </tbody>
-              <table-data-loading-section :self="this" />
 
-              <table-data-not-found-section :self="this" />
-            </table>
+            <div class="grid grid-cols-1 gap-5 w-full">
+              <div class="form-group">
+                <input-horizontal
+                  label="Periode Akhir"
+                  type="date"
+                  name="periode_akhir"
+                  :isHorizontal="true"
+                  v-model="parameters.params.end_date"
+                  :required="false"
+                />
+              </div>
+            </div>
+
+            <div class="flex gap-3 ml-5">
+              <button
+                @click="onLoad"
+                class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+              >
+                <i class="fa fa-filter text-white font-bold mr-2"></i>
+                <div>Filter</div>
+              </button>
+            </div>
           </div>
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
-          </div>
+        </div>
+        <div class="table-responsive w-full overflow-x-auto">
+          <table class="mb-5" ref="formContainer">
+            <thead>
+              <tr class="uppercase">
+                <th class="w-[5%]">Edit</th>
+                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%]">No</th>
+                <th>Kode Pick Order</th>
+                <th>Tanggal</th>
+                <th>Pengemudi</th>
+                <th>Kendaraan</th>
+                <th>No Referensi 1</th>
+                <th>No Referensi 2</th>
+                <th>No Referensi 3</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, i) in data" :key="i">
+                <td class="text-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td class="text-center">
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
+                <td>
+                  {{
+                    (parameters.params.page - 1) * parameters.params.per_page +
+                    i +
+                    1
+                  }}
+                </td>
+                <td>
+                  <div>
+                    {{ item.kode_pick_order }}
+                    <p v-if="item.user_id_input" class="text-blue-500">
+                      <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
+                    </p>
+                    <p v-else class="text-blue-500">
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
+                  </div>
+                </td>
+                <td>{{ item.tanggal }}</td>
+                <td>{{ item.pengemudi_id }}</td>
+                <td>{{ item.kendaraan_id }}</td>
+                <td>{{ item.no_referensi_1 }}</td>
+                <td>{{ item.no_referensi_2 }}</td>
+                <td>{{ item.no_referensi_3 }}</td>
+                <td class="text-center">
+                  <small-detail-button @click="onDetail(item)" />
+                </td>
+              </tr>
+            </tbody>
+            <table-data-loading-section :self="this" />
+
+            <table-data-not-found-section :self="this" />
+          </table>
+        </div>
+        <div class="mx-3 mt-2 mb-4">
+          <pagination-section :self="this" ref="pagination" />
         </div>
       </div>
     </div>
@@ -142,7 +141,7 @@ export default {
 
   head() {
     return {
-      title: "Pick Order",
+      title: "Delivery Order",
     };
   },
 
@@ -190,16 +189,16 @@ export default {
 
   data() {
     return {
-      title: "Pick Order",
+      title: "Delivery Order",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "outbound/pick-order",
+        url: "outbound/delivery-order",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "pick_order_id",
+          order: "delivery_order_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -209,12 +208,14 @@ export default {
         },
         form: {
           kode_pick_order: "",
-          user_id_pic: "",
           tanggal: "",
+          pengemudi_id: "",
+          kendaraan_id: "",
           no_referensi_1: "",
           no_referensi_2: "",
           no_referensi_3: "",
-          detail_pick_order: [],
+          detail_produk: [],
+          detail_biaya: [],
 
           //Tracking
           user_agent: "",
@@ -253,7 +254,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "pick-order"
+          (item) => item.rute == "delivery-order"
         );
 
         let roles = {};
@@ -283,15 +284,17 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/outbound/pick-order/add");
+      this.$router.push("/outbound/delivery-order/add");
     },
 
     onEdit(item) {
-      this.$router.push("/outbound/pick-order/" + item.pick_order_id);
+      this.$router.push("/outbound/delivery-order/" + item.delivery_order_id);
     },
 
     onDetail(item) {
-      this.$router.push("/outbound/pick-order/detail/" + item.pick_order_id);
+      this.$router.push(
+        "/outbound/delivery-order/detail" + item.delivery_order_id
+      );
     },
 
     onTrashed(item) {
@@ -310,7 +313,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.pick_order_id,
+              id: item.delivery_order_id,
               params: this.parameters.params,
             });
 
