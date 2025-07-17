@@ -886,7 +886,10 @@ export default {
   data() {
     let id = parseInt(this.$route.params.id);
     return {
-      tabs: [{ name: "ItemPelanggan" }, { name: "Shipto" }],
+      tabs: [
+        { name: "Item Pelanggan", slotName: "ItemPelanggan" },
+        { name: "Shipto", slotName: "Shipto" },
+      ],
 
       id,
 

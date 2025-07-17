@@ -143,8 +143,8 @@
                         :filterable="false"
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
-                        @input="(item) => onSelectItemGudang(item, index)"
                       >
+                        <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -309,6 +309,12 @@ export default {
           no_referensi_2: "",
           no_referensi_3: "",
           detail_pick_order: [],
+
+          //Tracking
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
         },
       },
       formPickOrder: {
@@ -330,7 +336,7 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
-        this.parameters.form.user_id_pic = res.data.user_id_pic;
+        this.parameters.form.user_id_pic = res.data.user;
         this.parameters.form.detail_pick_order = res.data.detail_pick_order.map(
           (item) => {
             return {
@@ -351,6 +357,8 @@ export default {
     await this.onSearchUser();
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
+    this.getGeoLocation();
+    this.getUserAgent();
   },
 
   computed: {
@@ -371,6 +379,45 @@ export default {
         ...this.formPickOrder,
       });
       this.resetFormPickOrder();
+    },
+
+    getUserAgent() {
+      this.parameters.form.user_agent = navigator.userAgent;
+      if (this.parameters.form.user_agent.includes("Mobile")) {
+        this.parameters.form.device = "Mobile";
+      } else if (this.parameters.form.user_agent.includes("Tablet")) {
+        this.parameters.form.device = "Tablet";
+      } else {
+        this.parameters.form.device = "Desktop";
+      }
+    },
+
+    getGeoLocation() {
+      if ("geolocation" in navigator) {
+        this.isLoadingForm = true;
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.parameters.form.longitude =
+              position.coords.longitude.toString();
+            this.parameters.form.latitude = position.coords.latitude.toString();
+            this.isLoadingForm = false;
+            // console.log(
+            //   "latitude",
+            //   this.parameters.form.latitude,
+            //   "longitude",
+            //   this.parameters.form.longitude
+            // );
+          },
+          (error) => {
+            this.isLoadingForm = false;
+            this.$toaster.error(error.message);
+          }
+        );
+      } else {
+        this.$toaster.error("geolocation not supported");
+        // console.log("geolocation not supported");
+      }
     },
 
     async onSubmit(isInvalid) {
@@ -405,7 +452,7 @@ export default {
       }
 
       this.$axios({
-        methods: this.isEditable ? "put" : "post",
+        method: this.isEditable ? "put" : "post",
         url: url,
         data: formData,
       })
