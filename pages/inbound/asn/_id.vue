@@ -57,7 +57,7 @@
                 />
               </div>
               <div v-if="!user.gudang_id" class="w-full">
-                <ValidationProvider name="gudang" rules="required">
+                <ValidationProvider name="gudang">
                   <div slot-scope="{ errors, valid }">
                     <!-- <div class="w-full flex justify-between">
                       <label for="" class="w-1/2"
@@ -497,6 +497,7 @@
             </span>
             <div class="w-full relative flex justify-end gap-2">
               <button
+                v-if="!parameters.form.purchase_order_id"
                 type="button"
                 @click="addAsnDetail"
                 class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -1043,6 +1044,10 @@ export default {
 
       let formData = {
         ...this.parameters.form,
+        purchase_order_id:
+          typeof this.parameters.form.purchase_order_id === "object"
+            ? this.parameters.form.purchase_order_id.purchase_order_id
+            : this.parameters.form.purchase_order_id,
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
@@ -1474,7 +1479,7 @@ export default {
         this.isLoadingGetPo = true;
 
         await this.lookUp({
-          url: "master/purchase-order/get-purchase-order",
+          url: "inbound/purchase-order/get-purchase-order",
           lookup: "custom4",
           query:
             "?search=" +
@@ -1709,6 +1714,68 @@ export default {
       } else {
         this.parameters.form.pengemudi_id = "";
         this.parameters.form.nama_pengemudi = "";
+      }
+    },
+
+    onSelectPo(item) {
+      if (item) {
+        this.parameters.form.purchase_order_id = item;
+        this.parameters.form.gudang_id = item.gudang;
+        this.parameters.form.kode_sap = item.kode_sap;
+        this.parameters.form.doc_type_sap = item.doc_type_sap;
+        this.onSelectAsalMuat(item.lokasi_asal_muat);
+        this.onSelectTransporter(item.vendor_transporter);
+        this.parameters.form.surat_jalan = item.surat_jalan;
+        this.parameters.form.no_referensi = item.no_referensi;
+        this.parameters.form.no_referensi_2 = item.no_referensi_2;
+        this.onSelectKendaraan(item.kendaraan);
+        this.onSelectPengemudi(item.pengemudi);
+        this.onSelectSupplier(item.supplier);
+        this.parameters.form.perkiraan_tiba = item.perkiraan_tiba;
+        this.parameters.form.kebutuhan_peralatan = item.kebutuhan_peralatan;
+        this.parameters.form.handling_instruction = item.handling_instruction;
+        this.parameters.form.catatan = item.catatan;
+        if (item.purchase_order_details) {
+          this.parameters.form.asn_details = item.purchase_order_details.map(
+            (item) => {
+              return {
+                ...item,
+                asn_details_id: item || null,
+                item_gudang_id: item.item_gudang ? item.item_gudang : "",
+              };
+            }
+          );
+        }
+      } else {
+        this.parameters.form = {
+          purchase_order_id: "",
+          gudang_id: "",
+          kode_asp: "",
+          doc_type_sap: "",
+          tanggal: "",
+          lokasi_id_asal_muat: "",
+          asal_muat: "",
+          vendor_id_transporter: "",
+          nama_transporter: "",
+          surat_jalan: "",
+          no_referensi: "",
+          no_referensi_2: "",
+          kendaraan_id: "",
+          pengemudi_id: "",
+          supplier_id: "",
+          perkiraan_tiba: "",
+          kebutuhan_peralatan: "",
+          handling_instruction: "",
+          catatan: "",
+
+          asn_details: [],
+
+          //Tracking
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
+        };
       }
     },
 
