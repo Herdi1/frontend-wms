@@ -19,8 +19,8 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-flow-col grid-rows-3 gap-3 w-full">
-              <ValidationProvider name="user_pic">
+            <div class="grid grid-flow-col grid-rows-3 gap-2 w-full">
+              <!-- <ValidationProvider name="user_pic">
                 <select-button
                   :self="{
                     label: 'User PIC',
@@ -34,7 +34,7 @@
                   width="w-[50%]"
                   class="mb-5"
                 />
-              </ValidationProvider>
+              </ValidationProvider> -->
               <div v-if="isEditable">
                 <input-horizontal
                   label="Kode Pick Order"
@@ -82,12 +82,49 @@
                   :required="false"
                 />
               </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Staff"
+                  type="text"
+                  name="staff"
+                  :required="false"
+                />
+                <!-- v-model="parameters.form.no_referensi_3" -->
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Equipment"
+                  type="text"
+                  name="equipment"
+                  :required="false"
+                />
+                <!-- v-model="parameters.form.no_referensi_3" -->
+              </div>
             </div>
           </div>
           <div
             class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
           >
             <span class="w-1/2"><h1>Pick Order Detail</h1></span>
+          </div>
+          <div
+            class="bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm flex justify-between items-center"
+          >
+            <div class="w-1/2">
+              <select-button
+                :self="{
+                  label: 'Pick Request',
+                  optionLabel: 'nama_pick_request',
+                  lookup: lookup_custom4,
+                  value: parameters.form.pick_request_id,
+                  onGet: onGetPickRequest,
+                  isLoadingL: isLoadingGetPickRequest,
+                  // input: onSelectAsalM,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+              />
+            </div>
             <div class="w-full relative flex justify-end gap-2">
               <button
                 type="button"
@@ -110,13 +147,19 @@
                   <th class="w-20 border border-gray-300 text-center">
                     Delete
                   </th>
+                  <th class="w-full border border-gray-300">
+                    Data Pick Request
+                  </th>
                   <th class="w-full border border-gray-300">Item Gudang</th>
-                  <th class="w-full border border-gray-300">Zona Gudang</th>
+                  <th class="w-full border border-gray-300">
+                    Rekomendasi Zona Asal
+                  </th>
                   <th class="w-full border border-gray-300">Serial Number</th>
                   <th class="w-full border border-gray-300">Quantity</th>
                   <th class="w-full border border-gray-300">
                     Keterangan Detail
                   </th>
+                  <th class="w-full border border-gray-300">Zona Tujuan</th>
                   <!-- <th class="w-40 border border-gray-300">Detail Pick Order</th> -->
                 </tr>
               </thead>
@@ -133,6 +176,7 @@
                       @click="onDeleteItem(i)"
                     ></i>
                   </td>
+                  <td class="border border-gray-300"></td>
                   <td class="border border-gray-300">
                     <div class="w-full">
                       <v-select
@@ -234,6 +278,13 @@
                       v-model="item.keterangan_detail"
                     ></textarea>
                   </td>
+                  <td class="border border-gray-300">
+                    <textarea
+                      placeholder="Zona Transit"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      v-model="item.zona_transit"
+                    ></textarea>
+                  </td>
                   <!-- <td class="border border-gray-300">
                     <textarea
                       placeholder="Detail Pick Order"
@@ -294,6 +345,10 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      isStopSearchPickRequest: false,
+      isLoadingGetPickRequest: false,
+      pick_request_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -301,7 +356,7 @@ export default {
       parameters: {
         url: "outbound/pick-order",
         form: {
-          pick_order_id: "",
+          pick_request_id: "",
           kode_pick_order: "",
           user_id_pic: "",
           tanggal: "",
@@ -324,13 +379,21 @@ export default {
         serial_number: "",
         quantity: "",
         keterangan_detail: "",
+        zona_transit: "",
         // detail_pick_order: "",
       },
     };
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
     try {
+      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`outbound/pick-order/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
@@ -357,6 +420,7 @@ export default {
     await this.onSearchUser();
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
+    await this.onSearchPickRequest();
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -368,6 +432,7 @@ export default {
       "lookup_custom1", //user pic
       "lookup_custom2", //item gudang
       "lookup_custom3", //zona gudang
+      "lookup_custom4", //pick request
     ]),
   },
 
@@ -490,6 +555,7 @@ export default {
         serial_number: "",
         quantity: "",
         keterangan_detail: "",
+        zona_transit: "",
         // detail_pick_order: "",
       });
     },
@@ -612,10 +678,47 @@ export default {
       }
     },
 
+    onGetPickRequest(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchPickRequest);
+
+      this.isStopSearchPickRequest = setTimeout(() => {
+        this.pick_request_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+        this.onSearchPickRequest();
+      }, 600);
+    },
+
+    async onSearchPickRequest() {
+      if (!this.isLoadingGetPickRequest) {
+        this.isLoadingGetPickRequest = true;
+
+        await this.lookUp({
+          url: "outbound/pick-request/get-pick-request",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.pick_request_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetPickRequest = false;
+      }
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        pick_order_id: "",
+        pick_request_id: "",
         kode_pick_order: "",
         user_id_pic: "",
         tanggal: "",
