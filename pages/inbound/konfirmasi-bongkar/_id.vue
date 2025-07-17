@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section uppercase">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 class="text-xl font-bold mb-2 uppercase">Inspeksi ASN</h1>
