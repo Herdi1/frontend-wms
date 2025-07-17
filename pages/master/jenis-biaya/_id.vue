@@ -91,7 +91,7 @@
                 label="Keterangan"
                 type="text"
                 name="keterangan"
-                :required="true"
+                :required="false"
                 v-model="parameters.form.keterangan"
               />
             </div>
