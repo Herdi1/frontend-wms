@@ -291,15 +291,10 @@
                               label="nama_item"
                               :options="items"
                               :filterable="false"
-                              v-model="item.item_id"
+                              v-model="item.item_gudang_id"
                               class="w-full"
                               @input="(item) => onSelectItemDetail(item, index)"
                             >
-                              <template
-                                slot="option-selected"
-                                slot-scope="option"
-                                >{{ option.nama_item }}</template
-                              >
                             </v-select>
                             <!-- {{ item.nama_item ? item.nama_item : "-" }} -->
                           </td>
@@ -760,11 +755,11 @@
                       </tbody>
                     </table>
 
-                    <div class="mb-20 ml-20">
+                    <div class="mb-20 ml-20" v-if="items">
                       <ul class="flex gap-2">
                         <li
                           class="mb-2 flex items-center"
-                          v-for="(item, i) in itemsQuantity"
+                          v-for="(item, i) in items"
                           :key="i"
                         >
                           <p class="w-40">{{ item.nama_item }}</p>
@@ -1406,6 +1401,7 @@ export default {
           detail_inbound_id: item.detail_inbound_id
             ? item.detail_inbound_id.detail_inbound_id
             : "",
+          valuation_id: item.valuation_id ?? "",
         };
       });
 
@@ -1901,6 +1897,7 @@ export default {
             return {
               ...data,
               nama_item: data.item.nama_item,
+              item_id: data.item.item_id,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               zona_gudang_id: data.zona_gudang_id_plan,
               slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,

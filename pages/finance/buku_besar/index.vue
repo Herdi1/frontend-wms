@@ -146,6 +146,7 @@
                   :options="lookup_custom1.data"
                   :filterable="false"
                   @search="onGetGudang"
+                  :reduce="(item) => item.gudang_id"
                   @input="onSetGudang"
                   v-model="gudang_id"
                 >
@@ -214,8 +215,11 @@
               <thead>
                 <tr>
                   <th>Tgl</th>
+                  <th>Gudang</th>
                   <th>Kode</th>
                   <th>Nama</th>
+                  <th>Kode Transaksi</th>
+                  <th>Keterangan</th>
                   <th class="text-info">Saldo Awal</th>
                   <th class="text-primary">Kredit</th>
                   <th class="text-danger">Debit</th>
@@ -260,12 +264,17 @@
                   @click="onRowSelected(i)"
                 >
                   <td>{{ item.tanggal }}</td>
+                  <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                   <td>
                     {{ item.coa ? item.coa.kode_coa : "-" }}
                   </td>
                   <td>
                     {{ item.coa ? item.coa.nama_coa : "-" }}
                   </td>
+                  <td>
+                    {{ item.kode_referensi }}
+                  </td>
+                  <td>{{ item.keterangan }}</td>
                   <td class="text-info">
                     {{ item.saldo > 0 ? item.saldo : "" }}
                   </td>
@@ -399,6 +408,7 @@ export default {
     this.$refs["form-option"].isSearching = false;
     this.$refs["form-option"].isShowingPage = false;
 
+    await this.onSearchGudang();
     await this.onSearchChartOfAccount();
   },
 

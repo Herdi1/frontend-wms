@@ -19,7 +19,7 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-flow-col grid-rows-5 gap-3 w-full">
+            <div class="grid grid-flow-col grid-rows-6 gap-3 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
                   label="Kode Pick Request"
@@ -31,6 +31,7 @@
                   :disabled="true"
                 />
               </div>
+
               <div class="form-group">
                 <input-horizontal
                   label="Doc Type External"
@@ -59,7 +60,7 @@
                   :required="false"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Nomor Referensi 3"
                   type="text"
@@ -67,7 +68,7 @@
                   v-model="parameters.form.no_referensi_3"
                   :required="false"
                 />
-              </div>
+              </div> -->
               <div v-if="!user.gudang_id" class="w-full">
                 <ValidationProvider name="gudang" rules="required">
                   <div slot-scope="{ errors, valid }">
@@ -137,7 +138,22 @@
               <ValidationProvider name="lokasi">
                 <select-button
                   :self="{
-                    label: 'Lokasi',
+                    label: 'Pelanggan',
+                    optionLabel: 'nama_lokasi',
+                    lookup: lookup_location,
+                    value: parameters.form.lokasi_id,
+                    onGet: onGetLokasi,
+                    isLoadingL: isLoadingGetLokasi,
+                    input: onSelectAsalMuat,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                />
+              </ValidationProvider>
+              <ValidationProvider name="lokasi">
+                <select-button
+                  :self="{
+                    label: 'Ship to',
                     optionLabel: 'nama_lokasi',
                     lookup: lookup_location,
                     value: parameters.form.lokasi_id,
@@ -158,18 +174,48 @@
                   :required="true"
                 />
               </div> -->
-
-              <div class="form-group">
-                <input-horiontal
-                  label="Tanggal"
-                  type="text"
-                  name="tanggal"
+              <div class="form-group flex justify-between items-center">
+                <label for="" class="w-1/2"
+                  >Tanggal <span class="text-danger">*</span></label
+                >
+                <input
+                  required
+                  type="datetime-local"
+                  step="1"
                   v-model="parameters.form.tanggal"
-                  :required="true"
+                  class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 />
               </div>
 
-              <ValidationProvider name="pengemudi">
+              <div class="form-group flex justify-between items-center">
+                <label for="" class="w-1/2"
+                  >Tanggal Request Ambil
+                  <span class="text-danger">*</span></label
+                >
+                <input
+                  required
+                  type="datetime-local"
+                  step="1"
+                  v-model="parameters.form.tanggal_muat"
+                  class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                />
+              </div>
+
+              <div class="form-group flex justify-between items-center">
+                <label for="" class="w-1/2"
+                  >Tanggal Request Muat
+                  <span class="text-danger">*</span></label
+                >
+                <input
+                  required
+                  type="datetime-local"
+                  step="1"
+                  v-model="parameters.form.tanggal_request"
+                  class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                />
+              </div>
+
+              <!-- <ValidationProvider name="pengemudi">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
@@ -183,8 +229,8 @@
                     }"
                     width="w-[50%]"
                     class="mb-5"
-                  />
-                  <!-- <div class="w-full flex justify-between">
+                  /> -->
+              <!-- <div class="w-full flex justify-between">
                     <label for="" class="w-1/2">Pengemudi </label>
                     <v-select
                       class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
@@ -220,14 +266,34 @@
                       </li>
                     </v-select>
                   </div> -->
-                </div>
-              </ValidationProvider>
+              <!-- </div>
+              </ValidationProvider> -->
+
+              <div class="form-group">
+                <input-horiontal
+                  label="Jenis Kendaraan"
+                  type="text"
+                  name="no_referensi_2"
+                  v-model="parameters.form.no_referensi_2"
+                  :required="false"
+                />
+              </div>
               <div class="form-group">
                 <input-horiontal
                   label="Keterangan"
                   type="text"
                   name="keterangan"
                   v-model="parameters.form.keterangan"
+                  :required="false"
+                />
+              </div>
+
+              <div class="form-group">
+                <input-horiontal
+                  label="Nama Request"
+                  type="text"
+                  name="no_referensi_2"
+                  v-model="parameters.form.no_referensi_2"
                   :required="false"
                 />
               </div>
@@ -258,14 +324,12 @@
             >
               <thead>
                 <tr class="text-sm uppercase">
-                  <th class="w-[20%] border border-gray-300 text-center">
-                    Delete
-                  </th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
                   <th class="w-[25%] border border-gray-300">Item</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-[25%] border border-gray-300">Quantity</th>
+                  <th class="w-[25%] border border-gray-300">Satuan</th>
                   <!-- <th class="w-40 border border-gray-300">Serial Number</th> -->
                   <!-- <th class="w-40 border border-gray-300">Nomor Referensi</th> -->
                   <!-- <th class="w-40 border border-gray-300">Dimensi</th> -->
@@ -273,6 +337,9 @@
                   <th class="w-40 border border-gray-300">Tinggi</th>
                   <th class="w-40 border border-gray-300">Berat</th> -->
                   <th class="w-[30%] border border-gray-300">Keterangan</th>
+                  <th class="w-[5%] border border-gray-300 text-center">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -281,13 +348,6 @@
                   :key="index"
                   class="border-t border-gray-400 align-top"
                 >
-                  <td class="text-center text-gray-600 border border-gray-300">
-                    <i
-                      class="fas fa-trash mx-auto"
-                      style="cursor: pointer"
-                      @click="onDeleteItem(index)"
-                    ></i>
-                  </td>
                   <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -434,7 +494,7 @@
                     </v-select>
                   </td> -->
                   <td class="border border-gray-300">
-                    <p>Quantity:</p>
+                    <!-- <p>Quantity:</p> -->
                     <money
                       v-model="item.quantity"
                       class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
@@ -442,7 +502,7 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                    <p>Quantity Order:</p>
+                    <!-- <p>Quantity Order:</p>
                     <money
                       v-model="item.quantity_order"
                       class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
@@ -461,6 +521,15 @@
                     <p>Quantity Terkirim:</p>
                     <money
                       v-model="item.quantity_terkirim"
+                      class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    /> -->
+                  </td>
+                  <td class="border border-gray-300">
+                    <money
+                      v-model="item.quantity"
                       class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
                       @keydown.native="
                         $event.key === '-' ? $event.preventDefault() : null
@@ -536,6 +605,13 @@
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       v-model="item.keterangan"
                     ></textarea>
+                  </td>
+                  <td class="text-center text-gray-600 border border-gray-300">
+                    <i
+                      class="fas fa-trash mx-auto"
+                      style="cursor: pointer"
+                      @click="onDeleteItem(index)"
+                    ></i>
                   </td>
                 </tr>
               </tbody>
