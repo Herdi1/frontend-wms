@@ -147,6 +147,16 @@
                         <option value="0">Tidak</option>
                       </select>
                     </div>
+
+                    <div class="form-group">
+                      <label for="is_min_stock">Icon </label>
+                      <input
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        id="small_size"
+                        type="file"
+                        @change="handleFileChange"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer text-right">
@@ -198,6 +208,7 @@ export default {
         tax: "",
         app_name: "",
         is_min_stock: 0,
+        icon: "",
       },
 
       isLoadingForm: false,
@@ -240,8 +251,30 @@ export default {
 
       this.isLoadingForm = true;
 
-      this.$axios
-        .put("/setting", this.form)
+      let url = "setting";
+
+      let formData = new FormData();
+      formData.append("_method", "PUT");
+
+      Object.entries(this.form).forEach(([key, value]) => {
+        if (key !== "icon") {
+          formData.append(key, value || "");
+        }
+      });
+
+      if (this.form.icon instanceof File) {
+        formData.append("icon", this.form.icon);
+      }
+
+      // if (this.isEditable) {
+      //   url += "/" + this.parameters.form.menu_id;
+      // }
+
+      this.$axios({
+        url: url,
+        method: "POST",
+        data: formData,
+      })
         .then(() => {
           return this.$axios.get("/setting");
         })
@@ -256,6 +289,11 @@ export default {
         .finally(() => {
           this.isLoadingForm = false;
         });
+    },
+
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.form.icon = file;
     },
   },
 };

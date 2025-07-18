@@ -745,7 +745,7 @@
                               v-model="item.keterangan"
                             ></textarea>
                           </td>
-                          <td class="border border-gray-300" v-if="sumber_data === 'ASN'">
+                          <td class="border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             <ValidationProvider
                               name="alasan_beda_plan_id"
                               class="w-full"
@@ -1515,6 +1515,7 @@ export default {
           valuation_id: item.valuation_id ?? "",
           item_gudang_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_gudang_id : item.item_gudang_id,
           item_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_id : item.item_gudang_id,
+          item_pelanggan_id: '',
         };
       });
 
