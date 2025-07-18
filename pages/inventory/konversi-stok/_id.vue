@@ -111,7 +111,32 @@
 
           <tab-component :tabs="tabs">
             <template #DetailProdukBahan>
-              <DetailProdukBahan :self="{ parameters }" />
+              <DetailProdukBahan
+                :self="{
+                  parameters,
+                  lookup_custom1,
+                  lookup_custom2,
+                  lookup_custom3,
+                  lookup_custom4,
+                  lookup_custom5,
+                  lookup_custom6,
+                  lookup_custom7,
+                  isLoadingGetItemGudang,
+                  isLoadingGetZonaPlan,
+                  isLoadingGetSlotAisle,
+                  isLoadingGetSlotRack,
+                  isLoadingGetSlotLevel,
+                  isLoadingGetSlotBin,
+                  isLoadingGetValuation,
+                  onGetItemGudang,
+                  onGetValuation,
+                  onGetZonaPlan,
+                  onGetSlotAisle,
+                  onGetSlotRack,
+                  onGetSlotLevel,
+                  onGetSlotBin,
+                }"
+              />
             </template>
             <template #DetailProdukJadi>
               <DetailProdukJadi :self="{ parameters }" />
@@ -225,12 +250,13 @@ export default {
     //   lookup: "custom1",
     //   query: "?q=jenis_kontrak",
     // });
+    await this.onSearchItemGudang();
     await this.onSearchValuation();
-    await this.onSearchZonaPlan();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
+    // await this.onSearchZonaPlan();
+    // await this.onSearchSlotAisle();
+    // await this.onSearchSlotRack();
+    // await this.onSearchSlotLevel();
+    // await this.onSearchSlotBin();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -451,6 +477,8 @@ export default {
           query:
             "?search=" +
             this.zona_plan_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -493,7 +521,7 @@ export default {
             this.slot_aisle_search +
             "&level=1" +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -712,8 +740,13 @@ export default {
       }
     },
 
-    onSelectGudang(item) {
+    async onSelectGudang(item) {
       this.parameters.form.gudang_id = item;
+      await this.onSearchZonaPlan();
+      await this.onSearchSlotAisle();
+      await this.onSearchSlotRack();
+      await this.onSearchSlotLevel();
+      await this.onSearchSlotBin();
     },
   },
 };
