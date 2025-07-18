@@ -378,7 +378,7 @@ export default {
       var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(
         process.env.API_URL +
-          "/finance/jurnal/get-print-detail/" +
+          "finance/jurnal/get-print-detail/" +
           item.jurnal_id +
           "?token=" +
           token,

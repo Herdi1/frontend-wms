@@ -197,6 +197,20 @@
                     :required="false"
                   />
                 </div>
+                <div class="form-group" v-if="!user.gudang_id">
+                  <select-button
+                    :self="{
+                      label: 'Gudang',
+                      optionLabel: 'nama_gudang',
+                      isLoading: isLoadingGetGudang,
+                      lookup: lookup_suppliers,
+                      value: form.gudang_id,
+                      onGet: onGetGudang,
+                      input: onSelectGudang
+                    }"
+                    width="w-[60%]"
+                  />
+                </div>
                 <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Approve"
@@ -222,7 +236,7 @@
                         class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                       >
                         <i class="fas fa-plus"></i>
-                        <p class="text-xs font-medium">Tambah Detail ASN</p>
+                        <p class="text-xs font-medium">Tambah Detail</p>
                       </button>
                     </div>
                   </div>
@@ -252,10 +266,10 @@
                           <th class="w-[200px] border border-gray-300">
                             Tanggal Expired
                           </th>
-                          <th class="w-[200px] border border-gray-300">
+                          <th class="w-[200px] border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             Dimensi
                           </th>
-                          <th class="w-[200px] border border-gray-300">
+                          <th class="w-[200px] border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             Lokasi Plan
                           </th>
                           <th class="w-[200px] border border-gray-300">Zona</th>
@@ -270,10 +284,10 @@
                           <th class="w-[300px] border border-gray-300">
                             Keterangan
                           </th>
-                          <th class="w-[300px] border border-gray-300">
+                          <th class="w-[300px] border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             Alasan Beda Plan
                           </th>
-                          <!-- <th class="w-[100px] border border-gray-300">Delete</th> -->
+                          <th class="w-[100px] border border-gray-300">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -288,6 +302,7 @@
                           </td> -->
                           <td class="border border-gray-300">
                             <v-select
+                              v-if="form.sumber_data !== 'NON'"
                               label="nama_item"
                               :options="items"
                               :filterable="false"
@@ -296,25 +311,71 @@
                               @input="(item) => onSelectItemDetail(item, index)"
                             >
                             </v-select>
+                            <v-select
+                            v-else
+                                label="nama_item"
+                                :loading="isLoadingGetItemGudang"
+                                :options="lookup_products.data"
+                                :filterable="false"
+                                @search="onGetItemGudang"
+                                v-model="item.item_gudang_id"
+                                class="w-full"
+                              >
+                                <li
+                                  slot-scope="{ search }"
+                                  slot="list-footer"
+                                  class="p-1 border-t flex justify-between"
+                                  v-if="lookup_products.data.length || search"
+                                >
+                                  <span
+                                    v-if="lookup_products.current_page > 1"
+                                    @click="onGetItemGudang(search, false)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Sebelumnya</span
+                                  >
+                                  <span
+                                    v-if="
+                                      lookup_products.last_page >
+                                      lookup_products.current_page
+                                    "
+                                    @click="onGetItemGudang(search, true)"
+                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                    >Selanjutnya</span
+                                  >
+                                </li>
+                              </v-select>
                             <!-- {{ item.nama_item ? item.nama_item : "-" }} -->
                           </td>
                           <td class="border border-gray-300">
                             <div>
                               <p>
                                 Serial Number:
+                              </p>
+                              <!-- <div v-if="form.sumber_data !== 'NON'" class="font-bold">
                                 {{
                                   item.serial_number ? item.serial_number : "-"
                                 }}
-                              </p>
+
+                              </div> -->
+                              <div >
+                                <input
+                                  v-model="item.serial_number"
+                                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                                />
+                              </div>
                               <p>
                                 Nomor Referensi:
-                                <!-- <input
-                                  v-model="item.no_referensi"
-                                  class="w-full pl-2 py-1 border rounded focus:outline-none"
-                                /> -->
-                                {{
-                                  item.no_referensi ? item.no_referensi : "-"
-                                }}
+                                <!-- <div v-if="sumber_data !== 'NON'" class="font-bold">
+                                  {{
+                                    item.no_referensi ? item.no_referensi : "-"
+                                  }}
+                                </div> -->
+                                <div >
+                                  <input
+                                    v-model="item.no_referensi"
+                                    class="w-full pl-2 py-1 border rounded focus:outline-none"
+                                  />
+                                </div>
                               </p>
                             </div>
                           </td>
@@ -376,7 +437,7 @@
                               v-model="item.tanggal_expired"
                             />
                           </td>
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             <div>
                               <p v-if="item.panjang">
                                 Panjang: {{ item.panjang }}
@@ -388,7 +449,7 @@
                               <p v-if="item.berat">Berat: {{ item.berat }}</p>
                             </div>
                           </td>
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300" v-if="form.sumber_data === 'ASN'">
                             <p v-if="item.zona_gudang_plan">
                               Zona Plan:
                               {{ item.zona_gudang_plan.nama_zona_gudang }}
@@ -684,12 +745,12 @@
                               v-model="item.keterangan"
                             ></textarea>
                           </td>
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300" v-if="sumber_data === 'ASN'">
                             <ValidationProvider
                               name="alasan_beda_plan_id"
                               class="w-full"
+                              :rules="isSameAsPlan"
                             >
-                              <!-- :rules="isSameAsPlan" -->
                               <div slot-scope="{ errors, valid }">
                                 <v-select
                                   label="nama_alasan_beda_plan"
@@ -733,13 +794,13 @@
                               </div>
                             </ValidationProvider>
                           </td>
-                          <!-- <td class="border border-gray-300 text-center">
+                          <td class="border border-gray-300 text-center">
                             <i
                               class="fas fa-trash mx-auto"
                               style="cursor: pointer"
-                              @click="onDeleteItem(index)"
+                              @click="onDeleteDetails(index)"
                             ></i>
-                          </td> -->
+                          </td>
                         </tr>
                         <tr v-if="!form.inbound_details.length > 0">
                           <td colspan="100" class="text-center">
@@ -1139,6 +1200,14 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      isStopSearchItemGudang: false,
+      isLoadingGetItemGudang: false,
+      item_gudang_search: "",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -1209,23 +1278,43 @@ export default {
           }
         });
 
-        this.form.asn_id = res.data.asn;
 
-        this.form.inbound_details = res.data.inbound_details.map((item) => {
-          return {
-            ...item,
-            detail_inbound_id: item,
-            zona_gudang_id_plan: item.asn_detail.zona_gudang_id_plan,
-            slot_penyimpanan_id_aisle_plan:
-              item.asn_detail.slot_penyimpanan_id_aisle_plan,
-            slot_penyimpanan_id_rack_plan:
-              item.asn_detail.slot_penyimpanan_id_rack_plan,
-            slot_penyimpanan_id_level_plan:
-              item.asn_detail.slot_penyimpanan_id_level_plan,
-            slot_penyimpanan_id_bin_plan:
-              item.asn_detail.slot_penyimpanan_id_bin_plan,
-          };
-        });
+        if (res.data.sumber_data === "ASN") {
+          // this.onSelectAsn(res.data.purchase_order)
+          this.form.asn_id = res.data.asn;
+          this.form.inbound_details = res.data.inbound_details.map((item) => {
+            return {
+              ...item,
+              item_gudang_id: item.item_gudang,
+              detail_inbound_id: item,
+              zona_gudang_id_plan: item.asn_detail.zona_gudang_id_plan,
+              slot_penyimpanan_id_aisle_plan:
+                item.asn_detail.slot_penyimpanan_id_aisle_plan,
+                slot_penyimpanan_id_rack_plan:
+                item.asn_detail.slot_penyimpanan_id_rack_plan,
+                slot_penyimpanan_id_level_plan:
+                item.asn_detail.slot_penyimpanan_id_level_plan,
+                slot_penyimpanan_id_bin_plan:
+                item.asn_detail.slot_penyimpanan_id_bin_plan,
+              };
+            });
+        }
+        if (res.data.sumber_data === "PO") {
+          // this.onSelectPo(res.data.purchase_order)
+          this.form.purchase_order_id = res.data.purchase_order;
+          this.form.inbound_details = res.data.inbound_details.map((item) => {
+            return {
+              ...item,
+              item_gudang_id: item.item_gudang
+            };
+          });
+        }
+        if(this.isEditable){
+          this.items = []
+          res.data.inbound_details.forEach((item) => {
+            this.items.push(item.item_gudang)
+          })
+        }
 
         if (res.data.biaya_inbounds) {
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
@@ -1259,6 +1348,7 @@ export default {
     await this.onSearchDivisi();
     await this.onSearchVendor();
     await this.onSearchAlasan();
+    await this.onSearchItemGudang()
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1281,6 +1371,8 @@ export default {
       "lookup_grade",
       "lookup_beam",
       "lookup_warehouses",
+      "lookup_products",
+      "lookup_suppliers",
     ]),
 
     //check if the real storaage slot is same as the plan
@@ -1319,6 +1411,18 @@ export default {
 
       return result;
     },
+
+    lookupItem(){
+      let filteredItem = this.lookup_products.data.filter((item) => {
+        this.items.includes(item.item_gudang_id)
+      })
+      if(this.form.sumber_data === 'NON'){
+
+        return this.lookup_products.data
+      }else{
+        return filteredItem
+      }
+    }
   },
 
   methods: {
@@ -1370,20 +1474,27 @@ export default {
       this.isLoadingForm = true;
       let url = "inbound/inbound";
 
+      let gudang
+      if (this.user.gudang_id) {
+        gudang = this.user.gudang_id;
+      }else{
+        gudang = typeof this.form.gudang_id
+          ? this.form.gudang_id.gudang_id
+          : ''
+      }
+
       let formData = {
         ...this.form,
-        asn_id:
-          typeof this.form.asn_id === "object"
+        asn_id: this.form.asn_id ?
+          (typeof this.form.asn_id === "object"
             ? this.form.asn_id.asn_id
-            : this.form.asn_id,
-        purchase_order_id:
-          typeof this.form.purchase_order_id === "object"
+            : this.form.asn_id) : '' ,
+        purchase_order_id: this.form.purchase_order_id ?
+          (typeof this.form.purchase_order_id === "object"
             ? this.form.purchase_order_id.purchase_order_id
-            : this.form.purchase_order_id,
-        // gudang_id: this.form.asn_id
-        //   ? this.form.asn_id.gudang_id
-        //   : this.form.gudang_id,
-        supplier_id: this.form.asn_id.supplier_id,
+            : this.form.purchase_order_id) : '',
+        gudang_id: gudang
+        // supplier_id: this.form.asn_id ? this.form.asn_id.supplier_id : this.form.purchase_order_id.supplier_id,
       };
 
       // today's date
@@ -1394,7 +1505,7 @@ export default {
 
       const formattedDate = `${year}-${month}-${day}`;
       formData.tanggal_approve = formattedDate;
-
+      console.log('before inbound')
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
           ...item,
@@ -1402,8 +1513,12 @@ export default {
             ? item.detail_inbound_id.detail_inbound_id
             : "",
           valuation_id: item.valuation_id ?? "",
+          item_gudang_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_gudang_id : item.item_gudang_id,
+          item_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_id : item.item_gudang_id,
         };
       });
+
+      console.log("after inbound")
 
       // formData.biaya_inbounds = formData.biaya_inbounds.map((item) => {
       //   return {
@@ -1414,9 +1529,7 @@ export default {
       //   };
       // });
 
-      if (this.user.gudang_id) {
-        this.form.gudang_id = this.user.gudang_id;
-      }
+
 
       // console.log("form", this.parameters.form);
 
@@ -1483,6 +1596,12 @@ export default {
         divis_id: "",
         vendor_id: "",
       });
+    },
+
+    onDeleteDetails(index) {
+      this.form.inbound_details = this.form.inbound_details.filter(
+        (_, itemIndex) => index !== itemIndex
+      );
     },
 
     onDeleteItem(index) {
@@ -1835,10 +1954,17 @@ export default {
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
             return {
-              ...data,
-              nama_item: data.item.nama_item,
+              item_gudang_id: data.item_gudang.item_gudang_id,
+              nama_item: data.item_gudang.nama_item,
               asn_detail_id: data.asn_detail_id,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
+              serial_number: data.serial_number ?? "",
+              no_referensi: data.no_referensi ?? "",
+              quantity: data.quantity,
+              panjang: data.panjang,
+              lebar: data.lebar,
+              berat: data.berat,
+              tinggi: data.tinggi,
               zona_gudang_id: data.zona_gudang_id_plan,
               slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
               slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
@@ -1896,14 +2022,12 @@ export default {
           this.items = item.purchase_order_details.map((data) => {
             return {
               ...data,
-              nama_item: data.item.nama_item,
-              item_id: data.item.item_id,
+              item_gudang_id: data.item_gudang_id,
+              nama_item: data.item_gudang.nama_item,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
-              zona_gudang_id: data.zona_gudang_id_plan,
-              slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level: data.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin: data.slot_penyimpanan_id_bin_plan,
+              serial_number: data.serial_number ?? "",
+              no_referensi: data.no_referensi ?? "",
+              quantity: data.quantity,
             };
           });
           console.log(this.items);
@@ -1939,6 +2063,7 @@ export default {
         this.form.tanggal = "";
         this.form.gudang_id = "";
         this.form.inbound_details = [];
+        this.items =[]
       }
     },
 
@@ -2142,6 +2267,95 @@ export default {
         });
 
         this.isLoadingGetAlasan = false;
+      }
+    },
+
+    // get item gudang
+    onGetItemGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchItemGudang);
+
+      this.isStopSearchItemGudang = setTimeout(() => {
+        this.item_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_products.current_page = isNext
+            ? this.lookup_products.current_page + 1
+            : this.lookup_products.current_page - 1;
+        } else {
+          this.lookup_products.current_page = 1;
+        }
+
+        this.onSearchItemGudang();
+      }, 600);
+    },
+
+    async onSearchItemGudang() {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
+
+        await this.lookUp({
+          url: "master/item-gudang/get-item-gudang",
+          lookup: "products",
+          query:
+            "?search=" +
+            this.item_gudang_search +
+            "&page=" +
+            this.lookup_products.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    // get  gudang
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_suppliers.current_page = isNext
+            ? this.lookup_suppliers.current_page + 1
+            : this.lookup_suppliers.current_page - 1;
+        } else {
+          this.lookup_suppliers.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "suppliers",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_suppliers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item){
+      if(item){
+        this.form.gudang_id = item
+
+      }else{
+        this.form.gudang_id = ''
       }
     },
 

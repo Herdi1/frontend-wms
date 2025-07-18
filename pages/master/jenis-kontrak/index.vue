@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Jenis Biaya</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -30,23 +30,23 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+
                 <th class="w-[5%]">No</th>
                 <th
                   @click="
                     onSort(
-                      'nama_jenis_biaya',
+                      'nama_jenis_kontrak',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Jenis Biaya</div>
+                    <div>Nama Jenis Kontrak</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'nama_jenis_kontrak' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -55,7 +55,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'nama_jenis_kontrak' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -64,9 +64,8 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Jenis Biaya</th>
-                <th>Status Jenis Biaya</th>
-                <th>Keterangan</th>
+                <th>Kode Jenis Kontrak</th>
+                <th class="w-[5%]">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -74,12 +73,7 @@
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
+
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -87,12 +81,19 @@
                     1
                   }}
                 </td>
-                <td>{{ item.nama_jenis_biaya }}</td>
-                <td>{{ item.kode_jenis_biaya }}</td>
-                <td>{{ item.status_jenis_biaya.nama_status_jenis_biaya }}</td>
-                <td>{{ item.keterangan }}</td>
+                <td>{{ item.nama_jenis_kontrak }}</td>
+                <td>{{ item.kode_jenis_kontrak }}</td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
               </tr>
             </tbody>
+            <table-data-loading-section :self="this" />
+
+            <table-data-not-found-section :self="this" />
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
@@ -105,13 +106,12 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Jenis Biaya",
+      title: "Jenis Kontrak",
     };
   },
 
@@ -158,7 +158,7 @@ export default {
 
   data() {
     return {
-      title: "Jenis Biaya",
+      title: "Jenis Kontrak",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -177,21 +177,19 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/jenis-biaya",
+        url: "master/jenis-kontrak",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jenis_biaya_id",
+          order: "jenis_kontrak_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            nama_jenis_biaya: "",
-            kode_jenis_biaya: "",
-            status_jenis_biaya_id: "",
-            keterangan: "",
+            nama_jenis_kontrak: "",
+            kode_jenis_kontrak: "",
           },
         },
         loadings: {
@@ -202,10 +200,6 @@ export default {
     };
   },
 
-  components: {
-    FormInput,
-  },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
 
@@ -214,7 +208,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jenis-biaya"
+          (item) => item.rute == "jenis-kontrak"
         );
 
         let roles = {};
@@ -243,10 +237,10 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(`/master/jenis-biaya/add`);
+      this.$router.push(`/master/jenis-kontrak/add`);
       // this.$refs.formInput.parameters.form = {
-      //   nama_jenis_biaya: "",
-      //   kode_jenis_biaya: "",
+      //   nama_jenis_kontrak: "",
+      //   kode_jenis_kontrak: "",
       //   status: "",
       //   keterangan: "",
       // };
@@ -257,7 +251,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push(`/master/jenis-biaya/${item.jenis_biaya_id}`);
+      this.$router.push(`/master/jenis-kontrak/${item.jenis_kontrak_id}`);
     },
 
     async onLoad(page = 1) {
@@ -305,7 +299,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.jenis_biaya_id,
+              id: item.jenis_kontrak_id,
               params: this.parameters.params,
             });
 
@@ -331,7 +325,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.jenis_biaya_id,
+        id: item.jenis_kontrak_id,
         params: this.parameters.params,
       });
 
