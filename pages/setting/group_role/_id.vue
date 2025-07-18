@@ -1,12 +1,14 @@
 <template>
-  <section class="sect ion bg-white rounded-md px-4 py-2 shadow-sm">
+  <section
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+  >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Term Pembayaran
+          Edit Data Role
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Term Pembayaran
+          Tambah Data Role
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -57,16 +59,16 @@
                   </select>
                 </div>
 
+                <button
+                  type="button"
+                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
+                  @click="onAddGrant"
+                >
+                  <!-- href="#" -->
+                  <i class="fas fa-plus"></i>
+                  <p class="text-xs font-medium">Tambah Menu</p>
+                </button>
                 <div>
-                  <a
-                    href="#"
-                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
-                    @click="onAddGrant"
-                  >
-                    <i class="fas fa-plus"></i>
-                    <p class="text-xs font-medium">Tambah Menu</p>
-                  </a>
-
                   <div
                     class="table-responsive"
                     style="max-height: 500px"
@@ -74,323 +76,334 @@
                       parameters.form.grants.length ? 'min-height:500px' : ''
                     "
                   >
-                    <table
-                      class="table mt-5"
-                      v-if="parameters.form.grants.length > 0"
-                    >
-                      <tr>
-                        <td style="width: 400px">Hak Akses</td>
-                        <td style="width: 400px">Operator</td>
-                        <td>Opsi</td>
-                      </tr>
-                      <tr
-                        v-for="(item, index) in parameters.form.grants"
-                        :key="index"
-                        style="border-top: 0.5px solid lightgray"
+                    <div>
+                      <table
+                        class="table mt-5"
+                        v-show="grantsList.length > 0"
+                        :key="tableKey"
                       >
-                        <td class="">
-                          <v-select
-                            label="judul"
-                            :loading="isLoadingGetRole"
-                            :options="lookup_roles.data"
-                            :filterable="false"
-                            @search="onGetRole"
-                            v-model="item.menu_id"
-                            :required="true"
-                          >
-                            <template v-slot:option="option">
-                              <div class="flex justify-between items-center">
-                                <div class="text-sm">
-                                  {{ option.judul }}
-                                </div>
-                                <span>{{
-                                  option.status === "0"
-                                    ? "Website"
-                                    : option.status === "1"
-                                    ? "Mobile"
-                                    : ""
-                                }}</span>
-                              </div>
-                            </template>
-                            <template #search="{ attributes, events }">
-                              <input
-                                class="vs__search"
-                                :required="!item.menu_id"
-                                v-bind="attributes"
-                                v-on="events"
-                              />
-                            </template>
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="flex justify-between"
-                              v-if="lookup_roles.data.length || search"
+                        <tr>
+                          <td style="width: 400px">Hak Akses</td>
+                          <td style="width: 400px">Operator</td>
+                          <td>Opsi</td>
+                        </tr>
+                        <tr
+                          v-for="(item, index) in grantsList"
+                          :key="`grant-${index}-${tableKey}`"
+                          style="border-top: 0.5px solid lightgray"
+                        >
+                          <td class="">
+                            <v-select
+                              label="judul"
+                              :loading="isLoadingGetRole"
+                              :options="lookup_roles.data"
+                              :filterable="false"
+                              @search="onGetRole"
+                              v-model="item.menu_id"
+                              :required="true"
                             >
-                              <span
-                                v-if="lookup_roles.current_page > 1"
-                                @click="onGetRole(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-0.5 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_roles.last_page >
-                                  lookup_roles.current_page
-                                "
-                                @click="onGetRole(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-0.5 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td>
-                          <div
-                            v-if="parameters.form.type_option == 'multiselect'"
-                          >
-                            <multiselect
-                              :options="options"
-                              v-model="item.operators"
-                              :multiple="true"
-                              :taggable="true"
-                              openDirection="bottom"
-                              @tag="addTag"
-                            >
-                              <template slot="option" slot-scope="props">
-                                <div class="option__desc">
-                                  <span class="option__title">
-                                    <span
-                                      class="text-small"
-                                      v-if="props.option == 'all'"
-                                    >
-                                      semua operator
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'index'"
-                                    >
-                                      lihat data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'store'"
-                                    >
-                                      tambah data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'update'"
-                                    >
-                                      update data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'destroy'"
-                                    >
-                                      hapus data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'restore'"
-                                    >
-                                      pulihkan data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'print'"
-                                    >
-                                      print data pdf
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'export'"
-                                    >
-                                      export data pdf/excel
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'export_pdf'"
-                                    >
-                                      export data pdf
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'export_excel'"
-                                    >
-                                      export data excel
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'show'"
-                                    >
-                                      lihat detail data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'destroy-all'"
-                                    >
-                                      hapus banyak data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'restore-all'"
-                                    >
-                                      pulihkan banyak data
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="props.option == 'import'"
-                                    >
-                                      import file ke database
-                                    </span>
-                                    <span
-                                      class="text-small"
-                                      v-else-if="
-                                        props.option == 'import-template'
-                                      "
-                                    >
-                                      download template import
-                                    </span>
-                                  </span>
+                              <template v-slot:option="option">
+                                <div class="flex justify-between items-center">
+                                  <div class="text-sm">
+                                    {{ option.judul }}
+                                  </div>
+                                  <span>{{
+                                    option.status === "0"
+                                      ? "Website"
+                                      : option.status === "1"
+                                      ? "Mobile"
+                                      : ""
+                                  }}</span>
                                 </div>
                               </template>
-                            </multiselect>
-                          </div>
-                          <div v-else>
-                            <div class="row">
-                              <div
-                                class="col-md-6 mt-2"
-                                v-for="(itemOption, index) in options"
-                                :key="index"
-                              >
+                              <template #search="{ attributes, events }">
                                 <input
-                                  type="checkbox"
-                                  :value="itemOption"
-                                  v-model="item.operators"
+                                  class="vs__search"
+                                  :required="!item.menu_id"
+                                  v-bind="attributes"
+                                  v-on="events"
                                 />
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="flex justify-between"
+                                v-if="lookup_roles.data.length || search"
+                              >
                                 <span
-                                  class="text-small"
-                                  v-if="itemOption == 'all'"
-                                  style="font-size: 10px"
+                                  v-if="lookup_roles.current_page > 1"
+                                  @click="onGetRole(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-0.5 rounded"
+                                  >Sebelumnya</span
                                 >
-                                  semua operator
-                                </span>
                                 <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'index'"
-                                  style="font-size: 10px"
+                                  v-if="
+                                    lookup_roles.last_page >
+                                    lookup_roles.current_page
+                                  "
+                                  @click="onGetRole(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-0.5 rounded"
+                                  >Selanjutnya</span
                                 >
-                                  lihat data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'store'"
-                                  style="font-size: 10px"
+                              </li>
+                            </v-select>
+                          </td>
+                          <td>
+                            <div
+                              v-if="
+                                parameters.form.type_option == 'multiselect'
+                              "
+                            >
+                              <multiselect
+                                :options="options"
+                                v-model="item.operators"
+                                :multiple="true"
+                                :taggable="true"
+                                openDirection="bottom"
+                                @tag="addTag"
+                              >
+                                <template slot="option" slot-scope="props">
+                                  <div class="option__desc">
+                                    <span class="option__title">
+                                      <span
+                                        class="text-small"
+                                        v-if="props.option == 'all'"
+                                      >
+                                        semua operator
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'index'"
+                                      >
+                                        lihat data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'store'"
+                                      >
+                                        tambah data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'update'"
+                                      >
+                                        update data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'destroy'"
+                                      >
+                                        hapus data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'restore'"
+                                      >
+                                        pulihkan data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'print'"
+                                      >
+                                        print data pdf
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'export'"
+                                      >
+                                        export data pdf/excel
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'export_pdf'"
+                                      >
+                                        export data pdf
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="
+                                          props.option == 'export_excel'
+                                        "
+                                      >
+                                        export data excel
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'show'"
+                                      >
+                                        lihat detail data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="
+                                          props.option == 'destroy-all'
+                                        "
+                                      >
+                                        hapus banyak data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="
+                                          props.option == 'restore-all'
+                                        "
+                                      >
+                                        pulihkan banyak data
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="props.option == 'import'"
+                                      >
+                                        import file ke database
+                                      </span>
+                                      <span
+                                        class="text-small"
+                                        v-else-if="
+                                          props.option == 'import-template'
+                                        "
+                                      >
+                                        download template import
+                                      </span>
+                                    </span>
+                                  </div>
+                                </template>
+                              </multiselect>
+                            </div>
+                            <div v-else>
+                              <div class="row">
+                                <div
+                                  class="col-md-6 mt-2"
+                                  v-for="(itemOption, index) in options"
+                                  :key="index"
                                 >
-                                  tambah data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'update'"
-                                  style="font-size: 10px"
-                                >
-                                  update data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'destroy'"
-                                  style="font-size: 10px"
-                                >
-                                  hapus data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'restore'"
-                                  style="font-size: 10px"
-                                >
-                                  pulihkan data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'print'"
-                                  style="font-size: 10px"
-                                >
-                                  print data pdf
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'export'"
-                                  style="font-size: 10px"
-                                >
-                                  export data pdf/excel
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'export_pdf'"
-                                  style="font-size: 10px"
-                                >
-                                  export data pdf
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'export_excel'"
-                                  style="font-size: 10px"
-                                >
-                                  export data excel
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'show'"
-                                  style="font-size: 10px"
-                                >
-                                  lihat detail data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'destroy-all'"
-                                  style="font-size: 10px"
-                                >
-                                  hapus banyak data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'restore-all'"
-                                  style="font-size: 10px"
-                                >
-                                  pulihkan banyak data
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'import'"
-                                  style="font-size: 10px"
-                                >
-                                  import file ke database
-                                </span>
-                                <span
-                                  class="text-small"
-                                  v-else-if="itemOption == 'import-template'"
-                                  style="font-size: 10px"
-                                >
-                                  download template import
-                                </span>
+                                  <input
+                                    type="checkbox"
+                                    :value="itemOption"
+                                    v-model="item.operators"
+                                  />
+                                  <span
+                                    class="text-small"
+                                    v-if="itemOption == 'all'"
+                                    style="font-size: 10px"
+                                  >
+                                    semua operator
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'index'"
+                                    style="font-size: 10px"
+                                  >
+                                    lihat data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'store'"
+                                    style="font-size: 10px"
+                                  >
+                                    tambah data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'update'"
+                                    style="font-size: 10px"
+                                  >
+                                    update data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'destroy'"
+                                    style="font-size: 10px"
+                                  >
+                                    hapus data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'restore'"
+                                    style="font-size: 10px"
+                                  >
+                                    pulihkan data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'print'"
+                                    style="font-size: 10px"
+                                  >
+                                    print data pdf
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'export'"
+                                    style="font-size: 10px"
+                                  >
+                                    export data pdf/excel
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'export_pdf'"
+                                    style="font-size: 10px"
+                                  >
+                                    export data pdf
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'export_excel'"
+                                    style="font-size: 10px"
+                                  >
+                                    export data excel
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'show'"
+                                    style="font-size: 10px"
+                                  >
+                                    lihat detail data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'destroy-all'"
+                                    style="font-size: 10px"
+                                  >
+                                    hapus banyak data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'restore-all'"
+                                    style="font-size: 10px"
+                                  >
+                                    pulihkan banyak data
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'import'"
+                                    style="font-size: 10px"
+                                  >
+                                    import file ke database
+                                  </span>
+                                  <span
+                                    class="text-small"
+                                    v-else-if="itemOption == 'import-template'"
+                                    style="font-size: 10px"
+                                  >
+                                    download template import
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <i
-                            class="fas fa-trash"
-                            style="cursor: pointer"
-                            @click="onDeleteGrant(index)"
-                          ></i>
-                        </td>
-                      </tr>
-                      <tr v-if="!parameters.form.grants.length">
-                        <td colspan="3" class="text-center">
-                          Data tidak ditemukan
-                        </td>
-                      </tr>
-                    </table>
+                          </td>
+                          <td>
+                            <i
+                              class="fas fa-trash"
+                              style="cursor: pointer"
+                              @click="onDeleteGrant(index)"
+                            ></i>
+                          </td>
+                        </tr>
+                        <tr v-if="!parameters.form.grants.length">
+                          <td colspan="3" class="text-center">
+                            Data tidak ditemukan
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -411,7 +424,7 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
-  middleware: ["isNotAccessable"],
+  // middleware: ["isNotAccessable"],
 
   props: ["self"],
 
@@ -423,6 +436,8 @@ export default {
     let id = parseInt(this.$route.params.id);
     return {
       id,
+      tableKey: 0,
+      grantsList: [],
       isStopSearchRole: false,
       isLoadingGetRole: false,
       role_search: "",
@@ -446,9 +461,9 @@ export default {
       ],
 
       isEditable: Number.isInteger(id) ? true : false,
-      isLoadingPage: Number.isInteger(id) ? false : true,
+      isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "User",
+      title: "Role",
       parameters: {
         url: "setting/role",
         form: {
@@ -460,15 +475,37 @@ export default {
     };
   },
 
+  watch: {
+    "parameters.form.grants": {
+      handler(newGrants) {
+        this.grantsList = [...newGrants];
+        this.tableKey++;
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get("/master/role/" + this.id);
+        let res = await this.$axios.get("/setting/role/" + this.id);
         this.parameters.form = res.data;
+        this.parameters.form.type_option = "multiselect";
+        this.parameters.form.grants = res.data.menu_grants.map((item) => {
+          return {
+            operators: item.operators,
+            menu_id: item.menu,
+          };
+        });
+
+        // Sync ke grantsList
+        this.grantsList = [...this.parameters.form.grants];
+
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
+      this.$router.back();
     }
   },
 
@@ -532,6 +569,7 @@ export default {
         type_option: "multiselect",
         grants: [],
       };
+      this.$router.push("/setting/group_role");
     },
 
     addTag(newTag) {
@@ -543,12 +581,21 @@ export default {
         menu_id: null,
         operators: [],
       });
+
+      this.$nextTick(() => {
+        this.grantsList = [...this.parameters.form.grants];
+        this.tableKey++;
+      });
     },
 
     onDeleteGrant(index) {
-      this.parameters.form.grants = this.parameters.form.grants.filter(
-        (_, itemIndex) => index != itemIndex
-      );
+      this.parameters.form.grants.splice(index, 1);
+
+      // Manual trigger update
+      this.$nextTick(() => {
+        this.grantsList = [...this.parameters.form.grants];
+        this.tableKey++;
+      });
     },
 
     onGetRole(search, isNext) {

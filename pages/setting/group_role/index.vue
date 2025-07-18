@@ -17,9 +17,9 @@
     </div>
     <div class="section-body">
       <div class="flex flex-col gap-5">
-        <div class="panel w-full bg-white rounded-md p-2 px-4">
+        <!-- <div class="panel w-full bg-white rounded-md p-2 px-4">
           <AddForm :self="this" ref="AddForm" />
-        </div>
+        </div> -->
         <div class="panel w-full bg-white rounded-md p-5">
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
@@ -148,9 +148,9 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
+// import FormInput from "./form";
 import ModalDetail from "./detail";
-import AddForm from "./AddRoleForm.vue";
+// import AddForm from "./AddRoleForm.vue";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -170,7 +170,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
   },
 
   data() {
@@ -204,9 +204,9 @@ export default {
   },
 
   components: {
-    FormInput,
+    // FormInput,
     ModalDetail,
-    AddForm,
+    // AddForm,
   },
 
   computed: {
@@ -227,34 +227,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.AddForm.parameters.form = {
-        name: "",
-        type_option: "multiselect",
-        grants: [],
-      };
-      this.$refs.AddForm.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.AddForm?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/setting/group_role/add");
     },
 
     onEdit(item) {
-      this.$refs.AddForm.isEditable = true;
-      this.$refs.AddForm.parameters.form = {
-        ...item,
-        type_option: "multiselect",
-        grants: item.menu_grants.map((item) => {
-          return {
-            id: item.role_id,
-            operators: item.operators,
-            menu_id: item.menu,
-          };
-        }),
-      };
-
-      this.$nextTick(() => {
-        this.$refs.AddForm?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/setting/group_role/" + item.role_id);
     },
 
     onDetail(item) {
