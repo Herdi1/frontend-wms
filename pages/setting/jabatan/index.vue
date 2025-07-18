@@ -16,15 +16,15 @@
       </h5>
     </div>
     <div class="flex gap-5">
-      <div
+      <!-- <div
         class="panel relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border-gray-300 mb-10"
       >
         <div class="w-full">
           <FormInput :self="this" ref="formInput" />
         </div>
-      </div>
+      </div> -->
       <div
-        class="panel relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md  border-gray-300 mb-10"
+        class="panel relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border-gray-300 mb-10"
       >
         <div class="row">
           <div class="col-12 col-md-12">
@@ -59,7 +59,7 @@
               <!-- start table -->
               <div class="table-responsive">
                 <table class="">
-                  <thead class="text-base ">
+                  <thead class="text-base">
                     <tr class="">
                       <!-- <th class="w-[5%]">
                         <input
@@ -68,7 +68,7 @@
                           @click="onCheckAll"
                         />
                       </th> -->
-                      <th class="w-[5%] ">No</th>
+                      <th class="w-[5%]">No</th>
                       <th
                         @click="
                           onSort(
@@ -76,11 +76,11 @@
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
-                        class="cursor-pointer w-[20%] "
+                        class="cursor-pointer w-[20%]"
                       >
                         <div class="flex justify-between align-baseline">
                           <div>Kode</div>
-                          <div >
+                          <div>
                             <i
                               class="fas fa-caret-up"
                               :class="
@@ -109,7 +109,7 @@
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
-                        class="cursor-pointer w-[50%] "
+                        class="cursor-pointer w-[50%]"
                       >
                         <div class="flex justify-between align-baseline">
                           <div>Nama Jabatan</div>
@@ -136,7 +136,7 @@
                         </div>
                       </th>
                       <!-- <th class="w-[5%] ">Icon</th> -->
-                      
+
                       <th class="w-[3%] text-center">Edit</th>
                       <th class="w-[3%] text-center">Delete</th>
                     </tr>
@@ -161,7 +161,7 @@
                       </td>
                       <td>{{ item.kode_jabatan }}</td>
                       <td>{{ item.nama_jabatan }}</td>
-                      
+
                       <!-- <td class="text-center">
                         <small-detail-button @click="onDetail(item)" />
                       </td> -->
@@ -240,7 +240,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
   },
 
   data() {
@@ -294,29 +294,30 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_jabatan: "",
-        nama_jabatan: "",
-       
-      };
-      this.$refs.formInput.isEditable = false;
+      this.$router.push("/setting/jabatan/add");
+      // this.$refs.formInput.parameters.form = {
+      //   kode_jabatan: "",
+      //   nama_jabatan: "",
+      // };
+      // this.$refs.formInput.isEditable = false;
       // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
       // this.$refs.formInput.$refs.formValidate.reset();
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        
-      };
+      this.$router.push("/setting/jabatan/" + item.jabatan_id);
+
+      // this.$refs.formInput.isEditable = true;
+      // this.$refs.formInput.parameters.form = {
+      //   ...item,
+      // };
       // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onDetail(item) {

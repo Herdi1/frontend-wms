@@ -102,9 +102,24 @@
 
           <TabComponent :tabs="tabs">
             <template #DetailProduk>
-              <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Detail Produk</h1>
-                <div class=" ">
+              <h1 class="text-xl font-bold">Detail Produk</h1>
+              <div class="w-full flex justify-between items-center mt-5">
+                <div class="w-1/2">
+                  <select-button
+                    :self="{
+                      label: 'Pick Order',
+                      optionLabel: 'nama_pick_order',
+                      lookup: lookup_custom6,
+                      value: parameters.form.pick_order_id,
+                      onGet: onGetPickOrder,
+                      isLoadingL: isLoadingGetPickOrder,
+                      // input: onSelectAsalM,
+                    }"
+                    width="w-[50%]"
+                    class="mb-5"
+                  />
+                </div>
+                <div>
                   <button
                     type="button"
                     @click="AddDetailProduk"
@@ -309,17 +324,30 @@
               </div>
               <div class="table-responsive overflow-y-hidden mb-7">
                 <table
-                  class="table border-collapse border border-gray-300 mt-5 h-60 overflow-auto table-fixed"
+                  class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                  :class="
+                    parameters.form.detail_biaya.length ? 'mb-[300px]' : ''
+                  "
                 >
                   <thead>
                     <tr class="text-sm uppercase text-nowrap w-full">
                       <th class="w-[100px] border border-gray-300 text-center">
                         Hapus
                       </th>
-                      <th class="w-full border border-gray-300">Jenis Biaya</th>
-                      <th class="w-full border border-gray-300">Nominal</th>
-                      <th class="w-full border border-gray-300">Quantity</th>
-                      <th class="w-full border border-gray-300">Total</th>
+                      <th class="w-[200px] border border-gray-300">
+                        Jenis Biaya
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Nominal Satuan
+                      </th>
+                      <th class="w-[200px] border border-gray-300">Jumlah</th>
+                      <th class="w-[200px] border border-gray-300">Total</th>
+                      <th class="w-[200px] border border-gray-300">COA</th>
+                      <th class="w-[200px] border border-gray-300">Divisi</th>
+                      <th class="w-[200px] border border-gray-300">Vendor</th>
+                      <th class="w-[200px] border border-gray-300">
+                        Keterangan
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -380,7 +408,7 @@
                       </td>
                       <td class="border border-gray-300">
                         <money
-                          v-model="item.nominal"
+                          v-model="item.nominal_satuan"
                           class="w-full pl-2 py-1 border rounded focus:outline-none"
                           @keydown.native="
                             $event.key === '-' ? $event.preventDefault() : null
@@ -389,7 +417,7 @@
                       </td>
                       <td class="border border-gray-300">
                         <money
-                          v-model="item.quantity"
+                          v-model="item.jumlah"
                           class="w-full pl-2 py-1 border rounded focus:outline-none"
                           @keydown.native="
                             $event.key === '-' ? $event.preventDefault() : null
@@ -404,6 +432,118 @@
                             $event.key === '-' ? $event.preventDefault() : null
                           "
                         />
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          label="nama_coa"
+                          :loading="isLoadingGetCoa"
+                          :options="lookup_custom7.data"
+                          :filterable="false"
+                          @search="onGetCoa"
+                          v-model="item.coa_id"
+                          :reduce="(item) => item.coa_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom7.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom7.current_page > 1"
+                              @click="onGetCoa(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom7.last_page >
+                                lookup_custom7.current_page
+                              "
+                              @click="onGetCoa(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          label="nama_divisi"
+                          :loading="isLoadingGetDivisi"
+                          :options="lookup_custom8.data"
+                          :filterable="false"
+                          @search="onGetDivisi"
+                          v-model="item.divisi_id"
+                          :reduce="(item) => item.divisi_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom8.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom8.current_page > 1"
+                              @click="onGetDivisi(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom8.last_page >
+                                lookup_custom8.current_page
+                              "
+                              @click="onGetDivisi(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          label="nama_vendor"
+                          :loading="isLoadingGetVendor"
+                          :options="lookup_custom9.data"
+                          :filterable="false"
+                          @search="onGetVendor"
+                          v-model="item.vendor_id"
+                          :reduce="(item) => item.vendor_id"
+                          class="w-full"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom9.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom9.current_page > 1"
+                              @click="onGetVendor(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom9.last_page >
+                                lookup_custom9.current_page
+                              "
+                              @click="onGetVendor(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <textarea
+                          placeholder="Keterangan"
+                          class="w-full pl-2 py-1 border rounded focus:outline-none"
+                          v-model="item.keterangan"
+                        ></textarea>
                       </td>
                     </tr>
                     <tr v-if="!parameters.form.detail_biaya.length > 0">
@@ -490,6 +630,22 @@ export default {
       isLoadingGetJenisBiaya: false,
       jenis_biaya_search: "",
 
+      isStopSearchPickOrder: false,
+      isLoadingGetPickOrder: false,
+      pick_order_search: "",
+
+      isStopSearchCoa: false,
+      isLoadingGetCoa: false,
+      coa_search: "",
+
+      isStopSearchDivisi: false,
+      isLoadingGetDivisi: false,
+      divisi_search: "",
+
+      isStopSearchVendor: false,
+      isLoadingGetVendor: false,
+      vendor_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -497,6 +653,7 @@ export default {
       parameters: {
         url: "outbound/delivery-order",
         form: {
+          pick_order_id: "",
           kode_pick_order: "",
           tanggal: "",
           pengemudi_id: "",
@@ -545,6 +702,9 @@ export default {
                 ...item,
                 detail_biaya_id: item,
                 jenis_biaya_id: item.detail_biaya.jenis_biaya_id,
+                coa_id: item.detail_biaya.coa_id,
+                divisi_id: item.detail_biaya.divisi_id,
+                vendor_id: item.detail_biaya.vendor_id,
               };
             }
           );
@@ -563,6 +723,10 @@ export default {
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
     await this.onSearchJenisBiaya();
+    await this.onSearchPickOrder();
+    await this.onSearchCoa();
+    await this.onSearchDivisi();
+    await this.onSearchVendor();
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -575,6 +739,10 @@ export default {
       "lookup_custom3", //item_gudang
       "lookup_custom4", //zona_gudang
       "lookup_custom5", //jenis_biaya
+      "lookup_custom6", //pick_order
+      "lookup_custom7", //coa
+      "lookup_custom8", //divisi
+      "lookup_custom9", //vendor
     ]),
   },
 
@@ -725,9 +893,13 @@ export default {
       this.parameters.form.detail_biaya.push({
         detail_biaya_id: "",
         jenis_biaya_id: "",
-        nominal: "",
-        quantity: "",
+        nominal_satuan: "",
+        jumlah: "",
         total: "",
+        coa_id: "",
+        divisi_id: "",
+        vendor_id: "",
+        keterangan: "",
       });
     },
 
@@ -920,6 +1092,160 @@ export default {
             "&per_page=10",
         });
         this.isLoadingGetJenisBiaya = false;
+      }
+    },
+
+    onGetPickOrder(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchPickOrder);
+
+      this.isStopSearchPickOrder = setTimeout(() => {
+        this.pick_order_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+        this.onSearchPickOrder();
+      }, 600);
+    },
+
+    async onSearchPickOrder() {
+      if (!this.isLoadingGetPickOrder) {
+        this.isLoadingGetPickOrder = true;
+
+        await this.lookUp({
+          url: "outbound/pick-order/get-pick-order",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.pick_order_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetPickOrder = false;
+      }
+    },
+
+    onGetCoa(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCoa);
+
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
+        } else {
+          this.lookup_custom7.current_page = 1;
+        }
+
+        this.onSearchCoa();
+      }, 600);
+    },
+
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
+
+        await this.lookUp({
+          url: "finance/coa/get-coa",
+          lookup: "custom7",
+          query:
+            "?search=" +
+            this.coa_search +
+            "&page=" +
+            this.lookup_custom7.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCoa = false;
+      }
+    },
+
+    onGetDivisi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchDivisi);
+
+      this.isStopSearchDivisi = setTimeout(() => {
+        this.divisi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom8.current_page = isNext
+            ? this.lookup_custom8.current_page + 1
+            : this.lookup_custom8.current_page - 1;
+        } else {
+          this.lookup_custom8.current_page = 1;
+        }
+
+        this.onSearchDivisi();
+      }, 600);
+    },
+
+    async onSearchDivisi() {
+      if (!this.isLoadingGetDivisi) {
+        this.isLoadingGetDivisi = true;
+
+        await this.lookUp({
+          url: "master/divisi/get-divisi",
+          lookup: "custom8",
+          query:
+            "?search=" +
+            this.divisi_search +
+            "&page=" +
+            this.lookup_custom8.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetDivisi = false;
+      }
+    },
+
+    onGetVendor(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendor);
+
+      this.isStopSearchVendor = setTimeout(() => {
+        this.vendor_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom9.current_page = isNext
+            ? this.lookup_custom9.current_page + 1
+            : this.lookup_custom9.current_page - 1;
+        } else {
+          this.lookup_custom9.current_page = 1;
+        }
+
+        this.onSearchVendor();
+      }, 600);
+    },
+
+    async onSearchVendor() {
+      if (!this.isLoadingGetVendor) {
+        this.isLoadingGetVendor = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "custom9",
+          query:
+            "?search=" +
+            this.vendor_search +
+            "&page=" +
+            this.lookup_custom9.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendor = false;
       }
     },
 

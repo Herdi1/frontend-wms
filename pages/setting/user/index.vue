@@ -16,13 +16,13 @@
       </h5>
     </div>
     <div class="gap-5">
-      <div
+      <!-- <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-3"
-      >
-        <div class="w-full">
+      > -->
+      <!-- <div class="w-full">
           <FormIndex :self="this" ref="formIndex" />
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
 
       <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
@@ -175,9 +175,9 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
+// import FormInput from "./form";
 import ModalDetail from "./detail";
-import FormIndex from "./formIndex";
+// import FormIndex from "./formIndex";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -197,7 +197,37 @@ export default {
     this.$refs.formOption.isExport = false;
     this.$refs.formOption.isFilter = false;
     this.$refs.formOption.isMaintenancePage = false;
-    this.$refs.formOption.isAddData = false;
+    this.$refs.formOption.isAddData = true;
+
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = false;
+    // }
+
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = true;
+    // }
+
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = true;
+
+    //   this.$refs["form-option"].isExportFilePdf = true;
+    //   this.$refs["form-option"].isExportFileExcel = true;
+
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
+
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = true;
+    // }
   },
 
   data() {
@@ -205,6 +235,21 @@ export default {
       title: "Akun",
       isLoadingData: false,
       isPaginate: true,
+      // user: this.$auth.user,
+      // default_roles: {
+      //   store: true,
+      //   update: true,
+      //   destroy: true,
+      //   restore: true,
+      //   show: true,
+      //   export: true,
+      //   export_excel: true,
+      //   export_pdf: true,
+      //   print: true,
+      //   destroy_all: true,
+      //   restore_all: true,
+      //   import: true,
+      // },
       parameters: {
         url: "setting/user",
         type: "pdf",
@@ -239,9 +284,9 @@ export default {
   },
 
   components: {
-    FormInput,
+    // FormInput,
     ModalDetail,
-    FormIndex,
+    // FormIndex,
   },
 
   computed: {
@@ -260,21 +305,23 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formIndex.parameters.form = {
-        nama_lengkap: "",
-        username: "",
-        password: "",
-        email: "",
-        group_role_id: "",
-        nik: "",
-        parent_id: "",
-        regu_id: "",
-      };
-      this.$refs.formIndex.isEditable = false;
-      // this.$refs.formIndex.show();
-      this.$nextTick(() => {
-        this.$refs.formIndex?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/setting/user/add");
+      // console.log("onFormShow");
+      // this.$refs.formIndex.parameters.form = {
+      //   nama_lengkap: "",
+      //   username: "",
+      //   password: "",
+      //   email: "",
+      //   group_role_id: "",
+      //   nik: "",
+      //   parent_id: "",
+      //   regu_id: "",
+      // };
+      // this.$refs.formIndex.isEditable = false;
+      // // this.$refs.formIndex.show();
+      // this.$nextTick(() => {
+      //   this.$refs.formIndex?.$refs?.formValidate?.reset();
+      // });
       // this.$refs.formInput.parameters.form = {
       //   nama_lengkap: "",
       //   username: "",
@@ -293,18 +340,19 @@ export default {
     },
 
     onEdit(item) {
-      this.$refs.formIndex.isEditable = true;
-      this.$refs.formIndex.parameters.form = {
-        ...item,
-        // group_role_id: item.group_role ? item.group_role : {},
-        id: item.user_id,
-        // regu_id: item.regu ? item.regu : {},
-      };
-      console.log(item);
+      this.$router.push("/setting/user/" + item.user_id);
+      // this.$refs.formIndex.isEditable = true;
+      // this.$refs.formIndex.parameters.form = {
+      //   ...item,
+      // group_role_id: item.group_role ? item.group_role : {},
+      // id: item.user_id,
+      // regu_id: item.regu ? item.regu : {},
+      // };
+      // console.log(item);
       // this.$refs.formIndex.show();
-      this.$nextTick(() => {
-        this.$refs.formIndex?.$refs?.formValidate?.reset();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.formIndex?.$refs?.formValidate?.reset();
+      // });
       // this.$refs.formInput.isEditable = true;
       // this.$refs.formInput.parameters.form = {
       //   ...item,
@@ -367,10 +415,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.form.checkboxs = [];
-      if (document.getElementById("checkAll")) {
-        document.getElementById("checkAll").checked = false;
-      }
+      // this.parameters.form.checkboxs = [];
+      // if (document.getElementById("checkAll")) {
+      //   document.getElementById("checkAll").checked = false;
+      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

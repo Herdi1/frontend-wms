@@ -17,14 +17,7 @@
     </div>
     <div class="flex gap-5">
       <div
-        class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <div class="w-full">
-          <FormInput :self="this" ref="formInput" />
-        </div>
-      </div>
-      <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="row">
           <div class="col-12 col-md-12">
@@ -278,7 +271,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
   },
 
   data() {
@@ -336,37 +329,40 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        rute: "",
-        judul: "",
-        icon: "",
-        menu_id_induk: "",
-        menu_id_induk_2: "",
-        urutan: "",
-        status: "",
-        status_menu: "",
-        file_icon: "",
-      };
-      this.$refs.formInput.isEditable = false;
+      this.$router.push("/setting/role/add");
+      // this.$refs.formInput.parameters.form = {
+      //   rute: "",
+      //   judul: "",
+      //   icon: "",
+      //   menu_id_induk: "",
+      //   menu_id_induk_2: "",
+      //   urutan: "",
+      //   status: "",
+      //   status_menu: "",
+      //   file_icon: "",
+      // };
+      // this.$refs.formInput.isEditable = false;
       // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
       // this.$refs.formInput.$refs.formValidate.reset();
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        menu_id: item.menu_id,
-        menu_id_induk: item.menu_id_induk,
-      };
-      console.log(item);
+      this.$router.push("/setting/role/" + item.menu_id);
+
+      // this.$refs.formInput.isEditable = true;
+      // this.$refs.formInput.parameters.form = {
+      //   ...item,
+      //   menu_id: item.menu_id,
+      //   menu_id_induk: item.menu_id_induk,
+      // };
+      // console.log(item);
       // this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onDetail(item) {

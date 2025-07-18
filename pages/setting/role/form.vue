@@ -324,18 +324,6 @@ export default {
 
       let formData = new FormData();
 
-      // this.parameters.form.forEach((item, i) => {
-      //   formData.append("rute", item.rute);
-      //   formData.append("judul", item.judul);
-      //   formData.append("icon", item.icon);
-      //   formData.append("menu_id_induk", item.menu_id_induk);
-      //   formData.append("menu_id_induk_2", item.menu_id_induk_2);
-      //   formData.append("urutan", item.urutan);
-      //   formData.append("status", item.status);
-      //   formData.append("status_menu", item.status_menu);
-      //   formData.append("file_icon", item.file_icon);
-      // });
-
       Object.entries(this.parameters.form).forEach(([key, value]) => {
         if (key !== "file_icon") {
           formData.append(key, value || "");
@@ -345,11 +333,6 @@ export default {
       if (this.parameters.form.file_icon instanceof File) {
         formData.append("file_icon", this.parameters.form.file_icon);
       }
-
-      // console.log(this.parameters.form.file_icon instanceof File);
-      [...formData.entries()].forEach(([k, v]) => console.log(k, v));
-
-      // console.log("formdata", formData);
 
       if (this.isEditable) {
         url += "/" + this.parameters.form.menu_id;
@@ -368,19 +351,9 @@ export default {
           );
 
           if (!this.isEditable) {
+            this.formReset();
           }
-          this.formReset();
-          // this.parameters.form = {
-          //   rute: "",
-          //   judul: "",
-          //   icon: "",
-          //   menu_id_induk: "",
-          //   menu_id_induk_2: "",
-          //   urutan: "",
-          //   status: "",
-          //   status_menu: "",
-          //   file_icon: "",
-          // };
+
           this.self.onLoad(this.self.parameters.params.page);
           // this.$router.push("/setting/role");
         })
