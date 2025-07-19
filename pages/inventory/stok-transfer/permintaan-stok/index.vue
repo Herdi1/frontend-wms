@@ -2,7 +2,16 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Inbound</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Inventory</a
+        >
+      </li>
+      <li>
+        <a
+          href="javascript:;"
+          class="text-primary hover:underline before:content-['/']"
+          >Stok Transfer</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -15,7 +24,7 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div>
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
@@ -67,70 +76,28 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
-                  <th
-                    @click="
-                      onSort(
-                        'kode_inbound',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter w-[30%]"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Kode Put Away</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'kode_inbound' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'kode_inbound' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th>Surat Jalan</th>
-                  <th>Nomor Referensi</th>
-                  <th>Tanggal</th>
-                  <th class="w-[5%]">Cetak Label</th>
-                  <th class="w-[5%]">Cetak GR</th>
-                  <!-- <th>Kendaraan</th>
-                  <th>Pengemudi</th> -->
+                <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] border border-gray-300">Detail</th>
+                  <th class="w-[5%] border border-gray-300">No</th>
+                  <th class="border border-gray-300">Kode Permintaan Stok</th>
+                  <th class="border border-gray-300">Tanggal</th>
+                  <th class="border border-gray-300">Gudang Penerima</th>
+                  <th class="border border-gray-300">Gudang Asal</th>
+                  <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="item.tanggal !== getTodaysDate"
-                    />
+                  <td class="text-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                      :disabled="item.tanggal !== getTodaysDate"
-                    />
+                  <td class="text-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -138,9 +105,9 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
-                      {{ item.kode_inbound }}
+                      {{ item.kode_stok_transfer }}
                       <p v-if="item.user_input" class="text-blue-500">
                         <i>Dibuat oleh: {{ item.user_input.username }}</i>
                       </p>
@@ -149,46 +116,23 @@
                       </p>
                     </div>
                   </td>
-                  <td>{{ item.surat_jalan }}</td>
-                  <td>
-                    <div>
-                      <p v-if="item.no_referensi_1">
-                        {{ item.no_referensi_1 }}
-                      </p>
-                      <p v-if="item.no_referensi_2">
-                        {{ item.no_referensi_2 }}
-                      </p>
-                      <p v-if="item.no_referensi_3">
-                        {{ item.no_referensi_3 }}
-                      </p>
-                    </div>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{
+                      item.gudang_penerima
+                        ? item.gudang_penerima.nama_gudang
+                        : "-"
+                    }}
                   </td>
-                  <td>{{ item.tanggal }}</td>
-                  <td class="text-center">
-                    <button
-                      class="px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-400 text-white text-enter text-lg"
-                    >
-                      <i class="fa fa-book"></i>
-                    </button>
+                  <td class="border border-gray-300">
+                    {{ item.gudang_asal ? item.gudang_asal.nama_gudang : "-" }}
                   </td>
-                  <td class="text-center">
-                    <button
-                      class="px-2 py-1 rounded-md bg-green-500 hover:bg-green-400 text-white text-enter text-lg"
-                    >
-                      <i class="fa fa-file" aria-hidden="true"></i>
-                    </button>
+                  <td class="text-center border border-gray-300">
+                    <small-delete-button @click="onTrashed(item)" />
                   </td>
-                  <!-- <td>{{ item.kendaraan_id }}</td>
-                  <td>{{ item.pengemudi_id }}</td> -->
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -204,7 +148,7 @@ export default {
 
   head() {
     return {
-      title: "Inbound/Goods Recheive",
+      title: "Permintaan Stok Transfer",
     };
   },
 
@@ -252,34 +196,31 @@ export default {
 
   data() {
     return {
-      title: "Inbound/Goods Recheive",
+      title: "Permintaan Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/inbound",
+        url: "inventory/permintaan-stok-transfer",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "inbound_id",
+          order: "permintaan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           start_date: "",
-          end_date: "",
+          end_data: "",
         },
         form: {
-          inbound_id: "",
-          asn_id: "",
-          surat_jalan: "",
-          doc_type_sap: "",
-          kode_inbound: "",
-          no_referensi_1: "",
-          no_referensi_2: "",
-          no_referensi_3: "",
+          kode_stok_transfer: "",
           tanggal: "",
-          inbound_details: [],
+          gudang_id_penerima: "",
+          gudang_id_asal: "",
+          keterangan: "",
+          detail_stok_transfer: [],
+
           user_agent: "",
           device: "",
           longitude: "",
@@ -328,17 +269,6 @@ export default {
         return roles;
       }
     },
-
-    getTodaysDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
-
-      const formattedDate = `${year}-${month}-${day}`;
-
-      return formattedDate;
-    },
   },
 
   methods: {
@@ -353,11 +283,14 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inbound/inbound/add");
+      this.$router.push("/inventory/stok-transfer/permintaan-stok/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inbound/inbound/" + item.inbound_id);
+      this.$router.push(
+        "/inventory/stok-transfer/permintaan-stok/" +
+          item.permintaan_stok_transfer_id
+      );
     },
 
     onTrashed(item) {
