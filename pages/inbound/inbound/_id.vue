@@ -123,6 +123,7 @@
                     :isHorizontal="true"
                     v-model="form.doc_type_sap"
                     :required="false"
+                    :disabled="form.asn_id || form.purchase_order_id"
                   />
                 </div>
                 <!-- <div class="form-group">
@@ -147,6 +148,7 @@
                     :isHorizontal="true"
                     v-model="form.surat_jalan"
                     :required="false"
+                    :disabled="form.asn_id || form.purchase_order_id"
                   />
                 </div>
                 <div class="form-group">
@@ -159,6 +161,7 @@
                     :isHorizontal="true"
                     v-model="form.no_referensi_1"
                     :required="false"
+                    :disabled="form.asn_id || form.purchase_order_id"
                   />
                 </div>
                 <div class="form-group">
@@ -171,6 +174,7 @@
                     :isHorizontal="true"
                     v-model="form.no_referensi_2"
                     :required="false"
+                    :disabled="form.asn_id || form.purchase_order_id"
                   />
                 </div>
                 <div class="form-group">
@@ -183,6 +187,7 @@
                     :isHorizontal="true"
                     v-model="form.no_referensi_3"
                     :required="false"
+                    :disabled="form.asn_id || form.purchase_order_id"
                   />
                 </div>
                 <div class="form-group">
@@ -1269,7 +1274,14 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
     try {
+      this.form.tanggal = formattedDate
       if (this.isEditable) {
         let res = await this.$axios.get(`inbound/inbound/${this.id}`);
         Object.keys(this.form).forEach((item) => {
@@ -1498,13 +1510,8 @@ export default {
       };
 
       // today's date
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
 
-      const formattedDate = `${year}-${month}-${day}`;
-      formData.tanggal_approve = formattedDate;
+      // formData.tanggal_approve = formattedDate;
       console.log('before inbound')
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
@@ -1950,7 +1957,7 @@ export default {
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
-        this.form.tanggal = item.tanggal;
+        // this.form.tanggal = item.tanggal;
         this.form.gudang_id = item.gudang_id;
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
@@ -2017,7 +2024,7 @@ export default {
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
-        this.form.tanggal = item.tanggal;
+        // this.form.tanggal = item.tanggal;
         this.form.gudang_id = item.gudang_id;
         if (item.purchase_order_details) {
           this.items = item.purchase_order_details.map((data) => {

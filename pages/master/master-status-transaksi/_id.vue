@@ -167,6 +167,8 @@ export default {
         this.parameters.form = res.data;
         this.isLoadingPage = false;
       }
+      await this.onLoadModul();
+      await this.onLoadProses();
     } catch (error) {
       this.$router.back();
     }
