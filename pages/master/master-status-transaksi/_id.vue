@@ -5,10 +5,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Master Status Transaksi
+          Edit Data Status Transaksi
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Master Status Transaksi
+          Tambah Data Status Transaksi
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -138,7 +138,7 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      title: "Master Status Transaksi",
+      title: "Status Transaksi",
       parameters: {
         url: "master/master-status-transaksi",
         form: {
@@ -253,8 +253,6 @@ export default {
         });
 
         this.isLoadingGetProses = false;
-
-        console.log(this.parameters.form);
       }
     },
 

@@ -53,14 +53,9 @@
               <div class="table-responsive">
                 <table>
                   <thead class="text-base">
-                    <tr>
-                      <!-- <th class="w-[5%]">
-                        <input
-                          type="checkbox"
-                          id="checkAll"
-                          @click="onCheckAll"
-                        />
-                      </th> -->
+                    <tr class="uppercase">
+                      <th class="w-[5%]">Detail</th>
+
                       <th class="w-[5%]">No</th>
                       <th
                         @click="
@@ -130,24 +125,18 @@
                       </th>
 
                       <th class="w-[5%]">Icon</th>
-                      <th class="w-[5%]">File Icon</th>
+                      <th class="w-[10%]">File Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
-                      <th class="w-[5%]">Detail</th>
                       <th class="w-[5%]">Edit</th>
                       <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i">
-                      <!-- <td>
-                        <input
-                          type="checkbox"
-                          name="checkboxs[]"
-                          :value="item.menu_id"
-                          v-model="parameters.form.checkboxs"
-                        />
-                      </td> -->
+                      <td class="text-center">
+                        <small-detail-button @click="onDetail(item)" />
+                      </td>
                       <td>
                         {{
                           (parameters.params.page - 1) *
@@ -163,10 +152,7 @@
                         <span v-if="item.file_icon !== '/menu_icon/'">
                           <img
                             class="size-6 flex items-center justify-center rounded-full"
-                            :src="
-                              `http://202.56.167.166:88/api/public/` +
-                              item.file_icon
-                            "
+                            :src="`${imageUrl}${item.file_icon}`"
                             alt=""
                         /></span>
                         <!-- <span v-else>-</span> -->
@@ -193,9 +179,7 @@
                           Android
                         </span>
                       </td>
-                      <td class="text-center">
-                        <small-detail-button @click="onDetail(item)" />
-                      </td>
+
                       <td class="text-center">
                         <small-edit-button @click="onEdit(item)" />
                       </td>
@@ -225,26 +209,6 @@
     </div>
 
     <ModalDetail ref="modalDetail" />
-
-    <!--
-    <filter-section
-      :self="this"
-      ref="form-filter">
-      <template>
-       <div class="col-md-12">
-          <div class="form-group">
-            <label for="role">By Role</label>
-            <select name="role" class="form-control"
-              v-model="parameters.params.role">
-              <option value="all" selected>Pilih</option>
-              <option value="0">SuperAdmin</option>
-              <option value="1">Manager Area</option>
-            </select>
-          </div>
-        </div>
-      </template>
-    </filter-section>
-    -->
   </section>
 </template>
 
@@ -276,7 +240,7 @@ export default {
 
   data() {
     return {
-      imageUrl: process.env.VUE_IMAGES_API_URL,
+      imageUrl: process.env.IMAGES_API_URL,
       title: "Menu",
       isLoadingData: false,
       isPaginate: true,
@@ -311,9 +275,6 @@ export default {
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
   },
-  // imageUrl(url) {
-  //   return `${process.env.VUE_IMAGES_API_URL}${url}`;
-  // },
 
   methods: {
     ...mapActions("setting", ["setSetting"]),
@@ -330,39 +291,10 @@ export default {
 
     onFormShow() {
       this.$router.push("/setting/role/add");
-      // this.$refs.formInput.parameters.form = {
-      //   rute: "",
-      //   judul: "",
-      //   icon: "",
-      //   menu_id_induk: "",
-      //   menu_id_induk_2: "",
-      //   urutan: "",
-      //   status: "",
-      //   status_menu: "",
-      //   file_icon: "",
-      // };
-      // this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
-      // this.$refs.formInput.$refs.formValidate.reset();
     },
 
     onEdit(item) {
       this.$router.push("/setting/role/" + item.menu_id);
-
-      // this.$refs.formInput.isEditable = true;
-      // this.$refs.formInput.parameters.form = {
-      //   ...item,
-      //   menu_id: item.menu_id,
-      //   menu_id_induk: item.menu_id_induk,
-      // };
-      // console.log(item);
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
     },
 
     onDetail(item) {

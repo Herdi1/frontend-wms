@@ -68,9 +68,9 @@
             <table class="mb-5 overflow-auto" ref="formContainer">
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[5%] text-center">Edit</th>
+                  <th class="w-[5%] text-center">Delete</th>
+                  <th class="w-[5%] text-center">No</th>
                   <th>Kode Pick Order</th>
                   <th>User PIC</th>
                   <th>Tanggal</th>
@@ -82,10 +82,10 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

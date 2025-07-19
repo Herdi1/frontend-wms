@@ -20,7 +20,9 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="modal-body mt-4">
+          <div
+            class="modal-body mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full"
+          >
             <ValidationProvider
               name="nama_kelurahan"
               rules="required"
@@ -266,8 +268,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // this.$router.back();
-      console.log("error", error);
+      this.$router.back();
     }
   },
 

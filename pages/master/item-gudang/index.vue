@@ -246,8 +246,7 @@
           >
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-[75px] border border-gray-300">Edit</th>
-                <th class="w-[75px] border border-gray-300">Delete</th>
+                <th class="w-[75px] border border-gray-300">Details</th>
                 <th class="w-[50px] text-center border border-gray-300">No</th>
                 <th class="w-[200px] border border-gray-300">Item</th>
                 <th class="w-[200px] border border-gray-300">Vendor</th>
@@ -289,19 +288,14 @@
                 <th class="w-[200px] border border-gray-300">Batas item</th>
                 <!-- <th class="w-[200px] border border-gray-300">Kode External</th> -->
                 <th class="w-[200px] border border-gray-300">Kategori</th>
-                <th class="w-[75px] border border-gray-300">Details</th>
+                <th class="w-[75px] border border-gray-300">Edit</th>
+                <th class="w-[75px] border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
                 <td class="border border-gray-300">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td class="border border-gray-300">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
+                  <small-detail-button @click="onDetail(item)" />
                 </td>
                 <td class="border border-gray-300">
                   {{
@@ -409,8 +403,15 @@
                     </p>
                   </div>
                 </td>
+
                 <td class="border border-gray-300">
-                  <small-detail-button @click="onDetail(item)" />
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td class="border border-gray-300">
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
                 </td>
               </tr>
             </tbody>

@@ -555,7 +555,6 @@ export default {
       }
 
       if (this.result == true) {
-        // this.self.onLoad(this.self.parameters.params.page);
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
@@ -591,7 +590,6 @@ export default {
     onDeleteGrant(index) {
       this.parameters.form.grants.splice(index, 1);
 
-      // Manual trigger update
       this.$nextTick(() => {
         this.grantsList = [...this.parameters.form.grants];
         this.tableKey++;

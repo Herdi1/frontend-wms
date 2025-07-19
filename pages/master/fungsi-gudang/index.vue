@@ -28,9 +28,9 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[5%] text-center">Edit</th>
+                  <th class="w-[5%] text-center">Delete</th>
+                  <th class="w-[5%] text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -69,10 +69,10 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-items-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

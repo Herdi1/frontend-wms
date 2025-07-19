@@ -2,7 +2,9 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Master</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Inventory</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -23,53 +25,34 @@
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
-
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative">
+            <table class="mb-5 overflow-auto table-fixed" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
-                  <th class="w-[5%]">No</th>
-                  <th>Kode Cost Center</th>
-                  <th
-                    @click="
-                      onSort(
-                        'wilayah_id',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Regional</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'wilayah_id' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'wilayah_id' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th>Cost Center</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                <tr class="uppercase">
+                  <th class="w-[100px] text-center">Detail</th>
+                  <th class="w-[100px] text-center">No</th>
+                  <th class="w-[150px]">Nomor Stok Opname</th>
+                  <th class="w-[150px]">Tanggal Stok Opname</th>
+                  <th class="w-[150px]">Status Stok Opname</th>
+                  <th class="w-[150px]">Tanggal Status Stok Opname</th>
+                  <th class="w-[150px]">Status Adjusment</th>
+                  <th class="w-[150px]">Tanggal Status Adjusment</th>
+                  <th class="w-[150px]">User Input</th>
+                  <th class="w-[150px]">Jabatan Input</th>
+                  <th class="w-[150px]">Zona</th>
+                  <th class="w-[150px]">Lokasi Aisle</th>
+                  <th class="w-[150px]">Lokasi Rack</th>
+                  <th class="w-[150px]">Lokasi Level</th>
+                  <th class="w-[150px]">Lokasi Bin</th>
+                  <th class="w-[100px] text-center">Edit</th>
+                  <th class="w-[100px] text-center">Hapus</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="text-center place-content-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -78,19 +61,22 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_cost_center }}</td>
-                  <td>
-                    {{
-                      item.wilayah
-                        ? item.wilayah.nama_wilayah
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>{{ item.nama_cost_center }}</td>
-                  <td class="text-center">
+                  <td>{{ item.no_stok_opname }}</td>
+                  <td>{{ item.tanggal_stok_opname }}</td>
+                  <td>{{ item.status_stok_opname }}</td>
+                  <td>{{ item.tanggal_status_stok_opname }}</td>
+                  <td>{{ item.status_adjusment }}</td>
+                  <td>{{ item.tanggal_status_adjusment }}</td>
+                  <td>{{ item.user_id_input }}</td>
+                  <td>{{ item.jabatan_id_input }}</td>
+                  <td>{{ item.slot_penyimpanan_id_aisle_plan }}</td>
+                  <td>{{ item.slot_penyimpanan_id_rack_plan }}</td>
+                  <td>{{ item.slot_penyimpanan_id_level_plan }}</td>
+                  <td>{{ item.slot_penyimpanan_id_bin_plan }}</td>
+                  <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
@@ -98,14 +84,7 @@
                   </td>
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -121,7 +100,7 @@ export default {
 
   head() {
     return {
-      title: "Cost Center",
+      title: "Stok Opname",
     };
   },
 
@@ -131,10 +110,10 @@ export default {
   },
 
   mounted() {
-    // this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isMaintenancePage = true;
-    // this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -150,10 +129,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -163,32 +142,50 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
   },
 
   data() {
     return {
-      title: "Cost Center",
+      title: "Stok Opname",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/cost-center",
+        url: "inventory/stok-opname",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "cost_center_id",
+          order: "stok_opname_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
+          start_date: "",
+          end_date: "",
         },
         form: {
-          cost_center_id: "",
-          kode_cost_center: "",
-          wilayah_id: "",
-          nama_cost_center: "",
+          no_stok_opname: "",
+          tanggal_stok_opname: "",
+          status_stok_opname: "",
+          tanggal_status_stok_opname: "",
+          status_adjusment: "",
+          tanggal_status_adjusment: "",
+          user_id_input: "",
+          jabatan_id_input: "",
+          zona_gudang_id: "",
+          slot_penyimpanan_id_aisle_plan: "",
+          slot_penyimpanan_id_rack_plan: "",
+          slot_penyimpanan_id_level_plan: "",
+          slot_penyimpanan_id_bin_plan: "",
+          detail_produk_opname: [],
+
+          //Tracking
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
         },
         loadings: {
           isDelete: false,
@@ -221,7 +218,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "cost"
+          (item) => item.rute == "stok-opname"
         );
 
         let roles = {};
@@ -251,11 +248,15 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/cost-center/add");
+      this.$router.push("/inventory/stok-opname/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/cost-center/" + item.cost_center_id);
+      this.$router.push("/inventory/stok-opname/" + item.stok_opname_id);
+    },
+
+    onDetail(item) {
+      this.$router.push("/inventory/stok-opname/detail" + item.stok_opname_id);
     },
 
     onTrashed(item) {
@@ -274,7 +275,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.cost_center_id,
+              id: item.stok_opname_id,
               params: this.parameters.params,
             });
 

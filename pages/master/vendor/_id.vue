@@ -1054,7 +1054,6 @@ export default {
         // if (response.data && response.data.tipe_vendor) {
         //   response.data.tipe_vendor = response.data.tipe_vendor.trim();
         // }
-        console.log("res", response);
 
         this.parameters.form = response.data;
         this.isLoadingPage = false;

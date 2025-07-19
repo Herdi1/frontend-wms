@@ -83,22 +83,34 @@
                 />
               </div>
               <div class="form-group">
-                <input-horiontal
-                  label="Staff"
-                  type="text"
-                  name="staff"
-                  :required="false"
+                <select-button
+                  :self="{
+                    label: 'Staff',
+                    optionLabel: 'nama_lengkap',
+                    lookup: lookup_custom5,
+                    value: parameters.form.person_id,
+                    onGet: onGetPerson,
+                    isLoadingL: isLoadingGetPerson,
+                    input: onSelectStaff,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
                 />
-                <!-- v-model="parameters.form.no_referensi_3" -->
               </div>
               <div class="form-group">
-                <input-horiontal
-                  label="Equipment"
-                  type="text"
-                  name="equipment"
-                  :required="false"
+                <select-button
+                  :self="{
+                    label: 'Peralatan',
+                    optionLabel: 'nama_peralatan',
+                    lookup: lookup_custom6,
+                    value: parameters.form.peralatan_id,
+                    onGet: onGetPeralatan,
+                    isLoadingL: isLoadingGetPeralatan,
+                    input: onSelectPeralatan,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
                 />
-                <!-- v-model="parameters.form.no_referensi_3" -->
               </div>
             </div>
           </div>
@@ -119,7 +131,7 @@
                   value: parameters.form.pick_request_id,
                   onGet: onGetPickRequest,
                   isLoadingL: isLoadingGetPickRequest,
-                  // input: onSelectAsalM,
+                  input: onSelectPickRequest,
                 }"
                 width="w-[50%]"
                 class="mb-5"
@@ -349,6 +361,14 @@ export default {
       isLoadingGetPickRequest: false,
       pick_request_search: "",
 
+      isStopSearchPerson: false,
+      isLoadingGetPerson: false,
+      person_search: "",
+
+      isStopSearchPeralatan: false,
+      isLoadingGetPeralatan: false,
+      peralatan_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -363,6 +383,8 @@ export default {
           no_referensi_1: "",
           no_referensi_2: "",
           no_referensi_3: "",
+          person_id: "",
+          peralatan_id: "",
           detail_pick_order: [],
 
           //Tracking
@@ -411,8 +433,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back()
+      // console.log("error", error);
+      this.$router.back();
     }
   },
 
@@ -421,6 +443,8 @@ export default {
     await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
     await this.onSearchPickRequest();
+    await this.onSearchPerson();
+    await this.onSearchPeralatan();
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -433,6 +457,8 @@ export default {
       "lookup_custom2", //item gudang
       "lookup_custom3", //zona gudang
       "lookup_custom4", //pick request
+      "lookup_custom5", //person
+      "lookup_custom6", //equipment
     ]),
   },
 
@@ -712,6 +738,104 @@ export default {
             "&per_page=10",
         });
         this.isLoadingGetPickRequest = false;
+      }
+    },
+
+    onGetPerson(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchPerson);
+
+      this.isStopSearchPerson = setTimeout(() => {
+        this.person_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+        this.onSearchPerson();
+      }, 600);
+    },
+
+    async onSearchPerson() {
+      if (!this.isLoadingGetPerson) {
+        this.isLoadingGetPerson = true;
+
+        await this.lookUp({
+          url: "setting/user",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.person_search +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetPerson = false;
+      }
+    },
+
+    onGetPeralatan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchPeralatan);
+
+      this.isStopSearchPeralatan = setTimeout(() => {
+        this.peralatan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+        this.onSearchPeralatan();
+      }, 600);
+    },
+
+    async onSearchPeralatan() {
+      if (!this.isLoadingGetPeralatan) {
+        this.isLoadingGetPeralatan = true;
+
+        await this.lookUp({
+          url: "master/jenis-peralatan/get-jenis-peralatan",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.peralatan_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetPeralatan = false;
+      }
+    },
+
+    onSelectStaff(item) {
+      if (item) {
+        this.parameters.form.person_id = item;
+      } else {
+        this.parameters.form.person_id = "";
+      }
+    },
+
+    onSelectPeralatan(item) {
+      if (item) {
+        this.parameters.form.peralatan_id = item;
+      } else {
+        this.parameters.form.peralatan_id = "";
+      }
+    },
+
+    onSelectPickRequest(item) {
+      if (item) {
+        this.parameters.form.pick_request_id = item;
+      } else {
+        this.parameters.form.pick_request_id = "";
       }
     },
 

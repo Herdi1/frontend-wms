@@ -16,11 +16,6 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <!-- <div
-        class="relative p-4 sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div> -->
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
@@ -33,8 +28,6 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] text-center">Edit</th>
-                  <th class="w-[5%] text-center">Delete</th>
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -74,19 +67,12 @@
                   <th>Latitude</th>
                   <th>Provinsi</th>
                   <th>Negara</th>
+                  <th class="w-[5%] text-center">Edit</th>
+                  <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -110,6 +96,15 @@
                     {{
                       item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
                     }}
+                  </td>
+                  <td class="text-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>

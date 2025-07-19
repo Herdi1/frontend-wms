@@ -246,8 +246,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">Detail</th>
+
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -369,19 +369,14 @@
                   <th>Kapasitas Palet</th>
                   <th>Maksimal Tumpukan</th>
                   <th>Supplier</th>
-                  <th class="w-[5%]">Detail</th>
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
                   <td>
                     {{
@@ -499,8 +494,15 @@
                         : "Tidak Ditemukan"
                     }}
                   </td>
+
                   <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>

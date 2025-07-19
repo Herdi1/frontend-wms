@@ -16,18 +16,16 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
+      <div
+        class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+      >
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div>
+        <div class="overflow-x-auto">
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
-                <th class="w-[5%] text-center border border-gray-300">
-                  Delete
-                </th>
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Slot Penyimpanan</th>
                 <th class="border border-gray-300">Nama Slot Penyimpanan</th>
@@ -70,19 +68,14 @@
                 <th class="border border-gray-300">Level</th>
                 <th class="border border-gray-300">Slot Penyimpanan</th>
                 <th class="border border-gray-300">Kapasitas</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="border border-gray-300">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td class="border border-gray-300">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
                 <td class="border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -125,6 +118,15 @@
                   }}
                 </td>
                 <td class="border border-gray-300">{{ item.kapasitas }}</td>
+                <td class="border border-gray-300">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td class="border border-gray-300">
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
               </tr>
             </tbody>
             <table-data-loading-section :self="this" />

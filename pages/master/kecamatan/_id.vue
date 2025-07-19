@@ -21,179 +21,184 @@
           autocomplete="off"
         >
           <div class="modal-body mt-4">
-            <ValidationProvider
-              ref="inputProvider"
-              name="nama_kecamatan"
-              rules="required"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Nama Kecamatan"
-                  type="text"
-                  name="nama_kecamatan"
-                  :required="true"
-                  v-model="parameters.form.nama_kecamatan"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="kode_kecamatan"
-              rules="required"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Kode Kecamatan"
-                  type="text"
-                  name="kode_kecamatan"
-                  :required="true"
-                  v-model="parameters.form.kode_kecamatan"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="kode_alternatif"
-              rules="required"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Kode Alternatif"
-                  type="text"
-                  name="kode_alternatif"
-                  :required="true"
-                  v-model="parameters.form.kode_alternatif"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="longitude"
-              rules="required"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Longitude"
-                  type="text"
-                  name="longitude"
-                  :required="true"
-                  v-model="parameters.form.longitude"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="latitude"
-              rules="required"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Latitude"
-                  type="text"
-                  name="latitude"
-                  :required="true"
-                  v-model="parameters.form.latitude"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="kota_id"
-              rules="required"
-            >
-              <div slot-scope="{ errors, valid }">
-                <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12"
-                    >Kota <span class="text-danger">*</span></label
-                  >
-                  <v-select
-                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_kota"
-                    :loading="isLoadingGetKota"
-                    :options="lookup_custom1.data"
-                    :filterable="false"
-                    @search="onGetKota"
-                    @input="onSelectKota"
-                    v-model="parameters.form.kota_id"
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  >
-                    <template slot="option" slot-scope="option">
-                      {{
-                        option.nama_kota +
-                        ", " +
-                        option.provinsi.nama_provinsi +
-                        ", " +
-                        option.negara.nama_negara
-                      }}
-                    </template>
-                    <template slot="option-selected" slot-scope="option">
-                      {{
-                        option.nama_kota +
-                        ", " +
-                        option.provinsi.nama_provinsi +
-                        ", " +
-                        option.negara.nama_negara
-                      }}
-                    </template>
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom1.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom1.current_page > 1"
-                        @click="onGetKota(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom1.last_page > lookup_custom1.current_page
-                        "
-                        @click="onGetKota(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+              <ValidationProvider
+                ref="inputProvider"
+                name="nama_kecamatan"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Nama Kecamatan"
+                    type="text"
+                    name="nama_kecamatan"
+                    :required="true"
+                    v-model="parameters.form.nama_kecamatan"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
                 </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="kode_kecamatan"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Kecamatan"
+                    type="text"
+                    name="kode_kecamatan"
+                    :required="true"
+                    v-model="parameters.form.kode_kecamatan"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="kode_alternatif"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Alternatif"
+                    type="text"
+                    name="kode_alternatif"
+                    :required="true"
+                    v-model="parameters.form.kode_alternatif"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="longitude"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    :required="true"
+                    v-model="parameters.form.longitude"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="latitude"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Latitude"
+                    type="text"
+                    name="latitude"
+                    :required="true"
+                    v-model="parameters.form.latitude"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="kota_id"
+                rules="required"
+              >
+                <div slot-scope="{ errors, valid }">
+                  <div class="form-group w-full items-center mb-5">
+                    <label for="" class="w-4/12"
+                      >Kota <span class="text-danger">*</span></label
+                    >
+                    <v-select
+                      class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                      label="nama_kota"
+                      :loading="isLoadingGetKota"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetKota"
+                      @input="onSelectKota"
+                      v-model="parameters.form.kota_id"
+                      :class="
+                        errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                      "
+                    >
+                      <template slot="option" slot-scope="option">
+                        {{
+                          option.nama_kota +
+                          ", " +
+                          option.provinsi.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
+                      <template slot="option-selected" slot-scope="option">
+                        {{
+                          option.nama_kota +
+                          ", " +
+                          option.provinsi.nama_provinsi +
+                          ", " +
+                          option.negara.nama_negara
+                        }}
+                      </template>
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetKota(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetKota(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                </div>
+              </ValidationProvider>
+
+              <div class="form-group">
+                <input-form
+                  label="Provinsi"
+                  type="text"
+                  name="provinsi_id"
+                  :disabled="true"
+                  v-model="parameters.form.provinsi_id.nama_provinsi"
+                />
               </div>
-            </ValidationProvider>
 
-            <div class="form-group">
-              <input-form
-                label="Provinsi"
-                type="text"
-                name="provinsi_id"
-                :disabled="true"
-                v-model="parameters.form.provinsi_id.nama_provinsi"
-              />
-            </div>
-
-            <div class="form-group">
-              <input-form
-                label="Negara"
-                type="text"
-                name="negara_id"
-                :disabled="true"
-                v-model="parameters.form.negara_id.nama_negara"
-              />
+              <div class="form-group">
+                <input-form
+                  label="Negara"
+                  type="text"
+                  name="negara_id"
+                  :disabled="true"
+                  v-model="parameters.form.negara_id.nama_negara"
+                />
+              </div>
             </div>
           </div>
           <modal-footer-section
