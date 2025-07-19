@@ -28,8 +28,6 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] text-center">Edit</th>
-                  <th class="w-[5%] text-center">Delete</th>
                   <th class="w-[5%] text-center">No</th>
                   <th
                     @click="
@@ -65,19 +63,12 @@
                     </div>
                   </th>
                   <th class="w-[25%]">Nama Fungsi</th>
+                  <th class="w-[5%] text-center">Edit</th>
+                  <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-items-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="place-items-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -88,6 +79,15 @@
                   </td>
                   <td>{{ item.kode_fungsi }}</td>
                   <td>{{ item.nama_fungsi }}</td>
+                  <td class="place-items-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="place-items-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

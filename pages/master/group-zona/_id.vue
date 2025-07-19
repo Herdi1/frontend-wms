@@ -82,11 +82,9 @@ export default {
         let res = await this.$axios.get(`master/group-zona/${this.id}`);
         this.parameters.form = res.data;
         this.isLoadingPage = false;
-        console.log(res.data);
       }
     } catch (error) {
-      // this.$router.back();
-      console.log("error", error);
+      this.$router.back();
     }
   },
 

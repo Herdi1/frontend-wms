@@ -23,7 +23,7 @@
         <div>
           <table ref="formContainer">
             <thead>
-              <tr>
+              <tr class="uppercase">
                 <th class="w-[5%]">No</th>
                 <th>Kode Badan Hukum</th>
                 <th

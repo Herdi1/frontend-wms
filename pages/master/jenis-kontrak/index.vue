@@ -16,11 +16,6 @@
       </h5>
     </div>
     <div class="flex sm:flex-col md:flex-row gap-5">
-      <!-- <div
-        class="sm:w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md p-2 px-4"
-      >
-        <FormInput :self="this" ref="formInput" />
-      </div> -->
       <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
           <list-option-section :self="this" ref="form-option" />
@@ -29,8 +24,6 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">Edit</th>
-
                 <th class="w-[5%]">No</th>
                 <th
                   @click="
@@ -65,15 +58,13 @@
                   </div>
                 </th>
                 <th>Kode Jenis Kontrak</th>
+                <th class="w-[5%]">Edit</th>
+
                 <th class="w-[5%]">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -83,6 +74,9 @@
                 </td>
                 <td>{{ item.nama_jenis_kontrak }}</td>
                 <td>{{ item.kode_jenis_kontrak }}</td>
+                <td>
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td>
                   <small-delete-button
                     @click="onTrashed(item)"

@@ -25,39 +25,7 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">No</th>
-                <th
-                  @click="
-                    onSort(
-                      'kode_bank',
-                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                    )
-                  "
-                  class="cursor-pointer"
-                >
-                  <div class="flex justify-between align-baseline">
-                    <div>Kode Bank</div>
-                    <div>
-                      <i
-                        class="fas fa-caret-up"
-                        :class="
-                          parameters.params.order == 'kode_bank' &&
-                          parameters.params.sort == 'asc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                      <i
-                        class="fas fa-caret-down"
-                        :class="
-                          parameters.params.order == 'kode_bank' &&
-                          parameters.params.sort == 'desc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                    </div>
-                  </div>
-                </th>
+
                 <th
                   @click="
                     onSort(
@@ -91,6 +59,39 @@
                     </div>
                   </div>
                 </th>
+                <th
+                  @click="
+                    onSort(
+                      'singkatan',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Singkatan</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'singkatan' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'singkatan' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
               </tr>
@@ -104,8 +105,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_bank }}</td>
                 <td>{{ item.nama_bank }}</td>
+                <td>{{ item.singkatan }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -213,8 +214,8 @@ export default {
           page: 1,
         },
         form: {
-          kode_bank: "",
           nama_bank: "",
+          singkatan: "",
         },
         loadings: {
           isDelete: false,

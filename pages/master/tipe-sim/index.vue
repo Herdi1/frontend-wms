@@ -28,39 +28,6 @@
                 <th
                   @click="
                     onSort(
-                      'kode_tipe_sim',
-                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                    )
-                  "
-                  class="cursor-pointer"
-                >
-                  <div class="flex justify-between align-baseline">
-                    <div>Kode Tipe SIM</div>
-                    <div>
-                      <i
-                        class="fas fa-caret-up"
-                        :class="
-                          parameters.params.order == 'kode_tipe_sim' &&
-                          parameters.params.sort == 'asc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                      <i
-                        class="fas fa-caret-down"
-                        :class="
-                          parameters.params.order == 'kode_tipe_sim' &&
-                          parameters.params.sort == 'desc'
-                            ? ''
-                            : 'light-gray'
-                        "
-                      ></i>
-                    </div>
-                  </div>
-                </th>
-                <th
-                  @click="
-                    onSort(
                       'nama_tipe_sim',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
@@ -91,6 +58,40 @@
                     </div>
                   </div>
                 </th>
+                <th
+                  @click="
+                    onSort(
+                      'kode_tipe_sim',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Kode Tipe SIM</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'kode_tipe_sim' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'kode_tipe_sim' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th>Keterangan</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Delete</th>
               </tr>
@@ -104,8 +105,9 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_tipe_sim }}</td>
                 <td>{{ item.nama_tipe_sim }}</td>
+                <td>{{ item.kode_tipe_sim }}</td>
+                <td>{{ item.keterangan }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
@@ -213,8 +215,9 @@ export default {
           page: 1,
         },
         form: {
-          kode_tipe_sim: "",
           nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         },
         loadings: {
           isDelete: false,

@@ -22,6 +22,15 @@
         >
           <div class="mt-7">
             <input-horizontal
+              label="Nama Tipe SIM"
+              type="text"
+              name="nama_tipe_sim"
+              v-model="parameters.form.nama_tipe_sim"
+              :required="true"
+              :labelWidth="'w-[30%]'"
+              :inputWidth="'w-[70%]'"
+            />
+            <input-horizontal
               label="Kode Tipe SIM"
               type="text"
               name="kode_tipe_sim"
@@ -31,10 +40,10 @@
               :inputWidth="'w-[70%]'"
             />
             <input-horizontal
-              label="Nama Tipe SIM"
+              label="Keterangan"
               type="text"
-              name="nama_tipe_sim"
-              v-model="parameters.form.nama_tipe_sim"
+              name="keterangan"
+              v-model="parameters.form.keterangan"
               :required="true"
               :labelWidth="'w-[30%]'"
               :inputWidth="'w-[70%]'"
@@ -69,8 +78,9 @@ export default {
       parameters: {
         url: "master/tipe-sim",
         form: {
-          kode_tipe_sim: "",
           nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         },
       },
     };
@@ -84,8 +94,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      this.$router.back();
     }
   },
 
@@ -123,8 +132,9 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          kode_tipe_sim: "",
           nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -137,8 +147,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_tipe_sim: "",
         nama_tipe_sim: "",
+        kode_tipe_sim: "",
+        keterangan: "",
       };
     },
   },

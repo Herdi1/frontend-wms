@@ -22,19 +22,19 @@
         >
           <div class="mt-7">
             <input-horizontal
-              label="Kode Bank"
+              label="Nama Bank"
               type="text"
-              name="kode_bank"
-              v-model="parameters.form.kode_bank"
+              name="nama_bank"
+              v-model="parameters.form.nama_bank"
               :required="true"
               :labelWidth="'w-[30%]'"
               :inputWidth="'w-[70%]'"
             />
             <input-horizontal
-              label="Nama Bank"
+              label="Singkatan"
               type="text"
-              name="nama_bank"
-              v-model="parameters.form.nama_bank"
+              name="singkatan"
+              v-model="parameters.form.singkatan"
               :required="true"
               :labelWidth="'w-[30%]'"
               :inputWidth="'w-[70%]'"
@@ -69,8 +69,8 @@ export default {
       parameters: {
         url: "master/bank",
         form: {
-          kode_bank: "",
           nama_bank: "",
+          singkatan: "",
         },
       },
     };
@@ -84,8 +84,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      this.$router.back();
     }
   },
 
@@ -121,8 +120,8 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          kode_bank: "",
           nama_bank: "",
+          singkatan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -135,8 +134,8 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_bank: "",
         nama_bank: "",
+        singkatan: "",
       };
     },
   },

@@ -280,11 +280,9 @@
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
                 <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
+                  <small-detail-button @click="onDetail(item)" />
                 </td>
+
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -384,11 +382,15 @@
                     </p>
                   </div>
                 </td>
-                <td>
-                  <small-detail-button @click="onDetail(item)" />
-                </td>
+
                 <td>
                   <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
                 </td>
               </tr>
             </tbody>

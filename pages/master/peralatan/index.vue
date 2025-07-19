@@ -24,8 +24,6 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Peralatan</th>
                 <th
@@ -65,19 +63,12 @@
                 <th>Jenis Peralatan</th>
                 <th>Vendor</th>
                 <th>Gudang</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -106,6 +97,15 @@
                   {{
                     item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                   }}
+                </td>
+                <td>
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
                 </td>
               </tr>
             </tbody>

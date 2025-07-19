@@ -102,8 +102,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // this.$router.back();
-      console.log("err", error);
+      this.$router.back();
     }
   },
 
