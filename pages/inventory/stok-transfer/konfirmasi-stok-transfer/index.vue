@@ -83,10 +83,12 @@
                   <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">Detail</th>
                   <th class="w-[5%] border border-gray-300">No</th>
-                  <th class="border border-gray-300">Kode Permintaan Stok</th>
+                  <th class="border border-gray-300">Kode Stok Transfer</th>
                   <th class="border border-gray-300">Tanggal</th>
                   <th class="border border-gray-300">Gudang Penerima</th>
                   <th class="border border-gray-300">Gudang Asal</th>
+                  <th class="border border-gray-300">Status Konfirmasi</th>
+                  <th class="border border-gray-300">Tanggal Konfirmasi</th>
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
@@ -128,6 +130,12 @@
                   <td class="border border-gray-300">
                     {{ item.gudang_asal ? item.gudang_asal.nama_gudang : "-" }}
                   </td>
+                  <td class="border border-gray-300">
+                    {{ item.status_konfirmasi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.tanggal_approve }}
+                  </td>
                   <td class="text-center border border-gray-300">
                     <small-delete-button @click="onTrashed(item)" />
                   </td>
@@ -155,7 +163,7 @@ export default {
 
   head() {
     return {
-      title: "Permintaan Stok Transfer",
+      title: "Konfirmasi Stok Transfer",
     };
   },
 
@@ -180,7 +188,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -203,16 +211,16 @@ export default {
 
   data() {
     return {
-      title: "Permintaan Stok Transfer",
+      title: "Konfirmasi Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/permintaan-stok-transfer",
+        url: "inventory/konfirmasi-stok-transfer",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "permintaan_id",
+          order: "konfirmasi_stok_transfer_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -226,6 +234,9 @@ export default {
           gudang_id_penerima: "",
           gudang_id_asal: "",
           keterangan: "",
+          status_konfirmasi: "",
+          tanggal_approve: "",
+          catatan_approve: "",
           detail_stok_transfer: [],
 
           user_agent: "",
@@ -260,7 +271,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "permintaan-stok-transfer"
+          (item) => item.rute == "konfirmasi-stok-transfer"
         );
 
         let roles = {};
@@ -290,12 +301,14 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inventory/stok-transfer/permintaan-stok/add");
+      this.$router.push(
+        "/inventory/stok-transfer/konfirmasi-stok-transfer/add"
+      );
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/stok-transfer/permintaan-stok/" +
+        "/inventory/stok-transfer/konfirmasi-stok-transfer/" +
           item.permintaan_stok_transfer_id
       );
     },
@@ -316,7 +329,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.permintaan_stok_transfer_id,
+              id: item.konfirmasi_stok_transfer_id,
               params: this.parameters.params,
             });
 
