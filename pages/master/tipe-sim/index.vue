@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Jenis Biaya</span>
+        <span>Tipe SIM</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -28,18 +28,19 @@
                 <th
                   @click="
                     onSort(
-                      'nama_jenis_biaya',
+                      'nama_tipe_sim',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Jenis Biaya</div>
+                    <div>Nama Tipe SIM</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'nama_tipe_sim' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -48,7 +49,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_jenis_biaya' &&
+                          parameters.params.order == 'nama_tipe_sim' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -57,11 +58,42 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Jenis Biaya</th>
-                <th>Status Jenis Biaya</th>
+                <th
+                  @click="
+                    onSort(
+                      'kode_tipe_sim',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Kode Tipe SIM</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'kode_tipe_sim' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'kode_tipe_sim' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th>Keterangan</th>
-                <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -73,9 +105,8 @@
                     1
                   }}
                 </td>
-                <td>{{ item.nama_jenis_biaya }}</td>
-                <td>{{ item.kode_jenis_biaya }}</td>
-                <td>{{ item.status_jenis_biaya.nama_status_jenis_biaya }}</td>
+                <td>{{ item.nama_tipe_sim }}</td>
+                <td>{{ item.kode_tipe_sim }}</td>
                 <td>{{ item.keterangan }}</td>
                 <td>
                   <small-edit-button @click="onEdit(item)" />
@@ -100,13 +131,13 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
+
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Jenis Biaya",
+      title: "Tipe SIM",
     };
   },
 
@@ -116,10 +147,10 @@ export default {
   },
 
   mounted() {
-    // this.$refs["form-option"].isMaintenancePage = false;
-    // this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isMaintenancePage = false;
+    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||
@@ -134,10 +165,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -147,13 +178,13 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
   },
 
   data() {
     return {
-      title: "Jenis Biaya",
+      title: "Tipe SIM",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -172,22 +203,21 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/jenis-biaya",
+        url: "master/tipe-sim",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jenis_biaya_id",
+          order: "tipe_sim_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            nama_jenis_biaya: "",
-            kode_jenis_biaya: "",
-            status_jenis_biaya_id: "",
-            keterangan: "",
-          },
+        },
+        form: {
+          nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         },
         loadings: {
           isDelete: false,
@@ -195,10 +225,6 @@ export default {
         },
       },
     };
-  },
-
-  components: {
-    FormInput,
   },
 
   computed: {
@@ -209,7 +235,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jenis-biaya"
+          (item) => item.rute == "tipe-sim"
         );
 
         let roles = {};
@@ -238,11 +264,46 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(`/master/jenis-biaya/add`);
+      this.$router.push("/master/tipe-sim/add");
     },
 
     onEdit(item) {
-      this.$router.push(`/master/jenis-biaya/${item.jenis_biaya_id}`);
+      this.$router.push("/master/tipe-sim/" + item.tipe_sim_id);
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.tipe_sim_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
     },
 
     async onLoad(page = 1) {
@@ -272,62 +333,6 @@ export default {
       }
 
       this.isLoadingData = false;
-    },
-
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.jenis_biaya_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
-
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.jenis_biaya_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
     },
 
     onSort(column, sort = "asc") {

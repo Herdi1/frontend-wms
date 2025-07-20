@@ -141,7 +141,7 @@ export default {
 
   head() {
     return {
-      title: "Delivery Order",
+      title: "Shipment",
     };
   },
 
@@ -189,7 +189,7 @@ export default {
 
   data() {
     return {
-      title: "Delivery Order",
+      title: "Shipment",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

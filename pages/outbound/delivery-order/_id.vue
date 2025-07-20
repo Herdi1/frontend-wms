@@ -19,7 +19,7 @@
           <div
             class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-flow-col grid-rows-4 gap-3 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
               <div v-if="isEditable">
                 <input-horizontal
                   label="Kode Pick Order"
@@ -31,45 +31,6 @@
                   :disabled="true"
                 />
               </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Tanggal"
-                  type="date"
-                  name="tanggal"
-                  v-model="parameters.form.tanggal"
-                  :required="true"
-                />
-              </div>
-              <ValidationProvider name="pengemudi_id">
-                <select-button
-                  :self="{
-                    label: 'Pengemudi',
-                    optionLabel: 'nama_pengemudi',
-                    lookup: lookup_custom1,
-                    value: parameters.form.pengemudi_id,
-                    onGet: onGetPengemudi,
-                    isLoadingL: isLoadingGetPengemudi,
-                    // input: onSelectAsalMuat,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="kendaraan_id">
-                <select-button
-                  :self="{
-                    label: 'Kendaraan',
-                    optionLabel: 'nama_kendaraan',
-                    lookup: lookup_custom2,
-                    value: parameters.form.kendaraan_id,
-                    onGet: onGetKendaraan,
-                    isLoadingL: isLoadingGetKendaraan,
-                    // input: onSelectAsalMuat,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
               <div class="form-group">
                 <input-horiontal
                   label="Nomor Referensi 1"
@@ -97,6 +58,45 @@
                   :required="false"
                 />
               </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Tanggal"
+                  type="date"
+                  name="tanggal"
+                  v-model="parameters.form.tanggal"
+                  :required="true"
+                />
+              </div>
+              <ValidationProvider name="pengemudi_id">
+                <select-button
+                  :self="{
+                    label: 'Pengemudi',
+                    optionLabel: 'nama_pengemudi',
+                    lookup: lookup_custom1,
+                    value: parameters.form.pengemudi_id,
+                    onGet: onGetPengemudi,
+                    isLoadingL: isLoadingGetPengemudi,
+                    input: onSelectPengemudi,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                />
+              </ValidationProvider>
+              <ValidationProvider name="kendaraan_id">
+                <select-button
+                  :self="{
+                    label: 'Kendaraan',
+                    optionLabel: 'nama_kendaraan',
+                    lookup: lookup_custom2,
+                    value: parameters.form.kendaraan_id,
+                    onGet: onGetKendaraan,
+                    isLoadingL: isLoadingGetKendaraan,
+                    input: onSelectKendaraan,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                />
+              </ValidationProvider>
             </div>
           </div>
 
@@ -113,7 +113,7 @@
                       value: parameters.form.pick_order_id,
                       onGet: onGetPickOrder,
                       isLoadingL: isLoadingGetPickOrder,
-                      // input: onSelectAsalM,
+                      input: onSelectPickOrder,
                     }"
                     width="w-[50%]"
                     class="mb-5"
@@ -1246,6 +1246,30 @@ export default {
         });
 
         this.isLoadingGetVendor = false;
+      }
+    },
+
+    onSelectPengemudi(item) {
+      if (item) {
+        this.parameters.form.pengemudi_id = item;
+      } else {
+        this.parameters.form.pengemudi_id = "";
+      }
+    },
+
+    onSelectKendaraan(item) {
+      if (item) {
+        this.parameters.form.kendaraan_id = item;
+      } else {
+        this.parameters.form.kendaraan_id = "";
+      }
+    },
+
+    onSelectPickOrder(item) {
+      if (item) {
+        this.parameters.form.pick_order_id = item;
+      } else {
+        this.parameters.form.pick_order_id = "";
       }
     },
 

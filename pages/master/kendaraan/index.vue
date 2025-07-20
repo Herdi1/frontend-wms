@@ -28,6 +28,7 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">No</th>
                   <th
                     @click="
@@ -131,13 +132,15 @@
                   <th>Nama Kendaraan</th>
                   <th>Kode Kendaraan</th>
                   <th>Plat Nomor</th>
-                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="text-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -150,10 +153,9 @@
                   <td>{{ item.gudang.nama_gudang }}</td>
                   <td>{{ item.vendor.nama_vendor }}</td>
                   <td>{{ item.nama_kendaraan }}</td>
+                  <td>{{ item.kode_kendaraan }}</td>
                   <td>{{ item.plat_nomor }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
+
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>

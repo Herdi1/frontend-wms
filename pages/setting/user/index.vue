@@ -39,6 +39,7 @@
                 <table class="mb-5" ref="formContainer">
                   <thead>
                     <tr class="text-base uppercase">
+                      <th class="w-[5%]">Detail</th>
                       <th class="w-[5%]">No</th>
                       <th
                         @click="
@@ -112,13 +113,15 @@
                       </th>
                       <th class="w-[15%]">Gudang</th>
                       <th class="w-[15%]">Jabatan</th>
-                      <th class="w-[5%]">Detail</th>
                       <th class="w-[5%]">Edit</th>
                       <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i" class="text-base">
+                      <td class="text-center">
+                        <small-detail-button @click="onDetail(item)" />
+                      </td>
                       <td>
                         {{
                           (parameters.params.page - 1) *
@@ -133,9 +136,7 @@
                       <td>
                         {{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}
                       </td>
-                      <td class="text-center">
-                        <small-detail-button @click="onDetail(item)" />
-                      </td>
+
                       <td class="text-center">
                         <small-edit-button @click="onEdit(item)" />
                       </td>
@@ -168,16 +169,12 @@
     </div>
 
     <ModalDetail :self="this" ref="modalDetail" />
-
-    <!-- <FormInput :self="this" ref="formInput" /> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import FormInput from "./form";
 import ModalDetail from "./detail";
-// import FormIndex from "./formIndex";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -198,36 +195,6 @@ export default {
     this.$refs.formOption.isFilter = false;
     this.$refs.formOption.isMaintenancePage = false;
     this.$refs.formOption.isAddData = true;
-
-    // if (
-    //   this.getRoles.destroy ||
-    //   this.getRoles.destroy_all ||
-    //   this.getRoles.restore ||
-    //   this.getRoles.restore_all
-    // ) {
-    //   this.$refs["form-option"].isMaintenancePage = false;
-    // }
-
-    // if (this.getRoles.store) {
-    //   this.$refs["form-option"].isAddData = true;
-    // }
-
-    // if (this.getRoles.export) {
-    //   this.$refs["form-option"].isExportFile = true;
-
-    //   this.$refs["form-option"].isExportFilePdf = true;
-    //   this.$refs["form-option"].isExportFileExcel = true;
-
-    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-    //     this.$refs["form-option"].isExportFileExcel =
-    //       this.getRoles.export_excel;
-    //   }
-    // }
-
-    // if (this.getRoles.print) {
-    //   this.$refs["form-option"].isExportPrint = true;
-    // }
   },
 
   data() {
@@ -235,21 +202,6 @@ export default {
       title: "Akun",
       isLoadingData: false,
       isPaginate: true,
-      // user: this.$auth.user,
-      // default_roles: {
-      //   store: true,
-      //   update: true,
-      //   destroy: true,
-      //   restore: true,
-      //   show: true,
-      //   export: true,
-      //   export_excel: true,
-      //   export_pdf: true,
-      //   print: true,
-      //   destroy_all: true,
-      //   restore_all: true,
-      //   import: true,
-      // },
       parameters: {
         url: "setting/user",
         type: "pdf",
@@ -284,9 +236,7 @@ export default {
   },
 
   components: {
-    // FormInput,
     ModalDetail,
-    // FormIndex,
   },
 
   computed: {
@@ -306,64 +256,10 @@ export default {
 
     onFormShow() {
       this.$router.push("/setting/user/add");
-      // console.log("onFormShow");
-      // this.$refs.formIndex.parameters.form = {
-      //   nama_lengkap: "",
-      //   username: "",
-      //   password: "",
-      //   email: "",
-      //   group_role_id: "",
-      //   nik: "",
-      //   parent_id: "",
-      //   regu_id: "",
-      // };
-      // this.$refs.formIndex.isEditable = false;
-      // // this.$refs.formIndex.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formIndex?.$refs?.formValidate?.reset();
-      // });
-      // this.$refs.formInput.parameters.form = {
-      //   nama_lengkap: "",
-      //   username: "",
-      //   password: "",
-      //   email: "",
-      //   group_role_id: "",
-      //   nik: "",
-      //   parent_id: "",
-      //   regu_id: "",
-      // };
-      // this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
     },
 
     onEdit(item) {
       this.$router.push("/setting/user/" + item.user_id);
-      // this.$refs.formIndex.isEditable = true;
-      // this.$refs.formIndex.parameters.form = {
-      //   ...item,
-      // group_role_id: item.group_role ? item.group_role : {},
-      // id: item.user_id,
-      // regu_id: item.regu ? item.regu : {},
-      // };
-      // console.log(item);
-      // this.$refs.formIndex.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formIndex?.$refs?.formValidate?.reset();
-      // });
-      // this.$refs.formInput.isEditable = true;
-      // this.$refs.formInput.parameters.form = {
-      //   ...item,
-      //   group_role_id: item.group_role ? item.group_role : {},
-      //   id: item.user_id,
-      //   regu_id: item.regu ? item.regu : {},
-      // };
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
     },
 
     onDetail(item) {
@@ -414,11 +310,6 @@ export default {
 
       this.isLoadingData = true;
       this.parameters.params.page = page;
-
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

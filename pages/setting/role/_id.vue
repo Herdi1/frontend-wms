@@ -299,8 +299,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back()
+      this.$router.back();
     }
   },
 
@@ -420,7 +419,6 @@ export default {
         });
 
         this.isLoadingGetRole = false;
-        // console.log(this.lookup_roles.data);
       }
     },
 
@@ -441,7 +439,6 @@ export default {
         }
 
         this.onSearchRole2();
-        console.log("get parent");
       }, 600);
     },
 
@@ -464,7 +461,6 @@ export default {
         });
 
         this.isLoadingGetCustom = false;
-        // console.log("get parent");
       }
     },
 

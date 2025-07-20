@@ -2,12 +2,14 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Master</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Inventory</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Group Zona</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,7 +17,7 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex sm:flex-col md:flex-row gap-5">
+    <div class="flex gap-5">
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
@@ -23,52 +25,23 @@
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
-
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative">
+            <table class="mb-5 overflow-auto" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
-                  <th class="w-[5%]">No</th>
-                  <th>Kode Group Zona</th>
-                  <th
-                    @click="
-                      onSort(
-                        'nama_group_zona',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pointer"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Nama Group Zona</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'nama_group_zona' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'nama_group_zona' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
+                <tr class="uppercase">
+                  <th class="w-[5%] text-center">Detail</th>
+                  <th class="w-[5%] text-center">No</th>
+                  <th>Nomor Transaksi</th>
+                  <th>Tanggal</th>
                   <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in data" :key="i">
+                <tr v-for="(item, index) in data" :key="index">
+                  <td class="text-center place-content-center">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td>
                     {{
                       (parameters.params.page - 1) *
@@ -77,12 +50,12 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_group_zona }}</td>
-                  <td>{{ item.nama_group_zona }}</td>
-                  <td class="text-center">
+                  <td>{{ item.no_transaksi }}</td>
+                  <td>{{ item.tanggal }}</td>
+                  <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
@@ -90,14 +63,7 @@
                   </td>
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -107,14 +73,13 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Group Zona",
+      title: "Relokasi Stock",
     };
   },
 
@@ -123,15 +88,11 @@ export default {
     this.onLoad();
   },
 
-  components: {
-    FormInput,
-  },
-
   mounted() {
-    // this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isMaintenancePage = true;
-    // this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -147,10 +108,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -160,31 +121,40 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
   },
 
   data() {
     return {
-      title: "Group Zona",
+      title: "Relokasi Stock",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "master/group-zona",
+        url: "inventory/relokasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "group_zona_id",
+          order: "relokasi_stok_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
+          start_date: "",
+          end_date: "",
         },
         form: {
-          // group_zona_id: "",
-          kode_group_zona: "",
-          nama_group_zona: "",
+          no_transaksi: "",
+          tanggal: "",
+          detail_item: [],
+          biaya: [],
+
+          //Tracking
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
         },
         loadings: {
           isDelete: false,
@@ -217,7 +187,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "group-zona"
+          (item) => item.rute == "relokasi-stok"
         );
 
         let roles = {};
@@ -247,11 +217,17 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/group-zona/add");
+      this.$router.push("/inventory/relokasi-stok/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/group-zona/" + item.group_zona_id);
+      this.$router.push("/inventory/relokasi-stok/" + item.relokasi_stock_id);
+    },
+
+    onDetail(item) {
+      this.$router.push(
+        "/inventory/relokasi-stok/detail" + item.relokasi_stock_id
+      );
     },
 
     onTrashed(item) {
@@ -270,7 +246,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.group_zona_id,
+              id: item.relokasi_stok_id,
               params: this.parameters.params,
             });
 

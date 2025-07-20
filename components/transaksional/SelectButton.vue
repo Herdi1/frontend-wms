@@ -12,6 +12,7 @@
       v-model="self.value"
       :class="width"
       @input="self.input"
+      :reduce="reduce"
     >
       <!-- <template slot="option" slot-scope="option">
                       {{ option.kode_asn + " - " + option.tanggal }}

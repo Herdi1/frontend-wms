@@ -27,8 +27,7 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%] text-center">Details</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+
                 <th class="w-[5%]">No</th>
                 <th>Kode Lokasi</th>
                 <th
@@ -75,6 +74,8 @@
                 <th>Latitude</th>
                 <th>Radius (Meter)</th>
                 <th>Tipe Lokasi</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -82,15 +83,7 @@
                 <td>
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
+
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -125,6 +118,15 @@
                       ? "Gudang"
                       : ""
                   }}
+                </td>
+                <td>
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
                 </td>
               </tr>
             </tbody>

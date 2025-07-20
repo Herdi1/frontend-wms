@@ -88,7 +88,7 @@ export default {
 
   head() {
     return {
-      title: "Master Status Transaksi",
+      title: "Status Transaksi",
     };
   },
 
@@ -135,7 +135,7 @@ export default {
 
   data() {
     return {
-      title: "Master Status Transaksi",
+      title: "Status Transaksi",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,

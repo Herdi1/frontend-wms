@@ -5,10 +5,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Alasan Beda Plan
+          Edit Data Tipe SIM
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Alasan Beda Plan
+          Tambah Data Tipe SIM
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -20,22 +20,34 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="form-group">
-            <input-form
-              label="Kode Alasan Beda Plan"
+          <div class="mt-7">
+            <input-horizontal
+              label="Nama Tipe SIM"
               type="text"
-              name="kode_alasan_beda_plan"
-              v-model="parameters.form.kode_alasan_beda_plan"
+              name="nama_tipe_sim"
+              v-model="parameters.form.nama_tipe_sim"
               :required="true"
+              :labelWidth="'w-[30%]'"
+              :inputWidth="'w-[70%]'"
             />
-          </div>
-          <div class="form-group">
-            <label for="nama_alasan_beda_plan">Nama Alasan Beda Plan</label>
-            <textarea
-              placeholder="Nama Alasan Beda Plan"
-              class="w-full pl-2 py-1 border rounded focus:outline-none"
-              v-model="parameters.form.nama_alasan_beda_plan"
-            ></textarea>
+            <input-horizontal
+              label="Kode Tipe SIM"
+              type="text"
+              name="kode_tipe_sim"
+              v-model="parameters.form.kode_tipe_sim"
+              :required="true"
+              :labelWidth="'w-[30%]'"
+              :inputWidth="'w-[70%]'"
+            />
+            <input-horizontal
+              label="Keterangan"
+              type="text"
+              name="keterangan"
+              v-model="parameters.form.keterangan"
+              :required="true"
+              :labelWidth="'w-[30%]'"
+              :inputWidth="'w-[70%]'"
+            />
           </div>
           <modal-footer-section
             class="mt-5"
@@ -62,12 +74,13 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Alasan Beda Plan",
+      title: "Tipe SIM",
       parameters: {
-        url: "master/alasan-beda-plan",
+        url: "master/tipe-sim",
         form: {
-          kode_alasan_beda_plan: "",
-          nama_alasan_beda_plan: "",
+          nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         },
       },
     };
@@ -76,7 +89,7 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`master/alasan-beda-plan/${this.id}`);
+        let res = await this.$axios.get(`master/tipe-sim/${this.id}`);
         this.parameters.form = res.data;
         this.isLoadingPage = false;
       }
@@ -101,8 +114,8 @@ export default {
         ...this.parameters,
         form: {
           ...this.parameters.form,
-          id: this.parameters.form.alasan_beda_plan_id
-            ? this.parameters.form.alasan_beda_plan_id
+          id: this.parameters.form.tipe_sim_id
+            ? this.parameters.form.tipe_sim_id
             : "",
         },
       };
@@ -119,8 +132,9 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          kode_alasan_beda_plan: "",
-          nama_alasan_beda_plan: "",
+          nama_tipe_sim: "",
+          kode_tipe_sim: "",
+          keterangan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -133,8 +147,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_alasan_beda_plan: "",
-        nama_alasan_beda_plan: "",
+        nama_tipe_sim: "",
+        kode_tipe_sim: "",
+        keterangan: "",
       };
     },
   },

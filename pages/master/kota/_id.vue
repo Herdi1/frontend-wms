@@ -21,158 +21,161 @@
           autocomplete="off"
         >
           <div class="modal-body mt-4">
-            <ValidationProvider
-              name="kode_kota"
-              rules="required"
-              ref="ruteProvider"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Kode Kota"
-                  type="text"
-                  name="kode_kota"
-                  :required="true"
-                  v-model="parameters.form.kode_kota"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="kode_alternatif"
-              rules="required"
-              ref="ruteProvider"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Kode Alternatif"
-                  type="text"
-                  name="kode_alternatif"
-                  :required="true"
-                  v-model="parameters.form.kode_alternatif"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="nama_kota"
-              rules="required"
-              ref="ruteProvider"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Nama Kota"
-                  type="text"
-                  name="nama_kota"
-                  :required="true"
-                  v-model="parameters.form.nama_kota"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="longitude"
-              rules="required"
-              ref="ruteProvider"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Longitude"
-                  type="text"
-                  name="longitude"
-                  v-model="parameters.form.longitude"
-                  :required="true"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider
-              name="latitude"
-              rules="required"
-              ref="ruteProvider"
-            >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
-                  label="Latitude"
-                  type="text"
-                  name="latitude"
-                  v-model="parameters.form.latitude"
-                  :required="true"
-                  :inputClass="
-                    errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                  "
-                />
-              </div>
-            </ValidationProvider>
-            <ValidationProvider name="id_provinsi" rules="required">
-              <div
-                class="form-group w-full items-center mb-5"
-                slot-scope="{ errors, valid }"
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+              <ValidationProvider
+                name="nama_kota"
+                rules="required"
+                ref="ruteProvider"
               >
-                <label for="" class="w-4/12"
-                  >Provinsi <span class="text-danger">*</span></label
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Nama Kota"
+                    type="text"
+                    name="nama_kota"
+                    :required="true"
+                    v-model="parameters.form.nama_kota"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                name="kode_kota"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Kota"
+                    type="text"
+                    name="kode_kota"
+                    :required="true"
+                    v-model="parameters.form.kode_kota"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                name="kode_alternatif"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Kode Alternatif"
+                    type="text"
+                    name="kode_alternatif"
+                    :required="true"
+                    v-model="parameters.form.kode_alternatif"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+
+              <ValidationProvider
+                name="longitude"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    v-model="parameters.form.longitude"
+                    :required="true"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                name="latitude"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Latitude"
+                    type="text"
+                    name="latitude"
+                    v-model="parameters.form.latitude"
+                    :required="true"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider name="id_provinsi" rules="required">
+                <div
+                  class="form-group w-full items-center mb-5"
+                  slot-scope="{ errors, valid }"
                 >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_provinsi"
-                  :loading="isLoadingGetProvinsi"
-                  :options="lookup_custom2.data"
-                  :filterable="false"
-                  @search="onGetProvinsi"
-                  v-model="parameters.form.provinsi_id"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  @input="onSelectProvinsi"
-                >
-                  <!-- :reduce="(item) => item.provinsi_id" -->
-                  <template slot="option" slot-scope="option">
-                    {{
-                      option.nama_provinsi + ", " + option.negara.nama_negara
-                    }}
-                  </template>
-                  <template slot="option-selected" slot-scope="option">
-                    {{
-                      option.nama_provinsi + ", " + option.negara.nama_negara
-                    }}
-                  </template>
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom2.data.length || search"
+                  <label for="" class="w-4/12"
+                    >Provinsi <span class="text-danger">*</span></label
                   >
-                    <span
-                      v-if="lookup_custom2.current_page > 1"
-                      @click="onGetProvinsi(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
+                  <v-select
+                    class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_provinsi"
+                    :loading="isLoadingGetProvinsi"
+                    :options="lookup_custom2.data"
+                    :filterable="false"
+                    @search="onGetProvinsi"
+                    v-model="parameters.form.provinsi_id"
+                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                    @input="onSelectProvinsi"
+                  >
+                    <!-- :reduce="(item) => item.provinsi_id" -->
+                    <template slot="option" slot-scope="option">
+                      {{
+                        option.nama_provinsi + ", " + option.negara.nama_negara
+                      }}
+                    </template>
+                    <template slot="option-selected" slot-scope="option">
+                      {{
+                        option.nama_provinsi + ", " + option.negara.nama_negara
+                      }}
+                    </template>
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom2.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_custom2.last_page > lookup_custom2.current_page
-                      "
-                      @click="onGetProvinsi(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
+                      <span
+                        v-if="lookup_custom2.current_page > 1"
+                        @click="onGetProvinsi(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom2.last_page > lookup_custom2.current_page
+                        "
+                        @click="onGetProvinsi(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </ValidationProvider>
+              <div class="form-group">
+                <input-form
+                  label="Negara"
+                  type="text"
+                  name="negara_id"
+                  :disabled="true"
+                  v-model="parameters.form.negara_id.nama_negara"
+                />
               </div>
-            </ValidationProvider>
-            <div class="form-group">
-              <input-form
-                label="Negara"
-                type="text"
-                name="negara_id"
-                :disabled="true"
-                v-model="parameters.form.negara_id.nama_negara"
-              />
             </div>
           </div>
           <modal-footer-section
@@ -256,7 +259,6 @@ export default {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     async onSubmit(isInvalid) {
-      console.log(this.parameters.form);
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;

@@ -18,10 +18,9 @@
         {{ this.title }}
       </h5>
     </div>
-
     <div class="gap-5">
       <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative w-full p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -29,10 +28,8 @@
           </div>
 
           <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-cols-1 gap-5 w-full">
+            <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 <div class="form-group">
                   <input-horizontal
                     label="Periode Awal"
@@ -43,9 +40,7 @@
                     :required="false"
                   />
                 </div>
-              </div>
 
-              <div class="grid grid-cols-1 gap-5 w-full">
                 <div class="form-group">
                   <input-horizontal
                     label="Periode Akhir"
@@ -58,51 +53,31 @@
                 </div>
               </div>
 
-              <!-- <div class="flex w-[400px]">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
-              <div class="mb-3 w-[40%]"><b>Periode Awal</b></div>
-          <div class="form-group w-[60%]">
-            <input type="date"
-              class="form-control"
-              v-model="parameters.params.start_date"/>
-          </div>
-
-
-          </div>
-
-
-          <div class="mb-3"><b>Periode Akhir</b></div>
-          <div class="form-group">
-            <input type="date"
-              class="form-control"
-              v-model="parameters.params.end_date"/>
-
-          </div>         -->
-
-              <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2"><b>Gudang</b></div>
-
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_gudang"
-                  :loading="isLoadingGetChartOfAccount"
-                  :options="lookup_chart_of_accounts.data"
-                  :filterable="false"
-                  @search="onGetChartOfAccount"
-                  @input="onSetChartOfAccount"
-                  v-model="gudang_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_gudang }}
-                      </div>
-                      <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetChartOfAccount"
+                    :options="lookup_chart_of_accounts.data"
+                    :filterable="false"
+                    @search="onGetChartOfAccount"
+                    @input="onSetChartOfAccount"
+                    v-model="parameters.params.gudang_id"
+                  >
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_gudang }}
+                        </div>
+                        <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
                         {{ option.kode_coa }}
                       </div> -->
-                    </div>
-                  </template>
-                  <!-- <template #search="{ attributes, events }">
+                      </div>
+                    </template>
+                    <!-- <template #search="{ attributes, events }">
                     <input
                       class="vs__search"
                       :required="!coa_id"
@@ -110,56 +85,56 @@
                       v-on="events"
                     />
                   </template> -->
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_chart_of_accounts.data.length || search"
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_chart_of_accounts.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_chart_of_accounts.current_page > 1"
+                        @click="onGetChartOfAccount(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_chart_of_accounts.last_page >
+                          lookup_chart_of_accounts.current_page
+                        "
+                        @click="onGetChartOfAccount(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Item</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_item"
+                    :loading="isLoadingGetItemGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetItemGudang"
+                    v-model="parameters.params.item_gudang_id"
                   >
-                    <span
-                      v-if="lookup_chart_of_accounts.current_page > 1"
-                      @click="onGetChartOfAccount(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_chart_of_accounts.last_page >
-                        lookup_chart_of_accounts.current_page
-                      "
-                      @click="onGetChartOfAccount(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-
-              <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2"><b>Item</b></div>
-
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_item"
-                  :loading="isLoadingGetItemGudang"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetItemGudang"
-                  v-model="item_gudang_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_item }}
-                      </div>
-                      <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_item }}
+                        </div>
+                        <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
                         {{ option.kode_coa }}
                       </div> -->
-                    </div>
-                  </template>
-                  <!-- <template #search="{ attributes, events }">
+                      </div>
+                    </template>
+                    <!-- <template #search="{ attributes, events }">
                     <input
                       class="vs__search"
                       :required="!coa_id"
@@ -167,33 +142,73 @@
                       v-on="events"
                     />
                   </template> -->
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_custom1.data.length || search"
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetItemGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetItemGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Valuation</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_valuation"
+                    :loading="isLoadingGetValuation"
+                    :options="lookup_custom2.data"
+                    :filterable="false"
+                    @search="onGetValuation"
+                    v-model="parameters.params.valuation_id"
                   >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetItemGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom2.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetItemGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
+                      <span
+                        v-if="lookup_custom2.current_page > 1"
+                        @click="onGetValuation(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom2.last_page > lookup_custom2.current_page
+                        "
+                        @click="onGetValuation(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
               </div>
 
-              <div class="flex gap-3 ml-5">
+              <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
@@ -206,18 +221,21 @@
           </div>
 
           <!-- start table -->
-          <div class="table-responsive">
-            <table class="table table-sm" ref="formContainer">
+          <div class="table-fixed relative w-full overflow-x-auto">
+            <table class="table table-sm min-w-full" ref="formContainer">
               <thead>
-                <tr>
-                  <th>Tgl</th>
-                  <th>Kode Lokasi Gudang</th>
-                  <th>Nama Item</th>
-                  <th class="text-info">Saldo Awal</th>
-                  <th class="text-primary">Masuk</th>
-                  <th class="text-danger">Keluar</th>
-                  <th class="text-primary">Saldo Akhir</th>
-                  <th>Options</th>
+                <tr class="uppercase">
+                  <th class="min-w-[100px]">Tgl</th>
+                  <th class="min-w-[150px]">Lokasi Penyimpanan</th>
+                  <th class="min-w-[200px]">Nama Item</th>
+                  <th class="min-w-[120px]">Valuation</th>
+                  <th class="min-w-[120px]">Kode Transaksi</th>
+                  <th class="min-w-[120px]">Serial Number</th>
+                  <th class="text-info min-w-[100px]">Saldo Awal</th>
+                  <th class="text-primary min-w-[100px]">Masuk</th>
+                  <th class="text-danger min-w-[100px]">Keluar</th>
+                  <th class="text-primary min-w-[100px]">Saldo Akhir</th>
+                  <th class="min-w-[100px]">Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -256,28 +274,37 @@
                   :key="i"
                 >
                   <!-- @click="onRowSelected(i)" -->
-                  <td>{{ item.tanggal }}</td>
-                  <td>
+                  <td class="whitespace-nowrap">{{ item.tanggal }}</td>
+                  <td class="whitespace-nowrap">
                     {{ item.kode_slot_penyimpanan_terakhir ?? "-" }}
                   </td>
-                  <td>
+                  <td class="whitespace-nowrap">
                     {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                   </td>
-                  <td class="text-info">
+                  <td class="whitespace-nowrap">
+                    {{ item.kode_valuation ? item.kode_valuation : "-" }}
+                  </td>
+                  <td class="whitespace-nowrap">
+                    {{ item.kode_referensi ? item.kode_referensi : "-" }}
+                  </td>
+                  <td class="whitespace-nowrap">
+                    {{ item.serial_number ? item.serial_number : "-" }}
+                  </td>
+                  <td class="text-info whitespace-nowrap">
                     {{
                       item.saldo_awal > 0 ? item.saldo_awal : "" | formatPrice
                     }}
                   </td>
-                  <td class="text-success">
+                  <td class="text-success whitespace-nowrap">
                     {{ item.masuk > 0 ? item.masuk : "" | formatPrice }}
                   </td>
-                  <td class="text-danger">
+                  <td class="text-danger whitespace-nowrap">
                     {{ item.keluar > 0 ? item.keluar : "" | formatPrice }}
                   </td>
-                  <td class="text-primary">
+                  <td class="text-primary whitespace-nowrap">
                     {{ item.saldo_akhir ? item.saldo_akhir : "" | formatPrice }}
                   </td>
-                  <td>
+                  <td class="whitespace-nowrap">
                     <button
                       class="btn btn-sm btn-primary"
                       @click="onDetail(item)"
@@ -317,7 +344,7 @@
               <table-data-not-found-section :self="this" />
 
               <tr v-if="data && raw_data.current_page != raw_data.last_page">
-                <td colspan="10" class="text-center">
+                <td colspan="11" class="text-center">
                   <button class="btn btn-link" @click="loadMoreStock">
                     Selanjutnya
                   </button>
@@ -398,6 +425,7 @@ export default {
 
     await this.onSearchChartOfAccount();
     await this.onSearchItemGudang();
+    await this.onSearchValuation();
   },
 
   data() {
@@ -424,6 +452,7 @@ export default {
           end_date: "",
           gudang_id: "",
           item_gudang_id: "",
+          valuation_id: "",
         },
         default_params: {
           soft_deleted: "",
@@ -438,6 +467,7 @@ export default {
           end_date: "",
           gudang_id: "",
           item_gudang_id: "",
+          valuation_id: "",
         },
         form: {
           checkboxs: [],
@@ -471,6 +501,10 @@ export default {
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
 
+      isStopSearchValuation: false,
+      isLoadingGetValuation: false,
+      valuation_search: "",
+
       coa_id: "",
 
       passiva_types: ["MODAL", "KEWAJIBAN", "PENDAPATAN"],
@@ -482,7 +516,11 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["lookup_chart_of_accounts", "lookup_custom1"]),
+    ...mapState("moduleApi", [
+      "lookup_chart_of_accounts",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -563,6 +601,8 @@ export default {
         this.parameters.params.gudang_id +
         "&item_gudang_id=" +
         this.parameters.params.item_gudang_id +
+        "&valuation_id=" +
+        this.parameters.params.valuation_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -763,6 +803,45 @@ export default {
         });
 
         this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    onGetValuation(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchValuation);
+
+      this.isStopSearchValuation = setTimeout(() => {
+        this.valuation_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchValuation();
+      }, 600);
+    },
+
+    async onSearchValuation() {
+      if (!this.isLoadingGetValuation) {
+        this.isLoadingGetValuation = true;
+
+        await this.lookUp({
+          url: "master/valuation/get-valuation",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.valuation_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetValuation = false;
       }
     },
 

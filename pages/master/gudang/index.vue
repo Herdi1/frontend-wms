@@ -28,8 +28,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[3%]">Edit</th>
-                  <th class="w-[3%]">Delete</th>
+                  <th>Detail</th>
+
                   <th class="w-[3%]">No</th>
                   <th
                     @click="
@@ -126,19 +126,14 @@
                   <th>Status Satpam</th> -->
                   <!-- <th>Luas Gudang</th>
                   <th>Satuan Luas</th> -->
-                  <th>Detail</th>
+                  <th class="w-[3%]">Edit</th>
+                  <th class="w-[3%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
                   <td>
                     {{
@@ -257,8 +252,15 @@
                   </td>
                   <td>{{ item.luas_gudang }}</td>
                   <td>{{ item.satuan_luas.nama_satuan }}</td> -->
+
                   <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>

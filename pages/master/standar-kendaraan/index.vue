@@ -26,8 +26,6 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Standar Jenis</th>
                 <th>Jenis Kendaraan</th>
@@ -40,19 +38,12 @@
                 <th>Minimal Muat</th>
                 <th>Maksimal Muat</th>
                 <th>Konsumsi BBM</th>
+                <th class="w-[5%] text-center">Edit</th>
+                <th class="w-[5%] text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -71,6 +62,15 @@
                 <td>{{ item.minimal_muat }} kg</td>
                 <td>{{ item.maksimal_muat }} kg</td>
                 <td>{{ item.konsumsi_bbm }} km/liter</td>
+                <td>
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
               </tr>
             </tbody>
           </table>

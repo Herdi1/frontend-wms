@@ -82,22 +82,6 @@
                       parameters.form.masuk
                     }}</span>
                   </p>
-                  <p>
-                    Bagus:
-                    <span class="text-success">{{ parameters.form.baru }}</span>
-                  </p>
-                  <p>
-                    Rusak Membatu:
-                    <span class="text-danger">{{
-                      parameters.form.rusak_membatu
-                    }}</span>
-                  </p>
-                  <p>
-                    Rusak Pecah:
-                    <span class="text-danger">{{
-                      parameters.form.rusak_pecah
-                    }}</span>
-                  </p>
                 </div>
               </div>
               <div
