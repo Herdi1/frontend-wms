@@ -134,60 +134,58 @@
                 <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_gudang"
-                    :loading="isLoadingGetGudang"
-                    :options="lookup_custom1.data"
-                    :filterable="false"
-                    @search="onGetGudang"
-                    :reduce="(item) => item.gudang_id"
-                    @input="onSetGudang"
-                    v-model="gudang_id"
-                  >
-                    <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
-                        <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                          {{ option.kode_gudang }}
-                        </div>
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  @input="onSetGudang"
+                  v-model="gudang_id"
+                >
+                  <template v-slot:option="option">
+                    <div class="flex">
+                      <div class="col-md-5 p-1 m-0 w-8/12">
+                        {{ option.nama_gudang }}
                       </div>
-                    </template>
-                    <template #search="{ attributes, events }">
-                      <input
-                        class="vs__search"
-                        :required="!gudang_id"
-                        v-bind="attributes"
-                        v-on="events"
-                      />
-                    </template>
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="d-flex justify-content-between"
-                      v-if="lookup_custom1.data.length || search"
+                      <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                        {{ option.kode_gudang }}
+                      </div>
+                    </div>
+                  </template>
+                  <template #search="{ attributes, events }">
+                    <input
+                      class="vs__search"
+                      :required="!gudang_id"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="d-flex justify-content-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
                     >
-                      <span
-                        v-if="lookup_custom1.current_page > 1"
-                        @click="onGetGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom1.last_page > lookup_custom1.current_page
-                        "
-                        @click="onGetGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
               </div>
 
               <div class="flex gap-3 mt-5">

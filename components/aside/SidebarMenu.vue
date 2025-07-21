@@ -236,8 +236,15 @@
                         'nav-link',
                         { 'nav-active': subActive === itemChild.id },
                       ]"
-                      :to="'/' + item.rute + '/' + itemChild.rute"
-                      @click.native="setActiveMenu(itemChild.id)"
+                      :to="
+                        '/' +
+                        item.rute +
+                        '/' +
+                        child.rute +
+                        '/' +
+                        itemChild.rute
+                      "
+                      @click.native="setActiveMenu(itemChild.menu_id)"
                     >
                       <i
                         :class="[

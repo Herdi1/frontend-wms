@@ -135,8 +135,8 @@
                 :filterable="false"
                 @search="onGetZonaPlan"
                 v-model="item.zona_gudang_id"
-                :reduce="(item) => item.zona_gudang_id"
                 class="w-full"
+                @input="(item) => onSelectZona(item, index)"
               >
                 <li
                   slot-scope="{ search }"
@@ -167,9 +167,9 @@
                 :loading="isLoadingGetSlotAisle"
                 :options="lookup_custom2.data"
                 :filterable="false"
-                @search="onGetSlotAisle"
+                @search="onGetSlotAisle(index)"
                 v-model="item.slot_penyimpanan_id_aisle"
-                :reduce="(item) => item.slot_penyimpanan_id"
+                @input="(item) => onSelectAisle(item, index)"
                 class="w-full"
               >
                 <template slot="option" slot-scope="option">
@@ -194,7 +194,7 @@
                 >
                   <span
                     v-if="lookup_custom2.current_page > 1"
-                    @click="onGetSlotAisle(search, false)"
+                    @click="onGetSlotAisle(index, search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -202,7 +202,7 @@
                     v-if="
                       lookup_custom2.last_page > lookup_custom2.current_page
                     "
-                    @click="onGetSlotAisle(search, true)"
+                    @click="onGetSlotAisle(index, search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -215,9 +215,9 @@
                 :loading="isLoadingGetSlotRack"
                 :options="lookup_custom3.data"
                 :filterable="false"
-                @search="onGetSlotRack"
+                @search="onGetSlotRack(index)"
                 v-model="item.slot_penyimpanan_id_rack"
-                :reduce="(item) => item.slot_penyimpanan_id"
+                @input="(item) => onSelectRack(item, index)"
                 class="w-full"
               >
                 <template slot="option" slot-scope="option">
@@ -242,7 +242,7 @@
                 >
                   <span
                     v-if="lookup_custom3.current_page > 1"
-                    @click="onGetSlotRack(search, false)"
+                    @click="onGetSlotRack(index, search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -250,7 +250,7 @@
                     v-if="
                       lookup_custom3.last_page > lookup_custom3.current_page
                     "
-                    @click="onGetSlotRack(search, true)"
+                    @click="onGetSlotRack(index, search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -263,9 +263,9 @@
                 :loading="isLoadingGetSlotLevel"
                 :options="lookup_custom4.data"
                 :filterable="false"
-                @search="onGetSlotLevel"
+                @search="onGetSlotLevel(index)"
                 v-model="item.slot_penyimpanan_id_level"
-                :reduce="(item) => item.slot_penyimpanan_id"
+                @input="(item) => onSelectLevel(item, index)"
                 class="w-full"
               >
                 <template slot="option" slot-scope="option">
@@ -290,7 +290,7 @@
                 >
                   <span
                     v-if="lookup_custom4.current_page > 1"
-                    @click="onGetSlotLevel(search, false)"
+                    @click="onGetSlotLevel(index, search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -298,7 +298,7 @@
                     v-if="
                       lookup_custom4.last_page > lookup_custom4.current_page
                     "
-                    @click="onGetSlotLevel(search, true)"
+                    @click="onGetSlotLevel(index, search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -311,9 +311,9 @@
                 :loading="isLoadingGetSlotBin"
                 :options="lookup_custom5.data"
                 :filterable="false"
-                @search="onGetSlotBin"
+                @search="onGetSlotBin(index)"
                 v-model="item.slot_penyimpanan_id_bin"
-                :reduce="(item) => item.slot_penyimpanan_id"
+                @input="(item) => onSelectBin(item, index)"
                 class="w-full"
               >
                 <template slot="option" slot-scope="option">
@@ -338,7 +338,7 @@
                 >
                   <span
                     v-if="lookup_custom5.current_page > 1"
-                    @click="onGetSlotBin(search, false)"
+                    @click="onGetSlotBin(index, search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -346,7 +346,7 @@
                     v-if="
                       lookup_custom5.last_page > lookup_custom5.current_page
                     "
-                    @click="onGetSlotBin(search, true)"
+                    @click="onGetSlotBin(index, search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -390,7 +390,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: ["self"],
@@ -443,6 +443,8 @@ export default {
   },
 
   methods: {
+    ...mapActions("moduleApi", ["lookUp"]),
+
     addDetailProdukJadi() {
       this.self.parameters.form.konversi_stok_detail_jadi.push({
         item_id: "",
@@ -537,6 +539,8 @@ export default {
           query:
             "?search=" +
             this.zona_plan_search +
+            "&gudang_id=" +
+            this.self.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -546,8 +550,24 @@ export default {
       }
     },
 
+    async onSelectZona(item, index) {
+      if (item) {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].zona_gudang_id = item;
+        await this.onSearchSlotAisle(index);
+      } else {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].zona_gudang_id = "";
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+      }
+    },
+
     // Get slot aisle
-    onGetSlotAisle(search, isNext) {
+    onGetSlotAisle(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotAisle);
@@ -563,11 +583,11 @@ export default {
           this.lookup_custom2.current_page = 1;
         }
 
-        this.onSearchSlotAisle();
+        this.onSearchSlotAisle(index);
       }, 600);
     },
 
-    async onSearchSlotAisle() {
+    async onSearchSlotAisle(index) {
       if (!this.isLoadingGetSlotAisle) {
         this.isLoadingGetSlotAisle = true;
 
@@ -579,7 +599,10 @@ export default {
             this.slot_aisle_search +
             "&level=1" +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.self.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .zona_gudang_id.zona_gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -589,8 +612,24 @@ export default {
       }
     },
 
+    async onSelectAisle(item, index) {
+      if (item) {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_aisle = item;
+        await this.onSearchSlotRack(index);
+      } else {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_rack = "";
+      }
+    },
+
     // Get slot rack
-    onGetSlotRack(search, isNext) {
+    onGetSlotRack(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotRack);
@@ -606,11 +645,11 @@ export default {
           this.lookup_custom3.current_page = 1;
         }
 
-        this.onSearchSlotRack();
+        this.onSearchSlotRack(index);
       }, 600);
     },
 
-    async onSearchSlotRack() {
+    async onSearchSlotRack(index) {
       if (!this.isLoadingGetSlotRack) {
         this.isLoadingGetSlotRack = true;
 
@@ -622,7 +661,13 @@ export default {
             this.slot_rack_search +
             "&level=2" +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.self.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .slot_penyimpanan_id_aisle.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -632,8 +677,24 @@ export default {
       }
     },
 
+    async onSelectRack(item, index) {
+      if (item) {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_rack = item;
+        await this.onSearchSlotLevel(index);
+      } else {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_level = "";
+      }
+    },
+
     // Get slot level
-    onGetSlotLevel(search, isNext) {
+    onGetSlotLevel(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotLevel);
@@ -649,11 +710,11 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotLevel();
+        this.onSearchSlotLevel(index);
       }, 600);
     },
 
-    async onSearchSlotLevel() {
+    async onSearchSlotLevel(index) {
       if (!this.isLoadingGetSlotLevel) {
         this.isLoadingGetSlotLevel = true;
 
@@ -665,7 +726,13 @@ export default {
             this.slot_rack_search +
             "&level=3" +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.self.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .slot_penyimpanan_id_rack.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -675,8 +742,24 @@ export default {
       }
     },
 
+    async onSelectLevel(item, index) {
+      if (item) {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_level = item;
+        await this.onSearchSlotBin(index);
+      } else {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_level = "";
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
+    },
+
     // Get slot level
-    onGetSlotBin(search, isNext) {
+    onGetSlotBin(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotBin);
@@ -692,11 +775,11 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotBin();
+        this.onSearchSlotBin(index);
       }, 600);
     },
 
-    async onSearchSlotBin() {
+    async onSearchSlotBin(index) {
       if (!this.isLoadingGetSlotBin) {
         this.isLoadingGetSlotBin = true;
 
@@ -708,13 +791,31 @@ export default {
             this.slot_bin_search +
             "&level=4" +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.self.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.self.parameters.form.konversi_stok_detail_jadi[index]
+              .slot_penyimpanan_id_level.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetSlotBin = false;
+      }
+    },
+
+    async onSelectBin(item, index) {
+      if (item) {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_aisle = item;
+      } else {
+        this.self.parameters.form.konversi_stok_detail_jadi[
+          index
+        ].slot_penyimpanan_id_bin = "";
       }
     },
 

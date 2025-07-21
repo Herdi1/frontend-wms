@@ -39,7 +39,7 @@
                 <th class="border border-gray-300">Tanggal Mulai</th>
                 <th class="border border-gray-300">Tanggal Selesai</th>
                 <th class="border border-gray-300">Lama Pengerjaan</th>
-                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%] border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -62,11 +62,7 @@
                   {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{
-                    item.status_transaksi
-                      ? item.status_transaksi.nama_status_transaksi
-                      : "-"
-                  }}
+                  {{ item.status_approve == 1 ? "Disetujui" : "Menunggu" }}
                 </td>
                 <td class="border border-gray-300">{{ item.tanggal }}</td>
                 <td class="border border-gray-300">{{ item.tanggal_mulai }}</td>
@@ -170,7 +166,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/konversi-stok",
+        url: "inventory/konversi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -187,7 +183,7 @@ export default {
             tanggal_selesai: "",
             lama_pengerjaan: "",
             gudang_id: "",
-            status_transaksi_id: "",
+            status_approve: "",
             keterangan: "",
             konversi_stok_detail_bahan: [],
             konversi_stok_detail_jadi: [],
@@ -253,7 +249,7 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push(`/inventory/konversi-stok/${item.jenis_kontrak_id}`);
+      this.$router.push(`/inventory/konversi-stok/${item.konversi_stok_id}`);
     },
 
     async onLoad(page = 1) {

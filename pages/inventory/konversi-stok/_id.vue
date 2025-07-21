@@ -189,7 +189,7 @@ export default {
       isLoadingForm: false,
       title: "Konversi Stok",
       parameters: {
-        url: "master/konversi-stok",
+        url: "inventory/konversi-stok",
         form: {
           kode_konversi_stok: "",
           tanggal: "",
@@ -269,11 +269,49 @@ export default {
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
-    this.parameters.form.tanggal = formattedDate;
     try {
+      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
-        this.parameters.form = res.data;
+        Object.keys(this.parameters.form).forEach((item) => {
+          if (
+            item !== "konversi_stok_detail_bahans" &&
+            item !== "konversi_stok_detail_jadis"
+          ) {
+            this.parameters.form[item] = res.data[item];
+          }
+        });
+
+        this.parameters.form.gudang_id = res.data.gudang;
+
+        this.parameters.form.konversi_stok_detail_bahan =
+          res.data.konversi_stok_detail_bahans.map((item) => {
+            return {
+              ...item,
+              konversi_stok_detail_bahan_id: item.konversi_stok_detail_bahan_id,
+              item_gudang_id: item.item_gudang,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+            };
+          });
+
+        this.parameters.form.konversi_stok_detail_jadi =
+          res.data.konversi_stok_detail_jadis.map((item) => {
+            return {
+              ...item,
+              konversi_stok_detail_jadi_id: item.konversi_stok_detail_jadi_id,
+              item_gudang_id: item.item_gudang,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+            };
+          });
+
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -321,7 +359,7 @@ export default {
             this.parameters.form.longitude =
               position.coords.longitude.toString();
             this.parameters.form.latitude = position.coords.latitude.toString();
-            this.parameters.isLoadingForm = false;
+            this.isLoadingForm = false;
             console.log(
               "latitude",
               this.parameters.form.latitude,
@@ -344,50 +382,139 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
+      let url = "inventory/konversi-stok";
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.konversi_stok_id
-            ? this.parameters.form.konversi_stok_id
+      let formData = {
+        ...this.parameters.form,
+        id: this.parameters.form.konversi_stok_id
+          ? this.parameters.form.konversi_stok_id
+          : "",
+        gudang_id:
+          typeof this.parameters.form.gudang_id === "object"
+            ? this.parameters.form.gudang_id.gudang_id
             : "",
-        },
+        // ...this.parameters.form,
+        // form: {
+        // },
       };
 
+      formData.konversi_stok_detail_bahans =
+        this.parameters.form.konversi_stok_detail_bahan.map((item) => {
+          return {
+            ...item,
+            item_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_id
+                : "",
+            // item_pelanggan_id:
+            //   typeof item.item_gudang_id === "object"
+            //     ? item.item_gudang_id.item_pelanggan_id
+            //     : "",
+            item_gudang_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_gudang_id
+                : "",
+            zona_gudang_id:
+              typeof item.zona_gudang_id === "object"
+                ? item.zona_gudang_id.zona_gudang_id
+                : "",
+            slot_penyimpanan_id_aisle:
+              typeof item.slot_penyimpanan_id_aisle === "object"
+                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_rack:
+              typeof item.slot_penyimpanan_id_rack === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_level:
+              typeof item.slot_penyimpanan_id_level === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_bin:
+              typeof item.slot_penyimpanan_id_bin === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+          };
+        });
+
+      formData.konversi_stok_detail_jadis =
+        this.parameters.form.konversi_stok_detail_jadi.map((item) => {
+          return {
+            ...item,
+            item_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_id
+                : "",
+            // item_pelanggan_id:
+            //   typeof item.item_gudang_id === "object"
+            //     ? item.item_gudang_id.item_pelanggan_id
+            //     : "",
+            item_gudang_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_gudang_id
+                : "",
+            zona_gudang_id:
+              typeof item.zona_gudang_id === "object"
+                ? item.zona_gudang_id.zona_gudang_id
+                : "",
+            slot_penyimpanan_id_aisle:
+              typeof item.slot_penyimpanan_id_aisle === "object"
+                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_rack:
+              typeof item.slot_penyimpanan_id_rack === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_level:
+              typeof item.slot_penyimpanan_id_level === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+            slot_penyimpanan_id_bin:
+              typeof item.slot_penyimpanan_id_bin === "object"
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                : "",
+          };
+        });
+
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        // this.self.onLoad(this.self.parameters.params.page);
-        this.$toaster.success(
-          "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
+      this.$axios({
+        method: this.isEditable ? "put" : "post",
+        url: url,
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Data berhasi; di " +
+              (this.isEditable == true ? "Diedit" : "Tambah")
+          );
 
-        this.isEditable = false;
-        this.parameters.form = {
-          kode_konversi_stok: "",
-          tanggal: "",
-          tanggal_mulai: "",
-          tanggal_selesai: "",
-          lama_pengerjaan: "",
-          gudang_id: "",
-          status_transaksi_id: "",
-          keterangan: "",
-          konversi_stok_detail_bahan: [],
-          konversi_stok_detail_jadi: [],
-          biaya_konversi: [],
-        };
-        this.$refs.formValidate.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.isLoadingForm = false;
+          this.isEditable = false;
+          this.parameters.form = {
+            kode_konversi_stok: "",
+            tanggal: "",
+            tanggal_mulai: "",
+            tanggal_selesai: "",
+            lama_pengerjaan: "",
+            gudang_id: "",
+            status_transaksi_id: "",
+            keterangan: "",
+            konversi_stok_detail_bahan: [],
+            konversi_stok_detail_jadi: [],
+            biaya_konversi: [],
+          };
+          this.$refs.formValidate.reset();
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
     },
 
     formReset() {
@@ -743,10 +870,10 @@ export default {
     async onSelectGudang(item) {
       this.parameters.form.gudang_id = item;
       await this.onSearchZonaPlan();
-      await this.onSearchSlotAisle();
-      await this.onSearchSlotRack();
-      await this.onSearchSlotLevel();
-      await this.onSearchSlotBin();
+      // await this.onSearchSlotAisle();
+      // await this.onSearchSlotRack();
+      // await this.onSearchSlotLevel();
+      // await this.onSearchSlotBin();
     },
   },
 };
