@@ -146,7 +146,6 @@
                   :options="lookup_custom1.data"
                   :filterable="false"
                   @search="onGetGudang"
-                  :reduce="(item) => item.gudang_id"
                   @input="onSetGudang"
                   v-model="gudang_id"
                 >

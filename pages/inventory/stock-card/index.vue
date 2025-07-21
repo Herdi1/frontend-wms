@@ -239,16 +239,19 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr v-if="data.length">
+                <tr v-if="data.length">
                   <td>
                     {{ data[0] ? data[0].tanggal : "-" }}
                   </td>
                   <td>
-                    {{ coa_id ? coa_id.kode_coa : "-" }}
+                    <!-- {{ coa_id ? coa_id.kode_coa : "-" }} -->
                   </td>
                   <td style="font-size: 10px !important">
-                    {{ coa_id ? coa_id.nama_coa : "-" }}
+                    <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td class="text-info">
                     {{
                       raw_data.first_balance
@@ -266,7 +269,7 @@
                     }}
                   </td>
                   <td>-</td>
-                </tr> -->
+                </tr>
 
                 <tr
                   :class="{ 'table-active': ActiveRow == i }"
@@ -315,7 +318,7 @@
                   </td>
                 </tr>
 
-                <!-- <tr v-if="data.length">
+                <tr v-if="data.length">
                   <td>
                     {{
                       data[data.length - 1]
@@ -324,11 +327,14 @@
                     }}
                   </td>
                   <td>
-                    {{ coa_id ? coa_id.kode_coa : "-" }}
+                    <!-- {{ coa_id ? coa_id.kode_coa : "-" }} -->
                   </td>
                   <td>
-                    {{ coa_id ? coa_id.nama_coa : "-" }}
+                    <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td class="text-info"></td>
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
@@ -336,7 +342,7 @@
                     {{ last_balance | formatPrice }}
                   </td>
                   <td>-</td>
-                </tr> -->
+                </tr>
               </tbody>
 
               <table-data-loading-section :self="this" />
@@ -546,19 +552,20 @@ export default {
 
     last_balance() {
       let creditAndDebit = this.data.reduce((itemPrev, itemNext) => {
-        if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-          if (
-            this.passiva_types.includes(this.chart_of_account_id.parent.type)
-          ) {
-            itemPrev +=
-              parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
-          } else {
-            itemPrev +=
-              parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
-          }
-        } else {
-          itemPrev += 0;
-        }
+        // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+        //   if (
+        //     this.passiva_types.includes(this.chart_of_account_id.parent.type)
+        //   ) {
+        //     itemPrev +=
+        //       parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
+        //   } else {
+        //     itemPrev +=
+        //       parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
+        //   }
+        // } else {
+        //   itemPrev += 0;
+        // }
+        itemPrev += parseFloat(itemNext.masuk) - parseFloat(itemNext.keluar);
 
         return itemPrev;
       }, 0.0);
@@ -616,25 +623,29 @@ export default {
           );
 
           let newData = res.data.data.map((item) => {
-            if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-              if (
-                this.passiva_types.includes(
-                  this.chart_of_account_id.parent.type
-                )
-              ) {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.credit) -
-                  parseFloat(item.debit);
-              } else {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.debit) -
-                  parseFloat(item.credit);
-              }
-            } else {
-              newLastBalance = 0;
-            }
+            // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+            //   if (
+            //     this.passiva_types.includes(
+            //       this.chart_of_account_id.parent.type
+            //     )
+            //   ) {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.credit) -
+            //       parseFloat(item.debit);
+            //   } else {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.debit) -
+            //       parseFloat(item.credit);
+            //   }
+            // } else {
+            //   newLastBalance = 0;
+            // }
+            newLastBalance =
+              parseFloat(newLastBalance) +
+              parseFloat(item.masuk) -
+              parseFloat(item.keluar);
 
             return {
               ...item,
