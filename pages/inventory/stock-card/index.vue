@@ -546,20 +546,19 @@ export default {
 
     last_balance() {
       let creditAndDebit = this.data.reduce((itemPrev, itemNext) => {
-        if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-          if (
-            this.passiva_types.includes(this.chart_of_account_id.parent.type)
-          ) {
-            itemPrev +=
-              parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
-          } else {
-            itemPrev +=
-              parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
-          }
-        } else {
-          itemPrev += 0;
-        }
+        // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+        //   if (
+        //     this.passiva_types.includes(this.chart_of_account_id.parent.type)
+        //   ) {
+        //     itemPrev +=
+        //       parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
+        //   } else {
+        //   }
+        // } else {
+        //   itemPrev += 0;
+        // }
 
+        itemPrev += parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
         return itemPrev;
       }, 0.0);
 
@@ -616,25 +615,25 @@ export default {
           );
 
           let newData = res.data.data.map((item) => {
-            if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-              if (
-                this.passiva_types.includes(
-                  this.chart_of_account_id.parent.type
-                )
-              ) {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.credit) -
-                  parseFloat(item.debit);
-              } else {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.debit) -
-                  parseFloat(item.credit);
-              }
-            } else {
-              newLastBalance = 0;
-            }
+            // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+            //   if (
+            //     this.passiva_types.includes(
+            //       this.chart_of_account_id.parent.type
+            //     )
+            //   ) {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.credit) -
+            //       parseFloat(item.debit);
+            //   } else {
+            //   }
+            // } else {
+            //   newLastBalance = 0;
+            // }
+            newLastBalance =
+              parseFloat(newLastBalance) +
+              parseFloat(item.debit) -
+              parseFloat(item.credit);
 
             return {
               ...item,

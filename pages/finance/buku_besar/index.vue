@@ -29,10 +29,8 @@
           </div>
 
           <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-cols-1 gap-5 w-full">
+            <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 <div class="form-group">
                   <input-horizontal
                     label="Periode Awal"
@@ -43,9 +41,7 @@
                     :required="false"
                   />
                 </div>
-              </div>
 
-              <div class="grid grid-cols-1 gap-5 w-full">
                 <div class="form-group">
                   <input-horizontal
                     label="Periode Akhir"
@@ -56,9 +52,8 @@
                     :required="false"
                   />
                 </div>
-              </div>
 
-              <!-- <div class="flex w-[400px]">
+                <!-- <div class="flex w-[400px]">
 
               <div class="mb-3 w-[40%]"><b>Periode Awal</b></div>
           <div class="form-group w-[60%]">
@@ -79,122 +74,123 @@
 
           </div>         -->
 
-              <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2"><b>Master Akun</b></div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Master Akun</b></div>
 
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_coa"
-                  :loading="isLoadingGetChartOfAccount"
-                  :options="lookup_chart_of_accounts.data"
-                  :filterable="false"
-                  @search="onGetChartOfAccount"
-                  @input="onSetChartOfAccount"
-                  v-model="coa_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_coa }}
-                      </div>
-                      <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                        {{ option.kode_coa }}
-                      </div>
-                    </div>
-                  </template>
-                  <template #search="{ attributes, events }">
-                    <input
-                      class="vs__search"
-                      :required="!coa_id"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template>
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_chart_of_accounts.data.length || search"
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_coa"
+                    :loading="isLoadingGetChartOfAccount"
+                    :options="lookup_chart_of_accounts.data"
+                    :filterable="false"
+                    @search="onGetChartOfAccount"
+                    @input="onSetChartOfAccount"
+                    v-model="coa_id"
                   >
-                    <span
-                      v-if="lookup_chart_of_accounts.current_page > 1"
-                      @click="onGetChartOfAccount(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_coa }}
+                        </div>
+                        <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                          {{ option.kode_coa }}
+                        </div>
+                      </div>
+                    </template>
+                    <template #search="{ attributes, events }">
+                      <input
+                        class="vs__search"
+                        :required="!coa_id"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
+                    </template>
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_chart_of_accounts.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_chart_of_accounts.last_page >
-                        lookup_chart_of_accounts.current_page
-                      "
-                      @click="onGetChartOfAccount(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-              <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2"><b>Gudang</b></div>
+                      <span
+                        v-if="lookup_chart_of_accounts.current_page > 1"
+                        @click="onGetChartOfAccount(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_chart_of_accounts.last_page >
+                          lookup_chart_of_accounts.current_page
+                        "
+                        @click="onGetChartOfAccount(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_gudang"
-                  :loading="isLoadingGetGudang"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetGudang"
-                  :reduce="(item) => item.gudang_id"
-                  @input="onSetGudang"
-                  v-model="gudang_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_gudang }}
-                      </div>
-                      <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                        {{ option.kode_gudang }}
-                      </div>
-                    </div>
-                  </template>
-                  <template #search="{ attributes, events }">
-                    <input
-                      class="vs__search"
-                      :required="!gudang_id"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template>
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_custom1.data.length || search"
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    :reduce="(item) => item.gudang_id"
+                    @input="onSetGudang"
+                    v-model="gudang_id"
                   >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_gudang }}
+                        </div>
+                        <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                          {{ option.kode_gudang }}
+                        </div>
+                      </div>
+                    </template>
+                    <template #search="{ attributes, events }">
+                      <input
+                        class="vs__search"
+                        :required="!gudang_id"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
+                    </template>
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
               </div>
 
-              <div class="flex gap-3 ml-5">
+              <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
@@ -209,7 +205,7 @@
           <!-- start table -->
           <div class="table-responsive">
             <table
-              class="table table-striped table-sm vld-parent table-hover"
+              class="table table-striped table-sm vld-parent"
               ref="formContainer"
             >
               <thead>
@@ -220,7 +216,7 @@
                   <th>Nama</th>
                   <th>Kode Transaksi</th>
                   <th>Keterangan</th>
-                  <th class="text-info">Saldo Awal</th>
+                  <!-- <th class="text-info">Saldo Awal</th> -->
                   <th class="text-primary">Kredit</th>
                   <th class="text-danger">Debit</th>
                   <th class="text-primary">Saldo Akhir</th>
@@ -228,22 +224,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="data.length">
+                <tr v-if="data.length" class="hover:bg-red-500">
                   <td>
                     {{ data[0] ? data[0].tanggal : "-" }}
                   </td>
+                  <td></td>
                   <td>
                     {{ coa_id ? coa_id.kode_coa : "-" }}
                   </td>
-                  <td style="font-size: 10px !important">
+                  <td>
                     {{ coa_id ? coa_id.nama_coa : "-" }}
                   </td>
-                  <td class="text-info">
-                    {{
+                  <td></td>
+                  <td>
+                    <!-- {{
                       raw_data.first_balance
                         ? raw_data.first_balance.saldo
                         : "" | formatPrice
-                    }}
+                    }} -->
                   </td>
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
@@ -275,9 +273,9 @@
                     {{ item.kode_referensi }}
                   </td>
                   <td>{{ item.keterangan }}</td>
-                  <td class="text-info">
+                  <!-- <td class="text-info">
                     {{ item.saldo > 0 ? item.saldo : "" }}
-                  </td>
+                  </td> -->
                   <td class="text-success">
                     {{ item.credit > 0 ? item.credit : "" | formatPrice }}
                   </td>
@@ -308,12 +306,14 @@
                         : "-"
                     }}
                   </td>
+                  <td></td>
                   <td>
                     {{ coa_id ? coa_id.kode_coa : "-" }}
                   </td>
                   <td>
                     {{ coa_id ? coa_id.nama_coa : "-" }}
                   </td>
+                  <td></td>
                   <td class="text-info"></td>
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
