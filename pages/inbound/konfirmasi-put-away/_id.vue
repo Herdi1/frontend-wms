@@ -232,7 +232,7 @@
               </div>
             </div>
 
-            <div>
+            <!-- <div>
               <h1 class="text-xl font-bold mb-2 uppercase">
                 Konfirmasi Put Away
               </h1>
@@ -265,7 +265,7 @@
                   class="w-[60%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                 ></textarea>
               </div>
-            </div>
+            </div> -->
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"

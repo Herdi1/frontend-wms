@@ -3,7 +3,7 @@
     <nuxt-link to="/" class="main-logo flex shrink-0 items-center gap-2">
       <img
         class="ml-[5px] w-8 flex-none"
-        :src="apiUrl + settingItem('icon')"
+        :src="apiUrl + 'images/icon/' + settingItem('icon')"
         alt=""
       />
       <span
@@ -24,7 +24,7 @@
 export default {
   data() {
     return {
-      apiUrl: process.env.API_URL,
+      apiUrl: process.env.PUBLIC_URL,
     };
   },
   computed: {

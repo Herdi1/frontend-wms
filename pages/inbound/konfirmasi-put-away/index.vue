@@ -73,9 +73,9 @@
                   <th class="w-[5%]">Konfirmasi</th>
                   <th class="w-[5%]">No</th>
                   <th>Kode Inbound</th>
-                  <th>Tanggal Bongkar</th>
-                  <th>Status Bongkar</th>
-                  <th>Catatan Bongkar</th>
+                  <th>Tanggal Put Away</th>
+                  <th>Status Put Away</th>
+                  <th>Catatan Put Away</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,7 +116,7 @@
                     </p>
                     <p
                       v-if="item.status_put_away === 'SELESAI'"
-                      class="text-red-500"
+                      class="text-blue-500"
                     >
                       {{ item.status_put_away }}
                     </p>

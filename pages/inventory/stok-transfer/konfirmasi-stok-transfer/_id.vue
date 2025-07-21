@@ -21,14 +21,48 @@
           >
             <div class="w-full pt-3 mb-3">
               <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Permintaan Stok</h1>
+                <h1 class="text-xl font-bold">Konfirmasi Stok Transfer</h1>
                 <div class=" "></div>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-1 w-[60%] mb-7">
+              <div class="form-group flex items-center">
+                <label for="" class="w-[40%]"
+                  >Status Konfirmasi <span class="text-danger">*</span></label
+                >
+                <select
+                  name=""
+                  id=""
+                  v-model="form.status_konfirmasi"
+                  class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Dikonfirmasi</option>
+                </select>
+              </div>
               <div class="form-group">
                 <input-horizontal
-                  label="Kode Stoko Transfer"
+                  label="Tanggal Konfirmasi"
+                  type="date"
+                  name="tanggal"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                  :isHorizontal="true"
+                  v-model="form.tanggal_konfirmasi"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group flex items-top">
+                <label for="" class="w-[40%]">Catatan Konfirmasi</label>
+                <textarea
+                  placeholder="Catatan"
+                  class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
+                  v-model="form.catatan_konfirmasi"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <input-horizontal
+                  label="Kode Stok Transfer"
                   type="text"
                   name="kode_stok_transfer"
                   labelWidth="w-[40%]"
@@ -48,41 +82,42 @@
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
                   v-model="form.tanggal"
-                  :required="true"
+                  :disabled="true"
                 />
               </div>
               <div class="w-full mb-2">
-                <select-button
-                  :self="{
-                    label: 'Gudang Penerima',
-                    optionLabel: 'nama_gudang',
-                    isLoading: isLoadingGetGudang,
-                    lookup: lookup_suppliers,
-                    onGet: onGetGudang,
-                    value: form.gudang_id_penerima,
-                    input: onSelectGudangPenerima,
-                  }"
-                  width="w-[60%]"
-                  :required="true"
-                />
-              </div>
-              <div class="w-full mb-2">
-                <select-button
-                  :self="{
-                    label: 'Gudang Asal',
-                    optionLabel: 'nama_gudang',
-                    isLoading: isLoadingGetGudang,
-                    lookup: lookup_suppliers,
-                    onGet: onGetGudang,
-                    value: form.gudang_id_asal,
-                    input: onSelectGudangAsal,
-                  }"
-                  width="w-[60%]"
-                  :required="true"
-                />
-              </div>
-              <div class="form-group">
                 <input-horizontal
+                  label="Gudang Penerima"
+                  type="text"
+                  name="gudang_id"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                  :isHorizontal="true"
+                  v-model="form.gudang_penerima.nama_gudang"
+                  :disabled="true"
+                />
+              </div>
+              <div class="w-full mb-2">
+                <input-horizontal
+                  label="Gudang Asal"
+                  type="text"
+                  name="gudang_id"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                  :isHorizontal="true"
+                  v-model="form.gudang_asal.nama_gudang"
+                  :disabled="true"
+                />
+              </div>
+              <div class="form-group flex items-top">
+                <label for="" class="w-[40%]">Keterangan</label>
+                <textarea
+                  disabled
+                  placeholder="Keterangan"
+                  class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
+                  v-model="form.keterangan"
+                ></textarea>
+                <!-- <input-horizontal
                   label="Keterangan"
                   type="text"
                   name="keterangan"
@@ -90,22 +125,22 @@
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
                   v-model="form.keterangan"
-                  :required="true"
-                />
+                  :disabled="true"
+                /> -->
               </div>
             </div>
 
             <div class="w-full flex justify-between items-center">
               <h1 class="text-xl font-bold">Detail Stok Transfer</h1>
               <div class=" ">
-                <button
+                <!-- <button
                   type="button"
                   @click="addDetailTransfer"
                   class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                 >
                   <i class="fas fa-plus"></i>
                   <p class="text-xs font-medium">Tambah Detail</p>
-                </button>
+                </button> -->
               </div>
             </div>
             <div class="table-responsive overflow-y-hidden mb-7">
@@ -119,9 +154,9 @@
                     <th class="w-[200px] border border-gray-300">Quantity</th>
                     <th class="w-[200px] border border-gray-300">Satuan</th>
                     <th class="w-[200px] border border-gray-300">keterangan</th>
-                    <th class="w-[50px] border border-gray-300 text-center">
+                    <!-- <th class="w-[50px] border border-gray-300 text-center">
                       Delete
-                    </th>
+                    </th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -140,6 +175,7 @@
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
                         class="w-full"
+                        disabled
                         @input="(item) => onSelectItemGudang(item, index)"
                       >
                         <li
@@ -168,6 +204,7 @@
                     </td>
                     <td class="border border-gray-300">
                       <money
+                        disabled
                         v-model="item.quantity"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
@@ -185,18 +222,19 @@
                     </td>
                     <td class="border border-gray-300">
                       <textarea
+                        disabled
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
                       ></textarea>
                     </td>
-                    <td class="border border-gray-300 text-center">
+                    <!-- <td class="border border-gray-300 text-center">
                       <i
                         class="fas fa-trash mx-auto"
                         style="cursor: pointer"
                         @click="deleteDetailTransfer(index)"
                       ></i>
-                    </td>
+                    </td> -->
                   </tr>
                   <tr v-if="!form.detail_stok_transfer.length > 0">
                     <td colspan="5" class="text-center">
@@ -274,17 +312,20 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Permintaan Stok",
-      url: "inventory/permintaan-stok",
+      title: "Konfirmasi Stok Transfer",
+      url: "inventory/konfirmas-stok-transfer",
 
       form: {
-        permintaan_stok_id: "",
+        konfirmasi_stok_transfer_id: "",
         kode_stok_transfer: "",
         tanggal: "",
         gudang_id_penerima: "",
         gudang_id_asal: "",
         keterangan: "",
         detail_stok_transfer: [],
+
+        gudang_penerima: { nama_gudang: "" },
+        gudang_asal: { nama_gudang: "" },
 
         user_agent: "",
         device: "",
@@ -312,7 +353,9 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/permintaan-stok/${this.id}`);
+        let res = await this.$axios.get(
+          `inventory/konfirmasi-stok-transfer/${this.id}`
+        );
         Object.keys(this.form).forEach((item) => {
           if (item != "detail_stok_transfer") {
             this.form[item] = res.data[item];
@@ -324,6 +367,7 @@ export default {
             return {
               ...item,
               detail_stok_transfer_id: item || "",
+              item_gudang_id: item.item_gudang,
             };
           }
         );
@@ -336,7 +380,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
   },
 
   computed: {
@@ -395,17 +439,17 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inventory/permintaan-stok";
+      let url = "inventory/konfirmasi-stok-transfer";
 
       let formData = {
         ...this.form,
         gudang_id_asal:
-          typeof this.form.gudang_id_asal === "object"
-            ? this.form.gudang_id_asal.gudang_id
+          typeof this.form.gudang_asal === "object"
+            ? this.form.gudang_asal.gudang_id
             : "",
         gudang_id_asal:
-          typeof this.form.gudang_id_penerima === "object"
-            ? this.form.gudang_id_penerima.gudang_id
+          typeof this.form.gudang_penerima === "object"
+            ? this.form.gudang_penerima.gudang_id
             : "",
       };
 

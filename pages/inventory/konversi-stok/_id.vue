@@ -289,6 +289,7 @@ export default {
             return {
               ...item,
               konversi_stok_detail_bahan_id: item.konversi_stok_detail_bahan_id,
+              item_id: item.item_id,
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
@@ -303,6 +304,7 @@ export default {
             return {
               ...item,
               konversi_stok_detail_jadi_id: item.konversi_stok_detail_jadi_id,
+              item_id: item.item_id,
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
@@ -402,10 +404,7 @@ export default {
         this.parameters.form.konversi_stok_detail_bahan.map((item) => {
           return {
             ...item,
-            item_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_id
-                : "",
+            item_id: item.item_id,
             // item_pelanggan_id:
             //   typeof item.item_gudang_id === "object"
             //     ? item.item_gudang_id.item_pelanggan_id
@@ -441,10 +440,7 @@ export default {
         this.parameters.form.konversi_stok_detail_jadi.map((item) => {
           return {
             ...item,
-            item_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_id
-                : "",
+            item_id: item.item_id,
             // item_pelanggan_id:
             //   typeof item.item_gudang_id === "object"
             //     ? item.item_gudang_id.item_pelanggan_id

@@ -13,10 +13,10 @@
           class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 mx-2"
           :class="showSidebar ? '' : 'hidden'"
         >
-          <NuxtLink to="/" class="main-logo flex shrink-0 items-center">
+          <NuxtLink to="/" class="main-logo flex gap-1 shrink-0 items-center">
             <img
               class="inline w-8 ltr:-ml-1 rtl:-mr-1"
-              :src="apiUrl + settingItem('icon')"
+              :src="apiUrl + 'images/icon/' + settingItem('icon')"
               alt=""
             />
             <span
@@ -181,7 +181,7 @@ export default {
   data() {
     return {
       isProfileVisible: false,
-      apiUrl: process.env.API_URL,
+      apiUrl: process.env.PUBLIC_URL,
     };
   },
   computed: {

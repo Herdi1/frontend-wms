@@ -400,7 +400,7 @@
                           :filterable="false"
                           @search="onGetZonaPlan"
                           v-model="item.zona_gudang_id_plan"
-                          :reduce="(item) => item.zona_gudang_id"
+                          @input="(item) => onSelectZona(item, index)"
                           class="w-full"
                         >
                           <!-- <template slot="option" slot-scope="option">
@@ -442,9 +442,9 @@
                           :loading="isLoadingGetSlotAisle"
                           :options="lookup_custom2.data"
                           :filterable="false"
-                          @search="onGetSlotAisle"
+                          @search="onGetSlotAisle(index)"
                           v-model="item.slot_penyimpanan_id_aisle_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
+                          @input="(item) => onSelectAisle(item, index)"
                           class="w-full"
                         >
                           <template slot="option" slot-scope="option">
@@ -469,7 +469,7 @@
                           >
                             <span
                               v-if="lookup_custom2.current_page > 1"
-                              @click="onGetSlotAisle(search, false)"
+                              @click="onGetSlotAisle(index, search, false)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Sebelumnya</span
                             >
@@ -478,7 +478,7 @@
                                 lookup_custom2.last_page >
                                 lookup_custom2.current_page
                               "
-                              @click="onGetSlotAisle(search, true)"
+                              @click="onGetSlotAisle(index, search, true)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Selanjutnya</span
                             >
@@ -491,9 +491,9 @@
                           :loading="isLoadingGetSlotRack"
                           :options="lookup_custom3.data"
                           :filterable="false"
-                          @search="onGetSlotRack"
+                          @search="onGetSlotRack(index)"
                           v-model="item.slot_penyimpanan_id_rack_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
+                          @input="(item) => onSelectRack(item, index)"
                           class="w-full"
                         >
                           <template slot="option" slot-scope="option">
@@ -518,7 +518,7 @@
                           >
                             <span
                               v-if="lookup_custom3.current_page > 1"
-                              @click="onGetSlotRack(search, false)"
+                              @click="onGetSlotRack(index, search, false)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Sebelumnya</span
                             >
@@ -527,7 +527,7 @@
                                 lookup_custom3.last_page >
                                 lookup_custom3.current_page
                               "
-                              @click="onGetSlotRack(search, true)"
+                              @click="onGetSlotRack(index, search, true)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Selanjutnya</span
                             >
@@ -540,9 +540,9 @@
                           :loading="isLoadingGetSlotLevel"
                           :options="lookup_custom4.data"
                           :filterable="false"
-                          @search="onGetSlotLevel"
+                          @search="onGetSlotLevel(index)"
                           v-model="item.slot_penyimpanan_id_level_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
+                          @input="(item) => onSelectLevel(item, index)"
                           class="w-full"
                         >
                           <template slot="option" slot-scope="option">
@@ -567,7 +567,7 @@
                           >
                             <span
                               v-if="lookup_custom4.current_page > 1"
-                              @click="onGetSlotLevel(search, false)"
+                              @click="onGetSlotLevel(index, search, false)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Sebelumnya</span
                             >
@@ -576,7 +576,7 @@
                                 lookup_custom4.last_page >
                                 lookup_custom4.current_page
                               "
-                              @click="onGetSlotLevel(search, true)"
+                              @click="onGetSlotLevel(index, search, true)"
                               class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                               >Selanjutnya</span
                             >
@@ -589,9 +589,9 @@
                           :loading="isLoadingGetSlotBin"
                           :options="lookup_custom5.data"
                           :filterable="false"
-                          @search="onGetSlotBin"
+                          @search="onGetSlotBin(index)"
                           v-model="item.slot_penyimpanan_id_bin_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
+                          @input="(item) => onSelectBin(item, index)"
                           class="w-full"
                         >
                           <template slot="option" slot-scope="option">
@@ -770,6 +770,11 @@ export default {
           return {
             ...item,
             asn_details_id: item || "",
+            zona_gudang_id_plan: item.zona_gudang_plan,
+            slot_penyimpanan_id_aisle_plan: item.slot_penyimpanan_aisle_plan,
+            slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_rack_plan,
+            slot_penyimpanan_id_level_plan: item.slot_penyimpanan_level_plan,
+            slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_bin_plan,
           };
         });
 
@@ -782,10 +787,10 @@ export default {
 
   async mounted() {
     await this.onSearchZonaPlan();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
+    // await this.onSearchSlotAisle();
+    // await this.onSearchSlotRack();
+    // await this.onSearchSlotLevel();
+    // await this.onSearchSlotBin();
     this.getUserAgent();
     this.getGeoLocation();
   },
@@ -868,6 +873,26 @@ export default {
         return {
           ...item,
           asn_detail_id: item.asn_detail_id ? item.asn_detail_id : "",
+          zona_gudang_id_plan:
+            typeof item.zona_gudang_id_plan === "object"
+              ? item.zona_gudang_id_plan.zona_gudang_id
+              : "",
+          slot_penyimpanan_id_aisle_plan:
+            typeof item.slot_penyimpanan_id_aisle_plan === "object"
+              ? item.slot_penyimpanan_id_aisle_plan.slot_penyimpanan_id
+              : "",
+          slot_penyimpanan_id_rack_plan:
+            typeof item.slot_penyimpanan_id_rack_plan === "object"
+              ? item.slot_penyimpanan_id_rack_plan.slot_penyimpanan_id
+              : "",
+          slot_penyimpanan_id_level_plan:
+            typeof item.slot_penyimpanan_id_level_plan === "object"
+              ? item.slot_penyimpanan_id_level_plan.slot_penyimpanan_id
+              : "",
+          slot_penyimpanan_id_bin_plan:
+            typeof item.slot_penyimpanan_id_bin_plan === "object"
+              ? item.slot_penyimpanan_id_bin_plan.slot_penyimpanan_id
+              : "",
         };
       });
 
@@ -979,8 +1004,19 @@ export default {
       }
     },
 
+    async onSelectZona(item, index) {
+      if (item) {
+        this.form.asn_details[index].zona_gudang_id_plan = item;
+        this.form.asn_details[index].slot_penyimpanan_id_aisle_plan = "";
+        await this.onSearchSlotAisle(index);
+      } else {
+        this.form.asn_details[index].zona_gudang_id_plan = "";
+        this.form.asn_details[index].slot_penyimpanan_id_aisle_plan = "";
+      }
+    },
+
     // Get slot aisle
-    onGetSlotAisle(search, isNext) {
+    onGetSlotAisle(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotAisle);
@@ -996,13 +1032,15 @@ export default {
           this.lookup_custom2.current_page = 1;
         }
 
-        this.onSearchSlotAisle();
+        this.onSearchSlotAisle(index);
       }, 600);
     },
 
-    async onSearchSlotAisle() {
+    async onSearchSlotAisle(index) {
       if (!this.isLoadingGetSlotAisle) {
         this.isLoadingGetSlotAisle = true;
+
+        console.log(this.form);
 
         await this.lookUp({
           url: "master/slot-penyimpanan/get-slot-penyimpanan",
@@ -1013,6 +1051,8 @@ export default {
             "&level=1" +
             "&gudang_id=" +
             this.form.gudang_id +
+            "&zona_gudang_id=" +
+            this.form.asn_details[index].zona_gudang_id_plan.zona_gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1021,9 +1061,18 @@ export default {
         this.isLoadingGetSlotAisle = false;
       }
     },
+    async onSelectAisle(item, index) {
+      if (item) {
+        this.form.asn_details[index].slot_penyimpanan_id_aisle_plan = item;
+        await this.onSearchSlotRack(index);
+      } else {
+        this.form.asn_details[index].slot_penyimpanan_id_aisle_plan = "";
+        this.form.asn_details[index].slot_penyimpanan_id_rack_plan = "";
+      }
+    },
 
     // Get slot rack
-    onGetSlotRack(search, isNext) {
+    onGetSlotRack(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotRack);
@@ -1039,11 +1088,11 @@ export default {
           this.lookup_custom3.current_page = 1;
         }
 
-        this.onSearchSlotRack();
+        this.onSearchSlotRack(index);
       }, 600);
     },
 
-    async onSearchSlotRack() {
+    async onSearchSlotRack(index) {
       if (!this.isLoadingGetSlotRack) {
         this.isLoadingGetSlotRack = true;
 
@@ -1056,6 +1105,10 @@ export default {
             "&level=2" +
             "&gudang_id=" +
             this.form.gudang_id +
+            "&zona_gudang_id=" +
+            this.form.asn_details[index].zona_gudang_id_plan +
+            "&slot_penyimpanan_id_induk" +
+            this.form.asn_details[index].slot_penyimpanan_id_aisle_plan +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1064,9 +1117,19 @@ export default {
         this.isLoadingGetSlotRack = false;
       }
     },
+    async onSelectRack(item, index) {
+      if (item) {
+        this.form.asn_details[index].slot_penyimpanan_id_rack_plan = item;
+        this.form.asn_details[index].slot_penyimpanan_id_level_plan = "";
+        await this.onSearchSlotLevel(index);
+      } else {
+        this.form.asn_details[index].slot_penyimpanan_id_rack_plan = "";
+        this.form.asn_details[index].slot_penyimpanan_id_level_plan = "";
+      }
+    },
 
     // Get slot level
-    onGetSlotLevel(search, isNext) {
+    onGetSlotLevel(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotLevel);
@@ -1082,11 +1145,11 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotLevel();
+        this.onSearchSlotLevel(index);
       }, 600);
     },
 
-    async onSearchSlotLevel() {
+    async onSearchSlotLevel(index) {
       if (!this.isLoadingGetSlotLevel) {
         this.isLoadingGetSlotLevel = true;
 
@@ -1099,6 +1162,10 @@ export default {
             "&level=3" +
             "&gudang_id=" +
             this.form.gudang_id +
+            "&zona_gudang_id=" +
+            this.form.asn_details[index].zona_gudang_id_plan +
+            "&slot_penyimpanan_id_induk" +
+            this.form.asn_details[index].slot_penyimpanan_id_rack_plan +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1107,9 +1174,19 @@ export default {
         this.isLoadingGetSlotLevel = false;
       }
     },
+    async onSelectLevel(item, index) {
+      if (item) {
+        this.form.asn_details[index].slot_penyimpanan_id_level_plan = item;
+        this.form.asn_details[index].slot_penyimpanan_id_bin_plan = "";
+        await this.onSearchSlotBin(index);
+      } else {
+        this.form.asn_details[index].slot_penyimpanan_id_level_plan = "";
+        this.asn_details[index].slot_penyimpanan_id_bin_plan = "";
+      }
+    },
 
     // Get slot level
-    onGetSlotBin(search, isNext) {
+    onGetSlotBin(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotBin);
@@ -1125,11 +1202,11 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotBin();
+        this.onSearchSlotBin(index);
       }, 600);
     },
 
-    async onSearchSlotBin() {
+    async onSearchSlotBin(index) {
       if (!this.isLoadingGetSlotBin) {
         this.isLoadingGetSlotBin = true;
 
@@ -1142,12 +1219,23 @@ export default {
             "&level=4" +
             "&gudang_id=" +
             this.form.gudang_id +
+            "&zona_gudang_id=" +
+            this.form.asn_details[index].zona_gudang_id_plan +
+            "&slot_penyimpanan_id_induk" +
+            this.form.asn_details[index].slot_penyimpanan_id_level_plan +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetSlotBin = false;
+      }
+    },
+    async onSelectBin(item, index) {
+      if (item) {
+        this.form.asn_details[index].slot_penyimpanan_id_bin_plan = item;
+      } else {
+        this.form.asn_details[index].slot_penyimpanan_id_bin_plan = "";
       }
     },
   },

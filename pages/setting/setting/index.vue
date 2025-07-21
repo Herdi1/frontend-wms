@@ -147,17 +147,23 @@
                         <option value="0">Tidak</option>
                       </select>
                     </div>
-
-                    <div class="form-group">
-                      <label for="is_min_stock">Icon </label>
-                      <input
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                        id="small_size"
-                        type="file"
-                        @change="handleFileChange"
-                      />
-                    </div>
                   </div>
+                  <div class="form-group">
+                    <label for="is_min_stock">Icon </label>
+                    <img
+                      class="mx-auto my-2 w-[50%] flex-none"
+                      :src="apiUrl + 'images/icon/' + form.icon"
+                      alt=""
+                    />
+                    <input
+                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      id="small_size"
+                      type="file"
+                      @change="handleFileChange"
+                    />
+                  </div>
+                  <!-- <div class="grid grid-cols-2 justify-between mt-2">
+                  </div> -->
                 </div>
                 <div class="card-footer text-right">
                   <button class="btn btn-primary" :disabled="isLoadingForm">
@@ -198,6 +204,7 @@ export default {
 
   data() {
     return {
+      apiUrl: process.env.PUBLIC_URL,
       title: "Profil Aplikasi",
       form: {
         company_name: "",
@@ -262,9 +269,9 @@ export default {
         }
       });
 
-      if (this.form.icon instanceof File) {
-        formData.append("icon", this.form.icon);
-      }
+      // if (this.form.icon instanceof File) {
+      //   formData.append("icon", this.form.icon);
+      // }
 
       // if (this.isEditable) {
       //   url += "/" + this.parameters.form.menu_id;
@@ -289,11 +296,31 @@ export default {
         .finally(() => {
           this.isLoadingForm = false;
         });
+
+      let logoData = new FormData();
+
+      logoData.append("_method", "put");
+      if (this.logo instanceof File) {
+        logoData.append("nama", "icon");
+        logoData.append("icon", this.logo);
+      }
+
+      this.$axios({
+        url: "setting/logo",
+        method: "POST",
+        data: logoData,
+      })
+        .then((res) => {
+          return this.$axios.get("/get-setting");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        });
     },
 
     handleFileChange(e) {
       let file = e.target.files[0];
-      this.form.icon = file;
+      this.logo = file;
     },
   },
 };

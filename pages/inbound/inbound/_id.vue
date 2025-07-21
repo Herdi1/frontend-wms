@@ -236,6 +236,7 @@
                     <h1 class="text-xl font-bold">Detail Inbound</h1>
                     <div class=" ">
                       <button
+                      v-if="form.sumber_data === 'NON'"
                         type="button"
                         @click="AddDetailInbound"
                         class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -2072,12 +2073,12 @@ export default {
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
         // this.form.tanggal = item.tanggal;
-        this.form.gudang_id = item.gudang_id;
+        this.form.gudang_id = item.gudang;
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
             return {
-              item_gudang_id: data.item_gudang.item_gudang_id,
-              nama_item: data.item_gudang.nama_item,
+              item_gudang_id: data.item.item_gudang_id,
+              nama_item: data.item.nama_item,
               asn_detail_id: data.asn_detail_id,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               serial_number: data.serial_number ?? "",
@@ -2087,11 +2088,11 @@ export default {
               lebar: data.lebar,
               berat: data.berat,
               tinggi: data.tinggi,
-              zona_gudang_id: data.zona_gudang_id_plan,
-              slot_penyimpanan_id_aisle: data.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack: data.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level: data.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin: data.slot_penyimpanan_id_bin_plan,
+              zona_gudang_id: data.zona_gudang_plan,
+              slot_penyimpanan_id_aisle: data.slot_penyimpanan_aisle_plan,
+              slot_penyimpanan_id_rack: data.slot_penyimpanan_rack_plan,
+              slot_penyimpanan_id_level: data.slot_penyimpanan_level_plan,
+              slot_penyimpanan_id_bin: data.slot_penyimpanan_bin_plan,
             };
           });
           console.log(this.items);
@@ -2115,10 +2116,10 @@ export default {
         }
 
         await this.onSearchValuation();
-        await this.onSearchSlotAisle();
-        await this.onSearchSlotRack();
-        await this.onSearchSlotLevel();
-        await this.onSearchSlotBin();
+        // await this.onSearchSlotAisle();
+        // await this.onSearchSlotRack();
+        // await this.onSearchSlotLevel();
+        // await this.onSearchSlotBin();
       } else {
         this.form.asn_id = "";
         this.form.doc_type_sap = "";
@@ -2172,10 +2173,10 @@ export default {
         }
 
         await this.onSearchValuation();
-        await this.onSearchSlotAisle();
-        await this.onSearchSlotRack();
-        await this.onSearchSlotLevel();
-        await this.onSearchSlotBin();
+        // await this.onSearchSlotAisle();
+        // await this.onSearchSlotRack();
+        // await this.onSearchSlotLevel();
+        // await this.onSearchSlotBin();
       } else {
         this.form.purchase_order_id = "";
         this.form.doc_type_sap = "";

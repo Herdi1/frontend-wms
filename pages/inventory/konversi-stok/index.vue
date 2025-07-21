@@ -26,7 +26,10 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
-          <table ref="formContainer" class="border border-gray-300">
+          <table
+            ref="formContainer"
+            class="border border-gray-300 overflow-x-auto"
+          >
             <thead>
               <tr class="uppercase text-nowrap">
                 <th class="w-[5%] border border-gray-300">Edit</th>

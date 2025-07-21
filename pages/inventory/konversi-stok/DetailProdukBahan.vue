@@ -49,6 +49,7 @@
                 :options="lookup_custom7.data"
                 :filterable="false"
                 v-model="item.item_gudang_id"
+                @input="(item) => onSelectItemGudang(item, index)"
                 class="w-full"
               >
                 <li
@@ -856,6 +857,15 @@ export default {
 
         this.isLoadingGetItemGudang = false;
       }
+    },
+
+    onSelectItemGudang(item, index) {
+      this.self.parameters.form.konversi_stok_detail_bahan[
+        index
+      ].item_gudang_id = item ? item : "";
+      this.self.parameters.form.konversi_stok_detail_bahan[index].item_id = item
+        ? item.item_id
+        : "";
     },
   },
 };
