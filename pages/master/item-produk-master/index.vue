@@ -352,18 +352,10 @@
                   <th>Berat Kotor</th>
                   <th>Volume</th>
                   <th>Stocklevel</th>
-                  <th>Group Item 1</th>
-                  <th>Group Item 2</th>
-                  <th>Group Item 3</th>
-                  <th>Group Item 4</th>
-                  <th>Group Item 5</th>
-                  <th>Batas Atas</th>
-                  <th>Batas Bawah</th>
-                  <th>Kategori Item 1</th>
-                  <th>Kategori Item 2</th>
-                  <th>Kategori Item 3</th>
-                  <th>Kategori Item 4</th>
-                  <th>Kategori Item 5</th>
+                  <th>Group Item</th>
+
+                  <th>Batas Item</th>
+                  <th>Kategori Item</th>
                   <th>Jumlah Palet</th>
                   <th>Kebutuhan Palet</th>
                   <th>Kapasitas Palet</th>
@@ -412,77 +404,95 @@
                     }}
                   </td>
                   <td>
-                    {{
-                      item.group_item_1
-                        ? item.group_item_1.nama_group_item
-                        : "Tidak Ditemukan"
-                    }}
+                    <div>
+                      <p v-if="item.group_item_1">
+                        {{
+                          item.group_item_1
+                            ? item.group_item_1.nama_group_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.group_item_2">
+                        {{
+                          item.group_item_2
+                            ? item.group_item_2.nama_group_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.group_item_3">
+                        {{
+                          item.group_item_3
+                            ? item.group_item_3.nama_group_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.group_item_4">
+                        {{
+                          item.group_item_4
+                            ? item.group_item_4.nama_group_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.group_item_5">
+                        {{
+                          item.group_item_5
+                            ? item.group_item_5.nama_group_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <i class="fa fa-caret-up text-green-300"></i>
+                      <p>{{ item.batas_atas }}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <i class="fa fa-caret-down text-red-300"></i>
+                      <p>{{ item.batas_bawah }}</p>
+                    </div>
                   </td>
                   <td>
-                    {{
-                      item.group_item_2
-                        ? item.group_item_2.nama_group_item
-                        : "Tidak Ditemukan"
-                    }}
+                    <div>
+                      <p v-if="item.kategori_1">
+                        {{
+                          item.kategori_1
+                            ? item.kategori_1.nama_kategori_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.kategori_2">
+                        {{
+                          item.kategori_2
+                            ? item.kategori_2.nama_kategori_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.kategori_3">
+                        {{
+                          item.kategori_3
+                            ? item.kategori_3.nama_kategori_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.kategori_4">
+                        {{
+                          item.kategori_4
+                            ? item.kategori_4.nama_kategori_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                      <p v-if="item.kategori_5">
+                        {{
+                          item.kategori_5
+                            ? item.kategori_5.nama_kategori_item
+                            : "Tidak Ditemukan"
+                        }}
+                      </p>
+                    </div>
                   </td>
-                  <td>
-                    {{
-                      item.group_item_3
-                        ? item.group_item_3.nama_group_item
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_item_4
-                        ? item.group_item_4.nama_group_item
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.group_item_5
-                        ? item.group_item_5.nama_group_item
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>{{ item.batas_atas }}</td>
-                  <td>{{ item.batas_bawah }}</td>
-                  <td>
-                    {{
-                      item.kategori_1
-                        ? item.kategori_1.nama_kategori
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.kategori_2
-                        ? item.kategori_2.nama_kategori
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.kategori_3
-                        ? item.kategori_3.nama_kategori
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.kategori_4
-                        ? item.kategori_4.nama_kategori
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      item.kategori_5
-                        ? item.kategori_5.nama_kategori
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
+
                   <td>{{ item.jumlah_palet }}</td>
                   <td>{{ item.kapasitas_palet }}</td>
                   <td>{{ item.kebutuhan_palet }}</td>

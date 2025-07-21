@@ -382,7 +382,9 @@
                 id=""
               />
             </td>
-            <td class="border border-gray-300">{{ item.kode_wms }}</td>
+            <td class="border border-gray-300">
+              {{ item.kode_wms ? item.kode_wms : item.kode_item }}
+            </td>
             <td class="border border-gray-300">{{ item.nama_item }}</td>
             <td class="border border-gray-300">
               <div>
@@ -586,14 +588,21 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="warna">Warna</label>
+                  <input-form
+                    label="Warna"
+                    type="text"
+                    name="warna"
+                    v-model="item.warna"
+                    :required="false"
+                  />
+                  <!-- <label for="warna">Warna</label>
                   <money
                     v-model="item.warna"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
               </div>
             </td>

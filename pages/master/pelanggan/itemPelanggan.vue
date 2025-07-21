@@ -215,7 +215,7 @@
                 @change="toggleAllCheckboxs"
               />
             </th>
-            <th class="w-[75px] border border-gray-300">Detail</th>
+            <!-- <th class="w-[75px] border border-gray-300">Detail</th> -->
             <th
               @click="
                 onSort(
@@ -280,9 +280,9 @@
                 id=""
               />
             </td>
-            <td class="border border-gray-300 text-center">
+            <!-- <td class="border border-gray-300 text-center">
               <small-detail-button @click="onDetail(item)" />
-            </td>
+            </td> -->
             <!-- <td class="border border-gray-300">
               {{
                 (parameters.params.page - 1) * parameters.params.per_page +

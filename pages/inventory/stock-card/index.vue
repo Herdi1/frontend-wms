@@ -228,9 +228,8 @@
                   <th class="min-w-[100px]">Tgl</th>
                   <th class="min-w-[150px]">Lokasi Penyimpanan</th>
                   <th class="min-w-[200px]">Nama Item</th>
-                  <th class="min-w-[120px]">Valuation</th>
+                  <th class="min-w-[100px]">Valuation</th>
                   <th class="min-w-[120px]">Kode Transaksi</th>
-                  <th class="min-w-[120px]">Serial Number</th>
                   <th class="text-info min-w-[100px]">Saldo Awal</th>
                   <th class="text-primary min-w-[100px]">Masuk</th>
                   <th class="text-danger min-w-[100px]">Keluar</th>
@@ -249,7 +248,6 @@
                   <td style="font-size: 10px !important">
                     <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
-                  <td></td>
                   <td></td>
                   <td></td>
                   <td class="text-info">
@@ -290,9 +288,6 @@
                   <td class="whitespace-nowrap">
                     {{ item.kode_referensi ? item.kode_referensi : "-" }}
                   </td>
-                  <td class="whitespace-nowrap">
-                    {{ item.serial_number ? item.serial_number : "-" }}
-                  </td>
                   <td class="text-info whitespace-nowrap">
                     {{
                       item.saldo_awal > 0 ? item.saldo_awal : "" | formatPrice
@@ -332,7 +327,6 @@
                   <td>
                     <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
-                  <td></td>
                   <td></td>
                   <td></td>
                   <td class="text-info"></td>

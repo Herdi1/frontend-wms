@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-  >
+  <section>
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -20,7 +18,9 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+          <div
+            class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="form-group">
               <input-form
                 label="Nama Lengkap"
@@ -391,6 +391,110 @@
               ></textarea>
             </div>
           </div>
+          <div class="mt-7">
+            <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
+              Edit Data Rekening Staff
+            </h1>
+            <h1 v-else class="text-xl font-bold mb-2 uppercase">
+              Tambah Data Rekening Staff
+            </h1>
+          </div>
+          <div
+            class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
+            <ValidationProvider name="bank_id" class="w-full" rules="required">
+              <div
+                class="form-group w-full items-center"
+                slot-scope="{ errors, valid }"
+              >
+                <label for="">Bank <span class="text-danger">*</span></label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_bank"
+                  :loading="isLoadingGetBank"
+                  :options="lookup_custom5.data"
+                  :filterable="false"
+                  @search="onGetBank"
+                  :reduce="(item) => item.bank_id"
+                  v-model="parameters.form.bank_id"
+                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom5.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom5.current_page > 1"
+                      @click="onGetBank(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom5.last_page > lookup_custom5.current_page
+                      "
+                      @click="onGetBank(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+                <div v-if="errors[0]" class="text-danger">
+                  {{ errors[0] }}
+                </div>
+              </div>
+            </ValidationProvider>
+            <div class="form-group">
+              <input-form
+                label="Nomor Rekening"
+                type="text"
+                name="nomor_rekening"
+                v-model="parameters.form.no_rekening"
+                :required="true"
+              />
+            </div>
+            <div class="form-group">
+              <input-form
+                label="Nama Pemilik Rekening"
+                type="text"
+                name="nama_pemilik_rekening"
+                v-model="parameters.form.nama_pemilik"
+                :required="true"
+              />
+            </div>
+            <ValidationProvider name="status" class="w-full" rules="required">
+              <div
+                class="form-group w-full items-center"
+                slot-scope="{ errors, valid }"
+              >
+                <label for="status" class="w-4/12">
+                  Status <span class="text-danger">*</span>
+                </label>
+                <select
+                  class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
+                  v-model="parameters.form.status_aktif"
+                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+                >
+                  <option value="1">Aktif</option>
+                  <option value="0">Tidak Aktif</option>
+                </select>
+                <div v-if="errors[0]" class="text-danger">
+                  {{ errors[0] }}
+                </div>
+              </div>
+            </ValidationProvider>
+            <div class="form-group">
+              <input-form
+                label="Keterangan"
+                type="text"
+                name="keterangan"
+                v-model="parameters.form.keterangan"
+                :required="false"
+              />
+            </div>
+          </div>
           <modal-footer-section
             class="mt-5"
             :isLoadingForm="isLoadingForm"
@@ -430,6 +534,10 @@ export default {
       isLoadingGetVendor: false,
       vendor_search: "",
 
+      isStopSearchBank: false,
+      isLoadingGetBank: false,
+      bank_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -459,6 +567,12 @@ export default {
           vendor_id_operator: "",
           alamat: "",
           keterangan: "",
+
+          bank_id: "",
+          no_rekening: "",
+          nama_pemilik: "",
+          status_aktif: "",
+          keterangan: "",
         },
       },
     };
@@ -469,6 +583,7 @@ export default {
     await this.onSearchPelanggan();
     await this.onSearchTipeSIM();
     await this.onSearchVendor();
+    await this.onSearchBank();
   },
 
   async created() {
@@ -480,6 +595,7 @@ export default {
         this.parameters.form.pelanggan_id = res.data.pelanggan_id;
         this.parameters.form.tipe_sim_id = res.data.tipe_sim_id;
         this.parameters.form.vendor_id_operator = res.data.vendor_id_operator;
+        this.parameters.form.bank_id = res.data.bank_id;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -496,6 +612,7 @@ export default {
       "lookup_custom2", // pelanggan
       "lookup_custom3", // tipe_sim
       "lookup_custom4", // vendor
+      "lookup_custom5", // bank
     ]),
   },
 
@@ -550,6 +667,12 @@ export default {
           tipe_sim_id: "",
           vendor_id_operator: "",
           alamat: "",
+          keterangan: "",
+
+          bank_id: "",
+          no_rekening: "",
+          nama_pemilik: "",
+          status_aktif: "",
           keterangan: "",
         };
         this.$refs.formValidate.reset();
@@ -715,6 +838,45 @@ export default {
         });
 
         this.isLoadingGetVendor = false;
+      }
+    },
+
+    onGetBank(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchBank);
+
+      this.isStopSearchBank = setTimeout(() => {
+        this.bank_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchBank();
+      }, 600);
+    },
+
+    async onSearchBank() {
+      if (!this.isLoadingGetBank) {
+        this.isLoadingGetBank = true;
+
+        await this.lookUp({
+          url: "master/bank/get-bank",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.bank_search +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetBank = false;
       }
     },
 

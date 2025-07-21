@@ -33,7 +33,11 @@
                   >Kode Gudang External</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kode_gudang_sap }}
+                  {{
+                    this.detail_item.kode_gudang_sap
+                      ? this.detail_item.kode_gudang_sap
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -42,7 +46,11 @@
                   >Kode Gudang</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kode_gudang }}
+                  {{
+                    this.detail_item.kode_gudang
+                      ? this.detail_item.kode_gudang
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -51,7 +59,11 @@
                   >Nama Gudang</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.nama_gudang }}
+                  {{
+                    this.detail_item.nama_gudang
+                      ? this.detail_item.nama_gudang
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -86,7 +98,11 @@
                   >Nomor Rekening</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.nomor_rekening }}
+                  {{
+                    this.detail_item.nomor_rekening
+                      ? this.detail_item.nomor_rekening
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -95,7 +111,11 @@
                   >Atas Nama Rekening</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.atas_nama_rekening }}
+                  {{
+                    this.detail_item.atas_nama_rekening
+                      ? this.detail_item.atas_nama_rekening
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -178,21 +198,27 @@
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="uername">Latitude</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.latitude }}
+                  {{
+                    this.detail_item.latitude ? this.detail_item.latitude : "-"
+                  }}
                 </div>
               </div>
 
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="uername">Longitude</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.longitude }}
+                  {{
+                    this.detail_item.longitude
+                      ? this.detail_item.longitude
+                      : "-"
+                  }}
                 </div>
               </div>
 
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="uername">Alamat</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.alamat }}
+                  {{ this.detail_item.alamat ? this.detail_item.alamat : "-" }}
                 </div>
               </div>
 
@@ -310,7 +336,7 @@
                   >Nomor Handphone</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.no_hp }}
+                  {{ this.detail_item.no_hp ? this.detail_item.no_hp : "-" }}
                 </div>
               </div>
 
@@ -319,14 +345,18 @@
                   >Nomor WhatsApp</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.no_wa }}
+                  {{ this.detail_item.no_wa ? this.detail_item.no_wa : "-" }}
                 </div>
               </div>
 
               <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="uername">Kapasitas</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kapasitas }}
+                  {{
+                    this.detail_item.kapasitas
+                      ? this.detail_item.kapasitas
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -335,7 +365,11 @@
                   >Kapasitas Bongkar</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.kapasitas_bongkar }}
+                  {{
+                    this.detail_item.kapasitas_bongkar
+                      ? this.detail_item.kapasitas_bongkar
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -366,7 +400,11 @@
                   >Luas Gudang</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.luas_gudang }}
+                  {{
+                    this.detail_item.luas_gudang
+                      ? this.detail_item.luas_gudang
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -375,7 +413,11 @@
                   >Satuan Luas</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.satuan_luas.nama_satuan }}
+                  {{
+                    this.detail_item.satuan_luas.nama_satuan
+                      ? this.detail_item.satuan_luas.nama_satuan
+                      : "-"
+                  }}
                 </div>
               </div>
 
@@ -399,21 +441,45 @@
           </div>
         </div>
         <!-- <table-data-loading-section :self="this" /> -->
+        <TabComponent :tabs="tabs">
+          <template #ItemGudang>
+            <ItemGudang :self="{ detail_item }" />
+          </template>
+          <template #StatusTransaksi>
+            <p>statustransaksi</p>
+          </template>
+          <template #KendaraanGudang>
+            <p>kendaraangudang</p>
+          </template>
+        </TabComponent>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import TabComponent from "../tabComponent.vue";
+import ItemGudang from "./itemGudang.vue";
 export default {
   // middleware: ["isNotAccessable"],
 
   props: ["self"],
 
+  components: {
+    TabComponent,
+    ItemGudang,
+  },
+
   data() {
     let id = parseInt(this.$route.params.id);
     return {
       id,
+
+      tabs: [
+        { name: "Item Gudang", slotName: "ItemGudang" },
+        { name: "Status Transaksi", slotName: "StatusTransaksi" },
+        { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
+      ],
 
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingData: false,
@@ -471,6 +537,7 @@ export default {
         ukuran_gudang: {},
         vendor_pemilik: {},
         vendor_operator: {},
+        item_gudang: [],
       },
       form: {
         item_id: "",
@@ -484,7 +551,7 @@ export default {
       Object.keys(this.detail_item).forEach((item) => {
         this.detail_item[item] = response.data[item];
       });
-      console.log(this.detail_item);
+      this.detail_item.item_gudang = response.data.item_gudang;
 
       this.isLoadingPage = false;
     } catch (error) {
