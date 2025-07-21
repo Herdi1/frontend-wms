@@ -1365,9 +1365,9 @@ export default {
 
     return {
       tabs: [
-        { name: "ItemGudang" },
-        { name: "StatusTransaksi" },
-        { name: "KendaraanGudang" },
+        { name: "Item Gudang", slotName: "ItemGudang" },
+        { name: "Status Transaksi", slotName: "StatusTransaksi" },
+        { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
       ],
 
       id,

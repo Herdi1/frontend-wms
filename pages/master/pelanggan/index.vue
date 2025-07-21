@@ -122,13 +122,12 @@
         </div>
       </div>
     </div>
-    <ModalDetail :self="this" ref="modalDetail" />
+    <!-- <ModalDetail :self="this" ref="modalDetail" /> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import ModalDetail from "./detail";
 
 export default {
   middleware: ["checkRoleUser"],
@@ -142,10 +141,6 @@ export default {
   created() {
     this.set_data([]);
     this.onLoad();
-  },
-
-  components: {
-    ModalDetail,
   },
 
   mounted() {
@@ -272,7 +267,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "pelannggan"
+          (item) => item.rute == "pelanggan"
         );
 
         let roles = {};
@@ -309,11 +304,17 @@ export default {
       this.$router.push("/master/pelanggan/" + item.pelanggan_id);
     },
 
+    // onDetail(item) {
+    //   this.$router.push(`/master/pelanggan/detail/${item.pelanggan_id}`);
+
+    // console.log(item);
+    // this.$refs.modalDetail.parameters.form = {
+    //   ...item,
+    // };
+    // this.$refs.modalDetail.show();
+    // },
     onDetail(item) {
-      this.$refs.modalDetail.parameters.form = {
-        ...item,
-      };
-      this.$refs.modalDetail.show();
+      this.$router.push(`/master/pelanggan/details/${item.pelanggan_id}`);
     },
 
     onTrashed(item) {

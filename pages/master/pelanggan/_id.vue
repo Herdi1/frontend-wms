@@ -1011,7 +1011,6 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
-        console.log(res.data);
 
         this.isLoadingPage = false;
       }

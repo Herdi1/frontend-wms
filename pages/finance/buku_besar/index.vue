@@ -134,212 +134,212 @@
                 <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_gudang"
-                  :loading="isLoadingGetGudang"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetGudang"
-                  @input="onSetGudang"
-                  v-model="gudang_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_gudang }}
-                      </div>
-                      <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                        {{ option.kode_gudang }}
-                      </div>
-                    </div>
-                  </template>
-                  <template #search="{ attributes, events }">
-                    <input
-                      class="vs__search"
-                      :required="!gudang_id"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template>
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_custom1.data.length || search"
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    @input="onSetGudang"
+                    v-model="gudang_id"
                   >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_gudang }}
+                        </div>
+                        <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                          {{ option.kode_gudang }}
+                        </div>
+                      </div>
+                    </template>
+                    <template #search="{ attributes, events }">
+                      <input
+                        class="vs__search"
+                        :required="!gudang_id"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
+                    </template>
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
 
-              <div class="flex gap-3 mt-5">
-                <button
-                  @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
-                >
-                  <i class="fa fa-filter text-white font-bold mr-2"></i>
-                  <div>Filter</div>
-                </button>
+                <div class="flex gap-3 mt-5">
+                  <button
+                    @click="onLoad"
+                    class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+                  >
+                    <i class="fa fa-filter text-white font-bold mr-2"></i>
+                    <div>Filter</div>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- start table -->
-          <div class="table-responsive">
-            <table
-              class="table table-striped table-sm vld-parent"
-              ref="formContainer"
-            >
-              <thead>
-                <tr>
-                  <th>Tgl</th>
-                  <th>Gudang</th>
-                  <th>Kode</th>
-                  <th>Nama</th>
-                  <th>Kode Transaksi</th>
-                  <th>Keterangan</th>
-                  <!-- <th class="text-info">Saldo Awal</th> -->
-                  <th class="text-primary">Kredit</th>
-                  <th class="text-danger">Debit</th>
-                  <th class="text-primary">Saldo Akhir</th>
-                  <th>Options</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="data.length" class="hover:bg-red-500">
-                  <td>
-                    {{ data[0] ? data[0].tanggal : "-" }}
-                  </td>
-                  <td></td>
-                  <td>
-                    {{ coa_id ? coa_id.kode_coa : "-" }}
-                  </td>
-                  <td>
-                    {{ coa_id ? coa_id.nama_coa : "-" }}
-                  </td>
-                  <td></td>
-                  <td>
-                    <!-- {{
+            <!-- start table -->
+            <div class="table-responsive">
+              <table
+                class="table table-striped table-sm vld-parent"
+                ref="formContainer"
+              >
+                <thead>
+                  <tr>
+                    <th>Tgl</th>
+                    <th>Gudang</th>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Kode Transaksi</th>
+                    <th>Keterangan</th>
+                    <!-- <th class="text-info">Saldo Awal</th> -->
+                    <th class="text-primary">Kredit</th>
+                    <th class="text-danger">Debit</th>
+                    <th class="text-primary">Saldo Akhir</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="data.length" class="hover:bg-red-500">
+                    <td>
+                      {{ data[0] ? data[0].tanggal : "-" }}
+                    </td>
+                    <td></td>
+                    <td>
+                      {{ coa_id ? coa_id.kode_coa : "-" }}
+                    </td>
+                    <td>
+                      {{ coa_id ? coa_id.nama_coa : "-" }}
+                    </td>
+                    <td></td>
+                    <td>
+                      <!-- {{
                       raw_data.first_balance
                         ? raw_data.first_balance.saldo
                         : "" | formatPrice
                     }} -->
-                  </td>
-                  <td class="text-success"></td>
-                  <td class="text-danger"></td>
-                  <td class="text-primary">
-                    {{
-                      raw_data.first_balance
-                        ? raw_data.first_balance.saldo
-                        : "" | formatPrice
-                    }}
-                  </td>
-                  <td>-</td>
-                </tr>
+                    </td>
+                    <td class="text-success"></td>
+                    <td class="text-danger"></td>
+                    <td class="text-primary">
+                      {{
+                        raw_data.first_balance
+                          ? raw_data.first_balance.saldo
+                          : "" | formatPrice
+                      }}
+                    </td>
+                    <td>-</td>
+                  </tr>
 
-                <tr
-                  :class="{ 'table-active': ActiveRow == i }"
-                  v-for="(item, i) in data"
-                  :key="i"
-                  @click="onRowSelected(i)"
-                >
-                  <td>{{ item.tanggal }}</td>
-                  <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
-                  <td>
-                    {{ item.coa ? item.coa.kode_coa : "-" }}
-                  </td>
-                  <td>
-                    {{ item.coa ? item.coa.nama_coa : "-" }}
-                  </td>
-                  <td>
-                    {{ item.kode_referensi }}
-                  </td>
-                  <td>{{ item.keterangan }}</td>
-                  <!-- <td class="text-info">
+                  <tr
+                    :class="{ 'table-active': ActiveRow == i }"
+                    v-for="(item, i) in data"
+                    :key="i"
+                    @click="onRowSelected(i)"
+                  >
+                    <td>{{ item.tanggal }}</td>
+                    <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
+                    <td>
+                      {{ item.coa ? item.coa.kode_coa : "-" }}
+                    </td>
+                    <td>
+                      {{ item.coa ? item.coa.nama_coa : "-" }}
+                    </td>
+                    <td>
+                      {{ item.kode_referensi }}
+                    </td>
+                    <td>{{ item.keterangan }}</td>
+                    <!-- <td class="text-info">
                     {{ item.saldo > 0 ? item.saldo : "" }}
                   </td> -->
-                  <td class="text-success">
-                    {{ item.credit > 0 ? item.credit : "" | formatPrice }}
-                  </td>
-                  <td class="text-danger">
-                    {{ item.debit > 0 ? item.debit : "" | formatPrice }}
-                  </td>
-                  <td class="text-primary">
-                    {{
-                      item.last_balance ? item.last_balance : "" | formatPrice
-                    }}
-                  </td>
-                  <td>
-                    <button
-                      class="btn btn-sm btn-primary"
-                      @click="onDetail(item)"
-                      v-if="getRoles.show"
-                    >
-                      <i class="fas fa-info-circle"></i>
+                    <td class="text-success">
+                      {{ item.credit > 0 ? item.credit : "" | formatPrice }}
+                    </td>
+                    <td class="text-danger">
+                      {{ item.debit > 0 ? item.debit : "" | formatPrice }}
+                    </td>
+                    <td class="text-primary">
+                      {{
+                        item.last_balance ? item.last_balance : "" | formatPrice
+                      }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="onDetail(item)"
+                        v-if="getRoles.show"
+                      >
+                        <i class="fas fa-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr v-if="data.length">
+                    <td>
+                      {{
+                        data[data.length - 1]
+                          ? data[data.length - 1].tanggal
+                          : "-"
+                      }}
+                    </td>
+                    <td></td>
+                    <td>
+                      {{ coa_id ? coa_id.kode_coa : "-" }}
+                    </td>
+                    <td>
+                      {{ coa_id ? coa_id.nama_coa : "-" }}
+                    </td>
+                    <td></td>
+                    <td class="text-info"></td>
+                    <td class="text-success"></td>
+                    <td class="text-danger"></td>
+                    <td class="text-primary">
+                      {{ last_balance | formatPrice }}
+                    </td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+
+                <table-data-loading-section :self="this" />
+
+                <table-data-not-found-section :self="this" />
+
+                <tr v-if="data && raw_data.current_page != raw_data.last_page">
+                  <td colspan="10" class="text-center">
+                    <button class="btn btn-link" @click="loadMoreStock">
+                      Selanjutnya
                     </button>
                   </td>
                 </tr>
-
-                <tr v-if="data.length">
-                  <td>
-                    {{
-                      data[data.length - 1]
-                        ? data[data.length - 1].tanggal
-                        : "-"
-                    }}
-                  </td>
-                  <td></td>
-                  <td>
-                    {{ coa_id ? coa_id.kode_coa : "-" }}
-                  </td>
-                  <td>
-                    {{ coa_id ? coa_id.nama_coa : "-" }}
-                  </td>
-                  <td></td>
-                  <td class="text-info"></td>
-                  <td class="text-success"></td>
-                  <td class="text-danger"></td>
-                  <td class="text-primary">
-                    {{ last_balance | formatPrice }}
-                  </td>
-                  <td>-</td>
-                </tr>
-              </tbody>
-
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
-
-              <tr v-if="data && raw_data.current_page != raw_data.last_page">
-                <td colspan="10" class="text-center">
-                  <button class="btn btn-link" @click="loadMoreStock">
-                    Selanjutnya
-                  </button>
-                </td>
-              </tr>
-            </table>
+              </table>
+            </div>
+            <!-- end table -->
           </div>
-          <!-- end table -->
         </div>
       </div>
     </div>
-
     <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
@@ -520,19 +520,21 @@ export default {
 
     last_balance() {
       let creditAndDebit = this.data.reduce((itemPrev, itemNext) => {
-        if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-          if (
-            this.passiva_types.includes(this.chart_of_account_id.parent.type)
-          ) {
-            itemPrev +=
-              parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
-          } else {
-            itemPrev +=
-              parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
-          }
-        } else {
-          itemPrev += 0;
-        }
+        // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+        //   if (
+        //     this.passiva_types.includes(this.chart_of_account_id.parent.type)
+        //   ) {
+        //     itemPrev +=
+        //       parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
+        //   } else {
+        //     itemPrev +=
+        //       parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
+        //   }
+        // } else {
+        //   itemPrev += 0;
+        // }
+
+        itemPrev += parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
 
         return itemPrev;
       }, 0.0);
@@ -552,11 +554,11 @@ export default {
         this.chart_of_account_id = "";
       }
     },
-    "parameters.params.gudang_id": function (newValue, oldValue) {
-      if (!newValue) {
-        this.gudang_id = "";
-      }
-    },
+    // "parameters.params.gudang_id": function (newValue, oldValue) {
+    //   if (!newValue) {
+    //     this.gudang_id = "";
+    //   }
+    // },
   },
 
   methods: {
@@ -593,25 +595,30 @@ export default {
           );
 
           let newData = res.data.data.map((item) => {
-            if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-              if (
-                this.passiva_types.includes(
-                  this.chart_of_account_id.parent.type
-                )
-              ) {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.credit) -
-                  parseFloat(item.debit);
-              } else {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.debit) -
-                  parseFloat(item.credit);
-              }
-            } else {
-              newLastBalance = 0;
-            }
+            // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+            //   if (
+            //     this.passiva_types.includes(
+            //       this.chart_of_account_id.parent.type
+            //     )
+            //   ) {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.credit) -
+            //       parseFloat(item.debit);
+            //   } else {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.debit) -
+            //       parseFloat(item.credit);
+            //   }
+            // } else {
+            //   newLastBalance = 0;
+            // }
+
+            newLastBalance =
+              parseFloat(newLastBalance) +
+              parseFloat(item.credit) -
+              parseFloat(item.debit);
 
             return {
               ...item,
