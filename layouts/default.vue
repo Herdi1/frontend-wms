@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import AppSidebar from "@/components/Sidebar.vue";
 import AppNavbar from "@/components/Navbar.vue";
 import AppSection from "@/components/Section.vue";
@@ -62,7 +63,11 @@ export default {
     Profil,
   },
 
-  created() {
+  async created() {
+    await this.$axios.get("/get-setting").then((res) => {
+      this.SET_SETTINGS(res.data);
+    });
+
     let myScript = ["/js/stisla.js", "/js/scripts.js"];
 
     myScript.forEach((item, index) => {
@@ -94,6 +99,20 @@ export default {
     //   });
   },
 
+  head() {
+    return {
+      title: this.settingItem("app_name"),
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href:
+            process.env.PUBLIC_URL + "images/icon/" + this.settingItem("icon"),
+        },
+      ],
+    };
+  },
+
   computed: {
     showSidebar() {
       return this.$store.state.app.sidebar;
@@ -101,6 +120,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations("setting", ["SET_SETTINGS"]),
+
     onScroll() {
       window.onscroll = () => {
         let btn = document.getElementById("topBtn");
@@ -119,6 +140,13 @@ export default {
         top: 0,
         behavior: "smooth",
       });
+    },
+    settingItem(nama, fallback = "-") {
+      let item = this.$store.state.setting.settings.find(
+        (item) => item.nama == nama
+      );
+
+      return item ? item.value : fallback;
     },
   },
 };

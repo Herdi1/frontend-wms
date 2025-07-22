@@ -1977,7 +1977,7 @@ export default {
       if (item) {
         this.form.inbound_details[
           index
-        ].slot_penyimpanan_id_aisle = item;
+        ].slot_penyimpanan_id_bin = item;
       } else {
         this.form.inbound_details[
           index

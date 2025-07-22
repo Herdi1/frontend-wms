@@ -20,7 +20,7 @@
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <div class="grid grid-cols-1 md:grid-cols-2 gap2 w-full">
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Nomor Stok Opname"
                   type="text"
@@ -28,7 +28,7 @@
                   v-model="parameters.form.no_stok_opname"
                   :required="true"
                 />
-              </div>
+              </div> -->
               <div class="form-group">
                 <input-horiontal
                   label="Tanggal Stok Opname"

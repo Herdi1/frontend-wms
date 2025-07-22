@@ -861,10 +861,10 @@ export default {
     },
 
     onSelectItemGudang(item, index) {
-      this.self.parameters.form.konversi_stok_detail_bahan[
+      this.self.parameters.form.konversi_stok_detail_jadi[
         index
       ].item_gudang_id = item ? item : "";
-      this.self.parameters.form.konversi_stok_detail_bahan[index].item_id = item
+      this.self.parameters.form.konversi_stok_detail_jadi[index].item_id = item
         ? item.item_id
         : "";
     },

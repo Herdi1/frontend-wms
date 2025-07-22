@@ -33,7 +33,7 @@
             <thead>
               <tr class="uppercase text-nowrap">
                 <th class="w-[5%] border border-gray-300">Edit</th>
-
+                <th class="w-[5%] border border-gray-300">Detail</th>
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Konversi Stok</th>
                 <th class="border border-gray-300">Gudang</th>
@@ -49,6 +49,9 @@
               <tr v-for="(item, i) in data" :key="i">
                 <td class="border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td class="border border-gray-300">
+                  <small-detail-button @click="onDetail(item)" />
                 </td>
 
                 <td class="border border-gray-300">
@@ -238,7 +241,9 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(`/inventory/konversi-stok/add`);
+      this.$router.push(
+        `/inventory/konversi-stok/permohonan-konversi-stok/add`
+      );
       // this.$refs.formInput.parameters.form = {
       //   nama_jenis_kontrak: "",
       //   kode_jenis_kontrak: "",
@@ -252,7 +257,15 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push(`/inventory/konversi-stok/${item.konversi_stok_id}`);
+      this.$router.push(
+        `/inventory/konversi-stok/permohonan-konversi-stok/${item.konversi_stok_id}`
+      );
+    },
+
+    onDetail(item) {
+      this.$router.push(
+        `/inventory/konversi-stok/permohonan-konversi-stok/detail/${item.konversi_stok_id}`
+      );
     },
 
     async onLoad(page = 1) {

@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-between px-4 py-3">
-    <nuxt-link to="/" class="main-logo flex shrink-0 items-center gap-2">
+    <nuxt-link to="/home" class="main-logo flex shrink-0 items-center gap-2">
       <img
         class="ml-[5px] w-8 flex-none"
         :src="apiUrl + 'images/icon/' + settingItem('icon')"

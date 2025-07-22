@@ -214,7 +214,7 @@ export default {
         website: "",
         tax: "",
         app_name: "",
-        is_min_stock: 0,
+        is_min_stock: "0",
         icon: "",
       },
 
@@ -299,23 +299,25 @@ export default {
 
       let logoData = new FormData();
 
-      logoData.append("_method", "put");
-      if (this.logo instanceof File) {
-        logoData.append("nama", "icon");
-        logoData.append("icon", this.logo);
-      }
+      if (this.logo) {
+        logoData.append("_method", "put");
+        if (this.logo instanceof File) {
+          logoData.append("nama", "icon");
+          logoData.append("icon", this.logo);
+        }
 
-      this.$axios({
-        url: "setting/logo",
-        method: "POST",
-        data: logoData,
-      })
-        .then((res) => {
-          return this.$axios.get("/get-setting");
+        this.$axios({
+          url: "setting/logo",
+          method: "POST",
+          data: logoData,
         })
-        .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
-        });
+          .then((res) => {
+            return this.$axios.get("/get-setting");
+          })
+          .catch((err) => {
+            this.$globalErrorToaster(this.$toaster, err);
+          });
+      }
     },
 
     handleFileChange(e) {
