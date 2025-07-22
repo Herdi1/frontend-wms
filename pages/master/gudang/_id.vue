@@ -1318,8 +1318,9 @@
                   <template #ItemGudang>
                     <ItemGudang :self="{ form, parameters, isEditable }" />
                   </template>
-                  <template #StatusTransaksi>
-                    <StatusTransaksi :self="{ form, isEditable }" />
+                  <template #Shipto>
+                    <p>Shipto</p>
+                    <!-- <StatusTransaksi :self="{ form, isEditable }" /> -->
                   </template>
                   <template #KendaraanGudang>
                     <p>Kendaraan Gudang</p>
@@ -1366,7 +1367,7 @@ export default {
     return {
       tabs: [
         { name: "Item Gudang", slotName: "ItemGudang" },
-        { name: "Status Transaksi", slotName: "StatusTransaksi" },
+        { name: "Shipto", slotName: "Shipto" },
         { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
       ],
 

@@ -330,42 +330,56 @@
                 </li>
               </v-select>
             </div>
-            <div class="form-group w-full items-center">
-              <label for="">Vendor</label>
-              <v-select
-                label="nama_vendor"
-                :loading="isLoadingGetVendor"
-                :options="lookup_custom4.data"
-                :filterable="false"
-                @search="onGetVendor"
-                v-model="parameters.form.vendor_id_operator"
-                :reduce="(item) => item.vendor_id"
-                class="w-full"
+            <ValidationProvider
+              name="vendor_id"
+              class="w-full"
+              rules="required"
+            >
+              <div
+                class="form-group w-full items-center"
+                slot-scope="{ errors, valid }"
               >
-                <!-- :aria-disabled="parameters.form.status_user == 2" -->
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom4.data.length || search"
+                <label for="">Vendor <span class="text-danger">*</span></label>
+                <v-select
+                  label="nama_vendor"
+                  :loading="isLoadingGetVendor"
+                  :options="lookup_custom4.data"
+                  :filterable="false"
+                  @search="onGetVendor"
+                  v-model="parameters.form.vendor_id_operator"
+                  :reduce="(item) => item.vendor_id"
+                  class="w-full"
+                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 >
-                  <span
-                    v-if="lookup_custom4.current_page > 1"
-                    @click="onGetVendor(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
+                  <!-- :aria-disabled="parameters.form.status_user == 2" -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom4.data.length || search"
                   >
-                  <span
-                    v-if="
-                      lookup_custom4.last_page > lookup_custom4.current_page
-                    "
-                    @click="onGetVendor(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
+                    <span
+                      v-if="lookup_custom4.current_page > 1"
+                      @click="onGetVendor(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom4.last_page > lookup_custom4.current_page
+                      "
+                      @click="onGetVendor(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+                <div v-if="errors[0]" class="text-danger">
+                  {{ errors[0] }}
+                </div>
+              </div>
+            </ValidationProvider>
+
             <ValidationProvider name="alamat" class="w-full" rules="required">
               <div class="form-group" slot-scope="{ errors, valid }">
                 <label for="alamat"
@@ -391,108 +405,143 @@
               ></textarea>
             </div>
           </div>
-          <div class="mt-7">
-            <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-              Edit Data Rekening Staff
-            </h1>
-            <h1 v-else class="text-xl font-bold mb-2 uppercase">
-              Tambah Data Rekening Staff
-            </h1>
+          <div class="w-full mt-5 flex justify-between items-center">
+            <h1 class="text-xl font-bold uppercase">Rekening Staff</h1>
+            <div class=" ">
+              <button
+                type="button"
+                @click="addRekening"
+                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+              >
+                <i class="fas fa-plus"></i>
+                <p class="text-xs font-medium">Tambah Rekening</p>
+              </button>
+            </div>
           </div>
           <div
-            class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <ValidationProvider name="bank_id" class="w-full" rules="required">
-              <div
-                class="form-group w-full items-center"
-                slot-scope="{ errors, valid }"
+            <div class="table-responsive overflow-y-hidden mb-7">
+              <table
+                class="border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                :class="
+                  parameters.form.rekening_staffs.length ? 'mb-[300px]' : ''
+                "
               >
-                <label for="">Bank <span class="text-danger">*</span></label>
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_bank"
-                  :loading="isLoadingGetBank"
-                  :options="lookup_custom5.data"
-                  :filterable="false"
-                  @search="onGetBank"
-                  :reduce="(item) => item.bank_id"
-                  v-model="parameters.form.bank_id"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom5.data.length || search"
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <th class="w-60 border border-gray-300">Nama Bank</th>
+                    <th class="w-40 border border-gray-300">No Rekening</th>
+                    <th class="w-40 border border-gray-300">Nama Pemilik</th>
+                    <th class="w-40 border border-gray-300">Status</th>
+                    <th class="w-40 border border-gray-300">Keterangan</th>
+                    <th class="w-20 border border-gray-300">Hapus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, i) in parameters.form.rekening_staffs"
+                    :key="i"
+                    class="border-t"
                   >
-                    <span
-                      v-if="lookup_custom5.current_page > 1"
-                      @click="onGetBank(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom5.last_page > lookup_custom5.current_page
-                      "
-                      @click="onGetBank(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-                <div v-if="errors[0]" class="text-danger">
-                  {{ errors[0] }}
-                </div>
-              </div>
-            </ValidationProvider>
-            <div class="form-group">
-              <input-form
-                label="Nomor Rekening"
-                type="text"
-                name="nomor_rekening"
-                v-model="parameters.form.no_rekening"
-                :required="true"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
-                label="Nama Pemilik Rekening"
-                type="text"
-                name="nama_pemilik_rekening"
-                v-model="parameters.form.nama_pemilik"
-                :required="true"
-              />
-            </div>
-            <ValidationProvider name="status" class="w-full" rules="required">
-              <div
-                class="form-group w-full items-center"
-                slot-scope="{ errors, valid }"
-              >
-                <label for="status" class="w-4/12">
-                  Status <span class="text-danger">*</span>
-                </label>
-                <select
-                  class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
-                  v-model="parameters.form.status_aktif"
-                  :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                >
-                  <option value="1">Aktif</option>
-                  <option value="0">Tidak Aktif</option>
-                </select>
-                <div v-if="errors[0]" class="text-danger">
-                  {{ errors[0] }}
-                </div>
-              </div>
-            </ValidationProvider>
-            <div class="form-group">
-              <input-form
-                label="Keterangan"
-                type="text"
-                name="keterangan"
-                v-model="parameters.form.keterangan"
-                :required="false"
-              />
+                    <td class="border border-gray-300">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_bank"
+                        :loading="isLoadingGetBank"
+                        :options="lookup_custom5.data"
+                        :filterable="false"
+                        @search="onGetBank"
+                        :reduce="(item) => item.bank_id"
+                        v-model="item.bank_id"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom5.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom5.current_page > 1"
+                            @click="onGetBank(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom5.last_page >
+                              lookup_custom5.current_page
+                            "
+                            @click="onGetBank(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300">
+                      <div class="form-group">
+                        <input-form
+                          label=""
+                          type="text"
+                          name="nomor_rekening"
+                          v-model="item.no_rekening"
+                          :required="false"
+                        />
+                      </div>
+                    </td>
+                    <td class="border border-gray-300">
+                      <div class="form-group">
+                        <input-form
+                          label=""
+                          type="text"
+                          name="nama_pemilik_rekening"
+                          v-model="item.nama_pemilik"
+                          :required="false"
+                        />
+                      </div>
+                    </td>
+                    <td class="border border-gray-300">
+                      <select
+                        class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
+                        v-model="item.status_aktif"
+                      >
+                        <option value="1">Aktif</option>
+                        <option value="0">Tidak Aktif</option>
+                      </select>
+                    </td>
+                    <td class="border border-gray-300">
+                      <div class="form-group">
+                        <input-form
+                          label=""
+                          type="text"
+                          name="keterangan"
+                          v-model="item.keterangan"
+                          :required="false"
+                        />
+                      </div>
+                    </td>
+                    <td class="border border-gray-300 text-center">
+                      <i
+                        class="fas fa-trash mx-auto"
+                        style="cursor: pointer"
+                        @click="onDeleteRekening(i)"
+                      ></i>
+                    </td>
+                  </tr>
+                  <tr v-if="!parameters.form.rekening_staffs.length > 0">
+                    <td colspan="100" class="text-center">
+                      <span class="flex justify-center">
+                        <img
+                          src="/img/data-not-found.svg"
+                          style="height: 250px; object-fit: cover"
+                        />
+                      </span>
+                      <div class="mt-3">Data Tidak Ditemukan</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <modal-footer-section
@@ -568,11 +617,7 @@ export default {
           alamat: "",
           keterangan: "",
 
-          bank_id: "",
-          no_rekening: "",
-          nama_pemilik: "",
-          status_aktif: "",
-          keterangan: "",
+          rekening_staffs: [],
         },
       },
     };
@@ -590,17 +635,25 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
-        this.parameters.form = res.data;
-        this.parameters.form.jabatan_id = res.data.jabatan_id;
-        this.parameters.form.pelanggan_id = res.data.pelanggan_id;
-        this.parameters.form.tipe_sim_id = res.data.tipe_sim_id;
-        this.parameters.form.vendor_id_operator = res.data.vendor_id_operator;
-        this.parameters.form.bank_id = res.data.bank_id;
+        // this.parameters.form = res.data;
+        Object.keys(this.parameters.form).forEach((item) => {
+          if (item != "rekening_staffs") {
+            this.parameters.form[item] = res.data[item];
+          }
+        });
+        this.parameters.form.rekening_staffs = res.data.rekening_staff.map(
+          (item) => {
+            return {
+              ...item,
+              rekening_staffs_id: item,
+            };
+          }
+        );
         this.isLoadingPage = false;
       }
     } catch (error) {
       this.$router.back();
-      //console.log("error",error);
+      // console.log("error", error);
     }
   },
 
@@ -623,65 +676,66 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
+      let url = "master/staff";
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.staff_id
-            ? this.parameters.form.staff_id
-            : "",
-        },
+      let formData = {
+        ...this.parameters.form,
+        rekening_staffs: this.parameters.form.rekening_staffs.map(
+          (item) => item.rekening_staffs_id
+        ),
       };
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += `/${this.id}`;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-        this.isEditable = false;
-        this.parameters.form = {
-          nama_lengkap: "",
-          kode_staff: "",
-          no_hp: "",
-          email: "",
-          jenis_kelamin: "",
-          tanggal_lahir: "",
-          nik: "",
-          jenis_user: "",
-          no_sim: "",
-          sim_expired: "",
-          no_bpjs: "",
-          skck: "",
-          no_npwp: "",
-          no_ktp: "",
-          tanggal_gabung: "",
-          status_aktif: "",
-          jabatan_id: "",
-          pelanggan_id: "",
-          tipe_sim_id: "",
-          vendor_id_operator: "",
-          alamat: "",
-          keterangan: "",
+      this.$axios({
+        method: this.isEditable ? "put" : "post",
+        url: url,
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Data berhasil di " +
+              (this.isEditable == true ? "Diedit" : "Tambah")
+          );
+          if (!this.isEditable) {
+            this.parameters.form = {
+              nama_lengkap: "",
+              kode_staff: "",
+              no_hp: "",
+              email: "",
+              jenis_kelamin: "",
+              tanggal_lahir: "",
+              nik: "",
+              jenis_user: "",
+              no_sim: "",
+              sim_expired: "",
+              no_bpjs: "",
+              skck: "",
+              no_npwp: "",
+              no_ktp: "",
+              tanggal_gabung: "",
+              status_aktif: "",
+              jabatan_id: "",
+              pelanggan_id: "",
+              tipe_sim_id: "",
+              vendor_id_operator: "",
+              alamat: "",
+              keterangan: "",
 
-          bank_id: "",
-          no_rekening: "",
-          nama_pemilik: "",
-          status_aktif: "",
-          keterangan: "",
-        };
-        this.$refs.formValidate.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.isLoadingForm = false;
+              rekening_staffs: [],
+            };
+          }
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+          this.$router.back();
+        });
     },
 
     onGetJabatan(search, isNext) {
@@ -880,6 +934,23 @@ export default {
       }
     },
 
+    addRekening() {
+      this.parameters.form.rekening_staffs.push({
+        bank_id: "",
+        no_rekening: "",
+        nama_pemilik: "",
+        status_aktif: "",
+        keterangan: "",
+      });
+    },
+
+    onDeleteRekening() {
+      this.parameters.form.rekening_staffs =
+        this.parameters.form.rekening_staffs.filter(
+          (_, itemIndex) => index !== itemIndex
+        );
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
@@ -905,6 +976,8 @@ export default {
         vendor_id_operator: "",
         alamat: "",
         keterangan: "",
+
+        rekening_staffs: [],
       };
     },
   },

@@ -336,6 +336,7 @@ export default {
   },
 
   async mounted() {
+    await this.onSearchGudang();
     await this.onSearchItemGudang();
   },
 
