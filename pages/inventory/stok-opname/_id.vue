@@ -209,9 +209,7 @@
               >
                 <thead>
                   <tr class="text-sm uppercase">
-                    <th class="w-[200px] border border-gray-300">
-                      Jenis Biaya
-                    </th>
+                    <th class="w-[200px] border border-gray-300">Nama Item</th>
                     <th class="w-[200px] border border-gray-300">Zona</th>
                     <th class="w-[200px] border border-gray-300">
                       Lokasi Aisle

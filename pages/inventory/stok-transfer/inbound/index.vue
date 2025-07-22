@@ -2,7 +2,17 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Master</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Inventory</a
+        >
+      </li>
+      <li>
+        <a
+          href="javascript:;"
+          class="text-primary hover:underline before:content-['/']"
+        >
+          Stok Transfer</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -15,11 +25,11 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex sm:flex-col md:flex-row gap-5">
+    <div>
       <div
-        class="w-full relative bg-white dark:bg-slate-800 rounded-md p-2 px-4"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <div>
+        <div class="card-title">
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div class="overflow-x-auto">
@@ -28,23 +38,22 @@
               <tr class="uppercase">
                 <th class="w-[5%] text-center">Detail</th>
                 <th class="w-[5%]">No</th>
-                <th class="min-w-28">Kode Staff</th>
                 <th
                   @click="
                     onSort(
-                      'nama_lengkap',
+                      'kode_inbound',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer min-w-40"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Lengkap</div>
+                    <div>Kode Inbound</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_lengkap' &&
+                          parameters.params.order == 'kode_inbound' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -53,7 +62,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_lengkap' &&
+                          parameters.params.order == 'kode_inbound' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -62,15 +71,14 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-28">Email</th>
-                <th class="min-w-28">Jabatan</th>
-                <th class="min-w-28">NIK</th>
-                <th class="min-w-28">No KTP</th>
-                <th class="min-w-28">No BPJS</th>
-                <th class="min-w-28">Jenis Kelamin</th>
-                <th class="min-w-28">Status</th>
-                <th class="min-w-28">Jenis Staff</th>
-                <th class="min-w-36">Alamat</th>
+                <th class="min-w-32">Nomor Surat Jalan</th>
+                <th class="min-w-32">Tanggal</th>
+                <th class="min-w-32">No Referensi</th>
+                <th class="min-w-32">No Referensi 2</th>
+                <th class="min-w-32">No Referensi 3</th>
+                <th class="min-w-28">Gudang</th>
+                <th class="min-w-28">Gudang Asal</th>
+                <th class="min-w-28">Keterangan</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Hapus</th>
               </tr>
@@ -87,41 +95,20 @@
                     1
                   }}
                 </td>
-                <td>{{ item.kode_staff }}</td>
-                <td>{{ item.nama_lengkap }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}</td>
-                <td>{{ item.nik }}</td>
-                <td>{{ item.no_ktp }}</td>
-                <td>{{ item.no_bpjs }}</td>
-                <td>
-                  {{
-                    item.jenis_kelamin === "l"
-                      ? "Laki Laki"
-                      : item.jenis_kelamin === "p"
-                      ? "Perempuan"
-                      : "-"
-                  }}
-                </td>
-                <td>
-                  {{
-                    item.status_aktif === "1"
-                      ? "AKtif"
-                      : item.status_aktif === "0"
-                      ? "Tidak Aktif"
-                      : "-"
-                  }}
-                </td>
-                <td>{{ item.jenis_user }}</td>
-                <td>{{ item.alamat }}</td>
-                <td class="text-center">
+                <td>{{ item.kode_inbound }}</td>
+                <td>{{ item.nomor_surat_jalan }}</td>
+                <td>{{ item.tanggal }}</td>
+                <td>{{ item.no_referensi }}</td>
+                <td>{{ item.no_referensi_2 }}</td>
+                <td>{{ item.no_referensi_3 }}</td>
+                <td>{{ item.gudang_id }}</td>
+                <td>{{ item.gudang_id_asal }}</td>
+                <td>{{ item.keterangan }}</td>
+                <td class="text-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td class="text-center">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
+                <td class="text-center border border-gray-300">
+                  <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>
             </tbody>
@@ -146,7 +133,7 @@ export default {
 
   head() {
     return {
-      title: "Staff",
+      title: "Inbound Stok Transfer",
     };
   },
 
@@ -193,7 +180,7 @@ export default {
 
   data() {
     return {
-      title: "Staff",
+      title: "Inbound Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -212,46 +199,33 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/staff",
+        url: "inventory/stok-transfer/inbound",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "staff_id",
+          order: "inbound_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_staff: "",
-            nama_lengkap: "",
-            email: "",
-            tanggal_lahir: "",
-            jabatan_id: "",
-            pelanggan_id: "",
-            tipe_sim_id: "",
-            vendor_id_operator: "",
-            no_hp: "",
-            nik: "",
-            no_ktp: "",
-            no_npwp: "",
-            no_sim: "",
-            sim_expired: "",
-            no_bpjs: "",
-            skck: "",
-            tanggal_gabung: "",
-            jenis_kelamin: "",
-            status_aktif: "",
-            jenis_user: "",
-            alamat: "",
+            kode_inbound: "",
+            nomor_surat_jalan: "",
+            tanggal: "",
+            no_referensi: "",
+            no_referensi_2: "",
+            no_referensi_3: "",
+            gudang_id: "",
+            gudang_id_asal: "",
             keterangan: "",
+            detail_produk: [],
 
-            rekening_staffs: [],
+            user_agent: "",
+            device: "",
+            longitude: "",
+            latitude: "",
           },
-        },
-        loadings: {
-          isDelete: false,
-          isRestore: false,
         },
       },
     };
@@ -265,7 +239,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "staff"
+          (item) => item.rute == "inbound"
         );
 
         let roles = {};
@@ -291,18 +265,56 @@ export default {
       "deleteAllData",
       "restoreAllData",
     ]),
+
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/staff/add");
+      this.$router.push("/inventory/stok-transfer/inbound/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/staff/" + item.staff_id);
+      this.$router.push(`/inventory/stok-transfer/inbound/${item.inbound_id}`);
     },
 
     onDetail(item) {
-      this.$router.push("/master/staff/detail/" + item.staff_id);
+      this.$router.push(
+        `/inventory/stok-transfer/inbound/detail/${item.inbound_id}`
+      );
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.inbound_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
     },
 
     async onLoad(page = 1) {
@@ -310,6 +322,11 @@ export default {
 
       this.isLoadingData = true;
       this.parameters.params.page = page;
+
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -332,62 +349,6 @@ export default {
       }
 
       this.isLoadingData = false;
-    },
-
-    onTrashed(item) {
-      if (this.parameters.loadings.isDelete) return;
-
-      this.$confirm({
-        auth: false,
-        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
-        button: {
-          no: "No",
-          yes: "Yes",
-        },
-        callback: async (confirm) => {
-          if (confirm) {
-            this.parameters.loadings.isDelete = true;
-
-            await this.deleteData({
-              url: this.parameters.url,
-              id: item.staff_id,
-              params: this.parameters.params,
-            });
-
-            if (this.result == true) {
-              this.onLoad(this.parameters.params.page);
-              this.$toaster.success(
-                "Data berhasil di pindahkan ke dalam Trash!"
-              );
-            } else {
-              this.$globalErrorToaster(this.$toaster, this.error);
-            }
-
-            this.parameters.loadings.isDelete = false;
-          }
-        },
-      });
-    },
-
-    async onRestored(item) {
-      if (this.parameters.loadings.isRestore) return;
-
-      this.parameters.loadings.isRestore = true;
-
-      await this.restoreData({
-        url: this.parameters.url,
-        id: item.staff_id,
-        params: this.parameters.params,
-      });
-
-      if (this.result == true) {
-        this.onLoad(this.parameters.params.page);
-        this.$toaster.success("Data berhail di restore");
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.parameters.loadings.isRestore = false;
     },
 
     onSort(column, sort = "asc") {

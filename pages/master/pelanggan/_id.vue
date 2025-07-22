@@ -843,9 +843,9 @@
               <template #ItemPelanggan>
                 <ItemPelanggan :self="{ form, parameters }" />
               </template>
-              <template #Shipto>
+              <!-- <template #Shipto>
                 <Shipto :self="{ form, parameters }" />
-              </template>
+              </template> -->
             </TabComponent>
           </div>
           <div class="w-full flex justify-start">
@@ -888,7 +888,7 @@ export default {
     return {
       tabs: [
         { name: "Item Pelanggan", slotName: "ItemPelanggan" },
-        { name: "Shipto", slotName: "Shipto" },
+        // { name: "Shipto", slotName: "Shipto" },
       ],
 
       id,

@@ -28,23 +28,23 @@
               <tr class="uppercase">
                 <th class="w-[5%] text-center">Detail</th>
                 <th class="w-[5%]">No</th>
-                <th class="min-w-28">Kode Staff</th>
+                <th class="min-w-28">Tanggal</th>
                 <th
                   @click="
                     onSort(
-                      'nama_lengkap',
+                      'kode_shipment',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer min-w-40"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Lengkap</div>
+                    <div>Kode Shipment</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_lengkap' &&
+                          parameters.params.order == 'kode_shipment' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -53,7 +53,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_lengkap' &&
+                          parameters.params.order == 'kode_shipment' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -62,21 +62,18 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-28">Email</th>
-                <th class="min-w-28">Jabatan</th>
-                <th class="min-w-28">NIK</th>
-                <th class="min-w-28">No KTP</th>
-                <th class="min-w-28">No BPJS</th>
-                <th class="min-w-28">Jenis Kelamin</th>
-                <th class="min-w-28">Status</th>
-                <th class="min-w-28">Jenis Staff</th>
-                <th class="min-w-36">Alamat</th>
+                <th class="min-w-32">No Referensi</th>
+                <th class="min-w-32">No Referensi 2</th>
+                <th class="min-w-28">Gudang</th>
+                <th class="min-w-28">Pengemudi</th>
+                <th class="min-w-28">Kendaraan</th>
+                <th class="min-w-28">Keterangan</th>
                 <th class="w-[5%] text-center">Edit</th>
                 <th class="w-[5%] text-center">Hapus</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, i) in data" :key="i">
+              <tr v-for="(item, index) in data" :key="index">
                 <td class="text-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -86,42 +83,6 @@
                     i +
                     1
                   }}
-                </td>
-                <td>{{ item.kode_staff }}</td>
-                <td>{{ item.nama_lengkap }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}</td>
-                <td>{{ item.nik }}</td>
-                <td>{{ item.no_ktp }}</td>
-                <td>{{ item.no_bpjs }}</td>
-                <td>
-                  {{
-                    item.jenis_kelamin === "l"
-                      ? "Laki Laki"
-                      : item.jenis_kelamin === "p"
-                      ? "Perempuan"
-                      : "-"
-                  }}
-                </td>
-                <td>
-                  {{
-                    item.status_aktif === "1"
-                      ? "AKtif"
-                      : item.status_aktif === "0"
-                      ? "Tidak Aktif"
-                      : "-"
-                  }}
-                </td>
-                <td>{{ item.jenis_user }}</td>
-                <td>{{ item.alamat }}</td>
-                <td class="text-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td class="text-center">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
                 </td>
               </tr>
             </tbody>
@@ -146,7 +107,7 @@ export default {
 
   head() {
     return {
-      title: "Staff",
+      title: "Shipment Stok Transfer",
     };
   },
 
@@ -193,7 +154,7 @@ export default {
 
   data() {
     return {
-      title: "Staff",
+      title: "Shipment Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -212,41 +173,32 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/staff",
+        url: "inventory/stok-transfer/shipment",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "staff_id",
+          order: "shipment_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           form: {
-            kode_staff: "",
-            nama_lengkap: "",
-            email: "",
-            tanggal_lahir: "",
-            jabatan_id: "",
-            pelanggan_id: "",
-            tipe_sim_id: "",
-            vendor_id_operator: "",
-            no_hp: "",
-            nik: "",
-            no_ktp: "",
-            no_npwp: "",
-            no_sim: "",
-            sim_expired: "",
-            no_bpjs: "",
-            skck: "",
-            tanggal_gabung: "",
-            jenis_kelamin: "",
-            status_aktif: "",
-            jenis_user: "",
-            alamat: "",
+            kode_shipment: "",
+            tanggal: "",
+            no_referensi: "",
+            no_referensi_2: "",
             keterangan: "",
+            gudang_id: "",
+            kendaraan_id: "",
+            pengemudi_id: "",
+            detail_produk: [],
+            lastMile: [],
 
-            rekening_staffs: [],
+            user_agent: "",
+            device: "",
+            longitude: "",
+            latitude: "",
           },
         },
         loadings: {
@@ -265,7 +217,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "staff"
+          (item) => item.rute == "shipment"
         );
 
         let roles = {};
@@ -294,15 +246,21 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/staff/add");
+      this.$router.push("/inventory/stok-transfer/shipment/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/staff/" + item.staff_id);
+      this.$router.push(
+        "/inventory/stok-transfer/shipment/" + item.shipment_id
+      );
     },
 
     onDetail(item) {
-      this.$router.push("/master/staff/detail/" + item.staff_id);
+      this.$router.push(
+        "/inventory/stok-transfer/shipment/detail/" +
+          item.shipment_id +
+          "/detail"
+      );
     },
 
     async onLoad(page = 1) {
@@ -350,7 +308,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.staff_id,
+              id: item.shipment_id,
               params: this.parameters.params,
             });
 
@@ -376,7 +334,7 @@ export default {
 
       await this.restoreData({
         url: this.parameters.url,
-        id: item.staff_id,
+        id: item.shipment_id,
         params: this.parameters.params,
       });
 
