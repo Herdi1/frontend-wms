@@ -944,7 +944,7 @@ export default {
       });
     },
 
-    onDeleteRekening() {
+    onDeleteRekening(index) {
       this.parameters.form.rekening_staffs =
         this.parameters.form.rekening_staffs.filter(
           (_, itemIndex) => index !== itemIndex

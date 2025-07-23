@@ -31,19 +31,9 @@
                 <tr class="uppercase">
                   <th class="w-[100px] text-center">Detail</th>
                   <th class="w-[100px] text-center">No</th>
-                  <th class="w-[150px]">Nomor Stok Opname</th>
-                  <th class="w-[150px]">Tanggal Stok Opname</th>
-                  <th class="w-[150px]">Status Stok Opname</th>
-                  <th class="w-[150px]">Tanggal Status Stok Opname</th>
-                  <th class="w-[150px]">Status Adjusment</th>
-                  <th class="w-[150px]">Tanggal Status Adjusment</th>
-                  <th class="w-[150px]">User Input</th>
-                  <th class="w-[150px]">Jabatan Input</th>
-                  <th class="w-[150px]">Zona</th>
-                  <th class="w-[150px]">Lokasi Aisle</th>
-                  <th class="w-[150px]">Lokasi Rack</th>
-                  <th class="w-[150px]">Lokasi Level</th>
-                  <th class="w-[150px]">Lokasi Bin</th>
+                  <th class="w-[150px]">Tanggal</th>
+                  <th class="w-[150px]">Gudang</th>
+                  <th class="w-[150px]">Keterangan</th>
                   <th class="w-[100px] text-center">Edit</th>
                   <th class="w-[100px] text-center">Hapus</th>
                 </tr>
@@ -61,18 +51,9 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.no_stok_opname }}</td>
-                  <td>{{ item.tanggal_stok_opname }}</td>
-                  <td>{{ item.status_stok_opname }}</td>
-                  <td>{{ item.tanggal_status_stok_opname }}</td>
-                  <td>{{ item.status_adjusment }}</td>
-                  <td>{{ item.tanggal_status_adjusment }}</td>
-                  <td>{{ item.user_id_input }}</td>
-                  <td>{{ item.jabatan_id_input }}</td>
-                  <td>{{ item.slot_penyimpanan_id_aisle_plan }}</td>
-                  <td>{{ item.slot_penyimpanan_id_rack_plan }}</td>
-                  <td>{{ item.slot_penyimpanan_id_level_plan }}</td>
-                  <td>{{ item.slot_penyimpanan_id_bin_plan }}</td>
+                  <td>{{ item.tanggal }}</td>
+                  <td>{{ item.gudang.nama_gudang }}</td>
+                  <td>{{ item.keterangan }}</td>
                   <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -166,20 +147,10 @@ export default {
           end_date: "",
         },
         form: {
-          no_stok_opname: "",
-          tanggal_stok_opname: "",
-          status_stok_opname: "",
-          tanggal_status_stok_opname: "",
-          status_adjusment: "",
-          tanggal_status_adjusment: "",
-          user_id_input: "",
-          jabatan_id_input: "",
-          zona_gudang_id: "",
-          slot_penyimpanan_id_aisle_plan: "",
-          slot_penyimpanan_id_rack_plan: "",
-          slot_penyimpanan_id_level_plan: "",
-          slot_penyimpanan_id_bin_plan: "",
-          detail_produk_opname: [],
+          tanggal: "",
+          gudang_id: "",
+          keterangan: "",
+          stok_opname_details: [],
 
           //Tracking
           user_agent: "",
