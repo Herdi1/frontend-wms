@@ -19,170 +19,45 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-1 md:grid-cols-2 gap2 w-full">
-              <!-- <div class="form-group">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+              <div class="form-group">
                 <input-horiontal
-                  label="Nomor Stok Opname"
-                  type="text"
-                  name="nomor_stok_opname"
-                  v-model="parameters.form.no_stok_opname"
+                  label="Tanggal"
+                  type="date"
+                  name="tanggal"
+                  v-model="parameters.form.tanggal"
                   :required="true"
                 />
-              </div> -->
-              <div class="form-group">
-                <input-horiontal
-                  label="Tanggal Stok Opname"
-                  type="date"
-                  name="tanggal_stok_opname"
-                  v-model="parameters.form.tanggal_stok_opname"
-                  :required="false"
-                />
               </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Status Stok Opname"
-                  type="text"
-                  name="status_stok_opname"
-                  v-model="parameters.form.status_stok_opname"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label=" Tanggal Status Stok Opname"
-                  type="date"
-                  name="tanggal_status_stok_opname"
-                  v-model="parameters.form.tanggal_status_stok_opname"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Status Adjusment"
-                  type="text"
-                  name="status_adjusment"
-                  v-model="parameters.form.status_adjusment"
-                  :required="false"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Tanggal Status Adjusment"
-                  type="date"
-                  name="tanggal_status_adjusment"
-                  v-model="parameters.form.tanggal_status_adjusment"
-                  :required="false"
-                />
-              </div>
-              <ValidationProvider name="user_id">
+
+              <ValidationProvider name="gudang_id">
                 <select-button
                   :self="{
-                    label: 'User',
-                    optionLabel: 'nama_lengkap',
+                    label: 'Gudang',
+                    optionLabel: 'nama_gudang',
                     lookup: lookup_custom1,
-                    value: parameters.form.user_id_input,
-                    onGet: onGetUser,
-                    isLoadingL: isLoadingGetUser,
-                    input: onSelectUser,
+                    value: parameters.form.gudang_id,
+                    onGet: onGetGudang,
+                    isLoadingL: isLoadingGetGudang,
+                    input: onSelectGudang,
                   }"
                   width="w-[50%]"
+                  :required="true"
                   class="mb-5"
                 />
               </ValidationProvider>
-              <ValidationProvider name="jabatan_id">
-                <select-button
-                  :self="{
-                    label: 'Jabatan',
-                    optionLabel: 'nama_jabatan',
-                    lookup: lookup_custom2,
-                    value: parameters.form.jabatan_id_input,
-                    onGet: onGetJabatan,
-                    isLoadingL: isLoadingGetJabatan,
-                    input: onSelectJabatan,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="zona_gudang_id" class="mt-2">
-                <select-button
-                  :self="{
-                    label: 'Zona Gudang',
-                    optionLabel: 'nama_zona_gudang',
-                    lookup: lookup_custom3,
-                    value: parameters.form.zona_gudang_id,
-                    onGet: onGetZonaGudang,
-                    isLoadingL: isLoadingGetZonaGudang,
-                    input: onSelectZona,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="aisle_id" class="mt-2">
-                <select-button
-                  :self="{
-                    label: 'Lokasi Aisle',
-                    optionLabel: 'nama_slot_penyimpanan',
-                    lookup: lookup_custom4,
-                    value: parameters.form.slot_penyimpanan_id_aisle_plan,
-                    onGet: onGetSlotAisle,
-                    isLoadingL: isLoadingGetSlotAisle,
-                    input: onSelectAisle,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="rack_id" class="mt-2">
-                <select-button
-                  :self="{
-                    label: 'Lokasi Rack',
-                    optionLabel: 'nama_slot_penyimpanan',
-                    lookup: lookup_custom5,
-                    value: parameters.form.slot_penyimpanan_id_rack_plan,
-                    onGet: onGetSlotRack,
-                    isLoadingL: isLoadingGetSlotRack,
-                    input: onSelectRack,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="level_id" class="mt-2">
-                <select-button
-                  :self="{
-                    label: 'Lokasi Level',
-                    optionLabel: 'nama_slot_penyimpanan',
-                    lookup: lookup_custom6,
-                    value: parameters.form.slot_penyimpanan_id_level_plan,
-                    onGet: onGetSlotLevel,
-                    isLoadingL: isLoadingGetSlotLevel,
-                    input: onSelectLevel,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <ValidationProvider name="bin_id" class="mt-2">
-                <select-button
-                  :self="{
-                    label: 'Lokasi Bin',
-                    optionLabel: 'nama_slot_penyimpanan',
-                    lookup: lookup_custom7,
-                    value: parameters.form.slot_penyimpanan_id_bin_plan,
-                    onGet: onGetSlotBin,
-                    isLoadingL: isLoadingGetSlotBin,
-                    input: onSelectBin,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider>
+              <div class="form-group flex items-center">
+                <label for="keterangan" class="w-1/2">Keterangan</label>
+                <textarea
+                  placeholder="Keterangan"
+                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.keterangan"
+                ></textarea>
+              </div>
             </div>
           </div>
           <div class="w-full flex justify-between items-center mt-5">
-            <h1 class="text-xl font-bold uppercase">Detail Produk Opname</h1>
+            <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
 
             <div>
               <button
@@ -191,7 +66,7 @@
                 class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
               >
                 <i class="fas fa-plus"></i>
-                <p class="text-xs font-medium">Tambah Produk Opname</p>
+                <p class="text-xs font-medium">Tambah Stok Opname</p>
               </button>
             </div>
           </div>
@@ -207,8 +82,23 @@
               >
                 <thead>
                   <tr class="text-sm uppercase">
-                    <th class="w-[200px] border border-gray-300">Nama Item</th>
-                    <th class="w-[200px] border border-gray-300">Zona</th>
+                    <!-- <th class="w-[200px] border border-gray-300">
+                      Nama Item <span class="text-danger">*</span>
+                    </th> -->
+                    <!-- <th class="w-[200px] border border-gray-300">
+                      Item Pelanggan
+                    </th> -->
+                    <th class="w-[200px] border border-gray-300">
+                      Item Gudang <span class="text-danger">*</span>
+                    </th>
+                    <!-- <th class="w-[200px] border border-gray-300">Supplier</th> -->
+                    <th class="w-[200px] border border-gray-300">
+                      Valuation <span class="text-danger">*</span>
+                    </th>
+
+                    <th class="w-[200px] border border-gray-300">
+                      Zona <span class="text-danger">*</span>
+                    </th>
                     <th class="w-[200px] border border-gray-300">
                       Lokasi Aisle
                     </th>
@@ -219,12 +109,16 @@
                       Lokasi Level
                     </th>
                     <th class="w-[200px] border border-gray-300">Lokasi Bin</th>
-                    <th class="w-[200px] border border-gray-300">Valuation</th>
                     <th class="w-[200px] border border-gray-300">
-                      Stok Sistem
+                      Stok Real <span class="text-danger">*</span>
                     </th>
-                    <th class="w-[200px] border border-gray-300">Stok Fisik</th>
-                    <th class="w-[200px] border border-gray-300">Selisih</th>
+                    <th class="w-[200px] border border-gray-300">
+                      Stok Sistem <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-[200px] border border-gray-300">
+                      Stok Selisih <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-[200px] border border-gray-300">Keterangan</th>
                     <th class="w-[100px] border border-gray-300 text-center">
                       Hapus
                     </th>
@@ -237,41 +131,74 @@
                     class="align-top border-t"
                   >
                     <td class="border border-gray-300">
-                      <div class="w-full">
-                        <v-select
-                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
-                          label="nama_item"
-                          :loading="isLoadingGetItemGudang"
-                          :options="lookup_custom8.data"
-                          :filterable="false"
-                          @search="onGetItemGudang"
-                          v-model="item.item_gudang_id"
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
+                        label="nama_item"
+                        :loading="isLoadingGetItemGudang"
+                        :options="lookup_custom8.data"
+                        :filterable="false"
+                        @search="onGetItemGudang"
+                        v-model="item.item_gudang_id"
+                      >
+                        <!-- @input="onSelectItem(i)" -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom8.data.length || search"
                         >
-                          <!-- @input="(item) => onSelectItemGudang(item, index)" -->
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom8.data.length || search"
+                          <span
+                            v-if="lookup_custom8.current_page > 1"
+                            @click="onGetItemGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
                           >
-                            <span
-                              v-if="lookup_custom8.current_page > 1"
-                              @click="onGetItemGudang(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom8.last_page >
-                                lookup_custom8.current_page
-                              "
-                              @click="onGetItemGudang(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </div>
+                          <span
+                            v-if="
+                              lookup_custom8.last_page >
+                              lookup_custom8.current_page
+                            "
+                            @click="onGetItemGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
+                        label="nama_valuation"
+                        :loading="isLoadingGetValuation"
+                        :options="lookup_custom9.data"
+                        :filterable="false"
+                        :reduce="(item) => item.valuation_id"
+                        @search="onGetValuation"
+                        v-model="item.valuation_id"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom9.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom9.current_page > 1"
+                            @click="onGetValuation(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom9.last_page >
+                              lookup_custom9.current_page
+                            "
+                            @click="onGetValuation(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -315,9 +242,9 @@
                         :loading="isLoadingGetSlotAisle"
                         :options="lookup_custom4.data"
                         :filterable="false"
+                        :reduce="(item) => item.slot_penyimpanan_id"
                         @search="onGetSlotAisle"
-                        :reduce="(item) => item.slot_penyimpanan_id_aisle_plan"
-                        v-model="item.slot_penyimpanan_id_aisle_plan"
+                        v-model="item.slot_penyimpanan_id_aisle"
                       >
                         <li
                           slot-scope="{ search }"
@@ -350,9 +277,9 @@
                         :loading="isLoadingGetSlotRack"
                         :options="lookup_custom5.data"
                         :filterable="false"
+                        :reduce="(item) => item.slot_penyimpanan_id"
                         @search="onGetSlotRack"
-                        :reduce="(item) => item.slot_penyimpanan_id_rack_plan"
-                        v-model="item.slot_penyimpanan_id_rack_plan"
+                        v-model="item.slot_penyimpanan_id_rack"
                       >
                         <li
                           slot-scope="{ search }"
@@ -386,8 +313,8 @@
                         :options="lookup_custom6.data"
                         :filterable="false"
                         @search="onGetSlotLevel"
-                        :reduce="(item) => item.slot_penyimpanan_id_level_plan"
-                        v-model="item.slot_penyimpanan_id_level_plan"
+                        :reduce="(item) => item.slot_penyimpanan_id"
+                        v-model="item.slot_penyimpanan_id_level"
                       >
                         <li
                           slot-scope="{ search }"
@@ -421,8 +348,8 @@
                         :options="lookup_custom7.data"
                         :filterable="false"
                         @search="onGetSlotBin"
-                        :reduce="(item) => item.slot_penyimpanan_id_bin_plan"
-                        v-model="item.slot_penyimpanan_id_bin_plan"
+                        :reduce="(item) => item.slot_penyimpanan_id"
+                        v-model="item.slot_penyimpanan_id_bin"
                       >
                         <li
                           slot-scope="{ search }"
@@ -448,40 +375,17 @@
                         </li>
                       </v-select>
                     </td>
+
                     <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
-                        label="nama_valuation"
-                        :loading="isLoadingGetValuation"
-                        :options="lookup_custom9.data"
-                        :filterable="false"
-                        @search="onGetValuation"
-                        v-model="item.valuation_id"
-                      >
-                        <!-- @input="(item) => onSelectItemGudang(item, index)" -->
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom9.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom9.current_page > 1"
-                            @click="onGetValuation(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom9.last_page >
-                              lookup_custom9.current_page
-                            "
-                            @click="onGetValuation(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
+                      <money
+                        v-model="item.stok_real"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        @input="updateStokSelisih(item)"
+                      />
+                      <!-- @keyup.native="onChangeStok(i)" -->
                     </td>
                     <td class="border border-gray-300">
                       <money
@@ -490,25 +394,33 @@
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
+                        @input="updateStokSelisih(item)"
                       />
+                      <!-- disabled -->
                     </td>
                     <td class="border border-gray-300">
-                      <money
-                        v-model="item.stok_real"
+                      <input
+                        v-model="item.stok_selisih"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none bg-gray-100"
+                        readonly
+                        type="text"
+                      />
+                      <!-- v-model="item.stok_selisih" -->
+                      <!-- <money
+                        v-model="item.stok_selisih"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
-                      />
+                        disabled
+                      /> -->
                     </td>
                     <td class="border border-gray-300">
-                      <money
-                        :value="stokSelisih(index)"
+                      <textarea
+                        placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                      />
+                        v-model="item.keterangan"
+                      ></textarea>
                     </td>
                     <td
                       class="text-center text-gray-600 border border-gray-300"
@@ -558,13 +470,21 @@ export default {
     return {
       id,
 
-      isStopSearchUser: false,
-      isLoadingGetUser: false,
-      user_search: "",
+      // isStopSearchUser: false,
+      // isLoadingGetUser: false,
+      // user_search: "",
 
-      isStopSearchJabatan: false,
-      isLoadingGetJabatan: false,
-      jabatan_search: "",
+      // isStopSearchJabatan: false,
+      // isLoadingGetJabatan: false,
+      // jabatan_search: "",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      // isStopSearchItem: false,
+      // isLoadingGetItem: false,
+      // item_search: "",
 
       isStopSearchItemZonaGudang: false,
       isLoadingGetItemZonaGudang: false,
@@ -594,6 +514,14 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      // isStopSearchItemPelanggan: false,
+      // isLoadingGetItemPelanggan: false,
+      // itemPelanggan_search: "",
+
+      // isStopSearchSupplier: false,
+      // isLoadingGetSupplier: false,
+      // supplier_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -601,19 +529,9 @@ export default {
       parameters: {
         url: "inventory/stok-opname",
         form: {
-          no_stok_opname: "",
-          tanggal_stok_opname: "",
-          status_stok_opname: "",
-          tanggal_status_stok_opname: "",
-          status_adjusment: "",
-          tanggal_status_adjusment: "",
-          user_id_input: "",
-          jabatan_id_input: "",
-          zona_gudang_id: "",
-          slot_penyimpanan_id_aisle_plan: "",
-          slot_penyimpanan_id_rack_plan: "",
-          slot_penyimpanan_id_level_plan: "",
-          slot_penyimpanan_id_bin_plan: "",
+          tanggal: "",
+          gudang_id: "",
+          keterangan: "",
           stok_opname_details: [],
 
           //Tracking
@@ -630,33 +548,17 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(`inventory/stok-opname/${this.id}`);
-        this.parameters.form = res.data;
-        this.parameters.form.user_id_input = res.data.user_id_input;
-        this.parameters.form.jabatan_id_input = res.data.jabatan_id_input;
-        this.parameters.form.zona_gudang_id = res.data.zona_gudang_id;
-        this.parameters.form.slot_penyimpanan_id_aisle_plan =
-          res.data.slot_penyimpanan_id_aisle_plan;
-        this.parameters.form.slot_penyimpanan_id_rack_plan =
-          res.data.slot_penyimpanan_id_rack_plan;
-        this.parameters.form.slot_penyimpanan_id_level_plan =
-          res.data.slot_penyimpanan_id_level_plan;
-        this.parameters.form.slot_penyimpanan_id_bin_plan =
-          res.data.slot_penyimpanan_id_bin_plan;
+        Object.keys(this.parameters.form).forEach((item) => {
+          if (item != "stok_opname_details") {
+            this.parameters.form[item] = res.data[item];
+          }
+        });
 
         this.parameters.form.stok_opname_details =
           res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              stok_opname_details_id: item,
-              item_gudang_id: item.item_gudang_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
-              valuation_id: item.valuation_id,
+              stok_opname_details_id: item || "",
             };
           });
         this.isLoadingPage = false;
@@ -668,16 +570,20 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchUser();
-    await this.onSearchJabatan();
+    // await this.onSearchUser();
+    // await this.onSearchJabatan();
+    await this.onSearchGudang();
+
+    // await this.onSearchItem();
+    await this.onSearchItemGudang();
+    // await this.onSearchItemPelanggan();
+    // await this.onSearchSupplier();
+    await this.onSearchValuation();
     await this.onSearchZonaGudang();
     await this.onSearchSlotAisle();
     await this.onSearchSlotRack();
     await this.onSearchSlotLevel();
     await this.onSearchSlotBin();
-
-    await this.onSearchItemGudang();
-    await this.onSearchValuation();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -687,8 +593,8 @@ export default {
     ...mapState("moduleApi", [
       "error",
       "result",
-      "lookup_custom1", //user
-      "lookup_custom2", //jabatan
+      "lookup_custom1", //gudang
+      // "lookup_custom2", //item
       "lookup_custom3", //zona gudang
       "lookup_custom4", //slot aisle
       "lookup_custom5", //slot rack
@@ -697,14 +603,6 @@ export default {
       "lookup_custom8", //item gudang
       "lookup_custom9", //valuation
     ]),
-
-    stokSelisih(index) {
-      this.parameters.form.stok_opname_details[index].stok_selisih =
-        this.parameters.form.stok_opname_details[index].stok_sistem -
-        this.parameters.form.stok_opname_details[index].stok_real;
-
-      return this.parameters.form.stok_opname_details[index].stok_selisih;
-    },
   },
 
   methods: {
@@ -742,26 +640,39 @@ export default {
       }
     },
 
+    updateStokSelisih(item) {
+      this.$nextTick(() => {
+        const stokReal = parseFloat(item.stok_real) || 0;
+        const stokSistem = parseFloat(item.stok_sistem) || 0;
+        item.stok_selisih = stokReal - stokSistem;
+      });
+    },
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
       let url = "inventory/stok-opname";
       let formData = {
         ...this.parameters.form,
+        gudang_id:
+          typeof this.parameters.form.gudang_id == "object"
+            ? this.parameters.form.gudang_id.gudang_id
+            : this.parameters.form.gudang_id,
         stok_opname_details: this.parameters.form.stok_opname_details.map(
           (item) => {
             return {
               ...item,
-              stok_opname_details_id: item,
-              item_gudang_id: item.item_gudang_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
-              valuation_id: item.valuation_id,
+              stok_opname_details_id: item.stok_opname_details_id
+                ? item.stok_opname_details_id
+                : "",
+              item_gudang_id:
+                typeof item.item_gudang_id === "object"
+                  ? item.item_gudang_id.item_gudang_id
+                  : item.item_gudang_id,
+              item_id:
+                typeof item.item_gudang_id === "object"
+                  ? item.item_gudang_id.item_id
+                  : item.item_id,
             };
           }
         ),
@@ -782,19 +693,9 @@ export default {
           );
           if (!this.isEditable) {
             this.parameters.form = {
-              no_stok_opname: "",
-              tanggal_stok_opname: "",
-              status_stok_opname: "",
-              tanggal_status_stok_opname: "",
-              status_adjusment: "",
-              tanggal_status_adjusment: "",
-              user_id_input: "",
-              jabatan_id_input: "",
-              zona_gudang_id: "",
-              slot_penyimpanan_id_aisle_plan: "",
-              slot_penyimpanan_id_rack_plan: "",
-              slot_penyimpanan_id_level_plan: "",
-              slot_penyimpanan_id_bin_plan: "",
+              tanggal: "",
+              gudang_id: "",
+              keterangan: "",
               stok_opname_details: [],
 
               //Tracking
@@ -811,23 +712,74 @@ export default {
         })
         .finally(() => {
           this.isLoadingForm = false;
-          this.formValidate.reset();
+          // this.formValidate.reset();
         });
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+        // this.parameters.form.stok_opname_details.forEach((_, index) => {
+        //   this.onGetSystemStok(index);
+        // });
+      } else {
+        this.parameters.form.gudang_id = "";
+      }
     },
 
     AddDetailItem() {
       this.parameters.form.stok_opname_details.push({
-        stok_opname_details_id: "",
+        item_id: "",
+        // item_pelanggan_id: "",
         item_gudang_id: "",
-        zona_gudang_id: "",
-        slot_penyimpanan_id_aisle_plan: "",
-        slot_penyimpanan_id_rack_plan: "",
-        slot_penyimpanan_id_level_plan: "",
-        slot_penyimpanan_id_bin_plan: "",
+        // supplier_id: "",
         valuation_id: "",
-        stok_sistem: 0,
-        stok_real: 0,
-        stok_selisih: 0,
+        zona_gudang_id: "",
+        slot_penyimpanan_id_aisle: "",
+        slot_penyimpanan_id_rack: "",
+        slot_penyimpanan_id_level: "",
+        slot_penyimpanan_id_bin: "",
+        stok_real: "",
+        stok_sistem: "",
+        stok_selisih: "",
+        keterangan: "",
       });
     },
 
@@ -838,79 +790,42 @@ export default {
         );
     },
 
-    onGetUser(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+    // onGetItem(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return;
 
-      clearTimeout(this.isStopSearchUser);
+    //   clearTimeout(this.isStopSearchItem);
 
-      this.isStopSearchUser = setTimeout(() => {
-        this.user_search = search;
+    //   this.isStopSearchItem = setTimeout(() => {
+    //     this.item_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
-        } else {
-          this.lookup_custom1.current_page = 1;
-        }
-        this.onSearchUser();
-      }, 600);
-    },
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom2.current_page = isNext
+    //         ? this.lookup_custom2.current_page + 1
+    //         : this.lookup_custom2.current_page - 1;
+    //     } else {
+    //       this.lookup_custom2.current_page = 1;
+    //     }
+    //     this.onSearchItem();
+    //   }, 600);
+    // },
 
-    async onSearchUser() {
-      if (!this.isLoadingGetUser) {
-        this.isLoadingGetUser = true;
+    // async onSearchItem() {
+    //   if (!this.isLoadingGetItem) {
+    //     this.isLoadingGetItem = true;
 
-        await this.lookUp({
-          url: "setting/user",
-          lookup: "custom1",
-          query:
-            "?search=" +
-            this.user_search +
-            "&page=" +
-            this.lookup_custom1.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetUser = false;
-      }
-    },
-
-    onGetJabatan(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
-
-      clearTimeout(this.isStopSearchJabatan);
-
-      this.isStopSearchJabatan = setTimeout(() => {
-        this.jabatan_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
-        this.onSearchJabatan();
-      }, 600);
-    },
-
-    async onSearchJabatan() {
-      if (!this.isLoadingGetJabatan) {
-        this.isLoadingGetJabatan = true;
-
-        await this.lookUp({
-          url: "setting/jabatan",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.jabatan_search +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetJabatan = false;
-      }
-    },
+    //     await this.lookUp({
+    //       url: "master/item/get-item",
+    //       lookup: "custom2",
+    //       query:
+    //         "?search=" +
+    //         this.item_search +
+    //         "&page=" +
+    //         this.lookup_custom2.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetItem = false;
+    //   }
+    // },
 
     onGetZonaGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return;
@@ -1138,6 +1053,8 @@ export default {
           query:
             "?search=" +
             this.itemGudang_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",
@@ -1183,78 +1100,162 @@ export default {
       }
     },
 
-    onSelectUser(item) {
-      if (item) {
-        this.parameters.form.user_id_input = item;
+    // onGetItemPelanggan(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return;
+
+    //   clearTimeout(this.isStopSearchItemPelanggan);
+
+    //   this.isStopSearchItemPelanggan = setTimeout(() => {
+    //     this.itemPelanggan_search = search;
+
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom10.current_page = isNext
+    //         ? this.lookup_custom10.current_page + 1
+    //         : this.lookup_custom10.current_page - 1;
+    //     } else {
+    //       this.lookup_custom10.current_page = 1;
+    //     }
+    //     this.onSearchItemPelanggan();
+    //   }, 600);
+    // },
+
+    // async onSearchItemPelanggan() {
+    //   if (!this.isLoadingGetItemPelanggan) {
+    //     this.isLoadingGetItemPelanggan = true;
+
+    //     await this.lookUp({
+    //       url: "master/item-pelanggan/get-item-pelanggan",
+    //       lookup: "custom10",
+    //       query:
+    //         "?search=" +
+    //         this.itemPelanggan_search +
+    //         "&page=" +
+    //         this.lookup_custom9.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetItemPelanggan = false;
+    //   }
+    // },
+
+    // onGetSupplier(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return;
+
+    //   clearTimeout(this.isStopSearchSupplier);
+
+    //   this.isStopSearchSupplier = setTimeout(() => {
+    //     this.supplier_search = search;
+
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_suppliers.current_page = isNext
+    //         ? this.lookup_suppliers.current_page + 1
+    //         : this.lookup_suppliers.current_page - 1;
+    //     } else {
+    //       this.lookup_suppliers.current_page = 1;
+    //     }
+    //     this.onSearchSupplier();
+    //   }, 600);
+    // },
+
+    // async onSearchSupplier() {
+    //   if (!this.isLoadingGetSupplier) {
+    //     this.isLoadingGetSupplier = true;
+
+    //     await this.lookUp({
+    //       url: "master/supplier/get-supplier",
+    //       lookup: "suppliers",
+    //       query:
+    //         "?search=" +
+    //         this.supplier_search +
+    //         "&page=" +
+    //         this.lookup_suppliers.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetSupplier = false;
+    //   }
+    // },
+    onSelectItem(index) {
+      let details = [...this.parameters.form.stok_opname_details];
+
+      let itemDetail = {
+        ...this.parameters.form.stok_opname_details[index],
+      };
+
+      if (!itemDetail.item_gudang_id) {
+        this.parameters.form.stok_opname_details[index].item_gudang_id = "";
+        return;
+      }
+
+      let itemGudang = itemDetail.item_gudang_id;
+
+      let itemGudangs = details.filter(
+        (item) =>
+          (item.item_gudang_id ? item.item_gudang_id.item_gudang_id : 0) ===
+          itemGudang.item_gudang_id
+      );
+
+      if (itemGudangs.length > 1) {
+        this.$toaster.error("Item gudang sudah ada");
+        this.parameters.form.stok_opname_details = details.filter(
+          (_, indexItem) => index != indexItem
+        );
       } else {
-        this.parameters.form.user_id_input = "";
+        this.onGetSystemStok(index);
       }
     },
 
-    onSelectJabatan(item) {
-      if (item) {
-        this.parameters.form.jabatan_id_input = item;
-      } else {
-        this.parameters.form.jabatan_id_input = "";
-      }
+    onChangeStok(index) {
+      this.parameters.form.stok_opname_details[index].stok_selisih =
+        this.parameters.form.stok_opname_details[index].stok_real -
+        this.parameters.form.stok_opname_details[index].stok_sistem;
     },
 
-    onSelectZona(item) {
-      if (item) {
-        this.parameters.form.zona_gudang_id = item;
-      } else {
-        this.parameters.form.zona_gudang_id = "";
-      }
-    },
+    onGetSystemStok(index) {
+      // let gudang_id = this.parameters.form.gudang_id;
+      let item_gudang_id =
+        this.parameters.form.stok_opname_details[index].item_gudang_id;
+      let zona_gudang_id =
+        this.parameters.form.stok_opname_details[index].zona_gudang_id;
+      let valuation_id =
+        this.parameters.form.stok_opname_details[index].valuation_id;
+      let aisle =
+        this.parameters.form.stok_opname_details[index]
+          .slot_penyimpanan_id_aisle;
+      let rack =
+        this.parameters.form.stok_opname_details[index]
+          .slot_penyimpanan_id_rack;
+      let level =
+        this.parameters.form.stok_opname_details[index]
+          .slot_penyimpanan_id_level;
+      let bin =
+        this.parameters.form.stok_opname_details[index].slot_penyimpanan_id_bin;
 
-    onSelectAisle(item) {
-      if (item) {
-        this.parameters.form.slot_penyimpanan_id_aisle_plan = item;
-      } else {
-        this.parameters.form.slot_penyimpanan_id_aisle_plan = "";
-      }
-    },
-
-    onSelectRack(item) {
-      if (item) {
-        this.parameters.form.slot_penyimpanan_id_rack_plan = item;
-      } else {
-        this.parameters.form.slot_penyimpanan_id_rack_plan = "";
-      }
-    },
-
-    onSelectLevel(item) {
-      if (item) {
-        this.parameters.form.slot_penyimpanan_id_level_plan = item;
-      } else {
-        this.parameters.form.slot_penyimpanan_id_level_plan = "";
-      }
-    },
-
-    onSelectBin(item) {
-      if (item) {
-        this.parameters.form.slot_penyimpanan_id_bin_plan = item;
-      } else {
-        this.parameters.form.slot_penyimpanan_id_bin_plan = "";
+      if (
+        typeof this.parameters.form.gudang_id == "object" &&
+        typeof item_gudang_id == "object"
+      ) {
+        this.parameters.form.stok_opname_details[index].stok_sistem = 0.0;
+        this.onChangeStok(index);
+        this.$axios
+          .get(
+            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id}/${item_gudang_id.item_gudang_id}/${zona_gudang_id}/${valuation_id}?slot_penyimpanan_id_aisle=${aisle}&slot_penyimpanan_id_bin=${bin}&slot_penyimpanan_id_level=${level}&slot_penyimpanan_id_rack=${rack}`
+          )
+          .then((res) => {
+            if (res.data) {
+              this.parameters.form.stok_opname_details[index].stok_sistem =
+                res.data.quantity || 0.0;
+            }
+            console.log(Zzres.data);
+            this.onChangeStok(index);
+          });
       }
     },
 
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        no_stok_opname: "",
-        tanggal_stok_opname: "",
-        status_stok_opname: "",
-        tanggal_status_stok_opname: "",
-        status_adjusment: "",
-        tanggal_status_adjusment: "",
-        user_id_input: "",
-        jabatan_id_input: "",
-        zona_gudang_id: "",
-        slot_penyimpanan_id_aisle_plan: "",
-        slot_penyimpanan_id_rack_plan: "",
-        slot_penyimpanan_id_level_plan: "",
-        slot_penyimpanan_id_bin_plan: "",
+        tanggal: "",
+        gudang_id: "",
+        keterangan: "",
         stok_opname_details: [],
 
         //Tracking
