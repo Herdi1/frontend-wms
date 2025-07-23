@@ -71,111 +71,13 @@
           </div>
         </div>
         <!-- <table-data-loading-section :self="this" /> -->
-        <tab-component :tabs="tabs">
+        <tab-component :tabs="tabs" class="border border-gray-300">
           <template #DetailProdukBahan>
-            <div class="table-responsive overflow-y-hidden mb-7">
-              <table
-                class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                :class="
-                  this.detail_item.konversi_stok_detail_bahan.length
-                    ? 'mb-[300px]'
-                    : ''
-                "
-              >
-                <thead>
-                  <tr class="text-sm uppercase text-nowrap">
-                    <th class="w-[200px] border border-gray-300">Item</th>
-                    <th class="w-[200px] border border-gray-300">Quantity</th>
-                    <th class="w-[200px] border border-gray-300">Zona</th>
-                    <th class="w-[200px] border border-gray-300">Aisle</th>
-                    <th class="w-[200px] border border-gray-300">Rack</th>
-                    <th class="w-[200px] border border-gray-300">Level</th>
-                    <th class="w-[200px] border border-gray-300">Bin</th>
-                    <th class="w-[300px] border border-gray-300">Keterangan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(item, index) in this.detail_item
-                      .konversi_stok_detail_bahan"
-                    :key="index"
-                    class="align-top"
-                  >
-                    <td class="border border-gray-300 text-center">
-                      <p class="font-bold text-base">
-                        {{ item.item_gudang.nama_item }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300 text-start">
-                      <p class="font-bold text-base">
-                        {{ parseFloat(item.quantity) }} <span></span>
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p class="font-bold text-base">
-                        {{ item.zona_gudang.nama_zona }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p class="font-bold text-base">
-                        {{
-                          item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
-                          " - " +
-                          item.slot_penyimpanan_aisle.kode_slot_penyimpanan
-                        }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p class="font-bold text-base">
-                        {{
-                          item.slot_penyimpanan_rack.nama_slot_penyimpanan +
-                          " - " +
-                          item.slot_penyimpanan_rack.kode_slot_penyimpanan
-                        }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p class="font-bold text-base">
-                        {{
-                          item.slot_penyimpanan_level.nama_slot_penyimpanan +
-                          " - " +
-                          item.slot_penyimpanan_level.kode_slot_penyimpanan
-                        }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p class="font-bold text-base">
-                        {{
-                          item.slot_penyimpanan_bin.nama_slot_penyimpanan +
-                          " - " +
-                          item.slot_penyimpanan_bin.kode_slot_penyimpanan
-                        }}
-                      </p>
-                    </td>
-                    <td class="border border-gray-300">
-                      <p>{{ item.keterangan }}</p>
-                    </td>
-                  </tr>
-                  <tr
-                    v-if="
-                      !this.detail_item.konversi_stok_detail_bahan.length > 0
-                    "
-                  >
-                    <td colspan="100" class="text-center">
-                      <span class="flex justify-center">
-                        <img
-                          src="/img/data-not-found.svg"
-                          style="height: 250px; object-fit: cover"
-                        />
-                      </span>
-                      <div class="mt-3">Data Tidak Ditemukan</div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <DetailItemBahan :self="{ detail_item }" />
           </template>
-          <template #DetailProdukJadi> </template>
+          <template #DetailProdukJadi>
+            <DetailItemJadi :self="{ detail_item }" />
+          </template>
         </tab-component>
       </div>
     </div>
@@ -183,6 +85,9 @@
 </template>
 
 <script>
+import DetailItemBahan from "./DetailItemBahan.vue";
+import DetailItemJadi from "./DetailItemJadi.vue";
+
 export default {
   // middleware: ["isNotAccessable"],
 
@@ -218,11 +123,16 @@ export default {
     };
   },
 
-  async mounted() {},
+  components: {
+    DetailItemBahan,
+    DetailItemJadi,
+  },
 
-  async created() {
+  async mounted() {
     await this.fetchDetail();
   },
+
+  async created() {},
 
   methods: {
     async fetchDetail() {

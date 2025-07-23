@@ -5,7 +5,7 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Konversi Stok
+          Konfirmasi Konversi Stok
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
           Tambah Data Konversi Stok
@@ -20,14 +20,13 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="w-full grid grid-rows-4 grid-flow-col gap-2 mb-5">
+          <div class="w-full grid grid-rows-4 grid-flow-col gap-2 mb-7">
             <div class="form-group" v-if="isEditable">
               <input-horizontal
                 :isHorizontal="true"
                 label="Kode Konversi Stok"
                 type="text"
                 name="kode_konversi_stok"
-                :required="true"
                 v-model="parameters.form.kode_konversi_stok"
                 :disabled="true"
                 inputWidth="w-[60%]"
@@ -40,7 +39,7 @@
                 label="Tanggal"
                 type="date"
                 name="tanggal"
-                :required="true"
+                :disabled="true"
                 v-model="parameters.form.tanggal"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -52,7 +51,7 @@
                 label="Tanggal Mulai"
                 type="date"
                 name="tanggal_mulai"
-                :required="true"
+                :disabled="true"
                 v-model="parameters.form.tanggal_mulai"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -64,7 +63,7 @@
                 label="Tanggal Selesai"
                 type="date"
                 name="tanggal_selesai"
-                :required="true"
+                :disabled="true"
                 v-model="parameters.form.tanggal_selesai"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -76,7 +75,7 @@
                 label="Lama Pengerjaan"
                 type="text"
                 name="lama_pengerjaan"
-                :required="true"
+                :disabled="true"
                 v-model="parameters.form.lama_pengerjaan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -94,14 +93,15 @@
                 input: onSelectGudang,
               }"
               width="w-[60%]"
+              :disabled="true"
             />
             <div class="form-group">
               <input-horizontal
+                :disabled="true"
                 :isHorizontal="true"
                 label="Keterangan"
                 type="text"
                 name="keterangan"
-                :required="true"
                 v-model="parameters.form.keterangan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -109,9 +109,67 @@
             </div>
           </div>
 
+          <div class="w-full grid grid-cols-2 grid-flow-row gap-2 mb-5">
+            <div class="form-group">
+              <div class="form-group flex items-center">
+                <label for="" class="w-[40%]"
+                  >Status Konversi <span class="text-danger">*</span></label
+                >
+                <select
+                  name=""
+                  id=""
+                  v-model="parameters.form.status_konversi"
+                  class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="MENUNGGU">Menunggu</option>
+                  <option value="PROSES">Proses</option>
+                  <option value="SELESAI">Selesai</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <input-horizontal
+                :required="true"
+                :isHorizontal="true"
+                label="Tanggal Konversi"
+                type="date"
+                name="tanggal_konversi"
+                v-model="parameters.form.tanggal_konversi"
+                inputWidth="w-[60%]"
+                labelWidth="w-[40%]"
+              />
+            </div>
+            <div class="form-group col-span-2">
+              <label for="catatan_konversi" class="mb-2"
+                >Catatan Konversi</label
+              >
+              <textarea
+                name="catatan_konversi"
+                v-model="parameters.form.catatan_konversi"
+                class="border border-gray-300 rounded-sm w-full bg-white outline-none p-1 active:outline-none"
+              ></textarea>
+              <!-- <input-horizontal
+                :isHorizontal="true"
+                label="Catatan Konversi"
+                type="text"
+                name="catatan_konversi"
+                v-model="parameters.form.catatan_konversi"
+                inputWidth="w-[60%]"
+                labelWidth="w-[40%]"
+              /> -->
+            </div>
+          </div>
+
           <tab-component :tabs="tabs">
             <template #DetailProdukBahan>
-              <DetailProdukBahan
+              <DetailItemBahan
+                :self="{
+                  parameters,
+                }"
+              />
+            </template>
+            <template #DetailProdukJadi>
+              <DetailProdukJadi
                 :self="{
                   parameters,
                   lookup_custom1,
@@ -138,9 +196,6 @@
                 }"
               />
             </template>
-            <!-- <template #DetailProdukJadi>
-              <DetailProdukJadi :self="{ parameters }" />
-            </template> -->
           </tab-component>
 
           <modal-footer-section
@@ -157,15 +212,15 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
-import DetailProdukBahan from "./DetailProdukBahan.vue";
-// import DetailProdukJadi from "../konfirmasi-konversi-stok/DetailProdukJadi.vue";
+import DetailProdukJadi from "./DetailProdukJadi.vue";
+import DetailItemBahan from "./DetailItemBahan.vue";
 
 export default {
   props: ["self"],
 
   components: {
-    DetailProdukBahan,
-    // DetailProdukJadi,
+    DetailItemBahan,
+    DetailProdukJadi,
   },
 
   data() {
@@ -174,7 +229,7 @@ export default {
     return {
       tabs: [
         { name: "DETAIL PRODUK BAHAN", slotName: "DetailProdukBahan" },
-        // { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
+        { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
         // { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
       ],
       id,
@@ -191,6 +246,10 @@ export default {
       parameters: {
         url: "inventory/konversi-stok",
         form: {
+          status_konversi: "MENUNGGU",
+          tanggal_konversi: "",
+          catatan_konversi: "",
+
           kode_konversi_stok: "",
           tanggal: "",
           tanggal_mulai: "",
@@ -252,7 +311,7 @@ export default {
     // });
     await this.onSearchItemGudang();
     await this.onSearchValuation();
-    // await this.onSearchZonaPlan();
+    await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -270,7 +329,7 @@ export default {
 
     const formattedDate = `${year}-${month}-${day}`;
     try {
-      this.parameters.form.tanggal = formattedDate;
+      this.parameters.form.tanggal_konversi = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
@@ -384,7 +443,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inventory/konversi-stok";
+      let url = "inventory/konfirmasi-konversi-stok";
 
       let formData = {
         ...this.parameters.form,

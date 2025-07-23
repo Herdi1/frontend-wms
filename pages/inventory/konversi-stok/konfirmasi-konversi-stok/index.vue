@@ -2,9 +2,7 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline"
-          >Inventory</a
-        >
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li>
         <a
@@ -47,12 +45,11 @@
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Konversi Stok</th>
                 <th class="border border-gray-300">Gudang</th>
-                <th class="border border-gray-300">Status Konversi</th>
+                <th class="border border-gray-300">Status Transaksi</th>
                 <th class="border border-gray-300">Tanggal</th>
                 <th class="border border-gray-300">Tanggal Mulai</th>
                 <th class="border border-gray-300">Tanggal Selesai</th>
                 <th class="border border-gray-300">Lama Pengerjaan</th>
-                <th class="w-[5%] border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -87,7 +84,7 @@
                   {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.status_approve == 1 ? "Disetujui" : "Menunggu" }}
+                  {{ item.status_konversi ? item.status_konversi : "-" }}
                 </td>
                 <td class="border border-gray-300">{{ item.tanggal }}</td>
                 <td class="border border-gray-300">{{ item.tanggal_mulai }}</td>
@@ -96,13 +93,6 @@
                 </td>
                 <td class="border border-gray-300">
                   {{ item.lama_pengerjaan }}
-                </td>
-                <td class="border border-gray-300">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                    :disabled="item.status_approve == 1"
-                  />
                 </td>
               </tr>
             </tbody>
@@ -126,7 +116,7 @@ export default {
 
   head() {
     return {
-      title: "Konversi Stok",
+      title: "Konfirmasi Konversi Stok",
     };
   },
 
@@ -150,7 +140,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -173,7 +163,7 @@ export default {
 
   data() {
     return {
-      title: "Konversi Stok",
+      title: "Konfirmasi Konversi Stok",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -192,7 +182,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "inventory/konversi-stok",
+        url: "inventory/konfirmasi-konversi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -203,6 +193,10 @@ export default {
           per_page: 10,
           page: 1,
           form: {
+            status_konversi: "",
+            tanggal_konversi: "",
+            catatan_konversi: "",
+
             kode_konversi_stok: "",
             tanggal: "",
             tanggal_mulai: "",
@@ -232,7 +226,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "konversi-stok"
+          (item) => item.rute == "konfirmasi-konversi-stok"
         );
 
         let roles = {};
@@ -262,7 +256,7 @@ export default {
 
     onFormShow() {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/add`
+        `/inventory/konversi-stok/konfirmasi-konversi-stok/add`
       );
       // this.$refs.formInput.parameters.form = {
       //   nama_jenis_kontrak: "",
@@ -278,7 +272,7 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/konfirmasi-konversi-stok/${item.konversi_stok_id}`
       );
     },
 

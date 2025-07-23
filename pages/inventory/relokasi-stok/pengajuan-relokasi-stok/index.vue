@@ -6,6 +6,14 @@
           >Inventory</a
         >
       </li>
+      <li>
+        <a
+          href="javascript:;"
+          class="text-primary hover:underline before:content-['/']"
+        >
+          Relokasi Stok</a
+        >
+      </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
@@ -63,7 +71,16 @@
                   </td>
                 </tr>
               </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
             </table>
+          </div>
+          <div
+            class="card-title border-top"
+            style="padding-bottom: -100px !important"
+          >
+            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -79,7 +96,7 @@ export default {
 
   head() {
     return {
-      title: "Relokasi Stock",
+      title: "Permohonan Relokasi Stock",
     };
   },
 
@@ -127,7 +144,7 @@ export default {
 
   data() {
     return {
-      title: "Relokasi Stock",
+      title: "Permohonan Relokasi Stock",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -217,16 +234,20 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/pengajuan-relokasi-stok/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inventory/relokasi-stok/" + item.relokasi_stock_id);
+      this.$router.push(
+        "/inventory/relokasi-stok/pengajuan-relokasi-stok/" +
+          item.relokasi_stock_id
+      );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/detail" + item.relokasi_stock_id
+        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail" +
+          item.relokasi_stock_id
       );
     },
 

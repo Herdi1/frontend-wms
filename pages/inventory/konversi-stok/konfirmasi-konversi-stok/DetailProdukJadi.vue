@@ -812,7 +812,7 @@ export default {
       if (item) {
         this.self.parameters.form.konversi_stok_detail_jadi[
           index
-        ].slot_penyimpanan_id_aisle = item;
+        ].slot_penyimpanan_id_bin = item;
       } else {
         this.self.parameters.form.konversi_stok_detail_jadi[
           index

@@ -13,6 +13,7 @@
       :class="width"
       @input="self.input"
       :reduce="reduce"
+      :disabled="disabled"
     >
       <!-- <template slot="option" slot-scope="option">
                       {{ option.kode_asn + " - " + option.tanggal }}
@@ -73,6 +74,10 @@ export default {
       // default: 'w-[60%]'
     },
     required: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },

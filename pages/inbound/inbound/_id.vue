@@ -1283,15 +1283,15 @@ export default {
               ...item,
               item_gudang_id: item.item_gudang,
               detail_inbound_id: item,
-              zona_gudang_id_plan: item.asn_detail.zona_gudang_id_plan,
+              zona_gudang_id_plan: item.zona_gudang,
               slot_penyimpanan_id_aisle_plan:
-                item.asn_detail.slot_penyimpanan_id_aisle_plan,
+                item.slot_penyimpanan_aisle,
                 slot_penyimpanan_id_rack_plan:
-                item.asn_detail.slot_penyimpanan_id_rack_plan,
+                item.slot_penyimpanan_rack,
                 slot_penyimpanan_id_level_plan:
-                item.asn_detail.slot_penyimpanan_id_level_plan,
+                item.slot_penyimpanan_level,
                 slot_penyimpanan_id_bin_plan:
-                item.asn_detail.slot_penyimpanan_id_bin_plan,
+                item.slot_penyimpanan_bin,
               };
             });
         }
@@ -1301,7 +1301,37 @@ export default {
           this.form.inbound_details = res.data.inbound_details.map((item) => {
             return {
               ...item,
-              item_gudang_id: item.item_gudang
+              item_gudang_id: item.item_gudang,
+              detail_inbound_id: item,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle:
+                item.slot_penyimpanan_aisle,
+                slot_penyimpanan_id_rack:
+                item.slot_penyimpanan_rack,
+                slot_penyimpanan_id_level:
+                item.slot_penyimpanan_level,
+                slot_penyimpanan_id_bin:
+                item.slot_penyimpanan_bin,
+            };
+          });
+        }
+        if (res.data.sumber_data === "NON") {
+          // this.onSelectPo(res.data.purchase_order)
+          // this.form.purchase_order_id = res.data.purchase_order;
+          this.form.inbound_details = res.data.inbound_details.map((item) => {
+            return {
+              ...item,
+              item_gudang_id: item.item_gudang,
+              detail_inbound_id: item,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle:
+                item.slot_penyimpanan_aisle,
+                slot_penyimpanan_id_rack:
+                item.slot_penyimpanan_rack,
+                slot_penyimpanan_id_level:
+                item.slot_penyimpanan_level,
+                slot_penyimpanan_id_bin:
+                item.slot_penyimpanan_bin,
             };
           });
         }
@@ -1521,11 +1551,11 @@ export default {
                 : "",
             slot_penyimpanan_id_level:
               typeof item.slot_penyimpanan_id_level === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
                 : "",
             slot_penyimpanan_id_bin:
               typeof item.slot_penyimpanan_id_bin === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
         };
       });

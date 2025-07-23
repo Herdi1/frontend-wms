@@ -227,10 +227,10 @@
                 <tr class="uppercase">
                   <th class="min-w-[100px]">Tgl</th>
                   <th class="min-w-[150px]">Lokasi Penyimpanan</th>
-                  <th class="min-w-[200px]">Nama Item</th>
+                  <th class="min-w-[200px]">Item</th>
                   <th class="min-w-[100px]">Valuation</th>
                   <th class="min-w-[120px]">Kode Transaksi</th>
-                  <th class="text-info min-w-[100px]">Saldo Awal</th>
+                  <!-- <th class="text-info min-w-[100px]">Saldo Awal</th> -->
                   <th class="text-primary min-w-[100px]">Masuk</th>
                   <th class="text-danger min-w-[100px]">Keluar</th>
                   <th class="text-primary min-w-[100px]">Saldo Akhir</th>
@@ -250,13 +250,13 @@
                   </td>
                   <td></td>
                   <td></td>
-                  <td class="text-info">
+                  <!-- <td class="text-info">
                     {{
                       raw_data.first_balance
                         ? raw_data.first_balance.saldo
                         : "" | formatPrice
                     }}
-                  </td>
+                  </td> -->
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
                   <td class="text-primary">
@@ -280,6 +280,7 @@
                     {{ item.kode_slot_penyimpanan_terakhir ?? "-" }}
                   </td>
                   <td class="whitespace-nowrap">
+                    {{ item.item_gudang ? item.item_gudang.kode_item : "-" }} -
                     {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                   </td>
                   <td class="whitespace-nowrap">
@@ -288,11 +289,11 @@
                   <td class="whitespace-nowrap">
                     {{ item.kode_referensi ? item.kode_referensi : "-" }}
                   </td>
-                  <td class="text-info whitespace-nowrap">
+                  <!-- <td class="text-info whitespace-nowrap">
                     {{
                       item.saldo_awal > 0 ? item.saldo_awal : "" | formatPrice
                     }}
-                  </td>
+                  </td> -->
                   <td class="text-success whitespace-nowrap">
                     {{ item.masuk > 0 ? item.masuk : "" | formatPrice }}
                   </td>
@@ -300,7 +301,7 @@
                     {{ item.keluar > 0 ? item.keluar : "" | formatPrice }}
                   </td>
                   <td class="text-primary whitespace-nowrap">
-                    {{ item.saldo_akhir ? item.saldo_akhir : "" | formatPrice }}
+                    {{ item.last_balance | formatPrice }}
                   </td>
                   <td class="whitespace-nowrap">
                     <button
@@ -328,7 +329,7 @@
                     <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
                   <td></td>
-                  <td></td>
+                  <!-- <td></td> -->
                   <td class="text-info"></td>
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
@@ -450,9 +451,15 @@ export default {
 
           start_date: "",
           end_date: "",
-          gudang_id: "",
-          item_gudang_id: "",
-          valuation_id: "",
+          gudang_id: {
+            gudang_id: "",
+          },
+          item_gudang_id: {
+            item_gudang_id: "",
+          },
+          valuation_id: {
+            valuation_id: "",
+          },
         },
         default_params: {
           soft_deleted: "",
@@ -599,11 +606,11 @@ export default {
         this.parameters.url +
         "?page=1" +
         "&gudang_id=" +
-        this.parameters.params.gudang_id +
+        this.parameters.params.gudang_id.gudang_id +
         "&item_gudang_id=" +
-        this.parameters.params.item_gudang_id +
+        this.parameters.params.item_gudang_id.item_gudang_id +
         "&valuation_id=" +
-        this.parameters.params.valuation_id +
+        this.parameters.params.valuation_id.valuation_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -851,7 +858,7 @@ export default {
     },
 
     async onSetChartOfAccount(item) {
-      this.parameters.params.gudang_id = item ? item.gudang_id : "";
+      this.parameters.params.gudang_id = item ? item : "";
       await this.onSearchItemGudang();
     },
 

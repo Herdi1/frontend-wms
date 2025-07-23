@@ -164,7 +164,7 @@
                     style="min-width: 100px"
                   >
                     <div class="flex flex-row justify-between items-baseline">
-                      <div>Kode Item</div>
+                      <div>Item</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -190,7 +190,7 @@
                   <th
                     @click="
                       onSort(
-                        'nama_item',
+                        'nama_gudang',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
@@ -198,12 +198,12 @@
                     style="min-width: 100px"
                   >
                     <div class="flex flex-row justify-between items-baseline">
-                      <div>Nama Item</div>
+                      <div>Gudang</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_item' &&
+                            parameters.params.order == 'nama_gudang' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -212,7 +212,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_item' &&
+                            parameters.params.order == 'nama_gudang' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -244,7 +244,7 @@
                       <i class="fas fa-circle-notch fa-spin"></i>
                     </div>
                   </th> -->
-                  <th class="text-center" style="min-width: 100px">
+                  <!-- <th class="text-center" style="min-width: 100px">
                     Total Rusak Membatu
                   </th>
                   <th class="text-center" style="min-width: 100px">
@@ -252,11 +252,11 @@
                   </th>
                   <th class="text-center" style="min-width: 100px">
                     Total Rusak
-                  </th>
-                  <th class="text-center" style="min-width: 100px">
-                    Total Baru
-                  </th>
-                  <th class="text-center" style="min-width: 100px">Options</th>
+                  </th> -->
+                  <th class="text-center">Zona Gudang</th>
+                  <th class="text-center">Kode Valuation</th>
+                  <th class="text-center" style="min-width: 100px">Quantity</th>
+                  <th class="text-center w-[5%]">Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -273,8 +273,22 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_item ? item.kode_item : "-" }}</td>
-                  <td>{{ item.nama_item }}</td>
+                  <td>
+                    {{ item.kode_item ? item.kode_item : "" }} -
+                    {{ item.nama_item }}
+                  </td>
+                  <td>
+                    {{
+                      item.gudang.nama_gudang + " - " + item.gudang.kode_gudang
+                    }}
+                  </td>
+                  <td>
+                    {{
+                      item.zona_gudang.nama_zona_gudang +
+                      " - " +
+                      item.zona_gudang.kode_zona_gudang
+                    }}
+                  </td>
                   <!-- <td
                     v-for="(itemStock, indexStock) in item.stocks"
                     :key="indexStock"
@@ -292,16 +306,7 @@
                       <i class="fas fa-circle-notch fa-spin"></i>
                     </div>
                   </td> -->
-                  <td class="text-danger">
-                    <!-- {{
-                      parseFloat(
-                        item.stocks.reduce(
-                          (itemPrev, itemNext) =>
-                            (itemPrev += parseFloat(itemNext)),
-                          0.0
-                        )
-                      )
-                    }} -->
+                  <!-- <td class="text-danger">
                     {{
                       item.total_rusak_membatu
                         ? item.total_rusak_membatu
@@ -317,9 +322,10 @@
                   </td>
                   <td class="text-danger">
                     {{ item.total_rusak ? item.total_rusak : "" | formatPrice }}
-                  </td>
-                  <td class="text-success">
-                    {{ item.total_baru ? item.total_baru : "" | formatPrice }}
+                  </td> -->
+                  <td class="text-center">{{ item.kode_valuation }}</td>
+                  <td class="text-success text-center">
+                    {{ item.quantity ? item.quantity : "" | formatPrice }}
                   </td>
                   <td class="text-center">
                     <button
@@ -728,7 +734,7 @@ export default {
         this.parameters.url +
         "?page=1" +
         "&gudang_id=" +
-        this.parameters.params.gudang_id;
+        this.parameters.params.gudang_id.gudang_id;
       // "&item_gudang_id=" +
       // this.parameters.params.item_gudang_id +
       // "&start_date=" +
@@ -895,6 +901,10 @@ export default {
 
         this.isLoadingGetGudang = false;
       }
+    },
+
+    onSetGudang(item) {
+      this.parameters.gudang_id = item ? item : "";
     },
   },
 };

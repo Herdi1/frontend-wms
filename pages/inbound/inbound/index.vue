@@ -204,7 +204,7 @@ export default {
 
   head() {
     return {
-      title: "Inbound/Goods Recheive",
+      title: "Inbound/Goods Receive",
     };
   },
 
@@ -252,7 +252,7 @@ export default {
 
   data() {
     return {
-      title: "Inbound/Goods Recheive",
+      title: "Inbound/Goods Receive",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

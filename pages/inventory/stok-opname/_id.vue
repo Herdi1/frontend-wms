@@ -202,9 +202,7 @@
               <table
                 class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
                 :class="
-                  parameters.form.detail_produk_opname.length
-                    ? 'mb-[300px]'
-                    : ''
+                  parameters.form.stok_opname_details.length ? 'mb-[300px]' : ''
                 "
               >
                 <thead>
@@ -234,7 +232,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, i) in parameters.form.detail_produk_opname"
+                    v-for="(item, i) in parameters.form.stok_opname_details"
                     :key="i"
                     class="align-top border-t"
                   >
@@ -496,7 +494,7 @@
                     </td>
                     <td class="border border-gray-300">
                       <money
-                        v-model="item.stok_fisik"
+                        v-model="item.stok_real"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
@@ -505,7 +503,7 @@
                     </td>
                     <td class="border border-gray-300">
                       <money
-                        v-model="item.selisih"
+                        :value="stokSelisih(index)"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
@@ -522,7 +520,7 @@
                       ></i>
                     </td>
                   </tr>
-                  <tr v-if="!parameters.form.detail_produk_opname.length > 0">
+                  <tr v-if="!parameters.form.stok_opname_details.length > 0">
                     <td colspan="100" class="text-center">
                       <span class="flex justify-center">
                         <img
@@ -616,7 +614,7 @@ export default {
           slot_penyimpanan_id_rack_plan: "",
           slot_penyimpanan_id_level_plan: "",
           slot_penyimpanan_id_bin_plan: "",
-          detail_produk_opname: [],
+          stok_opname_details: [],
 
           //Tracking
           user_agent: "",
@@ -645,11 +643,11 @@ export default {
         this.parameters.form.slot_penyimpanan_id_bin_plan =
           res.data.slot_penyimpanan_id_bin_plan;
 
-        this.parameters.form.detail_produk_opname =
-          res.data.detail_produk_opname.map((item) => {
+        this.parameters.form.stok_opname_details =
+          res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              detail_produk_opname_id: item,
+              stok_opname_details_id: item,
               item_gudang_id: item.item_gudang_id,
               zona_gudang_id: item.zona_gudang_id,
               slot_penyimpanan_id_aisle_plan:
@@ -699,6 +697,14 @@ export default {
       "lookup_custom8", //item gudang
       "lookup_custom9", //valuation
     ]),
+
+    stokSelisih(index) {
+      this.parameters.form.stok_opname_details[index].stok_selisih =
+        this.parameters.form.stok_opname_details[index].stok_sistem -
+        this.parameters.form.stok_opname_details[index].stok_real;
+
+      return this.parameters.form.stok_opname_details[index].stok_selisih;
+    },
   },
 
   methods: {
@@ -742,11 +748,11 @@ export default {
       let url = "inventory/stok-opname";
       let formData = {
         ...this.parameters.form,
-        detail_produk_opname: this.parameters.form.detail_produk_opname.map(
+        stok_opname_details: this.parameters.form.stok_opname_details.map(
           (item) => {
             return {
               ...item,
-              detail_produk_opname_id: item,
+              stok_opname_details_id: item,
               item_gudang_id: item.item_gudang_id,
               zona_gudang_id: item.zona_gudang_id,
               slot_penyimpanan_id_aisle_plan:
@@ -789,7 +795,7 @@ export default {
               slot_penyimpanan_id_rack_plan: "",
               slot_penyimpanan_id_level_plan: "",
               slot_penyimpanan_id_bin_plan: "",
-              detail_produk_opname: [],
+              stok_opname_details: [],
 
               //Tracking
               user_agent: "",
@@ -810,8 +816,8 @@ export default {
     },
 
     AddDetailItem() {
-      this.parameters.form.detail_produk_opname.push({
-        detail_produk_opname_id: "",
+      this.parameters.form.stok_opname_details.push({
+        stok_opname_details_id: "",
         item_gudang_id: "",
         zona_gudang_id: "",
         slot_penyimpanan_id_aisle_plan: "",
@@ -819,15 +825,15 @@ export default {
         slot_penyimpanan_id_level_plan: "",
         slot_penyimpanan_id_bin_plan: "",
         valuation_id: "",
-        stok_sistem: "",
-        stok_fisik: "",
-        selisih: "",
+        stok_sistem: 0,
+        stok_real: 0,
+        stok_selisih: 0,
       });
     },
 
     onDeleteItem(index) {
-      this.parameters.form.detail_produk_opname =
-        this.parameters.form.detail_produk_opname.filter(
+      this.parameters.form.stok_opname_details =
+        this.parameters.form.stok_opname_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -1249,7 +1255,7 @@ export default {
         slot_penyimpanan_id_rack_plan: "",
         slot_penyimpanan_id_level_plan: "",
         slot_penyimpanan_id_bin_plan: "",
-        detail_produk_opname: [],
+        stok_opname_details: [],
 
         //Tracking
         user_agent: "",
