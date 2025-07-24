@@ -253,12 +253,9 @@
                     <td>-</td>
                   </tr>
 
-                  <tr
-                    :class="{ 'table-active': ActiveRow == i }"
-                    v-for="(item, i) in data"
-                    :key="i"
-                    @click="onRowSelected(i)"
-                  >
+                  <tr v-for="(item, i) in data" :key="i">
+                    <!-- :class="{ 'table-active': ActiveRow == i }"
+                  @click="onRowSelected(i)" -->
                     <td>{{ item.tanggal }}</td>
                     <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                     <td>

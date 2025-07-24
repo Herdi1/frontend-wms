@@ -26,6 +26,8 @@
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
+            <th class="w-[200px] border border-gray-300">Tgl Expired</th>
+            <th class="w-[200px] border border-gray-300">Serial Number</th>
             <th class="w-[200px] border border-gray-300">Zona</th>
             <th class="w-[200px] border border-gray-300">Aisle</th>
             <th class="w-[200px] border border-gray-300">Rack</th>
@@ -42,7 +44,7 @@
             :key="index"
             class="align-top"
           >
-            <td class="border border-gray-300 text-center">
+            <td class="border border-gray-300">
               <v-select
                 label="nama_item"
                 :loading="isLoadingGetItemGudang"
@@ -50,7 +52,7 @@
                 :filterable="false"
                 v-model="item.item_gudang_id"
                 @input="(item) => onSelectItemGudang(item, index)"
-                class="w-full"
+                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -84,12 +86,18 @@
                   </button>
                 </template>
               </v-select>
+              <p>
+                {{ item.item_gudang_id ? item.item_gudang_id.nama_item : "" }}
+              </p>
+              <p>
+                {{ item.item_gudang_id ? item.item_gudang_id.kode_item : "" }}
+              </p>
             </td>
             <td class="border border-gray-300 text-start">
               <p class="mb-2">Quantity</p>
               <money
                 v-model="item.quantity"
-                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
@@ -127,6 +135,20 @@
                   >
                 </li>
               </v-select>
+            </td>
+            <td class="border border-gray-300 text-start">
+              <input
+                type="date"
+                v-model="item.tanggal_expired"
+                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </td>
+            <td class="border border-gray-300 text-start">
+              <input
+                type="text"
+                v-model="item.serial_number"
+                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
             </td>
             <td class="border border-gray-300">
               <v-select

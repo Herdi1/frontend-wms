@@ -269,11 +269,8 @@
                   <td>-</td>
                 </tr>
 
-                <tr
-                  :class="{ 'table-active': ActiveRow == i }"
-                  v-for="(item, i) in data"
-                  :key="i"
-                >
+                <!-- :class="{ 'table-active': ActiveRow == i }" -->
+                <tr v-for="(item, i) in data" :key="i">
                   <!-- @click="onRowSelected(i)" -->
                   <td class="whitespace-nowrap">{{ item.tanggal }}</td>
                   <td class="whitespace-nowrap">

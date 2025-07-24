@@ -135,6 +135,8 @@
                   onGetSlotRack,
                   onGetSlotLevel,
                   onGetSlotBin,
+                  onOpenModal,
+                  onOpenModalStokGudang,
                 }"
               />
             </template>
@@ -151,6 +153,8 @@
         </form>
       </ValidationObserver>
     </div>
+    <ModalKartuStok :self="this" ref="modalKartuStok" />
+    <ModalStokGudang :self="this" ref="modalStokGudang" />
   </section>
 </template>
 
@@ -158,6 +162,8 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 import DetailProdukBahan from "./DetailProdukBahan.vue";
+import ModalKartuStok from "../../../../components/transaksional/ModalKartuStok.vue";
+import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
 // import DetailProdukJadi from "../konfirmasi-konversi-stok/DetailProdukJadi.vue";
 
 export default {
@@ -165,6 +171,8 @@ export default {
 
   components: {
     DetailProdukBahan,
+    ModalKartuStok,
+    ModalStokGudang,
     // DetailProdukJadi,
   },
 
@@ -870,6 +878,36 @@ export default {
       // await this.onSearchSlotRack();
       // await this.onSearchSlotLevel();
       // await this.onSearchSlotBin();
+    },
+
+    async onOpenModal() {
+      if (this.parameters.form.gudang_id) {
+        this.$refs.modalKartuStok.show();
+        await this.$refs.modalKartuStok.onLoad();
+      } else {
+        this.$toaster.error("Gudang Belum Dipilih");
+      }
+    },
+
+    async onOpenModalStokGudang() {
+      if (this.parameters.form.gudang_id) {
+        this.$refs.modalStokGudang.show();
+        await this.$refs.modalStokGudang.onLoad();
+      } else {
+        this.$toaster.error("Gudang Belum Dipilih");
+      }
+    },
+
+    addItem(item) {
+      if (
+        !this.parameters.form.konversi_stok_detail_bahan.find(
+          (data) => data.item_gudang_id === item.item_gudang_id
+        )
+      ) {
+        this.parameters.form.konversi_stok_detail_bahan.push(item);
+      } else {
+        this.$toaster.error("Item Sudah Ditambahkan");
+      }
     },
   },
 };

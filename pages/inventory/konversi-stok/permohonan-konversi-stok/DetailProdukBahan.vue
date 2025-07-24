@@ -2,7 +2,7 @@
   <div>
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Detail Produk Bahan</h1>
-      <div class=" ">
+      <div class="flex gap-2">
         <button
           type="button"
           @click="addDetailProdukBahan"
@@ -10,6 +10,22 @@
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail</p>
+        </button>
+        <button
+          type="button"
+          @click="self.onOpenModal"
+          class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+        >
+          <i class="fas fa-plus"></i>
+          <p class="text-xs font-medium">Tambah Kartu Stok</p>
+        </button>
+        <button
+          type="button"
+          @click="self.onOpenModalStokGudang"
+          class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+        >
+          <i class="fas fa-plus"></i>
+          <p class="text-xs font-medium">Tambah Stok Gudang</p>
         </button>
       </div>
     </div>
@@ -42,7 +58,7 @@
             :key="index"
             class="align-top"
           >
-            <td class="border border-gray-300 text-center">
+            <td class="border border-gray-300">
               <v-select
                 label="nama_item"
                 :loading="isLoadingGetItemGudang"
@@ -50,7 +66,7 @@
                 :filterable="false"
                 v-model="item.item_gudang_id"
                 @input="(item) => onSelectItemGudang(item, index)"
-                class="w-full"
+                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -84,6 +100,12 @@
                   </button>
                 </template>
               </v-select>
+              <p>
+                {{ item.item_gudang_id ? item.item_gudang_id.nama_item : "" }}
+              </p>
+              <p>
+                {{ item.item_gudang_id ? item.item_gudang_id.kode_item : "" }}
+              </p>
             </td>
             <td class="border border-gray-300 text-start">
               <p class="mb-2">Quantity</p>
