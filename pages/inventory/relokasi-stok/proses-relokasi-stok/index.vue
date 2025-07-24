@@ -40,8 +40,9 @@
                   <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Detail</th>
                   <th class="w-[5%] text-center">No</th>
-                  <th>Nomor Transaksi</th>
+                  <th>Kode Mutasi Stok</th>
                   <th>Tanggal</th>
+                  <th>Status Relokasi</th>
                   <!-- <th class="w-[5%] text-center">Delete</th> -->
                 </tr>
               </thead>
@@ -57,12 +58,13 @@
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
-                      i +
+                      index +
                       1
                     }}
                   </td>
-                  <td>{{ item.no_transaksi }}</td>
+                  <td>{{ item.kode_mutasi_stok }}</td>
                   <td>{{ item.tanggal }}</td>
+                  <td>{{ item.status_relokasi }}</td>
                   <!-- <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
@@ -85,18 +87,24 @@
         </div>
       </div>
     </div>
+    <!-- <ModalStokGudang :self="this" ref="modalStokGudang"/> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+// import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
+  components: {
+    // ModalStokGudang
+  },
+
   head() {
     return {
-      title: "Konfirmasi Relokasi Stock",
+      title: "Proses Relokasi Stock",
     };
   },
 
@@ -144,16 +152,16 @@ export default {
 
   data() {
     return {
-      title: "Konfirmassi Relokasi Stock",
+      title: "Proses Relokasi Stock",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/konfirmasi-relokasi-stok",
+        url: "inventory/proses-mutasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "relokasi_stok_id",
+          order: "mutasi_stok_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -164,7 +172,8 @@ export default {
         form: {
           no_transaksi: "",
           tanggal: "",
-          detail_item: [],
+          gudang_id: "",
+          mutasi_stok_details: [],
           biaya: [],
 
           //Tracking
@@ -204,7 +213,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "konfirmasi-relokasi-stok"
+          (item) => item.rute == "proses-mutasi-stok"
         );
 
         let roles = {};
@@ -234,22 +243,19 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(
-        "/inventory/relokasi-stok/konfirmasi-relokasi-stok/add"
-      );
+      this.$router.push("/inventory/relokasi-stok/proses-relokasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/konfirmasi-relokasi-stok/" +
-          item.relokasi_stock_id
+        "/inventory/relokasi-stok/proses-relokasi-stok/" + item.mutasi_stok_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
         "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail" +
-          item.relokasi_stock_id
+          item.mutasi_stock_id
       );
     },
 
@@ -269,7 +275,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.relokasi_stok_id,
+              id: item.mutasi_stok_id,
               params: this.parameters.params,
             });
 

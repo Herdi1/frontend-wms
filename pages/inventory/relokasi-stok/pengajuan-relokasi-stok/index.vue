@@ -37,16 +37,19 @@
             <table class="mb-5 overflow-auto" ref="formContainer">
               <thead>
                 <tr class="uppercase">
+                  <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Detail</th>
                   <th class="w-[5%] text-center">No</th>
-                  <th>Nomor Transaksi</th>
+                  <th>Kode Mutasi Stok</th>
                   <th>Tanggal</th>
-                  <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
+                  <td class="place-content-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="text-center place-content-center">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -54,15 +57,12 @@
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
-                      i +
+                      index +
                       1
                     }}
                   </td>
-                  <td>{{ item.no_transaksi }}</td>
+                  <td>{{ item.kode_mutasi_stok }}</td>
                   <td>{{ item.tanggal }}</td>
-                  <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
@@ -247,7 +247,7 @@ export default {
     onEdit(item) {
       this.$router.push(
         "/inventory/relokasi-stok/pengajuan-relokasi-stok/" +
-          item.mutasi_stock_id
+          item.mutasi_stok_id
       );
     },
 

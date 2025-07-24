@@ -89,7 +89,7 @@
                 name="keterangan"
                 id="keterangan"
                 v-model="parameters.form.keterangan"
-                class="w-[50%] outline-none border border-gray-300 rounded-md"
+                class="w-[50%] outline-none border border-gray-300 rounded-md px-1"
               ></textarea>
             </div>
           </div>
@@ -138,11 +138,14 @@
                         <th class="w-[200px] border border-gray-300">Rack</th>
                         <th class="w-[200px] border border-gray-300">Level</th>
                         <th class="w-[200px] border border-gray-300">Bin</th> -->
-                        <th class="w-[200px] border border-gray-300">
+                        <!-- <th class="w-[200px] border border-gray-300">
                           Valuation
-                        </th>
+                        </th> -->
                         <th class="w-[200px] border border-gray-300">
                           Quantity
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Keterangan
                         </th>
                         <th
                           class="w-[100px] border border-gray-300 text-center"
@@ -260,6 +263,7 @@
                               v-model="item.slot_penyimpanan_id_aisle"
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
+                              @input="onGetSystemStok(i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -313,6 +317,7 @@
                               v-model="item.slot_penyimpanan_id_rack"
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
+                              @input="onGetSystemStok(i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -366,6 +371,7 @@
                               v-model="item.slot_penyimpanan_id_level"
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
+                              @input="onGetSystemStok(i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -419,6 +425,7 @@
                               v-model="item.slot_penyimpanan_id_bin"
                               :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
+                              @input="onGetSystemStok(i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -462,9 +469,11 @@
                             </v-select>
                           </div>
                         </td>
+                        <!-- <td class="border border-gray-300">
+                        </td> -->
                         <td class="border border-gray-300">
                           <div class="w-full">
-                            <!-- <label for="">Valuation</label> -->
+                            <label for="">Valuation</label>
                             <input
                               type="text"
                               disabled
@@ -472,8 +481,6 @@
                               class="pl-2 w-full py-1 border border-gray-300 rounded focus:outline-none"
                             />
                           </div>
-                        </td>
-                        <td class="border border-gray-300">
                           <div class="w-full">
                             <!-- <v-select
                               class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
@@ -544,6 +551,14 @@
                               />
                             </div>
                           </div>
+                        </td>
+                        <td class="border border-gray-300">
+                          <textarea
+                            name="keterangan"
+                            id="keterangan"
+                            v-model="item.keterangan"
+                            class="p-1 w-full border border-gray-300 rounded-md"
+                          ></textarea>
                         </td>
                         <td class="border border-gray-300">
                           <span class="flex justify-center">
@@ -907,12 +922,15 @@ export default {
   async created() {
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/relokasi-stok/${this.id}`);
+        let res = await this.$axios.get(`inventory/mutasi-stok/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.mutasi_stok_details =
           res.data.mutasi_stok_details.map((item) => {
             return {
               ...item,
+              nama_item: item.item_gudang.nama_item,
+              kode_item: item.item_gudang.kode_item,
               mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id,
               valuation_id: item.valuation_id,
@@ -923,6 +941,7 @@ export default {
               slot_penyimpanan_id_level_plan:
                 item.slot_penyimpanan_id_level_plan,
               slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
+              kode_valuation: item.valuation.kode_valuation,
             };
           });
 
@@ -934,11 +953,12 @@ export default {
             };
           });
         }
-        this.isLoadingPage = false;
       }
     } catch (error) {
       console.log("error", error);
       //this.$router.back()
+    } finally {
+      this.isLoadingPage = false;
     }
   },
 
@@ -1016,9 +1036,10 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
-      let url = "inventory/relokasi-stok";
+      let url = "inventory/mutasi-stok";
       let formData = {
         ...this.parameters.form,
+        gudang_id: this.parameters.form.gudang_id.gudang_id,
         mutasi_stok_details: this.parameters.form.mutasi_stok_details.map(
           (item) => {
             return {
@@ -1598,6 +1619,46 @@ export default {
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
+    },
+
+    onGetSystemStok(index) {
+      // let gudang_id = this.parameters.form.gudang_id;
+      console.log(this.parameters.form.mutasi_stok_details);
+      let item_gudang_id =
+        this.parameters.form.mutasi_stok_details[index].item_gudang_id;
+      let zona_gudang_id =
+        this.parameters.form.mutasi_stok_details[index].zona_gudang_id;
+      let valuation_id =
+        this.parameters.form.mutasi_stok_details[index].valuation_id;
+      let aisle =
+        this.parameters.form.mutasi_stok_details[index]
+          .slot_penyimpanan_id_aisle;
+      let rack =
+        this.parameters.form.mutasi_stok_details[index]
+          .slot_penyimpanan_id_rack;
+      let level =
+        this.parameters.form.mutasi_stok_details[index]
+          .slot_penyimpanan_id_level;
+      let bin =
+        this.parameters.form.mutasi_stok_details[index].slot_penyimpanan_id_bin;
+
+      if (
+        typeof this.parameters.form.gudang_id == "object" &&
+        typeof item_gudang_id == "object"
+      ) {
+      }
+      this.parameters.form.mutasi_stok_details[index].quantity_tujuan = 0.0;
+      this.$axios
+        .get(
+          `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id}/${zona_gudang_id}/${valuation_id}?slot_penyimpanan_id_aisle=${aisle}&slot_penyimpanan_id_bin=${bin}&slot_penyimpanan_id_level=${level}&slot_penyimpanan_id_rack=${rack}`
+        )
+        .then((res) => {
+          if (res.data) {
+            this.parameters.form.mutasi_stok_details[index].quantity_tujuan =
+              res.data.quantity || 0.0;
+          }
+          this.onChangeStok(index);
+        });
     },
   },
 };
