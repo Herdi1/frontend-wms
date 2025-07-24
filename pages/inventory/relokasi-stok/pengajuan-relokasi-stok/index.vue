@@ -85,14 +85,20 @@
         </div>
       </div>
     </div>
+    <!-- <ModalStokGudang :self="this" ref="modalStokGudang"/> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+// import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+
+  components: {
+    // ModalStokGudang
+  },
 
   head() {
     return {
@@ -148,12 +154,12 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/relokasi-stok",
+        url: "inventory/mutasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "relokasi_stok_id",
+          order: "mutasi_stok_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -164,7 +170,8 @@ export default {
         form: {
           no_transaksi: "",
           tanggal: "",
-          detail_item: [],
+          gudang_id: "",
+          mutasi_stok_details: [],
           biaya: [],
 
           //Tracking
@@ -204,7 +211,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "relokasi-stok"
+          (item) => item.rute == "mutasi-stok"
         );
 
         let roles = {};
@@ -240,14 +247,14 @@ export default {
     onEdit(item) {
       this.$router.push(
         "/inventory/relokasi-stok/pengajuan-relokasi-stok/" +
-          item.relokasi_stock_id
+          item.mutasi_stock_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
         "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail" +
-          item.relokasi_stock_id
+          item.mutasi_stock_id
       );
     },
 
@@ -267,7 +274,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.relokasi_stok_id,
+              id: item.mutasi_stok_id,
               params: this.parameters.params,
             });
 

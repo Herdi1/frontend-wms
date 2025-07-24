@@ -36,18 +36,18 @@
                       class="min-w-[100px] cursor-pointer"
                       @click="
                         onSort(
-                          'tanggal',
+                          'kode_item',
                           parameters.params.sort == 'asc' ? 'desc' : 'asc'
                         )
                       "
                     >
                       <div class="flex justify-between align-baseline">
-                        <div>Tgl</div>
+                        <div>Kode Item</div>
                         <div>
                           <i
                             class="fas fa-caret-up"
                             :class="
-                              parameters.params.order == 'tanggal' &&
+                              parameters.params.order == 'kode_item' &&
                               parameters.params.sort == 'asc'
                                 ? ''
                                 : 'light-gray'
@@ -56,7 +56,7 @@
                           <i
                             class="fas fa-caret-down"
                             :class="
-                              parameters.params.order == 'tanggal' &&
+                              parameters.params.order == 'kode_item' &&
                               parameters.params.sort == 'desc'
                                 ? ''
                                 : 'light-gray'
@@ -69,18 +69,18 @@
                       class="min-w-[100px] cursor-pointer"
                       @click="
                         onSort(
-                          'tanggal_expired',
+                          'nama_item',
                           parameters.params.sort == 'asc' ? 'desc' : 'asc'
                         )
                       "
                     >
                       <div class="flex justify-between align-baseline">
-                        <div>Tgl Expired</div>
+                        <div>Nama Item</div>
                         <div>
                           <i
                             class="fas fa-caret-up"
                             :class="
-                              parameters.params.order == 'tanggal_expired' &&
+                              parameters.params.order == 'nama_item' &&
                               parameters.params.sort == 'asc'
                                 ? ''
                                 : 'light-gray'
@@ -89,7 +89,7 @@
                           <i
                             class="fas fa-caret-down"
                             :class="
-                              parameters.params.order == 'tanggal_expired' &&
+                              parameters.params.order == 'nama_item' &&
                               parameters.params.sort == 'desc'
                                 ? ''
                                 : 'light-gray'
@@ -98,9 +98,9 @@
                         </div>
                       </div>
                     </th>
-                    <th class="min-w-[120px]">Kode Referensi</th>
-                    <th class="min-w-[150px]">Lokasi Penyimpanan</th>
-                    <th class="min-w-[200px]">Item</th>
+                    <th class="min-w-[120px]">Lokasi Penyimpanan</th>
+                    <!-- <th class="min-w-[150px]">Lokasi Penyimpanan</th>
+                    <th class="min-w-[200px]">Item</th> -->
                     <th class="min-w-[100px]">Valuation</th>
                     <!-- <th class="text-info min-w-[100px]">Saldo Awal</th> -->
                     <th class="text-primary min-w-[100px]">Saldo Sisa</th>
@@ -113,12 +113,21 @@
                     :key="index"
                     class="items-start"
                   >
-                    <td class="whitespace-nowrap">{{ item.tanggal }}</td>
+                    <td class="whitespace-nowrap">{{ item.kode_item }}</td>
                     <td class="whitespace-nowrap">
-                      {{ item.tanggal_expired || "-" }}
+                      {{ item.nama_item || "-" }}
                     </td>
-                    <td class="whitespace-nowrap">{{ item.kode_referensi }}</td>
                     <td class="whitespace-nowrap">
+                      <!-- {{
+                        item.zona_gudang
+                          ? item.zona_gudang.nama_zona_gudang +
+                            " - " +
+                            item.zona_gudang.kode_zona_gudang
+                          : "-"
+                      }} -->
+                      {{ item.kode_slot_penyimpanan_terakhir }}
+                    </td>
+                    <!-- <td class="whitespace-nowrap">
                       {{ item.kode_slot_penyimpanan_terakhir }}
                     </td>
                     <td class="whitespace-nowrap">
@@ -129,10 +138,10 @@
                             item.item_gudang.kode_item
                           : "-"
                       }}
-                    </td>
+                    </td> -->
                     <td class="whitespace-nowrap">{{ item.kode_valuation }}</td>
                     <td class="text-primary whitespace-nowrap">
-                      {{ item.quantity_sisa | formatPrice }}
+                      {{ item.quantity | formatPrice }}
                     </td>
                     <td class="whitespace-nowrap">
                       <button
@@ -248,7 +257,7 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.url = `inventory/stock/get-kartu-stok-item/${this.self.parameters.form.gudang_id.gudang_id}`;
+      this.parameters.url = `inventory/stock/get-stok-item/${this.self.parameters.form.gudang_id.gudang_id}`;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

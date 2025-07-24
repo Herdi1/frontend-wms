@@ -11,14 +11,14 @@
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail</p>
         </button>
-        <button
+        <!-- <button
           type="button"
           @click="self.onOpenModal"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Kartu Stok</p>
-        </button>
+        </button> -->
         <button
           type="button"
           @click="self.onOpenModalStokGudang"
@@ -42,11 +42,12 @@
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
-            <th class="w-[200px] border border-gray-300">Zona</th>
+            <th class="w-[200px] border border-gray-300">Lokasi Penyimpanan</th>
+            <!-- <th class="w-[200px] border border-gray-300">Zona</th>
             <th class="w-[200px] border border-gray-300">Aisle</th>
             <th class="w-[200px] border border-gray-300">Rack</th>
             <th class="w-[200px] border border-gray-300">Level</th>
-            <th class="w-[200px] border border-gray-300">Bin</th>
+            <th class="w-[200px] border border-gray-300">Bin</th> -->
             <th class="w-[300px] border border-gray-300">Keterangan</th>
             <th class="w-[100px] border border-gray-300">Delete</th>
           </tr>
@@ -59,7 +60,7 @@
             class="align-top"
           >
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_item"
                 :loading="isLoadingGetItemGudang"
                 :options="lookup_custom7.data"
@@ -99,12 +100,14 @@
                     <i class="fa fa-search"></i>
                   </button>
                 </template>
-              </v-select>
+              </v-select> -->
               <p>
-                {{ item.item_gudang_id ? item.item_gudang_id.nama_item : "" }}
+                <!-- {{ item.item_gudang_id ? item.item_gudang_id.nama_item : "" }} -->
+                {{ item.nama_item || "-" }}
               </p>
               <p>
-                {{ item.item_gudang_id ? item.item_gudang_id.kode_item : "" }}
+                <!-- {{ item.item_gudang_id ? item.item_gudang_id.kode_item : "" }} -->
+                {{ item.kode_item || "" }}
               </p>
             </td>
             <td class="border border-gray-300 text-start">
@@ -112,12 +115,24 @@
               <money
                 v-model="item.quantity"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                :class="
+                  item.quantity > parseFloat(item.quantity_sisa)
+                    ? 'text-danger'
+                    : ''
+                "
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
               />
-              <p class="mb-2">Valuation</p>
-              <v-select
+              <p class="mb-2">
+                Quantity Tersedia :
+                <span class="text-primary">{{ item.quantity_sisa }}</span>
+              </p>
+              <p class="mb-2">
+                Valuation :
+                <span class="text-primary">{{ item.kode_valuation }}</span>
+              </p>
+              <!-- <v-select
                 label="nama_valuation"
                 :loading="isLoadingGetValuation"
                 :options="lookup_custom6.data"
@@ -148,9 +163,12 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
             <td class="border border-gray-300">
+              {{ item.lokasi_penyimpanan }}
+            </td>
+            <!-- <td class="border border-gray-300">
               <v-select
                 label="nama_zona_gudang"
                 :loading="isLoadingGetZonaPlan"
@@ -375,7 +393,7 @@
                   >
                 </li>
               </v-select>
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <textarea
                 placeholder="Keterangan"
@@ -413,6 +431,7 @@
 </template>
 
 <script>
+import { parse } from "postcss";
 import { mapState, mapActions } from "vuex";
 export default {
   props: ["self"],

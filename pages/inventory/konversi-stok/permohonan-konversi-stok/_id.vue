@@ -297,13 +297,26 @@ export default {
             return {
               ...item,
               konversi_stok_detail_bahan_id: item.konversi_stok_detail_bahan_id,
-              item_id: item.item_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              // item_id: item.item_id,
+              // item_gudang_id: item.item_gudang,
+              // zona_gudang_id: item.zona_gudang,
+              // slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
+              // slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
+              // slot_penyimpanan_id_level: item.slot_penyimpanan_level,
+              // slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              nama_item: item.item_gudang
+                ? item.item_gudang.nama_item
+                : item.nama_item,
+              kode_item: item.item_gudang
+                ? item.item_gudang.kode_item
+                : item.kode_item,
+              quantity_sisa: item.quantity_sisa
+                ? item.quantity_sisa
+                : item.quantity,
+              lokasi_penyimpanan: item.kode_slot_penyimpanan_terakhir
+                ? item.kode_slot_penyimpanan_terakhir
+                : `${item.zona_gudang.nama_zona_gudang} - ${item.zona_gudang.kode_zona_gudang}`,
+              kode_valuation: item.valuation.kode_valuation,
             };
           });
 
@@ -412,35 +425,35 @@ export default {
         this.parameters.form.konversi_stok_detail_bahan.map((item) => {
           return {
             ...item,
-            item_id: item.item_id,
+            // item_id: item.item_id,
             // item_pelanggan_id:
             //   typeof item.item_gudang_id === "object"
             //     ? item.item_gudang_id.item_pelanggan_id
             //     : "",
-            item_gudang_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id
-                : "",
-            zona_gudang_id:
-              typeof item.zona_gudang_id === "object"
-                ? item.zona_gudang_id.zona_gudang_id
-                : "",
-            slot_penyimpanan_id_aisle:
-              typeof item.slot_penyimpanan_id_aisle === "object"
-                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_rack:
-              typeof item.slot_penyimpanan_id_rack === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_level:
-              typeof item.slot_penyimpanan_id_level === "object"
-                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_bin:
-              typeof item.slot_penyimpanan_id_bin === "object"
-                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-                : "",
+            // item_gudang_id:
+            //   typeof item.item_gudang_id === "object"
+            //     ? item.item_gudang_id.item_gudang_id
+            //     : "",
+            // zona_gudang_id:
+            //   typeof item.zona_gudang_id === "object"
+            //     ? item.zona_gudang_id.zona_gudang_id
+            //     : "",
+            // slot_penyimpanan_id_aisle:
+            //   typeof item.slot_penyimpanan_id_aisle === "object"
+            //     ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+            //     : "",
+            // slot_penyimpanan_id_rack:
+            //   typeof item.slot_penyimpanan_id_rack === "object"
+            //     ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+            //     : "",
+            // slot_penyimpanan_id_level:
+            //   typeof item.slot_penyimpanan_id_level === "object"
+            //     ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+            //     : "",
+            // slot_penyimpanan_id_bin:
+            //   typeof item.slot_penyimpanan_id_bin === "object"
+            //     ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+            //     : "",
           };
         });
 
@@ -901,10 +914,25 @@ export default {
     addItem(item) {
       if (
         !this.parameters.form.konversi_stok_detail_bahan.find(
-          (data) => data.item_gudang_id === item.item_gudang_id
+          (data) => data.stok_gudang_id === item.stok_gudang_id
         )
       ) {
-        this.parameters.form.konversi_stok_detail_bahan.push(item);
+        let detailItem = {
+          ...item,
+          nama_item: item.item_gudang
+            ? item.item_gudang.nama_item
+            : item.nama_item,
+          kode_item: item.item_gudang
+            ? item.item_gudang.kode_item
+            : item.kode_item,
+          quantity_sisa: item.quantity_sisa
+            ? item.quantity_sisa
+            : item.quantity,
+          lokasi_penyimpanan: item.kode_slot_penyimpanan_terakhir
+            ? item.kode_slot_penyimpanan_terakhir
+            : `${item.zona_gudang.nama_zona_gudang} - ${item.zona_gudang.kode_zona_gudang}`,
+        };
+        this.parameters.form.konversi_stok_detail_bahan.push(detailItem);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
