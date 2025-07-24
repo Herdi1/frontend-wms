@@ -20,6 +20,16 @@
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+              <div class="form-group" v-if="isEditable">
+                <input-horiontal
+                  label="Kode Stok Opname"
+                  type="text"
+                  name="kode_stok_opname"
+                  v-model="parameters.form.kode_stok_opname"
+                  :required="true"
+                  :disabled="true"
+                />
+              </div>
               <div class="form-group">
                 <input-horiontal
                   label="Tanggal"
@@ -27,6 +37,7 @@
                   name="tanggal"
                   v-model="parameters.form.tanggal"
                   :required="true"
+                  :disabled="true"
                 />
               </div>
 
@@ -87,8 +98,8 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-              <div class="form-group flex items-center">
-                <label for="keterangan" class="w-1/2">Keterangan</label>
+              <div class="form-group flex items-start">
+                <label for="keterangan" class="w-1/2 pt-1">Keterangan</label>
                 <textarea
                   placeholder="Keterangan"
                   class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
@@ -468,6 +479,7 @@
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
+                        disabled
                       ></textarea>
                     </td>
                     <td
@@ -577,9 +589,14 @@ export default {
       parameters: {
         url: "inventory/stok-opname",
         form: {
+          kode_stok_opname: "",
           tanggal: "",
           gudang_id: "",
           keterangan: "",
+          status_opname: "",
+          catatan_proses: "",
+          catatan_selesai: "",
+          catatan_batal: "",
           stok_opname_details: [],
 
           //Tracking
@@ -762,7 +779,6 @@ export default {
                 typeof item.zona_gudang_id === "object"
                   ? item.zona_gudang_id.zona_gudang_id
                   : item.zona_gudang_id,
-              keterangan: item.keterangan ? item.keterangan : "",
             };
           }
         ),
@@ -783,9 +799,14 @@ export default {
           );
           if (!this.isEditable) {
             this.parameters.form = {
+              kode_stok_opname: "",
               tanggal: "",
               gudang_id: "",
               keterangan: "",
+              status_opname: "",
+              catatan_proses: "",
+              catatan_selesai: "",
+              catatan_batal: "",
               stok_opname_details: [],
 
               //Tracking
@@ -1352,9 +1373,14 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        kode_stok_opname: "",
         tanggal: "",
         gudang_id: "",
         keterangan: "",
+        status_opname: "",
+        catatan_proses: "",
+        catatan_selesai: "",
+        catatan_batal: "",
         stok_opname_details: [],
 
         //Tracking

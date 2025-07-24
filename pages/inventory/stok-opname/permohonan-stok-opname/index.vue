@@ -31,10 +31,10 @@
                 <tr class="uppercase">
                   <th class="w-20 text-center">Detail</th>
                   <th class="w-20 text-center">No</th>
-                  <th class="w-60">Tanggal</th>
-                  <th class="w-60">Gudang</th>
-                  <th class="w-60">Status</th>
-                  <th class="w-60">Keterangan</th>
+                  <th class="w-52">Tanggal</th>
+                  <th class="w-52">Gudang</th>
+                  <th class="w-52">Status</th>
+                  <th class="w-52">Keterangan</th>
                   <th class="w-20 text-center">Edit</th>
                   <th class="w-20 text-center">Hapus</th>
                 </tr>
@@ -155,9 +155,14 @@ export default {
           end_date: "",
         },
         form: {
+          kode_stok_opname: "",
           tanggal: "",
           gudang_id: "",
           keterangan: "",
+          status_opname: "",
+          catatan_proses: "",
+          catatan_selesai: "",
+          catatan_batal: "",
           stok_opname_details: [],
 
           //Tracking
