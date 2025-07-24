@@ -1,461 +1,5 @@
 <template>
-  <section class="section h-screen">
-    <div class="section-body mb-4" v-if="!isLoadingPage">
-      <div class="flex justify-between items-center w-full">
-        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data
-        </h1>
-        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
-        <button class="btn btn-primary my-2" @click="$router.back()">
-          <i class="fas fa-arrow-left mr-2"></i>
-          Kembali
-        </button>
-      </div>
-      <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
-        <form
-          @submit.prevent="validate().then(() => onSubmit(invalid))"
-          autocomplete="off"
-        >
-          <div
-            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-          >
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
-              <div class="form-group">
-                <input-horiontal
-                  label="Tanggal"
-                  type="date"
-                  name="tanggal"
-                  v-model="parameters.form.tanggal"
-                  :required="true"
-                />
-              </div>
-
-              <ValidationProvider name="gudang_id">
-                <select-button
-                  :self="{
-                    label: 'Gudang',
-                    optionLabel: 'nama_gudang',
-                    lookup: lookup_custom1,
-                    value: parameters.form.gudang_id,
-                    onGet: onGetGudang,
-                    isLoadingL: isLoadingGetGudang,
-                    input: onSelectGudang,
-                  }"
-                  width="w-[50%]"
-                  :required="true"
-                  class="mb-5"
-                />
-              </ValidationProvider>
-              <div class="form-group flex items-center">
-                <label for="keterangan" class="w-1/2">Keterangan</label>
-                <textarea
-                  placeholder="Keterangan"
-                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.keterangan"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="w-full flex justify-between items-center mt-5">
-            <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
-
-            <div>
-              <button
-                type="button"
-                @click="AddDetailItem"
-                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-              >
-                <i class="fas fa-plus"></i>
-                <p class="text-xs font-medium">Tambah Stok Opname</p>
-              </button>
-            </div>
-          </div>
-          <div
-            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-          >
-            <div class="table-responsive overflow-y-hidden mb-7">
-              <table
-                class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                :class="
-                  parameters.form.stok_opname_details.length ? 'mb-[300px]' : ''
-                "
-              >
-                <thead>
-                  <tr class="text-sm uppercase">
-                    <!-- <th class="w-[200px] border border-gray-300">
-                      Nama Item <span class="text-danger">*</span>
-                    </th> -->
-                    <!-- <th class="w-[200px] border border-gray-300">
-                      Item Pelanggan
-                    </th> -->
-                    <th class="w-[200px] border border-gray-300">
-                      Item Gudang <span class="text-danger">*</span>
-                    </th>
-                    <!-- <th class="w-[200px] border border-gray-300">Supplier</th> -->
-                    <th class="w-[200px] border border-gray-300">
-                      Valuation <span class="text-danger">*</span>
-                    </th>
-
-                    <th class="w-[200px] border border-gray-300">
-                      Zona <span class="text-danger">*</span>
-                    </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Lokasi Aisle
-                    </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Lokasi Rack
-                    </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Lokasi Level
-                    </th>
-                    <th class="w-[200px] border border-gray-300">Lokasi Bin</th>
-                    <th class="w-[200px] border border-gray-300">
-                      Stok Real <span class="text-danger">*</span>
-                    </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Stok Sistem <span class="text-danger">*</span>
-                    </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Stok Selisih <span class="text-danger">*</span>
-                    </th>
-                    <th class="w-[200px] border border-gray-300">Keterangan</th>
-                    <th class="w-[100px] border border-gray-300 text-center">
-                      Hapus
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(item, i) in parameters.form.stok_opname_details"
-                    :key="i"
-                    class="align-top border-t"
-                  >
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
-                        label="nama_item"
-                        :loading="isLoadingGetItemGudang"
-                        :options="lookup_custom8.data"
-                        :filterable="false"
-                        @search="onGetItemGudang"
-                        v-model="item.item_gudang_id"
-                      >
-                        <!-- @input="onSelectItem(i)" -->
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom8.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom8.current_page > 1"
-                            @click="onGetItemGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom8.last_page >
-                              lookup_custom8.current_page
-                            "
-                            @click="onGetItemGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
-                        label="nama_valuation"
-                        :loading="isLoadingGetValuation"
-                        :options="lookup_custom9.data"
-                        :filterable="false"
-                        :reduce="(item) => item.valuation_id"
-                        @search="onGetValuation"
-                        v-model="item.valuation_id"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom9.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom9.current_page > 1"
-                            @click="onGetValuation(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom9.last_page >
-                              lookup_custom9.current_page
-                            "
-                            @click="onGetValuation(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_zona_gudang"
-                        :loading="isLoadingGetZonaGudang"
-                        :options="lookup_custom3.data"
-                        :filterable="false"
-                        @search="onGetZonaGudang"
-                        :reduce="(item) => item.zona_gudang_id"
-                        v-model="item.zona_gudang_id"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom3.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom3.current_page > 1"
-                            @click="onGetZonaGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom3.last_page >
-                              lookup_custom3.current_page
-                            "
-                            @click="onGetZonaGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_slot_penyimpanan"
-                        :loading="isLoadingGetSlotAisle"
-                        :options="lookup_custom4.data"
-                        :filterable="false"
-                        :reduce="(item) => item.slot_penyimpanan_id"
-                        @search="onGetSlotAisle"
-                        v-model="item.slot_penyimpanan_id_aisle"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom4.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom4.current_page > 1"
-                            @click="onGetSlotAisle(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom4.last_page >
-                              lookup_custom4.current_page
-                            "
-                            @click="onGetSlotAisle(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_slot_penyimpanan"
-                        :loading="isLoadingGetSlotRack"
-                        :options="lookup_custom5.data"
-                        :filterable="false"
-                        :reduce="(item) => item.slot_penyimpanan_id"
-                        @search="onGetSlotRack"
-                        v-model="item.slot_penyimpanan_id_rack"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom5.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom5.current_page > 1"
-                            @click="onGetSlotRack(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom5.last_page >
-                              lookup_custom5.current_page
-                            "
-                            @click="onGetSlotRack(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_slot_penyimpanan"
-                        :loading="isLoadingGetSlotLevel"
-                        :options="lookup_custom6.data"
-                        :filterable="false"
-                        @search="onGetSlotLevel"
-                        :reduce="(item) => item.slot_penyimpanan_id"
-                        v-model="item.slot_penyimpanan_id_level"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom6.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom6.current_page > 1"
-                            @click="onGetSlotLevel(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom6.last_page >
-                              lookup_custom6.current_page
-                            "
-                            @click="onGetSlotLevel(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_slot_penyimpanan"
-                        :loading="isLoadingGetSlotBin"
-                        :options="lookup_custom7.data"
-                        :filterable="false"
-                        @search="onGetSlotBin"
-                        :reduce="(item) => item.slot_penyimpanan_id"
-                        v-model="item.slot_penyimpanan_id_bin"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom7.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom7.current_page > 1"
-                            @click="onGetSlotBin(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom7.last_page >
-                              lookup_custom7.current_page
-                            "
-                            @click="onGetSlotBin(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
-
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.stok_real"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        @input="updateStokSelisih(item)"
-                      />
-                      <!-- @keyup.native="onChangeStok(i)" -->
-                    </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.stok_sistem"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        @input="updateStokSelisih(item)"
-                      />
-                      <!-- disabled -->
-                    </td>
-                    <td class="border border-gray-300">
-                      <input
-                        v-model="item.stok_selisih"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none bg-gray-100"
-                        readonly
-                        type="text"
-                      />
-                      <!-- v-model="item.stok_selisih" -->
-                      <!-- <money
-                        v-model="item.stok_selisih"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        disabled
-                      /> -->
-                    </td>
-                    <td class="border border-gray-300">
-                      <textarea
-                        placeholder="Keterangan"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        v-model="item.keterangan"
-                      ></textarea>
-                    </td>
-                    <td
-                      class="text-center text-gray-600 border border-gray-300"
-                    >
-                      <i
-                        class="fas fa-trash mx-auto"
-                        style="cursor: pointer"
-                        @click="onDeleteItem(i)"
-                      ></i>
-                    </td>
-                  </tr>
-                  <tr v-if="!parameters.form.stok_opname_details.length > 0">
-                    <td colspan="100" class="text-center">
-                      <span class="flex justify-center">
-                        <img
-                          src="/img/data-not-found.svg"
-                          style="height: 250px; object-fit: cover"
-                        />
-                      </span>
-                      <div class="mt-3">Data Tidak Ditemukan</div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <modal-footer-section
-            :isLoadingForm="isLoadingForm"
-            @reset="formReset()"
-            class="m-5"
-          />
-        </form>
-      </ValidationObserver>
-    </div>
-  </section>
+  <div></div>
 </template>
 
 <script>
@@ -553,12 +97,20 @@ export default {
             this.parameters.form[item] = res.data[item];
           }
         });
+        this.parameters.form.gudang_id = res.data.gudang;
 
         this.parameters.form.stok_opname_details =
           res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              stok_opname_details_id: item || "",
+              stok_opname_details_id: item.stok_opname_details_id,
+              item_gudang_id: item.item_gudang,
+              zona_gudang_id: item.zona_gudang,
+              valuation_id: item.valuation,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
         this.isLoadingPage = false;
@@ -602,6 +154,8 @@ export default {
       "lookup_custom7", //slot bin
       "lookup_custom8", //item gudang
       "lookup_custom9", //valuation
+      // "lookup_custom10", //item pelanggan
+      // "lookup_suppliers", //supplier
     ]),
   },
 
@@ -640,13 +194,13 @@ export default {
       }
     },
 
-    updateStokSelisih(item) {
-      this.$nextTick(() => {
-        const stokReal = parseFloat(item.stok_real) || 0;
-        const stokSistem = parseFloat(item.stok_sistem) || 0;
-        item.stok_selisih = stokReal - stokSistem;
-      });
-    },
+    // updateStokSelisih(item) {
+    //   this.$nextTick(() => {
+    //     const stokReal = parseFloat(item.stok_real) || 0;
+    //     const stokSistem = parseFloat(item.stok_sistem) || 0;
+    //     item.stok_selisih = stokReal - stokSistem;
+    //   });
+    // },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -673,6 +227,30 @@ export default {
                 typeof item.item_gudang_id === "object"
                   ? item.item_gudang_id.item_id
                   : item.item_id,
+              slot_penyimpanan_id_aisle:
+                typeof item.slot_penyimpanan_id_aisle === "object"
+                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_aisle,
+              slot_penyimpanan_id_bin:
+                typeof item.slot_penyimpanan_id_bin === "object"
+                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_bin,
+              slot_penyimpanan_id_level:
+                typeof item.slot_penyimpanan_id_level === "object"
+                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_level,
+              slot_penyimpanan_id_rack:
+                typeof item.slot_penyimpanan_id_rack === "object"
+                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_rack,
+              valuation_id:
+                typeof item.valuation_id === "object"
+                  ? item.valuation_id.valuation_id
+                  : item.valuation_id,
+              zona_gudang_id:
+                typeof item.zona_gudang_id === "object"
+                  ? item.zona_gudang_id.zona_gudang_id
+                  : item.zona_gudang_id,
             };
           }
         ),
@@ -755,10 +333,10 @@ export default {
 
     onSelectGudang(item) {
       if (item) {
-        this.parameters.form.gudang_id = item;
-        // this.parameters.form.stok_opname_details.forEach((_, index) => {
-        //   this.onGetSystemStok(index);
-        // });
+        // this.parameters.form.gudang_id = item;
+        this.parameters.form.stok_opname_details.forEach((_, index) => {
+          this.onGetSystemStok(index);
+        });
       } else {
         this.parameters.form.gudang_id = "";
       }
@@ -776,9 +354,9 @@ export default {
         slot_penyimpanan_id_rack: "",
         slot_penyimpanan_id_level: "",
         slot_penyimpanan_id_bin: "",
-        stok_real: "",
-        stok_sistem: "",
-        stok_selisih: "",
+        stok_real: 0.0,
+        stok_sistem: 0.0,
+        stok_selisih: 0.0,
         keterangan: "",
       });
     },
@@ -1237,14 +815,13 @@ export default {
         this.onChangeStok(index);
         this.$axios
           .get(
-            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id}/${item_gudang_id.item_gudang_id}/${zona_gudang_id}/${valuation_id}?slot_penyimpanan_id_aisle=${aisle}&slot_penyimpanan_id_bin=${bin}&slot_penyimpanan_id_level=${level}&slot_penyimpanan_id_rack=${rack}`
+            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id.item_gudang_id}/${zona_gudang_id.zona_gudang_id}/${valuation_id.valuation_id}?slot_penyimpanan_id_aisle=${aisle.slot_penyimpanan_id}&slot_penyimpanan_id_bin=${bin.slot_penyimpanan_id}&slot_penyimpanan_id_level=${level.slot_penyimpanan_id}&slot_penyimpanan_id_rack=${rack.slot_penyimpanan_id}`
           )
           .then((res) => {
             if (res.data) {
               this.parameters.form.stok_opname_details[index].stok_sistem =
                 res.data.quantity || 0.0;
             }
-            console.log(Zzres.data);
             this.onChangeStok(index);
           });
       }
