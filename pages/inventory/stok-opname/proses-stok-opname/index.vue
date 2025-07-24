@@ -31,10 +31,10 @@
                 <tr class="uppercase">
                   <th class="w-20 text-center">Detail</th>
                   <th class="w-20 text-center">No</th>
-                  <th class="w-full">Tanggal</th>
-                  <th class="w-full">Gudang</th>
-                  <th class="w-full">Status</th>
-                  <th class="w-full">Keterangan</th>
+                  <th class="w-52">Tanggal</th>
+                  <th class="w-52">Gudang</th>
+                  <th class="w-52">Status</th>
+                  <th class="w-52">Keterangan</th>
                   <th class="w-20 text-center">Edit</th>
                   <th class="w-20 text-center">Hapus</th>
                 </tr>
@@ -54,6 +54,7 @@
                   </td>
                   <td>{{ item.tanggal }}</td>
                   <td>{{ item.gudang.nama_gudang }}</td>
+                  <td>{{ item.status_opname }}</td>
                   <td>{{ item.keterangan }}</td>
                   <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
@@ -154,9 +155,14 @@ export default {
           end_date: "",
         },
         form: {
+          kode_stok_opname: "",
           tanggal: "",
           gudang_id: "",
           keterangan: "",
+          status_opname: "",
+          catatan_proses: "",
+          catatan_selesai: "",
+          catatan_batal: "",
           stok_opname_details: [],
 
           //Tracking
