@@ -680,9 +680,14 @@ export default {
 
       let formData = {
         ...this.parameters.form,
-        rekening_staffs: this.parameters.form.rekening_staffs.map(
-          (item) => item.rekening_staffs_id
-        ),
+        rekening_staffs: this.parameters.form.rekening_staffs.map((item) => {
+          return {
+            ...item,
+            rekening_staffs: item.rekening_staff_id
+              ? item.rekening_staff_id
+              : "",
+          };
+        }),
       };
 
       if (this.isEditable) {

@@ -25,17 +25,18 @@
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
-          <div class="table-responsive w-full relative">
+          <div class="table-responsive w-full relative overflow-y-auto">
             <table class="mb-5 overflow-auto table-fixed" ref="formContainer">
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[100px] text-center">Detail</th>
-                  <th class="w-[100px] text-center">No</th>
-                  <th class="w-[150px]">Tanggal</th>
-                  <th class="w-[150px]">Gudang</th>
-                  <th class="w-[150px]">Keterangan</th>
-                  <th class="w-[100px] text-center">Edit</th>
-                  <th class="w-[100px] text-center">Hapus</th>
+                  <th class="w-20 text-center">Detail</th>
+                  <th class="w-20 text-center">No</th>
+                  <th class="w-60">Tanggal</th>
+                  <th class="w-60">Gudang</th>
+                  <th class="w-60">Status</th>
+                  <th class="w-60">Keterangan</th>
+                  <th class="w-20 text-center">Edit</th>
+                  <th class="w-20 text-center">Hapus</th>
                 </tr>
               </thead>
               <tbody>
@@ -53,6 +54,7 @@
                   </td>
                   <td>{{ item.tanggal }}</td>
                   <td>{{ item.gudang.nama_gudang }}</td>
+                  <td>{{ item.status_opname }}</td>
                   <td>{{ item.keterangan }}</td>
                   <td class="place-content-center">
                     <small-edit-button @click="onEdit(item)" />
@@ -87,7 +89,7 @@ export default {
 
   head() {
     return {
-      title: "Stok Opname",
+      title: "Permohonan Stok Opname",
     };
   },
 
@@ -135,7 +137,7 @@ export default {
 
   data() {
     return {
-      title: "Stok Opname",
+      title: "Permohonan Stok Opname",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -195,7 +197,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "stok-opname"
+          (item) => item.rute == "permohonan-stok-opname"
         );
 
         let roles = {};
@@ -225,15 +227,20 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inventory/stok-opname/add");
+      this.$router.push("/inventory/stok-opname/permohonan-stok-opname/add");
     },
 
     onEdit(item) {
-      this.$router.push("/inventory/stok-opname/" + item.stok_opname_id);
+      this.$router.push(
+        "/inventory/stok-opname/permohonan-stok-opname/" + item.stok_opname_id
+      );
     },
 
     onDetail(item) {
-      this.$router.push("/inventory/stok-opname/detail" + item.stok_opname_id);
+      this.$router.push(
+        "/inventory/stok-opname/permohonan-stok-opname/detail/" +
+          item.stok_opname_id
+      );
     },
 
     onTrashed(item) {
