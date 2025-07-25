@@ -36,7 +36,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[17%]"
+                    class="cursor-pointer w-[17%]"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Kecamatan</div>

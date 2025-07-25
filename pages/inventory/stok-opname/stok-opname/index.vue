@@ -272,7 +272,7 @@ export default {
 
   head() {
     return {
-      title: "Adjustment Stok Opname",
+      title: "Permohonan Stok Opname",
     };
   },
 
@@ -285,7 +285,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -297,7 +297,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -320,11 +320,11 @@ export default {
 
   data() {
     return {
-      title: "Adjustment Stok Opname",
+      title: "Permohonan Stok Opname",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/adjustment-stok-opname",
+        url: "inventory/stok-opname",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -346,7 +346,6 @@ export default {
           catatan_proses: "",
           catatan_selesai: "",
           catatan_batal: "",
-          catatan_adjustment: "",
           stok_opname_details: [],
 
           //Tracking
@@ -386,7 +385,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "adjustment-stok-opname"
+          (item) => item.rute == "permohonan-stok-opname"
         );
 
         let roles = {};
@@ -416,19 +415,18 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inventory/stok-opname/adjustment-stok-opname/add");
+      this.$router.push("/inventory/stok-opname/stok-opname/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/stok-opname/adjustment-stok-opname/" + item.stok_opname_id
+        "/inventory/stok-opname/stok-opname/" + item.stok_opname_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/stok-opname/adjustment-stok-opname/detail/" +
-          item.stok_opname_id
+        "/inventory/stok-opname/stok-opname/detail/" + item.stok_opname_id
       );
     },
 

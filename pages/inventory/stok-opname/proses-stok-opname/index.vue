@@ -26,25 +26,163 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
           <div class="table-responsive w-full relative overflow-y-auto">
-            <table class="mb-5 overflow-auto table-fixed" ref="formContainer">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center">Detail</th>
-                  <th class="w-20 text-center">No</th>
-                  <th class="w-52">Tanggal</th>
-                  <th class="w-52">Gudang</th>
-                  <th class="w-52">Status</th>
-                  <th class="w-52">Keterangan</th>
-                  <th class="w-20 text-center">Edit</th>
-                  <th class="w-20 text-center">Hapus</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-12 text-center border border-gray-300">No</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_stok_opname',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Stok Opname</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_stok_opname' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_stok_opname' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-52 border border-gray-300">Gudang</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_adjustment',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal_adjustment',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal Approve</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal_adjustment' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal_adjustment' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">Keterangan</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center place-content-center">
+                  <td
+                    class="text-center place-content-center border border-gray-300"
+                  >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -52,17 +190,62 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>{{ item.gudang.nama_gudang }}</td>
-                  <td>{{ item.status_opname }}</td>
-                  <td>{{ item.keterangan }}</td>
-                  <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
+                  <td class="border border-gray-300">
+                    {{ item.kode_stok_opname }}
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                    </p>
+                    <p
+                      v-else
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
                   </td>
-                  <td class="place-content-center">
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_adjustment === '0'">
+                        <p
+                          class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          MENUNGGU
+                        </p>
+                      </span>
+                      <span v-if="item.status_adjustment === '1'">
+                        <p
+                          class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          APPROVE
+                        </p>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{
+                      item.tanggal_adjustment
+                        ? item.tanggal_adjustment.split(" ")[0]
+                        : "-"
+                    }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.keterangan }}</td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_adjustment === '1'"
+                    />
+                  </td>
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.status_adjustment === '1'"
                     />
                   </td>
                 </tr>
@@ -141,7 +324,7 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/stok-opname",
+        url: "inventory/proses-stok-opname",
         type: "pdf",
         params: {
           soft_deleted: "",

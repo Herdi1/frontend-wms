@@ -109,6 +109,30 @@
                 ></textarea>
               </div>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-2 mt-10">
+              <div class="form-group flex items-center">
+                <label for="" class="w-1/2"
+                  >Status Adjustment <span class="text-danger">*</span></label
+                >
+                <select
+                  name=""
+                  id=""
+                  v-model="parameters.form.status_adjustment"
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Approved</option>
+                </select>
+              </div>
+              <div class="form-group flex items-start">
+                <label for="Catatan" class="w-1/2 pt-1">Catatan</label>
+                <textarea
+                  placeholder="Catatan"
+                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
+                  v-model="parameters.form.catatan_adjustment"
+                ></textarea>
+              </div>
+            </div>
           </div>
           <div class="w-full flex justify-between items-center mt-5">
             <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
@@ -164,10 +188,10 @@
                     </th>
                     <th class="w-[200px] border border-gray-300">Lokasi Bin</th>
                     <th class="w-[200px] border border-gray-300">
-                      Stok Real <span class="text-danger">*</span>
+                      Stok Sistem <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
-                      Stok Sistem <span class="text-danger">*</span>
+                      Stok Real <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
                       Stok Selisih <span class="text-danger">*</span>
@@ -443,6 +467,18 @@
 
                     <td class="border border-gray-300">
                       <money
+                        v-model="item.stok_sistem"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        disabled
+                      />
+                      <!-- @input="updateStokSelisih(item)" -->
+                    </td>
+
+                    <td class="border border-gray-300">
+                      <money
                         v-model="item.stok_real"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
@@ -453,17 +489,7 @@
                       />
                       <!-- @input="updateStokSelisih(item)" -->
                     </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.stok_sistem"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        disabled
-                      />
-                      <!-- @input="updateStokSelisih(item)" -->
-                    </td>
+
                     <td class="border border-gray-300">
                       <!-- <input
                         v-model="item.stok_selisih"
@@ -585,16 +611,18 @@ export default {
       isLoadingForm: false,
       title: "Stok Opname",
       parameters: {
-        url: "inventory/stok-opname",
+        url: "inventory/adjustment-stok-opname",
         form: {
           kode_stok_opname: "",
           tanggal: "",
           gudang_id: "",
           keterangan: "",
           status_opname: "",
+          status_adjustment: "",
           catatan_proses: "",
           catatan_selesai: "",
           catatan_batal: "",
+          catatan_adjustment: "",
           stok_opname_details: [],
 
           //Tracking
@@ -731,7 +759,7 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
-      let url = "inventory/stok-opname";
+      let url = "inventory/adjustment-stok-opname";
       let formData = {
         ...this.parameters.form,
         gudang_id:
@@ -802,9 +830,11 @@ export default {
               gudang_id: "",
               keterangan: "",
               status_opname: "",
+              status_adjustment: "",
               catatan_proses: "",
               catatan_selesai: "",
               catatan_batal: "",
+              catatan_adjustment: "",
               stok_opname_details: [],
 
               //Tracking
@@ -1376,9 +1406,11 @@ export default {
         gudang_id: "",
         keterangan: "",
         status_opname: "",
+        status_adjustment: "",
         catatan_proses: "",
         catatan_selesai: "",
         catatan_batal: "",
+        catatan_adjustment: "",
         stok_opname_details: [],
 
         //Tracking
