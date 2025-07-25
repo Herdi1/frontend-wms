@@ -477,7 +477,7 @@
                             <input
                               type="text"
                               disabled
-                              v-model="item.kode_valuation"
+                              v-model="item.valuation.kode_valuation"
                               class="pl-2 w-full py-1 border border-gray-300 rounded focus:outline-none"
                             />
                           </div>

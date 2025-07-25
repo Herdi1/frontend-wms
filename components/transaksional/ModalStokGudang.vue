@@ -139,7 +139,9 @@
                           : "-"
                       }}
                     </td> -->
-                    <td class="whitespace-nowrap">{{ item.kode_valuation }}</td>
+                    <td class="whitespace-nowrap">
+                      {{ item.valuation ? item.valuation.kode_valuation : "-" }}
+                    </td>
                     <td class="text-primary whitespace-nowrap">
                       {{ item.quantity | formatPrice }}
                     </td>

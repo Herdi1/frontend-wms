@@ -40,8 +40,73 @@
                   <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Detail</th>
                   <th class="w-[5%] text-center">No</th>
-                  <th>Kode Mutasi Stok</th>
-                  <th>Tanggal</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_mutasi_stok',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-[30%]"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Mutasi Stok</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th>Gudang</th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-[30%]"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
@@ -62,6 +127,7 @@
                     }}
                   </td>
                   <td>{{ item.kode_mutasi_stok }}</td>
+                  <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                   <td>{{ item.tanggal }}</td>
                   <td class="place-content-center">
                     <small-delete-button

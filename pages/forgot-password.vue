@@ -51,7 +51,7 @@
                 </p>
               </div>
               <p class="text-xl font-bold leading-normal text-white-dark">
-                Lupa Passowrd
+                Lupa Passoword
               </p>
               <p class="text-base font-bold leading-normal text-white-dark">
                 Masukkan Username Anda
@@ -86,7 +86,7 @@
                         </span>
                       </div>
                     </div>
-                    <div class="invalid-feedback" v-if="errors[0]">
+                    <div class="invalid-feedback text-danger" v-if="errors[0]">
                       {{ errors[0] }}
                     </div>
                     <!-- <div class="valid-feedback" v-if="valid">
@@ -242,9 +242,9 @@ export default {
       this.isLoadingForm = true;
 
       this.$axios
-        .post("/forgot-password", this.form)
-        .then(() => {
-          this.$toaster.success("Silahkan Cek Email Anda");
+        .post("/reset-password/send-otp", this.form)
+        .then((res) => {
+          this.$toaster.success(res.message);
           this.$router.push("/verifikasi-akun");
         })
         .catch((err) => {

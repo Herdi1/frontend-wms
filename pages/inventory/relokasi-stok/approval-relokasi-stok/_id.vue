@@ -119,50 +119,24 @@
                 <select
                   name=""
                   id=""
-                  v-model="parameters.form.status_mutasi"
+                  v-model="parameters.form.status_adjustment"
                   class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                 >
-                  <option value="MENUNGGU">Menunggu</option>
-                  <option value="PROSES">Proses</option>
-                  <option value="SELESAI">Selesai</option>
-                  <option value="BATAL">Batal</option>
+                  <option value="0">Tidak Disesuaikan</option>
+                  <option value="1">Disesuaikan</option>
                 </select>
               </div>
               <div
                 class="form-group flex items-start"
-                v-if="parameters.form.status_mutasi === 'PROSES'"
+                v-if="parameters.form.status_adjustment === '1'"
               >
                 <label for="keterangan" class="w-1/2 pt-1"
-                  >Catatan Proses</label
+                  >Catatan Adjustment</label
                 >
                 <textarea
                   placeholder="Catatan Proses"
                   class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.catatan_proses"
-                ></textarea>
-              </div>
-              <div
-                class="form-group flex items-start"
-                v-if="parameters.form.status_mutasi === 'SELESAI'"
-              >
-                <label for="keterangan" class="w-1/2 pt-1"
-                  >Catatan Selesai</label
-                >
-                <textarea
-                  placeholder="Catatan Selesai"
-                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.catatan_selesai"
-                ></textarea>
-              </div>
-              <div
-                class="form-group flex items-start"
-                v-if="parameters.form.status_mutasi === 'BATAL'"
-              >
-                <label for="keterangan" class="w-1/2 pt-1">Catatan Batal</label>
-                <textarea
-                  placeholder="Catatan Batal"
-                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.catatan_batal"
+                  v-model="parameters.form.catatan_adjustment"
                 ></textarea>
               </div>
             </div>
@@ -986,15 +960,15 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Relokasi Stok",
+      title: "Approval Relokasi Stok",
       parameters: {
-        url: "inventory/proses-mutasi-stok",
+        url: "inventory/approve-mutasi-stok",
         form: {
           gudang_id: "",
-          status_mutasi: "",
+          status_adjustment: "",
           tanggal: "",
           keterangan: "",
-          keterangan_proses: "",
+          keterangan_approve: "",
           mutasi_stok_details: [],
           biaya: [],
 
@@ -1008,13 +982,6 @@ export default {
     };
   },
   async created() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0");
-    const day = today.getDate().toString().padStart(2, "0");
-
-    const formattedDate = `${year}-${month}-${day}`;
-    this.parameters.form.tanggal = formattedDate;
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(`inventory/mutasi-stok/${this.id}`);
@@ -1131,7 +1098,7 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
-      let url = "inventory/proses-mutasi-stok";
+      let url = "inventory/approve-mutasi-stok";
       let formData = {
         ...this.parameters.form,
         gudang_id: this.parameters.form.gudang_id.gudang_id,
@@ -1161,11 +1128,8 @@ export default {
 
       const formattedDate = `${year}-${month}-${day}`;
 
-      if (this.parameters.form.status_mutasi === "PROSES") {
-        formData.tanggal_proses = formattedDate;
-      }
-      if (this.parameters.form.status_mutasi === "SELESAI") {
-        formData.tanggal_selesai = formattedDate;
+      if (this.parameters.form.status_adjustment == 1) {
+        formData.tanggal_adjustment = formattedDate;
       }
 
       if (this.isEditable) {

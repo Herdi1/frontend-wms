@@ -36,7 +36,7 @@
           <div class="table-responsive w-full relative">
             <table class="mb-5 overflow-auto" ref="formContainer">
               <thead>
-                <tr class="uppercase">
+                <tr class="uppercase text-nowrap">
                   <th class="w-[5%] text-center">Edit</th>
                   <th class="w-[5%] text-center">Detail</th>
                   <th class="w-[5%] text-center">No</th>
@@ -107,14 +107,18 @@
                       </div>
                     </div>
                   </th>
-                  <th>Status Relokasi</th>
+                  <th>Status Mutasi</th>
+                  <th>Status Adjustment</th>
                   <!-- <th class="w-[5%] text-center">Delete</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
                   <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_adjustment == '1'"
+                    />
                   </td>
                   <td class="text-center place-content-center">
                     <small-detail-button @click="onDetail(item)" />
@@ -166,6 +170,20 @@
                       <p>Batal</p>
                     </div>
                   </td>
+                  <td>
+                    <div
+                      v-if="item.status_adjustment == '0'"
+                      class="p-1 rounded-md bg-orange-500 text-white text-center"
+                    >
+                      <p>Belum Adjustment</p>
+                    </div>
+                    <div
+                      v-if="item.status_adjustment == '1'"
+                      class="p-1 rounded-md bg-green-500 text-white text-center"
+                    >
+                      <p>Telah Adjustment</p>
+                    </div>
+                  </td>
                   <!-- <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
@@ -174,9 +192,9 @@
                   </td> -->
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
+              <!-- <table-data-loading-section :self="this" />
 
-              <table-data-not-found-section :self="this" />
+              <table-data-not-found-section :self="this" /> -->
             </table>
           </div>
           <div
@@ -205,7 +223,7 @@ export default {
 
   head() {
     return {
-      title: "Proses Relokasi Stock",
+      title: "Approval Relokasi Stock",
     };
   },
 
@@ -253,11 +271,11 @@ export default {
 
   data() {
     return {
-      title: "Proses Relokasi Stock",
+      title: "Approval Relokasi Stock",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/proses-mutasi-stok",
+        url: "inventory/approve-mutasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -314,7 +332,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "proses-mutasi-stok"
+          (item) => item.rute == "approve-mutasi-stok"
         );
 
         let roles = {};
@@ -344,12 +362,12 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/proses-relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/approval-relokasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/proses-relokasi-stok/" + item.mutasi_stok_id
+        "/inventory/relokasi-stok/approval-relokasi-stok/" + item.mutasi_stok_id
       );
     },
 
