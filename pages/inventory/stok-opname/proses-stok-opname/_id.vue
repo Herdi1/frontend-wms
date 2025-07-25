@@ -113,7 +113,7 @@
               <div class="form-group">
                 <div class="form-group flex items-center">
                   <label for="" class="w-1/2"
-                    >Status Konversi <span class="text-danger">*</span></label
+                    >Status Opname <span class="text-danger">*</span></label
                   >
                   <select
                     name=""
@@ -221,10 +221,10 @@
                     </th>
                     <th class="w-[200px] border border-gray-300">Lokasi Bin</th>
                     <th class="w-[200px] border border-gray-300">
-                      Stok Real <span class="text-danger">*</span>
+                      Stok Sistem <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
-                      Stok Sistem <span class="text-danger">*</span>
+                      Stok Real <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
                       Stok Selisih <span class="text-danger">*</span>
@@ -500,17 +500,6 @@
 
                     <td class="border border-gray-300">
                       <money
-                        v-model="item.stok_real"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        @keyup.native="onChangeStok(i)"
-                      />
-                      <!-- @input="updateStokSelisih(item)" -->
-                    </td>
-                    <td class="border border-gray-300">
-                      <money
                         v-model="item.stok_sistem"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
@@ -520,6 +509,19 @@
                       />
                       <!-- @input="updateStokSelisih(item)" -->
                     </td>
+
+                    <td class="border border-gray-300">
+                      <money
+                        v-model="item.stok_real"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        @keyup.native="onChangeStok(i)"
+                      />
+                      <!-- @input="updateStokSelisih(item)" -->
+                    </td>
+
                     <td class="border border-gray-300">
                       <!-- <input
                         v-model="item.stok_selisih"
