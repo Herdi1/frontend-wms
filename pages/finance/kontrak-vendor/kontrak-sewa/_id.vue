@@ -132,7 +132,35 @@
           </div>
           <tab-component :tabs="tabs">
             <template #DetailSewaGudang>
-              <p>gudang</p>
+              <div class="w-full flex justify-between items-center">
+                <h1 class="text-xl font-bold">Detail Sewa Gudang</h1>
+                <div class=" ">
+                  <button
+                    type="button"
+                    @click="addDetailGudang"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Detail</p>
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive overflow-y-hidden mb-7">
+                <table
+                  class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                  :class="
+                    parameters.form.detail_kontrak_sewa_gudang.length
+                      ? 'mb-[300px]'
+                      : ''
+                  "
+                >
+                  <thead>
+                    <tr class="uppercase">
+                      <th class="w-52 border border-gray-300"></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
             </template>
             <template #DetailSewaPeralatan>
               <p>peralatan</p>

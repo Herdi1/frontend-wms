@@ -248,7 +248,6 @@
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <li
                           slot-scope="{ search }"
@@ -285,7 +284,6 @@
                         @search="onGetZonaGudang"
                         v-model="item.zona_gudang_id"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.zona_gudang_id" -->
                         <li
@@ -322,7 +320,6 @@
                         @search="onGetValuation"
                         v-model="item.valuation_id"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.valuation_id" -->
                         <li
@@ -359,7 +356,6 @@
                         @search="onGetSlotAisle"
                         v-model="item.slot_penyimpanan_id_aisle"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -396,7 +392,6 @@
                         @search="onGetSlotRack"
                         v-model="item.slot_penyimpanan_id_rack"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -433,7 +428,6 @@
                         @search="onGetSlotLevel"
                         v-model="item.slot_penyimpanan_id_level"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -470,7 +464,6 @@
                         @search="onGetSlotBin"
                         v-model="item.slot_penyimpanan_id_bin"
                         @input="onSelectItem(i)"
-                        disabled
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -544,7 +537,6 @@
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
-                        disabled
                       ></textarea>
                     </td>
                   </tr>
