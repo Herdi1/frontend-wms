@@ -480,7 +480,6 @@
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
-                        disabled
                       ></textarea>
                     </td>
                     <td

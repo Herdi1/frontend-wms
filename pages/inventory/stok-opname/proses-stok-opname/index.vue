@@ -73,6 +73,39 @@
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
+                        'status_opname',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Opname</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_opname' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_opname' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
                         'tanggal',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
@@ -113,7 +146,7 @@
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status</div>
+                      <div>Status Adjustment</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -205,6 +238,38 @@
                       <i>Dibuat oleh: Sistem</i>
                     </p>
                   </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_opname === 'MENUNGGU'">
+                        <p
+                          class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'SELESAI'">
+                        <p
+                          class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                    </div>
+                  </td>
                   <td class="border border-gray-300">{{ item.tanggal }}</td>
                   <td class="border border-gray-300">
                     {{ item.gudang.nama_gudang }}
@@ -238,14 +303,20 @@
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.status_adjustment === '1'"
+                      :disabled="
+                        item.status_adjustment === '1' ||
+                        item.status_opname === 'BATAL'
+                      "
                     />
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
-                      :disabled="item.status_adjustment === '1'"
+                      :disabled="
+                        item.status_adjustment === '1' ||
+                        item.status_opname === 'BATAL'
+                      "
                     />
                   </td>
                 </tr>
