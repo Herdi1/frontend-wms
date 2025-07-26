@@ -132,12 +132,574 @@
           </div>
           <tab-component :tabs="tabs">
             <template #DetailSewaGudang>
-              <p>gudang</p>
+              <div class="w-full flex justify-between items-center">
+                <h1 class="text-xl font-bold">Detail Sewa Gudang</h1>
+                <div class=" ">
+                  <button
+                    type="button"
+                    @click="addDetailGudang"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Detail</p>
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive overflow-y-hidden mb-7">
+                <table
+                  class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                  :class="
+                    parameters.form.detail_kontrak_sewa_gudang.length
+                      ? 'mb-[300px]'
+                      : ''
+                  "
+                >
+                  <thead>
+                    <tr class="uppercase">
+                      <th class="w-52 border border-gray-300">Jenis Kontrak</th>
+                      <th class="w-52 border border-gray-300">Divisi</th>
+                      <th class="w-52 border border-gray-300">Jenis Biaya</th>
+                      <th class="w-52 border border-gray-300">Gudang</th>
+                      <th class="w-52 border border-gray-300">
+                        Info Pembayaran
+                      </th>
+                      <th class="w-52 border border-gray-300">Luas</th>
+                      <th class="w-20 border border-gray-300">Hapus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item, i) in parameters.form
+                        .detail_kontrak_sewa_gudang"
+                      :key="i"
+                      class="border-t"
+                    >
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_jenis_kontrak"
+                          :loading="isLoadingGetJenisKontrak"
+                          :options="lookup_custom3.data"
+                          :filterable="false"
+                          @search="onGetJenisKontrak"
+                          :reduce="(item) => item.jenis_kontrak_id"
+                          v-model="item.jenis_kontrak_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom3.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom3.current_page > 1"
+                              @click="onGetJenisKontrak(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom3.last_page >
+                                lookup_custom3.current_page
+                              "
+                              @click="onGetJenisKontrak(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_divisi"
+                          :loading="isLoadingGetDivisi"
+                          :options="lookup_custom4.data"
+                          :filterable="false"
+                          @search="onGetDivisi"
+                          :reduce="(item) => item.divisi_id"
+                          v-model="item.divisi_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom4.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom4.current_page > 1"
+                              @click="onGetDivisi(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom4.last_page >
+                                lookup_custom4.current_page
+                              "
+                              @click="onGetDivisi(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_jenis_biaya"
+                          :loading="isLoadingGetJenisBiaya"
+                          :options="lookup_custom5.data"
+                          :filterable="false"
+                          @search="onGetJenisBiaya"
+                          :reduce="(item) => item.jenis_biaya_id"
+                          v-model="item.jenis_biaya_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom5.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom5.current_page > 1"
+                              @click="onGetJenisBiaya(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom5.last_page >
+                                lookup_custom5.current_page
+                              "
+                              @click="onGetJenisBiaya(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_gudang"
+                          :loading="isLoadingGetGudang"
+                          :options="lookup_custom6.data"
+                          :filterable="false"
+                          @search="onGetGudang"
+                          :reduce="(item) => item.gudang_id"
+                          v-model="item.gudang_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom6.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom6.current_page > 1"
+                              @click="onGetGudang(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom6.last_page >
+                                lookup_custom6.current_page
+                              "
+                              @click="onGetGudang(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_term_pembayaran"
+                          :loading="isLoadingGetTerm"
+                          :options="lookup_custom7.data"
+                          :filterable="false"
+                          @search="onGetTerm"
+                          :reduce="(item) => item.term_pembayaran_id"
+                          v-model="item.term_pembayaran_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom7.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom7.current_page > 1"
+                              @click="onGetTerm(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom7.last_page >
+                                lookup_custom7.current_page
+                              "
+                              @click="onGetTerm(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_satuan"
+                          :loading="isLoadingGetSatuan"
+                          :options="lookup_custom8.data"
+                          :filterable="false"
+                          @search="onGetSatuan"
+                          :reduce="(item) => item.satuan_id"
+                          v-model="item.satuan_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom8.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom8.current_page > 1"
+                              @click="onGetSatuan(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom8.last_page >
+                                lookup_custom8.current_page
+                              "
+                              @click="onGetSatuan(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        <i
+                          class="fas fa-trash mx-auto"
+                          style="cursor: pointer"
+                          @click="onDeleteGudang(i)"
+                        ></i>
+                      </td>
+                    </tr>
+                    <tr
+                      v-if="
+                        !parameters.form.detail_kontrak_sewa_gudang.length > 0
+                      "
+                    >
+                      <td colspan="100" class="text-center">
+                        <span class="flex justify-center">
+                          <img
+                            src="/img/data-not-found.svg"
+                            style="height: 250px; object-fit: cover"
+                          />
+                        </span>
+                        <div class="mt-3">Data Tidak Ditemukan</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </template>
             <template #DetailSewaPeralatan>
-              <p>peralatan</p>
+              <div class="w-full flex justify-between items-center">
+                <h1 class="text-xl font-bold">Detail Sewa Peralatan</h1>
+                <div class=" ">
+                  <button
+                    type="button"
+                    @click="addDetailPeralatan"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Detail</p>
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive overflow-y-hidden mb-7">
+                <table
+                  class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                  :class="
+                    parameters.form.detail_kontrak_sewa_peralatan.length
+                      ? 'mb-[300px]'
+                      : ''
+                  "
+                >
+                  <thead>
+                    <tr class="uppercase">
+                      <th class="w-52 border border-gray-300">Jenis Kontrak</th>
+                      <th class="w-52 border border-gray-300">Divisi</th>
+                      <th class="w-52 border border-gray-300">Jenis Biaya</th>
+                      <th class="w-52 border border-gray-300">Gudang</th>
+                      <th class="w-52 border border-gray-300">
+                        Info Pembayaran
+                      </th>
+                      <th class="w-52 border border-gray-300">
+                        Tipe Peralatan
+                      </th>
+                      <th class="w-20 border border-gray-300">Hapus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item, i) in parameters.form
+                        .detail_kontrak_sewa_peralatan"
+                      :key="i"
+                      class="border-t"
+                    >
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_jenis_kontrak"
+                          :loading="isLoadingGetJenisKontrak"
+                          :options="lookup_custom3.data"
+                          :filterable="false"
+                          @search="onGetJenisKontrak"
+                          :reduce="(item) => item.jenis_kontrak_id"
+                          v-model="item.jenis_kontrak_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom3.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom3.current_page > 1"
+                              @click="onGetJenisKontrak(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom3.last_page >
+                                lookup_custom3.current_page
+                              "
+                              @click="onGetJenisKontrak(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_divisi"
+                          :loading="isLoadingGetDivisi"
+                          :options="lookup_custom4.data"
+                          :filterable="false"
+                          @search="onGetDivisi"
+                          :reduce="(item) => item.divisi_id"
+                          v-model="item.divisi_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom4.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom4.current_page > 1"
+                              @click="onGetDivisi(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom4.last_page >
+                                lookup_custom4.current_page
+                              "
+                              @click="onGetDivisi(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_jenis_biaya"
+                          :loading="isLoadingGetJenisBiaya"
+                          :options="lookup_custom5.data"
+                          :filterable="false"
+                          @search="onGetJenisBiaya"
+                          :reduce="(item) => item.jenis_biaya_id"
+                          v-model="item.jenis_biaya_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom5.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom5.current_page > 1"
+                              @click="onGetJenisBiaya(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom5.last_page >
+                                lookup_custom5.current_page
+                              "
+                              @click="onGetJenisBiaya(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_gudang"
+                          :loading="isLoadingGetGudang"
+                          :options="lookup_custom6.data"
+                          :filterable="false"
+                          @search="onGetGudang"
+                          :reduce="(item) => item.gudang_id"
+                          v-model="item.gudang_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom6.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom6.current_page > 1"
+                              @click="onGetGudang(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom6.last_page >
+                                lookup_custom6.current_page
+                              "
+                              @click="onGetGudang(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_term_pembayaran"
+                          :loading="isLoadingGetTerm"
+                          :options="lookup_custom7.data"
+                          :filterable="false"
+                          @search="onGetTerm"
+                          :reduce="(item) => item.term_pembayaran_id"
+                          v-model="item.term_pembayaran_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom7.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom7.current_page > 1"
+                              @click="onGetTerm(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom7.last_page >
+                                lookup_custom7.current_page
+                              "
+                              @click="onGetTerm(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300">
+                        <v-select
+                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                          label="nama_jenis_peralatan"
+                          :loading="isLoadingGetPeralatan"
+                          :options="lookup_custom9.data"
+                          :filterable="false"
+                          @search="onGetPeralatan"
+                          :reduce="(item) => item.jenis_peralatan_id"
+                          v-model="item.jenis_peralatan_id"
+                        >
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="p-1 border-t flex justify-between"
+                            v-if="lookup_custom9.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_custom9.current_page > 1"
+                              @click="onGetPeralatan(search, false)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_custom9.last_page >
+                                lookup_custom9.current_page
+                              "
+                              @click="onGetPeralatan(search, true)"
+                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        <i
+                          class="fas fa-trash mx-auto"
+                          style="cursor: pointer"
+                          @click="onDeletePeralatan(i)"
+                        ></i>
+                      </td>
+                    </tr>
+                    <tr
+                      v-if="
+                        !parameters.form.detail_kontrak_sewa_peralatan.length >
+                        0
+                      "
+                    >
+                      <td colspan="100" class="text-center">
+                        <span class="flex justify-center">
+                          <img
+                            src="/img/data-not-found.svg"
+                            style="height: 250px; object-fit: cover"
+                          />
+                        </span>
+                        <div class="mt-3">Data Tidak Ditemukan</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </template>
           </tab-component>
+          <modal-footer-section
+            class="mt-5"
+            :isLoadingForm="isLoadingForm"
+            @reset="formReset()"
+          />
         </form>
       </ValidationObserver>
     </div>
