@@ -288,7 +288,7 @@ export default {
       if (this.result == true) {
         // this.self.onLoad(this.self.parameters.params.page);
         this.$toaster.success(
-          "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
+          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
         this.formReset();

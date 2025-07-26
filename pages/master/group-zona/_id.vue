@@ -118,7 +118,7 @@ export default {
 
       if (this.result == true) {
         this.$toaster.success(
-          "Data berhasi; di " + (this.isEditable == true ? "Diedit" : "Tambah")
+          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
 
         this.isEditable = false;

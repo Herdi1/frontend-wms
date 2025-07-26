@@ -117,7 +117,10 @@
                   <td class="place-content-center">
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.status_adjustment == '1'"
+                      :disabled="
+                        item.status_mutasi === 'BATAL' ||
+                        item.status_adjustment == 1
+                      "
                     />
                   </td>
                   <td class="text-center place-content-center">

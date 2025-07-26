@@ -26,7 +26,7 @@
                   type="text"
                   name="kode_pick_request"
                   :isHorizontal="true"
-                  v-model="parameters.form.kode_request"
+                  v-model="parameters.form.kode_pick_request"
                   :required="false"
                   :disabled="true"
                 />
@@ -59,21 +59,21 @@
               </div>
 
               <div v-if="!user.gudang_id" class="w-full">
-                <ValidationProvider name="gudang" rules="required">
+                <select-button
+                  :self="{
+                    label: 'Gudang',
+                    optionLabel: 'nama_gudang',
+                    lookup: lookup_roles,
+                    value: parameters.form.gudang_id,
+                    onGet: onGetGudang,
+                    isLoadingL: isLoadingGetGudang,
+                    input: onSelectGudang,
+                  }"
+                  width="w-[50%]"
+                  required="true"
+                />
+                <!-- <ValidationProvider name="gudang" rules="required">
                   <div slot-scope="{ errors, valid }">
-                    <select-button
-                      :self="{
-                        label: 'Gudang',
-                        optionLabel: 'nama_gudang',
-                        lookup: lookup_roles,
-                        value: parameters.form.gudang_id,
-                        onGet: onGetGudang,
-                        isLoadingL: isLoadingGetGudang,
-                        input: onSelectGudang,
-                      }"
-                      width="w-[50%]"
-                      required="true"
-                    />
                     <div class="w-full flex justify-end">
                       <span
                         class="text-danger text-xs pl-1 w-1/2"
@@ -82,7 +82,7 @@
                       >
                     </div>
                   </div>
-                </ValidationProvider>
+                </ValidationProvider> -->
               </div>
 
               <ValidationProvider name="lokasi">
@@ -94,7 +94,7 @@
                     value: parameters.form.lokasi_id,
                     onGet: onGetLokasi,
                     isLoadingL: isLoadingGetLokasi,
-                    input: onSelectAsalMuat,
+                    input: onSelectLokasi,
                   }"
                   width="w-[50%]"
                   class="mb-5"
@@ -115,9 +115,9 @@
                 <input-horizontal
                   label="Doc Type External"
                   type="text"
-                  name="doc_type_sap"
+                  name="doc_type_external"
                   :isHorizontal="true"
-                  v-model="parameters.form.doc_type_sap"
+                  v-model="parameters.form.doc_type_external"
                   :required="false"
                 />
               </div>
@@ -180,21 +180,21 @@
                   required
                   type="datetime-local"
                   step="1"
-                  v-model="parameters.form.tanggal_ambil"
+                  v-model="parameters.form.tanggal_request_ambil"
                   class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 />
               </div>
 
               <div class="form-group flex justify-between items-center">
                 <label for="" class="w-1/2"
-                  >Tanggal Request Muat
+                  >Tanggal Request Kirim
                   <span class="text-danger">*</span></label
                 >
                 <input
                   required
                   type="datetime-local"
                   step="1"
-                  v-model="parameters.form.tanggal_kirim"
+                  v-model="parameters.form.tanggal_request_kirim"
                   class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 />
               </div>
@@ -350,6 +350,8 @@ export default {
             return {
               ...item,
               pick_request_detail_id: item || null,
+              item_gudang_id: item.item_gudang,
+              item_id: item.item.item_id,
             };
           });
 
@@ -457,6 +459,14 @@ export default {
 
       const formattedDate = `${year}-${month}-${day}`;
 
+      let newTanggal = this.formatDateTime(this.parameters.form.tanggal);
+      let newTanggalAmbil = this.formatDateTime(
+        this.parameters.form.tanggal_request_ambil
+      );
+      let newTanggalKirim = this.formatDateTime(
+        this.parameters.form.tanggal_request_kirim
+      );
+
       let formData = {
         ...this.parameters.form,
         gudang_id:
@@ -483,6 +493,9 @@ export default {
         //   typeof this.parameters.form.pengemudi_id === "object"
         //     ? this.parameters.form.pengemudi_id.pengemudi_id
         //     : "",
+        tanggal: newTanggal,
+        tanggal_request_ambil: newTanggalAmbil,
+        tanggal_request_kirim: newTanggalKirim,
       };
 
       // formData.tanggal = formattedDate;
@@ -499,6 +512,11 @@ export default {
               typeof item.item_gudang_id === "object"
                 ? item.item_gudang_id.item_gudang_id
                 : item.item_gudang_id,
+            item_id: this.isEditable
+              ? item.item_id
+              : typeof item.item_gudang_id === "object"
+              ? item.item_gudang_id.item_id
+              : item.item_id,
           };
         }
       );
@@ -688,7 +706,7 @@ export default {
           lookup: "custom1",
           query:
             "?search=" +
-            this.pelanggan +
+            this.pelanggan_search +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -748,6 +766,14 @@ export default {
         this.parameters.form.gudang_id = "";
       }
     },
+    //select lokasi
+    onSelectLokasi(item) {
+      if (item) {
+        this.parameters.form.lokasi_id = item;
+      } else {
+        this.parameters.form.lokasi_id = "";
+      }
+    },
     //select item gudang
     onSelectItemGudang(item, index) {
       if (item) {
@@ -770,16 +796,21 @@ export default {
       this.isEditable = false;
       this.parameters.form = {
         pick_request_id: "",
-        kode_stok_transfer: "",
         kode_pick_request: "",
-        doc_type_sap: "",
+        doc_type_external: "",
+        kode_external: "",
+        nama_peminta: "",
+        pelanggan_id: "",
         tanggal: "",
+        tanggal_request_kirim: "",
+        tanggal_request_ambil: "",
         no_referensi_1: "",
         no_referensi_2: "",
         no_referensi_3: "",
+        sales: "",
         lokasi_id: "",
         gudang_id: "",
-        status_transaksi_id: "",
+        status_approve: "0",
         keterangan: "",
 
         //Tracking
@@ -788,7 +819,6 @@ export default {
         longitude: "",
         latitude: "",
 
-        // asn detail
         pick_request_details: [],
       };
     },
@@ -804,6 +834,21 @@ export default {
         quantity_terkirim: "",
         keterangan: "",
       };
+    },
+
+    formatDateTime(dateTime) {
+      const dateObject = new Date(dateTime);
+
+      const year = dateObject.getFullYear();
+      const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObject.getDate()).padStart(2, "0");
+      const hours = String(dateObject.getHours()).padStart(2, "0");
+      const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+      const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
+      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      return formattedDateTime;
     },
   },
 };

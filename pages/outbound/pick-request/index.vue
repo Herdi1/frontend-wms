@@ -67,12 +67,12 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Detail</th>
-                  <th class="w-[5%]">No</th>
+                <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] border border-gray-300">Detail</th>
+                  <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -80,7 +80,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pinter w-[30%] border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Pick Request</div>
@@ -106,7 +106,7 @@
                       </div>
                     </div>
                   </th>
-                  <th>Nama Peminta</th>
+                  <th class="border border-gray-300">Nama Peminta</th>
                   <th
                     @click="
                       onSort(
@@ -114,7 +114,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pinter w-[30%] border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Tanggal</div>
@@ -140,21 +140,21 @@
                       </div>
                     </div>
                   </th>
-                  <th>Status Approve</th>
-                  <th>Lokasi</th>
-                  <th>Gudang</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="border border-gray-300">Status Approve</th>
+                  <th class="border border-gray-300">Lokasi</th>
+                  <th class="border border-gray-300">Gudang</th>
+                  <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -162,7 +162,7 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
                       {{ item.kode_pick_request }}
                       <p v-if="item.user_id_input" class="text-blue-500">
@@ -173,20 +173,20 @@
                       </p>
                     </div>
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.nama_peminta }}
                   </td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
                     {{ item.status_approve == "1" ? "Disetujui" : "Menunggu" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

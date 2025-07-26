@@ -45,7 +45,7 @@
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Konversi Stok</th>
                 <th class="border border-gray-300">Gudang</th>
-                <th class="border border-gray-300">Status Transaksi</th>
+                <th class="border border-gray-300">Status Konversi</th>
                 <th class="border border-gray-300">Tanggal</th>
                 <th class="border border-gray-300">Tanggal Mulai</th>
                 <th class="border border-gray-300">Tanggal Selesai</th>
@@ -57,7 +57,10 @@
                 <td class="border border-gray-300">
                   <small-edit-button
                     @click="onEdit(item)"
-                    :disabled="item.status_approve == 1"
+                    :disabled="
+                      item.status_approve == 1 ||
+                      item.status_konversi === 'BATAL'
+                    "
                   />
                 </td>
                 <td class="border border-gray-300">
@@ -84,10 +87,30 @@
                   {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  <p v-if="item.status_approve == 1" class="text-green-500">
-                    Approved
-                  </p>
-                  <p v-else class="text-orange-500">Menunggu</p>
+                  <div
+                    v-if="item.status_konversi === 'MENUNGGU'"
+                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                  >
+                    <p>Menunggu</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'PROSES'"
+                    class="p-1 rounded-md bg-blue-500 text-white text-center"
+                  >
+                    <p>Proses</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'SELESAI'"
+                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                  >
+                    <p>Selesai</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'BATAL'"
+                    class="p-1 rounded-md bg-red-500 text-white text-center"
+                  >
+                    <p>Batal</p>
+                  </div>
                 </td>
                 <td class="border border-gray-300">{{ item.tanggal }}</td>
                 <td class="border border-gray-300">{{ item.tanggal_mulai }}</td>

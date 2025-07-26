@@ -504,7 +504,7 @@ export default {
       })
         .then((res) => {
           this.$toaster.success(
-            "Data berhasi; di " +
+            "Data berhasil di " +
               (this.isEditable == true ? "Diedit" : "Tambah")
           );
 

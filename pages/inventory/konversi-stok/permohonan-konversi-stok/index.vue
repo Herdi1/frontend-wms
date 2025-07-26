@@ -60,7 +60,10 @@
                 <td class="border border-gray-300">
                   <small-edit-button
                     @click="onEdit(item)"
-                    :disabled="item.status_approve == 1"
+                    :disabled="
+                      item.status_approve == 1 ||
+                      item.status_konversi === 'BATAL'
+                    "
                   />
                 </td>
                 <td class="border border-gray-300">
@@ -87,7 +90,30 @@
                   {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.status_approve == 1 ? "Disetujui" : "Menunggu" }}
+                  <div
+                    v-if="item.status_konversi === 'MENUNGGU'"
+                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                  >
+                    <p>Menunggu</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'PROSES'"
+                    class="p-1 rounded-md bg-blue-500 text-white text-center"
+                  >
+                    <p>Proses</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'SELESAI'"
+                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                  >
+                    <p>Selesai</p>
+                  </div>
+                  <div
+                    v-if="item.status_konversi === 'BATAL'"
+                    class="p-1 rounded-md bg-red-500 text-white text-center"
+                  >
+                    <p>Batal</p>
+                  </div>
                 </td>
                 <td class="border border-gray-300">{{ item.tanggal }}</td>
                 <td class="border border-gray-300">{{ item.tanggal_mulai }}</td>

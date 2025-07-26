@@ -114,7 +114,13 @@
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
                   <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_mutasi === 'BATAL' ||
+                        item.status_adjustment == 1
+                      "
+                    />
                   </td>
                   <td class="text-center place-content-center">
                     <small-detail-button @click="onDetail(item)" />

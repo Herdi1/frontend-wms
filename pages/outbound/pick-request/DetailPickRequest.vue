@@ -147,14 +147,22 @@ export default {
     ...mapState("moduleApi", ["data", "error", "result", "lookup_custom2"]),
   },
 
+  async created() {
+    this.onSearchItemGudang();
+  },
+
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addPickRequestDetail() {
-      this.parameters.form.pick_request_details.push({
-        ...this.formPickRequest,
+      this.self.parameters.form.pick_request_details.push({
+        pick_request_detail_id: "",
+        item_id: "",
+        item_gudang_id: "",
+        quantity: "",
+        keterangan: "",
       });
-      this.resetFormPickRequest();
+      // this.resetFormPickRequest();
     },
 
     resetFormPickRequest() {
@@ -198,7 +206,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id" +
-            this.parameters.form.gudang_id.gudang_id +
+            this.self.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -211,7 +219,7 @@ export default {
     onSelectItemGudang(item, index) {
       if (item) {
         this.self.parameters.form.pick_request_details[index].item_gudang_id =
-          item.item_gudang_id;
+          item;
       } else {
         this.self.parameters.form.pick_request_details[index].item_gudang_id =
           "";

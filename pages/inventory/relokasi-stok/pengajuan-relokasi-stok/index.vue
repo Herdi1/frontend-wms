@@ -107,13 +107,20 @@
                       </div>
                     </div>
                   </th>
+                  <th>Status Relokasi</th>
                   <th class="w-[5%] text-center">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
                   <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_mutasi === 'BATAL' ||
+                        item.status_adjustment == 1
+                      "
+                    />
                   </td>
                   <td class="text-center place-content-center">
                     <small-detail-button @click="onDetail(item)" />
@@ -129,6 +136,32 @@
                   <td>{{ item.kode_mutasi_stok }}</td>
                   <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                   <td>{{ item.tanggal }}</td>
+                  <td class="text-center">
+                    <div
+                      v-if="item.status_mutasi === 'MENUNGGU'"
+                      class="p-1 rounded-md bg-orange-500 text-white"
+                    >
+                      <p>Menunggu</p>
+                    </div>
+                    <div
+                      v-if="item.status_mutasi === 'PROSES'"
+                      class="p-1 rounded-md bg-blue-500 text-white"
+                    >
+                      <p>Proses</p>
+                    </div>
+                    <div
+                      v-if="item.status_mutasi === 'SELESAI'"
+                      class="p-1 rounded-md bg-green-500 text-white"
+                    >
+                      <p>Selesai</p>
+                    </div>
+                    <div
+                      v-if="item.status_mutasi === 'BATAL'"
+                      class="p-1 rounded-md bg-red-500 text-white"
+                    >
+                      <p>Batal</p>
+                    </div>
+                  </td>
                   <td class="place-content-center">
                     <small-delete-button
                       @click="onTrashed(item)"
