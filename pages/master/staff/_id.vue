@@ -77,9 +77,9 @@
                   <option value="l">Laki-laki</option>
                   <option value="p">Perempuan</option>
                 </select>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
             <div class="form-group">
@@ -121,9 +121,9 @@
                   <option value="pengemudi">Pengemudi</option>
                   <option value="operator">Operator</option>
                 </select>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
             <div class="form-group">
@@ -205,9 +205,9 @@
                   <option value="1">Aktif</option>
                   <option value="0">Tidak Aktif</option>
                 </select>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
             <ValidationProvider
@@ -253,9 +253,9 @@
                     >
                   </li>
                 </v-select>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
             <div class="form-group w-full items-center">
@@ -374,9 +374,9 @@
                     >
                   </li>
                 </v-select>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
 
@@ -391,9 +391,9 @@
                   v-model="parameters.form.alamat"
                   :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 ></textarea>
-                <div v-if="errors[0]" class="text-danger">
+                <!-- <div v-if="errors[0]" class="text-danger">
                   {{ errors[0] }}
-                </div>
+                </div> -->
               </div>
             </ValidationProvider>
             <div class="form-group">
