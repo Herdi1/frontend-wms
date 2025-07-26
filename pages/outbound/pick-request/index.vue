@@ -71,24 +71,24 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%]">Detail</th>
                   <th class="w-[5%]">No</th>
-                  <!-- <th
+                  <th
                     @click="
                       onSort(
-                        'nama_provinsi',
+                        'kode_pick_request',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                     class="cursor-pinter w-[30%]"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Provinsi</div>
+                      <div>Kode Pick Request</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'kode_pick_request' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -97,7 +97,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
+                            parameters.params.order == 'kode_pick_request' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -105,14 +105,45 @@
                         ></i>
                       </div>
                     </div>
-                  </th> -->
-                  <th>Kode Pick Request</th>
-                  <th>Doc Type External</th>
-                  <th>Tanggal</th>
-                  <th>Status Transaksi</th>
+                  </th>
+                  <th>Nama Peminta</th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-[30%]"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th>Status Approve</th>
                   <th>Lokasi</th>
                   <th>Gudang</th>
-                  <th>Details</th>
+                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -121,10 +152,7 @@
                     <small-edit-button @click="onEdit(item)" />
                   </td>
                   <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
                   <td>
                     {{
@@ -146,15 +174,11 @@
                     </div>
                   </td>
                   <td>
-                    {{ item.doc_type_sap }}
+                    {{ item.nama_peminta }}
                   </td>
                   <td>{{ item.tanggal }}</td>
                   <td>
-                    {{
-                      item.status_transaksi
-                        ? item.status_transaksi.nama_status_transaksi
-                        : "-"
-                    }}
+                    {{ item.status_approve == "1" ? "Disetujui" : "Menunggu" }}
                   </td>
                   <td>
                     {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
@@ -163,7 +187,10 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>

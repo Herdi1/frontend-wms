@@ -387,7 +387,7 @@
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
-                @click="deleteDetailProdukBahan(index)"
+                @click="deleteDetailProdukJadi(index)"
               ></i>
             </td>
           </tr>
