@@ -339,7 +339,7 @@ export default {
         }
       );
       this.isLoadingPage = false;
-      console.log(this.detail_staff);
+      // console.log(this.detail_staff);
     } catch (error) {
       this.$router.back();
       // console.log("error", error);

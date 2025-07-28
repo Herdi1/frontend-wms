@@ -995,6 +995,8 @@ export default {
           query:
             "?search=" +
             this.zonaGudang_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1034,6 +1036,8 @@ export default {
             "?search=" +
             this.slot_aisle_search +
             "&level=1" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1074,6 +1078,8 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=2" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1114,6 +1120,8 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=3" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom6.current_page +
             "&per_page=10",
@@ -1154,6 +1162,8 @@ export default {
             "?search=" +
             this.slot_bin_search +
             "&level=4" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
@@ -1193,7 +1203,7 @@ export default {
             "?search=" +
             this.itemGudang_search +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",

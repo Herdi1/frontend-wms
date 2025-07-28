@@ -317,7 +317,9 @@ export default {
     },
 
     onDetail(item) {
-      this.$router.push("/inbound/purchase-order/detail/" + item.asn_id);
+      this.$router.push(
+        "/inbound/purchase-order/detail/" + item.purchase_order_id
+      );
     },
 
     onTrashed(item) {

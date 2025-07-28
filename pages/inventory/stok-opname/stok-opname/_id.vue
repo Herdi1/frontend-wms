@@ -1084,7 +1084,7 @@ export default {
           lookup: "custom6",
           query:
             "?search=" +
-            this.slot_rack_search +
+            this.slot_level_search +
             "&level=3" +
             "&page=" +
             this.lookup_custom6.current_page +
