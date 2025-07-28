@@ -235,8 +235,8 @@
                   <div class="w-full flex justify-between items-center">
                     <h1 class="text-xl font-bold">Detail Inbound</h1>
                     <div class=" ">
+                      <!-- v-if="form.sumber_data === 'NON'" -->
                       <button
-                      v-if="form.sumber_data === 'NON'"
                         type="button"
                         @click="AddDetailInbound"
                         class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -805,7 +805,7 @@
                       </tbody>
                     </table>
 
-                    <div class="mb-20 ml-20" v-if="items">
+                    <!-- <div class="mb-20 ml-20" v-if="items">
                       <ul class="flex gap-2">
                         <li
                           class="mb-2 flex items-center"
@@ -820,7 +820,7 @@
                           </div>
                         </li>
                       </ul>
-                    </div>
+                    </div> -->
                   </div>
                 </template>
                 <template #BiayaInbound>
@@ -1132,7 +1132,7 @@ export default {
     return {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
-        { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
+        // { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
       ],
 
       id,
@@ -1274,6 +1274,8 @@ export default {
           }
         });
 
+        this.form.gudang_id = res.data.gudang
+
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -1406,13 +1408,13 @@ export default {
       let isSameAsPlan = this.form.inbound_details.every((data) => {
         return (
           data.zona_gudang_id === data.zona_gudang_id_plan &&
-          data.slot_penyimpanan_id_aisle ===
+          data.slot_penyimpanan_id_aisle.slot_penyimpanan_id ===
             data.slot_penyimpanan_id_aisle_plan &&
-          data.slot_penyimpanan_id_rack ===
+          data.slot_penyimpanan_id_rack.slot_penyimpanan_id ===
             data.slot_penyimpanan_id_rack_plan &&
-          data.slot_penyimpanan_id_level ===
+          data.slot_penyimpanan_id_level.slot_penyimpanan_id ===
             data.slot_penyimpanan_id_level_plan &&
-          data.slot_penyimpanan_id_bin === data.slot_penyimpanan_id_bin_plan
+          data.slot_penyimpanan_id_bin.slot_penyimpanan_id === data.slot_penyimpanan_id_bin_plan
         );
       });
       return isSameAsPlan ? "" : "required";
@@ -1535,8 +1537,8 @@ export default {
             : "",
           valuation_id: item.valuation_id ?? "",
           item_gudang_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_gudang_id : item.item_gudang_id,
-          item_id: typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_id : item.item_gudang_id,
-          item_pelanggan_id:  typeof item.item_gudang_id === 'object' ? item.item_gudang_id.item_id : item.item_gudang_id,
+          item_id: item.item.item_id,
+          item_pelanggan_id:  '',
           zona_gudang_id:
               typeof item.zona_gudang_id === "object"
                 ? item.zona_gudang_id.zona_gudang_id
@@ -2097,6 +2099,8 @@ export default {
 
     async onSelectAsn(item) {
       if (item) {
+        this.form.inbound_details = [];
+        this.items =[]
         this.form.asn_id = item;
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
@@ -2107,13 +2111,14 @@ export default {
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
             return {
-              item_gudang_id: data.item.item_gudang_id,
+              ...data,
+              item_gudang_id: data.item_gudang_id,
               nama_item: data.item.nama_item,
               asn_detail_id: data.asn_detail_id,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               serial_number: data.serial_number ?? "",
               no_referensi: data.no_referensi ?? "",
-              quantity: data.quantity,
+              quantity: parseFloat(data.quantity),
               panjang: data.panjang,
               lebar: data.lebar,
               berat: data.berat,
@@ -2164,13 +2169,16 @@ export default {
 
     async onSelectPo(item) {
       if (item) {
+        this.form.inbound_details = [];
+        this.items =[]
         this.form.purchase_order_id = item;
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
+        this.form.gudang_id = item.gudang;
         // this.form.tanggal = item.tanggal;
-        this.form.gudang_id = item.gudang_id;
+        // this.form.gudang_id = item.gudang_id;
         if (item.purchase_order_details) {
           this.items = item.purchase_order_details.map((data) => {
             return {
@@ -2180,7 +2188,7 @@ export default {
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               serial_number: data.serial_number ?? "",
               no_referensi: data.no_referensi ?? "",
-              quantity: data.quantity,
+              quantity: parseFloat(data.quantity),
             };
           });
           console.log(this.items);

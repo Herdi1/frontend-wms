@@ -245,7 +245,8 @@ export default {
         .post("/reset-password/send-otp", this.form)
         .then((res) => {
           this.$toaster.success(res.message);
-          this.$router.push("/verifikasi-akun");
+          localStorage.setItem("username", this.form.username);
+          this.$router.push("/verifikasi-otp");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);

@@ -51,10 +51,10 @@
                 </p>
               </div>
               <p class="text-xl font-bold leading-normal text-white-dark">
-                Reset Password
+                Verifikasi OTP
               </p>
               <p class="text-base font-bold leading-normal text-white-dark">
-                Masukkan Kata Sandi Baru untuk Akun Anda
+                Masukkan Kode yang telah dikirim ke email Anda
               </p>
             </div>
             <ValidationObserver v-slot="{ invalid, validate }">
@@ -63,19 +63,19 @@
                 autocomplete="off"
                 class="space-y-5 dark:text-white"
               >
-                <ValidationProvider name="password" rules="required">
+                <ValidationProvider name="otp" rules="required">
                   <div class="form-group mb-3" slot-scope="{ errors, valid }">
                     <div>
-                      <label for="password" class="text-sm text-gray-700"
-                        >Password Baru
+                      <label for="otp" class="text-sm text-gray-700"
+                        >Kode OTP
                       </label>
                       <div class="relative text-white-dark">
                         <input
-                          id="password"
-                          type="password"
+                          id="otp"
+                          type="text"
                           class="form-input ps-10 placeholder:text-white-dark w-full py-2 rounded-md border border-gray-200 text-md active:outline-blue-500"
-                          name="password"
-                          v-model="form.password"
+                          name="otp"
+                          v-model="form.otp"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
@@ -105,7 +105,7 @@
                       <i class="fas fa-circle-notch fa-spin"></i>
                     </span>
 
-                    <span v-else>Ubah Password</span>
+                    <span v-else>Verifikasi</span>
                   </button>
                   <!-- <button
                     type="submit"
@@ -221,7 +221,7 @@ export default {
       publicUrl: process.env.PUBLIC_URL,
       isLoadingForm: false,
       form: {
-        password: null,
+        otp: null,
       },
     };
   },
@@ -241,14 +241,12 @@ export default {
 
       this.isLoadingForm = true;
 
-      this.form.username = localStorage.getItem("username");
-      this.form.otp = localStorage.getItem("otp");
-
       this.$axios
-        .post("/reset-password/ubah-password", this.form)
+        .post("/reset-password/verifikasi-otp", this.form)
         .then((res) => {
           this.$toaster.success(res.message);
-          this.$router.push("/ogin");
+          localStorage.setItem("otp", this.form.otp);
+          this.$router.push("/reset-password");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);

@@ -1244,8 +1244,11 @@ export default {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get("master/item-gudang/" + this.id);
-        this.parameters.form = res.data;
+        Object.keys(this.form).forEach((item) => {
+          this.form[item] = res.data[item];
+        });
         this.isLoadingPage = false;
+        console.log(this.form);
       }
     } catch (error) {
       this.$router.push("/master/item-gudang");

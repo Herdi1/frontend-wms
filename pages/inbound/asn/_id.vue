@@ -921,6 +921,8 @@ export default {
           this.parameters.form[item] = res.data[item];
         });
 
+        this.parameters.form.purchase_order_id = res.data.purchase_order;
+        this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.lokasi_id_asal_muat =
           res.data.lokasi_asal_muat || "";
         this.parameters.form.vendor_id_transporter =
@@ -934,6 +936,7 @@ export default {
           return {
             ...item,
             asn_details_id: item || null,
+            item_gudang_id: item.item_gudang,
           };
         });
 
@@ -1079,7 +1082,10 @@ export default {
       formData.asn_details = formData.asn_details.map((item) => {
         return {
           ...item,
-          asn_detail_id: item.asn_details_id ? item.asn_details_id : "",
+          asn_detail_id:
+            typeof item.asn_detail_id === "object"
+              ? item.asn_detail_id.asn_detail_id
+              : "",
           purchase_order_detail_id: item.purchase_order_detail_id
             ? item.purchase_order_detail_id
             : "",
@@ -1704,7 +1710,7 @@ export default {
     onSelectKendaraan(item) {
       if (item) {
         this.parameters.form.kendaraan_id = item;
-        this.parameters.form.nama_kendaraan = item.plat_nomor;
+        this.parameters.form.nama_kendaraan = item.nama_kendaraan;
       } else {
         this.parameters.form.kendaraan_id = "";
         this.parameters.form.nama_kendaraan = "";

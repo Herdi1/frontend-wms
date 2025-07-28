@@ -159,28 +159,12 @@
                       </td>
                       <td class="border border-gray-300">
                         {{ item.quantity ? item.quantity : "" }}
-                        <div>
-                          <p>Bagus</p>
-                          <span class="pl-1">{{
-                            item.quantity_bagus ? item.quantity_bagus : "-"
+                        <p>
+                          Valuation:
+                          <span class="font-bold">{{
+                            item.kode_valuation
                           }}</span>
-                        </div>
-                        <div>
-                          <p>Rusak Membatu</p>
-                          <span class="pl-1">{{
-                            item.quantity_rusak_membatu
-                              ? item.quantity_rusak_membatu
-                              : "-"
-                          }}</span>
-                        </div>
-                        <div>
-                          <p>Rusak Pecah</p>
-                          <span class="pl-1">{{
-                            item.quantity_rusak_pecah
-                              ? item.quantity_rusak_pecah
-                              : "-"
-                          }}</span>
-                        </div>
+                        </p>
                       </td>
                       <td class="border border-gray-300">
                         {{ item.tanggal_expired ? item.tanggal_expired : "" }}
@@ -224,7 +208,11 @@
                         {{ item.keterangan ? item.keterangan : "" }}
                       </td>
                       <td class="border border-gray-300">
-                        {{ item.alasan_beda_plan ? item.alasan_beda_plan : "" }}
+                        {{
+                          item.alasan_beda_plan.nama_alasan_beda_plan
+                            ? item.alasan_beda_plan.nama_alasan_beda_plan
+                            : ""
+                        }}
                       </td>
                     </tr>
                   </tbody>
