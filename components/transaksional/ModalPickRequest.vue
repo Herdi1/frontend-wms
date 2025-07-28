@@ -61,7 +61,6 @@
                         </div>
                       </div>
                     </th>
-                    <th class="border border-gray-300 w-[15%]">Nama Peminta</th>
                     <th
                       @click="
                         onSort(
@@ -95,8 +94,74 @@
                         </div>
                       </div>
                     </th>
-                    <th class="border border-gray-300 w-[10%]">Lokasi</th>
-                    <th class="border border-gray-300 w-[10%]">Gudang</th>
+                    <th
+                      class="w-[30%] cursor-pointer"
+                      @click="
+                        onSort(
+                          'kode_item',
+                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                        )
+                      "
+                    >
+                      <div class="flex justify-between align-baseline">
+                        <div>Kode Item</div>
+                        <div>
+                          <i
+                            class="fas fa-caret-up"
+                            :class="
+                              parameters.params.order == 'kode_item' &&
+                              parameters.params.sort == 'asc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                          <i
+                            class="fas fa-caret-down"
+                            :class="
+                              parameters.params.order == 'kode_item' &&
+                              parameters.params.sort == 'desc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      class="w-[30%] cursor-pointer"
+                      @click="
+                        onSort(
+                          'nama_item',
+                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                        )
+                      "
+                    >
+                      <div class="flex justify-between align-baseline">
+                        <div>Nama Item</div>
+                        <div>
+                          <i
+                            class="fas fa-caret-up"
+                            :class="
+                              parameters.params.order == 'nama_item' &&
+                              parameters.params.sort == 'asc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                          <i
+                            class="fas fa-caret-down"
+                            :class="
+                              parameters.params.order == 'nama_item' &&
+                              parameters.params.sort == 'desc'
+                                ? ''
+                                : 'light-gray'
+                            "
+                          ></i>
+                        </div>
+                      </div>
+                    </th>
+
+                    <th class="border border-gray-300 w-[10%]">Quantity</th>
                     <th class="w-[5%]">Options</th>
                   </tr>
                 </thead>
@@ -113,15 +178,24 @@
                         </p>
                       </div>
                     </td>
-                    <td class="border border-gray-300">
-                      {{ item.nama_peminta }}
-                    </td>
+
                     <td class="border border-gray-300">{{ item.tanggal }}</td>
                     <td class="border border-gray-300">
-                      {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
+                      {{ item.kode_item ? item.kode_item : "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                      {{ item.nama_item ? item.nama_item : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity ? item.quantity : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="self.addItem(item)"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -130,9 +204,9 @@
                 <table-data-not-found-section :self="this" />
               </table>
             </div>
-            <!-- <div class="mx-3 mt-2 mb-4">
+            <div class="mx-3 mt-2 mb-4">
               <pagination-section :self="this" ref="pagination" />
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -204,7 +278,7 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.url = `outbound/pick-request`;
+      this.parameters.url = `outbound/pick-request/get-pick-request-detail/${this.self.parameters.form.gudang_id.gudang_id}`;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -217,14 +291,14 @@ export default {
       if (this.result == true) {
         loader.hide();
 
-        // if (page == 1) {
-        //   this.$refs["pagination"].generatePage();
-        // }
+        if (page == 1) {
+          this.$refs["pagination"].generatePage();
+        }
 
-        // this.$refs["pagination"].active_page = this.parameters.params.page;
+        this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
-        // this.$globalErrorToaster(this.$toaster, this.error);
-        console.log(this.error);
+        this.$globalErrorToaster(this.$toaster, this.error);
+        // console.log(this.error);
       }
 
       this.isLoadingData = false;

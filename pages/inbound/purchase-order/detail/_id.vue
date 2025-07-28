@@ -1,8 +1,8 @@
 <template>
-  <section class="section">
+  <section>
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold">Detail Purchase Order</h1>
+        <h1 class="text-xl font-bold uppercase">Detail Purchase Order</h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -10,265 +10,284 @@
         </button>
       </div>
       <div class="w-full">
-        <div class="w-full gap-3">
+        <div class="w-full md:flex gap-3">
           <div
             class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
           >
-            <div
-              class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-3 items-top w-full mb-5"
-            >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-4 w-full">
               <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Kode Purchase Order</label>
+                <label class="w-[40%]">Kode PO</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{ this.detail_po.kode_po ? this.detail_po.kode_po : "-" }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Referensi External</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{ this.detail_po.kode_sap ? this.detail_po.kode_sap : "-" }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Gudang</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.kode_po
-                      ? this.detail_item.kode_po
-                      : "Kode ASN tidak ditemukan"
+                    this.detail_po.gudang_id
+                      ? this.detail_po.gudang_id.nama_gudang
+                      : "-"
                   }}
                 </div>
               </div>
               <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Referensi External</label>
+                <label class="w-[40%]">Doc Type External</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.kode_sap
-                      ? this.detail_item.kode_sap
-                      : "Referensi External tidak ditemukan"
+                    this.detail_po.doc_type_sap
+                      ? this.detail_po.doc_type_sap
+                      : "-"
                   }}
                 </div>
               </div>
               <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Gudang</label>
+                <label class="w-[40%]">Lokasi Asal Muat</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.gudang
-                      ? this.detail_item.gudang.nama_gudang
-                      : "Gudang tidak ditemukan"
+                    this.detail_po.lokasi_id_asal_muat
+                      ? this.detail_po.lokasi_id_asal_muat.nama_lokasi
+                      : "-"
                   }}
                 </div>
               </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Doc Type External</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.doc_type_sap
-                      ? this.detail_item.doc_type_sap
-                      : "Doc Type External tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Asal Muat</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.lokasi_asal_muat
-                      ? this.detail_item.lokasi_asal_muat.nama_lokasi
-                      : this.detail_item.asal_muat
-                      ? this.detail_item.asal_muat
-                      : "Asal Muat tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Nama Transporter</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.vendor_transporter
-                      ? this.detail_item.vendor_transporter.nama_vendor
-                      : this.detail_item.nama_transporter
-                      ? this.detail_item.nama_transporter
-                      : "Nama Transporter tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Surat Jalan</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.surat_jalan
-                      ? this.detail_item.surat_jalan
-                      : "Surat Jalan tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">No Referensi</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.no_referensi
-                      ? this.detail_item.no_referensi
-                      : "Nomor Referensi tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">No Referensi 2</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.no_referensi_2
-                      ? this.detail_item.no_referensi_2
-                      : "Nomor Referensi tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Nama Kendaraan</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.kendaraan
-                      ? this.detail_item.kendaraan.nama_kendaraan
-                      : this.detail_item.nama_kendaraan
-                      ? this.detail_item.nama_kendaraan
-                      : "Kendaraan tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Nama Pengemudi</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.pengemudi
-                      ? this.detail_item.pengemudi.nama_pengemudi
-                      : this.detail_item.nama_pengemudi
-                      ? this.detail_item.nama_pengemudi
-                      : "Pengemudi tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Supplier</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.supplier
-                      ? this.detail_item.supplier.nama_supplier
-                      : "Supplier tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Perkiraan Tiba</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.perkiraan_tiba
-                      ? this.detail_item.perkiraan_tiba
-                      : "Perkiraan Tiba tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Kebutuhan Peralatan</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.kebutuhan_peralatan
-                      ? this.detail_item.kebutuhan_peralatan
-                      : "Kebutuhan Peralatan tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Handling Instruction</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.handling_instruction
-                      ? this.detail_item.handling_instruction
-                      : "Handling Instruction tidak ditemukan"
-                  }}
-                </div>
-              </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%] font-bold">Catatan</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_item.catatan
-                      ? this.detail_item.catatan
-                      : "Catatan tidak ditemukan"
-                  }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <span class="mb-3 mt-7 text-xl font-bold uppercase w-full">
-              <h1>ASN Detail</h1>
-            </span>
-            <div
-              class="mt-4 overflow-auto w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            >
-              <table
-                class="table border-collapse border border-gray-300 mt-5 table-fixed"
+              <div
+                class="flex w-full items-center"
+                v-if="!this.detail_po.lokasi_id_asal_muat"
               >
-                <thead>
-                  <tr class="text-sm uppercase">
-                    <th class="w-40 border border-gray-300">Item Gudang</th>
-                    <th class="w-40 border border-gray-300">Zona Gudang</th>
-                    <th class="w-40 border border-gray-300">Quantity</th>
-                    <th class="w-40 border border-gray-300">Serial Number</th>
-                    <th class="w-40 border border-gray-300">Nomor Referensi</th>
-                    <th class="w-40 border border-gray-300">Dimensi</th>
-                    <th class="w-40 border border-gray-300">Note</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(item, i) in this.detail_item.purchase_order_details"
-                    :key="i"
-                    class="border-t border-gray-400 align-top"
-                  >
-                    <td class="border border-gray-300">
-                      {{ item.item ? item.item.nama_item : "Tidak Ditemukan" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.zona_gudang_plan
-                          ? item.zona_gudang_plan.nama_zona_gudang
-                          : "Tidak Ditemukan"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.quantity ? item.quantity : "Tidak Ditemukan" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.serial_number
-                          ? item.serial_number
-                          : "Tidak Ditemukan"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.no_referensi
-                          ? item.no_referensi
-                          : "Tidak Ditemukan"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      <div>
-                        <p>Panjang</p>
-                        <span>{{ item.panjang }}</span>
-                      </div>
-                      <div>
-                        <p>Lebar</p>
-                        <span>{{ item.lebar }}</span>
-                      </div>
-                      <div>
-                        <p>Tinggi</p>
-                        <span>{{ item.tinggi }}</span>
-                      </div>
-                      <div>
-                        <p>Berat</p>
-                        <span>{{ item.berat }}</span>
-                      </div>
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.note ? item.note : "Tidak Ditemukan" }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <label class="w-[40%]">Asal Muat</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.asal_muat ? this.detail_po.asal_muat : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Vendor Transporter</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.vendor_id_transporter
+                      ? this.detail_po.vendor_id_transporter.nama_vendor
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="!this.detail_po.vendor_id_transporter"
+              >
+                <label class="w-[40%]">Nama Transporter</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.nama_transporter
+                      ? this.detail_po.nama_transporter
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Surat Jalan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.surat_jalan
+                      ? this.detail_po.surat_jalan
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Nomor Referensi</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.no_referensi
+                      ? this.detail_po.no_referensi
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Nomor Referensi 2</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.no_referensi_2
+                      ? this.detail_po.no_referensi_2
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Kendaraan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.kendaraan_id
+                      ? this.detail_po.kendaraan_id.nama_kendaraan
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="!this.detail_po.kendaraan_id"
+              >
+                <label class="w-[40%]">Nama Kendaraan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.nama_kendaraan
+                      ? this.detail_po.nama_kendaraan
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Pengemudi</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.pengemudi_id
+                      ? this.detail_po.pengemudi_id.nama_pengemudi
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="!this.detail_po.pengemudi_id"
+              >
+                <label class="w-[40%]">Nama Pengemudi</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.nama_pengemudi
+                      ? this.detail_po.nama_pengemudi
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Supplier</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.supplier_id
+                      ? this.detail_po.supplier_id.nama_supplier
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Perkiraan Tiba</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.perkiraan_tiba
+                      ? this.detail_po.perkiraan_tiba
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Kebutuhan Peralatan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.kebutuhan_peralatan
+                      ? this.detail_po.kebutuhan_peralatan
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Handling Instruction</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_po.handling_instruction
+                      ? this.detail_po.handling_instruction
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Catatan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{ this.detail_po.catatan ? this.detail_po.catatan : "-" }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <!-- <table-data-loading-section :self="this" /> -->
+      </div>
+      <div class="mt-4">
+        <h1 class="text-xl font-bold mb-2 uppercase">Detail Purchase Order</h1>
+      </div>
+      <div
+        class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+      >
+        <div class="w-full relative overflow-x-auto">
+          <table
+            class="mb-5 table-fixed border border-collapse border-gray-300"
+          >
+            <thead>
+              <tr class="uppercase">
+                <th class="w-40 border border-gray-300">Item Gudang</th>
+                <th class="w-40 border border-gray-300">Quantity</th>
+                <th class="w-40 border border-gray-300">Serial Number</th>
+                <th class="w-40 border border-gray-300">Nomor Referensi</th>
+                <th class="w-40 border border-gray-300">Dimensi</th>
+                <th class="w-40 border border-gray-300">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item, i) in detail_po.purchase_order_details"
+                :key="i"
+                class="border-t border-gray-400 align-top"
+              >
+                <td class="border border-gray-300">
+                  {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.quantity ? item.quantity : "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.serial_number ? item.serial_number : "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.no_referensi ? item.no_referensi : "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  <div class="flex justify-between">
+                    <h2>Panjang</h2>
+                    <span>
+                      {{ item.panjang }}
+                    </span>
+                  </div>
+                  <div class="flex justify-between">
+                    <h2>Lebar</h2>
+                    <span>
+                      {{ item.lebar }}
+                    </span>
+                  </div>
+                  <div class="flex justify-between">
+                    <h2>Tinggi</h2>
+                    <span>
+                      {{ item.tinggi }}
+                    </span>
+                  </div>
+                  <div class="flex justify-between">
+                    <h2>Berat</h2>
+                    <span>
+                      {{ item.berat }}
+                    </span>
+                  </div>
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.note ? item.note : "-" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -276,18 +295,16 @@
 
 <script>
 export default {
-  // middleware: ["isNotAccessable"],
-
   props: ["self"],
 
   data() {
     let id = parseInt(this.$route.params.id);
+
     return {
       id,
-
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingData: false,
-      detail_item: {
+      detail_po: {
         gudang_id: "",
         kode_po: "",
         kode_sap: "",
@@ -301,43 +318,46 @@ export default {
         no_referensi: "",
         no_referensi_2: "",
         kendaraan_id: "",
+        nama_kendaraan: "",
         pengemudi_id: "",
+        nama_pengemudi: "",
         supplier_id: "",
         perkiraan_tiba: "",
         kebutuhan_peralatan: "",
         handling_instruction: "",
         catatan: "",
-
-        //Tracking
-        user_agent: "",
-        device: "",
-        longitude: "",
-        latitude: "",
-
-        // purhcase_order detail
-        purhcase_order_details: [],
+        purchase_order_details: [],
       },
-      // form: {
-      //   item_id: "",
-      // },
     };
   },
 
   async created() {
     try {
-      let response = await this.$axios.get("inbound/purchase-order/" + this.id);
-      // Object.keys(this.detail_item).forEach((item) => {
-      //   this.detail_item[item] = response.data[item];
-      // });
-      this.detail_item = response.data;
-      console.log(this.detail_item);
-
+      let res = await this.$axios.get(`inbound/purchase-order/${this.id}`);
+      Object.keys(this.detail_po).forEach((item) => {
+        if (item != "purchase_order_details") {
+          this.detail_po[item] = res.data[item];
+        }
+      });
+      this.detail_po.gudang_id = res.data.gudang;
+      this.detail_po.lokasi_id_asal_muat = res.data.lokasi_asal_muat;
+      this.detail_po.vendor_id_transporter = res.data.vendor_transporter;
+      this.detail_po.kendaraan_id = res.data.kendaraan;
+      this.detail_po.pengemudi_id = res.data.pengemudi;
+      this.detail_po.supplier_id = res.data.supplier;
+      this.detail_po.purchase_order_details =
+        res.data.purchase_order_details.map((item) => {
+          return {
+            ...item,
+            item_gudang_id: item.item_gudang,
+          };
+        });
       this.isLoadingPage = false;
+      console.log(this.detail_po);
     } catch (error) {
-      this.$router.push("/inbound/purchase-order");
+      this.$router.back();
+      // console.log("erorr", error);
     }
   },
-
-  methods: {},
 };
 </script>
