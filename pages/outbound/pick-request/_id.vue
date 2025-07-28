@@ -164,7 +164,7 @@
                 >
                 <input
                   required
-                  type="datetime-local"
+                  type="date"
                   step="1"
                   v-model="parameters.form.tanggal"
                   class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
