@@ -29,79 +29,60 @@
 
           <div class="w-full mt-3 mb-7">
             <div
-              class="flex w-full gap-5 justify-between items-baseline p-2 border border-gray-300 rounded-md"
+              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
             >
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Awal"
-                    type="date"
-                    name="kode_sap"
-                    :isHorizontal="true"
-                    v-model="parameters.params.start_date"
-                    :required="false"
-                  />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Awal"
+                      type="date"
+                      name="kode_sap"
+                      :isHorizontal="true"
+                      v-model="parameters.params.start_date"
+                      :required="false"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Akhir"
+                      type="date"
+                      name="periode_akhir"
+                      :isHorizontal="true"
+                      v-model="parameters.params.end_date"
+                      :required="false"
+                    />
+                  </div>
                 </div>
               </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Akhir"
-                    type="date"
-                    name="periode_akhir"
-                    :isHorizontal="true"
-                    v-model="parameters.params.end_date"
-                    :required="false"
-                  />
-                </div>
-              </div>
-
-              <!-- <div class="flex w-[400px]">
-
-          <div class="mb-3 w-[40%]"><b>Periode Awal</b></div>
-      <div class="form-group w-[60%]">
-        <input type="date"
-          class="form-control"
-          v-model="parameters.params.start_date"/>
-      </div>
-
-
-      </div>
-
-
-      <div class="mb-3"><b>Periode Akhir</b></div>
-      <div class="form-group">
-        <input type="date"
-          class="form-control"
-          v-model="parameters.params.end_date"/>
-
-      </div>         -->
-
-              <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2"><b>Gudang</b></div>
-
-                <v-select
-                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_gudang"
-                  :loading="isLoadingGetGudang"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetGudang"
-                  @input="onSetGudang"
-                  v-model="gudang_id"
-                >
-                  <template v-slot:option="option">
-                    <div class="flex">
-                      <div class="col-md-5 p-1 m-0 w-8/12">
-                        {{ option.nama_gudang }}
-                      </div>
-                      <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    @input="(item) => onSetGudang(item)"
+                    v-model="filter_params.gudang_id"
+                  >
+                    <template v-slot:option="option">
+                      <div class="flex">
+                        <div class="col-md-5 p-1 m-0 w-8/12">
+                          {{ option.nama_gudang }}
+                        </div>
+                        <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
                     {{ option.kode_coa }}
                   </div> -->
-                    </div>
-                  </template>
-                  <!-- <template #search="{ attributes, events }">
+                      </div>
+                    </template>
+                    <!-- <template #search="{ attributes, events }">
                 <input
                   class="vs__search"
                   :required="!coa_id"
@@ -109,33 +90,71 @@
                   v-on="events"
                 />
               </template> -->
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="d-flex justify-content-between"
-                    v-if="lookup_custom1.data.length || search"
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Zona Gudang</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_zona_gudang"
+                    :loading="isLoadingGetZonaGudang"
+                    :options="lookup_custom3.data"
+                    :filterable="false"
+                    @search="onGetZonaGudang"
+                    v-model="filter_params.zona_gudang_id"
                   >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Sebelumnya</span
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom3.data.length || search"
                     >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
-                      style="cursor: pointer"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
+                      <span
+                        v-if="lookup_custom3.current_page > 1"
+                        @click="onGetZonaGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom3.last_page > lookup_custom3.current_page
+                        "
+                        @click="onGetZonaGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
               </div>
 
-              <div class="flex gap-3 ml-5">
+              <div class="flex gap-3">
                 <button
                   @click="onLoad"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
@@ -563,6 +582,7 @@ export default {
     this.$refs["form-option"].isShowingPage = false;
 
     await this.onSearchGudang();
+    await this.onSearchZonaGudang();
 
     // this.$axios.get(this.parameters.url + "/get-spesification")
     // .then(res => {
@@ -583,6 +603,10 @@ export default {
       isStopSearchGudang: false,
       gudang_search: "",
 
+      isLoadingGetZonaGudang: false,
+      isStopSearchZonaGudang: false,
+      zona_gudang_search: "",
+
       parameters: {
         url: "inventory/stock",
         type: "pdf",
@@ -595,7 +619,10 @@ export default {
           per_page: 10,
           page: 1,
 
-          gudang_id: "",
+          gudang_id: { gudang_id: "" },
+          zona_gudang_id: { zona_gudang_id: "" },
+          start_date: "",
+          end_date: "",
 
           // shape: "",
           // detail_1: "",
@@ -621,6 +648,7 @@ export default {
           page: 1,
 
           gudang_id: "",
+          zona_gudang_id: "",
           // shape: "",
           // detail_1: "",
           // detail_2: "",
@@ -658,6 +686,11 @@ export default {
         import: true,
       },
 
+      filter_params: {
+        gudang_id: { gudang_id: "" },
+        zona_gudang_id: { zona_gudang_id: "" },
+      },
+
       user: { ...this.$auth.user },
 
       spesifications: {
@@ -677,6 +710,7 @@ export default {
       "error",
       "result",
       "lookup_custom1",
+      "lookup_custom3",
     ]),
 
     getRoles() {
@@ -721,8 +755,8 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.params.warehouse_page = 1;
-      this.parameters.params.warehouse_is_last_page = false;
+      // this.parameters.params.warehouse_page = 1;
+      // this.parameters.params.warehouse_is_last_page = false;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -732,17 +766,44 @@ export default {
 
       let url =
         this.parameters.url +
-        "?page=1" +
+        "?page=" +
+        this.parameters.params.page +
         "&gudang_id=" +
-        this.parameters.params.gudang_id.gudang_id;
+        this.parameters.params.gudang_id.gudang_id +
+        "&zona_gudang_id=" +
+        this.parameters.params.zona_gudang_id.zona_gudang_id +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date;
       // "&item_gudang_id=" +
       // this.parameters.params.item_gudang_id +
-      // "&start_date=" +
-      // this.parameters.params.start_date +
-      // "&end_date=" +
-      // this.parameters.params.end_date;
+      this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
+      this.parameters.params.zona_gudang_id =
+        this.filter_params.zona_gudang_id.zona_gudang_id;
 
       await this.getData(this.parameters);
+      // await this.$axios
+      //   .get(url)
+      //   .then((res) => {
+      //     let newData = res.data.data.map((item) => {
+      //       return {
+      //         ...item,
+      //       };
+      //     });
+
+      //     this.raw_data = res.data;
+      //     data = newData;
+      //     console.log(newData);
+      //     console.log(this.data);
+      //   })
+      //   .catch((err) => {
+      //     this.$globalErrorToaster(this.$toaster, err);
+      //   })
+      //   .finally(() => {
+      //     loader.hide();
+      //     this.isLoadingData = false;
+      //   });
 
       if (this.result == true) {
         loader.hide();
@@ -753,13 +814,13 @@ export default {
 
         this.$refs["pagination"].active_page = this.parameters.params.page;
 
-        this.parameters.params.warehouse_is_last_page =
-          this.raw_data.warehouses.current_page ==
-          this.raw_data.warehouses.last_page;
-        this.parameters.params.warehouse_last_id =
-          this.raw_data.warehouses.data[
-            this.raw_data.warehouses.data.length - 1
-          ].id;
+        // this.parameters.params.warehouse_is_last_page =
+        //   this.raw_data.warehouses.current_page ==
+        //   this.raw_data.warehouses.last_page;
+        // this.parameters.params.warehouse_last_id =
+        //   this.raw_data.warehouses.data[
+        //     this.raw_data.warehouses.data.length - 1
+        //   ].id;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }
@@ -903,8 +964,56 @@ export default {
       }
     },
 
-    onSetGudang(item) {
-      this.parameters.gudang_id = item ? item : "";
+    async onSetGudang(item) {
+      if (item) {
+        this.filter_params.gudang_id = item;
+        this.filter_params.zona_gudang_id = "";
+        await this.onSearchZonaGudang();
+      } else {
+        this.filter_params.gudang_id = "";
+        this.filter_params.zona_gudang_id = "";
+      }
+    },
+
+    onGetZonaGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchZonaGudang);
+
+      this.isStopSearchZonaGudang = setTimeout(() => {
+        this.zona_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchZonaGudang();
+      }, 600);
+    },
+
+    async onSearchZonaGudang() {
+      if (!this.isLoadingGetZonaGudang) {
+        this.isLoadingGetZonaGudang = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.zona_gudang_search +
+            "&gudang_id=" +
+            this.filter_params.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaGudang = false;
+      }
     },
   },
 };

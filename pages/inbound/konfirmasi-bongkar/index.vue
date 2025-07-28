@@ -159,7 +159,7 @@
                       {{ item.status_bongkar }}
                     </p>
                     <p
-                      v-if="item.status_bongkar === 'DIPROSES'"
+                      v-if="item.status_bongkar === 'PROSES'"
                       class="text-blue-500"
                     >
                       {{ item.status_bongkar }}

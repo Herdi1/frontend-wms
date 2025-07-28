@@ -252,13 +252,6 @@
               </div> -->
             </div>
 
-            <!-- Detail ASN -->
-            <div>
-              <h1 class="text-xl font-bold">Detail ASN</h1>
-            </div>
-            <div
-              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            ></div>
             <!-- inspeksi -->
             <div>
               <h1 class="text-xl font-bold">Konfirmasi Bongkar ASN</h1>
@@ -572,6 +565,15 @@
                 </table>
               </div> -->
             </div>
+
+            <!-- Detail ASN -->
+            <!-- <div>
+              <h1 class="text-xl font-bold">Detail ASN</h1>
+            </div>
+            <div
+              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            ></div> -->
+
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"

@@ -64,7 +64,6 @@
                 label="Tanggal Selesai"
                 type="date"
                 name="tanggal_selesai"
-                :required="true"
                 v-model="parameters.form.tanggal_selesai"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -74,9 +73,8 @@
               <input-horizontal
                 :isHorizontal="true"
                 label="Lama Pengerjaan"
-                type="text"
+                type="number"
                 name="lama_pengerjaan"
-                :required="true"
                 v-model="parameters.form.lama_pengerjaan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"

@@ -206,6 +206,43 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Zona Gudang</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_zona_gudang"
+                    :loading="isLoadingGetZonaGudang"
+                    :options="lookup_custom3.data"
+                    :filterable="false"
+                    @search="onGetZonaGudang"
+                    v-model="parameters.params.zona_gudang_id"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom3.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom3.current_page > 1"
+                        @click="onGetZonaGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom3.last_page > lookup_custom3.current_page
+                        "
+                        @click="onGetZonaGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -424,6 +461,7 @@ export default {
     await this.onSearchChartOfAccount();
     await this.onSearchItemGudang();
     await this.onSearchValuation();
+    await this.onSearchZonaGudang();
   },
 
   data() {
@@ -457,6 +495,9 @@ export default {
           valuation_id: {
             valuation_id: "",
           },
+          zona_gudang_id: {
+            zona_gudang_id: "",
+          },
         },
         default_params: {
           soft_deleted: "",
@@ -472,6 +513,7 @@ export default {
           gudang_id: "",
           item_gudang_id: "",
           valuation_id: "",
+          zona_gudang_id: "",
         },
         form: {
           checkboxs: [],
@@ -509,6 +551,10 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      isStopSearchZonaGudang: false,
+      isLoadingGetZonaGudang: false,
+      zona_gudang_search: "",
+
       coa_id: "",
 
       passiva_types: ["MODAL", "KEWAJIBAN", "PENDAPATAN"],
@@ -524,6 +570,7 @@ export default {
       "lookup_chart_of_accounts",
       "lookup_custom1",
       "lookup_custom2",
+      "lookup_custom3",
     ]),
 
     getRoles() {
@@ -608,6 +655,8 @@ export default {
         this.parameters.params.item_gudang_id.item_gudang_id +
         "&valuation_id=" +
         this.parameters.params.valuation_id.valuation_id +
+        "&zona_gudang_id=" +
+        this.parameters.params.zona_gudang_id.zona_gudang_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -680,8 +729,14 @@ export default {
         this.parameters.url +
         "?page=" +
         this.parameters.params.page +
-        "&chart_of_account_id=" +
-        this.parameters.params.chart_of_account_id +
+        "&gudang_id=" +
+        this.parameters.params.gudang_id.gudang_id +
+        "&item_gudang_id=" +
+        this.parameters.params.item_gudang_id.item_gudang_id +
+        "&valuation_id=" +
+        this.parameters.params.valuation_id.valuation_id +
+        "&zona_gudang_id=" +
+        this.parameters.params.zona_gudang_id.zona_gudang_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -854,9 +909,51 @@ export default {
       }
     },
 
+    onGetZonaGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchZonaGudang);
+
+      this.isStopSearchZonaGudang = setTimeout(() => {
+        this.zona_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchZonaGudang();
+      }, 600);
+    },
+
+    async onSearchZonaGudang() {
+      if (!this.isLoadingGetZonaGudang) {
+        this.isLoadingGetZonaGudang = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.zona_gudang_search +
+            "&gudang_id=" +
+            this.parameters.params.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaGudang = false;
+      }
+    },
+
     async onSetChartOfAccount(item) {
       this.parameters.params.gudang_id = item ? item : "";
       await this.onSearchItemGudang();
+      await this.onSearchZonaGudang();
     },
 
     onDetail(item) {

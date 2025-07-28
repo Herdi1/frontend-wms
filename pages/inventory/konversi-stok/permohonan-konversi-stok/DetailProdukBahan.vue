@@ -11,14 +11,14 @@
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail</p>
         </button>
-        <!-- <button
+        <button
           type="button"
           @click="self.onOpenModal"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Kartu Stok</p>
-        </button> -->
+        </button>
         <button
           type="button"
           @click="self.onOpenModalStokGudang"

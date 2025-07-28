@@ -738,8 +738,8 @@
                             <ValidationProvider
                               name="alasan_beda_plan_id"
                               class="w-full"
-                              :rules="isSameAsPlan"
-                            >
+                              >
+                              <!-- :rules="isSameAsPlan" -->
                               <div slot-scope="{ errors, valid }">
                                 <v-select
                                   label="nama_alasan_beda_plan"
@@ -774,12 +774,12 @@
                                     >
                                   </li>
                                 </v-select>
-                                <span
+                                <!-- <span
                                   class="text-danger text-xs pl-1"
                                   v-if="errors[0]"
                                 >
                                   {{ errors[0] }}
-                                </span>
+                                </span> -->
                               </div>
                             </ValidationProvider>
                           </td>

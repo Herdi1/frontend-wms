@@ -770,11 +770,21 @@ export default {
           return {
             ...item,
             asn_details_id: item || "",
-            zona_gudang_id_plan: item.zona_gudang_plan,
-            slot_penyimpanan_id_aisle_plan: item.slot_penyimpanan_aisle_plan,
-            slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_rack_plan,
-            slot_penyimpanan_id_level_plan: item.slot_penyimpanan_level_plan,
-            slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_bin_plan,
+            zona_gudang_id_plan: item.zona_gudang_plan
+              ? item.zona_gudang_plan
+              : "",
+            slot_penyimpanan_id_aisle_plan: item.slot_penyimpanan_aisle_plan
+              ? item.slot_penyimpanan_aisle_plan
+              : "",
+            slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_rack_plan
+              ? item.slot_penyimpanan_rack_plan
+              : "",
+            slot_penyimpanan_id_level_plan: item.slot_penyimpanan_level_plan
+              ? item.slot_penyimpanan_level_plan
+              : "",
+            slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_bin_plan
+              ? item.slot_penyimpanan_bin_plan
+              : "",
           };
         });
 
