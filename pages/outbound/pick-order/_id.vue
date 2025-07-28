@@ -101,7 +101,7 @@
                 <select-button
                   :self="{
                     label: 'Peralatan',
-                    optionLabel: 'nama_peralatan',
+                    optionLabel: 'nama_jenis_peralatan',
                     lookup: lookup_custom6,
                     value: parameters.form.peralatan_id,
                     onGet: onGetPeralatan,
@@ -126,7 +126,7 @@
               <select-button
                 :self="{
                   label: 'Pick Request',
-                  optionLabel: 'nama_pick_request',
+                  optionLabel: 'nama_peminta',
                   lookup: lookup_custom4,
                   value: parameters.form.pick_request_id,
                   onGet: onGetPickRequest,
@@ -140,7 +140,7 @@
             <div class="w-full relative flex justify-end gap-2">
               <button
                 type="button"
-                @click="addPickOrderDetails"
+                @click="onOpenModalPickRequest"
                 class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
               >
                 <i class="fas fa-plus"></i>
@@ -154,7 +154,7 @@
             <table
               class="table border-collapse border border-gray-300 mt-5 table-fixed"
             >
-              <thead>
+              <!-- <thead>
                 <tr class="text-sm uppercase">
                   <th class="w-20 border border-gray-300 text-center">
                     Delete
@@ -172,10 +172,9 @@
                     Keterangan Detail
                   </th>
                   <th class="w-full border border-gray-300">Zona Tujuan</th>
-                  <!-- <th class="w-40 border border-gray-300">Detail Pick Order</th> -->
                 </tr>
-              </thead>
-              <tbody>
+              </thead> -->
+              <!-- <tbody>
                 <tr
                   v-for="(item, i) in parameters.form.detail_pick_order"
                   :key="i"
@@ -200,7 +199,6 @@
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
                       >
-                        <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -297,13 +295,6 @@
                       v-model="item.zona_transit"
                     ></textarea>
                   </td>
-                  <!-- <td class="border border-gray-300">
-                    <textarea
-                      placeholder="Detail Pick Order"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      v-model="item.detail_pick_order"
-                    ></textarea>
-                  </td> -->
                 </tr>
                 <tr v-if="!parameters.form.detail_pick_order.length > 0">
                   <td colspan="12" class="text-center">
@@ -317,7 +308,7 @@
                     <div class="mt-3 w-full">Data Tidak Ditemukan</div>
                   </td>
                 </tr>
-              </tbody>
+              </tbody> -->
             </table>
           </div>
           <div class="w-full flex justify-start items-center">
@@ -330,14 +321,20 @@
         </form>
       </ValidationObserver>
     </div>
+    <ModalPickRequest :self="this" ref="modalPickRequest" />
   </section>
 </template>
 
 <script>
 import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
+import ModalPickRequest from "../../../components/transaksional/ModalPickRequest.vue";
 export default {
   props: ["self"],
+
+  components: {
+    ModalPickRequest,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -440,9 +437,9 @@ export default {
 
   async mounted() {
     await this.onSearchUser();
-    await this.onSearchItemGudang();
-    await this.onSearchZonaGudang();
     await this.onSearchPickRequest();
+    // await this.onSearchItemGudang();
+    // await this.onSearchZonaGudang();
     await this.onSearchPerson();
     await this.onSearchPeralatan();
     this.getGeoLocation();
@@ -454,8 +451,8 @@ export default {
       "error",
       "result",
       "lookup_custom1", //user pic
-      "lookup_custom2", //item gudang
-      "lookup_custom3", //zona gudang
+      // "lookup_custom2", //item gudang
+      // "lookup_custom3", //zona gudang
       "lookup_custom4", //pick request
       "lookup_custom5", //person
       "lookup_custom6", //equipment
@@ -594,7 +591,7 @@ export default {
     },
 
     onGetUser(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+      if (!search?.length && typeof isNext === "function") return;
 
       clearTimeout(this.isStopSearchUser);
 
@@ -630,82 +627,82 @@ export default {
       }
     },
 
-    onGetItemGudang(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+    // onGetItemGudang(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return;
 
-      clearTimeout(this.isStopSearchItemGudang);
+    //   clearTimeout(this.isStopSearchItemGudang);
 
-      this.isStopSearchItemGudang = setTimeout(() => {
-        this.gudang_search = search;
+    //   this.isStopSearchItemGudang = setTimeout(() => {
+    //     this.gudang_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
-        this.onSearchItemGudang();
-      }, 600);
-    },
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom2.current_page = isNext
+    //         ? this.lookup_custom2.current_page + 1
+    //         : this.lookup_custom2.current_page - 1;
+    //     } else {
+    //       this.lookup_custom2.current_page = 1;
+    //     }
+    //     this.onSearchItemGudang();
+    //   }, 600);
+    // },
 
-    async onSearchItemGudang() {
-      if (!this.isLoadingGetItemGudang) {
-        this.isLoadingGetItemGudang = true;
+    // async onSearchItemGudang() {
+    //   if (!this.isLoadingGetItemGudang) {
+    //     this.isLoadingGetItemGudang = true;
 
-        await this.lookUp({
-          url: "master/item-gudang/get-item-gudang",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.gudang_search +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetItemGudang = false;
-      }
-    },
+    //     await this.lookUp({
+    //       url: "master/item-gudang/get-item-gudang",
+    //       lookup: "custom2",
+    //       query:
+    //         "?search=" +
+    //         this.gudang_search +
+    //         "&page=" +
+    //         this.lookup_custom2.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetItemGudang = false;
+    //   }
+    // },
 
-    onGetZonaGudang(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+    // onGetZonaGudang(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return;
 
-      clearTimeout(this.isStopSearchZonaGudang);
+    //   clearTimeout(this.isStopSearchZonaGudang);
 
-      this.isStopSearchZonaGudang = setTimeout(() => {
-        this.zona_gudang_search = search;
+    //   this.isStopSearchZonaGudang = setTimeout(() => {
+    //     this.zona_gudang_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom3.current_page = isNext
-            ? this.lookup_custom3.current_page + 1
-            : this.lookup_custom3.current_page - 1;
-        } else {
-          this.lookup_custom3.current_page = 1;
-        }
-        this.onSearchZonaudang();
-      }, 600);
-    },
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom3.current_page = isNext
+    //         ? this.lookup_custom3.current_page + 1
+    //         : this.lookup_custom3.current_page - 1;
+    //     } else {
+    //       this.lookup_custom3.current_page = 1;
+    //     }
+    //     this.onSearchZonaudang();
+    //   }, 600);
+    // },
 
-    async onSearchZonaGudang() {
-      if (!this.isLoadingGetZonaGudang) {
-        this.isLoadingGetZonaGudang = true;
+    // async onSearchZonaGudang() {
+    //   if (!this.isLoadingGetZonaGudang) {
+    //     this.isLoadingGetZonaGudang = true;
 
-        await this.lookUp({
-          url: "master/zona-gudang/get-zona-gudang",
-          lookup: "custom3",
-          query:
-            "?search=" +
-            this.zona_gudang_search +
-            "&page=" +
-            this.lookup_custom3.current_page +
-            "&per_page=10",
-        });
-        this.isLoadingGetZonaGudang = false;
-      }
-    },
+    //     await this.lookUp({
+    //       url: "master/zona-gudang/get-zona-gudang",
+    //       lookup: "custom3",
+    //       query:
+    //         "?search=" +
+    //         this.zona_gudang_search +
+    //         "&page=" +
+    //         this.lookup_custom3.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetZonaGudang = false;
+    //   }
+    // },
 
     onGetPickRequest(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+      if (!search?.length && typeof isNext === "function") return;
 
       clearTimeout(this.isStopSearchPickRequest);
 
@@ -728,7 +725,7 @@ export default {
         this.isLoadingGetPickRequest = true;
 
         await this.lookUp({
-          url: "outbound/pick-request/get-pick-request",
+          url: "outbound/pick-request",
           lookup: "custom4",
           query:
             "?search=" +
@@ -738,11 +735,12 @@ export default {
             "&per_page=10",
         });
         this.isLoadingGetPickRequest = false;
+        console.log(this.lookup_custom4.data);
       }
     },
 
     onGetPerson(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+      if (!search?.length && typeof isNext === "function") return;
 
       clearTimeout(this.isStopSearchPerson);
 
@@ -779,7 +777,7 @@ export default {
     },
 
     onGetPeralatan(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+      if (!search?.length && typeof isNext === "function") return;
 
       clearTimeout(this.isStopSearchPeralatan);
 
@@ -832,11 +830,26 @@ export default {
     },
 
     onSelectPickRequest(item) {
+      // this.parameters.form.pick_request_id = item;
       if (item) {
         this.parameters.form.pick_request_id = item;
       } else {
         this.parameters.form.pick_request_id = "";
       }
+    },
+
+    async onOpenModalPickRequest() {
+      this.$refs.modalPickRequest.show();
+      await this.$refs.modalPickRequest.onLoad();
+      // if () {
+      // this.$toaster.success(
+      //   "Pick Request Dipilih" +
+      //     this.parameters.form.pick_request_id.pick_request_id
+      // );
+
+      // else {
+      //   this.$toaster.error("Pick Request Belum Dipilih");
+      // }
     },
 
     formReset() {
