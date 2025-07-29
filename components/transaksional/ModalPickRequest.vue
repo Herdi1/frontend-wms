@@ -95,7 +95,7 @@
                       </div>
                     </th>
                     <th
-                      class="w-[30%] cursor-pointer"
+                      class="w-[30%] cursor-pointer border border-gray-300"
                       @click="
                         onSort(
                           'kode_item',

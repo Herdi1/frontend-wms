@@ -645,7 +645,7 @@ export default {
     try {
       this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/stok-opname/${this.id}`);
+        let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           if (item != "stok_opname_details") {
             this.parameters.form[item] = res.data[item];

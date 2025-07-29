@@ -546,8 +546,8 @@ export default {
       // isLoadingGetItem: false,
       // item_search: "",
 
-      isStopSearchItemZonaGudang: false,
-      isLoadingGetItemZonaGudang: false,
+      isStopSearchZonaGudang: false,
+      isLoadingGetZonaGudang: false,
       zonaGudang_search: "",
 
       isStopSearchSlotAisle: false,
@@ -659,11 +659,11 @@ export default {
     // await this.onSearchItemPelanggan();
     // await this.onSearchSupplier();
     await this.onSearchValuation();
-    await this.onSearchZonaGudang();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
+    // await this.onSearchZonaGudang();
+    // await this.onSearchSlotAisle();
+    // await this.onSearchSlotRack();
+    // await this.onSearchSlotLevel();
+    // await this.onSearchSlotBin();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -721,14 +721,6 @@ export default {
         this.$toaster.error("geolocation not supported");
       }
     },
-
-    // updateStokSelisih(item) {
-    //   this.$nextTick(() => {
-    //     const stokReal = parseFloat(item.stok_real) || 0;
-    //     const stokSistem = parseFloat(item.stok_sistem) || 0;
-    //     item.stok_selisih = stokReal - stokSistem;
-    //   });
-    // },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -864,34 +856,43 @@ export default {
       }
     },
 
-    onSelectGudang(item) {
+    async onSelectGudang(item) {
       if (item) {
         // this.parameters.form.gudang_id = item;
         this.parameters.form.stok_opname_details.forEach((_, index) => {
           this.onGetSystemStok(index);
         });
+        await this.onSearchZonaGudang();
+        await this.onSearchSlotAisle();
+        await this.onSearchSlotRack();
+        await this.onSearchSlotLevel();
+        await this.onSearchSlotBin();
       } else {
         this.parameters.form.gudang_id = "";
       }
     },
 
     AddDetailItem() {
-      this.parameters.form.stok_opname_details.push({
-        item_id: "",
-        // item_pelanggan_id: "",
-        item_gudang_id: "",
-        // supplier_id: "",
-        valuation_id: "",
-        zona_gudang_id: "",
-        slot_penyimpanan_id_aisle: "",
-        slot_penyimpanan_id_rack: "",
-        slot_penyimpanan_id_level: "",
-        slot_penyimpanan_id_bin: "",
-        stok_real: 0.0,
-        stok_sistem: 0.0,
-        stok_selisih: 0.0,
-        keterangan: "",
-      });
+      if (this.parameters.form.gudang_id) {
+        this.parameters.form.stok_opname_details.push({
+          item_id: "",
+          // item_pelanggan_id: "",
+          item_gudang_id: "",
+          // supplier_id: "",
+          valuation_id: "",
+          zona_gudang_id: "",
+          slot_penyimpanan_id_aisle: "",
+          slot_penyimpanan_id_rack: "",
+          slot_penyimpanan_id_level: "",
+          slot_penyimpanan_id_bin: "",
+          stok_real: 0.0,
+          stok_sistem: 0.0,
+          stok_selisih: 0.0,
+          keterangan: "",
+        });
+      } else {
+        this.$toaster.error("Silahkan pilih gudang terlebih dahulu");
+      }
     },
 
     onDeleteItem(index) {
@@ -900,43 +901,6 @@ export default {
           (_, itemIndex) => index !== itemIndex
         );
     },
-
-    // onGetItem(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return;
-
-    //   clearTimeout(this.isStopSearchItem);
-
-    //   this.isStopSearchItem = setTimeout(() => {
-    //     this.item_search = search;
-
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_custom2.current_page = isNext
-    //         ? this.lookup_custom2.current_page + 1
-    //         : this.lookup_custom2.current_page - 1;
-    //     } else {
-    //       this.lookup_custom2.current_page = 1;
-    //     }
-    //     this.onSearchItem();
-    //   }, 600);
-    // },
-
-    // async onSearchItem() {
-    //   if (!this.isLoadingGetItem) {
-    //     this.isLoadingGetItem = true;
-
-    //     await this.lookUp({
-    //       url: "master/item/get-item",
-    //       lookup: "custom2",
-    //       query:
-    //         "?search=" +
-    //         this.item_search +
-    //         "&page=" +
-    //         this.lookup_custom2.current_page +
-    //         "&per_page=10",
-    //     });
-    //     this.isLoadingGetItem = false;
-    //   }
-    // },
 
     onGetZonaGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return;
@@ -967,6 +931,8 @@ export default {
           query:
             "?search=" +
             this.zonaGudang_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1006,6 +972,8 @@ export default {
             "?search=" +
             this.slot_aisle_search +
             "&level=1" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1046,6 +1014,8 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=2" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1086,6 +1056,8 @@ export default {
             "?search=" +
             this.slot_level_search +
             "&level=3" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom6.current_page +
             "&per_page=10",
@@ -1126,6 +1098,8 @@ export default {
             "?search=" +
             this.slot_bin_search +
             "&level=4" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
@@ -1165,7 +1139,7 @@ export default {
             "?search=" +
             this.itemGudang_search +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",
@@ -1210,80 +1184,6 @@ export default {
         this.isLoadingGetValuation = false;
       }
     },
-
-    // onGetItemPelanggan(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return;
-
-    //   clearTimeout(this.isStopSearchItemPelanggan);
-
-    //   this.isStopSearchItemPelanggan = setTimeout(() => {
-    //     this.itemPelanggan_search = search;
-
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_custom10.current_page = isNext
-    //         ? this.lookup_custom10.current_page + 1
-    //         : this.lookup_custom10.current_page - 1;
-    //     } else {
-    //       this.lookup_custom10.current_page = 1;
-    //     }
-    //     this.onSearchItemPelanggan();
-    //   }, 600);
-    // },
-
-    // async onSearchItemPelanggan() {
-    //   if (!this.isLoadingGetItemPelanggan) {
-    //     this.isLoadingGetItemPelanggan = true;
-
-    //     await this.lookUp({
-    //       url: "master/item-pelanggan/get-item-pelanggan",
-    //       lookup: "custom10",
-    //       query:
-    //         "?search=" +
-    //         this.itemPelanggan_search +
-    //         "&page=" +
-    //         this.lookup_custom9.current_page +
-    //         "&per_page=10",
-    //     });
-    //     this.isLoadingGetItemPelanggan = false;
-    //   }
-    // },
-
-    // onGetSupplier(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return;
-
-    //   clearTimeout(this.isStopSearchSupplier);
-
-    //   this.isStopSearchSupplier = setTimeout(() => {
-    //     this.supplier_search = search;
-
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_suppliers.current_page = isNext
-    //         ? this.lookup_suppliers.current_page + 1
-    //         : this.lookup_suppliers.current_page - 1;
-    //     } else {
-    //       this.lookup_suppliers.current_page = 1;
-    //     }
-    //     this.onSearchSupplier();
-    //   }, 600);
-    // },
-
-    // async onSearchSupplier() {
-    //   if (!this.isLoadingGetSupplier) {
-    //     this.isLoadingGetSupplier = true;
-
-    //     await this.lookUp({
-    //       url: "master/supplier/get-supplier",
-    //       lookup: "suppliers",
-    //       query:
-    //         "?search=" +
-    //         this.supplier_search +
-    //         "&page=" +
-    //         this.lookup_suppliers.current_page +
-    //         "&per_page=10",
-    //     });
-    //     this.isLoadingGetSupplier = false;
-    //   }
-    // },
 
     onSelectItemGudang(item, index) {
       this.self.parameters.form.konversi_stok_detail_bahan[

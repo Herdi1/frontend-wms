@@ -64,34 +64,166 @@
               </div>
             </div>
           </div>
-          <div class="table-responsive w-full relative">
-            <table class="mb-5 overflow-auto" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[5%] text-center">Edit</th>
-                  <th class="w-[5%] text-center">Delete</th>
-                  <th class="w-[5%] text-center">No</th>
-                  <th>Kode Pick Order</th>
-                  <th>User PIC</th>
-                  <th>Tanggal</th>
-                  <th>No Referensi 1</th>
-                  <th>No Referensi 2</th>
-                  <th>No Referensi 3</th>
-                  <th>Details</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_pick_order',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Pick Order</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_pick_order' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_pick_order' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'gudang',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Gudang</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'gudang' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'gudang' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_pick_order',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Pick Order</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_pick_order' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_pick_order' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">No Referensi 1</th>
+                  <th class="w-52 border border-gray-300">No Referensi 2</th>
+                  <th class="w-52 border border-gray-300">No Referensi 3</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-content-center">
-                    <small-edit-button @click="onEdit(item)" />
+                  <td class="place-items-center border border-gray-300">
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td class="place-content-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
-                  <td>
+
+                  <td class="text-center border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -99,24 +231,70 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
                       {{ item.kode_pick_order }}
                       <p v-if="item.user_id_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
+                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
                       </p>
                       <p v-else class="text-blue-500">
                         <i>Dibuat oleh: Sistem</i>
                       </p>
                     </div>
                   </td>
-                  <td>{{ item.user_id_pic }}</td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>{{ item.no_referensi_1 }}</td>
-                  <td>{{ item.no_referensi_2 }}</td>
-                  <td>{{ item.no_referensi_3 }}</td>
-                  <td class="text-center">
-                    <small-detail-button @click="onDetail(item)" />
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_pick_order === 'MENUNGGU'">
+                        <p
+                          class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_pick_order }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pick_order === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_pick_order }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pick_order === 'SELESAI'">
+                        <p
+                          class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_pick_order }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pick_order === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        >
+                          {{ item.status_pick_order }}
+                        </p>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_1 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_2 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_3 }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>
