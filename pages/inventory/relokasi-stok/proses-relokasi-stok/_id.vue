@@ -1017,7 +1017,9 @@ export default {
     this.parameters.form.tanggal = formattedDate;
     try {
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/mutasi-stok/${this.id}`);
+        let res = await this.$axios.get(
+          `inventory/proses-mutasi-stok/${this.id}`
+        );
         this.parameters.form = res.data;
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.mutasi_stok_details =

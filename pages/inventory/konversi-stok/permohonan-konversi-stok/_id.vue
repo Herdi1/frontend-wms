@@ -56,28 +56,31 @@
                 v-model="parameters.form.tanggal_mulai"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                @input="setTanggalMulai"
               />
             </div>
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
-                label="Tanggal Selesai"
+                label="Tanggal Estimasi Selesai"
                 type="date"
                 name="tanggal_selesai"
                 v-model="parameters.form.tanggal_selesai"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                @input="getEstimasiLamaPengerjaan"
               />
             </div>
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
-                label="Lama Pengerjaan"
+                label="Estimasi Lama Pengerjaan"
                 type="number"
                 name="lama_pengerjaan"
                 v-model="parameters.form.lama_pengerjaan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                @input="getEstimasiSelesai"
               />
             </div>
             <select-button
@@ -423,6 +426,7 @@ export default {
         this.parameters.form.konversi_stok_detail_bahan.map((item) => {
           return {
             ...item,
+            keterangan: item.keterangan || "",
             // item_id: item.item_id,
             // item_pelanggan_id:
             //   typeof item.item_gudang_id === "object"
@@ -488,6 +492,7 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
+            keterangan: item.keterangan || "",
           };
         });
 
@@ -933,6 +938,49 @@ export default {
         this.parameters.form.konversi_stok_detail_bahan.push(detailItem);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
+      }
+    },
+
+    getEstimasiLamaPengerjaan() {
+      const start = new Date(this.parameters.form.tanggal_mulai);
+      const end = new Date(this.parameters.form.tanggal_selesai);
+
+      const lamaPengerjaan =
+        Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
+        Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+
+      const oneDayInMilis = 1000 * 60 * 60 * 24;
+
+      this.parameters.form.lama_pengerjaan = Math.round(
+        lamaPengerjaan / oneDayInMilis + 1
+      );
+    },
+
+    getEstimasiSelesai() {
+      const start = new Date(this.parameters.form.tanggal_mulai);
+
+      const lamaPengerjaanInMilis =
+        (this.parameters.form.lama_pengerjaan - 1) * 1000 * 60 * 60 * 24;
+      const estimasiSelesai =
+        Date.UTC(start.getFullYear(), start.getMonth(), start.getDate()) +
+        lamaPengerjaanInMilis;
+
+      const estimasiDate = new Date(estimasiSelesai);
+
+      const year = estimasiDate.getFullYear();
+      const month = (estimasiDate.getMonth() + 1).toString().padStart(2, "0");
+      const day = estimasiDate.getDate().toString().padStart(2, "0");
+
+      this.parameters.form.tanggal_selesai = `${year}-${month}-${day}`;
+    },
+
+    setTanggalMulai() {
+      if (this.parameters.form.tanggal_selesai) {
+        this.getEstimasiLamaPengerjaan();
+      } else if (this.parameters.form.lama_pengerjaan) {
+        this.getEstimasiSelesai();
+      } else {
+        return;
       }
     },
   },

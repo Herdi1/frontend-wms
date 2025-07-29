@@ -31,31 +31,6 @@
                   :disabled="true"
                 />
               </div>
-              <div class="form-group w-full">
-                <select-button
-                  :self="{
-                    label: 'Purchase Order',
-                    optionLabel: 'kode_po',
-                    lookup: lookup_custom4,
-                    value: parameters.form.purchase_order_id,
-                    onGet: onGetPo,
-                    isLoadingL: isLoadingGetPo,
-                    input: onSelectPo,
-                  }"
-                  width="w-[50%]"
-                  required="true"
-                />
-              </div>
-              <div class="form-group">
-                <input-horizontal
-                  label="Referensi External"
-                  type="text"
-                  name="kode_sap"
-                  :isHorizontal="true"
-                  v-model="parameters.form.kode_sap"
-                  :required="false"
-                />
-              </div>
               <div v-if="!user.gudang_id" class="w-full">
                 <ValidationProvider name="gudang">
                   <div slot-scope="{ errors, valid }">
@@ -121,6 +96,31 @@
                     </div>
                   </div>
                 </ValidationProvider>
+              </div>
+              <div class="form-group w-full">
+                <select-button
+                  :self="{
+                    label: 'Purchase Order',
+                    optionLabel: 'kode_po',
+                    lookup: lookup_custom4,
+                    value: parameters.form.purchase_order_id,
+                    onGet: onGetPo,
+                    isLoadingL: isLoadingGetPo,
+                    input: onSelectPo,
+                  }"
+                  width="w-[50%]"
+                  required="true"
+                />
+              </div>
+              <div class="form-group">
+                <input-horizontal
+                  label="Referensi External"
+                  type="text"
+                  name="kode_sap"
+                  :isHorizontal="true"
+                  v-model="parameters.form.kode_sap"
+                  :required="false"
+                />
               </div>
               <div class="form-group">
                 <input-horiontal
@@ -1493,10 +1493,10 @@ export default {
           lookup: "custom4",
           query:
             "?search=" +
-            this.po_search +
-            "&page=" +
-            this.lookup_custom4.current_page +
-            "&per_page=10",
+              this.po_search +
+              "&gudang_id=" +
+              this.parameters.form.gudang_id.gudang_id ||
+            "" + "&page=" + this.lookup_custom4.current_page + "&per_page=10",
         });
 
         this.isLoadingGetPo = false;

@@ -2124,10 +2124,18 @@ export default {
               berat: data.berat,
               tinggi: data.tinggi,
               zona_gudang_id: data.zona_gudang_plan,
-              slot_penyimpanan_id_aisle: data.slot_penyimpanan_aisle_plan,
-              slot_penyimpanan_id_rack: data.slot_penyimpanan_rack_plan,
-              slot_penyimpanan_id_level: data.slot_penyimpanan_level_plan,
-              slot_penyimpanan_id_bin: data.slot_penyimpanan_bin_plan,
+              slot_penyimpanan_id_aisle: data.slot_penyimpanan_aisle_plan
+                ? item.slot_penyimpanan_aisle_plan
+                : "",
+              slot_penyimpanan_id_rack: data.slot_penyimpanan_rack_plan
+                ? item.slot_penyimpanan_rack_plan
+                : "",
+              slot_penyimpanan_id_level: data.slot_penyimpanan_level_plan
+                ? item.slot_penyimpanan_level_plan
+                : "",
+              slot_penyimpanan_id_bin: data.slot_penyimpanan_bin_plan
+                ? item.slot_penyimpanan_bin_plan
+                : "",
             };
           });
           console.log(this.items);
@@ -2228,10 +2236,10 @@ export default {
       }
     },
 
-    onSelectItemDetail(item, index) {
+    async onSelectItemDetail(item, index) {
       this.form.inbound_details[index] = { ...item };
       this.form.inbound_details[index].item_gudang_id = { item_gudang_id: item.item_gudang_id, nama_item: item.nama_item}
-      console.log(item)
+      await this.onSearchSlotAisle(index)
     },
     // get jenis biaya
     onGetJenisBiaya(search, isNext) {

@@ -213,7 +213,7 @@ export default {
       isLoadingForm: false,
       title: "Konversi Stok",
       parameters: {
-        url: "inventory/konversi-stok",
+        url: "inventory/approve-konversi-stok",
         form: {
           status_approve: "0",
           tanggal_konversi: "",

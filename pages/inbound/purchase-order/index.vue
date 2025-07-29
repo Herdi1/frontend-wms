@@ -29,60 +29,56 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
                   <th class="w-[5%]">No</th>
                   <!-- <th
-                    @click="
-                      onSort(
-                        'nama_provinsi',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
+                  @click="
+                  onSort(
+                    'nama_provinsi',
+                    parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
                     "
                     class="cursor-pinter w-[30%]"
-                  >
+                    >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Provinsi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
+                          parameters.params.order == 'nama_provinsi' &&
+                          parameters.params.sort == 'asc'
+                          ? ''
+                          : 'light-gray'
                           "
-                        ></i>
-                        <i
+                          ></i>
+                          <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_provinsi' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
+                          parameters.params.order == 'nama_provinsi' &&
+                          parameters.params.sort == 'desc'
+                          ? ''
+                          : 'light-gray'
                           "
-                        ></i>
+                          ></i>
+                        </div>
                       </div>
-                    </div>
-                  </th> -->
+                    </th> -->
                   <th>Kode PO</th>
                   <th>Tanggal</th>
                   <th>Vendor</th>
                   <th>Surat Jalan</th>
                   <th>Kendaraan</th>
                   <th>Pengemudi</th>
-                  <th>Details</th>
+                  <th>Status PO</th>
+                  <th class="w-[5%]">Generate ASN</th>
+                  <th class="w-[5%]">Details</th>
+                  <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center">
                     <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
                   </td>
                   <td>
                     {{
@@ -130,8 +126,33 @@
                         : "-"
                     }}
                   </td>
+                  <td>
+                    <span
+                      v-if="item.asns_count == 0"
+                      class="p-1 rounded-md bg-orange-500 text-white"
+                    >
+                      PO
+                    </span>
+                    <span
+                      v-if="item.asns_count > 0"
+                      class="p-1 rounded-md bg-blue-500 text-white"
+                    >
+                      Dibuat {{ item.asns_count }} ASN
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <button class="text-white p-1 rounded-md bg-blue-500 px-3">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </td>
                   <td class="text-center">
                     <small-detail-button @click="onDetail(item)" />
+                  </td>
+                  <td class="text-center">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>

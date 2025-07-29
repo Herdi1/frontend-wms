@@ -33,6 +33,80 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
+
+        <div class="w-full mt-3 mb-7">
+          <div
+            class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
+          >
+            <div class="grid grid-cols-2 gap-2">
+              <div class="grid grid-cols-1 gap-5 w-full">
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Awal"
+                    type="date"
+                    name="kode_sap"
+                    :isHorizontal="true"
+                    v-model="parameters.params.start_date"
+                    :required="false"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 gap-5 w-full">
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Akhir"
+                    type="date"
+                    name="periode_akhir"
+                    :isHorizontal="true"
+                    v-model="parameters.params.end_date"
+                    :required="false"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-1">
+              <div class="w-full flex justify-between items-center px-1">
+                <label for="">Status Konversi</label>
+                <select
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  name="status_konversi"
+                  id="status_konversi"
+                  v-model="parameters.params.status_konversi"
+                >
+                  <option value="MENUNGGU">Menunggu</option>
+                  <option value="PROSES">Proses</option>
+                  <option value="SELESAI">Selesai</option>
+                  <option value="BATAL">Batal</option>
+                </select>
+              </div>
+              <div class="w-full flex justify-between items-center px-1">
+                <label for="">Status Approve</label>
+                <select
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  name="status_approve"
+                  id="status_approve"
+                  v-model="parameters.params.status_approve"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Approved</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <button
+                @click="onLoad"
+                class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+              >
+                <i class="fa fa-filter text-white font-bold mr-2"></i>
+                <div>Filter</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div>
           <table
             ref="formContainer"
@@ -46,6 +120,7 @@
                 <th class="border border-gray-300">Kode Konversi Stok</th>
                 <th class="border border-gray-300">Gudang</th>
                 <th class="border border-gray-300">Status Transaksi</th>
+                <th class="border border-gray-300">Status Approve</th>
                 <th class="border border-gray-300">Tanggal</th>
                 <th class="border border-gray-300">Tanggal Mulai</th>
                 <th class="border border-gray-300">Tanggal Selesai</th>
@@ -110,6 +185,20 @@
                     class="p-1 rounded-md bg-red-500 text-white text-center"
                   >
                     <p>Batal</p>
+                  </div>
+                </td>
+                <td class="border border-gray-300">
+                  <div
+                    v-if="item.status_approve === '0'"
+                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                  >
+                    <p>Menunggu</p>
+                  </div>
+                  <div
+                    v-if="item.status_approve === '1'"
+                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                  >
+                    <p>Approved</p>
                   </div>
                 </td>
                 <td class="border border-gray-300">{{ item.tanggal }}</td>
@@ -216,6 +305,10 @@ export default {
           order: "konversi_stok_id",
           sort: "desc",
           all: "",
+          start_date: "",
+          end_date: "",
+          status_approve: "",
+          status_konversi: "",
           per_page: 10,
           page: 1,
           form: {

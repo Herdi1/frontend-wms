@@ -22,221 +22,332 @@
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
+          <!-- export item -->
           <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-flow-col grid-rows-3 gap-2">
-                <div class="flex w-[400px]">
-                  <label class="w-[40%]" for="group_item_id_1"
-                    >Group Item Level 1</label
-                  >
-                  <v-select
-                    label="nama_group_item"
-                    :loading="isLoadingGetGroupItem1"
-                    :options="lookup_grade.data"
-                    :filterable="false"
-                    @search="onGetGroupItem1"
-                    v-model="filter_params.group_item_id_1"
-                    :reduce="(item) => item.group_item_id"
-                    class="w-[60%] bg-white"
-                    @input="onSearchGroupItem2"
-                  >
-                    <!-- <template #search="{ attributes, events }">
-                              <input
-                                class="w-full outline-none active:outline-none"
-                                :required="!form.vendor_id"
-                                v-bind="attributes"
-                                v-on="events"
-                              />
-                            </template> -->
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_grade.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_grade.current_page > 1"
-                        @click="onGetGroupItem1(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_grade.last_page > lookup_grade.current_page
-                        "
-                        @click="onGetGroupItem1(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-
-                <div class="flex">
-                  <label class="w-[40%]" for="group_item_id_2"
-                    >Group Item Level 2</label
-                  >
-                  <v-select
-                    label="nama_group_item"
-                    :loading="isLoadingGetGroupItem2"
-                    :options="lookup_beam.data"
-                    :filterable="false"
-                    @search="onGetGroupItem2"
-                    v-model="filter_params.group_item_id_2"
-                    :reduce="(item) => item.group_item_id"
-                    class="w-[60%] bg-white"
-                    @input="onSearchGroupItem3"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_beam.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_beam.current_page > 1"
-                        @click="onGetGroupItem2(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="lookup_beam.last_page > lookup_beam.current_page"
-                        @click="onGetGroupItem2(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-
-                <div class="flex">
-                  <label class="w-[40%]" for="group_item_id_3"
-                    >Group Item Level 3</label
-                  >
-                  <v-select
-                    label="nama_group_item"
-                    :loading="isLoadingGetGroupItem3"
-                    :options="lookup_packing.data"
-                    :filterable="false"
-                    @search="onGetGroupItem3"
-                    v-model="filter_params.group_item_id_3"
-                    :reduce="(item) => item.group_item_id"
-                    class="w-[60%] bg-white"
-                    @input="onSearchGroupItem4"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_packing.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_packing.current_page > 1"
-                        @click="onGetGroupItem3(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_packing.last_page > lookup_packing.current_page
-                        "
-                        @click="onGetGroupItem3(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-
-                <div class="flex w-[400px]">
-                  <label class="w-[40%]" for="group_item_id_4"
-                    >Group Item Level 4</label
-                  >
-                  <v-select
-                    label="nama_group_item"
-                    :loading="isLoadingGetGroupItem4"
-                    :options="lookup_defects.data"
-                    :filterable="false"
-                    @search="onGetGroupItem4"
-                    v-model="filter_params.group_item_id_4"
-                    :reduce="(item) => item.group_item_id"
-                    class="w-[60%] bg-white"
-                    @input="onSearchGroupItem5"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_defects.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_defects.current_page > 1"
-                        @click="onGetGroupItem4(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_defects.last_page > lookup_defects.current_page
-                        "
-                        @click="onGetGroupItem4(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-
-                <div class="flex">
-                  <label class="w-[40%]" for="group_item_id_5"
-                    >Group Item Level 5</label
-                  >
-                  <v-select
-                    label="nama_group_item"
-                    :loading="isLoadingGetGroupItem5"
-                    :options="lookup_department.data"
-                    :filterable="false"
-                    @search="onGetGroupItem5"
-                    v-model="filter_params.group_item_id_5"
-                    :reduce="(item) => item.group_item_id"
-                    class="w-[60%] bg-white"
-                  >
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_department.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_department.current_page > 1"
-                        @click="onGetGroupItem5(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_department.last_page >
-                          lookup_department.current_page
-                        "
-                        @click="onGetGroupItem5(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </div>
-              <div class="flex gap-3 ml-5 items-self-end">
-                <button
-                  @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+            <div class="w-full text-xl pl-2 mb-2 font-bold">Export Item</div>
+            <div class="w-full grid grid-flow-col grid-rows-3 gap-2 mx-1">
+              <div class="flex w-full">
+                <label class="w-[40%]" for="group_item_id_1">Gudang</label>
+                <v-select
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="filter_params.gudang_id"
+                  :reduce="(item) => item.gudang_id"
+                  class="w-[60%] bg-white"
                 >
-                  <i class="fa fa-filter text-white font-bold mr-2"></i>
-                  Filter
-                </button>
+                  <!-- @input="onSearchGroupItem2" -->
+                  <!-- <template #search="{ attributes, events }">
+                            <input
+                              class="w-full outline-none active:outline-none"
+                              :required="!form.vendor_id"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template> -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
               </div>
+
+              <div class="flex w-full">
+                <label class="w-[40%]" for="group_item_id_1"
+                  >Group Item Level 1</label
+                >
+                <v-select
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem1"
+                  :options="lookup_grade.data"
+                  :filterable="false"
+                  @search="onGetGroupItem1"
+                  v-model="filter_params.group_item_id_1"
+                  :reduce="(item) => item.group_item_id"
+                  class="w-[60%] bg-white"
+                  @input="onSearchGroupItem2"
+                >
+                  <!-- <template #search="{ attributes, events }">
+                            <input
+                              class="w-full outline-none active:outline-none"
+                              :required="!form.vendor_id"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template> -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_grade.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_grade.current_page > 1"
+                      @click="onGetGroupItem1(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="lookup_grade.last_page > lookup_grade.current_page"
+                      @click="onGetGroupItem1(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+
+              <div class="flex">
+                <label class="w-[40%]" for="group_item_id_2"
+                  >Group Item Level 2</label
+                >
+                <v-select
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem2"
+                  :options="lookup_beam.data"
+                  :filterable="false"
+                  @search="onGetGroupItem2"
+                  v-model="filter_params.group_item_id_2"
+                  :reduce="(item) => item.group_item_id"
+                  class="w-[60%] bg-white"
+                  @input="onSearchGroupItem3"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_beam.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_beam.current_page > 1"
+                      @click="onGetGroupItem2(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="lookup_beam.last_page > lookup_beam.current_page"
+                      @click="onGetGroupItem2(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+
+              <div class="flex">
+                <label class="w-[40%]" for="group_item_id_3"
+                  >Group Item Level 3</label
+                >
+                <v-select
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem3"
+                  :options="lookup_packing.data"
+                  :filterable="false"
+                  @search="onGetGroupItem3"
+                  v-model="filter_params.group_item_id_3"
+                  :reduce="(item) => item.group_item_id"
+                  class="w-[60%] bg-white"
+                  @input="onSearchGroupItem4"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_packing.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_packing.current_page > 1"
+                      @click="onGetGroupItem3(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_packing.last_page > lookup_packing.current_page
+                      "
+                      @click="onGetGroupItem3(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+
+              <div class="flex w-full">
+                <label class="w-[40%]" for="group_item_id_4"
+                  >Group Item Level 4</label
+                >
+                <v-select
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem4"
+                  :options="lookup_defects.data"
+                  :filterable="false"
+                  @search="onGetGroupItem4"
+                  v-model="filter_params.group_item_id_4"
+                  :reduce="(item) => item.group_item_id"
+                  class="w-[60%] bg-white"
+                  @input="onSearchGroupItem5"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_defects.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_defects.current_page > 1"
+                      @click="onGetGroupItem4(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_defects.last_page > lookup_defects.current_page
+                      "
+                      @click="onGetGroupItem4(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+
+              <div class="flex">
+                <label class="w-[40%]" for="group_item_id_5"
+                  >Group Item Level 5</label
+                >
+                <v-select
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem5"
+                  :options="lookup_department.data"
+                  :filterable="false"
+                  @search="onGetGroupItem5"
+                  v-model="filter_params.group_item_id_5"
+                  :reduce="(item) => item.group_item_id"
+                  class="w-[60%] bg-white"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_department.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_department.current_page > 1"
+                      @click="onGetGroupItem5(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_department.last_page >
+                        lookup_department.current_page
+                      "
+                      @click="onGetGroupItem5(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
+            <div class="flex gap-3 mt-3 justify-end">
+              <button
+                @click="onExport"
+                class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+              >
+                <i class="fa fa-file text-white font-bold mr-2"></i>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <!-- import item  -->
+          <div class="w-full mt-3 mb-7">
+            <div class="w-full text-xl pl-2 mb-2 font-bold">Export Item</div>
+            <!-- <div class="flex w-full justify-between items-end p-2 rounded-md">
+            </div> -->
+            <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1">
+              <div class="flex w-full">
+                <label class="w-[40%]" for="gudang_id">Gudang</label>
+                <v-select
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="parameters.form.gudang_id"
+                  :reduce="(item) => item.gudang_id"
+                  class="w-[60%] bg-white"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="flex w-full items-center">
+                <label for="periode" class="w-[40%]">Periode</label>
+                <input
+                  type="month"
+                  v-model="parameters.form.periode"
+                  class="w-[60%] p-1 border border-gray-300 rounded-md outline-none"
+                />
+              </div>
+              <div class="flex w-full items-center">
+                <label for="" class="w-[40%]">File</label>
+                <input
+                  class="block w-[60%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  id="small_size"
+                  type="file"
+                  @change="handleFileChange"
+                />
+              </div>
+            </div>
+            <div class="flex w-full gap-3 mr-5 justify-end">
+              <button
+                @click="onImport"
+                class="bg-green-500 hover:bg-green-600 p-2 text-white rounded-md"
+              >
+                <i class="fa fa-file text-white font-bold mr-2"></i>
+                Import
+              </button>
             </div>
           </div>
 
@@ -382,35 +493,42 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
-    // this.$refs["form-option"].isExport = false;
-    // this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isMaintenancePage = true;
-    // this.$refs["form-option"].isAddData = true;
-    // if (
-    //   this.getRoles.destroy ||
-    //   this.getRoles.destroy_all ||
-    //   this.getRoles.restore ||
-    //   this.getRoles.restore_all
-    // ) {
-    //   this.$refs["form-option"].isMaintenancePage = true;
-    // }
-    // if (this.getRoles.store) {
-    //   this.$refs["form-option"].isAddData = false;
-    // }
-    // if (this.getRoles.export) {
-    //   this.$refs["form-option"].isExportFile = true;
-    //   this.$refs["form-option"].isExportFilePdf = true;
-    //   this.$refs["form-option"].isExportFileExcel = true;
-    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-    //     this.$refs["form-option"].isExportFileExcel =
-    //       this.getRoles.export_excel;
-    //   }
-    // }
-    // if (this.getRoles.print) {
-    //   this.$refs["form-option"].isExportPrint = true;
-    // }
+  async mounted() {
+    this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isFilter = false;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = true;
+    if (
+      this.getRoles.destroy ||
+      this.getRoles.destroy_all ||
+      this.getRoles.restore ||
+      this.getRoles.restore_all
+    ) {
+      this.$refs["form-option"].isMaintenancePage = true;
+    }
+    if (this.getRoles.store) {
+      this.$refs["form-option"].isAddData = false;
+    }
+    if (this.getRoles.export) {
+      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
+      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+        this.$refs["form-option"].isExportFileExcel =
+          this.getRoles.export_excel;
+      }
+    }
+    if (this.getRoles.print) {
+      this.$refs["form-option"].isExportPrint = true;
+    }
+
+    await this.onSearchGudang();
+    await this.onSearchGroupItem1();
+    // await this.onSearchGroupItem2();
+    // await this.onSearchGroupItem3();
+    // await this.onSearchGroupItem4();
+    // await this.onSearchGroupItem5();
   },
 
   data() {
@@ -433,6 +551,10 @@ export default {
           end_data: "",
         },
         form: {
+          gudang_id: "",
+          periode: "",
+          file: "",
+
           kode_stok_transfer: "",
           tanggal: "",
           gudang_id_penerima: "",
@@ -466,6 +588,7 @@ export default {
       user: this.$auth.user,
 
       filter_params: {
+        gudang_id: "",
         group_item_id_1: "",
         group_item_id_2: "",
         group_item_id_3: "",
@@ -492,6 +615,10 @@ export default {
       isStopSearchGroupItem5: false,
       isLoadingGetGroupItem5: false,
       group_item_5_search: "",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
     };
   },
 
@@ -505,6 +632,7 @@ export default {
       "lookup_packing",
       "lookup_defects",
       "lookup_department",
+      "lookup_custom1",
     ]),
 
     getRoles() {
@@ -838,6 +966,94 @@ export default {
 
         this.isLoadingGetGroupItem5 = false;
       }
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    async onExport() {
+      var token = this.$cookiz.post("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "master/export-item-gudang" +
+          "?token=" +
+          token +
+          "&gudang_id=" +
+          this.filter_params.gudang_id +
+          "&group_item_id_1=" +
+          this.filter_params.group_item_id_1 +
+          "&group_item_id_2=" +
+          this.filter_params.group_item_id_2 +
+          "&group_item_id_3=" +
+          this.filter_params.group_item_id_3 +
+          "&group_item_id_4=" +
+          this.filter_params.group_item_id_4 +
+          "&group_item_id_5=" +
+          this.filter_params.group_item_id_5,
+        "_blank"
+      );
+    },
+
+    onImport() {
+      if (this.parameters.form.file) {
+        let fileData = new FormData();
+        fileData.append("gudang_id", this.parameters.form.gudang_id);
+        fileData.append("periode", this.parameters.form.periode);
+        fileData.append("file", this.parameters.form.file);
+
+        this.$axios({
+          url: "master/import-item-gudang",
+          method: "POST",
+          data: fileData,
+        })
+          .then((res) => {
+            this.$toaster.success("Data berhasil diimport");
+          })
+          .catch((err) => {
+            this.$globalErrorToaster(this.$toaster, err);
+          });
+      }
+    },
+
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.parameters.form.file = file;
     },
   },
 };

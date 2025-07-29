@@ -245,6 +245,25 @@
                 </div>
               </div>
 
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Asal Data</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="asal_data"
+                    id="asal_data"
+                    v-model="parameters.params.asal_data"
+                  >
+                    <option value="IN">Inbound</option>
+                    <option value="OU">Outbound</option>
+                    <option value="KS">Konversi Stok</option>
+                    <option value="RS">Relokasi Stok</option>
+                    <option value="SO">Stok Opname</option>
+                  </select>
+                </div>
+              </div>
+
               <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
@@ -267,6 +286,7 @@
                   <th class="min-w-[200px]">Item</th>
                   <th class="min-w-[100px]">Valuation</th>
                   <th class="min-w-[120px]">Kode Transaksi</th>
+                  <th class="min-w-[120px]">Deskripsi</th>
                   <!-- <th class="text-info min-w-[100px]">Saldo Awal</th> -->
                   <th class="text-primary min-w-[100px]">Masuk</th>
                   <th class="text-danger min-w-[100px]">Keluar</th>
@@ -276,8 +296,8 @@
               </thead>
               <tbody>
                 <tr v-if="data.length">
-                  <td>
-                    {{ data[0] ? data[0].tanggal : "-" }}
+                  <td class="whitespace-nowrap">
+                    {{ data[0] ? formatDateTime(data[0].created_at) : "-" }}
                   </td>
                   <td>
                     <!-- {{ coa_id ? coa_id.kode_coa : "-" }} -->
@@ -309,7 +329,9 @@
                 <!-- :class="{ 'table-active': ActiveRow == i }" -->
                 <tr v-for="(item, i) in data" :key="i">
                   <!-- @click="onRowSelected(i)" -->
-                  <td class="whitespace-nowrap">{{ item.tanggal }}</td>
+                  <td class="whitespace-nowrap">
+                    {{ formatDateTime(item.created_at) }}
+                  </td>
                   <td class="whitespace-nowrap">
                     {{ item.kode_slot_penyimpanan_terakhir ?? "-" }}
                   </td>
@@ -322,6 +344,9 @@
                   </td>
                   <td class="whitespace-nowrap">
                     {{ item.kode_referensi ? item.kode_referensi : "-" }}
+                  </td>
+                  <td>
+                    {{ item.deskripsi || "" }}
                   </td>
                   <!-- <td class="text-info whitespace-nowrap">
                     {{
@@ -349,10 +374,10 @@
                 </tr>
 
                 <tr v-if="data.length">
-                  <td>
+                  <td class="whitespace-nowrap">
                     {{
                       data[data.length - 1]
-                        ? data[data.length - 1].tanggal
+                        ? formatDateTime(data[data.length - 1].created_at)
                         : "-"
                     }}
                   </td>
@@ -486,6 +511,7 @@ export default {
 
           start_date: "",
           end_date: "",
+          asal_data: "",
           gudang_id: {
             gudang_id: "",
           },
@@ -657,6 +683,8 @@ export default {
         this.parameters.params.valuation_id.valuation_id +
         "&zona_gudang_id=" +
         this.parameters.params.zona_gudang_id.zona_gudang_id +
+        "&asal_data=" +
+        this.parameters.params.asal_data +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -980,6 +1008,22 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
+    },
+
+    formatDateTime(dateTime) {
+      console.log(dateTime);
+      const dateObject = new Date(dateTime);
+
+      const year = dateObject.getFullYear();
+      const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObject.getDate()).padStart(2, "0");
+      const hours = String(dateObject.getHours()).padStart(2, "0");
+      const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+      const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
+      const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+      return formattedDateTime;
     },
   },
 };

@@ -245,7 +245,7 @@ export default {
       isLoadingForm: false,
       title: "Konversi Stok",
       parameters: {
-        url: "inventory/konversi-stok",
+        url: "inventory/konfirmasi-konversi-stok",
         form: {
           status_konversi: "MENUNGGU",
           tanggal_konversi: "",

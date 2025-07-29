@@ -788,6 +788,10 @@ export default {
           };
         });
 
+        if (this.form.asn_details) {
+          await this.onSearchSlotAisle(0);
+        }
+
         this.isLoadingPage = false;
       }
     } catch (error) {
