@@ -254,6 +254,7 @@
                   <th class="w-52 border border-gray-300">No Referensi 1</th>
                   <th class="w-52 border border-gray-300">No Referensi 2</th>
                   <th class="w-52 border border-gray-300">No Referensi 3</th>
+                  <th class="w-20 text-center border border-gray-300">Print</th>
                   <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
@@ -330,6 +331,7 @@
                   <td class="border border-gray-300">
                     {{ item.no_referensi_3 }}
                   </td>
+                  <td class="border border-gray-300"></td>
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
@@ -435,12 +437,19 @@ export default {
         },
         form: {
           kode_pick_order: "",
-          user_id_pic: "",
           tanggal: "",
           no_referensi_1: "",
           no_referensi_2: "",
           no_referensi_3: "",
-          detail_pick_order: [],
+          gudang_id: "",
+          user_id_pic: "",
+          staff_id_pic: "",
+          peralatan_id: "",
+          keterangan: "",
+          pick_order_details: [],
+          biaya_pick_orders: [],
+          status_approve: "",
+          catatan_approve: "",
 
           //Tracking
           user_agent: "",

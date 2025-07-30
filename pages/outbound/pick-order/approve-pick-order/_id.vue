@@ -202,6 +202,9 @@
                           Kode Pick Request
                         </th>
                         <th class="w-60 border border-gray-300">Tanggal</th> -->
+                        <th class="w-60 border border-gray-300">
+                          Kode Delivery Order
+                        </th>
                         <th class="w-60 border border-gray-300">Kode Item</th>
                         <th class="w-60 border border-gray-300">Nama Item</th>
                         <th class="w-60 border border-gray-300">Valuation</th>
@@ -235,6 +238,9 @@
                         <td class="border border-gray-300">
                           {{ item.tanggal }}
                         </td> -->
+                        <td class="border border-gray-300">
+                          {{ item.kode_delivery_order }}
+                        </td>
                         <td class="border border-gray-300">
                           {{ item.kode_item }}
                         </td>
@@ -573,13 +579,13 @@
                 </div>
                 <div class="table-responsive overflow-y-hidden mb-7">
                   <table
-                    class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                  >
-                    <!-- :class="
+                    class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                    :class="
                       parameters.form.biaya_pick_orders.length
                         ? 'mb-[300px]'
                         : ''
-                    " -->
+                    "
+                  >
                     <thead>
                       <tr class="uppercase">
                         <th class="w-60 border border-gray-300">Jenis Biaya</th>
@@ -778,7 +784,7 @@
                             v-model="item.keterangan"
                           ></textarea>
                         </td>
-                        <td class="border border-gray-300">
+                        <td class="border border-gray-300 text-center">
                           <i
                             class="fas fa-trash mx-auto"
                             style="cursor: pointer"
@@ -994,18 +1000,11 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
-        // this.parameters.form.biaya_pick_orders = res.data.biaya_pick_orders.map(
-        //   (item) => {
-        //     return {
-        //       ...item,
-        //       biaya_pick_orders_id: item.biaya_pick_orders_id
-        //         ? item.biaya_pick_orders_id
-        //         : "",
-        //     };
-        //   }
-        // );
+        this.parameters.form.biaya_pick_orders = res.data.biaya_pick_orders
+          ? res.data.biaya_pick_orders
+          : [];
         this.isLoadingPage = false;
-        // console.log(res.data);
+        // console.log(this.parameters.form);
       }
     } catch (error) {
       console.log("error", error);
@@ -1172,6 +1171,11 @@ export default {
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : item.slot_penyimpanan_id_bin,
+        };
+      });
+      formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
+        return {
+          ...item,
         };
       });
 
