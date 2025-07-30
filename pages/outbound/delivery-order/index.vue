@@ -68,16 +68,16 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%]">Edit</th>
-                <th class="w-[5%]">Delete</th>
+                <th class="w-[5%]">Detail</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Pick Order</th>
+                <th>Gudang</th>
                 <th>Tanggal</th>
-                <th>Pengemudi</th>
-                <th>Kendaraan</th>
+                <th>Status Pick Order</th>
                 <th>No Referensi 1</th>
                 <th>No Referensi 2</th>
                 <th>No Referensi 3</th>
-                <th>Detail</th>
+                <th class="w-[5%]">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -86,10 +86,7 @@
                   <small-edit-button @click="onEdit(item)" />
                 </td>
                 <td class="text-center">
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
+                  <small-detail-button @click="onDetail(item)" />
                 </td>
                 <td>
                   {{
@@ -102,21 +99,49 @@
                   <div>
                     {{ item.kode_pick_order }}
                     <p v-if="item.user_id_input" class="text-blue-500">
-                      <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
+                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
                     </p>
                     <p v-else class="text-blue-500">
                       <i>Dibuat oleh: Sistem</i>
                     </p>
                   </div>
                 </td>
+                <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
                 <td>{{ item.tanggal }}</td>
-                <td>{{ item.pengemudi_id }}</td>
-                <td>{{ item.kendaraan_id }}</td>
+                <td>
+                  <div
+                    v-if="item.status_pick_order === 'MENUNGGU'"
+                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                  >
+                    <p>Menunggu</p>
+                  </div>
+                  <div
+                    v-if="item.status_pick_order === 'PROSES'"
+                    class="p-1 rounded-md bg-blue-500 text-white text-center"
+                  >
+                    <p>Proses</p>
+                  </div>
+                  <div
+                    v-if="item.status_pick_order === 'SELESAI'"
+                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                  >
+                    <p>Selesai</p>
+                  </div>
+                  <div
+                    v-if="item.status_pick_order === 'BATAL'"
+                    class="p-1 rounded-md bg-red-500 text-white text-center"
+                  >
+                    <p>Batal</p>
+                  </div>
+                </td>
                 <td>{{ item.no_referensi_1 }}</td>
                 <td>{{ item.no_referensi_2 }}</td>
                 <td>{{ item.no_referensi_3 }}</td>
                 <td class="text-center">
-                  <small-detail-button @click="onDetail(item)" />
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -193,12 +218,12 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "outbound/delivery-order",
+        url: "outbound/approve-pick-order",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "delivery_order_id",
+          order: "pick_order_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -254,7 +279,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "delivery-order"
+          (item) => item.rute == "approve-pick-order"
         );
 
         let roles = {};
@@ -288,13 +313,11 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/outbound/delivery-order/" + item.delivery_order_id);
+      this.$router.push("/outbound/delivery-order/" + item.pick_order_id);
     },
 
     onDetail(item) {
-      this.$router.push(
-        "/outbound/delivery-order/detail" + item.delivery_order_id
-      );
+      this.$router.push("/outbound/delivery-order/detail" + item.pick_order_id);
     },
 
     onTrashed(item) {

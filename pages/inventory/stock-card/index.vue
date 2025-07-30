@@ -217,6 +217,7 @@
                     :filterable="false"
                     @search="onGetZonaGudang"
                     v-model="parameters.params.zona_gudang_id"
+                    @input="onSetZona"
                   >
                     <li
                       slot-scope="{ search }"
@@ -236,6 +237,164 @@
                           lookup_custom3.last_page > lookup_custom3.current_page
                         "
                         @click="onGetZonaGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Aisle</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_slot_penyimpanan"
+                    :loading="isLoadingGetSlotAisle"
+                    :options="lookup_custom4.data"
+                    :filterable="false"
+                    @search="onGetSlotAisle"
+                    v-model="parameters.params.slot_penyimpanan_id_aisle"
+                    @input="onSetAisle"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom4.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom4.current_page > 1"
+                        @click="onGetSlotAisle(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom4.last_page > lookup_custom4.current_page
+                        "
+                        @click="onGetSlotAisle(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Rack</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_slot_penyimpanan"
+                    :loading="isLoadingGetSlotRack"
+                    :options="lookup_custom5.data"
+                    :filterable="false"
+                    @search="onGetSlotRack"
+                    v-model="parameters.params.slot_penyimpanan_id_rack"
+                    @input="onSetRack"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom5.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom5.current_page > 1"
+                        @click="onGetSlotRack(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom5.last_page > lookup_custom5.current_page
+                        "
+                        @click="onGetSlotRack(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Level</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_slot_penyimpanan"
+                    :loading="isLoadingGetSlotLevel"
+                    :options="lookup_custom6.data"
+                    :filterable="false"
+                    @search="onGetSlotLevel"
+                    v-model="parameters.params.slot_penyimpanan_id_level"
+                    @input="onSetLevel"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom6.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom6.current_page > 1"
+                        @click="onGetSlotLevel(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom6.last_page > lookup_custom6.current_page
+                        "
+                        @click="onGetSlotLevel(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Bin</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_slot_penyimpanan"
+                    :loading="isLoadingGetSlotBin"
+                    :options="lookup_custom7.data"
+                    :filterable="false"
+                    @search="onGetSlotBin"
+                    v-model="parameters.params.slot_penyimpanan_id_bin"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom7.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom7.current_page > 1"
+                        @click="onGetSlotBin(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom7.last_page > lookup_custom7.current_page
+                        "
+                        @click="onGetSlotBin(search, true)"
                         class="flex-fill bg-primary text-white text-center"
                         style="cursor: pointer"
                         >Selanjutnya</span
@@ -524,6 +683,18 @@ export default {
           zona_gudang_id: {
             zona_gudang_id: "",
           },
+          slot_penyimpanan_id_aisle: {
+            slot_penyimpanan_id: "",
+          },
+          slot_penyimpanan_id_rack: {
+            slot_penyimpanan_id: "",
+          },
+          slot_penyimpanan_id_level: {
+            slot_penyimpanan_id: "",
+          },
+          slot_penyimpanan_id_bin: {
+            slot_penyimpanan_id: "",
+          },
         },
         default_params: {
           soft_deleted: "",
@@ -581,6 +752,22 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      isStopSearchSlotAisle: false,
+      isLoadingGetSlotAisle: false,
+      slot_aisle_search: "",
+
+      isStopSearchSlotRack: false,
+      isLoadingGetSlotRack: false,
+      slot_rack_search: "",
+
+      isStopSearchSlotLevel: false,
+      isLoadingGetSlotLevel: false,
+      slot_level_search: "",
+
+      isStopSearchSlotBin: false,
+      isLoadingGetSlotBin: false,
+      slot_bin_search: "",
+
       coa_id: "",
 
       passiva_types: ["MODAL", "KEWAJIBAN", "PENDAPATAN"],
@@ -597,6 +784,11 @@ export default {
       "lookup_custom1",
       "lookup_custom2",
       "lookup_custom3",
+
+      "lookup_custom4",
+      "lookup_custom5",
+      "lookup_custom6",
+      "lookup_custom7",
     ]),
 
     getRoles() {
@@ -683,6 +875,14 @@ export default {
         this.parameters.params.valuation_id.valuation_id +
         "&zona_gudang_id=" +
         this.parameters.params.zona_gudang_id.zona_gudang_id +
+        "&slot_penyimpanan_id_aisle=" +
+        this.parameters.params.slot_penyimpanan_id_aisle.slot_penyimpanan_id +
+        "&slot_penyimpanan_id_rack=" +
+        this.parameters.params.slot_penyimpanan_id_rack.slot_penyimpanan_id +
+        "&slot_penyimpanan_id_level=" +
+        this.parameters.params.slot_penyimpanan_id_level.slot_penyimpanan_id +
+        "&slot_penyimpanan_id_bin=" +
+        this.parameters.params.slot_penyimpanan_id_bin.slot_penyimpanan_id +
         "&asal_data=" +
         this.parameters.params.asal_data +
         "&start_date=" +
@@ -978,10 +1178,249 @@ export default {
       }
     },
 
+    onGetSlotAisle(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotAisle);
+
+      this.isStopSearchSlotAisle = setTimeout(() => {
+        this.slot_aisle_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchSlotAisle();
+      }, 600);
+    },
+
+    async onSearchSlotAisle() {
+      if (!this.isLoadingGetSlotAisle) {
+        this.isLoadingGetSlotAisle = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.slot_aisle_search +
+            "&level=1" +
+            "&gudang_id=" +
+            this.parameters.params.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.params.zona_gudang_id.zona_gudang_id +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotAisle = false;
+      }
+    },
+
+    onGetSlotRack(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotRack);
+
+      this.isStopSearchSlotRack = setTimeout(() => {
+        this.slot_rack_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchSlotRack();
+      }, 600);
+    },
+
+    async onSearchSlotRack() {
+      if (!this.isLoadingGetSlotRack) {
+        this.isLoadingGetSlotRack = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.slot_rack_search +
+            "&level=2" +
+            "&gudang_id=" +
+            this.parameters.params.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.params.zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.params.slot_penyimpanan_id_aisle
+              .slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotRack = false;
+      }
+    },
+
+    onGetSlotLevel(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotLevel);
+
+      this.isStopSearchSlotLevel = setTimeout(() => {
+        this.slot_level_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchSlotLevel();
+      }, 600);
+    },
+
+    async onSearchSlotLevel() {
+      if (!this.isLoadingGetSlotLevel) {
+        this.isLoadingGetSlotLevel = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.slot_level_search +
+            "&level=3" +
+            "&gudang_id=" +
+            this.parameters.params.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.params.zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.params.slot_penyimpanan_id_rack
+              .slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotLevel = false;
+      }
+    },
+
+    onGetSlotBin(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotBin);
+
+      this.isStopSearchSlotBin = setTimeout(() => {
+        this.slot_bin_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
+        } else {
+          this.lookup_custom7.current_page = 1;
+        }
+
+        this.onSearchSlotBin();
+      }, 600);
+    },
+
+    async onSearchSlotBin() {
+      if (!this.isLoadingGetSlotBin) {
+        this.isLoadingGetSlotBin = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom7",
+          query:
+            "?search=" +
+            this.slot_bin_search +
+            "&level=4" +
+            "&gudang_id=" +
+            this.parameters.params.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.params.zona_gudang_id.zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.params.slot_penyimpanan_id_level
+              .slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom7.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotBin = false;
+      }
+    },
+
     async onSetChartOfAccount(item) {
       this.parameters.params.gudang_id = item ? item : "";
       await this.onSearchItemGudang();
       await this.onSearchZonaGudang();
+    },
+
+    async onSetZona(item) {
+      if (item) {
+        this.parameters.params.zona_gudang_id = item;
+        await this.onSearchSlotAisle();
+      } else {
+        this.parameters.params.zona_gudang_id = { zona_gudang_id: "" };
+        this.parameters.params.slot_penyimpanan_id_aisle = {
+          slot_penyimpanan_id: "",
+        };
+      }
+    },
+
+    async onSetAisle(item) {
+      if (item) {
+        this.parameters.params.slot_penyimpanan_id_aisle = item;
+        await this.onSearchSlotRack();
+      } else {
+        this.parameters.params.slot_penyimpanan_id_aisle = {
+          slot_penyimpanan_id: "",
+        };
+        this.parameters.params.slot_penyimpanan_id_rack = {
+          slot_penyimpanan_id: "",
+        };
+      }
+    },
+
+    async onSetRack(item) {
+      if (item) {
+        this.parameters.params.slot_penyimpanan_id_rack = item;
+        await this.onSearchSlotLevel();
+      } else {
+        this.parameters.params.slot_penyimpanan_id_rack = {
+          slot_penyimpanan_id: "",
+        };
+        this.parameters.params.slot_penyimpanan_id_level = {
+          slot_penyimpanan_id: "",
+        };
+      }
+    },
+
+    async onSetLevel(item) {
+      if (item) {
+        this.parameters.params.slot_penyimpanan_id_level = item;
+        await this.onSearchSlotBin();
+      } else {
+        this.parameters.params.slot_penyimpanan_id_level = {
+          slot_penyimpanan_id: "",
+        };
+        this.parameters.params.slot_penyimpanan_id_bin = {
+          slot_penyimpanan_id: "",
+        };
+      }
     },
 
     onDetail(item) {

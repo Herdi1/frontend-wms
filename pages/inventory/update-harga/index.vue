@@ -1008,13 +1008,33 @@ export default {
     },
 
     async onExport() {
-      var token = this.$cookiz.post("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
+      // var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      // window.open(
+      //   process.env.API_URL +
+      //     "master/export-item-gudang" +
+      //     "?token=" +
+      //     token +
+      //     "&gudang_id=" +
+      //     this.filter_params.gudang_id +
+      //     "&group_item_id_1=" +
+      //     this.filter_params.group_item_id_1 +
+      //     "&group_item_id_2=" +
+      //     this.filter_params.group_item_id_2 +
+      //     "&group_item_id_3=" +
+      //     this.filter_params.group_item_id_3 +
+      //     "&group_item_id_4=" +
+      //     this.filter_params.group_item_id_4 +
+      //     "&group_item_id_5=" +
+      //     this.filter_params.group_item_id_5,
+      //   "_blank"
+      // );
+
+      try {
+        let url =
           "master/export-item-gudang" +
-          "?token=" +
-          token +
-          "&gudang_id=" +
+          // "?token=" +
+          // token +
+          "?gudang_id=" +
           this.filter_params.gudang_id +
           "&group_item_id_1=" +
           this.filter_params.group_item_id_1 +
@@ -1025,9 +1045,42 @@ export default {
           "&group_item_id_4=" +
           this.filter_params.group_item_id_4 +
           "&group_item_id_5=" +
-          this.filter_params.group_item_id_5,
-        "_blank"
-      );
+          this.filter_params.group_item_id_5;
+
+        this.$axios({
+          method: "POST",
+          url: url,
+          responseType: "blob",
+        })
+          .then((res) => {
+            const blob = new Blob([res.data], {
+              type: res.headers["content-type"],
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+
+            const disposition = res.headers["content-disposition"];
+            let filename = "item_gudang";
+            if (disposition && disposition.indexOf("filename=") !== 0) {
+              filename = disposition
+                .split("filename=")[1]
+                .replace(/"/g, "")
+                .trim();
+            }
+
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$globalErrorToaster(this.$toaster, err);
+          });
+      } catch (error) {
+        console.log(error);
+        this.$globalErrorToaster(this.$toaster, error);
+      }
     },
 
     onImport() {

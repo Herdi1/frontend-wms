@@ -651,7 +651,7 @@ export default {
       isLoadingForm: false,
       title: "Delivery Order",
       parameters: {
-        url: "outbound/delivery-order",
+        url: "outbound/approve-pick-order",
         form: {
           pick_order_id: "",
           kode_pick_order: "",
