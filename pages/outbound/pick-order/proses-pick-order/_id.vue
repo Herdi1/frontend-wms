@@ -213,7 +213,7 @@
             class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
           >
             <span class="w-1/2"><h1>Pick Order Detail</h1></span>
-            <div class="w-full relative flex justify-end gap-2">
+            <!-- <div class="w-full relative flex justify-end gap-2">
               <button
                 type="button"
                 @click="onOpenModalPickRequest"
@@ -222,7 +222,7 @@
                 <i class="fas fa-plus"></i>
                 <p class="text-xs font-medium">Pick Order Detail</p>
               </button>
-            </div>
+            </div> -->
           </div>
 
           <div
@@ -257,9 +257,9 @@
                       Lokasi Penyimpanan Tujuan
                     </th> -->
                     <th class="w-60 border border-gray-300">Keterangan</th>
-                    <th class="w-20 border border-gray-300 text-center">
+                    <!-- <th class="w-20 border border-gray-300 text-center">
                       Delete
-                    </th>
+                    </th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -572,15 +572,16 @@
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
+                        disabled
                       ></textarea>
                     </td>
-                    <td class="border border-gray-300 text-center">
+                    <!-- <td class="border border-gray-300 text-center">
                       <i
                         class="fas fa-trash mx-auto"
                         style="cursor: pointer"
                         @click="onDeleteItem(i)"
                       ></i>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>
@@ -689,6 +690,7 @@ export default {
           catatan_proses: "",
           catatan_selesai: "",
           catatan_batal: "",
+          biaya_pick_orders: [],
 
           //Tracking
           user_agent: "",
@@ -713,6 +715,7 @@ export default {
         catatan_proses: "",
         catatan_selesai: "",
         catatan_batal: "",
+        biaya_pick_orders: [],
 
         //Tracking
         user_agent: "",
@@ -765,16 +768,17 @@ export default {
             };
           });
         this.isLoadingPage = false;
-        console.log(res.data);
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      // console.log("error", error);
+      this.$router.back();
     }
   },
 
   async mounted() {
     await this.onSearchUser();
+    await this.onSearchZonaGudang();
+
     // await this.onSearchPickRequest();
     await this.onSearchGudang();
     // await this.onSearchItemGudang();
@@ -1533,7 +1537,6 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
-        await this.onSearchZonaGudang();
       } else {
         this.parameters.form.gudang_id = "";
       }

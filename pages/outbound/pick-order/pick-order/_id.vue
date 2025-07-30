@@ -781,6 +781,7 @@ export default {
           peralatan_id: "",
           keterangan: "",
           pick_order_details: [],
+          biaya_pick_orders: [],
 
           //Tracking
           user_agent: "",
@@ -801,6 +802,7 @@ export default {
         peralatan_id: "",
         keterangan: "",
         pick_order_details: [],
+        biaya_pick_orders: [],
 
         //Tracking
         user_agent: "",
@@ -1010,6 +1012,10 @@ export default {
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : item.slot_penyimpanan_id_bin,
+          slot_penyimpanan_id_aisle_tujuan: "",
+          slot_penyimpanan_id_rack_tujuan: "",
+          slot_penyimpanan_id_level_tujuan: "",
+          slot_penyimpanan_id_bin_tujuan: "",
         };
       });
 
@@ -1054,6 +1060,10 @@ export default {
         slot_penyimpanan_id_level: "",
         slot_penyimpanan_id_bin: "",
         zona_gudang_id_tujuan: "",
+        slot_penyimpanan_id_aisle_tujuan: "",
+        slot_penyimpanan_id_aisle_rack_tujuan: "",
+        slot_penyimpanan_id_aisle_level_tujuan: "",
+        slot_penyimpanan_id_aisle_bin_tujuan: "",
         keterangan: "",
         // pick_order_details: "",
       });
