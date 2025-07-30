@@ -152,17 +152,14 @@ export default {
               };
             });
         }
-        if (response.data.detail_konversi_stok_jadis) {
-          this.detail_item.detail_konversi_stok_jadi =
-            response.data.detail_konversi_stok_jadis.map((item) => {
+        if (response.data.konversi_stok_detail_jadis) {
+          this.detail_item.konversi_stok_detail_jadi =
+            response.data.konversi_stok_detail_jadis.map((item) => {
               return {
                 ...item,
               };
             });
         }
-
-        console.log(response.data);
-        console.log(this.detail_item);
 
         this.isLoadingPage = false;
       } catch (error) {

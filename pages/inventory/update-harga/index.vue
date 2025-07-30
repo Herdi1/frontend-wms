@@ -351,7 +351,7 @@
             </div>
           </div>
 
-          <div class="card-title">
+          <!-- <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
 
@@ -469,7 +469,7 @@
           </div>
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -489,39 +489,39 @@ export default {
   },
 
   created() {
-    this.set_data([]);
-    this.onLoad();
+    // this.set_data([]);
+    // this.onLoad();
   },
 
   async mounted() {
-    this.$refs["form-option"].isExport = false;
-    this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
-    if (
-      this.getRoles.destroy ||
-      this.getRoles.destroy_all ||
-      this.getRoles.restore ||
-      this.getRoles.restore_all
-    ) {
-      this.$refs["form-option"].isMaintenancePage = true;
-    }
-    if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
-    }
-    if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
-      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-        this.$refs["form-option"].isExportFileExcel =
-          this.getRoles.export_excel;
-      }
-    }
-    if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
-    }
+    // this.$refs["form-option"].isExport = false;
+    // this.$refs["form-option"].isFilter = false;
+    // this.$refs["form-option"].isMaintenancePage = true;
+    // this.$refs["form-option"].isAddData = true;
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = true;
+    // }
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = false;
+    // }
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = true;
+    //   this.$refs["form-option"].isExportFilePdf = true;
+    //   this.$refs["form-option"].isExportFileExcel = true;
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = true;
+    // }
 
     await this.onSearchGudang();
     await this.onSearchGroupItem1();
