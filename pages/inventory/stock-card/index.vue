@@ -437,23 +437,40 @@
 
           <!-- start table -->
           <div class="table-fixed relative w-full overflow-x-auto">
-            <table class="table table-sm min-w-full" ref="formContainer">
+            <table
+              class="table table-sm min-w-full border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="uppercase">
-                  <th class="min-w-[100px]">Tgl</th>
-                  <th class="min-w-[150px]">Lokasi Penyimpanan</th>
-                  <th class="min-w-[200px]">Item</th>
-                  <th class="min-w-[100px]">Valuation</th>
-                  <th class="min-w-[120px]">Kode Transaksi</th>
-                  <th class="min-w-[120px]">Deskripsi</th>
+                  <th class="min-w-[100px] border border-gray-300">Tgl</th>
+                  <th class="min-w-[150px] border border-gray-300">
+                    Lokasi Penyimpanan
+                  </th>
+                  <th class="min-w-[200px] border border-gray-300">Item</th>
+                  <th class="min-w-[100px] border border-gray-300">
+                    Valuation
+                  </th>
+                  <th class="min-w-[120px] border border-gray-300">
+                    Kode Transaksi
+                  </th>
+                  <th class="min-w-[120px] border border-gray-300">
+                    Deskripsi
+                  </th>
                   <!-- <th class="text-info min-w-[100px]">Saldo Awal</th> -->
-                  <th class="text-primary min-w-[100px]">Masuk</th>
-                  <th class="text-danger min-w-[100px]">Keluar</th>
-                  <th class="text-primary min-w-[100px]">Saldo Akhir</th>
-                  <th class="min-w-[100px]">Options</th>
+                  <th class="text-primary min-w-[100px] border border-gray-300">
+                    Masuk
+                  </th>
+                  <th class="text-danger min-w-[100px] border border-gray-300">
+                    Keluar
+                  </th>
+                  <th class="text-primary min-w-[100px] border border-gray-300">
+                    Saldo Akhir
+                  </th>
+                  <th class="min-w-[100px] border border-gray-300">Options</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="border border-gray-300">
                 <tr v-if="data.length">
                   <td class="whitespace-nowrap">
                     {{ data[0] ? formatDateTime(data[0].created_at) : "-" }}
@@ -475,6 +492,7 @@
                   </td> -->
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
+                  <td></td>
                   <td class="text-primary">
                     {{
                       raw_data.first_balance
@@ -482,29 +500,29 @@
                         : "" | formatPrice
                     }}
                   </td>
-                  <td>-</td>
+                  <td class="text-center">-</td>
                 </tr>
 
                 <!-- :class="{ 'table-active': ActiveRow == i }" -->
                 <tr v-for="(item, i) in data" :key="i">
                   <!-- @click="onRowSelected(i)" -->
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     {{ formatDateTime(item.created_at) }}
                   </td>
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     {{ item.kode_slot_penyimpanan_terakhir ?? "-" }}
                   </td>
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     {{ item.item_gudang ? item.item_gudang.kode_item : "-" }} -
                     {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                   </td>
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     {{ item.kode_valuation ? item.kode_valuation : "-" }}
                   </td>
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     {{ item.kode_referensi ? item.kode_referensi : "-" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.deskripsi || "" }}
                   </td>
                   <!-- <td class="text-info whitespace-nowrap">
@@ -512,16 +530,22 @@
                       item.saldo_awal > 0 ? item.saldo_awal : "" | formatPrice
                     }}
                   </td> -->
-                  <td class="text-success whitespace-nowrap">
+                  <td
+                    class="text-success whitespace-nowrap border border-gray-300"
+                  >
                     {{ item.masuk > 0 ? item.masuk : "" | formatPrice }}
                   </td>
-                  <td class="text-danger whitespace-nowrap">
+                  <td
+                    class="text-danger whitespace-nowrap border border-gray-300"
+                  >
                     {{ item.keluar > 0 ? item.keluar : "" | formatPrice }}
                   </td>
-                  <td class="text-primary whitespace-nowrap">
+                  <td
+                    class="text-primary whitespace-nowrap border border-gray-300"
+                  >
                     {{ item.last_balance | formatPrice }}
                   </td>
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border border-gray-300">
                     <button
                       class="btn btn-sm btn-primary"
                       @click="onDetail(item)"
@@ -533,28 +557,29 @@
                 </tr>
 
                 <tr v-if="data.length">
-                  <td class="whitespace-nowrap">
+                  <td class="whitespace-nowrap border-y border-gray-300">
                     {{
                       data[data.length - 1]
                         ? formatDateTime(data[data.length - 1].created_at)
                         : "-"
                     }}
                   </td>
-                  <td>
+                  <td class="border-y border-gray-300">
                     <!-- {{ coa_id ? coa_id.kode_coa : "-" }} -->
                   </td>
-                  <td>
+                  <td class="border-y border-gray-300">
                     <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
-                  <td></td>
+                  <td class="border-y border-gray-300"></td>
                   <!-- <td></td> -->
-                  <td class="text-info"></td>
-                  <td class="text-success"></td>
-                  <td class="text-danger"></td>
-                  <td class="text-primary">
+                  <td class="text-info border-y border-gray-300"></td>
+                  <td class="text-success border-y border-gray-300"></td>
+                  <td class="text-danger border-y border-gray-300"></td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-primary border-y border-gray-300">
                     {{ last_balance | formatPrice }}
                   </td>
-                  <td>-</td>
+                  <td class="border-y border-gray-300 text-center">-</td>
                 </tr>
               </tbody>
 
@@ -563,8 +588,11 @@
               <table-data-not-found-section :self="this" />
 
               <tr v-if="data && raw_data.current_page != raw_data.last_page">
-                <td colspan="11" class="text-center">
-                  <button class="btn btn-link" @click="loadMoreStock">
+                <td colspan="11" class="text-center py-5 pl-2">
+                  <button
+                    class="btn btn-link bg-blue-500 hover:bg-blue-500/85 transition-all duration-200 text-white"
+                    @click="loadMoreStock"
+                  >
                     Selanjutnya
                   </button>
                 </td>

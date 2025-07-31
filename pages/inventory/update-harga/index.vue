@@ -24,8 +24,10 @@
         <div class="card-body">
           <!-- export item -->
           <div class="w-full mt-3 mb-7">
-            <div class="w-full text-xl pl-2 mb-2 font-bold">Export Item</div>
-            <div class="w-full grid grid-flow-col grid-rows-3 gap-2 mx-1">
+            <div class="w-full text-xl mb-2 font-bold">Export Item</div>
+            <div
+              class="w-full grid grid-flow-col grid-rows-3 gap-2 gap-x-4 mx-1"
+            >
               <div class="flex w-full">
                 <label class="w-[40%]" for="group_item_id_1">Gudang</label>
                 <v-select
@@ -283,10 +285,12 @@
 
           <!-- import item  -->
           <div class="w-full mt-3 mb-7">
-            <div class="w-full text-xl pl-2 mb-2 font-bold">Export Item</div>
+            <div class="w-full text-xl mb-2 font-bold">Import Item</div>
             <!-- <div class="flex w-full justify-between items-end p-2 rounded-md">
             </div> -->
-            <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1">
+            <div
+              class="w-full grid grid-flow-row grid-cols-2 gap-2 gap-x-4 mx-1"
+            >
               <div class="flex w-full">
                 <label class="w-[40%]" for="gudang_id">Gudang</label>
                 <v-select

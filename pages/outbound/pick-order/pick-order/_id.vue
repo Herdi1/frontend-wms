@@ -479,6 +479,16 @@
                           </li>
                         </v-select>
                       </div>
+                      <div class="mt-5">
+                        <money
+                          v-model="item.stok"
+                          class="w-full pl-2 py-1 border rounded focus:outline-none"
+                          @keydown.native="
+                            $event.key === '-' ? $event.preventDefault() : null
+                          "
+                          disabled
+                        />
+                      </div>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -1065,6 +1075,7 @@ export default {
         slot_penyimpanan_id_aisle_level_tujuan: "",
         slot_penyimpanan_id_aisle_bin_tujuan: "",
         keterangan: "",
+        stok: "",
         // pick_order_details: "",
       });
     },
@@ -1230,6 +1241,7 @@ export default {
       if (item) {
         this.parameters.form.pick_order_details[index].zona_gudang_id = item;
         await this.onSearchSlotAisle(index);
+        this.onGetSystemStok(index);
       } else {
         this.parameters.form.pick_order_details[index].zona_gudang_id = "";
         this.parameters.form.pick_order_details[
@@ -1400,6 +1412,7 @@ export default {
           index
         ].slot_penyimpanan_id_aisle = item;
         await this.onSearchSlotRack(index);
+        this.onGetSystemStok(index);
       } else {
         this.parameters.form.pick_order_details[
           index
@@ -1464,6 +1477,7 @@ export default {
           index
         ].slot_penyimpanan_id_rack = item;
         await this.onSearchSlotLevel(index);
+        this.onGetSystemStok(index);
       } else {
         this.parameters.form.pick_order_details[
           index
@@ -1528,6 +1542,7 @@ export default {
           index
         ].slot_penyimpanan_id_level = item;
         await this.onSearchSlotBin(index);
+        this.onGetSystemStok(index);
       } else {
         this.parameters.form.pick_order_details[
           index
@@ -1589,6 +1604,7 @@ export default {
       if (item) {
         this.parameters.form.pick_order_details[index].slot_penyimpanan_id_bin =
           item;
+        this.onGetSystemStok(index);
       } else {
         this.parameters.form.pick_order_details[index].slot_penyimpanan_id_bin =
           "";
@@ -1668,6 +1684,37 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = this.default_form;
+    },
+
+    onGetSystemStok(index) {
+      let item_gudang_id =
+        this.parameters.form.pick_order_details[index].item_gudang_id;
+      let zona_gudang_id =
+        this.parameters.form.pick_order_details[index].zona_gudang_id;
+      let valuation_id =
+        this.parameters.form.pick_order_details[index].valuation_id;
+      let aisle =
+        this.parameters.form.pick_order_details[index]
+          .slot_penyimpanan_id_aisle;
+      let rack =
+        this.parameters.form.pick_order_details[index].slot_penyimpanan_id_rack;
+      let level =
+        this.parameters.form.pick_order_details[index]
+          .slot_penyimpanan_id_level;
+      let bin =
+        this.parameters.form.pick_order_details[index].slot_penyimpanan_id_bin;
+
+      if (typeof this.parameters.form.gudang_id == "object") {
+        this.$axios
+          .get(
+            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id}/${zona_gudang_id.zona_gudang_id}/${valuation_id}?slot_penyimpanan_id_aisle=${aisle?.slot_penyimpanan_id}&slot_penyimpanan_id_bin=${bin?.slot_penyimpanan_id}&slot_penyimpanan_id_level=${level?.slot_penyimpanan_id}&slot_penyimpanan_id_rack=${rack?.slot_penyimpanan_id}`
+          )
+          .then((res) => {
+            this.parameters.form.pick_order_details[index].stok =
+              res.data.quantity || 0.7;
+            console.log(res.data);
+          });
+      }
     },
   },
 };

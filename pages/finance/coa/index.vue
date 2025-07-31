@@ -27,12 +27,12 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[3%]">Edit</th>
-                  <th class="w-[3%]">Delete</th>
-                  <th class="w-[2%]">No</th>
+                  <th class="w-[3%] border border-gray-300">Edit</th>
+                  <th class="w-[3%] border border-gray-300">Delete</th>
+                  <th class="w-[2%] border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -40,7 +40,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode COA</div>
@@ -66,26 +66,26 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode External</th>
-                  <th>Nama</th>
-                  <th>Induk</th>
-                  <th>Tipe</th>
-                  <th>Status</th>
-                  <th>Jenis COA</th>
+                  <th class="border border-gray-300">Kode External</th>
+                  <th class="border border-gray-300">Nama</th>
+                  <th class="border border-gray-300">Induk</th>
+                  <th class="border border-gray-300">Tipe</th>
+                  <th class="border border-gray-300">Status</th>
+                  <th class="border border-gray-300">Jenis COA</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                     />
                   </td>
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -93,7 +93,7 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.kode_coa }}
                     <br />
                     <span class="text-blue-500"
@@ -105,22 +105,24 @@
                       ></span
                     >
                   </td>
-                  <td>{{ item.kode_coa_sap }}</td>
-                  <td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_coa_sap }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{ item.nama_coa }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.parent ? item.parent.nama_coa : "" }}
                     {{ item.parent ? " (" + item.parent.kode_coa + ")" : "" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <b>{{ item.tipe || "-" }}</b>
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <b>{{ checkStatus(item) }}</b>
                   </td>
 
-                  <td>
+                  <td class="border border-gray-300">
                     <b>{{ item.jenis_coa }}</b
                     ><br />
                     <span v-if="item.jenis_coa == 'SPESIFIK'"
