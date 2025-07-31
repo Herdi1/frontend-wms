@@ -156,25 +156,27 @@
               <div>
                 <div class="form-group flex items-center">
                   <label for="" class="w-1/2"
-                    >Status Muat <span class="text-danger">*</span></label
+                    >Status Inspeksi <span class="text-danger">*</span></label
                   >
                   <select
                     name=""
                     id=""
-                    v-model="parameters.form.status_muat"
+                    v-model="parameters.form.status_inspeksi"
                     class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                   >
                     <option value="0">Menunggu</option>
-                    <option value="1">Selesai Dimuat</option>
+                    <option value="1">Selesai Inspeksi</option>
                   </select>
                 </div>
               </div>
               <div class="form-group flex items-start">
-                <label for="keterangan" class="w-1/2 pt-1">Catatan Muat</label>
+                <label for="keterangan" class="w-1/2 pt-1"
+                  >Catatan Inspeksi</label
+                >
                 <textarea
-                  placeholder="Catatan Muat"
+                  placeholder="Catatan Inspeksi"
                   class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                  v-model="parameters.form.catatan_muat"
+                  v-model="parameters.form.catatan_inspeksi"
                 ></textarea>
               </div>
             </div>
@@ -285,8 +287,8 @@ export default {
           pengemudi_id: "",
           keterangan: "",
           no_referensi: "",
-          status_muat: "",
-          catatan_muat: "",
+          status_inspeksi: "",
+          catatan_inspeksi: "",
 
           shipment_details: [],
           rute_shipments: [],
