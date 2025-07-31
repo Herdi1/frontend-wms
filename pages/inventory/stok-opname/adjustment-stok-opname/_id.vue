@@ -137,7 +137,7 @@
           <div class="w-full flex justify-between items-center mt-5">
             <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
 
-            <div>
+            <!-- <div>
               <button
                 type="button"
                 @click="AddDetailItem"
@@ -146,7 +146,7 @@
                 <i class="fas fa-plus"></i>
                 <p class="text-xs font-medium">Tambah Stok Opname</p>
               </button>
-            </div>
+            </div> -->
           </div>
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"

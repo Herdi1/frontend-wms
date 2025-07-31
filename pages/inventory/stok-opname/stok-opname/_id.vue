@@ -191,7 +191,7 @@
                         :filterable="false"
                         @search="onGetItemGudang"
                         v-model="item.item_gudang_id"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectItemGudang(item, i)"
                       >
                         <li
                           slot-scope="{ search }"
@@ -227,7 +227,7 @@
                         :filterable="false"
                         @search="onGetZonaGudang"
                         v-model="item.zona_gudang_id"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectZona(item, i)"
                       >
                         <!-- :reduce="(item) => item.zona_gudang_id" -->
                         <li
@@ -263,7 +263,7 @@
                         :filterable="false"
                         @search="onGetValuation"
                         v-model="item.valuation_id"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectValuation(item, i)"
                       >
                         <!-- :reduce="(item) => item.valuation_id" -->
                         <li
@@ -299,7 +299,7 @@
                         :filterable="false"
                         @search="onGetSlotAisle"
                         v-model="item.slot_penyimpanan_id_aisle"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectAisle(item, i)"
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -335,7 +335,7 @@
                         :filterable="false"
                         @search="onGetSlotRack"
                         v-model="item.slot_penyimpanan_id_rack"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectRack(item, i)"
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -371,7 +371,7 @@
                         :filterable="false"
                         @search="onGetSlotLevel"
                         v-model="item.slot_penyimpanan_id_level"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectLevel(item, i)"
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -407,7 +407,7 @@
                         :filterable="false"
                         @search="onGetSlotBin"
                         v-model="item.slot_penyimpanan_id_bin"
-                        @input="onSelectItem(i)"
+                        @input="(item) => onSelectBin(item, i)"
                       >
                         <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                         <li
@@ -659,6 +659,8 @@ export default {
     // await this.onSearchItemPelanggan();
     // await this.onSearchSupplier();
     await this.onSearchValuation();
+    await this.onSearchZonaGudang();
+
     // await this.onSearchZonaGudang();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -862,11 +864,10 @@ export default {
         this.parameters.form.stok_opname_details.forEach((_, index) => {
           this.onGetSystemStok(index);
         });
-        await this.onSearchZonaGudang();
-        await this.onSearchSlotAisle();
-        await this.onSearchSlotRack();
-        await this.onSearchSlotLevel();
-        await this.onSearchSlotBin();
+        // await this.onSearchSlotAisle();
+        // await this.onSearchSlotRack();
+        // await this.onSearchSlotLevel();
+        // await this.onSearchSlotBin();
       } else {
         this.parameters.form.gudang_id = "";
       }
@@ -941,7 +942,20 @@ export default {
       }
     },
 
-    onGetSlotAisle(search, isNext) {
+    async onSelectZona(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[index].zona_gudang_id = item;
+        await this.onSearchSlotAisle(index);
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[index].zona_gudang_id = "";
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+      }
+    },
+
+    onGetSlotAisle(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotAisle);
@@ -957,11 +971,11 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotAisle();
+        this.onSearchSlotAisle(index);
       }, 600);
     },
 
-    async onSearchSlotAisle() {
+    async onSearchSlotAisle(index) {
       if (!this.isLoadingGetSlotAisle) {
         this.isLoadingGetSlotAisle = true;
 
@@ -974,6 +988,9 @@ export default {
             "&level=1" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.stok_opname_details[index].zona_gudang_id
+              .zona_gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -983,7 +1000,24 @@ export default {
       }
     },
 
-    onGetSlotRack(search, isNext) {
+    async onSelectAisle(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_aisle = item;
+        await this.onSearchSlotRack(index);
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+      }
+    },
+
+    onGetSlotRack(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotRack);
@@ -999,11 +1033,11 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotRack();
+        this.onSearchSlotRack(index);
       }, 600);
     },
 
-    async onSearchSlotRack() {
+    async onSearchSlotRack(index) {
       if (!this.isLoadingGetSlotRack) {
         this.isLoadingGetSlotRack = true;
 
@@ -1016,6 +1050,12 @@ export default {
             "&level=2" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.stok_opname_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.stok_opname_details[index]
+              .slot_penyimpanan_id_aisle.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1025,7 +1065,24 @@ export default {
       }
     },
 
-    onGetSlotLevel(search, isNext) {
+    async onSelectRack(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_rack = item;
+        await this.onSearchSlotLevel(index);
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+      }
+    },
+
+    onGetSlotLevel(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotLevel);
@@ -1041,11 +1098,11 @@ export default {
           this.lookup_custom6.current_page = 1;
         }
 
-        this.onSearchSlotLevel();
+        this.onSearchSlotLevel(index);
       }, 600);
     },
 
-    async onSearchSlotLevel() {
+    async onSearchSlotLevel(index) {
       if (!this.isLoadingGetSlotLevel) {
         this.isLoadingGetSlotLevel = true;
 
@@ -1058,6 +1115,12 @@ export default {
             "&level=3" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.stok_opname_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.stok_opname_details[index]
+              .slot_penyimpanan_id_rack.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom6.current_page +
             "&per_page=10",
@@ -1067,7 +1130,24 @@ export default {
       }
     },
 
-    onGetSlotBin(search, isNext) {
+    async onSelectLevel(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_level = item;
+        await this.onSearchSlotBin(index);
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
+    },
+
+    onGetSlotBin(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotBin);
@@ -1083,11 +1163,11 @@ export default {
           this.lookup_custom7.current_page = 1;
         }
 
-        this.onSearchSlotBin();
+        this.onSearchSlotBin(index);
       }, 600);
     },
 
-    async onSearchSlotBin() {
+    async onSearchSlotBin(index) {
       if (!this.isLoadingGetSlotBin) {
         this.isLoadingGetSlotBin = true;
 
@@ -1100,12 +1180,41 @@ export default {
             "&level=4" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.stok_opname_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.stok_opname_details[index]
+              .slot_penyimpanan_id_level.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetSlotBin = false;
+      }
+    },
+
+    async onSelectBin(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_bin = item;
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
+    },
+
+    async onSelectValuation(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[index].valuation_id = item;
+
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.stok_opname_details[index].valuation_id = "";
       }
     },
 
@@ -1148,6 +1257,32 @@ export default {
       }
     },
 
+    async onSelectItemGudang(item, index) {
+      if (item) {
+        this.parameters.form.stok_opname_details[index].item_gudang_id = item;
+        let details = [...this.parameters.form.stok_opname_details];
+
+        let itemGudangs = details.filter(
+          (detailItem) =>
+            (detailItem.item_gudang_id
+              ? detailItem.item_gudang_id.item_gudang_id
+              : 0) === item.item_gudang_id
+        );
+
+        if (itemGudangs.length > 1) {
+          this.$toaster.error("Item gudang sudah ada");
+          this.parameters.form.stok_opname_details = details.filter(
+            (_, indexItem) => index != indexItem
+          );
+        } else {
+          this.onGetSystemStok(index);
+        }
+        await this.onSearchZonaGudang();
+      } else {
+        this.parameters.form.stok_opname_details[index].item_gudang_id = "";
+      }
+    },
+
     onGetValuation(search, isNext) {
       if (!search.length && typeof isNext === "function") return;
 
@@ -1185,44 +1320,44 @@ export default {
       }
     },
 
-    onSelectItemGudang(item, index) {
-      this.self.parameters.form.konversi_stok_detail_bahan[
-        index
-      ].item_gudang_id = item ? item : "";
-      this.self.parameters.form.konversi_stok_detail_bahan[index].item_id = item
-        ? item.item_id
-        : "";
-    },
+    // onSelectItemGudang(item, index) {
+    //   this.self.parameters.form.konversi_stok_detail_bahan[
+    //     index
+    //   ].item_gudang_id = item ? item : "";
+    //   this.self.parameters.form.konversi_stok_detail_bahan[index].item_id = item
+    //     ? item.item_id
+    //     : "";
+    // },
 
-    onSelectItem(index) {
-      let details = [...this.parameters.form.stok_opname_details];
+    // onSelectItem(index) {
+    //   let details = [...this.parameters.form.stok_opname_details];
 
-      let itemDetail = {
-        ...this.parameters.form.stok_opname_details[index],
-      };
+    //   let itemDetail = {
+    //     ...this.parameters.form.stok_opname_details[index],
+    //   };
 
-      if (!itemDetail.item_gudang_id) {
-        this.parameters.form.stok_opname_details[index].item_gudang_id = "";
-        return;
-      }
+    //   if (!itemDetail.item_gudang_id) {
+    //     this.parameters.form.stok_opname_details[index].item_gudang_id = "";
+    //     return;
+    //   }
 
-      let itemGudang = itemDetail.item_gudang_id;
+    //   let itemGudang = itemDetail.item_gudang_id;
 
-      let itemGudangs = details.filter(
-        (item) =>
-          (item.item_gudang_id ? item.item_gudang_id.item_gudang_id : 0) ===
-          itemGudang.item_gudang_id
-      );
+    //   let itemGudangs = details.filter(
+    //     (item) =>
+    //       (item.item_gudang_id ? item.item_gudang_id.item_gudang_id : 0) ===
+    //       itemGudang.item_gudang_id
+    //   );
 
-      if (itemGudangs.length > 1) {
-        this.$toaster.error("Item gudang sudah ada");
-        this.parameters.form.stok_opname_details = details.filter(
-          (_, indexItem) => index != indexItem
-        );
-      } else {
-        this.onGetSystemStok(index);
-      }
-    },
+    //   if (itemGudangs.length > 1) {
+    //     this.$toaster.error("Item gudang sudah ada");
+    //     this.parameters.form.stok_opname_details = details.filter(
+    //       (_, indexItem) => index != indexItem
+    //     );
+    //   } else {
+    //     this.onGetSystemStok(index);
+    //   }
+    // },
 
     onChangeStok(index) {
       this.parameters.form.stok_opname_details[index].stok_selisih =
