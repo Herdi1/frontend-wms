@@ -157,7 +157,7 @@
               <div class="flex gap-3">
                 <button
                   @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+                  class="bg-blue-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
@@ -168,10 +168,13 @@
 
           <!-- start table -->
           <div class="table-responsive">
-            <table class="table table-sm" ref="formContainer">
+            <table
+              class="table table-sm border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
-                <tr>
-                  <th>No</th>
+                <tr class="uppercase">
+                  <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -179,7 +182,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                     style="min-width: 100px"
                   >
                     <div class="flex flex-row justify-between items-baseline">
@@ -213,7 +216,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                     style="min-width: 100px"
                   >
                     <div class="flex flex-row justify-between items-baseline">
@@ -272,10 +275,21 @@
                   <th class="text-center" style="min-width: 100px">
                     Total Rusak
                   </th> -->
-                  <th class="text-center">Zona Gudang</th>
-                  <th class="text-center">Kode Valuation</th>
-                  <th class="text-center" style="min-width: 100px">Quantity</th>
-                  <th class="text-center w-[5%]">Options</th>
+                  <th class="text-center border border-gray-300">
+                    Zona Gudang
+                  </th>
+                  <th class="text-center border border-gray-300">
+                    Kode Valuation
+                  </th>
+                  <th
+                    class="text-center border border-gray-300"
+                    style="min-width: 100px"
+                  >
+                    Quantity
+                  </th>
+                  <th class="text-center w-[5%] border border-gray-300">
+                    Options
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -284,7 +298,7 @@
                   v-for="(item, i) in data"
                   :key="i"
                 >
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -292,16 +306,16 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.kode_item ? item.kode_item : "" }} -
                     {{ item.nama_item }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.gudang.nama_gudang + " - " + item.gudang.kode_gudang
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.zona_gudang.nama_zona_gudang +
                       " - " +
@@ -342,11 +356,15 @@
                   <td class="text-danger">
                     {{ item.total_rusak ? item.total_rusak : "" | formatPrice }}
                   </td> -->
-                  <td class="text-center">{{ item.kode_valuation }}</td>
-                  <td class="text-success text-center">
+                  <td class="text-center border border-gray-300">
+                    {{ item.kode_valuation }}
+                  </td>
+                  <td class="text-success text-center border border-gray-300">
                     {{ item.quantity ? item.quantity : "" | formatPrice }}
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <button
                       class="btn btn-sm btn-primary"
                       @click="onDetail(item)"
@@ -950,7 +968,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +

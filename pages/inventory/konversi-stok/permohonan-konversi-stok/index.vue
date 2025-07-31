@@ -97,10 +97,52 @@
               </div>
             </div>
 
+            <div class="grid grid-cols-2 gap-2 mb-1">
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Gudang</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="parameters.params.gudang_id"
+                  :reduce="(item) => item.gudang_id"
+                >
+                  <!-- @input="onSelectGudang" -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="d-flex justify-content-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
+
             <div class="flex gap-3">
               <button
                 @click="onLoad"
-                class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+                class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
               >
                 <i class="fa fa-filter text-white font-bold mr-2"></i>
                 <div>Filter</div>
@@ -109,43 +151,34 @@
           </div>
         </div>
 
-        <div>
+        <div class="table-responsive w-full relative overflow-y-auto">
           <table
             ref="formContainer"
-            class="border border-gray-300 overflow-x-auto"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
           >
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-[5%] border border-gray-300">Edit</th>
-                <th class="w-[5%] border border-gray-300">Detail</th>
-                <th class="w-[5%] border border-gray-300">No</th>
-                <th class="border border-gray-300">Kode Konversi Stok</th>
-                <th class="border border-gray-300">Gudang</th>
-                <th class="border border-gray-300">Status Konversi</th>
-                <th class="border border-gray-300">Status Approve</th>
-                <th class="border border-gray-300">Tanggal</th>
-                <th class="border border-gray-300">Tanggal Mulai</th>
-                <th class="border border-gray-300">Tanggal Selesai</th>
-                <th class="border border-gray-300">Lama Pengerjaan</th>
-                <th class="w-[5%] border border-gray-300">Delete</th>
+                <th class="w-20 text-center border border-gray-300">Detail</th>
+                <th class="w-20 text-center border border-gray-300">No</th>
+                <th class="w-52 border border-gray-300">Kode Konversi Stok</th>
+                <th class="w-52 border border-gray-300">Gudang</th>
+                <th class="w-52 border border-gray-300">Status Konversi</th>
+                <th class="w-52 border border-gray-300">Status Approve</th>
+                <th class="w-52 border border-gray-300">Tanggal</th>
+                <th class="w-52 border border-gray-300">Tanggal Mulai</th>
+                <th class="w-52 border border-gray-300">Tanggal Selesai</th>
+                <th class="w-52 border border-gray-300">Lama Pengerjaan</th>
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-20 text-center border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="border border-gray-300">
-                  <small-edit-button
-                    @click="onEdit(item)"
-                    :disabled="
-                      item.status_approve == 1 ||
-                      item.status_konversi === 'BATAL'
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
 
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
@@ -167,25 +200,25 @@
                 <td class="border border-gray-300">
                   <div
                     v-if="item.status_konversi === 'MENUNGGU'"
-                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-orange-500 text-white text-center"
                   >
                     <p>Menunggu</p>
                   </div>
                   <div
                     v-if="item.status_konversi === 'PROSES'"
-                    class="p-1 rounded-md bg-blue-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-blue-500 text-white text-center"
                   >
                     <p>Proses</p>
                   </div>
                   <div
                     v-if="item.status_konversi === 'SELESAI'"
-                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-green-500 text-white text-center"
                   >
                     <p>Selesai</p>
                   </div>
                   <div
                     v-if="item.status_konversi === 'BATAL'"
-                    class="p-1 rounded-md bg-red-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-red-500 text-white text-center"
                   >
                     <p>Batal</p>
                   </div>
@@ -193,13 +226,13 @@
                 <td class="border border-gray-300">
                   <div
                     v-if="item.status_approve === '0'"
-                    class="p-1 rounded-md bg-orange-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-orange-500 text-white text-center"
                   >
                     <p>Menunggu</p>
                   </div>
                   <div
                     v-if="item.status_approve === '1'"
-                    class="p-1 rounded-md bg-green-500 text-white text-center"
+                    class="p-1 w-1/2 rounded-md bg-green-500 text-white text-center"
                   >
                     <p>Approved</p>
                   </div>
@@ -212,7 +245,16 @@
                 <td class="border border-gray-300">
                   {{ item.lama_pengerjaan }}
                 </td>
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button
+                    @click="onEdit(item)"
+                    :disabled="
+                      item.status_approve == 1 ||
+                      item.status_konversi === 'BATAL'
+                    "
+                  />
+                </td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"
@@ -288,6 +330,10 @@ export default {
 
   data() {
     return {
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       title: "Konversi Stok",
       isLoadingData: false,
       isPaginate: true,
@@ -319,6 +365,7 @@ export default {
           end_date: "",
           status_konversi: "",
           status_approve: "",
+          gudang_id: "",
           per_page: 10,
           page: 1,
           form: {
@@ -344,7 +391,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -376,6 +423,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
 
@@ -500,6 +548,45 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudangGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudangGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
     },
   },
 };

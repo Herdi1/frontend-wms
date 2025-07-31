@@ -976,6 +976,27 @@
                       <span class="font-bold">{{ form.file_layout }}</span>
                     </button>
                   </div>
+
+                  <!-- <div>
+                    <label for="min-stok">Min Stok</label>
+                    <money
+                      v-model="form.min_stok"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </div>
+                  <div>
+                    <label for="max-stok">Max Stok</label>
+                    <money
+                      v-model="form.max_stok"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </div> -->
                 </div>
 
                 <div
@@ -1318,11 +1339,11 @@
                   <template #ItemGudang>
                     <ItemGudang :self="{ form, parameters, isEditable }" />
                   </template>
-                  <template #Shipto>
+                  <template #Shipto v-if="isEditable">
                     <p>Shipto</p>
                     <!-- <StatusTransaksi :self="{ form, isEditable }" /> -->
                   </template>
-                  <template #KendaraanGudang>
+                  <template #KendaraanGudang v-if="isEditable">
                     <p>Kendaraan Gudang</p>
                   </template>
                 </TabComponent>
@@ -1422,6 +1443,8 @@ export default {
         luas_gudang: "",
         satuan_id_luas: "",
         radius: "",
+        min_stok: "",
+        max_stok: "",
         item_gudang: [],
         status_transaksis: [],
       },
@@ -1468,6 +1491,8 @@ export default {
         satuan_id_luas: "",
         radius: "",
         kode_pos_id: "",
+        min_stok: "",
+        max_stok: "",
         item_gudang: [],
         status_transaksis: [],
       },
@@ -1731,8 +1756,6 @@ export default {
           }
         }
       });
-
-      console.log("sampe sini", formData);
 
       this.form.item_gudang.forEach((item, index) => {
         if (item.item_gudang_id) {

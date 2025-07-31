@@ -59,9 +59,10 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    @input="onSelectGudang"
                     v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
                   >
+                    <!-- @input="onSelectGudang" -->
                     <!-- <template v-slot:option="option">
                       <div class="flex">
                         <div class="col-md-5 p-1 m-0 w-8/12">
@@ -331,14 +332,27 @@
                   <td class="border border-gray-300">
                     {{ item.no_referensi_3 }}
                   </td>
-                  <td class="border border-gray-300"></td>
+                  <td class="border border-gray-300">
+                    <button
+                      class="btn btn-sm"
+                      v-if="!item.deleted_at"
+                      title="Print Approve Pick Order"
+                    >
+                      <!-- @click="onPrintDetail(item)" -->
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
+                  </td>
                   <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_pick_order === 'BATAL'"
+                    />
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.status_pick_order === 'BATAL'"
                     />
                   </td>
                 </tr>
@@ -431,9 +445,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          gudang_id: {
-            gudang_id: "",
-          },
+          gudang_id: "",
         },
         form: {
           kode_pick_order: "",
@@ -642,7 +654,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +

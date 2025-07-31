@@ -138,7 +138,7 @@
               </div>
               <ValidationProvider name="gudang">
                 <div class="form-group w-full items-center mb-5">
-                  <label for="" class="w-4/12">Induk Slot Penyimpanan</label>
+                  <label for="">Induk Slot Penyimpanan</label>
                   <v-select
                     class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                     label="kode_slot_penyimpanan"

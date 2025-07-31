@@ -25,12 +25,12 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -38,7 +38,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Jurnal</div>
@@ -64,26 +64,30 @@
                       </div>
                     </div>
                   </th>
-                  <th>Tanggal</th>
-                  <th>Gudang</th>
-                  <th>Keterangan</th>
-                  <th>Debit</th>
-                  <th>Kredit</th>
-                  <th class="w-[5%]">Print</th>
+                  <th class="border border-gray-300">Tanggal</th>
+                  <th class="border border-gray-300">Gudang</th>
+                  <th class="border border-gray-300">Keterangan</th>
+                  <th class="border border-gray-300">Debit</th>
+                  <th class="border border-gray-300">Kredit</th>
+                  <th class="w-[5%] border border-gray-300">Print</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                     />
                   </td>
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -91,7 +95,7 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
                       <div>
                         {{ item.kode_jurnal }}
@@ -101,20 +105,22 @@
                       >
                     </div>
                   </td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
                     {{
                       item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td class="w-[30%]">{{ item.keterangan }}</td>
-                  <td>
+                  <td class="w-[30%] border border-gray-300">
+                    {{ item.keterangan }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{ item.total_debit ?? "" | formatPrice }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.total_credit ?? "" | formatPrice }}
                   </td>
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     <button
                       class="btn btn-sm"
                       v-if="!item.deleted_at"

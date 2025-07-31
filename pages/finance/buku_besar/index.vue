@@ -202,35 +202,35 @@
 
             <!-- start table -->
             <div class="table-responsive">
-              <table
-                class="table table-striped table-sm vld-parent"
-                ref="formContainer"
-              >
-                <thead>
-                  <tr>
-                    <th>Tgl</th>
-                    <th>Gudang</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Kode Transaksi</th>
-                    <th>Keterangan</th>
+              <table class="mt-5" ref="formContainer">
+                <!-- table table-striped table-sm vld-parent -->
+                <thead class="border border-gray-300">
+                  <tr class="uppercase">
+                    <th class="border border-gray-300">Tgl</th>
+                    <th class="border border-gray-300">Gudang</th>
+                    <th class="border border-gray-300">Kode</th>
+                    <th class="border border-gray-300">Nama</th>
+                    <th class="border border-gray-300">Kode Transaksi</th>
+                    <th class="border border-gray-300">Keterangan</th>
                     <!-- <th class="text-info">Saldo Awal</th> -->
-                    <th class="text-primary">Kredit</th>
-                    <th class="text-danger">Debit</th>
-                    <th class="text-primary">Saldo Akhir</th>
-                    <th>Options</th>
+                    <th class="text-primary border border-gray-300">Kredit</th>
+                    <th class="text-danger border border-gray-300">Debit</th>
+                    <th class="text-primary border border-gray-300">
+                      Saldo Akhir
+                    </th>
+                    <th class="border border-gray-300">Options</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-if="data.length" class="hover:bg-red-500">
-                    <td>
+                <tbody class="border border-gray-300">
+                  <tr v-if="data.length">
+                    <td class="border border-gray-300">
                       {{ data[0] ? data[0].tanggal : "-" }}
                     </td>
                     <td></td>
-                    <td>
+                    <td class="border border-gray-300">
                       {{ coa_id ? coa_id.kode_coa : "-" }}
                     </td>
-                    <td>
+                    <td class="border border-gray-300">
                       {{ coa_id ? coa_id.nama_coa : "-" }}
                     </td>
                     <td></td>
@@ -243,7 +243,7 @@
                     </td>
                     <td class="text-success"></td>
                     <td class="text-danger"></td>
-                    <td class="text-primary">
+                    <td class="text-primary border border-gray-300">
                       {{
                         raw_data.first_balance
                           ? raw_data.first_balance.saldo
@@ -256,33 +256,37 @@
                   <tr v-for="(item, i) in data" :key="i">
                     <!-- :class="{ 'table-active': ActiveRow == i }"
                   @click="onRowSelected(i)" -->
-                    <td>{{ item.tanggal }}</td>
-                    <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
-                    <td>
+                    <td class="border border-gray-300">{{ item.tanggal }}</td>
+                    <td class="border border-gray-300">
+                      {{ item.gudang ? item.gudang.nama_gudang : "" }}
+                    </td>
+                    <td class="border border-gray-300">
                       {{ item.coa ? item.coa.kode_coa : "-" }}
                     </td>
-                    <td>
+                    <td class="border border-gray-300">
                       {{ item.coa ? item.coa.nama_coa : "-" }}
                     </td>
-                    <td>
+                    <td class="border border-gray-300">
                       {{ item.kode_referensi }}
                     </td>
-                    <td>{{ item.keterangan }}</td>
+                    <td class="border border-gray-300">
+                      {{ item.keterangan }}
+                    </td>
                     <!-- <td class="text-info">
                     {{ item.saldo > 0 ? item.saldo : "" }}
                   </td> -->
-                    <td class="text-success">
+                    <td class="text-success border border-gray-300">
                       {{ item.credit > 0 ? item.credit : "" | formatPrice }}
                     </td>
-                    <td class="text-danger">
+                    <td class="text-danger border border-gray-300">
                       {{ item.debit > 0 ? item.debit : "" | formatPrice }}
                     </td>
-                    <td class="text-primary">
+                    <td class="text-primary border border-gray-300">
                       {{
                         item.last_balance ? item.last_balance : "" | formatPrice
                       }}
                     </td>
-                    <td>
+                    <td class="border border-gray-300">
                       <button
                         class="btn btn-sm btn-primary"
                         @click="onDetail(item)"
@@ -294,28 +298,28 @@
                   </tr>
 
                   <tr v-if="data.length">
-                    <td>
+                    <td class="border border-gray-300">
                       {{
                         data[data.length - 1]
                           ? data[data.length - 1].tanggal
                           : "-"
                       }}
                     </td>
-                    <td></td>
-                    <td>
+                    <td class="border-b border-gray-300"></td>
+                    <td class="border border-gray-300">
                       {{ coa_id ? coa_id.kode_coa : "-" }}
                     </td>
-                    <td>
+                    <td class="border border-gray-300">
                       {{ coa_id ? coa_id.nama_coa : "-" }}
                     </td>
-                    <td></td>
-                    <td class="text-info"></td>
-                    <td class="text-success"></td>
-                    <td class="text-danger"></td>
-                    <td class="text-primary">
+                    <td class="border-b border-gray-300"></td>
+                    <td class="text-info border-b border-gray-300"></td>
+                    <td class="text-success border-b border-gray-300"></td>
+                    <td class="text-danger border-b border-gray-300"></td>
+                    <td class="text-primary border border-gray-300">
                       {{ last_balance | formatPrice }}
                     </td>
-                    <td>-</td>
+                    <td class="border-b border-gray-300">-</td>
                   </tr>
                 </tbody>
 
@@ -776,7 +780,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +
