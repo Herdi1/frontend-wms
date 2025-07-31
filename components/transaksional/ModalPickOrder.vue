@@ -32,18 +32,19 @@
                       class="w-[30%] cursor-pointer"
                       @click="
                         onSort(
-                          'kode_pick_request',
+                          'kode_delivery_order',
                           parameters.params.sort == 'asc' ? 'desc' : 'asc'
                         )
                       "
                     >
                       <div class="flex justify-between align-baseline">
-                        <div>Kode Pick Request</div>
+                        <div>Kode Delivery Order</div>
                         <div>
                           <i
                             class="fas fa-caret-up"
                             :class="
-                              parameters.params.order == 'kode_pick_request' &&
+                              parameters.params.order ==
+                                'kode_delivery_order' &&
                               parameters.params.sort == 'asc'
                                 ? ''
                                 : 'light-gray'
@@ -52,7 +53,8 @@
                           <i
                             class="fas fa-caret-down"
                             :class="
-                              parameters.params.order == 'kode_pick_request' &&
+                              parameters.params.order ==
+                                'kode_delivery_order' &&
                               parameters.params.sort == 'desc'
                                 ? ''
                                 : 'light-gray'
@@ -169,7 +171,7 @@
                   <tr v-for="(item, i) in data" :key="i">
                     <td class="border border-gray-300">
                       <div>
-                        {{ item.kode_pick_order }}
+                        {{ item.kode_delivery_order }}
                         <p v-if="item.user_id_input" class="text-blue-500">
                           <i>Dibuat oleh: {{ item.user_input.username }}</i>
                         </p>
@@ -278,7 +280,7 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.url = `outbound/pick-order`;
+      this.parameters.url = `outbound/pick-order/get-pick-order-detail/${this.self.parameters.form.gudang_id.gudang_id}`;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
