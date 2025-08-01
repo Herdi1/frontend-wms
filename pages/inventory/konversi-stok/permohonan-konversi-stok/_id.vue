@@ -259,6 +259,7 @@ export default {
     //   lookup: "custom1",
     //   query: "?q=jenis_kontrak",
     // });
+    await this.onSearchGudang();
     await this.onSearchItemGudang();
     await this.onSearchValuation();
     // await this.onSearchZonaPlan();
@@ -873,11 +874,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom8",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",

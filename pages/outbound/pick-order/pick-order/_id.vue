@@ -775,6 +775,8 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      user: this.$auth.user,
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -1206,11 +1208,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom7",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",

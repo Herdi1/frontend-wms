@@ -1370,6 +1370,7 @@ export default {
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
+    await this.onSearchGudang();
 
     await this.onSearchJenisBiaya();
     await this.onSearchCoa();
@@ -2507,11 +2508,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "suppliers",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",

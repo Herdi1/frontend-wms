@@ -963,6 +963,7 @@ export default {
   },
 
   async mounted() {
+    await this.onSearchGudang();
     await this.onSearchItemGudang();
     await this.onSearchValuation();
     await this.onSearchZonaGudang();
@@ -1550,11 +1551,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "warehouses",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_warehouses.current_page +
             "&per_page=10",
