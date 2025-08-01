@@ -1339,13 +1339,13 @@
                   <template #ItemGudang>
                     <ItemGudang :self="{ form, parameters, isEditable }" />
                   </template>
-                  <template #Shipto v-if="isEditable">
+                  <!-- <template #Shipto v-if="isEditable">
                     <p>Shipto</p>
-                    <!-- <StatusTransaksi :self="{ form, isEditable }" /> -->
+                    <StatusTransaksi :self="{ form, isEditable }" />
                   </template>
                   <template #KendaraanGudang v-if="isEditable">
                     <p>Kendaraan Gudang</p>
-                  </template>
+                  </template> -->
                 </TabComponent>
               </div>
               <modal-footer-section
