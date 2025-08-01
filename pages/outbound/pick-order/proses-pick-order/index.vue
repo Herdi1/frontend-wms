@@ -334,14 +334,20 @@
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.status_pick_order === 'BATAL'"
+                      :disabled="
+                        item.status_pick_order === 'BATAL' ||
+                        item.status_pick_order === 'SELESAI'
+                      "
                     />
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
-                      :disabled="item.status_pick_order === 'BATAL'"
+                      :disabled="
+                        item.status_pick_order === 'BATAL' ||
+                        item.status_pick_order === 'SELESAI'
+                      "
                     />
                   </td>
                 </tr>

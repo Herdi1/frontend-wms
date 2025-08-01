@@ -115,6 +115,9 @@
                 </td>
               </tr>
             </tbody>
+            <table-data-loading-section :self="this" />
+
+            <table-data-not-found-section :self="this" />
           </table>
         </div>
         <div class="mx-3 mt-2 mb-4">
