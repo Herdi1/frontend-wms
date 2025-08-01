@@ -244,14 +244,14 @@
                     <th class="w-60 border border-gray-300">Kode Item</th>
                     <th class="w-60 border border-gray-300">Nama Item</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
-                    <th class="w-60 border border-gray-300">
-                      Quantity Request
-                    </th>
-                    <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">Zona Asal</th>
                     <th class="w-60 border border-gray-300">
                       Lokasi Penyimpanan Asal
                     </th>
+                    <th class="w-60 border border-gray-300">
+                      Quantity Request
+                    </th>
+                    <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">Zona Tujuan</th>
                     <!-- <th class="w-60 border border-gray-300">
                       Lokasi Penyimpanan Tujuan
@@ -317,31 +317,7 @@
                         </li>
                       </v-select>
                     </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.quantity"
-                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        disabled
-                      />
-                    </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.sisa_quantity"
-                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-                        :class="
-                          item.quantity < parseFloat(item.sisa_quantity)
-                            ? 'text-danger'
-                            : ''
-                        "
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        disabled
-                      />
-                    </td>
+
                     <td class="border border-gray-300">
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -528,6 +504,31 @@
                           </li>
                         </v-select>
                       </div>
+                    </td>
+                    <td class="border border-gray-300">
+                      <money
+                        v-model="item.quantity"
+                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        disabled
+                      />
+                    </td>
+                    <td class="border border-gray-300">
+                      <money
+                        v-model="item.sisa_quantity"
+                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                        :class="
+                          item.quantity < parseFloat(item.sisa_quantity)
+                            ? 'text-danger'
+                            : ''
+                        "
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        disabled
+                      />
                     </td>
                     <td class="border border-gray-300">
                       <v-select

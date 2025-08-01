@@ -98,6 +98,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :required="true"
                 />
               </ValidationProvider>
               <div class="form-group">
@@ -197,14 +198,14 @@
                     <th class="w-60 border border-gray-300">Kode Item</th>
                     <th class="w-60 border border-gray-300">Nama Item</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
-                    <th class="w-60 border border-gray-300">
-                      Quantity Request
-                    </th>
-                    <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">Zona Asal</th>
                     <th class="w-60 border border-gray-300">
                       Lokasi Penyimpanan Asal
                     </th>
+                    <th class="w-60 border border-gray-300">
+                      Quantity Request
+                    </th>
+                    <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">Zona Tujuan</th>
                     <!-- <th class="w-60 border border-gray-300">
                       Lokasi Penyimpanan Tujuan
@@ -269,30 +270,7 @@
                         </li>
                       </v-select>
                     </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.quantity"
-                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                        disabled
-                      />
-                    </td>
-                    <td class="border border-gray-300">
-                      <money
-                        v-model="item.sisa_quantity"
-                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-                        :class="
-                          item.quantity < parseFloat(item.sisa_quantity)
-                            ? 'text-danger'
-                            : ''
-                        "
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                      />
-                    </td>
+
                     <td class="border border-gray-300">
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -489,6 +467,31 @@
                           disabled
                         />
                       </div>
+                    </td>
+                    <td class="border border-gray-300">
+                      <money
+                        v-model="item.quantity"
+                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                        disabled
+                      />
+                    </td>
+                    <td class="border border-gray-300">
+                      <money
+                        v-model="item.sisa_quantity"
+                        class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                        :class="
+                          item.quantity < parseFloat(item.sisa_quantity) ||
+                          item.stok < parseFloat(item.sisa_quantity)
+                            ? 'text-danger'
+                            : ''
+                        "
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -958,6 +961,24 @@ export default {
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
+
+      // Validasi pick_order_details sebelum submit
+      const invalidItems = this.parameters.form.pick_order_details.filter(
+        (item) => {
+          return (
+            item.quantity < parseFloat(item.sisa_quantity) ||
+            item.stok < parseFloat(item.sisa_quantity)
+          );
+        }
+      );
+
+      // Jika ada item yang tidak valid, tampilkan pesan error dan hentikan submit
+      if (invalidItems.length > 0) {
+        this.$toaster.error(
+          `Quantity Tidak Boleh Melebih i Quantity Request dan Stok`
+        );
+        return;
+      }
 
       this.isLoadingForm = true;
       let url = "outbound/pick-order";
