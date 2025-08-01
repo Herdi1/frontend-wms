@@ -142,6 +142,21 @@
                   class="mb-5"
                 />
               </ValidationProvider>
+              <ValidationProvider name="kendaraan_id">
+                <select-button
+                  :self="{
+                    label: 'Jenis Kendaraan',
+                    optionLabel: 'nama_jenis_kendaraan',
+                    lookup: lookup_roles,
+                    value: parameters.form.jenis_kendaraan_id,
+                    onGet: onGetJenisKendaraan,
+                    isLoadingL: isLoadingGetJenisKendaraan,
+                    input: onSelectJenisKendaraan,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                />
+              </ValidationProvider>
               <div class="col-span-2 w-full px-1 mb-3">
                 <label for="keterangan">Keterangan</label>
                 <textarea
@@ -156,7 +171,9 @@
 
           <tab-component :tabs="tabs">
             <template #DetailShipment>
-              <ShipmentDetails :self="{ parameters, onOpenModal }" />
+              <ShipmentDetails
+                :self="{ parameters, onOpenModal, generateRuteShipment }"
+              />
             </template>
             <template #RuteShipment>
               <RuteShipments :self="{ parameters }" />
@@ -244,6 +261,10 @@ export default {
       isLoadingGetStaff: false,
       staff_search: "",
 
+      isStopSearchJenisKendaraan: false,
+      isLoadingGetJenisKendaraan: false,
+      jenis_kendaraan_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -256,6 +277,7 @@ export default {
           gudang_id: "",
           tanggal: "",
           kendaraan_id: "",
+          jenis_kendaraan_id: "",
           pengemudi_id: "",
           keterangan: "",
           no_referensi: "",
@@ -341,8 +363,10 @@ export default {
   },
 
   async mounted() {
+    await this.onSearchGudang();
     await this.onSearchPengemudi();
     await this.onSearchKendaraan();
+    await this.onSearchJenisKendaraan();
     await this.onSearchUser();
     await this.onSearchStaff();
 
@@ -361,6 +385,7 @@ export default {
       "lookup_custom6", //pick_order
       "lookup_grade", //user pic
       "lookup_beam", //staff
+      "lookup_roles", //jenis kendaraan
     ]),
   },
 
@@ -740,6 +765,43 @@ export default {
       }
     },
 
+    onGetJenisKendaraan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchJenisKendaraan);
+
+      this.isStopSearchJenisKendaraan = setTimeout(() => {
+        this.jenis_kendaraan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_roles.current_page = isNext
+            ? this.lookup_roles.current_page + 1
+            : this.lookup_roles.current_page - 1;
+        } else {
+          this.lookup_roles.current_page = 1;
+        }
+        this.onSearchJenisKendaraan();
+      }, 600);
+    },
+
+    async onSearchJenisKendaraan() {
+      if (!this.isLoadingGetJenisKendaraan) {
+        this.isLoadingGetJenisKendaraan = true;
+
+        await this.lookUp({
+          url: "master/jenis-kendaraan/get-jenis-kendaraan",
+          lookup: "roles",
+          query:
+            "?search=" +
+            this.jenis_kendaraan_search +
+            "&page=" +
+            this.lookup_roles.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetJenisKendaraan = false;
+      }
+    },
+
     onSelectPengemudi(item) {
       if (item) {
         this.parameters.form.pengemudi_id = item;
@@ -882,15 +944,54 @@ export default {
     addItem(item) {
       if (
         !this.parameters.form.shipment_details.find(
-          (data) => data.pick_order_id === item.pick_order_id
+          (data) => data.kode_delivery_order === item.kode_delivery_order
         )
       ) {
         let detailShipment = {
           ...item,
+          urutan: "",
         };
         this.parameters.form.shipment_details.push(detailShipment);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
+      }
+    },
+
+    async generateRuteShipment() {
+      if (this.parameters.form.shipment_details.length > 0) {
+        this.parameters.form.rute_shipments =
+          this.parameters.form.shipment_details.map((item, index) => {
+            return {
+              lokasi_id_asal:
+                index > 0
+                  ? this.parameters.form.shipment_details[index - 1].lokasi_id
+                  : this.parameters.form.gudang_id.gudang_id,
+              lokasi_id_tujuan: item.lokasi_id,
+            };
+          });
+        this.parameters.form.rute_shipments.push({
+          lokasi_id_asal:
+            this.parameters.form.rute_shipments[
+              this.parameters.form.rute_shipments.length - 1
+            ].lokasi_id_tujuan,
+          lokasi_id_tujuan: this.parameters.form.gudang_id,
+          jenis_routing: "KOSONG",
+        });
+        await Promise.all(
+          this.parameters.form.rute_shipments.forEach((item, index) => {
+            this.$axios
+              .get(
+                `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal}&lokasi_id_tujuan=${item.lokasi_id_tujuan}`
+              )
+              .then((res) => {
+                this.parameters.form.rute_shipments[index].jarak = res.jarak;
+                this.parameters.form.rute_shipments[index].biaya_bbm =
+                  res.biaya_bbm;
+              });
+          })
+        );
+      } else {
+        this.$toaster.error("Detail Shipment Masih Kosong");
       }
     },
   },

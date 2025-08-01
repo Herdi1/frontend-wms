@@ -41,7 +41,8 @@
         "vue-select": "^3.13.0",
         "vue-sticky-element": "^1.1.2",
         "vue2-datepicker": "^3.10.2",
-        "vue2-editor": "^2.10.3"
+        "vue2-editor": "^2.10.3",
+        "vuedraggable": "^2.24.3"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.14.7",

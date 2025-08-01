@@ -94,6 +94,7 @@
                     @search="onGetZonaGudang"
                     :reduce="(item) => item.zona_gudang_id"
                     v-model="parameters.form.zona_gudang_id"
+                    @input="onSelectZonaGudang"
                   >
                     <li
                       slot-scope="{ search }"
@@ -454,6 +455,8 @@ export default {
             this.slot_induk_search +
             "&gudang_id=" +
             this.parameters.form.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.zona_gudang_id +
             "&level=" +
             (this.parameters.form.level - 1) +
             "&page=" +
@@ -467,9 +470,12 @@ export default {
 
     async onSelectGudang() {
       await this.onSearchZonaGudang();
-      await this.onSearchSlotInduk();
       this.parameters.form.zona_gudang_id = "";
       this.zona_gudang_search = "";
+    },
+
+    async onSelectZonaGudang() {
+      await this.onSearchSlotInduk();
       this.parameters.form.slot_penyimpanan_id_induk = "";
       this.slot_induk_search = "";
     },

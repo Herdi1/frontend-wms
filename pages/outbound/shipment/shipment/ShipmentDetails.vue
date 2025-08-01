@@ -2,7 +2,7 @@
   <div>
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Detail Shipment</h1>
-      <div class=" ">
+      <div class="flex gap-3">
         <button
           type="button"
           @click="self.onOpenModal"
@@ -10,6 +10,14 @@
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail Shipment</p>
+        </button>
+        <button
+          type="button"
+          @click="self.generateRuteShipment"
+          class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+        >
+          <i class="fas fa-plus"></i>
+          <p class="text-xs font-medium">Generate Rute Shipment</p>
         </button>
       </div>
     </div>
@@ -23,6 +31,7 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
             <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[200px] border border-gray-300">Alamat Pengiriman</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">
               Kode Delivery Order
@@ -40,13 +49,19 @@
             <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
           </tr>
         </thead>
-        <tbody>
+        <draggable
+          v-model="self.parameters.form.shipment_details"
+          @start="drag = true"
+          @end="drag = false"
+          class="w-full"
+          tag="tbody"
+        >
           <tr
             v-for="(item, i) in self.parameters.form.shipment_details"
             :key="i"
             class="border-t align-top"
           >
-            <td class="border border-gray-300">
+            <td class="w-[200px] border border-gray-300">
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                 label="nama_item"
@@ -84,10 +99,20 @@
                 {{ item.item_gudang_id.nama_item }}
               </p>
             </td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300">
+            <td class="w-[200px] border border-gray-300"></td>
+            <td class="w-[200px] border border-gray-300"></td>
+            <td class="w-[200px] border border-gray-300">
+              {{ item.kode_delivery_order }}
+            </td>
+            <td class="w-[200px] border border-gray-300">{{ i + 1 }}</td>
+            <td class="w-[200px] border border-gray-300">
+              <input
+                type="text"
+                class="w-full p-1 rounded-md border border-gray-300 outline-none"
+                v-model="item.no_referensi"
+              />
+            </td>
+            <td class="w-[200px] border border-gray-300">
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
@@ -121,26 +146,30 @@
                 </li>
               </v-select>
             </td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300">
-              <textarea
-                placeholder="Note"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                v-model="item.note"
-              ></textarea>
+            <!-- <td class="border border-gray-300"></td>
+              <td class="border border-gray-300"></td>
+              <td class="border border-gray-300"></td> -->
+            <!-- <td class="border border-gray-300"></td> -->
+            <td class="w-[200px] border border-gray-300">
+              {{ item.quantity }}
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
+                <textarea
+                  placeholder="Note"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="item.note"
+                ></textarea>
+              </td> -->
+            <td class="w-[200px] border border-gray-300">
               <textarea
                 placeholder="Keterangan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="item.keterangan"
               ></textarea>
             </td>
-            <td class="text-center text-gray-600 border border-gray-300">
+            <td
+              class="w-[100px] text-center text-gray-600 border border-gray-300"
+            >
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
@@ -159,7 +188,7 @@
               <div class="mt-3">Data Tidak Ditemukan</div>
             </td>
           </tr>
-        </tbody>
+        </draggable>
       </table>
     </div>
   </div>
@@ -167,9 +196,14 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import draggable from "vuedraggable";
 
 export default {
   props: ["self"],
+
+  components: {
+    draggable,
+  },
 
   data() {
     return {
@@ -196,6 +230,13 @@ export default {
       "lookup_custom3", //item_gudang
       "lookup_custom4", //zona_gudang
     ]),
+
+    setUrutan(index) {
+      if (this.self.parameters.form.shipment_details) {
+        this.self.parameters.form.shipment_details[index].urutan = index + 1;
+        return this.self.parameters.form.shipment_details[index].urutan;
+      }
+    },
   },
 
   methods: {
