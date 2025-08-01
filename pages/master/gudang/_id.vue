@@ -977,7 +977,7 @@
                     </button>
                   </div>
 
-                  <!-- <div>
+                  <div>
                     <label for="min-stok">Min Stok</label>
                     <money
                       v-model="form.min_stok"
@@ -996,7 +996,7 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div> -->
+                  </div>
                 </div>
 
                 <div
@@ -1388,8 +1388,8 @@ export default {
     return {
       tabs: [
         { name: "Item Gudang", slotName: "ItemGudang" },
-        { name: "Shipto", slotName: "Shipto" },
-        { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
+        // { name: "Shipto", slotName: "Shipto" },
+        // { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
       ],
 
       id,
@@ -1443,8 +1443,8 @@ export default {
         luas_gudang: "",
         satuan_id_luas: "",
         radius: "",
-        // min_stok: "",
-        // max_stok: "",
+        min_stok: "",
+        max_stok: "",
         item_gudang: [],
         status_transaksis: [],
       },
@@ -1491,8 +1491,8 @@ export default {
         satuan_id_luas: "",
         radius: "",
         kode_pos_id: "",
-        // min_stok: "",
-        // max_stok: "",
+        min_stok: "",
+        max_stok: "",
         item_gudang: [],
         status_transaksis: [],
       },

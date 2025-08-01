@@ -445,11 +445,11 @@
           <template #ItemGudang>
             <ItemGudang :self="{ detail_item }" />
           </template>
-          <template #StatusTransaksi>
-            <p>statustransaksi</p>
+          <template #Shipto>
+            <Shipto :self="{ detail_item }" />
           </template>
           <template #KendaraanGudang>
-            <p>kendaraangudang</p>
+            <KendaraanGudang :self="{ detail_item }" />
           </template>
         </TabComponent>
       </div>
@@ -460,6 +460,8 @@
 <script>
 import TabComponent from "../tabComponent.vue";
 import ItemGudang from "./itemGudang.vue";
+import Shipto from "./shipto.vue";
+import KendaraanGudang from "./kendaraanGudang.vue";
 export default {
   // middleware: ["isNotAccessable"],
 
@@ -468,6 +470,8 @@ export default {
   components: {
     TabComponent,
     ItemGudang,
+    Shipto,
+    KendaraanGudang,
   },
 
   data() {
@@ -477,7 +481,7 @@ export default {
 
       tabs: [
         { name: "Item Gudang", slotName: "ItemGudang" },
-        { name: "Status Transaksi", slotName: "StatusTransaksi" },
+        { name: "Shipto", slotName: "Shipto" },
         { name: "Kendaraan Gudang", slotName: "KendaraanGudang" },
       ],
 
@@ -538,6 +542,8 @@ export default {
         vendor_pemilik: {},
         vendor_operator: {},
         item_gudang: [],
+        shipto: [],
+        kendaraan_gudang: [],
       },
       form: {
         item_id: "",
@@ -552,6 +558,12 @@ export default {
         this.detail_item[item] = response.data[item];
       });
       this.detail_item.item_gudang = response.data.item_gudang;
+
+      let shipto = await this.$axios.get("master/lokasi/get-lokasi");
+      this.detail_item.shipto = shipto.data.data;
+
+      let kendaraan = await this.$axios.get("master/kendaraan/get-kendaraan");
+      this.detail_item.kendaraan_gudang = kendaraan.data.data;
 
       this.isLoadingPage = false;
     } catch (error) {
