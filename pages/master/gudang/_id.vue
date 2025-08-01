@@ -647,6 +647,7 @@
                       type="text"
                       name="no_hp"
                       v-model="form.no_hp"
+                      :required="true"
                     />
                   </div>
 

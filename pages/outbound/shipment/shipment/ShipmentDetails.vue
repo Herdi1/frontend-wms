@@ -62,7 +62,7 @@
             class="border-t align-top"
           >
             <td class="w-[200px] border border-gray-300">
-              <v-select
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                 label="nama_item"
                 :loading="isLoadingGetItemGudang"
@@ -71,7 +71,6 @@
                 @search="onGetItemGudang"
                 v-model="item.item_gudang_id"
               >
-                <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -93,10 +92,11 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
 
               <p v-if="item.item_gudang_id">
                 {{ item.item_gudang_id.nama_item }}
+                {{ item.item_gudang_id.kode_item }}
               </p>
             </td>
             <td class="w-[200px] border border-gray-300"></td>
