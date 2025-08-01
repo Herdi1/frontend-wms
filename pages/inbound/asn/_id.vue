@@ -31,7 +31,7 @@
                   :disabled="true"
                 />
               </div>
-              <div v-if="!user.gudang_id" class="w-full">
+              <div class="w-full">
                 <ValidationProvider name="gudang">
                   <div slot-scope="{ errors, valid }">
                     <!-- <div class="w-full flex justify-between">
@@ -1454,6 +1454,8 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
