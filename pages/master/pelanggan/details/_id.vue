@@ -365,7 +365,8 @@
           <ItemPelanggan :self="{ detail_item }" />
         </template>
         <template #Shipto>
-          <p>shipto</p>
+          <!-- <p>shipto</p> -->
+          <Shipto :self="{ detail_item }" />
         </template>
       </TabComponent>
     </div>
@@ -375,12 +376,14 @@
 <script>
 import TabComponent from "../tabComponent.vue";
 import ItemPelanggan from "./itemPelanggan.vue";
+import Shipto from "./shipto.vue";
 export default {
   props: ["self"],
 
   components: {
     TabComponent,
     ItemPelanggan,
+    Shipto,
   },
 
   data() {
@@ -460,8 +463,10 @@ export default {
       let res = await this.$axios.get(`master/pelanggan/${this.id}`);
       this.detail_item = res.data;
       this.detail_item.item_pelanggans = res.data.item_pelanggans;
+      let lokasi = await this.$axios.get(`master/lokasi`);
       this.isLoadingPage = false;
-      // console.log(this.detail_item.item_pelanggans);
+      this.detail_item.lokasi_pelanggans = lokasi.data.data;
+      console.log(res.data);
     } catch (error) {
       console.log("error", error);
     }

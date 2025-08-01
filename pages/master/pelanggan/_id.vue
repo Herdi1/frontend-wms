@@ -841,7 +841,7 @@
           <div class="w-full mb-5 bg-white dark:bg-slate-800">
             <TabComponent :tabs="tabs">
               <template #ItemPelanggan>
-                <ItemPelanggan :self="{ form, parameters }" />
+                <ItemPelanggan :self="{ form }" />
               </template>
               <!-- <template #Shipto>
                 <Shipto :self="{ form, parameters }" />
@@ -938,7 +938,7 @@ export default {
         kecamatan_id_pemilik: "",
         kelurahan_id_pemilik: "",
         item_pelanggans: [],
-        lokasi_pelanggans: [],
+        // lokasi_pelanggans: [],
       },
 
       isStopSearchNegara: false,
@@ -1093,14 +1093,12 @@ export default {
         };
       });
 
-      formData.lokasi_pelanggans = formData.lokasi_pelanggans.map((item) => {
-        return {
-          ...item,
-          lokasi_id: item.lokasi_id,
-        };
-      });
-
-      console.log("formdata", formData);
+      // formData.lokasi_pelanggans = formData.lokasi_pelanggans.map((item) => {
+      //   return {
+      //     ...item,
+      //     lokasi_id: item.lokasi_id,
+      //   };
+      // });
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -1156,7 +1154,7 @@ export default {
               kecamatan_id_pemilik: "",
               kelurahan_id_pemilik: "",
               item_pelanggans: [],
-              lokasi_pelanggans: [],
+              // lokasi_pelanggans: [],
             };
           }
           this.$router.push("/master/pelanggan");
