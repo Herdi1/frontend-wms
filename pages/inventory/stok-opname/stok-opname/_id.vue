@@ -285,7 +285,7 @@
                       </v-select>
                     </td>
                     <td class="border border-gray-300">
-                      <div class="mt-1">
+                      <div class="">
                         <label for="">Lokasi Aisle</label>
                         <v-select
                           class="w-full rounded-sm bg-white text-gray-500 border-gray-300"

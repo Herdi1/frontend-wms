@@ -637,7 +637,7 @@ export default {
       isLoadingForm: false,
       title: "Stok Opname",
       parameters: {
-        url: "inventory/stok-opname",
+        url: "inventory/proses-stok-opname",
         form: {
           kode_stok_opname: "",
           tanggal: "",
@@ -669,7 +669,7 @@ export default {
     try {
       this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/stok-opname/${this.id}`);
+        let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           if (item != "stok_opname_details") {
             this.parameters.form[item] = res.data[item];
@@ -777,7 +777,7 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
-      let url = "inventory/stok-opname";
+      let url = this.parameters.url;
       let formData = {
         ...this.parameters.form,
         gudang_id:

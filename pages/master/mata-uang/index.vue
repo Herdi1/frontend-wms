@@ -29,7 +29,39 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%]">No</th>
-                  <th>Kode Mata Uang</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_mata_uang',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Mata Uang</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_mata_uang' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_mata_uang' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th
                     @click="
                       onSort(
@@ -37,7 +69,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Mata Uang</div>

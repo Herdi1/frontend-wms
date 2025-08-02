@@ -245,7 +245,7 @@ export default {
         });
       this.isLoadingPage = false;
       // console.log("detail", this.detail_pick_order);
-      console.log("detail", this.detail_pick_order.pick_order_details);
+      // console.log("detail", this.detail_pick_order.pick_order_details);
     } catch (error) {
       this.$router.back();
     }
