@@ -121,7 +121,7 @@
                       >
                       <div class="relative text-white-dark">
                         <input
-                          type="password"
+                          :type="showPassword ? 'text' : 'password'"
                           class="form-input ps-10 placeholder:text-white-dark w-full py-2 rounded-md border text-md active:outline-blue-500"
                           name="password"
                           v-model="form.password"
@@ -136,6 +136,16 @@
                         />
                         <span class="absolute start-4 top-1/2 -translate-y-1/2">
                           <IconLockDots :fill="true" />
+                        </span>
+                        <span
+                          class="absolute end-4 top-1/2 -translate-y-1/2 text-base"
+                          @click="toggleShow"
+                        >
+                          <i
+                            :class="
+                              showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+                            "
+                          ></i>
                         </span>
                       </div>
                       <div class="float-right">
@@ -229,6 +239,7 @@ export default {
 
   data() {
     return {
+      showPassword: false,
       publicUrl: process.env.PUBLIC_URL,
       isLoadingForm: false,
       form: {
@@ -310,6 +321,10 @@ export default {
           this.isLoadingForm = false;
           this.$globalErrorToaster(this.$toaster, err);
         });
+    },
+
+    toggleShow() {
+      this.showPassword = !this.showPassword;
     },
   },
 };

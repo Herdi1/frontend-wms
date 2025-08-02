@@ -14,10 +14,10 @@
         <button
           type="button"
           @click="self.generateRuteShipment"
-          class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+          class="bg-[#4fc47a] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
-          <i class="fas fa-plus"></i>
-          <p class="text-xs font-medium">Generate Rute Shipment</p>
+          <i class="fas fa-retweet"></i>
+          <p class="text-xs font-medium">Generate</p>
         </button>
       </div>
     </div>

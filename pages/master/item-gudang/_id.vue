@@ -22,6 +22,15 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
                 >
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Kode item"
+                      type="text"
+                      name="kode_item"
+                      :required="true"
+                      v-model="form.kode_item"
+                    />
+                  </div>
                   <ValidationProvider
                     name="item_id"
                     rules="required"

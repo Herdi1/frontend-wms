@@ -137,14 +137,14 @@
                     {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "" }}
                   </td>
                   <td>
-                    {{
+                    <!-- {{
                       item.profit_cost.nama_wilayah +
                       " (" +
                       item.profit_cost.profit_center +
                       "-" +
                       item.profit_cost.cost_center +
                       ")"
-                    }}
+                    }} -->
                   </td>
                   <td>
                     {{

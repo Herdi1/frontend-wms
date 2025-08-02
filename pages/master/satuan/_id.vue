@@ -126,6 +126,10 @@ export default {
     };
   },
 
+  async mounted() {
+    await this.onSearchUtil();
+  },
+
   async created() {
     try {
       if (this.isEditable) {

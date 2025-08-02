@@ -826,7 +826,7 @@ export default {
           query:
             "?search=" +
             this.vendor_search +
-            "&tipe_vendor_id=4" +
+            "&tipe_vendor_id=2" +
             "&page=" +
             this.lookup_operator.current_page +
             "&per_page=10",
@@ -867,7 +867,7 @@ export default {
           query:
             "?search=" +
             this.vendor_operator_search +
-            "&tipe_vendor=o" +
+            "&tipe_vendor_id=1" +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
