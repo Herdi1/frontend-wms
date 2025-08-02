@@ -970,8 +970,8 @@
                   v-model="parameters.form.value_stocklevel"
                 />
               </div>
-              <div class="flex items-center justify-between w-full">
-                <label for="satuan_id_stocklevel" class="w-1/2"
+              <div class="flex justify-between w-full">
+                <label for="satuan_id_stocklevel" class="w-1/2 pt-1"
                   >Satuan Stocklevel
                 </label>
                 <v-select
@@ -1007,14 +1007,14 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-            <div class="form-group mt-2 md:mt-7">
-              <label for="keterangan">Keterangan</label>
-              <textarea
-                name="keterangan"
-                v-model="parameters.form.keterangan"
-                class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-              ></textarea>
+              <div class="form-group flex justify-between">
+                <label for="keterangan" class="w-1/2 pt-1">Keterangan</label>
+                <textarea
+                  name="keterangan"
+                  v-model="parameters.form.keterangan"
+                  class="w-1/2 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                ></textarea>
+              </div>
             </div>
           </div>
           <div class="w-full flex justify-start items-center">
