@@ -371,7 +371,7 @@ export default {
 
   head() {
     return {
-      title: "Konfirmasi Muat",
+      title: "Shipment",
     };
   },
 
@@ -421,7 +421,7 @@ export default {
 
   data() {
     return {
-      title: "Konfirmasi Muat",
+      title: "Shipment",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
