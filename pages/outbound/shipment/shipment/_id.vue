@@ -315,7 +315,7 @@ export default {
               shipment_detail_id: item,
               lokasi_id: item.lokasi,
               item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
+              zona_gudang_id: item.zona_gudang_tujuan,
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
               slot_penyimpanan_id_level: item.slot_penyimpanan_level,
@@ -443,6 +443,14 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudang_id,
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id === "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
         pengemudi_id:
           typeof this.parameters.form.pengemudi_id == "object"
             ? this.parameters.form.pengemudi_id.pengemudi_id
@@ -470,8 +478,8 @@ export default {
                 ? item.item_gudang_id.item_gudang_id
                 : item.item_gudang_id,
             zona_gudang_id:
-              typeof item.zona_gudang_id == "object"
-                ? item.zona_gudang_id.zona_gudang_id
+              typeof item.zona_gudang_tujuan == "object"
+                ? item.zona_gudang_tujuan.zona_gudang_id
                 : item.zona_gudang_id,
             slot_penyimpanan_id_aisle:
               typeof item.slot_penyimpanan_id_aisle === "object"
@@ -592,6 +600,7 @@ export default {
     },
 
     AddDetailProduk() {
+      // let urutans = this.parameters.form.shipment_details.length + 1;
       this.parameters.form.shipment_details.push({
         shipment_details_id: "",
         item_gudang_id: "",
@@ -601,7 +610,9 @@ export default {
         keterangan_detail: "",
         nomor_surat_perintah_jalan: "",
         tujuan_pengiriman: "",
+        urutan: urutans,
       });
+      // console.log("urutan", urutans);
     },
 
     onDeleteDetailProduk(index) {
@@ -910,9 +921,9 @@ export default {
 
     onSelectStaff(item) {
       if (item) {
-        this.parameters.form.staff_id_pic = item;
+        this.parameters.form.staff_id = item;
       } else {
-        this.parameters.form.staff_id_pic = "";
+        this.parameters.form.staff_id = "";
       }
     },
 
@@ -958,6 +969,12 @@ export default {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
     },
+
+    // updateUrutan() {
+    //   this.parameters.form.shipment_details.forEach((item, index) => {
+    //     item.urutan = index + 1;
+    //   });
+    // },
 
     async generateRuteShipment() {
       if (this.parameters.form.shipment_details.length > 0) {

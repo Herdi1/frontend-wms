@@ -117,13 +117,13 @@
                 <KontrakLastmileJarak :self="{ parameters }" />
               </template>
               <template #KontrakLastmileRitase>
-                <KontrakLastmileRitase />
+                <KontrakLastmileRitase :self="{ parameters }" />
               </template>
               <template #KontrakLastmileBerat>
-                <KontrakLastmileBerat />
+                <KontrakLastmileBerat :self="{ parameters }" />
               </template>
               <template #KontrakLastmileAtcost>
-                <KontrakLastmileAtcost />
+                <KontrakLastmileAtcost :self="{ parameters }" />
               </template>
             </tab-component>
           </div>

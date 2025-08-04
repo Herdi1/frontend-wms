@@ -53,7 +53,7 @@
                 :options="lookup_custom3.data"
                 :filterable="false"
                 v-model="item.jenis_kontrak_id"
-                @input="(item) => onSelectJenisKontrak(item, index)"
+                @input="(item) => onSelectJenisKontrak(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -86,7 +86,7 @@
                 :options="lookup_custom4.data"
                 :filterable="false"
                 v-model="item.divisi_id"
-                @input="(item) => onSelectDivisi(item, index)"
+                @input="(item) => onSelectDivisi(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -119,7 +119,7 @@
                 :options="lookup_custom5.data"
                 :filterable="false"
                 v-model="item.jenis_biaya_id"
-                @input="(item) => onSelectJenisBiaya(item, index)"
+                @input="(item) => onSelectJenisBiaya(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -152,7 +152,7 @@
                 :options="lookup_custom6.data"
                 :filterable="false"
                 v-model="item.gudang_id"
-                @input="(item) => onSelectGudang(item, index)"
+                @input="(item) => onSelectGudang(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -185,7 +185,7 @@
                 :options="lookup_custom10.data"
                 :filterable="false"
                 v-model="item.mata_uang_id"
-                @input="(item) => onSelectUang(item, index)"
+                @input="(item) => onSelectUang(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -218,7 +218,7 @@
                 :options="lookup_custom7.data"
                 :filterable="false"
                 v-model="item.pembayaran_id"
-                @input="(item) => onSelectPembayaran(item, index)"
+                @input="(item) => onSelectPembayaran(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -251,7 +251,7 @@
                 :options="lookup_custom8.data"
                 :filterable="false"
                 v-model="item.term_pembayaran_id"
-                @input="(item) => onSelectTerm(item, index)"
+                @input="(item) => onSelectTerm(item, i)"
                 class="w-full mb-2"
               >
                 <li
@@ -296,7 +296,7 @@
                 :options="lookup_custom9.data"
                 :filterable="false"
                 v-model="item.jenis_kendaraan_id"
-                @input="(item) => onSelectJenisKendaraan(item, index)"
+                @input="(item) => onSelectJenisKendaraan(item, i)"
                 class="w-full mb-2"
               >
                 <li

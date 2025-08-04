@@ -100,7 +100,9 @@
               </p>
             </td>
             <td class="w-[200px] border border-gray-300"></td>
-            <td class="w-[200px] border border-gray-300"></td>
+            <td class="w-[200px] border border-gray-300">
+              {{ item.lokasi ? item.lokasi.nama_lokasi : "" }}
+            </td>
             <td class="w-[200px] border border-gray-300">
               {{ item.kode_delivery_order }}
             </td>
@@ -113,7 +115,12 @@
               />
             </td>
             <td class="w-[200px] border border-gray-300">
-              <v-select
+              {{
+                item.zona_gudang_tujuan
+                  ? item.zona_gudang_tujuan.nama_zona_gudang
+                  : ""
+              }}
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
                 :loading="isLoadingGetZonaGudang"
@@ -121,7 +128,7 @@
                 :filterable="false"
                 @search="onGetZonaGudang"
                 :reduce="(item) => item.zona_gudang_id"
-                v-model="item.zona_gudang_id_plan"
+                v-model="item.zona_gudang_id"
               >
                 <li
                   slot-scope="{ search }"
@@ -144,7 +151,7 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
             <!-- <td class="border border-gray-300"></td>
               <td class="border border-gray-300"></td>

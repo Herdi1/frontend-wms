@@ -225,7 +225,7 @@ export default {
 
   data() {
     return {
-      title: "Pick Request",
+      title: "Pick Order",
       visible: false,
       isLoadingData: false,
       isPaginate: true,

@@ -27,7 +27,7 @@
             <th class="w-[200px] border border-gray-300">Jarak</th>
             <th class="w-[200px] border border-gray-300">Biaya BBM</th>
             <th class="w-[200px] border border-gray-300">
-              Waktu Sampai Tujuan
+              Waktu Sampai Tujuan (menit)
             </th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
             <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
@@ -127,7 +127,7 @@
             </td>
             <td class="border border-gray-300">
               <input
-                type="datetime-local"
+                type="number"
                 v-model="item.waktu_sampai_tujuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
