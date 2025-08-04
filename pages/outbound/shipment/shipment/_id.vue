@@ -1008,45 +1008,46 @@ export default {
 
     async generateRuteShipment() {
       if (this.parameters.form.shipment_details.length > 0) {
-        try {
-          this.isLoadingForm = true;
-          this.parameters.form.rute_shipments =
-            this.parameters.form.shipment_details.map((item, index) => {
-              return {
-                lokasi_id_asal:
-                  item.urutan > 0
-                    ? this.parameters.form.shipment_details[urutan - 1]
-                        .pick_order_details.lokasi
-                    : this.parameters.form.gudang_id,
-                lokasi_id_tujuan: item.pick_order_details.lokasi,
-              };
-            });
-          this.parameters.form.rute_shipments.push({
-            lokasi_id_asal:
-              this.parameters.form.rute_shipments[
-                this.parameters.form.rute_shipments.length - 1
-              ].lokasi_id_tujuan,
-            lokasi_id_tujuan: this.parameters.form.gudang_id,
-            jenis_routing: "KOSONG",
+        // this.isLoadingForm = true;
+        this.parameters.form.rute_shipments =
+          this.parameters.form.shipment_details.map((item, index) => {
+            return {
+              lokasi_id_asal:
+                item.urutan > 1
+                  ? this.parameters.form.shipment_details[item.urutan - 1]
+                      .lokasi_id
+                  : this.parameters.form.gudang_id.lokasi,
+              lokasi_id_tujuan: item.lokasi_id,
+            };
           });
-          // await Promise.all(
-          //   this.parameters.form.rute_shipments.forEach((item, index) => {
-          //     this.$axios
-          //       .get(
-          //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
-          //       )
-          //       .then((res) => {
-          //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
-          //         this.parameters.form.rute_shipments[index].biaya_bbm =
-          //           res.biaya_bbm;
-          //       });
-          //   })
-          // );
-        } catch (error) {
-          this.$globalErrorToaster(this.$toaster, error);
-        } finally {
-          this.isLoadingForm = false;
-        }
+        this.parameters.form.rute_shipments.push({
+          lokasi_id_asal:
+            this.parameters.form.rute_shipments[
+              this.parameters.form.rute_shipments.length - 1
+            ].lokasi_id_tujuan,
+          lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
+          jenis_routing: "KOSONG",
+        });
+        console.log(this.parameters.form.rute_shipments);
+        // await Promise.all(
+        //   this.parameters.form.rute_shipments.forEach((item, index) => {
+        //     this.$axios
+        //       .get(
+        //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+        //       )
+        //       .then((res) => {
+        //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
+        //         this.parameters.form.rute_shipments[index].biaya_bbm =
+        //           res.biaya_bbm;
+        //       });
+        //   })
+        // );
+        // try {
+        // } catch (error) {
+        //   this.$globalErrorToaster(this.$toaster, error);
+        // } finally {
+        //   this.isLoadingForm = false;
+        // }
       } else {
         this.$toaster.error("Detail Shipment Masih Kosong");
       }
