@@ -38,15 +38,219 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-20 text-center border border-gray-300">Detail</th>
-                <th class="w-20 border border-gray-300">No</th>
-                <th class="w-48 border border-gray-300">No Referensi</th>
+                <th class="w-20 border border-gray-300 text-center">No</th>
+                <th
+                  class="w-48 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'kode_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Kode Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'kode_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'kode_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th class="w-48 border border-gray-300">Vendor</th>
-                <th class="w-56 border border-gray-300">Tanggal Kontrak</th>
-                <th class="w-56 border border-gray-300">Tanggal Berlaku</th>
-                <th class="w-56 border border-gray-300">Tanggal Berhenti</th>
-                <th class="w-48 border border-gray-300">Status Kontrak</th>
-                <th class="w-48 border border-gray-300">User PIC</th>
-                <th class="w-48 border border-gray-300">Jenis Kontrak</th>
+                <th
+                  class="w-48 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'status',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Status</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'status' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'status' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_berlaku',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Berlaku</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_berhenti',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Berhenti</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-48 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'status_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Status Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th class="w-48 border border-gray-300">No Referensi</th>
                 <th class="w-48 border border-gray-300">Keterangan</th>
                 <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Hapus</th>
@@ -66,11 +270,27 @@
                     1
                   }}
                 </td>
+
                 <td class="border border-gray-300">
-                  {{ item.no_referensi ? item.no_referensi : "-" }}
+                  {{ item.kode_kontrak }}
+                  <p
+                    v-if="item.user_input"
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                  </p>
+                  <p
+                    v-else
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: Sistem</i>
+                  </p>
                 </td>
                 <td class="border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.status ? item.status : "-" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.tanggal_kontrak ? item.tanggal_kontrak : "-" }}
@@ -85,14 +305,7 @@
                   {{ item.status_kontrak ? item.status_kontrak : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.user ? item.user.nama_lengkap : "-" }}
-                </td>
-                <td class="border border-gray-300">
-                  {{
-                    item.jenis_kontrak
-                      ? item.jenis_kontrak.nama_jenis_kontrak
-                      : "-"
-                  }}
+                  {{ item.no_referensi ? item.no_referensi : "-" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.keterangan ? item.keterangan : "-" }}

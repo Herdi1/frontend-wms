@@ -281,6 +281,7 @@
               </td>
               <td class="border border-gray-300">
                 <select
+                  v-model="item.payable_to"
                   name=""
                   id=""
                   class="pl-2 py-1 border border-gray-300 rounded focus:outline-none w-full"

@@ -600,6 +600,16 @@
                       }}</span>
                     </div>
                   </ValidationProvider>
+                  <div>
+                    <label for="">Kapasitas</label>
+                    <money
+                      v-model="form.kapasitas"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </div>
                 </div>
                 <modal-footer-section
                   :isLoadingForm="isLoadingForm"
@@ -704,6 +714,7 @@ export default {
         last_audit: "",
         last_in: "",
         last_out: "",
+        kapasitas: "",
       },
       default_form: {
         zona_gudang_id: "",
@@ -726,6 +737,7 @@ export default {
         last_audit: "",
         last_in: "",
         last_out: "",
+        kapasitas: "",
       },
     };
   },

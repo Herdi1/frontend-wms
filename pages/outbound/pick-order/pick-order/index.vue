@@ -156,6 +156,39 @@
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
                         'gudang',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
@@ -189,6 +222,43 @@
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">No Referensi 1</th>
+                  <th class="w-52 border border-gray-300">No Referensi 2</th>
+                  <th class="w-52 border border-gray-300">No Referensi 3</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
                         'status_pick_order',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
@@ -218,43 +288,6 @@
                       </div>
                     </div>
                   </th>
-                  <th
-                    class="w-52 border border-gray-300 cursor-pointer"
-                    @click="
-                      onSort(
-                        'tanggal',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Tanggal</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'tanggal' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'tanggal' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-
-                  <th class="w-52 border border-gray-300">No Referensi 1</th>
-                  <th class="w-52 border border-gray-300">No Referensi 2</th>
-                  <th class="w-52 border border-gray-300">No Referensi 3</th>
                   <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
@@ -286,8 +319,32 @@
                       </p>
                     </div>
                   </td>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_approve === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_approve === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>APPROVE</p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_1 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_2 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_3 }}
                   </td>
                   <td class="border border-gray-300">
                     <div>
@@ -321,22 +378,12 @@
                       </span>
                     </div>
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_1 }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_2 }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_3 }}
-                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
                         item.status_pick_order === 'BATAL' ||
-                        item.status_pick_order === 'SELESAI'
+                        item.status_approve === '1'
                       "
                     />
                   </td>
@@ -346,7 +393,7 @@
                       v-if="!item.deleted_at"
                       :disabled="
                         item.status_pick_order === 'BATAL' ||
-                        item.status_pick_order === 'SELESAI'
+                        item.status_approve === '1'
                       "
                     />
                   </td>
