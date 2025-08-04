@@ -115,7 +115,7 @@
             <td class="w-[200px] border border-gray-300">
               {{ item.kode_delivery_order }}
             </td>
-            <td class="w-[200px] border border-gray-300">{{ item.urutan }}</td>
+            <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
             <td class="w-[200px] border border-gray-300">
               <input
                 type="text"
@@ -245,13 +245,6 @@ export default {
       "lookup_custom3", //item_gudang
       "lookup_custom4", //zona_gudang
     ]),
-
-    setUrutan(index) {
-      if (this.self.parameters.form.shipment_details) {
-        this.self.parameters.form.shipment_details[index].urutan = index + 1;
-        return this.self.parameters.form.shipment_details[index].urutan;
-      }
-    },
   },
 
   methods: {
@@ -286,6 +279,13 @@ export default {
         this.self.parameters.form.shipment_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
+    },
+
+    setUrutan(index) {
+      if (this.self.parameters.form.shipment_details) {
+        this.self.parameters.form.shipment_details[index].urutan = index + 1;
+        return this.self.parameters.form.shipment_details[index].urutan;
+      }
     },
 
     onGetItemGudang(search, isNext) {

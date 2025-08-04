@@ -994,7 +994,9 @@ export default {
         };
         this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
-        console.log(this.parameters.form.shipment_details);
+        // console.log(detailShipment);
+        // Update urutan untuk semua item
+        // this.updateUrutan();
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
