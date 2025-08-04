@@ -500,7 +500,7 @@ export default {
             valuation_id:
               typeof item.valuation_id === "object"
                 ? item.valuation_id.valuation_id
-                : "",
+                : item.valuation_id,
           };
         }
       );
@@ -965,6 +965,9 @@ export default {
           urutan: "",
         };
         this.parameters.form.shipment_details.push(detailShipment);
+        // console.log(detailShipment);
+        // Update urutan untuk semua item
+        // this.updateUrutan();
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
