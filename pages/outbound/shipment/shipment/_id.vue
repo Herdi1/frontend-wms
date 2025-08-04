@@ -172,7 +172,12 @@
           <tab-component :tabs="tabs">
             <template #DetailShipment>
               <ShipmentDetails
-                :self="{ parameters, onOpenModal, generateRuteShipment }"
+                :self="{
+                  parameters,
+                  onOpenModal,
+                  generateRuteShipment,
+                  updateUrutan,
+                }"
               />
             </template>
             <template #RuteShipment>
@@ -451,6 +456,18 @@ export default {
           typeof this.parameters.form.kendaraan_id == "object"
             ? this.parameters.form.kendaraan_id.kendaraan_id
             : this.parameters.form.kendaraan_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id == "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
+        staff_id:
+          typeof this.parameters.form.staff_id == "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        user_id_pic:
+          typeof this.parameters.form.user_id_pic == "object"
+            ? this.parameters.form.user_id_pic.user_id_pic
+            : this.parameters.form.user_id_pic,
       };
 
       formData.shipment_details = this.parameters.form.shipment_details.map(
@@ -489,10 +506,10 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
-            valuation_id:
-              typeof item.valuation_id === "object"
-                ? item.valuation_id.valuation_id
-                : "",
+            // valuation_id:
+            //   typeof item.valuation_id === "object"
+            //     ? item.valuation_id.valuation_id
+            //     : "",
           };
         }
       );
@@ -910,9 +927,17 @@ export default {
 
     onSelectStaff(item) {
       if (item) {
-        this.parameters.form.staff_id_pic = item;
+        this.parameters.form.staff_id = item;
       } else {
-        this.parameters.form.staff_id_pic = "";
+        this.parameters.form.staff_id = "";
+      }
+    },
+
+    onSelectJenisKendaraan(item) {
+      if (item) {
+        this.parameters.form.jenis_kendaraan_id = item;
+      } else {
+        this.parameters.form.jenis_kendaraan_id = "";
       }
     },
 
@@ -950,13 +975,23 @@ export default {
         let detailShipment = {
           ...item,
           item_gudang_id: item.item_gudang,
-          zona_gudang_id: item.zona_gudang,
-          urutan: "",
+          zona_gudang_id: item.zona_gudang_tujuan,
+          lokasi_id: item.lokasi,
+          valuation_id: item.valuation_id,
+          urutan: 1,
         };
+        this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
+        console.log(this.parameters.form.shipment_details);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
+    },
+
+    updateUrutan() {
+      this.parameters.form.shipment_details.forEach((item, index) => {
+        item.urutan = index + 1;
+      });
     },
 
     async generateRuteShipment() {
@@ -967,8 +1002,8 @@ export default {
             this.parameters.form.shipment_details.map((item, index) => {
               return {
                 lokasi_id_asal:
-                  index > 0
-                    ? this.parameters.form.shipment_details[index - 1]
+                  item.urutan > 0
+                    ? this.parameters.form.shipment_details[urutan - 1]
                         .pick_order_details.lokasi
                     : this.parameters.form.gudang_id,
                 lokasi_id_tujuan: item.pick_order_details.lokasi,
@@ -982,19 +1017,19 @@ export default {
             lokasi_id_tujuan: this.parameters.form.gudang_id,
             jenis_routing: "KOSONG",
           });
-          await Promise.all(
-            this.parameters.form.rute_shipments.forEach((item, index) => {
-              this.$axios
-                .get(
-                  `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
-                )
-                .then((res) => {
-                  this.parameters.form.rute_shipments[index].jarak = res.jarak;
-                  this.parameters.form.rute_shipments[index].biaya_bbm =
-                    res.biaya_bbm;
-                });
-            })
-          );
+          // await Promise.all(
+          //   this.parameters.form.rute_shipments.forEach((item, index) => {
+          //     this.$axios
+          //       .get(
+          //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+          //       )
+          //       .then((res) => {
+          //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
+          //         this.parameters.form.rute_shipments[index].biaya_bbm =
+          //           res.biaya_bbm;
+          //       });
+          //   })
+          // );
         } catch (error) {
           this.$globalErrorToaster(this.$toaster, error);
         } finally {
