@@ -124,7 +124,12 @@
               />
             </td>
             <td class="w-[200px] border border-gray-300">
-              <v-select
+              {{
+                item.zona_gudang_tujuan
+                  ? item.zona_gudang_tujuan.nama_zona_gudang
+                  : ""
+              }}
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
                 :loading="isLoadingGetZonaGudang"
@@ -154,7 +159,7 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
             <!-- <td class="border border-gray-300"></td>
               <td class="border border-gray-300"></td>
