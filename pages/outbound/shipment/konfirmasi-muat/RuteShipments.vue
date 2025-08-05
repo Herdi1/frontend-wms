@@ -27,10 +27,10 @@
             <th class="w-[200px] border border-gray-300">Jarak</th>
             <th class="w-[200px] border border-gray-300">Biaya BBM</th>
             <th class="w-[200px] border border-gray-300">
-              Waktu Sampai Tujuan
+              Waktu Sampai Tujuan (menit)
             </th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
-            <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
+            <!-- <th class="w-[100px] border border-gray-300 text-center">Hapus</th> -->
           </tr>
         </thead>
         <tbody>
@@ -40,7 +40,17 @@
             class="border-t align-top"
           >
             <td class="border border-gray-300">
-              <v-select
+              <p>
+                {{
+                  item.lokasi_id_asal ? item.lokasi_id_asal.nama_lokasi : "-"
+                }}
+              </p>
+              <p>
+                {{
+                  item.lokasi_id_asal ? item.lokasi_id_asal.kode_lokasi : "-"
+                }}
+              </p>
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
                 :loading="isLoadingGetLokasi"
@@ -71,10 +81,24 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <p>
+                {{
+                  item.lokasi_id_tujuan
+                    ? item.lokasi_id_tujuan.nama_lokasi
+                    : "-"
+                }}
+              </p>
+              <p>
+                {{
+                  item.lokasi_id_tujuan
+                    ? item.lokasi_id_tujuan.kode_lokasi
+                    : "-"
+                }}
+              </p>
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
                 :loading="isLoadingGetLokasi"
@@ -105,38 +129,48 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 v-model="item.jarak"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              <p>
+                {{ item.jarak }}
+              </p>
             </td>
             <td class="border border-gray-300">
-              <money
-                v-model="item.biaya_bbm"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
+              <!-- <money
+              v-model="item.biaya_bbm"
+              class="w-full pl-2 py-1 border rounded focus:outline-none"
+              @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
+                  "
+              /> -->
+              <p>
+                {{ item.biaya_bbm }}
+              </p>
             </td>
             <td class="border border-gray-300">
-              <input
-                type="datetime-local"
+              <!-- <input
+                type="number"
                 v-model="item.waktu_sampai_tujuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              <p>
+                {{ item.waktu_sampai_tujuan }}
+              </p>
             </td>
             <td class="border border-gray-300">
               <select
+                disabled
                 name="jenis_routing"
                 id="jenis_routing"
                 v-model="item.jenis_routing"
@@ -146,13 +180,13 @@
                 <option value="KOSONG">Kosong</option>
               </select>
             </td>
-            <td class="text-center text-gray-600 border border-gray-300">
+            <!-- <td class="text-center text-gray-600 border border-gray-300">
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
                 @click="onDeleteDetailRute(i)"
               ></i>
-            </td>
+            </td> -->
           </tr>
           <tr v-if="!self.parameters.form.rute_shipments.length > 0">
             <td colspan="100" class="text-center">

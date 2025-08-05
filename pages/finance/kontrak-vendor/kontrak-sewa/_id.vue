@@ -21,10 +21,10 @@
           >
             <div class="form-group">
               <input-horiontal
-                label="No Kontrak"
+                label="No Referensi"
                 type="text"
-                name="no_kontrak"
-                v-model="parameters.form.no_kontrak"
+                name="no_referensi"
+                v-model="parameters.form.no_referensi"
                 :required="false"
               />
             </div>
@@ -59,6 +59,21 @@
               />
             </div>
             <div class="form-group">
+              <select-button
+                :self="{
+                  label: 'Jenis Kontrak',
+                  optionLabel: 'nama_jenis_kontrak',
+                  lookup: lookup_custom3,
+                  value: parameters.form.jenis_kontrak_id,
+                  onGet: onGetJenisKontrak,
+                  isLoadingL: isLoadingGetJenisKontrak,
+                  input: onSelectJenisKontrak,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+              />
+            </div>
+            <div class="form-group">
               <input-horiontal
                 label="Tanggal Kontrak"
                 type="date"
@@ -67,7 +82,7 @@
                 :required="false"
               />
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <select-button
                 :self="{
                   label: 'Approver Kontrak',
@@ -81,31 +96,31 @@
                 width="w-[50%]"
                 class="mb-5"
               />
-            </div>
+            </div> -->
             <div class="form-group">
               <input-horiontal
-                label="Tanggal Approve"
+                label="Tanggal Berlaku"
                 type="date"
-                name="tanggal_approve"
-                v-model="parameters.form.tanggal_approve"
+                name="tanggal_berlaku"
+                v-model="parameters.form.tanggal_berlaku"
                 :required="false"
               />
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <input-horiontal
-                label="Tanggal Aktif"
+                label="Tanggal Berhenti"
                 type="date"
                 name="tanggal_aktif"
                 v-model="parameters.form.tanggal_aktif"
                 :required="false"
               />
-            </div>
+            </div> -->
             <div class="form-group">
               <input-horiontal
                 label="Tanggal Expired"
                 type="date"
-                name="tanggal_expired"
-                v-model="parameters.form.tanggal_expired"
+                name="tanggal_berhenti"
+                v-model="parameters.form.tanggal_berhenti"
                 :required="false"
               />
             </div>
@@ -114,11 +129,11 @@
               <select
                 name=""
                 id=""
-                v-model="parameters.form.status"
+                v-model="parameters.form.status_kontrak"
                 class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
               >
-                <option value="0">Menunggu</option>
-                <option value="1">Approved</option>
+                <option value="FISIK">Fisik</option>
+                <option value="VIRTUAL">Virtual</option>
               </select>
             </div>
             <div class="form-group flex items-center">
@@ -149,7 +164,7 @@
                 <table
                   class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                   :class="
-                    parameters.form.detail_kontrak_sewa_gudang.length
+                    parameters.form.kontrak_sewa_gudang_details.length
                       ? 'mb-[300px]'
                       : ''
                   "
@@ -170,7 +185,7 @@
                   <tbody>
                     <tr
                       v-for="(item, i) in parameters.form
-                        .detail_kontrak_sewa_gudang"
+                        .kontrak_sewa_gudang_details"
                       :key="i"
                       class="border-t"
                     >
@@ -394,7 +409,7 @@
                     </tr>
                     <tr
                       v-if="
-                        !parameters.form.detail_kontrak_sewa_gudang.length > 0
+                        !parameters.form.kontrak_sewa_gudang_details.length > 0
                       "
                     >
                       <td colspan="100" class="text-center">
@@ -429,7 +444,7 @@
                 <table
                   class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                   :class="
-                    parameters.form.detail_kontrak_sewa_peralatan.length
+                    parameters.form.kontrak_sewa_peralatan_details.length
                       ? 'mb-[300px]'
                       : ''
                   "
@@ -452,7 +467,7 @@
                   <tbody>
                     <tr
                       v-for="(item, i) in parameters.form
-                        .detail_kontrak_sewa_peralatan"
+                        .kontrak_sewa_peralatan_details"
                       :key="i"
                       class="border-t"
                     >
@@ -676,7 +691,7 @@
                     </tr>
                     <tr
                       v-if="
-                        !parameters.form.detail_kontrak_sewa_peralatan.length >
+                        !parameters.form.kontrak_sewa_peralatan_details.length >
                         0
                       "
                     >
@@ -765,20 +780,20 @@ export default {
       isLoadingForm: false,
       title: "Kontrak Vendor Sewa",
       parameters: {
-        url: "finance/kontrak-vendor/kontrak-sewa",
+        url: "finance/kontrak-sewa",
         form: {
-          no_kontrak: "",
+          no_referensi: "",
+          gudang_id: "",
           vendor_id: "",
           user_id_pic: "",
           tanggal_kontrak: "",
-          user_id_approver: "",
-          tanggal_approve: "",
-          tanggal_aktif: "",
-          tanggal_expired: "",
-          status: "",
+          tanggal_berlaku: "",
+          tanggal_berhenti: "",
+          status_kontrak: "",
+          jenis_kontrak_id: "",
           keterangan: "",
-          detail_kontrak_sewa_gudang: [],
-          detail_kontrak_sewa_peralatan: [],
+          kontrak_sewa_gudang_details: [],
+          kontrak_sewa_peralatan_details: [],
 
           user_agent: "",
           device: "",
@@ -787,18 +802,18 @@ export default {
         },
       },
       default_form: {
-        no_kontrak: "",
+        no_referensi: "",
+        gudang_id: "",
         vendor_id: "",
         user_id_pic: "",
         tanggal_kontrak: "",
-        user_id_approve: "",
-        tanggal_approve: "",
-        tanggal_aktif: "",
-        tanggal_expired: "",
-        status: "",
+        tanggal_berlaku: "",
+        tanggal_berhenti: "",
+        status_kontrak: "",
+        jenis_kontrak_id: "",
         keterangan: "",
-        detail_kontrak_sewa_gudang: [],
-        detail_kontrak_sewa_peralatan: [],
+        kontrak_sewa_gudang_details: [],
+        kontrak_sewa_peralatan_details: [],
 
         user_agent: "",
         device: "",
@@ -814,8 +829,8 @@ export default {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           if (
-            item != "detail_kontrak_sewa_gudang" &&
-            item != "detail_kontrak_sewa_peralatan"
+            item != "kontrak_sewa_gudang_details" &&
+            item != "kontrak_sewa_peralatan_details"
           ) {
             this.parameters.form[item] = res.data[item];
           }
@@ -1006,8 +1021,16 @@ export default {
       }
     },
 
+    onSelectJenisKontrak(item) {
+      if (item) {
+        this.parameters.form.jenis_kontrak_id = item;
+      } else {
+        this.parameters.form.jenis_kontrak_id = "";
+      }
+    },
+
     addDetailGudang() {
-      this.parameters.form.detail_kontrak_sewa_gudang.push({
+      this.parameters.form.kontrak_sewa_gudang_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -1018,14 +1041,14 @@ export default {
     },
 
     onDeleteGudang(index) {
-      this.parameters.form.detail_kontrak_sewa_gudang =
-        this.parameters.form.detail_kontrak_sewa_gudang.filter(
+      this.parameters.form.kontrak_sewa_gudang_details =
+        this.parameters.form.kontrak_sewa_gudang_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
 
     addDetailPeralatan() {
-      this.parameters.form.detail_kontrak_sewa_peralatan.push({
+      this.parameters.form.kontrak_sewa_peralatan_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -1036,8 +1059,8 @@ export default {
     },
 
     onDeletePeralatan(index) {
-      this.parameters.form.detail_kontrak_sewa_peralatan =
-        this.parameters.form.detail_kontrak_sewa_peralatan.filter(
+      this.parameters.form.kontrak_sewa_peralatan_details =
+        this.parameters.form.kontrak_sewa_peralatan_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -1319,7 +1342,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "finance/kontrak-vendor/kontrak-sewa";
+      let url = "finance/kontrak-sewa";
 
       let formData = {
         ...this.parameters.form,
@@ -1331,11 +1354,99 @@ export default {
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id_pic
             : "",
-        user_id_approve:
-          typeof this.parameters.form.user_id_approve == "object"
-            ? this.parameters.form.user_id_approve.user_id_approve
+        jenis_kontrak_id:
+          typeof this.parameters.form.jenis_kontrak_id == "object"
+            ? this.parameters.form.jenis_kontrak_id.jenis_kontrak_id
             : "",
       };
+
+      formData.kontrak_sewa_gudang_details =
+        this.parameters.form.kontrak_sewa_gudang_details.map((item) => {
+          return {
+            ...item,
+            kontrak_sewa_gudang_detail_id:
+              typeof item.kontrak_sewa_gudang_detail_id === "object"
+                ? item.kontrak_sewa_gudang_detail_id
+                    .kontrak_sewa_gudang_detail_id
+                : "",
+            jenis_kontrak_id:
+              typeof item.jenis_kontrak_id === "object"
+                ? item.jenis_kontrak_id.jenis_kontrak_id
+                : "",
+            divisi_id:
+              typeof item.divisi_id === "object"
+                ? item.divisi_id.divisi_id
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : "",
+            gudang_id:
+              typeof item.gudang_id === "object"
+                ? item.gudang_id.gudang_id
+                : "",
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : "",
+            pembayaran_id:
+              typeof item.pembayaran_id === "object"
+                ? item.pembayaran_id.pembayaran_id
+                : "",
+            term_pembayaran_id:
+              typeof item.term_pembayaran_id === "object"
+                ? item.term_pembayaran_id.term_pembayaran_id
+                : "",
+            satuan_id_luas:
+              typeof item.satuan_id_luas === "object"
+                ? item.satuan_id_luas.satuan_id
+                : "",
+          };
+        });
+
+      formData.kontrak_sewa_peralatan_details =
+        this.parameters.form.kontrak_sewa_peralatan_details.map((item) => {
+          return {
+            ...item,
+            kontrak_sewa_peralatan_detail_id:
+              typeof item.kontrak_sewa_peralatan_detail_id === "object"
+                ? item.kontrak_sewa_peralatan_detail_id
+                    .kontrak_sewa_peralatan_detail_id
+                : "",
+            jenis_kontrak_id:
+              typeof item.jenis_kontrak_id === "object"
+                ? item.jenis_kontrak_id.jenis_kontrak_id
+                : "",
+            divisi_id:
+              typeof item.divisi_id === "object"
+                ? item.divisi_id.divisi_id
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : "",
+            gudang_id:
+              typeof item.gudang_id === "object"
+                ? item.gudang_id.gudang_id
+                : "",
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : "",
+            pembayaran_id:
+              typeof item.pembayaran_id === "object"
+                ? item.pembayaran_id.pembayaran_id
+                : "",
+            term_pembayaran_id:
+              typeof item.term_pembayaran_id === "object"
+                ? item.term_pembayaran_id.term_pembayaran_id
+                : "",
+            satuan_id_luas:
+              typeof item.satuan_id_luas === "object"
+                ? item.satuan_id_luas.satuan_id
+                : "",
+          };
+        });
 
       if (this.isEditable) {
         url += `/${this.id}`;

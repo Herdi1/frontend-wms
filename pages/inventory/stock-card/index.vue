@@ -520,7 +520,14 @@
                     {{ item.kode_valuation ? item.kode_valuation : "-" }}
                   </td>
                   <td class="whitespace-nowrap border border-gray-300">
-                    {{ item.kode_referensi ? item.kode_referensi : "-" }}
+                    {{
+                      item.kode_referensi
+                        ? item.kode_referensi +
+                          (item.kode_referensi_2
+                            ? " - " + item.kode_referensi_2
+                            : "")
+                        : "-"
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.deskripsi || "" }}

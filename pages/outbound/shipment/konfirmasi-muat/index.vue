@@ -259,9 +259,9 @@
                     </div>
                   </th>
 
+                  <!-- <th class="w-52 border border-gray-300">Gudang</th> -->
                   <th class="w-52 border border-gray-300">Kendaraan</th>
-                  <th class="w-52 border border-gray-300">Pengemudi</th>
-                  <th class="w-52 border border-gray-300">User PIC</th>
+                  <th class="w-52 border border-gray-300">Staff</th>
                   <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
@@ -332,11 +332,17 @@
                   <td class="border border-gray-300">
                     {{ item.kendaraan ? item.kendaraan.nama_kendaraan : "" }}
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     {{ item.pengemudi ? item.pengemudi.nama_pengemudi : "" }}
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
-                    {{ item.user_pic ? item.user_pic.nama_user : "" }}
+                    {{
+                      item.staff
+                        ? item.staff.nama_lengkap +
+                          " - " +
+                          item.staff.kode_staff
+                        : ""
+                    }}
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
@@ -384,7 +390,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -396,7 +402,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -425,7 +431,7 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "outbound/shipment",
+        url: "outbound/konfirmasi-muat",
         type: "pdf",
         params: {
           soft_deleted: "",

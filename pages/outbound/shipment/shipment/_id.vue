@@ -308,10 +308,12 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
-          this.parameters.form[item] = res.data.data[item];
+          this.parameters.form[item] = res.data[item];
         });
         this.parameters.form.pengemudi_id = res.data.pengemudi;
         this.parameters.form.kendaraan_id = res.data.kendaraan;
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.staff_id = res.data.staff;
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
@@ -320,7 +322,7 @@ export default {
               shipment_detail_id: item,
               lokasi_id: item.lokasi,
               item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang_tujuan,
+              zona_gudang_id: item.zona_gudang,
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
               slot_penyimpanan_id_level: item.slot_penyimpanan_level,
@@ -495,8 +497,8 @@ export default {
                 ? item.item_gudang_id.item_gudang_id
                 : item.item_gudang_id,
             zona_gudang_id:
-              typeof item.zona_gudang_tujuan == "object"
-                ? item.zona_gudang_tujuan.zona_gudang_id
+              typeof item.zona_gudang_id == "object"
+                ? item.zona_gudang_id.zona_gudang_id
                 : item.zona_gudang_id,
             slot_penyimpanan_id_aisle:
               typeof item.slot_penyimpanan_id_aisle === "object"
@@ -1010,46 +1012,46 @@ export default {
 
     async generateRuteShipment() {
       if (this.parameters.form.shipment_details.length > 0) {
-        // this.isLoadingForm = true;
-        this.parameters.form.rute_shipments =
-          this.parameters.form.shipment_details.map((item, index) => {
-            return {
-              lokasi_id_asal:
-                item.urutan > 1
-                  ? this.parameters.form.shipment_details[item.urutan - 1]
-                      .lokasi_id
-                  : this.parameters.form.gudang_id.lokasi,
-              lokasi_id_tujuan: item.lokasi_id,
-            };
+        try {
+          this.isLoadingForm = true;
+          this.parameters.form.rute_shipments =
+            this.parameters.form.shipment_details.map((item, index) => {
+              return {
+                lokasi_id_asal:
+                  item.urutan > 1
+                    ? this.parameters.form.shipment_details[item.urutan - 1]
+                        .lokasi_id
+                    : this.parameters.form.gudang_id.lokasi,
+                lokasi_id_tujuan: item.lokasi_id,
+              };
+            });
+          this.parameters.form.rute_shipments.push({
+            lokasi_id_asal:
+              this.parameters.form.rute_shipments[
+                this.parameters.form.rute_shipments.length - 1
+              ].lokasi_id_tujuan,
+            lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
+            jenis_routing: "KOSONG",
           });
-        this.parameters.form.rute_shipments.push({
-          lokasi_id_asal:
-            this.parameters.form.rute_shipments[
-              this.parameters.form.rute_shipments.length - 1
-            ].lokasi_id_tujuan,
-          lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
-          jenis_routing: "KOSONG",
-        });
-        console.log(this.parameters.form.rute_shipments);
-        // await Promise.all(
-        //   this.parameters.form.rute_shipments.forEach((item, index) => {
-        //     this.$axios
-        //       .get(
-        //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
-        //       )
-        //       .then((res) => {
-        //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
-        //         this.parameters.form.rute_shipments[index].biaya_bbm =
-        //           res.biaya_bbm;
-        //       });
-        //   })
-        // );
-        // try {
-        // } catch (error) {
-        //   this.$globalErrorToaster(this.$toaster, error);
-        // } finally {
-        //   this.isLoadingForm = false;
-        // }
+          console.log(this.parameters.form.rute_shipments);
+          // await Promise.all(
+          //   this.parameters.form.rute_shipments.forEach((item, index) => {
+          //     this.$axios
+          //       .get(
+          //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+          //       )
+          //       .then((res) => {
+          //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
+          //         this.parameters.form.rute_shipments[index].biaya_bbm =
+          //           res.biaya_bbm;
+          //       });
+          //   })
+          // );
+        } catch (error) {
+          this.$globalErrorToaster(this.$toaster, error);
+        } finally {
+          this.isLoadingForm = false;
+        }
       } else {
         this.$toaster.error("Detail Shipment Masih Kosong");
       }
