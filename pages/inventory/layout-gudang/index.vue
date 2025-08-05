@@ -28,12 +28,40 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
+
+        <div class="w-[600px] h-[600px] relative bg-blue-200">
+          <VueDraggableResizable
+            v-for="room in rooms"
+            :key="index"
+            :x="room.x"
+            :y="room.y"
+            :w="room.width"
+            :h="room.height"
+            :parent="true"
+            :draggable="true"
+            :resizable="true"
+            @dragging="(x, y) => onDragStop(room, x, y)"
+            style="border: 1px solid black"
+            @resizeStop="
+              (x, y, width, height) => onReziseStop(room, x, y, width, height)
+            "
+          >
+            <div
+              class="bg-orange-200 border border-gray-300 h-[100%] w-[100%] text-center"
+            >
+              {{ room.name }}
+            </div>
+          </VueDraggableResizable>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import VueDraggableResizable from "vue-draggable-resizable";
+import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+
 export default {
   middleware: ["checkRoleUser"],
 
@@ -41,6 +69,10 @@ export default {
     return {
       title: "Layout Gudang",
     };
+  },
+
+  components: {
+    VueDraggableResizable,
   },
 
   mounted() {
@@ -159,7 +191,82 @@ export default {
           isRestore: false,
         },
       },
+
+      rooms: [
+        {
+          id: 1,
+          name: "Zona gudang A",
+          x: 20,
+          y: 30,
+          z: 5,
+          width: 200,
+          height: 150,
+        },
+        {
+          id: 2,
+          name: "Zona gudang B",
+          x: 50,
+          y: 70,
+          z: 5,
+          width: 200,
+          height: 150,
+        },
+        {
+          id: 2,
+          name: "Zona gudang C",
+          x: 400,
+          y: 70,
+          z: 5,
+          width: 100,
+          height: 150,
+        },
+      ],
     };
+  },
+
+  methods: {
+    onDragStop(room, x, y) {
+      room.x = x;
+      room.y = y;
+
+      // const newAxis = this.rooms.forEach((other) => {
+      //   if (other.id !== room.id) {
+      //     this.checkCollide(room, other);
+      //   }
+      // });
+      // console.log(newAxis);
+      console.log(this.checkCollide(this.rooms[1], this.rooms[2]));
+    },
+    onReziseStop(room, x, y, width, height) {
+      room.x = x;
+      room.y = y;
+      room.width = width;
+      room.height = height;
+      console.log(room);
+    },
+    checkCollide(zonaA, zonaB) {
+      let x;
+      let y;
+      if (zonaA.x + zonaA.width <= zonaB.x) {
+        x = zonaA.x + zonaA.width >= zonaB.x ? zonaB.x - zonaA.width : zonaA.x;
+      }
+      if (zonaA.x >= zonaB.x + zonaB.width) {
+        x = zonaA.x <= zonaB.x + zonaB.width ? zonaA.x + zonaB.width : zonaA.x;
+      }
+      if (zonaA.y >= zonaB.y + zonaB.height) {
+        y =
+          zonaA.y <= zonaB.y + zonaB.height ? zonaA.y + zonaB.height : zonaA.y;
+      }
+      if (zonaA.y + zonaA.height <= zonaB.y) {
+        y =
+          zonaA.y + zonaA.height >= zonaB.y ? zonaB.y - zonaA.height : zonaA.y;
+      }
+
+      return { x, y };
+    },
+    addZona() {
+      this.rooms.push({});
+    },
   },
 };
 </script>
