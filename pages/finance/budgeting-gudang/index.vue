@@ -84,7 +84,7 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                    {{ item.nama_gudang }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.budget ? item.budget : "-" }}
@@ -204,7 +204,7 @@ export default {
         params: {
           soft_deleted: "",
           search: "",
-          order: "budgeting_gudang_id",
+          order: "gudang_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -265,15 +265,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onEdit(item) {
-      this.$router.push(
-        "/finance/budgeting-gudang/" + item.budgeting_gudang_id
-      );
+      this.$router.push("/finance/budgeting-gudang/" + item.gudang_id);
     },
 
     onDetail(item) {
-      this.$router.push(
-        "/finance/budgeting-gudang/detail/" + item.budgeting_gudang_id
-      );
+      this.$router.push("/finance/budgeting-gudang/detail/" + item.gudang_id);
     },
 
     onTrashed(item) {

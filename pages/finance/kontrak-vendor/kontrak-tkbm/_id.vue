@@ -106,8 +106,8 @@
               />
             </div>
 
-            <div class="form-group flex items-center">
-              <label for="keterangan" class="w-1/2">Keterangan</label>
+            <div class="form-group flex justify-between">
+              <label for="keterangan" class="w-1/2 pt-1">Keterangan</label>
               <textarea
                 placeholder="Keterangan"
                 class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
@@ -691,12 +691,19 @@ export default {
             this.parameters.form[item] = res.data[item];
           }
         });
+        this.parameters.form.vendor_id = res.data.vendor;
+        this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
 
         this.parameters.form.kontrak_tkbm_details =
           res.data.kontrak_tkbm_details.map((item) => {
             return {
               ...item,
-              kontrak_tkbm_details_id: item || "",
+              kontrak_tkbm_details_id: item.kontrak_tkbm_details_id
+                ? item.kontrak_tkbm_details_id
+                : "",
+              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+              item_id: item.item ? item.item : "",
+              item_gudang_id: item.item_gudang ? item.item_gudang : "",
             };
           });
         this.isLoadingPage = false;
@@ -1391,6 +1398,7 @@ export default {
           if (!this.isEditable) {
             this.parameters.form = this.default_form;
           }
+          this.$router.back();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
