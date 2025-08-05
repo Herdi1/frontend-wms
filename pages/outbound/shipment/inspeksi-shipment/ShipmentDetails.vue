@@ -46,7 +46,7 @@
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <!-- <th class="w-[200px] border border-gray-300">Note</th> -->
             <th class="w-[200px] border border-gray-300">Keterangan</th>
-            <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
+            <!-- <th class="w-[100px] border border-gray-300 text-center">Hapus</th> -->
           </tr>
         </thead>
         <draggable
@@ -190,7 +190,7 @@
                 {{ item.keterangan }}
               </p>
             </td>
-            <td
+            <!-- <td
               class="w-[100px] text-center text-gray-600 border border-gray-300"
             >
               <i
@@ -198,7 +198,7 @@
                 style="cursor: pointer"
                 @click="onDeleteDetailShipment(i)"
               ></i>
-            </td>
+            </td> -->
           </tr>
           <tr v-if="!self.parameters.form.shipment_details.length > 0">
             <td colspan="100" class="text-center">

@@ -163,6 +163,7 @@
                   >Tanggal <span class="text-danger">*</span></label
                 >
                 <input
+                  disabled
                   required
                   type="date"
                   step="1"
@@ -331,7 +332,14 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
     try {
+      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`outbound/pick-request/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {

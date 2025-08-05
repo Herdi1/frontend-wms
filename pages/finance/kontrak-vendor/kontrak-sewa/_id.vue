@@ -147,7 +147,7 @@
           </div>
           <tab-component :tabs="tabs">
             <template #DetailSewaGudang>
-              <div class="w-full flex justify-between items-center">
+              <!-- <div class="w-full flex justify-between items-center">
                 <h1 class="text-xl font-bold">Detail Sewa Gudang</h1>
                 <div class=" ">
                   <button
@@ -424,10 +424,11 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
+              <KontrakGudangDetail :self="{ parameters }" />
             </template>
             <template #DetailSewaPeralatan>
-              <div class="w-full flex justify-between items-center">
+              <!-- <div class="w-full flex justify-between items-center">
                 <h1 class="text-xl font-bold">Detail Sewa Peralatan</h1>
                 <div class=" ">
                   <button
@@ -707,7 +708,8 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
+              <KontrakPeralatanDetail :self="{ parameters }" />
             </template>
           </tab-component>
           <modal-footer-section
@@ -724,8 +726,15 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapState } from "vuex";
+import KontrakGudangDetail from "./KontrakGudangDetail.vue";
+import KontrakPeralatanDetail from "./KontrakPeralatanDetail.vue";
 export default {
   props: ["self"],
+
+  components: {
+    KontrakGudangDetail,
+    KontrakPeralatanDetail,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -1352,7 +1361,7 @@ export default {
             : "",
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
-            ? this.parameters.form.user_id_pic.user_id_pic
+            ? this.parameters.form.user_id_pic.user_id
             : "",
         jenis_kontrak_id:
           typeof this.parameters.form.jenis_kontrak_id == "object"
@@ -1372,35 +1381,35 @@ export default {
             jenis_kontrak_id:
               typeof item.jenis_kontrak_id === "object"
                 ? item.jenis_kontrak_id.jenis_kontrak_id
-                : "",
+                : item.jenis_kontrak_id,
             divisi_id:
               typeof item.divisi_id === "object"
                 ? item.divisi_id.divisi_id
-                : "",
+                : item.divisi_id,
             jenis_biaya_id:
               typeof item.jenis_biaya_id === "object"
                 ? item.jenis_biaya_id.jenis_biaya_id
-                : "",
+                : item.jenis_biaya_id,
             gudang_id:
               typeof item.gudang_id === "object"
                 ? item.gudang_id.gudang_id
-                : "",
+                : item.gudang_id,
             mata_uang_id:
               typeof item.mata_uang_id === "object"
                 ? item.mata_uang_id.mata_uang_id
-                : "",
+                : item.mata_uang_id,
             pembayaran_id:
               typeof item.pembayaran_id === "object"
                 ? item.pembayaran_id.pembayaran_id
-                : "",
+                : item.pembayaran_id,
             term_pembayaran_id:
               typeof item.term_pembayaran_id === "object"
                 ? item.term_pembayaran_id.term_pembayaran_id
-                : "",
+                : item.term_pembayaran_id,
             satuan_id_luas:
-              typeof item.satuan_id_luas === "object"
-                ? item.satuan_id_luas.satuan_id
-                : "",
+              typeof item.satuan_id === "object"
+                ? item.satuan_id.satuan_id
+                : item.satuan_id,
           };
         });
 
@@ -1416,35 +1425,35 @@ export default {
             jenis_kontrak_id:
               typeof item.jenis_kontrak_id === "object"
                 ? item.jenis_kontrak_id.jenis_kontrak_id
-                : "",
+                : item.jenis_kontrak_id,
             divisi_id:
               typeof item.divisi_id === "object"
                 ? item.divisi_id.divisi_id
-                : "",
+                : item.divisi_id,
             jenis_biaya_id:
               typeof item.jenis_biaya_id === "object"
                 ? item.jenis_biaya_id.jenis_biaya_id
-                : "",
+                : item.jenis_biaya_id,
             gudang_id:
               typeof item.gudang_id === "object"
                 ? item.gudang_id.gudang_id
-                : "",
+                : item.gudang_id,
             mata_uang_id:
               typeof item.mata_uang_id === "object"
                 ? item.mata_uang_id.mata_uang_id
-                : "",
+                : item.mata_uang_id,
             pembayaran_id:
               typeof item.pembayaran_id === "object"
                 ? item.pembayaran_id.pembayaran_id
-                : "",
+                : item.pembayaran_id,
             term_pembayaran_id:
               typeof item.term_pembayaran_id === "object"
                 ? item.term_pembayaran_id.term_pembayaran_id
-                : "",
+                : item.term_pembayaran_id,
             satuan_id_luas:
               typeof item.satuan_id_luas === "object"
                 ? item.satuan_id_luas.satuan_id
-                : "",
+                : item.satuan_id_luas,
           };
         });
 

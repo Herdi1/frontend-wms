@@ -99,7 +99,7 @@
               <div class="form-group">
                 <select-button
                   :self="{
-                    label: 'Staff',
+                    label: 'Pengemudi',
                     optionLabel: 'nama_lengkap',
                     lookup: lookup_beam,
                     value: parameters.form.staff_id,
@@ -112,7 +112,7 @@
                   :required="true"
                 />
               </div>
-              <ValidationProvider name="pengemudi_id">
+              <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
                     label: 'Pengemudi',
@@ -126,7 +126,7 @@
                   width="w-[50%]"
                   class="mb-5"
                 />
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider name="kendaraan_id">
                 <select-button
                   :self="{
@@ -304,7 +304,14 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
     try {
+      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
@@ -930,6 +937,7 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&jenis_user=pengemudi" +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -999,6 +1007,7 @@ export default {
         // console.log(detailShipment);
         // Update urutan untuk semua item
         // this.updateUrutan();
+        this.generateRuteShipment();
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
@@ -1014,15 +1023,16 @@ export default {
       if (this.parameters.form.shipment_details.length > 0) {
         try {
           this.isLoadingForm = true;
+          this.parameters.form.rute_shipments = [];
           this.parameters.form.rute_shipments =
             this.parameters.form.shipment_details.map((item, index) => {
               return {
                 lokasi_id_asal:
-                  item.urutan > 1
-                    ? this.parameters.form.shipment_details[item.urutan - 1]
-                        .lokasi_id
+                  index > 0
+                    ? this.parameters.form.shipment_details[index - 1].lokasi_id
                     : this.parameters.form.gudang_id.lokasi,
                 lokasi_id_tujuan: item.lokasi_id,
+                jenis_routing: "MUAT",
               };
             });
           this.parameters.form.rute_shipments.push({
