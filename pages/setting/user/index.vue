@@ -226,6 +226,7 @@ export default {
           pelanggan_id: "",
           role_id: "",
           gudang_id: "",
+          staff_id: "",
         },
         loadings: {
           isDelete: false,
