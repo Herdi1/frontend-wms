@@ -34,24 +34,26 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Detail</th>
-                <th class="w-[5%]">No</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Detail
+                </th>
+                <th class="w-[5%] border border-gray-300">No</th>
                 <th
                   @click="
                     onSort(
-                      'no_kontrak',
+                      'kode_kontrak',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer min-w-40"
+                  class="cursor-pointer min-w-40 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>No Kontrak</div>
+                    <div>Kode Kontrak</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'no_kontrak' &&
+                          parameters.params.order == 'kode_kontrak' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -60,7 +62,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'no_kontrak' &&
+                          parameters.params.order == 'kode_kontrak' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -69,40 +71,62 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-32">Vendor</th>
-                <th class="min-w-32">PIC Kontrak</th>
-                <th class="min-w-40">Tanggal Kontrak</th>
-                <th class="min-w-32">Approver Kontrak</th>
-                <th class="min-w-40">Tanggal Approve</th>
-                <th class="min-w-40">Tanggal Aktif</th>
-                <th class="min-w-40">Tanggal Expired</th>
-                <th class="min-w-32">Status</th>
-                <th class="min-w-32">Keterangan</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Hapus</th>
+                <th class="min-w-32 border border-gray-300">Vendor</th>
+                <th class="min-w-32 border border-gray-300">PIC Kontrak</th>
+                <th class="min-w-40 border border-gray-300">Tanggal Kontrak</th>
+                <th class="min-w-40 border border-gray-300">Tanggal Aktif</th>
+                <th class="min-w-40 border border-gray-300">Tanggal Expired</th>
+                <th class="min-w-32 border border-gray-300">Status</th>
+                <th class="min-w-32 border border-gray-300">Keterangan</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="text-center">
+                <td class="text-center border border-gray-300">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td>
+                <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.no_kontrak }}</td>
-                <td>{{ item.vendor ? item.vendor.nama_vendor : "-" }}</td>
-                <td>{{ item.pic_kontrak }}</td>
-                <td>{{ item.tanggal_kontrak }}</td>
-                <td>{{ item.approver_kontrak }}</td>
-                <td>{{ item.tanggal_approve }}</td>
-                <td>{{ item.tanggal_aktif }}</td>
-                <td>{{ item.tanggal_expired }}</td>
-                <td>{{ item.status }}</td>
+                <td class="text-center border border-gray-300">
+                  {{ item.kode_kontrak }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  {{ item.vendor ? item.vendor.nama_vendor : "-" }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  {{ item.pic_kontrak }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  {{ item.tanggal_kontrak }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  {{ item.tanggal_berlaku }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  {{ item.tanggal_berhenti }}
+                </td>
+                <td class="text-center border border-gray-300">
+                  <span
+                    v-if="item.status === 'PENDING'"
+                    class="p-1 rounded-md text-white bg-orange-400"
+                  >
+                    Menunggu
+                  </span>
+                  <span
+                    v-if="item.status === 'APPROVE'"
+                    class="p-1 rounded-md text-white bg-green-400"
+                  >
+                    Disetujui
+                  </span>
+                </td>
+
                 <td>{{ item.keterangan }}</td>
                 <td class="text-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
@@ -199,7 +223,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-vendor/kontrak-tkbm",
+        url: "finance/kontrak-sewa",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -331,10 +355,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.form.checkboxs = [];
-      if (document.getElementById("checkAll")) {
-        document.getElementById("checkAll").checked = false;
-      }
+      // this.parameters.form.checkboxs = [];
+      // if (document.getElementById("checkAll")) {
+      //   document.getElementById("checkAll").checked = false;
+      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

@@ -33,6 +33,7 @@
             <th class="w-52 border border-gray-300">Term Pembayaran</th>
             <th class="w-52 border border-gray-300">Jenis Peralatan</th>
             <th class="w-52 border border-gray-300">Luas</th>
+            <th class="w-52 border border-gray-300">Dasar Perhitungan</th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
@@ -288,8 +289,8 @@
                 :options="lookup_custom8.data"
                 :filterable="false"
                 @search="onGetSatuan"
-                :reduce="(item) => item.satuan_id"
-                v-model="item.satuan_id"
+                :reduce="(item) => item.satuan_id_luas"
+                v-model="item.satuan_id_luas"
               >
                 <li
                   slot-scope="{ search }"
@@ -313,6 +314,17 @@
                   >
                 </li>
               </v-select>
+            </td>
+            <td class="border border-gray-300 text-center">
+              <select
+                name="dasar_perhitungan"
+                id="dasar_perhitungan"
+                v-model="item.dasar_perhitungan"
+                class="w-full p-1 mb-2 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="LUAS">Luas</option>
+                <option value="FLAT">Flat</option>
+              </select>
             </td>
             <td class="border border-gray-300 text-center">
               <i

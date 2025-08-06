@@ -6,7 +6,7 @@
         class="mb-6 grid grid-cols-1 gap-6 text-white sm:grid-cols-2 xl:grid-cols-4"
       >
         <!-- total produk -->
-        <div class="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
+        <!-- <div class="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Produk
           </div>
@@ -20,10 +20,10 @@
             <icon-eye class="shrink-0 ltr:mr-2 rtl:ml-2" />
             Last Week 44,700
           </div>
-        </div>
+        </div> -->
 
         <!-- total pelanggan -->
-        <div class="panel bg-gradient-to-r from-violet-500 to-violet-400">
+        <!-- <div class="panel bg-gradient-to-r from-violet-500 to-violet-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Pelanggan
           </div>
@@ -37,10 +37,10 @@
             <icon-eye class="shrink-0 ltr:mr-2 rtl:ml-2" />
             Last Week 44,700
           </div>
-        </div>
+        </div> -->
 
         <!-- pembelian bulan ini -->
-        <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <!-- <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Pembelian Bulan Ini
           </div>
@@ -54,10 +54,10 @@
             <icon-eye class="shrink-0 ltr:mr-2 rtl:ml-2" />
             Last Week 44,700
           </div>
-        </div>
+        </div> -->
 
         <!-- omset bulan ini -->
-        <div class="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
+        <!-- <div class="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Omset Bulan Ini
           </div>
@@ -72,13 +72,13 @@
             Last Week 44,700
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div
+        <!-- <div
         class="mb-6 grid grid-cols-1 gap-6 text-white sm:grid-cols-2 xl:grid-cols-6"
-      >
+      > -->
         <!-- total transaksi penjualan -->
-        <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <!-- <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Penjualan
           </div>
@@ -87,9 +87,9 @@
               {{ data.total_transaction_selling }}
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- total transaksi penjualan Cash-->
-        <div class="panel bg-gradient-to-r from-green-500 to-green-400">
+        <!-- <div class="panel bg-gradient-to-r from-green-500 to-green-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Penjualan Cash
           </div>
@@ -98,9 +98,9 @@
               {{ data.total_transaction_selling_cash }}
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- total transaksi penjualan Cash-->
-        <div class="panel bg-gradient-to-r from-red-500 to-red-400">
+        <!-- <div class="panel bg-gradient-to-r from-red-500 to-red-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Penjualan Credit
           </div>
@@ -109,10 +109,10 @@
               {{ data.total_transaction_selling_credit }}
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- total transaksi penjualan -->
-        <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <!-- <div class="panel bg-gradient-to-r from-blue-500 to-blue-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Pembelian
           </div>
@@ -121,9 +121,9 @@
               {{ data.total_transaction_purchaseing }}
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- total transaksi penjualan Cash-->
-        <div class="panel bg-gradient-to-r from-green-500 to-green-400">
+        <!-- <div class="panel bg-gradient-to-r from-green-500 to-green-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Pembelian Cash
           </div>
@@ -132,9 +132,9 @@
               {{ data.total_transaction_purchaseing_cash }}
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- total transaksi penjualan Cash-->
-        <div class="panel bg-gradient-to-r from-red-500 to-red-400">
+        <!-- <div class="panel bg-gradient-to-r from-red-500 to-red-400">
           <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">
             Total Transaksi Pembelian Credit
           </div>
@@ -143,7 +143,7 @@
               {{ data.total_transaction_purchaseing_credit }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 

@@ -253,8 +253,8 @@
                 :options="lookup_custom8.data"
                 :filterable="false"
                 @search="onGetSatuan"
-                :reduce="(item) => item.satuan_id"
-                v-model="item.satuan_id"
+                :reduce="(item) => item.satuan_id_luas"
+                v-model="item.satuan_id_luas"
               >
                 <li
                   slot-scope="{ search }"
@@ -378,7 +378,7 @@ export default {
         payable_to: "",
         term_pembayaran_id: "",
         luas: "",
-        satuan_id: "",
+        satuan_id_luas: "",
       });
     },
 

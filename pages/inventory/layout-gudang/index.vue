@@ -29,29 +29,145 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
 
-        <div class="w-[600px] h-[600px] relative bg-blue-200">
-          <VueDraggableResizable
-            v-for="room in rooms"
-            :key="index"
-            :x="room.x"
-            :y="room.y"
-            :w="room.width"
-            :h="room.height"
-            :parent="true"
-            :draggable="true"
-            :resizable="true"
-            @dragging="(x, y) => onDragStop(room, x, y)"
-            style="border: 1px solid black"
-            @resizeStop="
-              (x, y, width, height) => onReziseStop(room, x, y, width, height)
-            "
+        <div class="flex gap-3 w-full">
+          <div
+            v-if="parameters.form.gudang_id"
+            class="w-[600px] h-[600px] relative bg-blue-200"
           >
-            <div
-              class="bg-orange-200 border border-gray-300 h-[100%] w-[100%] text-center"
+            <VueDraggableResizable
+              v-for="room in rooms"
+              :key="index"
+              :x="room.x"
+              :y="room.y"
+              :w="room.width"
+              :h="room.height"
+              :parent="true"
+              :draggable="true"
+              :resizable="true"
+              @dragging="(x, y) => onDragStop(room, x, y)"
+              style="border: 1px solid black"
+              @resizeStop="
+                (x, y, width, height) => onReziseStop(room, x, y, width, height)
+              "
             >
-              {{ room.name }}
+              <div
+                :class="`bg-[${room.color}] border border-gray-300 h-[100%] w-[100%] text-center`"
+              >
+                {{ room.nama_zona_gudang }}
+              </div>
+            </VueDraggableResizable>
+          </div>
+          <div class="min-w-[300px]">
+            <!-- <div class="flex items-center mb-3">
+              <p class="w-[150px]">Skala</p>
+              <div class="flex items-center gap-2">
+                <div>1 :</div>
+                <input
+                  type="number"
+                  class="p-1 outline-none border border-gray-300 rounded-sm"
+                />
+              </div>
+            </div> -->
+            <ValidationProvider name="gudang_id">
+              <select-button
+                :self="{
+                  label: 'Gudang',
+                  optionLabel: 'nama_gudang',
+                  lookup: lookup_warehouses,
+                  value: parameters.form.gudang_id,
+                  onGet: onGetGudang,
+                  isLoadingL: isLoadingGetGudang,
+                  input: onSelectGudang,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+              />
+            </ValidationProvider>
+
+            <div>
+              <!-- <form @submit.prevent="addZona">
+                <h3 class="font-bold text-base">Tambah Zona</h3>
+                <div class="flex gap3 w-full justify-between items-center mb-2">
+                  <p>Nama Zona</p>
+                  <input
+                    v-model="formZona.name"
+                    type="text"
+                    class="p-1 outline-none border border-gray-300 rounded-sm"
+                  />
+                </div>
+                <div class="flex gap3 w-full justify-between items-center mb-2">
+                  <p>Panjang</p>
+                  <input
+                    v-model="formZona.width"
+                    type="text"
+                    class="p-1 outline-none border border-gray-300 rounded-sm"
+                  />
+                </div>
+                <div class="flex gap3 w-full justify-between items-center mb-2">
+                  <p>Lebar</p>
+                  <input
+                    v-model="formZona.height"
+                    type="text"
+                    class="p-1 outline-none border border-gray-300 rounded-sm"
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    class="mb-2 p-2 rounded-md text-white bg-blue-400"
+                  >
+                    Tambah Zona
+                  </button>
+                </div>
+              </form> -->
             </div>
-          </VueDraggableResizable>
+            <div class="mb-3 max-h-[400px] overflow-auto">
+              <h2 class="font-bold text-base">Zona</h2>
+              <ul class="w-full">
+                <li v-for="(room, i) in rooms" :key="i">
+                  <div class="mb-2">
+                    <div class="font-bold">{{ room.nama_zona_gudang }}</div>
+                    <!-- <div class="flex items-center mb-2">
+                      <p class="w-[150px]">Panjang</p>
+                      <input
+                        @change="onSizeCange(room, room.width, room.height)"
+                        type="number"
+                        v-model="room.width"
+                        class="p-1 outline-none border border-gray-300 rounded-sm"
+                      />
+                    </div>
+                    <div class="flex items-center mb-2">
+                      <p class="w-[150px]">Lebar</p>
+                      <input
+                        @change="onSizeCange(room, room.width, room.height)"
+                        type="number"
+                        v-model="room.height"
+                        class="p-1 outline-none border border-gray-300 rounded-sm"
+                      />
+                    </div> -->
+                    <div class="flex items-center mb-2">
+                      <p class="w-[150px]">Kapasitas Zona</p>
+                      <!-- @change="onSizeCange(room, room.width, room.height)" -->
+                      <input
+                        type="number"
+                        v-model="room.kapasitas"
+                        class="p-1 outline-none border border-gray-300 rounded-sm"
+                      />
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-5">
+              <button
+                @click="onSubmit"
+                type="button"
+                class="p-2 rounded-md text-white bg-green-400"
+              >
+                Simpan Layout
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -61,6 +177,7 @@
 <script>
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+import { mapActions, mapState } from "vuex";
 
 export default {
   middleware: ["checkRoleUser"],
@@ -75,7 +192,7 @@ export default {
     VueDraggableResizable,
   },
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -109,9 +226,13 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
+
+    await this.onSearchGudang();
   },
 
   computed: {
+    ...mapState("moduleApi", ["error", "result", "lookup_warehouses"]),
+
     getRoles() {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
@@ -137,7 +258,14 @@ export default {
 
   data() {
     return {
+      user: this.$auth.user,
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       title: "Layout Gudang",
+      isLoadingForm: false,
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -190,41 +318,24 @@ export default {
           isDelete: false,
           isRestore: false,
         },
+        form: {
+          gudang_id: "",
+        },
       },
 
-      rooms: [
-        {
-          id: 1,
-          name: "Zona gudang A",
-          x: 20,
-          y: 30,
-          z: 5,
-          width: 200,
-          height: 150,
-        },
-        {
-          id: 2,
-          name: "Zona gudang B",
-          x: 50,
-          y: 70,
-          z: 5,
-          width: 200,
-          height: 150,
-        },
-        {
-          id: 2,
-          name: "Zona gudang C",
-          x: 400,
-          y: 70,
-          z: 5,
-          width: 100,
-          height: 150,
-        },
-      ],
+      formZona: {
+        name: "",
+        width: 0,
+        height: 0,
+      },
+
+      rooms: [],
     };
   },
 
   methods: {
+    ...mapActions("moduleApi", ["lookUp"]),
+
     onDragStop(room, x, y) {
       room.x = x;
       room.y = y;
@@ -242,7 +353,7 @@ export default {
       room.y = y;
       room.width = width;
       room.height = height;
-      console.log(room);
+      this.onSizeCange(room, width, height);
     },
     checkCollide(zonaA, zonaB) {
       let x;
@@ -265,7 +376,135 @@ export default {
       return { x, y };
     },
     addZona() {
-      this.rooms.push({});
+      this.rooms.push({
+        name: this.formZona.name,
+        width: this.formZona.width,
+        height: this.formZona.height,
+      });
+      this.formZona = {
+        id: this.rooms.length,
+        name: "",
+        width: 0,
+        height: 0,
+      };
+    },
+    onSizeCange(room, width, height) {
+      room.width = width;
+      room.height = height;
+    },
+
+    onSubmit() {
+      if (this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+      let url = "inventory/layout-gudang";
+
+      let formData = {};
+
+      formData.gudang_id = this.parameters.form.gudang_id.gudang_id;
+
+      formData.layout_gudang = this.rooms.map((item) => {
+        return {
+          ...item,
+          // gudang_id: this.parameters.form.gudang_id.gudang_id,
+          zona_gudang_id: item.zona_gudang_id,
+          canvas: {
+            x: item.x,
+            y: item.y,
+            width: item.width,
+            height: item.height,
+          },
+        };
+      });
+
+      this.$axios({
+        method: "post",
+        url: url,
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success("Data berhasil di Tambah");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+        });
+
+      console.log(formData);
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_warehouses.current_page = isNext
+            ? this.lookup_warehouses.current_page + 1
+            : this.lookup_warehouses.current_page - 1;
+        } else {
+          this.lookup_warehouses.current_page = 1;
+        }
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "warehouses",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
+            "&page=" +
+            this.lookup_warehouses.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    async onSelectGudang(item) {
+      if (item) {
+        this.isLoadingData = true;
+        this.parameters.form.gudang_id = item;
+        this.rooms = [];
+        await this.$axios
+          .get(`master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`)
+          .then((res) => {
+            this.rooms = res.data.data.map((item) => {
+              return {
+                zona_gudang_id: item.zona_gudang_id,
+                nama_zona_gudang: item.nama_zona_gudang,
+                kode_zona_gudang: item.kode_zona_gudang,
+                x: 0,
+                y: 0,
+                width: 100,
+                height: 100,
+                color: "#e60000",
+              };
+            });
+          });
+        // try {
+        // } catch (error) {
+        //   this.$globalErrorToaster(this.$toaster, error);
+        // } finally {
+        //   this.isLoadingData = false;
+        // }
+      } else {
+        this.parameters.form.gudang_id = "";
+        this.rooms = [];
+      }
     },
   },
 };

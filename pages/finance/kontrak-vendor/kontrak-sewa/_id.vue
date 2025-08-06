@@ -844,7 +844,39 @@ export default {
             this.parameters.form[item] = res.data[item];
           }
         });
+        this.parameters.form.vendor_id = res.data.vendor;
+        this.parameters.form.user_id_pic = res.data.user_pic;
+        this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
         this.isLoadingPage = false;
+
+        // this.parameters.form.kontrak_sewa_gudang_details =
+        //   res.data.kontrak_sewa_gudang_details.map((item) => {
+        //     return {
+        //       ...item,
+        //       kontrak_sewa_gudang_detail_id: item,
+        //       divisi_id: item.divisi,
+        //       gudang_id: item.gudang,
+        //       jenis_biaya_id: item.jenis_biaya,
+        //       jenis_kontrak_id: item.jenis_kontrak,
+        //       // satuan_id_luas: item.satuan_luas,
+        //       term_pembayaran_id: item.term_pembayaran,
+        //     };
+        //   });
+
+        this.parameters.form.kontrak_sewa_peralatan_details =
+          res.data.kontrak_sewa_peralatan_details.map((item) => {
+            return {
+              ...item,
+              divisi_id: item.divisi,
+              gudang_id: item.gudang,
+              jenis_biaya_id: item.jenis_biaya,
+              jenis_kontrak_id: item.jenis_kontrak,
+              jenis_peralatan_id: item.jenis_peralatan,
+              satuan_id_luas: item.satuan_luas,
+              term_pembayaran_id: item.term_pembayaran,
+              kontrak_sewa_peralatan_detail_id: item,
+            };
+          });
       }
     } catch (error) {
       this.$router.back();
@@ -1407,9 +1439,9 @@ export default {
                 ? item.term_pembayaran_id.term_pembayaran_id
                 : item.term_pembayaran_id,
             satuan_id_luas:
-              typeof item.satuan_id === "object"
-                ? item.satuan_id.satuan_id
-                : item.satuan_id,
+              typeof item.satuan_id_luas === "object"
+                ? item.satuan_id_luas.satuan_id_luas
+                : item.satuan_id_luas,
           };
         });
 
@@ -1451,9 +1483,9 @@ export default {
                 ? item.term_pembayaran_id.term_pembayaran_id
                 : item.term_pembayaran_id,
             satuan_id_luas:
-              typeof item.satuan_id === "object"
-                ? item.satuan_id.satuan_id
-                : item.satuan_id,
+              typeof item.satuan_id_luas === "object"
+                ? item.satuan_id_luas.satuan_id_luas
+                : item.satuan_id_luas,
           };
         });
 
@@ -1474,6 +1506,7 @@ export default {
           if (!this.isEditable) {
             this.parameters.form = this.default_form;
           }
+          this.$router.push("/finance/kontrak-vendor/kontrak-sewa");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
