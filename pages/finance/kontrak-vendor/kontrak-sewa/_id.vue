@@ -1451,9 +1451,9 @@ export default {
                 ? item.term_pembayaran_id.term_pembayaran_id
                 : item.term_pembayaran_id,
             satuan_id_luas:
-              typeof item.satuan_id_luas === "object"
-                ? item.satuan_id_luas.satuan_id
-                : item.satuan_id_luas,
+              typeof item.satuan_id === "object"
+                ? item.satuan_id.satuan_id
+                : item.satuan_id,
           };
         });
 

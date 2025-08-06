@@ -347,6 +347,7 @@ export default {
                 rute_shipment_id: item,
                 lokasi_id_asal: item.lokasi_asal,
                 lokasi_id_tujuan: item.lokasi_tujuan,
+                jenis_routing: item.jenis_routing.trim(),
               };
             }
           );
