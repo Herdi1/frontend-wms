@@ -52,7 +52,7 @@
         <draggable
           v-model="self.parameters.form.shipment_details"
           @start="drag = true"
-          @end="drag = false"
+          @end="self.updateUrutan"
           class="w-full"
           tag="tbody"
         >
@@ -99,12 +99,23 @@
                 {{ item.item_gudang_id.kode_item }}
               </p>
             </td>
-            <td class="w-[200px] border border-gray-300"></td>
-            <td class="w-[200px] border border-gray-300"></td>
+            <td class="w-[200px] border border-gray-300">
+              <p>
+                {{
+                  item.lokasi_id.alamat_lokasi
+                    ? item.lokasi_id.alamat_lokasi
+                    : "-"
+                }}
+              </p>
+            </td>
+            <td class="w-[200px] border border-gray-300">
+              <p>{{ item.lokasi_id ? item.lokasi_id.nama_lokasi : "" }}</p>
+              <p>{{ item.lokasi_id ? item.lokasi_id.kode_lokasi : "" }}</p>
+            </td>
             <td class="w-[200px] border border-gray-300">
               {{ item.kode_delivery_order }}
             </td>
-            <td class="w-[200px] border border-gray-300">{{ i + 1 }}</td>
+            <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
             <td class="w-[200px] border border-gray-300">
               <input
                 type="text"
@@ -113,6 +124,11 @@
               />
             </td>
             <td class="w-[200px] border border-gray-300">
+              <!-- {{
+                item.zona_gudang_tujuan
+                  ? item.zona_gudang_tujuan.nama_zona_gudang
+                  : ""
+              }} -->
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
@@ -120,8 +136,7 @@
                 :options="lookup_custom4.data"
                 :filterable="false"
                 @search="onGetZonaGudang"
-                :reduce="(item) => item.zona_gudang_id"
-                v-model="item.zona_gudang_id_plan"
+                v-model="item.zona_gudang_id"
               >
                 <li
                   slot-scope="{ search }"
@@ -230,13 +245,6 @@ export default {
       "lookup_custom3", //item_gudang
       "lookup_custom4", //zona_gudang
     ]),
-
-    setUrutan(index) {
-      if (this.self.parameters.form.shipment_details) {
-        this.self.parameters.form.shipment_details[index].urutan = index + 1;
-        return this.self.parameters.form.shipment_details[index].urutan;
-      }
-    },
   },
 
   methods: {
@@ -271,6 +279,13 @@ export default {
         this.self.parameters.form.shipment_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
+    },
+
+    setUrutan(index) {
+      if (this.self.parameters.form.shipment_details) {
+        this.self.parameters.form.shipment_details[index].urutan = index + 1;
+        return this.self.parameters.form.shipment_details[index].urutan;
+      }
     },
 
     onGetItemGudang(search, isNext) {

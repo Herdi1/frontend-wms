@@ -3,14 +3,14 @@
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Rute Shipment</h1>
       <div class=" ">
-        <button
+        <!-- <button
           type="button"
           @click="AddDetailRute"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Rute Shipment</p>
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
@@ -27,7 +27,7 @@
             <th class="w-[200px] border border-gray-300">Jarak</th>
             <th class="w-[200px] border border-gray-300">Biaya BBM</th>
             <th class="w-[200px] border border-gray-300">
-              Waktu Sampai Tujuan
+              Waktu Sampai Tujuan (menit)
             </th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
             <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
@@ -127,7 +127,7 @@
             </td>
             <td class="border border-gray-300">
               <input
-                type="datetime-local"
+                type="number"
                 v-model="item.waktu_sampai_tujuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="

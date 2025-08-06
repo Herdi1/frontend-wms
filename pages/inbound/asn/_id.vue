@@ -654,6 +654,9 @@
                       <p v-if="item.item_gudang_id">
                         {{ item.item_gudang_id.nama_item }}
                       </p>
+                      <p v-if="item.item_gudang_id.kode_item">
+                        {{ item.item_gudang_id.kode_item }}
+                      </p>
                     </div>
                   </td>
                   <td class="border border-gray-300">

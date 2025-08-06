@@ -2,8 +2,8 @@
   <div>
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Detail Shipment</h1>
-      <div class=" ">
-        <button
+      <div class="flex gap-3">
+        <!-- <button
           type="button"
           @click="self.onOpenModal"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -11,6 +11,14 @@
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail Shipment</p>
         </button>
+        <button
+          type="button"
+          @click="self.generateRuteShipment"
+          class="bg-[#4fc47a] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+        >
+          <i class="fas fa-retweet"></i>
+          <p class="text-xs font-medium">Generate</p>
+        </button> -->
       </div>
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
@@ -23,30 +31,38 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
             <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[200px] border border-gray-300">Alamat Pengiriman</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">
               Kode Delivery Order
             </th>
+            <th class="w-[200px] border border-gray-300">Urutan</th>
             <th class="w-[200px] border border-gray-300">Nomor Referensi</th>
             <th class="w-[200px] border border-gray-300">Zona Gudang</th>
-            <th class="w-[200px] border border-gray-300">Aisle</th>
+            <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
             <th class="w-[200px] border border-gray-300">Rack</th>
             <th class="w-[200px] border border-gray-300">Level</th>
-            <th class="w-[200px] border border-gray-300">Bin</th>
+            <th class="w-[200px] border border-gray-300">Bin</th> -->
             <th class="w-[200px] border border-gray-300">Quantity</th>
-            <th class="w-[200px] border border-gray-300">Note</th>
+            <!-- <th class="w-[200px] border border-gray-300">Note</th> -->
             <th class="w-[200px] border border-gray-300">Keterangan</th>
-            <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
+            <!-- <th class="w-[100px] border border-gray-300 text-center">Hapus</th> -->
           </tr>
         </thead>
-        <tbody>
+        <draggable
+          v-model="self.parameters.form.shipment_details"
+          @start="drag = true"
+          @end="self.updateUrutan"
+          class="w-full"
+          tag="tbody"
+        >
           <tr
             v-for="(item, i) in self.parameters.form.shipment_details"
             :key="i"
             class="border-t align-top"
           >
-            <td class="border border-gray-300">
-              <v-select
+            <td class="w-[200px] border border-gray-300">
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                 label="nama_item"
                 :loading="isLoadingGetItemGudang"
@@ -55,7 +71,6 @@
                 @search="onGetItemGudang"
                 v-model="item.item_gudang_id"
               >
-                <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -77,25 +92,56 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
 
               <p v-if="item.item_gudang_id">
                 {{ item.item_gudang_id.nama_item }}
+                {{ item.item_gudang_id.kode_item }}
               </p>
             </td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300">
-              <v-select
+            <td class="w-[200px] border border-gray-300">
+              <p>
+                {{
+                  item.lokasi_id.alamat_lokasi
+                    ? item.lokasi_id.alamat_lokasi
+                    : "-"
+                }}
+              </p>
+            </td>
+            <td class="w-[200px] border border-gray-300">
+              <p>{{ item.lokasi_id ? item.lokasi_id.nama_lokasi : "" }}</p>
+              <p>{{ item.lokasi_id ? item.lokasi_id.kode_lokasi : "" }}</p>
+            </td>
+            <td class="w-[200px] border border-gray-300">
+              {{ item.kode_delivery_order }}
+            </td>
+            <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
+            <td class="w-[200px] border border-gray-300">
+              <!-- <input
+                type="text"
+                class="w-full p-1 rounded-md border border-gray-300 outline-none"
+                v-model="item.no_referensi"
+                /> -->
+              <p>{{ item.no_referensi }}</p>
+            </td>
+            <td class="w-[200px] border border-gray-300">
+              <p>
+                {{
+                  item.zona_gudang_id
+                    ? item.zona_gudang_id.nama_zona_gudang +
+                      " - " +
+                      item.zona_gudang_id.kode_zona_gudang
+                    : "-"
+                }}
+              </p>
+              <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
                 :loading="isLoadingGetZonaGudang"
                 :options="lookup_custom4.data"
                 :filterable="false"
                 @search="onGetZonaGudang"
-                :reduce="(item) => item.zona_gudang_id"
-                v-model="item.zona_gudang_id_plan"
+                v-model="item.zona_gudang_id"
               >
                 <li
                   slot-scope="{ search }"
@@ -118,34 +164,41 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
             </td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300"></td>
-            <td class="border border-gray-300">
-              <textarea
-                placeholder="Note"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                v-model="item.note"
-              ></textarea>
+            <!-- <td class="border border-gray-300"></td>
+              <td class="border border-gray-300"></td>
+              <td class="border border-gray-300"></td> -->
+            <!-- <td class="border border-gray-300"></td> -->
+            <td class="w-[200px] border border-gray-300">
+              {{ item.quantity }}
             </td>
-            <td class="border border-gray-300">
-              <textarea
+            <!-- <td class="border border-gray-300">
+                <textarea
+                  placeholder="Note"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="item.note"
+                ></textarea>
+              </td> -->
+            <td class="w-[200px] border border-gray-300">
+              <!-- <textarea
                 placeholder="Keterangan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="item.keterangan"
-              ></textarea>
+              ></textarea> -->
+              <p>
+                {{ item.keterangan }}
+              </p>
             </td>
-            <td class="text-center text-gray-600 border border-gray-300">
+            <!-- <td
+              class="w-[100px] text-center text-gray-600 border border-gray-300"
+            >
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
                 @click="onDeleteDetailShipment(i)"
               ></i>
-            </td>
+            </td> -->
           </tr>
           <tr v-if="!self.parameters.form.shipment_details.length > 0">
             <td colspan="100" class="text-center">
@@ -158,7 +211,7 @@
               <div class="mt-3">Data Tidak Ditemukan</div>
             </td>
           </tr>
-        </tbody>
+        </draggable>
       </table>
     </div>
   </div>
@@ -166,9 +219,14 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import draggable from "vuedraggable";
 
 export default {
   props: ["self"],
+
+  components: {
+    draggable,
+  },
 
   data() {
     return {
@@ -183,8 +241,8 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchItemGudang();
-    await this.onSearchZonaGudang();
+    // await this.onSearchItemGudang();
+    // await this.onSearchZonaGudang();
   },
 
   computed: {
@@ -229,6 +287,13 @@ export default {
         this.self.parameters.form.shipment_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
+    },
+
+    setUrutan(index) {
+      if (this.self.parameters.form.shipment_details) {
+        this.self.parameters.form.shipment_details[index].urutan = index + 1;
+        return this.self.parameters.form.shipment_details[index].urutan;
+      }
     },
 
     onGetItemGudang(search, isNext) {

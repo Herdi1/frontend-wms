@@ -287,6 +287,133 @@
                 </li>
               </v-select>
             </div>
+            <div class="form-group w-full items-center">
+              <label for="" class="w-4/12">Staff</label>
+
+              <v-select
+                label="nama_lengkap"
+                :loading="isLoadingGetStaff"
+                :options="lookup_custom5.data"
+                :filterable="false"
+                @search="onGetStaff"
+                v-model="parameters.form.staff_id"
+                :reduce="(item) => item.staff_id"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom5.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom5.current_page > 1"
+                    @click="onGetStaff(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom5.last_page > lookup_custom5.current_page
+                    "
+                    @click="onGetStaff(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+          </div>
+          <div class="w-full mt-5 flex justify-between items-center">
+            <h1 class="text-xl font-bold uppercase">Gudang</h1>
+            <div class=" ">
+              <button
+                type="button"
+                @click="addGudang"
+                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+              >
+                <i class="fas fa-plus"></i>
+                <p class="text-xs font-medium">Tambah Gudang</p>
+              </button>
+            </div>
+          </div>
+          <div
+            class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
+            <div class="table-responsive overflow-y-hidden mb-7">
+              <table
+                class="border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                :class="parameters.form.user_gudangs.length ? 'mb-[300px]' : ''"
+              >
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <th class="w-full border border-gray-300">Gudang</th>
+                    <th class="w-[10%] border border-gray-300">Hapus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, i) in parameters.form.user_gudangs"
+                    :key="i"
+                    class="border-t"
+                  >
+                    <td class="border border-gray-300">
+                      <v-select
+                        label="nama_gudang"
+                        :loading="isLoadingGetGudang"
+                        :options="lookup_custom3.data"
+                        :filterable="false"
+                        @search="onGetGudang"
+                        v-model="item.gudang_id"
+                        :reduce="(item) => item.gudang_id"
+                        class="w-full"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom3.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom3.current_page > 1"
+                            @click="onGetGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom3.last_page >
+                              lookup_custom3.current_page
+                            "
+                            @click="onGetGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300 text-center">
+                      <i
+                        class="fas fa-trash mx-auto"
+                        style="cursor: pointer"
+                        @click="onDeleteGudang(i)"
+                      ></i>
+                    </td>
+                  </tr>
+                  <tr v-if="!parameters.form.user_gudangs.length > 0">
+                    <td colspan="100" class="text-center">
+                      <span class="flex justify-center">
+                        <img
+                          src="/img/data-not-found.svg"
+                          style="height: 250px; object-fit: cover"
+                        />
+                      </span>
+                      <div class="mt-3">Data Tidak Ditemukan</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -328,6 +455,10 @@ export default {
       isLoadingGetJabatan: false,
       jabatan_search: "",
 
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -349,6 +480,8 @@ export default {
           pelanggan_id: "",
           jabatan_id: "",
           gudang_id: "",
+          staff_id: "",
+          user_gudangs: [],
         },
       },
     };
@@ -363,6 +496,8 @@ export default {
         this.parameters.form.pelanggan_id = res.data.pelanggan_id;
         this.parameters.form.jabatan_id = res.data.jabatan_id;
         this.parameters.form.gudang_id = res.data.gudang_id;
+        this.parameters.form.staff_id = res.data.staff_id;
+        this.parameters.form.user_gudangs = res.data.user_gudangs;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -375,6 +510,7 @@ export default {
     await this.onSearchPelanggan();
     await this.onSearchGudang();
     await this.onSearchJabatan();
+    await this.onSearchStaff();
   },
 
   computed: {
@@ -385,6 +521,7 @@ export default {
       "lookup_custom2",
       "lookup_custom3",
       "lookup_custom4",
+      "lookup_custom5",
     ]),
   },
 
@@ -400,6 +537,7 @@ export default {
         ...this.parameters.form,
         id: this.parameters.form.user_id ? this.parameters.form.user_id : "",
       };
+      formData.user_gudangs = this.parameters.form.user_gudangs;
 
       // let parameters = {
       //   ...this.parameters,
@@ -439,6 +577,7 @@ export default {
               pelanggan_id: "",
               jabatan_id: "",
               gudang_id: "",
+              staff_id: "",
             };
           }
           this.$router.back();
@@ -611,6 +750,45 @@ export default {
       }
     },
 
+    onGetStaff(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetStaff = false;
+      }
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
@@ -628,7 +806,21 @@ export default {
         pelanggan_id: "",
         jabatan_id: "",
         gudang_id: "",
+        staff_id: "",
       };
+    },
+
+    addGudang() {
+      this.parameters.form.user_gudangs.push({
+        gudang_id: "",
+      });
+    },
+
+    onDeleteGudang(index) {
+      this.parameters.form.user_gudangs =
+        this.parameters.form.user_gudangs.filter(
+          (_, itemIndex) => index !== itemIndex
+        );
     },
   },
 };

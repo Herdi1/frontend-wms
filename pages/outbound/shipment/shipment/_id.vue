@@ -99,7 +99,7 @@
               <div class="form-group">
                 <select-button
                   :self="{
-                    label: 'Staff',
+                    label: 'Pengemudi',
                     optionLabel: 'nama_lengkap',
                     lookup: lookup_beam,
                     value: parameters.form.staff_id,
@@ -112,7 +112,7 @@
                   :required="true"
                 />
               </div>
-              <ValidationProvider name="pengemudi_id">
+              <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
                     label: 'Pengemudi',
@@ -126,7 +126,7 @@
                   width="w-[50%]"
                   class="mb-5"
                 />
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider name="kendaraan_id">
                 <select-button
                   :self="{
@@ -172,7 +172,12 @@
           <tab-component :tabs="tabs">
             <template #DetailShipment>
               <ShipmentDetails
-                :self="{ parameters, onOpenModal, generateRuteShipment }"
+                :self="{
+                  parameters,
+                  onOpenModal,
+                  generateRuteShipment,
+                  updateUrutan,
+                }"
               />
             </template>
             <template #RuteShipment>
@@ -299,14 +304,23 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
     try {
+      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
-          this.parameters.form[item] = res.data.data[item];
+          this.parameters.form[item] = res.data[item];
         });
         this.parameters.form.pengemudi_id = res.data.pengemudi;
         this.parameters.form.kendaraan_id = res.data.kendaraan;
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.staff_id = res.data.staff;
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
@@ -333,6 +347,7 @@ export default {
                 rute_shipment_id: item,
                 lokasi_id_asal: item.lokasi_asal,
                 lokasi_id_tujuan: item.lokasi_tujuan,
+                jenis_routing: item.jenis_routing.trim(),
               };
             }
           );
@@ -443,6 +458,14 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudang_id,
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id === "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
         pengemudi_id:
           typeof this.parameters.form.pengemudi_id == "object"
             ? this.parameters.form.pengemudi_id.pengemudi_id
@@ -451,6 +474,18 @@ export default {
           typeof this.parameters.form.kendaraan_id == "object"
             ? this.parameters.form.kendaraan_id.kendaraan_id
             : this.parameters.form.kendaraan_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id == "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
+        staff_id:
+          typeof this.parameters.form.staff_id == "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        user_id_pic:
+          typeof this.parameters.form.user_id_pic == "object"
+            ? this.parameters.form.user_id_pic.user_id_pic
+            : this.parameters.form.user_id_pic,
       };
 
       formData.shipment_details = this.parameters.form.shipment_details.map(
@@ -489,10 +524,10 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
-            valuation_id:
-              typeof item.valuation_id === "object"
-                ? item.valuation_id.valuation_id
-                : "",
+            // valuation_id:
+            //   typeof item.valuation_id === "object"
+            //     ? item.valuation_id.valuation_id
+            //     : "",
           };
         }
       );
@@ -592,6 +627,7 @@ export default {
     },
 
     AddDetailProduk() {
+      // let urutans = this.parameters.form.shipment_details.length + 1;
       this.parameters.form.shipment_details.push({
         shipment_details_id: "",
         item_gudang_id: "",
@@ -601,7 +637,9 @@ export default {
         keterangan_detail: "",
         nomor_surat_perintah_jalan: "",
         tujuan_pengiriman: "",
+        urutan: urutans,
       });
+      // console.log("urutan", urutans);
     },
 
     onDeleteDetailProduk(index) {
@@ -900,6 +938,7 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&jenis_user=pengemudi" +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -910,9 +949,18 @@ export default {
 
     onSelectStaff(item) {
       if (item) {
-        this.parameters.form.staff_id_pic = item;
+        this.parameters.form.staff_id = item;
+        this.parameters.form.staff_id = item;
       } else {
-        this.parameters.form.staff_id_pic = "";
+        this.parameters.form.staff_id = "";
+      }
+    },
+
+    onSelectJenisKendaraan(item) {
+      if (item) {
+        this.parameters.form.jenis_kendaraan_id = item;
+      } else {
+        this.parameters.form.jenis_kendaraan_id = "";
       }
     },
 
@@ -950,28 +998,42 @@ export default {
         let detailShipment = {
           ...item,
           item_gudang_id: item.item_gudang,
-          zona_gudang_id: item.zona_gudang,
-          urutan: "",
+          zona_gudang_id: item.zona_gudang_tujuan,
+          lokasi_id: item.lokasi,
+          valuation_id: item.valuation_id,
+          urutan: 1,
         };
+        this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
+        // console.log(detailShipment);
+        // Update urutan untuk semua item
+        // this.updateUrutan();
+        this.generateRuteShipment();
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
+    },
+
+    updateUrutan() {
+      this.parameters.form.shipment_details.forEach((item, index) => {
+        item.urutan = index + 1;
+      });
     },
 
     async generateRuteShipment() {
       if (this.parameters.form.shipment_details.length > 0) {
         try {
           this.isLoadingForm = true;
+          this.parameters.form.rute_shipments = [];
           this.parameters.form.rute_shipments =
             this.parameters.form.shipment_details.map((item, index) => {
               return {
                 lokasi_id_asal:
                   index > 0
-                    ? this.parameters.form.shipment_details[index - 1]
-                        .pick_order_details.lokasi
-                    : this.parameters.form.gudang_id,
-                lokasi_id_tujuan: item.pick_order_details.lokasi,
+                    ? this.parameters.form.shipment_details[index - 1].lokasi_id
+                    : this.parameters.form.gudang_id.lokasi,
+                lokasi_id_tujuan: item.lokasi_id,
+                jenis_routing: "MUAT",
               };
             });
           this.parameters.form.rute_shipments.push({
@@ -979,22 +1041,23 @@ export default {
               this.parameters.form.rute_shipments[
                 this.parameters.form.rute_shipments.length - 1
               ].lokasi_id_tujuan,
-            lokasi_id_tujuan: this.parameters.form.gudang_id,
+            lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
             jenis_routing: "KOSONG",
           });
-          await Promise.all(
-            this.parameters.form.rute_shipments.forEach((item, index) => {
-              this.$axios
-                .get(
-                  `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
-                )
-                .then((res) => {
-                  this.parameters.form.rute_shipments[index].jarak = res.jarak;
-                  this.parameters.form.rute_shipments[index].biaya_bbm =
-                    res.biaya_bbm;
-                });
-            })
-          );
+          console.log(this.parameters.form.rute_shipments);
+          // await Promise.all(
+          //   this.parameters.form.rute_shipments.forEach((item, index) => {
+          //     this.$axios
+          //       .get(
+          //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+          //       )
+          //       .then((res) => {
+          //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
+          //         this.parameters.form.rute_shipments[index].biaya_bbm =
+          //           res.biaya_bbm;
+          //       });
+          //   })
+          // );
         } catch (error) {
           this.$globalErrorToaster(this.$toaster, error);
         } finally {

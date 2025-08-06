@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Detail Kontrak Lastmile Jarak</h1>
+      <h1 class="text-xl font-bold">Detail Sewa Gudang</h1>
       <div class=" ">
         <button
           type="button"
-          @click="addDetailJarak"
+          @click="addDetailGudang"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
@@ -15,46 +15,52 @@
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
-        class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+        class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
         :class="
-          this.self.parameters.form.kontrak_lastmile_jarak_details.length
+          self.parameters.form.kontrak_sewa_gudang_details.length
             ? 'mb-[300px]'
             : ''
         "
       >
         <thead>
           <tr class="uppercase">
-            <th class="w-60 border border-gray-300">Jenis Kontrak</th>
-            <th class="w-60 border border-gray-300">Divisi</th>
-            <th class="w-60 border border-gray-300">Jenis Biaya</th>
-            <th class="w-60 border border-gray-300">Gudang</th>
-            <th class="w-60 border border-gray-300">Mata Uang</th>
-            <th class="w-60 border border-gray-300">Pembayaran</th>
-            <th class="w-60 border border-gray-300">Term Pembayaran</th>
-            <th class="w-60 border border-gray-300">Payable To</th>
-            <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
-            <th class="w-60 border border-gray-300">KM Awal</th>
-            <th class="w-60 border border-gray-300">KM Akhir</th>
-            <th class="w-60 border border-gray-300">Nilai Kontrak</th>
+            <th class="w-52 border border-gray-300">Nilai Kontrak</th>
+            <th class="w-52 border border-gray-300">Jenis Kontrak</th>
+            <th class="w-52 border border-gray-300">Divisi</th>
+            <th class="w-52 border border-gray-300">Jenis Biaya</th>
+            <th class="w-52 border border-gray-300">Pembayaran</th>
+            <th class="w-52 border border-gray-300">Gudang</th>
+            <th class="w-52 border border-gray-300">Term Pembayaran</th>
+            <th class="w-52 border border-gray-300">Luas</th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(item, i) in this.self.parameters.form
-              .kontrak_lastmile_jarak_details"
+            v-for="(item, i) in self.parameters.form
+              .kontrak_sewa_gudang_details"
             :key="i"
-            class="align-top"
+            class="border-t align-top"
           >
             <td class="border border-gray-300">
+              <money
+                v-model="item.nilai_kontrak"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+            </td>
+            <td class="border border-gray-300">
               <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_jenis_kontrak"
                 :loading="isLoadingGetJenisKontrak"
                 :options="lookup_custom3.data"
                 :filterable="false"
+                @search="onGetJenisKontrak"
+                :reduce="(item) => item.jenis_kontrak_id"
                 v-model="item.jenis_kontrak_id"
-                @input="(item) => onSelectJenisKontrak(item, i)"
-                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -81,13 +87,14 @@
             </td>
             <td class="border border-gray-300">
               <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_divisi"
                 :loading="isLoadingGetDivisi"
                 :options="lookup_custom4.data"
                 :filterable="false"
+                @search="onGetDivisi"
+                :reduce="(item) => item.divisi_id"
                 v-model="item.divisi_id"
-                @input="(item) => onSelectDivisi(item, i)"
-                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -114,13 +121,14 @@
             </td>
             <td class="border border-gray-300">
               <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_jenis_biaya"
                 :loading="isLoadingGetJenisBiaya"
                 :options="lookup_custom5.data"
                 :filterable="false"
+                @search="onGetJenisBiaya"
+                :reduce="(item) => item.jenis_biaya_id"
                 v-model="item.jenis_biaya_id"
-                @input="(item) => onSelectJenisBiaya(item, i)"
-                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -146,14 +154,30 @@
               </v-select>
             </td>
             <td class="border border-gray-300">
+              <p>Dibayarkan Kepada:</p>
+              <select
+                name="payable_to"
+                id="payable_to"
+                v-model="item.payable_to"
+                class="w-full p-1 mb-2 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="DRIVER">Driver</option>
+                <option value="VENDOR">Vendor</option>
+                <option value="PIC">PIC</option>
+              </select>
+              <p>Pembayaran:</p>
+              <div class="mb-2">pembayaran_id</div>
+            </td>
+            <td class="border border-gray-300">
               <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
                 :options="lookup_custom6.data"
                 :filterable="false"
+                @search="onGetGudang"
+                :reduce="(item) => item.gudang_id"
                 v-model="item.gudang_id"
-                @input="(item) => onSelectGudang(item, i)"
-                class="w-full mb-2"
               >
                 <li
                   slot-scope="{ search }"
@@ -180,46 +204,14 @@
             </td>
             <td class="border border-gray-300">
               <v-select
-                label="nama_mata_uang"
-                :loading="isLoadingGetUang"
-                :options="lookup_custom10.data"
-                :filterable="false"
-                v-model="item.mata_uang_id"
-                @input="(item) => onSelectUang(item, i)"
-                class="w-full mb-2"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom10.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom10.current_page > 1"
-                    @click="onGetUang(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom10.last_page > lookup_custom10.current_page
-                    "
-                    @click="onGetUang(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_pembayaran"
-                :loading="isLoadingGetPembayaran"
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_term_pembayaran"
+                :loading="isLoadingGetTerm"
                 :options="lookup_custom7.data"
                 :filterable="false"
-                v-model="item.pembayaran_id"
-                @input="(item) => onSelectPembayaran(item, i)"
-                class="w-full mb-2"
+                @search="onGetTerm"
+                :reduce="(item) => item.term_pembayaran_id"
+                v-model="item.term_pembayaran_id"
               >
                 <li
                   slot-scope="{ search }"
@@ -229,46 +221,13 @@
                 >
                   <span
                     v-if="lookup_custom7.current_page > 1"
-                    @click="onGetPembayaran(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom7.last_page > lookup_custom7.current_page
-                    "
-                    @click="onGetPembayaran(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_term_pembayaran"
-                :loading="isLoadingGetTerm"
-                :options="lookup_custom8.data"
-                :filterable="false"
-                v-model="item.term_pembayaran_id"
-                @input="(item) => onSelectTerm(item, i)"
-                class="w-full mb-2"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom8.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom8.current_page > 1"
                     @click="onGetTerm(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
                   <span
                     v-if="
-                      lookup_custom8.last_page > lookup_custom8.current_page
+                      lookup_custom7.last_page > lookup_custom7.current_page
                     "
                     @click="onGetTerm(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -278,92 +237,58 @@
               </v-select>
             </td>
             <td class="border border-gray-300">
-              <select
-                v-model="item.payable_to"
-                name=""
-                id=""
-                class="pl-2 py-1 border border-gray-300 rounded focus:outline-none w-full"
-              >
-                <option value=""></option>
-                <option value="DRIVER">Driver</option>
-                <option value="VENDOR">Vendor</option>
-                <option value="PIC">PIC</option>
-              </select>
-            </td>
-            <td class="border border-gray-300">
+              <p>Luas:</p>
+              <money
+                v-model="item.luas"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+              <p>Satuan Luas:</p>
               <v-select
-                label="nama_jenis_kendaraan"
-                :loading="isLoadingGetJenisKendaraan"
-                :options="lookup_custom9.data"
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_satuan"
+                :loading="isLoadingGetSatuan"
+                :options="lookup_custom8.data"
                 :filterable="false"
-                v-model="item.jenis_kendaraan_id"
-                @input="(item) => onSelectJenisKendaraan(item, i)"
-                class="w-full mb-2"
+                @search="onGetSatuan"
+                :reduce="(item) => item.satuan_id"
+                v-model="item.satuan_id"
               >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
                   class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom9.data.length || search"
+                  v-if="lookup_custom8.data.length || search"
                 >
                   <span
-                    v-if="lookup_custom9.current_page > 1"
-                    @click="onGetJenisKendaraan(search, false)"
+                    v-if="lookup_custom8.current_page > 1"
+                    @click="onGetSatuan(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
                   <span
                     v-if="
-                      lookup_custom9.last_page > lookup_custom9.current_page
+                      lookup_custom8.last_page > lookup_custom8.current_page
                     "
-                    @click="onGetJenisKendaraan(search, true)"
+                    @click="onGetSatuan(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
                 </li>
               </v-select>
             </td>
-            <td class="border border-gray-300">
-              <money
-                v-model="item.km_awal"
-                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
-            </td>
-            <td class="border border-gray-300">
-              <money
-                v-model="item.km_akhir"
-                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                :class="item.km_awal > item.km_akhir ? 'text-red-500' : ''"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
-            </td>
-            <td class="border border-gray-300">
-              <money
-                v-model="item.nilai_kontrak"
-                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
-            </td>
             <td class="border border-gray-300 text-center">
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
-                @click="deleteJarak(i)"
+                @click="onDeleteGudang(i)"
               ></i>
             </td>
           </tr>
           <tr
-            v-if="
-              !this.self.parameters.form.kontrak_lastmile_jarak_details.length >
-              0
-            "
+            v-if="!self.parameters.form.kontrak_sewa_gudang_details.length > 0"
           >
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
@@ -382,7 +307,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: ["self"],
@@ -405,33 +330,23 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      isStopSearchPembayaran: false,
-      isLoadingGetPembayaran: false,
-      pembayaran_search: "",
-
       isStopSearchTerm: false,
       isLoadingGetTerm: false,
       term_search: "",
 
-      isStopSearchJenisKendaraan: false,
-      isLoadingGetJenisKendaraan: false,
-      jenis_kendaraan_search: "",
-
-      isStopSearchUang: false,
-      isLoadingGetUang: false,
-      uang_search: "",
+      isStopSearchSatuan: false,
+      isLoadingGetSatuan: false,
+      satuan_search: "",
     };
   },
 
   async mounted() {
-    await this.onSearchJenisKontrak();
     await this.onSearchDivisi();
-    await this.onSearchJenisBiaya();
     await this.onSearchGudang();
-    await this.onSearchPembayaran();
+    await this.onSearchJenisBiaya();
+    await this.onSearchJenisKontrak();
     await this.onSearchTerm();
-    await this.onSearchJenisKendaraan();
-    await this.onSearchUang();
+    await this.onSearchSatuan();
   },
 
   computed: {
@@ -443,36 +358,33 @@ export default {
       "lookup_custom4", //divisi
       "lookup_custom5", //jenis biaya
       "lookup_custom6", //gudang
-      "lookup_custom7", //pembayaran
-      "lookup_custom8", //term
-      "lookup_custom9", //jenis kendaraan
-      "lookup_custom10", //uang
+      "lookup_custom7", //term
+      "lookup_custom8", //satuan
     ]),
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
-    addDetailJarak() {
-      this.self.parameters.form.kontrak_lastmile_jarak_details.push({
+    addDetailGudang() {
+      this.self.parameters.form.kontrak_sewa_gudang_details.push({
+        nilai_kontrak: "",
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
         gudang_id: "",
         mata_uang_id: "",
         pembayaran_id: "",
-        term_pembayaran_id: "",
         payable_to: "",
-        jenis_kendaraan_id: "",
-        km_awal: "",
-        km_akhir: "",
-        nilai_kontrak: "",
+        term_pembayaran_id: "",
+        luas: "",
+        satuan_id: "",
       });
     },
 
-    deleteJarak(index) {
-      this.self.parameters.form.kontrak_lastmile_jarak_details =
-        this.self.parameters.form.kontrak_lastmile_jarak_details.filter(
+    onDeleteGudang(index) {
+      this.self.parameters.form.kontrak_sewa_gudang_details =
+        this.self.parameters.form.kontrak_sewa_gudang_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -633,45 +545,6 @@ export default {
       }
     },
 
-    onGetPembayaran(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchPembayaran);
-
-      this.isStopSearchPembayaran = setTimeout(() => {
-        this.pembayaran_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom7.current_page = isNext
-            ? this.lookup_custom7.current_page + 1
-            : this.lookup_custom7.current_page - 1;
-        } else {
-          this.lookup_custom7.current_page = 1;
-        }
-
-        this.onSearchPembayaran();
-      }, 600);
-    },
-
-    async onSearchPembayaran() {
-      if (!this.isLoadingGetPembayaran) {
-        this.isLoadingGetPembayaran = true;
-
-        await this.lookUp({
-          url: "master/pembayaran/get-pembayaran",
-          lookup: "custom7",
-          query:
-            "?search=" +
-            this.pembayaran_search +
-            "&page=" +
-            this.lookup_custom7.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetPembayaran = false;
-      }
-    },
-
     onGetTerm(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -681,11 +554,11 @@ export default {
         this.term_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_custom8.current_page = isNext
-            ? this.lookup_custom8.current_page + 1
-            : this.lookup_custom8.current_page - 1;
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
         } else {
-          this.lookup_custom8.current_page = 1;
+          this.lookup_custom7.current_page = 1;
         }
 
         this.onSearchTerm();
@@ -698,12 +571,12 @@ export default {
 
         await this.lookUp({
           url: "master/term-pembayaran/get-term-pembayaran",
-          lookup: "custom8",
+          lookup: "custom7",
           query:
             "?search=" +
             this.term_search +
             "&page=" +
-            this.lookup_custom8.current_page +
+            this.lookup_custom7.current_page +
             "&per_page=10",
         });
 
@@ -711,177 +584,42 @@ export default {
       }
     },
 
-    onGetJenisKendaraan(search, isNext) {
+    onGetSatuan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchJenisKendaraan);
+      clearTimeout(this.isStopSearchSatuan);
 
-      this.isStopSearchJenisKendaraan = setTimeout(() => {
-        this.jenis_kendaraan_search = search;
+      this.isStopSearchSatuan = setTimeout(() => {
+        this.satuan_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_custom9.current_page = isNext
-            ? this.lookup_custom9.current_page + 1
-            : this.lookup_custom9.current_page - 1;
+          this.lookup_custom8.current_page = isNext
+            ? this.lookup_custom8.current_page + 1
+            : this.lookup_custom8.current_page - 1;
         } else {
-          this.lookup_custom9.current_page = 1;
+          this.lookup_custom8.current_page = 1;
         }
 
-        this.onSearchJenisKendaraan();
+        this.onSearchSatuan();
       }, 600);
     },
 
-    async onSearchJenisKendaraan() {
-      if (!this.isLoadingGetJenisKendaraan) {
-        this.isLoadingGetJenisKendaraan = true;
+    async onSearchSatuan() {
+      if (!this.isLoadingGetSatuan) {
+        this.isLoadingGetSatuan = true;
 
         await this.lookUp({
-          url: "master/jenis-kendaraan/get-jenis-kendaraan",
-          lookup: "custom9",
+          url: "master/satuan/get-satuan",
+          lookup: "custom8",
           query:
             "?search=" +
-            this.jenis_kendaraan_search +
+            this.satuan_search +
             "&page=" +
-            this.lookup_custom9.current_page +
+            this.lookup_custom8.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetJenisKendaraan = false;
-      }
-    },
-
-    onGetUang(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchUang);
-
-      this.isStopSearchUang = setTimeout(() => {
-        this.uang_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom10.current_page = isNext
-            ? this.lookup_custom10.current_page + 1
-            : this.lookup_custom10.current_page - 1;
-        } else {
-          this.lookup_custom10.current_page = 1;
-        }
-
-        this.onSearchUang();
-      }, 600);
-    },
-
-    async onSearchUang() {
-      if (!this.isLoadingGetUang) {
-        this.isLoadingGetUang = true;
-
-        await this.lookUp({
-          url: "master/mata-uang/get-mata-uang",
-          lookup: "custom10",
-          query:
-            "?search=" +
-            this.uang_search +
-            "&page=" +
-            this.lookup_custom10.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetUang = false;
-      }
-    },
-
-    onSelectJenisKontrak(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_kontrak_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_kontrak_id = "";
-      }
-    },
-
-    onSelectDivisi(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].divisi_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].divisi_id = "";
-      }
-    },
-
-    onSelectJenisBiaya(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_biaya_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_biaya_id = "";
-      }
-    },
-
-    onSelectGudang(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].gudang_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].gudang_id = "";
-      }
-    },
-
-    onSelectPembayaran(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].pembayaran_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].pembayaran_id = "";
-      }
-    },
-
-    onSelectTerm(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].term_pembayaran_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].term_pembayaran_id = "";
-      }
-    },
-
-    onSelectJenisKendaraan(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_kendaraan_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].jenis_kendaraan_id = "";
-      }
-    },
-
-    onSelectUang(item, index) {
-      if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].mata_uang_id = item;
-      } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].mata_uang_id = "";
+        this.isLoadingGetSatuan = false;
       }
     },
   },

@@ -43,6 +43,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
               <div class="form-group">
@@ -52,6 +53,7 @@
                   name="no_referensi"
                   v-model="parameters.form.no_referensi"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
               <!-- <div class="form-group">
@@ -78,7 +80,7 @@
                   type="date"
                   name="tanggal"
                   v-model="parameters.form.tanggal"
-                  :required="true"
+                  :disabled="true"
                 />
               </div>
               <ValidationProvider name="user_pic">
@@ -94,6 +96,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
               <div class="form-group">
@@ -109,7 +112,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
-                  :required="true"
+                  :disabled="true"
                 />
               </div>
               <ValidationProvider name="pengemudi_id">
@@ -125,6 +128,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
               <ValidationProvider name="kendaraan_id">
@@ -140,11 +144,13 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
               <div class="col-span-2 w-full px-1">
                 <label for="keterangan">Keterangan</label>
                 <textarea
+                  disabled
                   name="keterangan"
                   id="keterangan"
                   v-model="parameters.form.keterangan"
@@ -275,7 +281,7 @@ export default {
       isLoadingForm: false,
       title: "Konfirmasi Muat",
       parameters: {
-        url: "outbound/shipment",
+        url: "outbound/konfirmasi-muat",
         form: {
           kode_shipment: "",
           staff_id: "",
@@ -285,7 +291,7 @@ export default {
           pengemudi_id: "",
           keterangan: "",
           no_referensi: "",
-          status_muat: "",
+          status_muat: "0",
           catatan_muat: "",
 
           shipment_details: [],
@@ -307,10 +313,12 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
-          this.parameters.form[item] = res.data.data[item];
+          this.parameters.form[item] = res.data[item];
         });
         this.parameters.form.pengemudi_id = res.data.pengemudi;
         this.parameters.form.kendaraan_id = res.data.kendaraan;
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.staff_id = res.data.staff;
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
@@ -362,15 +370,15 @@ export default {
       }
     } catch (error) {
       console.log("error", error);
-      this.$router.back();
+      // this.$router.back();
     }
   },
 
   async mounted() {
-    await this.onSearchPengemudi();
-    await this.onSearchKendaraan();
-    await this.onSearchUser();
-    await this.onSearchStaff();
+    // await this.onSearchPengemudi();
+    // await this.onSearchKendaraan();
+    // await this.onSearchUser();
+    // await this.onSearchStaff();
 
     // await this.onSearchPickOrder();
 
@@ -436,7 +444,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "outbound/shipment";
+      let url = "outbound/konfirmasi-muat";
 
       let formData = {
         ...this.parameters.form,
@@ -444,6 +452,14 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudang_id,
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id === "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
         pengemudi_id:
           typeof this.parameters.form.pengemudi_id == "object"
             ? this.parameters.form.pengemudi_id.pengemudi_id
@@ -452,6 +468,18 @@ export default {
           typeof this.parameters.form.kendaraan_id == "object"
             ? this.parameters.form.kendaraan_id.kendaraan_id
             : this.parameters.form.kendaraan_id,
+        jenis_kendaraan_id:
+          typeof this.parameters.form.jenis_kendaraan_id == "object"
+            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.parameters.form.jenis_kendaraan_id,
+        staff_id:
+          typeof this.parameters.form.staff_id == "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
+        user_id_pic:
+          typeof this.parameters.form.user_id_pic == "object"
+            ? this.parameters.form.user_id_pic.user_id_pic
+            : this.parameters.form.user_id_pic,
       };
 
       formData.shipment_details = this.parameters.form.shipment_details.map(
@@ -490,10 +518,10 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
-            valuation_id:
-              typeof item.valuation_id === "object"
-                ? item.valuation_id.valuation_id
-                : "",
+            // valuation_id:
+            //   typeof item.valuation_id === "object"
+            //     ? item.valuation_id.valuation_id
+            //     : "",
           };
         }
       );

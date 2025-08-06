@@ -497,32 +497,32 @@
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_zona_gudang"
-                        :loading="isLoadingGetZonaGudang"
-                        :options="lookup_custom3.data"
+                        :loading="isLoadingGetZonaGudangVirtual"
+                        :options="lookup_warehouses.data"
                         :filterable="false"
-                        @search="onGetZonaGudang"
+                        @search="onGetZonaGudangVirtual"
                         v-model="item.zona_gudang_id_tujuan"
-                        :reduce="(item) => item.zona_gudang_id"
+                        @input="(item) => onSelectZonaVirtual(item, i)"
                       >
                         <!-- @input="onSelectItem(i)" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom3.data.length || search"
+                          v-if="lookup_warehouses.data.length || search"
                         >
                           <span
-                            v-if="lookup_custom3.current_page > 1"
-                            @click="onGetZonaGudang(search, false)"
+                            v-if="lookup_warehouses.current_page > 1"
+                            @click="onGetZonaGudangVirtual(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
                           <span
                             v-if="
-                              lookup_custom3.last_page >
-                              lookup_custom3.current_page
+                              lookup_warehouses.last_page >
+                              lookup_warehouses.current_page
                             "
-                            @click="onGetZonaGudang(search, true)"
+                            @click="onGetZonaGudangVirtual(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -743,6 +743,10 @@ export default {
       isLoadingGetZonaGudang: false,
       zona_gudang_search: "",
 
+      isStopSearchZonaGudangVirtual: false,
+      isLoadingGetZonaGudangVirtual: false,
+      zona_gudang_virtual_search: "",
+
       isStopSearchPickRequest: false,
       isLoadingGetPickRequest: false,
       pick_request_search: "",
@@ -909,6 +913,7 @@ export default {
       "lookup_custom10", //level
       "lookup_roles", //bin
       "lookup_custom2", //valuation
+      "lookup_warehouses", //zona virtual
     ]),
   },
 
@@ -1238,7 +1243,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
-        this.onSearchZonaudang();
+        this.onSearchZonaGudang();
       }, 600);
     },
 
@@ -1673,8 +1678,60 @@ export default {
       if (item) {
         this.parameters.form.gudang_id = item;
         await this.onSearchZonaGudang();
+        await this.onSearchZonaGudangVirtual();
       } else {
         this.parameters.form.gudang_id = "";
+      }
+    },
+
+    //get zona virtual
+    onGetZonaGudangVirtual(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchZonaGudangVirtual);
+
+      this.isStopSearchZonaGudangVirtual = setTimeout(() => {
+        this.zona_gudang_virtual_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_warehouses.current_page = isNext
+            ? this.lookup_warehouses.current_page + 1
+            : this.lookup_warehouses.current_page - 1;
+        } else {
+          this.lookup_warehouses.current_page = 1;
+        }
+        this.onSearchZonaGudangVirtual();
+      }, 600);
+    },
+
+    async onSearchZonaGudangVirtual() {
+      if (!this.isLoadingGetZonaGudangVirtual) {
+        this.isLoadingGetZonaGudangVirtual = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "warehouses",
+          query:
+            "?search=" +
+            this.zona_gudang_virtual_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&status_zona=v" +
+            "&page=" +
+            this.lookup_warehouses.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetZonaGudangVirtual = false;
+      }
+    },
+
+    onSelectZonaVirtual(item, index) {
+      if (item) {
+        this.parameters.form.pick_order_details[index].zona_gudang_id_tujuan =
+          item;
+      } else {
+        this.parameters.form.pick_order_details[index].zona_gudang_id_tujuan =
+          "";
       }
     },
 

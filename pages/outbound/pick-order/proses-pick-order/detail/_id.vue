@@ -115,55 +115,55 @@
                   }}
                 </div>
               </div>
-              <div class="mt-7">
-                <div class="flex w-full items-center">
-                  <label class="w-[40%]">Status Pick Order</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.status_pick_order
-                        ? this.detail_pick_order.status_pick_order
-                        : "-"
-                    }}
-                  </div>
+            </div>
+            <div class="mt-7 flex justify-between gap-x-4">
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Status Pick Order</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.status_pick_order
+                      ? this.detail_pick_order.status_pick_order
+                      : "-"
+                  }}
                 </div>
-                <div
-                  class="flex w-full items-center"
-                  v-if="this.detail_pick_order.status_pick_order === 'PROSES'"
-                >
-                  <label class="w-[40%]">Catatan Proses</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.catatan_proses
-                        ? this.detail_pick_order.catatan_proses
-                        : "-"
-                    }}
-                  </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="this.detail_pick_order.status_pick_order === 'PROSES'"
+              >
+                <label class="w-[40%]">Catatan Proses</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.catatan_proses
+                      ? this.detail_pick_order.catatan_proses
+                      : "-"
+                  }}
                 </div>
-                <div
-                  class="flex w-full items-center"
-                  v-if="this.detail_pick_order.status_pick_order === 'SELESAI'"
-                >
-                  <label class="w-[40%]">Catatan Selesai</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.catatan_selesai
-                        ? this.detail_pick_order.catatan_selesai
-                        : "-"
-                    }}
-                  </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="this.detail_pick_order.status_pick_order === 'SELESAI'"
+              >
+                <label class="w-[40%]">Catatan Selesai</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.catatan_selesai
+                      ? this.detail_pick_order.catatan_selesai
+                      : "-"
+                  }}
                 </div>
-                <div
-                  class="flex w-full items-center"
-                  v-if="this.detail_pick_order.status_pick_order === 'BATAL'"
-                >
-                  <label class="w-[40%]">Catatan Batal</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.catatan_batal
-                        ? this.detail_pick_order.catatan_batal
-                        : "-"
-                    }}
-                  </div>
+              </div>
+              <div
+                class="flex w-full items-center"
+                v-if="this.detail_pick_order.status_pick_order === 'BATAL'"
+              >
+                <label class="w-[40%]">Catatan Batal</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.catatan_batal
+                      ? this.detail_pick_order.catatan_batal
+                      : "-"
+                  }}
                 </div>
               </div>
             </div>

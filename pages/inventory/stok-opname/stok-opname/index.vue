@@ -298,7 +298,7 @@
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td
-                    class="text-center place-content-center border border-gray-300"
+                    class="text-center place-items-center border border-gray-300"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
