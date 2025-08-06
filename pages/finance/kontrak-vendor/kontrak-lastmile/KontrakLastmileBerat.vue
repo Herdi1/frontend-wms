@@ -34,7 +34,7 @@
                 <th class="w-60 border border-gray-300">Pembayaran</th>
                 <th class="w-60 border border-gray-300">Term Pembayaran</th>
                 <th class="w-60 border border-gray-300">Payable To</th>
-                <th class="w-60 border border-gray-300">Jenis Peralatan</th>
+                <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
                 <th class="w-60 border border-gray-300">Biaya Muat /km</th>
                 <th class="w-60 border border-gray-300">Biaya Kosong /km</th>
                 <th class="w-60 border border-gray-300">Standar Muat</th>

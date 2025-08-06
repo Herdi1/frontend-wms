@@ -347,11 +347,12 @@ export default {
               term_pembayaran_id: item.term_pembayaran
                 ? item.term_pembayaran
                 : "",
-              jenis_peralatan_id: item.jenis_peralatan
-                ? item.jenis_peralatan
+              jenis_kendaraan_id: item.jenis_kendaraan
+                ? item.jenis_kendaraan
                 : "",
-              satuan_id_luas: item.satuan_luas ? item.satuan_luas : "",
-              satuan_id_waktu: item.satuan_waktu ? item.satuan_waktu : "",
+              lokasi_id: item.lokasi ? item.lokasi : "",
+              // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
+              // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
             };
           });
         // console.log("res", res.data);
@@ -766,18 +767,22 @@ export default {
               typeof item.term_pembayaran_id === "object"
                 ? item.term_pembayaran_id.term_pembayaran_id
                 : item.term_pembayaran_id,
-            jenis_peralatan_id:
-              typeof item.jenis_peralatan_id === "object"
-                ? item.jenis_peralatan_id.jenis_peralatan_id
-                : item.jenis_peralatan_id,
-            satuan_id_luas:
-              typeof item.satuan_id_luas === "object"
-                ? item.satuan_id_luas.satuan_id
-                : item.satuan_id_luas,
-            satuan_id_waktu:
-              typeof item.satuan_id_waktu === "object"
-                ? item.satuan_id_waktu.satuan_id
-                : item.satuan_id_waktu,
+            jenis_kendaraan_id:
+              typeof item.jenis_kendaraan_id === "object"
+                ? item.jenis_kendaraan_id.jenis_kendaraan_id
+                : item.jenis_kendaraan_id,
+            lokasi_id:
+              typeof item.lokasi_id === "object"
+                ? item.lokasi_id.lokasi_id
+                : item.lokasi_id,
+            // satuan_id_luas:
+            //   typeof item.satuan_id_luas === "object"
+            //     ? item.satuan_id_luas.satuan_id
+            //     : item.satuan_id_luas,
+            // satuan_id_waktu:
+            //   typeof item.satuan_id_waktu === "object"
+            //     ? item.satuan_id_waktu.satuan_id
+            //     : item.satuan_id_waktu,
           };
         });
 
