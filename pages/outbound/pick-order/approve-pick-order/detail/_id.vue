@@ -115,26 +115,28 @@
                   }}
                 </div>
               </div>
-              <div class="mt-7">
-                <div class="flex w-full items-center">
-                  <label class="w-[40%]">Status</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.status_approve
-                        ? this.detail_pick_order.status_approve
-                        : "-"
-                    }}
-                  </div>
+            </div>
+            <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4">
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Status</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.status_approve === "0"
+                      ? "Menunggu"
+                      : this.detail_pick_order.status_approve === "1"
+                      ? "Approve"
+                      : "-"
+                  }}
                 </div>
-                <div class="flex w-full items-center">
-                  <label class="w-[40%]">Catatan Approve</label>
-                  <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                    {{
-                      this.detail_pick_order.catatan_approve
-                        ? this.detail_pick_order.catatan_approve
-                        : "-"
-                    }}
-                  </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%]">Catatan Approve</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.catatan_approve
+                      ? this.detail_pick_order.catatan_approve
+                      : "-"
+                  }}
                 </div>
               </div>
             </div>
@@ -146,10 +148,198 @@
       >
         <tab-component :tabs="tabs">
           <template #DetailPickOrder>
-            <p>detail</p>
+            <div
+              class="mb-3 text-xl font-bold uppercase flex justify-between items-start w-full"
+            >
+              <span class="w-1/2"><h1>Pick Order Detail</h1></span>
+            </div>
+            <div class="table-responsive overflow-y-hidden mb-7">
+              <table
+                class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                :class="
+                  detail_pick_order.pick_order_details.length ? 'mb-48' : ''
+                "
+              >
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <!-- <th class="w-60 border border-gray-300">
+                          Kode Pick Request
+                        </th>
+                        <th class="w-60 border border-gray-300">Tanggal</th> -->
+                    <th class="w-60 border border-gray-300">
+                      Kode Delivery Order
+                    </th>
+                    <th class="w-60 border border-gray-300">Kode Item</th>
+                    <th class="w-60 border border-gray-300">Nama Item</th>
+                    <th class="w-60 border border-gray-300">Valuation</th>
+                    <th class="w-60 border border-gray-300">Zona Asal</th>
+                    <th class="w-60 border border-gray-300">
+                      Lokasi Penyimpanan Asal
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Quantity Request
+                    </th>
+                    <th class="w-60 border border-gray-300">Quantity</th>
+                    <th class="w-60 border border-gray-300">Zona Tujuan</th>
+                    <!-- <th class="w-60 border border-gray-300">
+                          Lokasi Penyimpanan Tujuan
+                        </th> -->
+                    <th class="w-60 border border-gray-300">Keterangan</th>
+                    <!-- <th class="w-20 border border-gray-300 text-center">
+                          Delete
+                        </th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, i) in detail_pick_order.pick_order_details"
+                    :key="i"
+                    class="border-t border-gray-400 align-top"
+                  >
+                    <td class="border border-gray-300">
+                      {{ item.kode_delivery_order }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.item_gudang ? item.item_gudang.kode_item : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.valuation ? item.valuation.nama_valuation : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{
+                        item.zona_gudang
+                          ? item.zona_gudang.nama_zona_gudang
+                          : "-"
+                      }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <div class="w-full flex justify-between">
+                        <p>Lokasi Aisle:</p>
+                        <div class="text-right font-medium">
+                          {{
+                            item.slot_penyimpanan_aisle
+                              ? item.slot_penyimpanan_aisle
+                                  .nama_slot_penyimpanan
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                      <div class="w-full flex justify-between">
+                        <p>Lokasi Rack:</p>
+                        <div class="font-medium">
+                          {{
+                            item.slot_penyimpanan_rack
+                              ? item.slot_penyimpanan_rack.nama_slot_penyimpanan
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                      <div class="w-full flex justify-between">
+                        <p>Lokasi Level:</p>
+                        <div class="font-medium">
+                          {{
+                            item.slot_penyimpanan_level
+                              ? item.slot_penyimpanan_level
+                                  .nama_slot_penyimpanan
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                      <div class="w-full flex justify-between">
+                        <p>Lokasi Bin:</p>
+                        <div class="font-medium">
+                          {{
+                            item.slot_penyimpanan_bin
+                              ? item.slot_penyimpanan_bin.nama_slot_penyimpanan
+                              : "-"
+                          }}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity_request ? item.quantity_request : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity ? item.quantity : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{
+                        item.zona_gudang_tujuan
+                          ? item.zona_gudang_tujuan.nama_zona_gudang
+                          : "-"
+                      }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.keterangan ? item.keterangan : "-" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </template>
           <template #BiayaPickOrder>
-            <p>biaya</p>
+            <div
+              class="mb-3 text-xl font-bold uppercase flex justify-between items-start w-full"
+            >
+              <span class="w-1/2"><h1>Biaya Order Detail</h1></span>
+            </div>
+            <div class="table-responsive overflow-y-hidden mb-7">
+              <table
+                class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                :class="
+                  detail_pick_order.biaya_pick_orders.length ? 'mb-48' : ''
+                "
+              >
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
+                    <th class="w-60 border border-gray-300">COA</th>
+                    <th class="w-60 border border-gray-300">Divisi</th>
+                    <th class="w-60 border border-gray-300">Vendor</th>
+                    <th class="w-60 border border-gray-300">Nominal Satuan</th>
+                    <th class="w-60 border border-gray-300">Jumlah</th>
+                    <th class="w-60 border border-gray-300">Keterangan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(item, i) in detail_pick_order.biaya_pick_orders"
+                    :key="i"
+                    class="border-t border-gray-400 align-top"
+                  >
+                    <td class="border border-gray-300">
+                      {{
+                        item.jenis_biaya
+                          ? item.jenis_biaya.nama_jenis_biaya
+                          : "-"
+                      }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.coa.kode_coa }} -
+                      {{ item.coa ? item.coa.nama_coa : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.divisi ? item.divisi.nama_divisi : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.vendor ? item.vendor.nama_vendor : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.nominal_satuan ? item.nominal_satuan : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.jumlah ? item.jumlah : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.keterangan ? item.keterangan : "-" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </template>
         </tab-component>
       </div>
@@ -159,7 +349,6 @@
 
 <script>
 export default {
-  components: { tabComponent },
   props: ["self"],
 
   data() {
@@ -195,7 +384,7 @@ export default {
 
   async created() {
     try {
-      let res = await this.$axios.get(`outbound/pick-order/${this.id}`);
+      let res = await this.$axios.get(`outbound/approve-pick-order/${this.id}`);
       Object.keys(this.detail_pick_order).forEach((item) => {
         if (item != "pick_order_details" && item != "biaya_pick_orders") {
           this.detail_pick_order[item] = res.data[item];
@@ -211,16 +400,21 @@ export default {
             ...item,
           };
         });
-      this.detail_pick_order.biaya_pick_orders = res.data.biaya_pick_orders.map(
-        (item) => {
-          return {
-            ...item,
-          };
-        }
-      );
+      this.detail_pick_order.biaya_pick_orders = res.data.biaya_pick_orders
+        ? res.data.biaya_pick_orders
+        : [];
+      // this.detail_pick_order.biaya_pick_orders = res.data.biaya_pick_orders.map(
+      //   (item) => {
+      //     return {
+      //       ...item,
+      //     };
+      //   }
+      // );
       this.isLoadingPage = false;
+      // console.log("biaya", this.detail_pick_order.biaya_pick_orders);
     } catch (error) {
       this.$router.back();
+      // console.log("error", error);
     }
   },
 };

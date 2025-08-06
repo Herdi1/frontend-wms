@@ -73,11 +73,43 @@
                   </div>
                 </th>
                 <th class="w-48 border border-gray-300">Vendor</th>
+                <th
+                  @click="
+                    onSort(
+                      'status_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer w-48 border border-gray-300"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Status Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th class="w-48 border border-gray-300">Tanggal Kontrak</th>
                 <th class="w-48 border border-gray-300">Tanggal Berlaku</th>
                 <th class="w-48 border border-gray-300">Tanggal Berhenti</th>
-                <th class="w-48 border border-gray-300">Status Kontrak</th>
-                <th class="w-48 border border-gray-300">Jenis Kontrak</th>
+                <!-- <th class="w-48 border border-gray-300">Jenis Kontrak</th> -->
                 <th class="w-48 border border-gray-300">No Referensi</th>
                 <th class="w-48 border border-gray-300">Keterangan</th>
                 <th class="w-20 text-center border border-gray-300">Edit</th>
@@ -103,6 +135,24 @@
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
                 </td>
                 <td class="border border-gray-300">
+                  <div>
+                    <span v-if="item.status_kontrak === 'FISIK'">
+                      <p
+                        class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                      >
+                        {{ item.status_kontrak }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_kontrak === 'VIRTUAL'">
+                      <p
+                        class="bg-blue-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                      >
+                        {{ item.status_kontrak }}
+                      </p>
+                    </span>
+                  </div>
+                </td>
+                <td class="border border-gray-300">
                   {{ item.tanggal_kontrak }}
                 </td>
                 <td class="border border-gray-300">
@@ -111,10 +161,7 @@
                 <td class="border border-gray-300">
                   {{ item.tanggal_berhenti }}
                 </td>
-                <td class="border border-gray-300">
-                  {{ item.status_kontrak }}
-                </td>
-                <td class="border border-gray-300">{{ item.jenis_kontrak }}</td>
+                <!-- <td class="border border-gray-300">{{ item.jenis_kontrak }}</td> -->
                 <td class="border border-gray-300">{{ item.no_referensi }}</td>
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
                 <td class="place-items-center border border-gray-300">
