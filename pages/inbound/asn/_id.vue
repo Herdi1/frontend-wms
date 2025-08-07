@@ -1672,6 +1672,7 @@ export default {
     onSelectGudang(item, index) {
       if (item) {
         this.parameters.form.gudang_id = item;
+        this.parameters.form.asn_details = [];
       } else {
         this.parameters.form.gudang_id = "";
       }

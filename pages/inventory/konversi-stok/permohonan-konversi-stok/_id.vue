@@ -893,6 +893,9 @@ export default {
     async onSelectGudang(item) {
       this.parameters.form.gudang_id = item;
       await this.onSearchZonaPlan();
+      this.parameters.form.konversi_stok_detail_bahan = [];
+      this.parameters.form.konversi_stok_detail_jadi = [];
+      this.parameters.form.biaya_konversi = [];
       // await this.onSearchSlotAisle();
       // await this.onSearchSlotRack();
       // await this.onSearchSlotLevel();

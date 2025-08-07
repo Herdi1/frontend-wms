@@ -868,6 +868,7 @@ export default {
         this.parameters.form.stok_opname_details.forEach((_, index) => {
           this.onGetSystemStok(index);
         });
+        this.parameters.form.stok_opname_details = [];
         // await this.onSearchSlotAisle();
         // await this.onSearchSlotRack();
         // await this.onSearchSlotLevel();

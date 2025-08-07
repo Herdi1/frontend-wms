@@ -28,9 +28,9 @@
                 :options="lookup_warehouses.data"
                 :filterable="false"
                 v-model="parameters.form.gudang_id"
+                @input="onSelectGudang"
               >
                 <!-- v-model="item.item_gudang_id" -->
-                <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -1173,6 +1173,11 @@ export default {
         });
         this.isLoadingGetItemGudang = false;
       }
+    },
+
+    onSelectGudang() {
+      this.parameters.form.mutasi_stok_details = [];
+      this.parameters.form.biaya = [];
     },
 
     onGetValuation(search, isNext) {

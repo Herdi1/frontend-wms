@@ -772,6 +772,7 @@ export default {
     onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
+        this.parameters.form.pick_request_details = [];
       } else {
         this.parameters.form.gudang_id = "";
       }

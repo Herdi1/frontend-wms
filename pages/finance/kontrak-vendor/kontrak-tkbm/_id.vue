@@ -145,17 +145,17 @@
                     <th class="w-60 border border-gray-300">Jenis Kontrak</th>
                     <th class="w-60 border border-gray-300">Divisi</th>
                     <th class="w-60 border border-gray-300">Jenis Biaya</th>
-                    <th class="w-60 border border-gray-300">Gudang</th>
                     <th class="w-60 border border-gray-300">Mata Uang</th>
                     <th class="w-60 border border-gray-300">Pembayaran</th>
                     <th class="w-60 border border-gray-300">Term Pembayaran</th>
                     <th class="w-60 border border-gray-300">Payable To</th>
+                    <th class="w-60 border border-gray-300">Gudang</th>
                     <th class="w-60 border border-gray-300">Group Item</th>
                     <th class="w-60 border border-gray-300">Nama Item</th>
                     <th class="w-60 border border-gray-300">
                       Dasar Perhitungan
                     </th>
-                    <th class="w-60 border border-gray-300">Satuan</th>
+                    <!-- <th class="w-60 border border-gray-300">Satuan</th> -->
                     <th class="w-60 border border-gray-300">Nilai Kontrak</th>
                     <th class="w-20 border border-gray-300">Hapus</th>
                   </tr>
@@ -271,41 +271,7 @@
                         </li>
                       </v-select>
                     </td>
-                    <td class="border border-gray-300">
-                      <v-select
-                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                        label="nama_gudang"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_custom6.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        :reduce="(item) => item.gudang_id"
-                        v-model="item.gudang_id"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom6.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom6.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom6.last_page >
-                              lookup_custom6.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </td>
+
                     <td class="border border-gray-300">
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
@@ -423,6 +389,42 @@
                     <td class="border border-gray-300">
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_gudang"
+                        :loading="isLoadingGetGudang"
+                        :options="lookup_custom6.data"
+                        :filterable="false"
+                        @search="onGetGudang"
+                        v-model="item.gudang_id"
+                        @input="(item) => onSelectGudang(item, i)"
+                      >
+                        <!-- :reduce="(item) => item.gudang_id" -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom6.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom6.current_page > 1"
+                            @click="onGetGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom6.last_page >
+                              lookup_custom6.current_page
+                            "
+                            @click="onGetGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_group_item"
                         :loading="isLoadingGetGroup"
                         :options="lookup_custom8.data"
@@ -500,7 +502,7 @@
                         <option value="VOLUME">Volume</option>
                       </select>
                     </td>
-                    <td class="border border-gray-300">
+                    <!-- <td class="border border-gray-300">
                       <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_satuan"
@@ -534,7 +536,7 @@
                           >
                         </li>
                       </v-select>
-                    </td>
+                    </td> -->
                     <td class="border border-gray-300">
                       <money
                         v-model="item.nilai_kontrak"
@@ -704,6 +706,8 @@ export default {
               jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
               item_id: item.item ? item.item : "",
               item_gudang_id: item.item_gudang ? item.item_gudang : "",
+              satuan_id: item.satuan ? item.satuan : "",
+              gudang_id: item.gudang ? item.gudang : "",
             };
           });
         this.isLoadingPage = false;
@@ -727,8 +731,8 @@ export default {
     await this.onSearchGudang();
     await this.onSearchTerm();
     await this.onSearchGroup();
-    await this.onSearchSatuan();
-    await this.onSearchItem();
+    // await this.onSearchSatuan();
+    // await this.onSearchItem();
     await this.onSearchPembayaran();
     await this.onSearchUang();
   },
@@ -1095,6 +1099,18 @@ export default {
       }
     },
 
+    onSelectGudang(item, index) {
+      if (item) {
+        this.parameters.form.kontrak_tkbm_details[index].gudang_id = item;
+        this.onSearchItem(index);
+      } else {
+        this.parameters.form.kontrak_tkbm_details[index].gudang_id = "";
+        // this.parameters.form.kontrak_tkbm_details[index].item_gudang_id = "";
+        // this.parameters.form.kontrak_tkbm_details[index].item_id = "";
+        // this.parameters.form.kontrak_tkbm_details[index].satuan_id = "";
+      }
+    },
+
     onGetTerm(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -1212,7 +1228,7 @@ export default {
       }
     },
 
-    onGetItem(search, isNext) {
+    onGetItem(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchItem);
@@ -1228,11 +1244,11 @@ export default {
           this.lookup_custom10.current_page = 1;
         }
 
-        this.onSearchItem();
+        this.onSearchItem(index);
       }, 600);
     },
 
-    async onSearchItem() {
+    async onSearchItem(index) {
       if (!this.isLoadingGetItem) {
         this.isLoadingGetItem = true;
 
@@ -1242,6 +1258,9 @@ export default {
           query:
             "?search=" +
             this.item_search +
+            "&gudang_id=" +
+            this.parameters.form.kontrak_tkbm_details[index].gudang_id
+              .gudang_id +
             "&page=" +
             this.lookup_custom10.current_page +
             "&per_page=10",
@@ -1255,10 +1274,15 @@ export default {
       if (item) {
         this.parameters.form.kontrak_tkbm_details[index].item_gudang_id = item;
         this.parameters.form.kontrak_tkbm_details[index].item_id = item;
-        // console.log("Item gudang", item);
+        this.parameters.form.kontrak_tkbm_details[index].satuan_id = item;
+        console.log(
+          "satuan",
+          this.parameters.form.kontrak_tkbm_details[index].satuan_id
+        );
       } else {
         this.parameters.form.kontrak_tkbm_details[index].item_gudang_id = "";
         this.parameters.form.kontrak_tkbm_details[index].item_id = "";
+        this.parameters.form.kontrak_tkbm_details[index].satuan_id = "";
       }
     },
 
@@ -1374,6 +1398,14 @@ export default {
               typeof item.item_id == "object"
                 ? item.item_id.item_id
                 : item.item_id,
+            satuan_id:
+              typeof item.satuan_id == "object"
+                ? item.satuan_id.satuan_id
+                : item.satuan_id,
+            gudang_id:
+              typeof item.gudang_id == "object"
+                ? item.gudang_id.gudang_id
+                : item.gudang_id,
           };
         });
       // console.log(

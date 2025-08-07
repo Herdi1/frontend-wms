@@ -690,6 +690,9 @@ export default {
 
     onSelectGudang(item) {
       this.parameters.form.gudang_id = item || "";
+      this.parameters.form.shipment_details = [];
+      this.parameters.form.rute_shipments = [];
+      this.parameters.form.biaya_lastmiles = [];
     },
 
     onGetPengemudi(search, isNext) {

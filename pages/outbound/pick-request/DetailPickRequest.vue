@@ -25,10 +25,10 @@
       >
         <thead>
           <tr class="text-sm uppercase">
-            <th class="w-[25%] border border-gray-300">Item</th>
-            <th class="w-[25%] border border-gray-300">Quantity</th>
-            <th class="w-[30%] border border-gray-300">Keterangan</th>
-            <th class="w-[5%] border border-gray-300 text-center">Delete</th>
+            <th class="w-full border border-gray-300">Item</th>
+            <th class="w-full border border-gray-300">Quantity</th>
+            <th class="w-full border border-gray-300">Keterangan</th>
+            <th class="w-20 border border-gray-300 text-center">Delete</th>
           </tr>
         </thead>
         <tbody>
