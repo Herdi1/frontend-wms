@@ -26,14 +26,12 @@
       </div> -->
       <div class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4">
         <div>
-          <list-option-section :self="this" ref="form-option" />
+          <!-- <list-option-section :self="this" ref="form-option" /> -->
+          <h1 class="font-bold text-xl uppercase mb-3">Layout Gudang</h1>
         </div>
 
         <div class="flex gap-3 w-full">
-          <div
-            v-if="parameters.form.gudang_id"
-            class="w-[600px] h-[600px] relative bg-blue-200"
-          >
+          <div class="min-w-[600px] w-[600px] h-[600px] relative bg-gray-300">
             <VueDraggableResizable
               v-for="room in rooms"
               :key="index"
@@ -46,18 +44,18 @@
               :resizable="true"
               @dragging="(x, y) => onDragStop(room, x, y)"
               style="border: 1px solid black"
-              @resizeStop="
+              @resizing="
                 (x, y, width, height) => onReziseStop(room, x, y, width, height)
               "
             >
               <div
-                :class="`bg-[${room.color}] border border-gray-300 h-[100%] w-[100%] text-center`"
+                :class="`bg-[#${room.color}] border border-gray-300 h-[100%] w-[100%] text-center`"
               >
                 {{ room.nama_zona_gudang }}
               </div>
             </VueDraggableResizable>
           </div>
-          <div class="min-w-[300px]">
+          <div class="min-w-[500px]">
             <!-- <div class="flex items-center mb-3">
               <p class="w-[150px]">Skala</p>
               <div class="flex items-center gap-2">
@@ -84,7 +82,7 @@
               />
             </ValidationProvider>
 
-            <div>
+            <div class="w-full">
               <!-- <form @submit.prevent="addZona">
                 <h3 class="font-bold text-base">Tambah Zona</h3>
                 <div class="flex gap3 w-full justify-between items-center mb-2">
@@ -121,11 +119,11 @@
                 </div>
               </form> -->
             </div>
-            <div class="mb-3 max-h-[400px] overflow-auto">
+            <div class="mb-3 max-h-[400px] overflow-auto w-full">
               <h2 class="font-bold text-base">Zona</h2>
               <ul class="w-full">
-                <li v-for="(room, i) in rooms" :key="i">
-                  <div class="mb-2">
+                <li v-for="(room, i) in rooms" :key="i" class="w-full">
+                  <div class="mb-2 w-full">
                     <div class="font-bold">{{ room.nama_zona_gudang }}</div>
                     <!-- <div class="flex items-center mb-2">
                       <p class="w-[150px]">Panjang</p>
@@ -145,14 +143,16 @@
                         class="p-1 outline-none border border-gray-300 rounded-sm"
                       />
                     </div> -->
-                    <div class="flex items-center mb-2">
-                      <p class="w-[150px]">Kapasitas Zona</p>
+                    <div class="flex items-center justify-between mb-2 w-full">
+                      <p class="w-[150px]">Warna</p>
                       <!-- @change="onSizeCange(room, room.width, room.height)" -->
-                      <input
-                        type="number"
-                        v-model="room.kapasitas"
+                      <!-- <input
+
+                        type="color"
+                        v-model="room.color"
                         class="p-1 outline-none border border-gray-300 rounded-sm"
-                      />
+                      /> -->
+                      <v-color-picker v-model="room.color"></v-color-picker>
                     </div>
                   </div>
                 </li>
@@ -195,37 +195,37 @@ export default {
   async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
-    this.$refs["form-option"].isFilter = false;
+    // this.$refs["form-option"].isFilter = false;
     // this.$refs["form-option"].isAddData = true;
-    if (
-      this.getRoles.destroy ||
-      this.getRoles.destroy_all ||
-      this.getRoles.restore ||
-      this.getRoles.restore_all
-    ) {
-      this.$refs["form-option"].isMaintenancePage = false;
-    }
+    // if (
+    //   this.getRoles.destroy ||
+    //   this.getRoles.destroy_all ||
+    //   this.getRoles.restore ||
+    //   this.getRoles.restore_all
+    // ) {
+    //   this.$refs["form-option"].isMaintenancePage = false;
+    // }
 
-    if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
-    }
+    // if (this.getRoles.store) {
+    //   this.$refs["form-option"].isAddData = true;
+    // }
 
-    if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+    // if (this.getRoles.export) {
+    //   this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+    //   this.$refs["form-option"].isExportFilePdf = false;
+    //   this.$refs["form-option"].isExportFileExcel = false;
 
-      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
-        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
-        this.$refs["form-option"].isExportFileExcel =
-          this.getRoles.export_excel;
-      }
-    }
+    //   if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+    //     this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+    //     this.$refs["form-option"].isExportFileExcel =
+    //       this.getRoles.export_excel;
+    //   }
+    // }
 
-    if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
-    }
+    // if (this.getRoles.print) {
+    //   this.$refs["form-option"].isExportPrint = false;
+    // }
 
     await this.onSearchGudang();
   },
@@ -285,7 +285,7 @@ export default {
       },
 
       parameters: {
-        url: "inventory/layout_gudang",
+        url: "inventory/layout-gudang",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -353,7 +353,8 @@ export default {
       room.y = y;
       room.width = width;
       room.height = height;
-      this.onSizeCange(room, width, height);
+      console.log(room);
+      // this.onSizeCange(room, width, height);
     },
     checkCollide(zonaA, zonaB) {
       let x;
@@ -403,17 +404,12 @@ export default {
 
       formData.gudang_id = this.parameters.form.gudang_id.gudang_id;
 
-      formData.layout_gudang = this.rooms.map((item) => {
+      formData.layout_gudangs = this.rooms.map((item) => {
         return {
           ...item,
           // gudang_id: this.parameters.form.gudang_id.gudang_id,
           zona_gudang_id: item.zona_gudang_id,
-          canvas: {
-            x: item.x,
-            y: item.y,
-            width: item.width,
-            height: item.height,
-          },
+          canvas: `{"x": "${item.x}", "y": "${item.y}", "width": "${item.width}", "height": "${item.height}", "color": "${item.color}"}`,
         };
       });
 
@@ -479,22 +475,46 @@ export default {
         this.isLoadingData = true;
         this.parameters.form.gudang_id = item;
         this.rooms = [];
-        await this.$axios
-          .get(`master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`)
-          .then((res) => {
-            this.rooms = res.data.data.map((item) => {
-              return {
-                zona_gudang_id: item.zona_gudang_id,
-                nama_zona_gudang: item.nama_zona_gudang,
-                kode_zona_gudang: item.kode_zona_gudang,
-                x: 0,
-                y: 0,
-                width: 100,
-                height: 100,
-                color: "#e60000",
-              };
+        const layout = await this.$axios.get("inventory/layout-gudang", {
+          params: { gudang_id: this.parameters.form.gudang_id.gudang_id },
+        });
+        if (layout.data.length > 0) {
+          layout.data.forEach((item) => {
+            const rawCanvas = item.canvas;
+            const canvas = JSON.parse(`${rawCanvas}`);
+            this.rooms.push({
+              layout_gudang_id: item.layout_gudang_id,
+              gudang_id: item.gudang_id,
+              zona_gudang_id: item.zona_gudang_id,
+              nama_zona_gudang: item.zona_gudang.nama_zona_gudang,
+              kode_zona_gudang: item.zona_gudang.kode_zona_gudang,
+              x: canvas.x,
+              y: canvas.y,
+              width: canvas.width,
+              height: canvas.height,
+              color: canvas.color,
             });
           });
+        } else {
+          await this.$axios
+            .get(
+              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+            )
+            .then((res) => {
+              this.rooms = res.data.data.map((item) => {
+                return {
+                  zona_gudang_id: item.zona_gudang_id,
+                  nama_zona_gudang: item.nama_zona_gudang,
+                  kode_zona_gudang: item.kode_zona_gudang,
+                  x: 0,
+                  y: 0,
+                  width: 100,
+                  height: 100,
+                  color: "ff0000",
+                };
+              });
+            });
+        }
         // try {
         // } catch (error) {
         //   this.$globalErrorToaster(this.$toaster, error);

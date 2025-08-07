@@ -849,34 +849,40 @@ export default {
         this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
         this.isLoadingPage = false;
 
-        // this.parameters.form.kontrak_sewa_gudang_details =
-        //   res.data.kontrak_sewa_gudang_details.map((item) => {
-        //     return {
-        //       ...item,
-        //       kontrak_sewa_gudang_detail_id: item,
-        //       divisi_id: item.divisi,
-        //       gudang_id: item.gudang,
-        //       jenis_biaya_id: item.jenis_biaya,
-        //       jenis_kontrak_id: item.jenis_kontrak,
-        //       // satuan_id_luas: item.satuan_luas,
-        //       term_pembayaran_id: item.term_pembayaran,
-        //     };
-        //   });
+        if (res.data.kontrak_sewa_gudang_details) {
+          this.parameters.form.kontrak_sewa_gudang_details =
+            res.data.kontrak_sewa_gudang_details.map((item) => {
+              return {
+                ...item,
+                kontrak_sewa_gudang_detail_id: item,
+                divisi_id: item.divisi,
+                gudang_id: item.gudang,
+                jenis_biaya_id: item.jenis_biaya,
+                jenis_kontrak_id: item.jenis_kontrak,
+                // jenis_peralatan_id: item.jenis_peralatan,
+                // satuan_id_luas: item.satuan_luas,
+                term_pembayaran_id: item.term_pembayaran,
+                pembayaran_id: item.pembayaran,
+              };
+            });
+        }
 
-        this.parameters.form.kontrak_sewa_peralatan_details =
-          res.data.kontrak_sewa_peralatan_details.map((item) => {
-            return {
-              ...item,
-              divisi_id: item.divisi,
-              gudang_id: item.gudang,
-              jenis_biaya_id: item.jenis_biaya,
-              jenis_kontrak_id: item.jenis_kontrak,
-              jenis_peralatan_id: item.jenis_peralatan,
-              satuan_id_luas: item.satuan_luas,
-              term_pembayaran_id: item.term_pembayaran,
-              kontrak_sewa_peralatan_detail_id: item,
-            };
-          });
+        if (res.data.kontrak_sewa_peralatan_details) {
+          this.parameters.form.kontrak_sewa_peralatan_details =
+            res.data.kontrak_sewa_peralatan_details.map((item) => {
+              return {
+                ...item,
+                divisi_id: item.divisi,
+                gudang_id: item.gudang,
+                jenis_biaya_id: item.jenis_biaya,
+                jenis_kontrak_id: item.jenis_kontrak,
+                jenis_peralatan_id: item.jenis_peralatan,
+                satuan_id_luas: item.satuan_luas,
+                term_pembayaran_id: item.term_pembayaran,
+                kontrak_sewa_peralatan_detail_id: item,
+              };
+            });
+        }
       }
     } catch (error) {
       this.$router.back();
@@ -1442,6 +1448,10 @@ export default {
               typeof item.satuan_id_luas === "object"
                 ? item.satuan_id_luas.satuan_id_luas
                 : item.satuan_id_luas,
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : item.mata_uang_id,
           };
         });
 
@@ -1486,6 +1496,10 @@ export default {
               typeof item.satuan_id_luas === "object"
                 ? item.satuan_id_luas.satuan_id_luas
                 : item.satuan_id_luas,
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : item.mata_uang_id,
           };
         });
 

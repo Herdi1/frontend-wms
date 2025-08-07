@@ -568,14 +568,14 @@
                 <div class="w-full flex justify-between items-center">
                   <h1 class="text-xl font-bold">Detail Biaya Pick Order</h1>
                   <div class=" ">
-                    <button
+                    <!-- <button
                       type="button"
                       @click="addBiaya"
                       class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                     >
                       <i class="fas fa-plus"></i>
                       <p class="text-xs font-medium">Tambah Detail</p>
-                    </button>
+                    </button> -->
                   </div>
                 </div>
                 <div class="table-responsive overflow-y-hidden mb-7">
@@ -589,6 +589,7 @@
                   >
                     <thead>
                       <tr class="uppercase">
+                        <th class="w-60 border border-gray-300">Item</th>
                         <th class="w-60 border border-gray-300">Jenis Biaya</th>
                         <th class="w-60 border border-gray-300">COA</th>
                         <th class="w-60 border border-gray-300">Divisi</th>
@@ -607,6 +608,10 @@
                         :key="i"
                         class="alt"
                       >
+                        <td class="border border-gray-300">
+                          <p>{{ item.item_gudang_id.nama_item }}</p>
+                          <p>{{ item.item_gudang_id.kode_item }}</p>
+                        </td>
                         <td class="border border-gray-300">
                           <v-select
                             label="nama_jenis_biaya"
@@ -1001,9 +1006,31 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
-        this.parameters.form.biaya_pick_orders = res.data.biaya_pick_orders
-          ? res.data.biaya_pick_orders
-          : [];
+        if (!res.data.biaya_pick_orders.length) {
+          this.parameters.form.pick_order_details.forEach((item) => {
+            this.parameters.form.biaya_pick_orders.push({
+              item_id: item.item,
+              item_gudang_id: item.item_gudang,
+              jenis_biaya_id: "",
+              pick_order_detail_id: item.pick_order_detail_id,
+              coa_id: "",
+              divisi_id: "",
+              vendor_id: "",
+              nominal_satuan: "",
+              jumlah: "",
+              keterangan: "",
+              jenis: 0,
+            });
+          });
+        } else {
+          this.parameters.form.biaya_pick_orders =
+            res.data.biaya_pick_orders.map((item) => {
+              return {
+                ...item,
+              };
+            });
+        }
+        console.log(this.parameters.form.biaya_pick_orders);
         this.isLoadingPage = false;
         // console.log(this.parameters.form);
       }
@@ -1177,6 +1204,9 @@ export default {
       formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
         return {
           ...item,
+          item_id: item.item_id.item_id,
+          item_gudang_id: item.item_gudang_id.item_gudang_id,
+          pick_order_detail_id: item.pick_order_detail_id,
         };
       });
 

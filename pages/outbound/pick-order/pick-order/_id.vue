@@ -850,6 +850,8 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id_pic = res.data.staff_pic;
         this.parameters.form.peralatan_id = res.data.peralatan;
+        console.log("halo mann");
+
         this.parameters.form.pick_order_details =
           res.data.pick_order_details.map((item) => {
             return {
@@ -873,6 +875,10 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
+
+        // if (!res.data.biaya_pick_orders.length) {
+        // }
+
         this.isLoadingPage = false;
         console.log(res.data);
       }

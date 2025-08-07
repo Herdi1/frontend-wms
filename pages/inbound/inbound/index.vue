@@ -152,7 +152,6 @@
                     </div>
                   </th>
                   <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Surat Jalan</th>
                   <th class="border border-gray-300">Nomor Referensi</th>
                   <th class="border border-gray-300">Tanggal</th>
                   <th class="w-[5%] border border-gray-300">Cetak Label</th>
@@ -198,17 +197,16 @@
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
-                  <td class="border border-gray-300">{{ item.surat_jalan }}</td>
                   <td class="border border-gray-300">
                     <div>
                       <p v-if="item.no_referensi_1">
-                        {{ item.no_referensi_1 }}
+                        - {{ item.no_referensi_1 }}
                       </p>
                       <p v-if="item.no_referensi_2">
-                        {{ item.no_referensi_2 }}
+                        - {{ item.no_referensi_2 }}
                       </p>
                       <p v-if="item.no_referensi_3">
-                        {{ item.no_referensi_3 }}
+                        - {{ item.no_referensi_3 }}
                       </p>
                     </div>
                   </td>

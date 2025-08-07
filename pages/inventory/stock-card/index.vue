@@ -426,7 +426,7 @@
               <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
-                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
+                  class="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
@@ -443,11 +443,11 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="min-w-[100px] border border-gray-300">Tgl</th>
+                  <th class="min-w-[100px] border border-gray-300">Tanggal</th>
                   <th class="min-w-[150px] border border-gray-300">
                     Lokasi Penyimpanan
                   </th>
-                  <th class="min-w-[200px] border border-gray-300">Item</th>
+                  <th class="min-w-[200px] border border-gray-300">Items</th>
                   <th class="min-w-[100px] border border-gray-300">
                     Valuation
                   </th>
@@ -458,7 +458,9 @@
                     Deskripsi
                   </th>
                   <!-- <th class="text-info min-w-[100px]">Saldo Awal</th> -->
-                  <th class="text-primary min-w-[100px] border border-gray-300">
+                  <th
+                    class="text-green-500 min-w-[100px] border border-gray-300"
+                  >
                     Masuk
                   </th>
                   <th class="text-danger min-w-[100px] border border-gray-300">
@@ -467,7 +469,7 @@
                   <th class="text-primary min-w-[100px] border border-gray-300">
                     Saldo Akhir
                   </th>
-                  <th class="min-w-[100px] border border-gray-300">Options</th>
+                  <th class="min-w-[100px] border border-gray-300">Detail</th>
                 </tr>
               </thead>
               <tbody class="border border-gray-300">
@@ -493,14 +495,14 @@
                   <td class="text-success"></td>
                   <td class="text-danger"></td>
                   <td></td>
-                  <td class="text-primary">
+                  <td class="text-primary text-right">
                     {{
                       raw_data.first_balance
                         ? raw_data.first_balance.saldo
                         : "" | formatPrice
                     }}
                   </td>
-                  <td class="text-center">-</td>
+                  <td class="text-center"></td>
                 </tr>
 
                 <!-- :class="{ 'table-active': ActiveRow == i }" -->
@@ -516,7 +518,9 @@
                     {{ item.item_gudang ? item.item_gudang.kode_item : "-" }} -
                     {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                   </td>
-                  <td class="whitespace-nowrap border border-gray-300">
+                  <td
+                    class="whitespace-nowrap border border-gray-300 text-center"
+                  >
                     {{ item.kode_valuation ? item.kode_valuation : "-" }}
                   </td>
                   <td class="whitespace-nowrap border border-gray-300">
@@ -538,23 +542,25 @@
                     }}
                   </td> -->
                   <td
-                    class="text-success whitespace-nowrap border border-gray-300"
+                    class="text-success whitespace-nowrap border border-gray-300 text-right"
                   >
                     {{ item.masuk > 0 ? item.masuk : "" | formatPrice }}
                   </td>
                   <td
-                    class="text-danger whitespace-nowrap border border-gray-300"
+                    class="text-danger whitespace-nowrap border border-gray-300 text-right"
                   >
                     {{ item.keluar > 0 ? item.keluar : "" | formatPrice }}
                   </td>
                   <td
-                    class="text-primary whitespace-nowrap border border-gray-300"
+                    class="text-primary whitespace-nowrap border border-gray-300 text-right"
                   >
                     {{ item.last_balance | formatPrice }}
                   </td>
-                  <td class="whitespace-nowrap border border-gray-300">
+                  <td
+                    class="whitespace-nowrap border border-gray-300 place-items-center"
+                  >
                     <button
-                      class="btn btn-sm btn-primary"
+                      class="btn btn-sm bg-orange-500 text-white"
                       @click="onDetail(item)"
                       v-if="getRoles.show"
                     >
@@ -583,10 +589,10 @@
                   <td class="text-success border-y border-gray-300"></td>
                   <td class="text-danger border-y border-gray-300"></td>
                   <td class="border-y border-gray-300"></td>
-                  <td class="text-primary border-y border-gray-300">
+                  <td class="text-primary border-y border-gray-300 text-right">
                     {{ last_balance | formatPrice }}
                   </td>
-                  <td class="border-y border-gray-300 text-center">-</td>
+                  <td class="border-y border-gray-300 text-center"></td>
                 </tr>
               </tbody>
 

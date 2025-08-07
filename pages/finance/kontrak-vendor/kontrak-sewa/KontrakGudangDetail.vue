@@ -43,13 +43,52 @@
             class="border-t align-top"
           >
             <td class="border border-gray-300">
+              <input
+                type="number"
+                v-if="!item.nilai_kontrak"
+                v-model="item.nilai_kontrak"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+              />
               <money
+                v-if="item.nilai_kontrak"
                 v-model="item.nilai_kontrak"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
               />
+              <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="kode_mata_uang"
+                :loading="isLoadingGetMataUang"
+                :options="lookup_customers.data"
+                :filterable="false"
+                @search="onGetMataUang"
+                :reduce="(item) => item.mata_uang_id"
+                v-model="item.mata_uang_id"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_customers.data.length || search"
+                >
+                  <span
+                    v-if="lookup_customers.current_page > 1"
+                    @click="onGetMataUang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_customers.last_page > lookup_customers.current_page
+                    "
+                    @click="onGetMataUang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
             </td>
             <td class="border border-gray-300">
               <v-select
@@ -166,7 +205,38 @@
                 <option value="PIC">PIC</option>
               </select>
               <p>Pembayaran:</p>
-              <div class="mb-2">pembayaran_id</div>
+              <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_pembayaran"
+                :loading="isLoadingGetPembayaran"
+                :options="lookup_suppliers.data"
+                :filterable="false"
+                @search="onGetpembayaran"
+                :reduce="(item) => item.pembayaran_id"
+                v-model="item.pembayaran_id"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_suppliers.data.length || search"
+                >
+                  <span
+                    v-if="lookup_suppliers.current_page > 1"
+                    @click="onGetPembayaran(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_suppliers.last_page > lookup_suppliers.current_page
+                    "
+                    @click="onGetPembayaran(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
             </td>
             <td class="border border-gray-300">
               <v-select
@@ -238,7 +308,14 @@
             </td>
             <td class="border border-gray-300">
               <p>Luas:</p>
+              <input
+                type="number"
+                v-if="!item.luas"
+                v-model="item.luas"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+              />
               <money
+                v-if="item.luas"
                 v-model="item.luas"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
@@ -337,6 +414,14 @@ export default {
       isStopSearchSatuan: false,
       isLoadingGetSatuan: false,
       satuan_search: "",
+
+      isStopSearchPembayaran: false,
+      isLoadingGetPembayaran: false,
+      pembayaran_search: "",
+
+      isStopSearchMataUang: false,
+      isLoadingGetMataUang: false,
+      mata_uang_search: "",
     };
   },
 
@@ -347,6 +432,8 @@ export default {
     await this.onSearchJenisKontrak();
     await this.onSearchTerm();
     await this.onSearchSatuan();
+    await this.onSearchPembayaran();
+    await this.onSearchMataUang();
   },
 
   computed: {
@@ -360,6 +447,8 @@ export default {
       "lookup_custom6", //gudang
       "lookup_custom7", //term
       "lookup_custom8", //satuan
+      "lookup_suppliers", //pemayaran
+      "lookup_customers", //mata uang
     ]),
   },
 
@@ -368,7 +457,7 @@ export default {
 
     addDetailGudang() {
       this.self.parameters.form.kontrak_sewa_gudang_details.push({
-        nilai_kontrak: "",
+        nilai_kontrak: 0,
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -377,7 +466,7 @@ export default {
         pembayaran_id: "",
         payable_to: "",
         term_pembayaran_id: "",
-        luas: "",
+        luas: 0,
         satuan_id_luas: "",
       });
     },
@@ -620,6 +709,84 @@ export default {
         });
 
         this.isLoadingGetSatuan = false;
+      }
+    },
+
+    onGetPembayaran(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPembayaran);
+
+      this.isStopSearchPembayaran = setTimeout(() => {
+        this.pembayaran_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_suppliers.current_page = isNext
+            ? this.lookup_suppliers.current_page + 1
+            : this.lookup_suppliers.current_page - 1;
+        } else {
+          this.lookup_suppliers.current_page = 1;
+        }
+
+        this.onSearchPembayaran();
+      }, 600);
+    },
+
+    async onSearchPembayaran() {
+      if (!this.isLoadingGetPembayaran) {
+        this.isLoadingGetPembayaran = true;
+
+        await this.lookUp({
+          url: "master/pembayaran/get-pembayaran",
+          lookup: "suppliers",
+          query:
+            "?search=" +
+            this.pembayaran_search +
+            "&page=" +
+            this.lookup_suppliers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPembayaran = false;
+      }
+    },
+
+    onGetMataUang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchMataUang);
+
+      this.isStopSearchMataUang = setTimeout(() => {
+        this.mata_uang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchMataUang();
+      }, 600);
+    },
+
+    async onSearchMataUang() {
+      if (!this.isLoadingGetMataUang) {
+        this.isLoadingGetMataUang = true;
+
+        await this.lookUp({
+          url: "master/mata-uang/get-mata-uang",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.mata_uang_search +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetMataUang = false;
       }
     },
   },

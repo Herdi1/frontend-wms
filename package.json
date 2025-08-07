@@ -28,6 +28,7 @@
         "v-money": "^0.8.1",
         "v-toaster": "^1.0.3",
         "vee-validate": "^3.4.13",
+        "vue-color": "^3.3.1",
         "vue-confirm-dialog": "^1.0.2",
         "vue-cool-lightbox": "^2.7.4",
         "vue-draggable-resizable": "^2.3.0",

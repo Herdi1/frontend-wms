@@ -175,7 +175,7 @@
             v-if="isExport"
           >
             <button
-              class="btn btn-sm btn-primary btn-block"
+              class="btn btn-sm bg-green-600 btn-block text-white"
               data-toggle="tooltip"
               data-placement="top"
               data-original-title="Download Excel"
@@ -186,8 +186,8 @@
             >
               <i class="fas fa-file-excel mr-2"></i> Excel
             </button>
-            <button
-              class="btn btn-sm btn-primary btn-block"
+            <!-- <button
+              class="btn btn-sm bg-red-500 btn-block text-white"
               data-toggle="tooltip"
               data-placement="top"
               data-original-title="Download Pdf"
@@ -195,16 +195,16 @@
               v-if="isExportFile && isExportFilePdf"
             >
               <i class="fas fa-file-pdf mr-2"></i> PDF
-            </button>
+            </button> -->
             <button
-              class="btn btn-sm btn-primary btn-block"
+              class="btn btn-sm btn-primary btn-block text-white"
               data-toggle="tooltip"
               data-placement="top"
               data-original-title="Print Semua Data"
               @click="printFile({ parameters: self.parameters })"
               v-if="isExportPrint"
             >
-              <i class="fas fa-print"></i> Print
+              <i class="fas fa-print mr-2"></i> Print
             </button>
             <slot></slot>
           </div>

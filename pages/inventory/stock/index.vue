@@ -312,7 +312,8 @@
                   </td>
                   <td class="border border-gray-300">
                     {{
-                      item.gudang.nama_gudang + " - " + item.gudang.kode_gudang
+                      item.gudang.nama_gudang +
+                      (item.kode_gudang ? " - " + item.gudang.kode_gudang : "")
                     }}
                   </td>
                   <td class="border border-gray-300">
