@@ -288,6 +288,7 @@ export default {
           no_referensi: "",
           status_muat: "",
           catatan_muat: "",
+          user_id_pic: "",
 
           shipment_details: [],
           rute_shipments: [],
@@ -321,6 +322,8 @@ export default {
         this.parameters.form.kendaraan_id = res.data.kendaraan;
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id = res.data.staff;
+        this.parameters.form.user_id_pic = res.data.user_pic;
+        this.parameters.form.jenis_kendaraan_id = res.data.jenis_kendaraan;
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
@@ -484,7 +487,7 @@ export default {
             : this.parameters.form.staff_id,
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
-            ? this.parameters.form.user_id_pic.user_id_pic
+            ? this.parameters.form.user_id_pic.user_id
             : this.parameters.form.user_id_pic,
       };
 
@@ -606,9 +609,13 @@ export default {
               gudang_id: "",
               tanggal: "",
               kendaraan_id: "",
+              jenis_kendaraan_id: "",
               pengemudi_id: "",
               keterangan: "",
               no_referensi: "",
+              status_muat: "",
+              catatan_muat: "",
+              user_id_pic: "",
 
               shipment_details: [],
               rute_shipments: [],

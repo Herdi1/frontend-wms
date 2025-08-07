@@ -2,7 +2,7 @@
   <section class="section">
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold uppercase">Detail Shipment</h1>
+        <h1 class="text-xl font-bold uppercase">Detail Konfirmasi Muat</h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -105,6 +105,30 @@
               </div>
             </div>
           </div>
+          <div
+            class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full"
+          >
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Status Muat</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.detail_shipment.status_muat === "0"
+                    ? "Menunggu"
+                    : "Selesai Dimuat"
+                }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Catatan Muat</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.detail_shipment.catatan_muat
+                    ? this.detail_shipment.catatan_muat
+                    : "-"
+                }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mt-7">
@@ -125,9 +149,9 @@
 </template>
 
 <script>
-import ShipmentDetails from "./ShipmentDetails.vue";
-import RuteShipment from "./RuteShipments.vue";
-import BiayaLastmile from "./BiayaLastmiles.vue";
+import ShipmentDetails from "../../shipment/detail/ShipmentDetails.vue";
+import RuteShipment from "../../shipment/detail/RuteShipments.vue";
+import BiayaLastmile from "../../shipment/detail/BiayaLastmiles.vue";
 export default {
   props: ["self"],
 
@@ -172,6 +196,8 @@ export default {
         status_muat: "",
         catatan_muat: "",
         user_id_pic: "",
+        status_inspeksi: "",
+        catatan_inspeksi: "",
 
         shipment_details: [],
         rute_shipments: [],
@@ -209,7 +235,7 @@ export default {
         ? res.data.biaya_lastmiles
         : [];
       this.isLoadingPage = false;
-      // console.log("data", this.detail_shipment.biaya_lastmiles);
+      console.log("data", res.data);
     } catch (error) {
       this.$router.back();
     }
