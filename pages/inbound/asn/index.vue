@@ -111,13 +111,16 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-30"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="border border-gray-300 w-[5%]">Details</th>
+                  <th class="border border-gray-300 w-20">Details</th>
 
-                  <th class="w-[5%] border border-gray-300">No</th>
+                  <th class="w-20 border border-gray-300">No</th>
                   <!-- <th
                     @click="
                       onSort(
@@ -151,23 +154,25 @@
                       </div>
                     </div>
                   </th> -->
-                  <th class="border border-gray-300">Kode ASN</th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Vendor</th>
-                  <th class="border border-gray-300">Surat Jalan</th>
-                  <th class="border border-gray-300">Kendaraan</th>
-                  <th class="border border-gray-300">Pengemudi</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th class="w-52 border border-gray-300">Kode ASN</th>
+                  <th class="w-52 border border-gray-300">Tanggal</th>
+                  <th class="w-52 border border-gray-300">Gudang</th>
+                  <th class="w-52 border border-gray-300">Vendor</th>
+                  <th class="w-52 border border-gray-300">Surat Jalan</th>
+                  <th class="w-52 border border-gray-300">Kendaraan</th>
+                  <th class="w-52 border border-gray-300">Staff</th>
+                  <th class="w-20 border border-gray-300">Edit</th>
+                  <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -209,17 +214,21 @@
                   </td>
                   <td class="border border-gray-300">
                     {{
-                      item.pengemudi
-                        ? item.pengemudi.nama_pengemudi +
+                      item.staff
+                        ? item.staff.nama_lengkap +
                           " - " +
-                          item.pengemudi.kode_pengemudi
+                          item.staff.kode_staff
                         : "-"
                     }}
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

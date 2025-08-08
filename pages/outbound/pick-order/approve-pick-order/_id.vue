@@ -1025,9 +1025,12 @@ export default {
           this.parameters.form.pick_order_details.forEach((item) => {
             this.parameters.form.biaya_pick_orders.push({
               item_id: item.item,
+              // item_id: "",
               item_gudang_id: item.item_gudang,
+              // item_gudang_id: "",
               jenis_biaya_id: "",
               pick_order_detail_id: item.pick_order_detail_id,
+              // pick_order_detail_id: "",
               coa_id: "",
               divisi_id: "",
               vendor_id: "",
@@ -1216,14 +1219,15 @@ export default {
               : item.slot_penyimpanan_id_bin,
         };
       });
-      formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
-        return {
-          ...item,
-          item_id: item.item_id.item_id,
-          item_gudang_id: item.item_gudang_id.item_gudang_id,
-          pick_order_detail_id: item.pick_order_detail_id,
-        };
-      });
+      formData.biaya_pick_orders = [];
+      // formData.biaya_pick_orders.map((item) => {
+      //   return {
+      //     ...item,
+      //     item_id: item.item_id.item_id,
+      //     item_gudang_id: item.item_gudang_id.item_gudang_id,
+      //     pick_order_detail_id: item.pick_order_detail_id,
+      //   };
+      // });
 
       if (this.isEditable) {
         url += "/" + this.id;

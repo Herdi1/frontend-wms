@@ -186,12 +186,18 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_approve == 1"
+                    />
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-delete-button @click="onTrashed(item)" />
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      :disabled="item.status_approve == 1"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -298,6 +304,10 @@ export default {
           longitude: "",
           latitude: "",
         },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
       },
       default_roles: {
         store: true,
@@ -388,7 +398,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.permintaan_stok_transfer_id,
+              id: item.stok_transfer_id,
               params: this.parameters.params,
             });
 

@@ -19,7 +19,7 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-2 gap-3 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
                   label="Kode ASN"
@@ -351,17 +351,17 @@
                   :required="false"
                 />
               </div>
-              <ValidationProvider name="pengemudi">
+              <ValidationProvider name="staff">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
-                      label: 'Pengemudi',
-                      optionLabel: 'nama_pengemudi',
+                      label: 'Staff',
+                      optionLabel: 'nama_lengkap',
                       lookup: lookup_custom3,
-                      value: parameters.form.pengemudi_id,
-                      onGet: onGetPengemudi,
-                      isLoadingL: isLoadingGetPengemudi,
-                      input: onSelectPengemudi,
+                      value: parameters.form.staff_id,
+                      onGet: onGetStaff,
+                      isLoadingL: isLoadingGetStaff,
+                      input: onSelectStaff,
                     }"
                     width="w-[50%]"
                     class="mb-5"
@@ -821,9 +821,13 @@ export default {
       isLoadingGetKendaraan: false,
       kendaraan_search: "",
 
-      isStopSearchPengemudi: false,
-      isLoadingGetPengemudi: false,
-      pengemudi_search: "",
+      // isStopSearchPengemudi: false,
+      // isLoadingGetPengemudi: false,
+      // pengemudi_search: "",
+
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
 
       isStopSearchSupplier: false,
       isLoadingGetSupplier: false,
@@ -881,7 +885,7 @@ export default {
           no_referensi_2: "",
           kendaraan_id: "",
           nama_kendaraan: "",
-          pengemudi_id: "",
+          staff_id: "",
           nama_pengemudi: "",
           supplier_id: "",
           perkiraan_tiba: "",
@@ -932,8 +936,8 @@ export default {
           res.data.vendor_transporter || "";
         this.parameters.form.kendaraan_id = res.data.kendaraan || "";
         this.onSelectKendaraan(res.data.kendaraan);
-        this.parameters.form.pengemudi_id = res.data.pengemudi || "";
-        this.onSelectPengemudi(res.data.pengemudi);
+        this.parameters.form.staff_id = res.data.staff || "";
+        this.onSelectStaff(res.data.staff);
 
         this.parameters.form.asn_details = res.data.asn_details.map((item) => {
           return {
@@ -954,7 +958,8 @@ export default {
   async mounted() {
     await this.onSearchVendor();
     await this.onSearchKendaraan();
-    await this.onSearchPengemudi();
+    // await this.onSearchPengemudi();
+    await this.onSearchStaff();
     await this.onSearchSupplier();
     await this.onSearchLokasi();
     await this.onSearchGudang();
@@ -972,7 +977,7 @@ export default {
       "result",
       "lookup_custom1", //vendor
       "lookup_custom2", //kendaraan
-      "lookup_custom3", //pengemudi
+      "lookup_custom3", //staff
       "lookup_suppliers", //suppliers
       "lookup_location", //lokasi
       "lookup_roles", //gudang
@@ -1074,9 +1079,9 @@ export default {
           typeof this.parameters.form.kendaraan_id === "object"
             ? this.parameters.form.kendaraan_id.kendaraan_id
             : "",
-        pengemudi_id:
-          typeof this.parameters.form.pengemudi_id === "object"
-            ? this.parameters.form.pengemudi_id.pengemudi_id
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
             : "",
       };
 
@@ -1137,7 +1142,7 @@ export default {
               no_referensi: "",
               no_referensi_2: "",
               kendaraan_id: "",
-              pengemudi_id: "",
+              staff_id: "",
               supplier_id: "",
               perkiraan_tiba: "",
               kebutuhan_peralatan: "",
@@ -1307,13 +1312,13 @@ export default {
     },
 
     // Get Pengemudi
-    onGetPengemudi(search, isNext) {
+    onGetStaff(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchPengemudi);
+      clearTimeout(this.isStopSearchStaff);
 
-      this.isStopSearchPengemudi = setTimeout(() => {
-        this.pengemudi_search = search;
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom3.current_page = isNext
@@ -1323,26 +1328,27 @@ export default {
           this.lookup_custom3.current_page = 1;
         }
 
-        this.onSearchPengemudi();
+        this.onSearchStaff();
       }, 600);
     },
 
-    async onSearchPengemudi() {
-      if (!this.isLoadingGetPengemudi) {
-        this.isLoadingGetPengemudi = true;
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
 
         await this.lookUp({
-          url: "master/pengemudi/get-pengemudi",
+          url: "master/staff/get-staff",
           lookup: "custom3",
           query:
             "?search=" +
-            this.pengemudi_search +
+            this.staff_search +
+            "&jenis_user=pengemudi" +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetPengemudi = false;
+        this.isLoadingGetStaff = false;
       }
     },
 
@@ -1723,12 +1729,12 @@ export default {
       }
     },
 
-    onSelectPengemudi(item) {
+    onSelectStaff(item) {
       if (item) {
-        this.parameters.form.pengemudi_id = item;
-        this.parameters.form.nama_pengemudi = item.nama_pengemudi;
+        this.parameters.form.staff_id = item;
+        this.parameters.form.nama_pengemudi = item.nama_lengkap;
       } else {
-        this.parameters.form.pengemudi_id = "";
+        this.parameters.form.staff_id = "";
         this.parameters.form.nama_pengemudi = "";
       }
     },
@@ -1745,7 +1751,7 @@ export default {
         this.parameters.form.no_referensi = item.no_referensi;
         this.parameters.form.no_referensi_2 = item.no_referensi_2;
         this.onSelectKendaraan(item.kendaraan);
-        this.onSelectPengemudi(item.pengemudi);
+        this.onSelectStaff(item.staff);
         this.onSelectSupplier(item.supplier);
         this.parameters.form.perkiraan_tiba = item.perkiraan_tiba;
         this.parameters.form.kebutuhan_peralatan = item.kebutuhan_peralatan;
@@ -1778,7 +1784,7 @@ export default {
           no_referensi: "",
           no_referensi_2: "",
           kendaraan_id: "",
-          pengemudi_id: "",
+          staff_id: "",
           supplier_id: "",
           perkiraan_tiba: "",
           kebutuhan_peralatan: "",
@@ -1811,7 +1817,7 @@ export default {
         no_referensi: "",
         no_referensi_2: "",
         kendaraan_id: "",
-        pengemudi_id: "",
+        staff_id: "",
         supplier_id: "",
         perkiraan_tiba: "",
         kebutuhan_peralatan: "",
