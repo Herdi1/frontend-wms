@@ -19,16 +19,18 @@
           <div
             class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="w-full pt-3 mb-3">
+            <!-- <div class="w-full pt-3 mb-3">
               <div class="w-full flex justify-between items-center">
                 <h1 class="text-xl font-bold">Permintaan Stok</h1>
                 <div class=" "></div>
               </div>
-            </div>
-            <div class="grid grid-cols-1 gap-1 w-[60%] mb-7">
-              <div class="form-group">
+            </div> -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
+            >
+              <div class="form-group" v-if="isEditable">
                 <input-horizontal
-                  label="Kode Stoko Transfer"
+                  label="Kode Stok Transfer"
                   type="text"
                   name="kode_stok_transfer"
                   labelWidth="w-[40%]"
@@ -39,6 +41,7 @@
                   :disabled="true"
                 />
               </div>
+
               <div class="form-group">
                 <input-horizontal
                   label="Tanggal"
@@ -48,7 +51,20 @@
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
                   v-model="form.tanggal"
-                  :required="true"
+                  :required="false"
+                />
+              </div>
+              <div class="form-group mb-2 flex justify-between">
+                <label for="" class="w-[40%]"
+                  >Tanggal Request Kirim
+                  <span class="text-danger">*</span></label
+                >
+                <input
+                  type="datetime-local"
+                  step="1"
+                  v-model="form.tanggal_request_kirim"
+                  class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  required
                 />
               </div>
               <div class="w-full mb-2">
@@ -59,8 +75,8 @@
                     isLoading: isLoadingGetGudang,
                     lookup: lookup_suppliers,
                     onGet: onGetGudang,
-                    value: form.gudang_id_penerima,
-                    input: onSelectGudangPenerima,
+                    value: form.gudang_id,
+                    input: onSelectGudang,
                   }"
                   width="w-[60%]"
                   :required="true"
@@ -69,64 +85,88 @@
               <div class="w-full mb-2">
                 <select-button
                   :self="{
-                    label: 'Gudang Asal',
+                    label: 'Gudang Pengirim',
                     optionLabel: 'nama_gudang',
                     isLoading: isLoadingGetGudang,
                     lookup: lookup_suppliers,
                     onGet: onGetGudang,
-                    value: form.gudang_id_asal,
-                    input: onSelectGudangAsal,
+                    value: form.gudang_id_pengirim,
+                    input: onSelectGudangPengirim,
                   }"
                   width="w-[60%]"
                   :required="true"
                 />
               </div>
+
+              <!-- <div class="form-group flex items-center">
+                <label for="" class="w-[40%]">Status Approve</label>
+                <select
+                  name=""
+                  id=""
+                  v-model="form.status_approve"
+                  class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Approve</option>
+                </select>
+              </div> -->
               <div class="form-group">
                 <input-horizontal
-                  label="Keterangan"
+                  label="No Referensi"
                   type="text"
-                  name="keterangan"
+                  name="no_referensi_1"
                   labelWidth="w-[40%]"
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
-                  v-model="form.keterangan"
-                  :required="true"
+                  v-model="form.no_referensi_1"
+                  :required="false"
                 />
               </div>
-            </div>
-
-            <div class="w-full flex justify-between items-center">
-              <h1 class="text-xl font-bold">Detail Stok Transfer</h1>
-              <div class=" ">
-                <button
-                  type="button"
-                  @click="addDetailTransfer"
-                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                >
-                  <i class="fas fa-plus"></i>
-                  <p class="text-xs font-medium">Tambah Detail</p>
-                </button>
+              <div class="form-group flex justify-between">
+                <label for="keterangan" class="w-[40%] pt-1">Keterangan</label>
+                <textarea
+                  placeholder="Keterangan"
+                  class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
+                  v-model="form.keterangan"
+                ></textarea>
               </div>
             </div>
+          </div>
+          <div class="w-full flex justify-between items-center">
+            <h1 class="text-xl font-bold uppercase">Detail Stok Transfer</h1>
+            <div class=" ">
+              <button
+                type="button"
+                @click="addDetailTransfer"
+                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+              >
+                <i class="fas fa-plus"></i>
+                <p class="text-xs font-medium">Tambah Detail</p>
+              </button>
+            </div>
+          </div>
+          <div
+            class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
             <div class="table-responsive overflow-y-hidden mb-7">
               <table
                 class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                :class="form.detail_stok_transfer.length ? 'mb-[300px]' : ''"
+                :class="form.stok_transfer_details.length ? 'mb-[300px]' : ''"
               >
                 <thead>
                   <tr class="text-sm uppercase text-nowrap">
-                    <th class="w-[200px] border border-gray-300">Item</th>
-                    <th class="w-[200px] border border-gray-300">Quantity</th>
-                    <th class="w-[200px] border border-gray-300">Satuan</th>
-                    <th class="w-[200px] border border-gray-300">keterangan</th>
-                    <th class="w-[50px] border border-gray-300 text-center">
+                    <th class="w-60 border border-gray-300">Item</th>
+                    <th class="w-60 border border-gray-300">Valuation</th>
+                    <th class="w-60 border border-gray-300">Quantity</th>
+                    <th class="w-60 border border-gray-300">keterangan</th>
+                    <th class="w-20 border border-gray-300 text-center">
                       Delete
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in form.detail_stok_transfer"
+                    v-for="(item, index) in form.stok_transfer_details"
                     :key="index"
                     style="border-top: 0.5px solid lightgray"
                     class="align-top mx-0"
@@ -167,6 +207,42 @@
                       </v-select>
                     </td>
                     <td class="border border-gray-300">
+                      <v-select
+                        label="nama_valuation"
+                        :loading="isLoadingGetValuation"
+                        :options="lookup_custom1.data"
+                        :filterable="false"
+                        @search="onGetValuation"
+                        v-model="item.valuation_id"
+                        class="w-full"
+                        :reduce="(item) => item.valuation_id"
+                      >
+                        <!-- @input="(item) => onSelectItemGudang(item, index)" -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom1.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom1.current_page > 1"
+                            @click="onGetValuation(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom1.last_page >
+                              lookup_custom1.current_page
+                            "
+                            @click="onGetValuation(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300">
                       <money
                         v-model="item.quantity"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -175,14 +251,14 @@
                         "
                       />
                     </td>
-                    <td class="border border-gray-300">
-                      <input
-                        class="w-full p-1 rounded-md border border-gray-300"
-                        type="text"
-                        v-model="item.satuan"
-                        disabled
-                      />
-                    </td>
+                    <!-- <td class="border border-gray-300">
+                    <input
+                      class="w-full p-1 rounded-md border border-gray-300"
+                      type="text"
+                      v-model="item.satuan"
+                      disabled
+                    />
+                  </td> -->
                     <td class="border border-gray-300">
                       <textarea
                         placeholder="Keterangan"
@@ -198,7 +274,7 @@
                       ></i>
                     </td>
                   </tr>
-                  <tr v-if="!form.detail_stok_transfer.length > 0">
+                  <tr v-if="!form.stok_transfer_details.length > 0">
                     <td colspan="5" class="text-center">
                       <span class="flex justify-center">
                         <img
@@ -212,15 +288,16 @@
                 </tbody>
               </table>
             </div>
-            <modal-footer-section
-              :isLoadingForm="isLoadingForm"
-              @reset="formReset()"
-              class="m-5"
-            />
           </div>
+
+          <modal-footer-section
+            :isLoadingForm="isLoadingForm"
+            @reset="formReset()"
+            class="m-5"
+          />
         </form>
       </ValidationObserver>
-      <success-modal
+      <!-- <success-modal
         v-model="showModal"
         :message="`Data Berhasil ${
           isEditable ? 'Diedit' : 'Disimpan'
@@ -242,12 +319,13 @@
             </button>
           </div>
         </template>
-      </success-modal>
+      </success-modal> -->
     </div>
   </section>
 </template>
 
 <script>
+// import { reduce } from "core-js/core/array";
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 
@@ -266,25 +344,27 @@ export default {
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
 
-      isStopSearchSatuan: false,
-      isLoadingGetSatuan: false,
-      satuan_search: "",
+      isStopSearchValuation: false,
+      isLoadingGetValuation: false,
+      valuation_search: "",
 
       user: this.$auth.user,
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Permintaan Stok",
-      url: "inventory/permintaan-stok",
+      title: "Permintaan Stok Transfer",
+      url: "inventory/stok-transfer",
 
       form: {
-        permintaan_stok_id: "",
         kode_stok_transfer: "",
         tanggal: "",
-        gudang_id_penerima: "",
-        gudang_id_asal: "",
+        tanggal_request_kirim: "",
+        no_referensi_1: "",
+        gudang_id: "",
+        gudang_id_pengirim: "",
+        status_approve: "0",
         keterangan: "",
-        detail_stok_transfer: [],
+        stok_transfer_details: [],
 
         user_agent: "",
         device: "",
@@ -292,13 +372,15 @@ export default {
         latitude: "",
       },
       default_form: {
-        permintaan_stok_id: "",
         kode_stok_transfer: "",
         tanggal: "",
-        gudang_id_penerima: "",
-        gudang_id_asal: "",
+        tanggal_request_kirim: "",
+        no_referensi_1: "",
+        gudang_id: "",
+        gudang_id_pengirim: "",
+        status_approve: "0",
         keterangan: "",
-        detail_stok_transfer: [],
+        stok_transfer_details: [],
 
         user_agent: "",
         device: "",
@@ -310,42 +392,61 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+
     try {
+      this.form.tanggal = formattedDate;
+      // this.form.tanggal_request_kirim = formattedDate;
       if (this.isEditable) {
-        let res = await this.$axios.get(`inventory/permintaan-stok/${this.id}`);
+        let res = await this.$axios.get(`${this.url}/${this.id}`);
         Object.keys(this.form).forEach((item) => {
-          if (item != "detail_stok_transfer") {
+          if (item != "stok_transfer_details") {
             this.form[item] = res.data[item];
           }
         });
+        this.form.gudang_id = res.data.gudang;
+        this.form.gudang_id_pengirim = res.data.gudang_pengirim;
 
-        this.form.detail_stok_transfer = res.data.detail_stok_transfer.map(
+        this.form.stok_transfer_details = res.data.stok_transfer_details.map(
           (item) => {
             return {
               ...item,
-              detail_stok_transfer_id: item || "",
+              stok_transfer_detail_id: item.stok_transfer_detail_id
+                ? item.stok_transfer_detail_id
+                : "",
+              item_gudang_id: item.item_gudang,
+              item_id: item.item,
             };
           }
         );
-
         this.isLoadingPage = false;
+        console.log(res.data);
       }
     } catch (error) {
-      this.$router.push("/inventory/stok-transfer/permintaan-stok");
+      // this.$router.push("/inventory/stok-transfer/permintaan-stok");
+      console.log("error", error);
     }
   },
 
   async mounted() {
     await this.onSearchGudang();
-    await this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
+    await this.onSearchValuation();
+    this.getUserAgent();
+    this.getGeoLocation();
   },
 
   computed: {
     ...mapState("moduleApi", [
       "error",
       "result",
-      "lookup_suppliers",
-      "lookup_products",
+      "lookup_suppliers", //gudang
+      "lookup_products", //item gudang
+      "lookup_custom1", //valuation
     ]),
   },
 
@@ -361,8 +462,8 @@ export default {
       } else {
         this.form.device = "Desktop";
       }
-      console.log("user agent", this.form.user_agent);
-      console.log("device", this.form.device);
+      // console.log("user agent", this.form.user_agent);
+      // console.log("device", this.form.device);
     },
 
     getGeoLocation() {
@@ -374,12 +475,12 @@ export default {
             this.form.longitude = position.coords.longitude.toString();
             this.form.latitude = position.coords.latitude.toString();
             this.isLoadingForm = false;
-            console.log(
-              "latitude",
-              this.form.latitude,
-              "longitude",
-              this.form.longitude
-            );
+            // console.log(
+            //   "latitude",
+            //   this.form.latitude,
+            //   "longitude",
+            //   this.form.longitude
+            // );
           },
           (error) => {
             this.isLoadingForm = false;
@@ -392,25 +493,59 @@ export default {
       }
     },
 
+    formatDateTime(dateTime) {
+      const dateObject = new Date(dateTime);
+
+      const year = dateObject.getFullYear();
+      const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObject.getDate()).padStart(2, "0");
+      const hours = String(dateObject.getHours()).padStart(2, "0");
+      const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+      const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
+      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+      return formattedDateTime;
+    },
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inventory/permintaan-stok";
+      let url = this.url;
+
+      let newTanggalKirim = this.formatDateTime(
+        this.form.tanggal_request_kirim
+      );
 
       let formData = {
         ...this.form,
-        gudang_id_asal:
-          typeof this.form.gudang_id_asal === "object"
-            ? this.form.gudang_id_asal.gudang_id
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id
             : "",
-        gudang_id_asal:
-          typeof this.form.gudang_id_penerima === "object"
-            ? this.form.gudang_id_penerima.gudang_id
+        gudang_id_pengirim:
+          typeof this.form.gudang_id_pengirim === "object"
+            ? this.form.gudang_id_pengirim.gudang_id
             : "",
+        tanggal_request_kirim: newTanggalKirim,
       };
 
-      // formData.detail_stok_transfer =
+      formData.stok_transfer_details = this.form.stok_transfer_details.map(
+        (item) => {
+          return {
+            ...item,
+            item_gudang_id:
+              typeof item.item_gudang_id === "object"
+                ? item.item_gudang_id.item_gudang_id
+                : "",
+            item_id:
+              typeof item.item_id === "object" ? item.item_id.item_id : "",
+          };
+        }
+      );
+
+      // formData.stok_transfer_details =
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -423,14 +558,12 @@ export default {
       })
         .then((res) => {
           this.$toaster.success(
-            "Data berhasil di " +
-              (this.isEditable == true ? "Diedit" : "Tambah")
+            "Data Berhasil di " + (this.isEditable ? "Update" : "Tambah")
           );
-
           if (!this.isEditable) {
-            this.form = this.default_form;
+            this.parameters.form = this.default_form;
           }
-          this.showModal = true;
+          this.$router.back();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
@@ -442,17 +575,17 @@ export default {
     },
 
     addDetailTransfer() {
-      this.form.detail_stok_transfer.push({
-        detail_stok_transfer_id: "",
+      this.form.stok_transfer_details.push({
+        item_id: "",
         item_gudang_id: "",
+        valuation_id: "",
         quantity: "",
-        satuan_id: "",
         keterangan: "",
       });
     },
 
     deleteDetailTransfer(index) {
-      this.form.detail_stok_transfer = this.form.detail_stok_transfer.filter(
+      this.form.stok_transfer_details = this.form.stok_transfer_details.filter(
         (_, itemIndex) => index !== itemIndex
       );
     },
@@ -496,20 +629,20 @@ export default {
       }
     },
 
-    onSelectGudangAsal(item) {
+    async onSelectGudang(item) {
       if (item) {
-        this.form.gudang_id_asal = item;
+        this.form.gudang_id = item;
+        await this.onSearchItemGudang();
       } else {
-        this.form.gudang_id_asal = "";
+        this.form.gudang_id = "";
       }
     },
 
-    async onSelectGudangPenerima(item) {
+    onSelectGudangPengirim(item) {
       if (item) {
-        this.form.gudang_id_penerima = item;
-        await this.onSearchItemGudang();
+        this.form.gudang_id_pengirim = item;
       } else {
-        this.form.gudang_id_penerima = "";
+        this.form.gudang_id_pengirim = "";
       }
     },
 
@@ -545,7 +678,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id=" +
-            this.form.gudang_id_penerima +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",
@@ -557,13 +690,55 @@ export default {
 
     onSelectItemGudang(item, index) {
       if (item) {
-        this.form.detail_stok_transfer[index].item_gudang_id = item;
-        this.form.detail_stok_transfer[index].satuan = item.satuan
-          ? item.satuan.nama_satuan
-          : "";
+        this.form.stok_transfer_details[index].item_gudang_id = item;
+        this.form.stok_transfer_details[index].item_id = item;
+        // this.form.stok_transfer_details[index].satuan = item.satuan
+        //   ? item.satuan.nama_satuan
+        //   : "";
       } else {
-        this.form.detail_stok_transfer[index].item_gudang_id = "";
-        this.form.detail_stok_transfer[index].satuan = "";
+        this.form.stok_transfer_details[index].item_gudang_id = "";
+        this.form.stok_transfer_details[index].item_id = "";
+        // this.form.stok_transfer_details[index].satuan = "";
+      }
+    },
+
+    //valuation
+    onGetValuation(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchValuation);
+
+      this.isStopSearchValuation = setTimeout(() => {
+        this.valuation_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchValuation();
+      }, 600);
+    },
+
+    async onSearchValuation() {
+      if (!this.isLoadingGetValuation) {
+        this.isLoadingGetValuation = true;
+
+        await this.lookUp({
+          url: "master/valuation/get-valuation",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.valuation_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetValuation = false;
       }
     },
   },

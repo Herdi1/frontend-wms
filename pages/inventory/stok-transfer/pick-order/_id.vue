@@ -25,16 +25,18 @@
                 <div class=" "></div>
               </div>
             </div>
-            <div class="grid grid-cols-1 gap-1 w-[60%] mb-7">
-              <div class="form-group">
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
+            >
+              <div class="form-group" v-if="isEditable">
                 <input-horizontal
-                  label="Kode Stoko Transfer"
+                  label="Kode Pick Order"
                   type="text"
-                  name="kode_stok_transfer"
+                  name="kode_pick_order"
                   labelWidth="w-[40%]"
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
-                  v-model="form.kode_stok_transfer"
+                  v-model="form.kode_pick_order"
                   :required="false"
                   :disabled="true"
                 />
@@ -51,11 +53,91 @@
                   :required="true"
                 />
               </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi"
+                  type="text"
+                  name="no_referensi_1"
+                  v-model="form.no_referensi_1"
+                  :required="false"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                />
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi 2"
+                  type="text"
+                  name="no_referensi_2"
+                  v-model="form.no_referensi_2"
+                  :required="false"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                />
+              </div>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nomor Referensi 3"
+                  type="text"
+                  name="no_referensi_3"
+                  v-model="form.no_referensi_3"
+                  :required="false"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                />
+              </div>
+              <div>
+                <select-button
+                  :self="{
+                    label: 'Gudang',
+                    optionLabel: 'nama_gudang',
+                    lookup: lookup_custom1,
+                    value: form.gudang_id,
+                    onGet: onGetGudang,
+                    isLoadingL: isLoadingGetGudang,
+                    input: onSelectGudang,
+                  }"
+                  width="w-[60%]"
+                  class="mb-5"
+                  :required="true"
+                />
+              </div>
 
               <select-button
                 :self="{
+                  label: 'User PIC',
+                  optionLabel: 'nama_lengkap',
+                  lookup: lookup_custom2,
+                  value: form.user_id_pic,
+                  onGet: onGetUser,
+                  isLoadingL: isLoadingGetUser,
+                  input: onSelectUser,
+                }"
+                width="w-[60%]"
+                class="mb-5"
+                :required="true"
+              />
+
+              <div class="form-group">
+                <select-button
+                  :self="{
+                    label: 'Staff',
+                    optionLabel: 'nama_lengkap',
+                    lookup: lookup_suppliers,
+                    value: form.staff_id_pic,
+                    onGet: onGetStaff,
+                    isLoadingL: isLoadingGetStaff,
+                    input: onSelectStaff,
+                  }"
+                  width="w-[60%]"
+                  class="mb-5"
+                  :required="true"
+                />
+              </div>
+              <!-- <select-button
+                :self="{
                   label: 'Staff',
-                  optionLabel: 'nama_staff',
+                  optionLabel: 'nama_lengkap',
                   isLoading: isLoadingGetStaff,
                   lookup: lookup_suppliers,
                   onGet: onGetStaff,
@@ -64,9 +146,24 @@
                 }"
                 width="w-[60%]"
                 :required="true"
-              />
+              /> -->
 
               <select-button
+                :self="{
+                  label: 'Peralatan',
+                  optionLabel: 'nama_peralatan',
+                  lookup: lookup_products,
+                  value: form.peralatan_id,
+                  onGet: onGetPeralatan,
+                  isLoadingL: isLoadingGetPeralatan,
+                  input: onSelectPeralatan,
+                }"
+                width="w-[60%]"
+                class="mb-5"
+                :required="true"
+              />
+
+              <!-- <select-button
                 :self="{
                   label: 'Peralatan',
                   optionLabel: 'nama_peralatan',
@@ -78,7 +175,7 @@
                 }"
                 width="w-[60%]"
                 :required="true"
-              />
+              /> -->
 
               <div class="form-group flex items-top">
                 <label for="" class="w-[40%]">Keterangan</label>
@@ -100,14 +197,14 @@
               </div>
             </div>
 
-            <tab-component class="mt-5" :tabs="tabs">
+            <!-- <tab-component class="mt-5" :tabs="tabs">
               <template #DetailPickOrder>
                 <DetailPickOrder :self="{ form }" />
               </template>
               <template #BiayaPickOrder>
                 <BiayaPickOrder :self="{ form }" />
               </template>
-            </tab-component>
+            </tab-component> -->
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"
@@ -174,6 +271,14 @@ export default {
       isLoadingGetPeralatan: false,
       peralatan_search: "",
 
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      isStopSearchUser: false,
+      isLoadingGetUser: false,
+      user_search: "",
+
       isStopSearchSatuan: false,
       isLoadingGetSatuan: false,
       satuan_search: "",
@@ -182,18 +287,23 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Konfirmasi Stok Transfer",
-      url: "inventory/konfirmas-stok-transfer",
+      title: "Pick Order Stok Transfer",
+      url: "inventory/pick-order",
 
       form: {
-        pick_order_stok_transfer_id: "",
-        kode_pick_order_stok_transfer: "",
+        // pick_order_stok_transfer_id: "",
+        kode_pick_order: "",
         tanggal: "",
-        staff_id: "",
+        no_referensi_1: "",
+        no_referensi_2: "",
+        no_referensi_3: "",
+        gudang_id: "",
+        staff_id_pic: "",
+        user_id_pic: "",
         peralatan_id: "",
         keterangan: "",
-        detail_pick_order_stok_transfer: [],
-        biaya_pick_order_stok_transfer: [],
+        pick_order_details: [],
+        biaya_pick_orders: [],
 
         user_agent: "",
         device: "",
@@ -201,14 +311,18 @@ export default {
         latitude: "",
       },
       default_form: {
-        pick_order_stok_transfer_id: "",
-        kode_pick_order_stok_transfer: "",
+        kode_pick_order: "",
         tanggal: "",
-        staff_id: "",
+        no_referensi_1: "",
+        no_referensi_2: "",
+        no_referensi_3: "",
+        gudang_id: "",
+        staff_id_pic: "",
+        user_id_pic: "",
         peralatan_id: "",
         keterangan: "",
-        detail_pick_order_stok_transfer: [],
-        biaya_pick_order_stok_transfer: [],
+        pick_order_details: [],
+        biaya_pick_orders: [],
 
         user_agent: "",
         device: "",
@@ -226,36 +340,33 @@ export default {
           `inventory/pick-order-stok-transfer/${this.id}`
         );
         Object.keys(this.form).forEach((item) => {
-          if (
-            item != "detail_pick_order_stok_transfer" &&
-            item != "biaya_pick_order_stok_transfer"
-          ) {
+          if (item != "pick_order_details" && item != "biaya_pick_orders") {
             this.form[item] = res.data[item];
           }
         });
 
-        this.form.detail_pick_order_stok_transfer =
-          res.data.detail_pick_order_stok_transfer.map((item) => {
+        this.form.pick_order_details = res.data.pick_order_details.map(
+          (item) => {
             return {
               ...item,
-              detail_pick_order_stok_transfer_id: item || "",
+              pick_order_details_id: item || "",
               pick_request_id: item.pick_request,
               item_gudang_id: item.item_gudang,
               zona_gudang_id_tujuan: item.zona_gudang_tujuan,
             };
-          });
+          }
+        );
 
-        this.form.biaya_pick_order_stok_transfer =
-          res.data.biaya_pick_order_stok_transfer.map((item) => {
-            return {
-              ...item,
-              biaya_pick_order_stok_transfer_id: item || "",
-              jenis_biaya_id: item.jenis_biaya,
-              coa_id: item.coa,
-              divisi_id: item.divisi,
-              vendor_id: item.vendor,
-            };
-          });
+        this.form.biaya_pick_orders = res.data.biaya_pick_orders.map((item) => {
+          return {
+            ...item,
+            biaya_pick_orders_id: item || "",
+            jenis_biaya_id: item.jenis_biaya,
+            coa_id: item.coa,
+            divisi_id: item.divisi,
+            vendor_id: item.vendor,
+          };
+        });
 
         this.isLoadingPage = false;
       }
@@ -266,14 +377,22 @@ export default {
 
   async mounted() {
     // await this.onSearchItemGudang();
+    await this.onSearchUser();
+    await this.onSearchGudang();
+    await this.onSearchStaff();
+    await this.onSearchPeralatan();
+    this.getGeoLocation();
+    this.getUserAgent();
   },
 
   computed: {
     ...mapState("moduleApi", [
       "error",
       "result",
-      "lookup_suppliers",
-      "lookup_products",
+      "lookup_suppliers", //staff
+      "lookup_products", //peralatan
+      "lookup_custom1", //gudang
+      "lookup_custom2", //user
     ]),
   },
 
@@ -289,8 +408,8 @@ export default {
       } else {
         this.form.device = "Desktop";
       }
-      console.log("user agent", this.form.user_agent);
-      console.log("device", this.form.device);
+      // console.log("user agent", this.form.user_agent);
+      // console.log("device", this.form.device);
     },
 
     getGeoLocation() {
@@ -302,12 +421,12 @@ export default {
             this.form.longitude = position.coords.longitude.toString();
             this.form.latitude = position.coords.latitude.toString();
             this.isLoadingForm = false;
-            console.log(
-              "latitude",
-              this.form.latitude,
-              "longitude",
-              this.form.longitude
-            );
+            // console.log(
+            //   "latitude",
+            //   this.form.latitude,
+            //   "longitude",
+            //   this.form.longitude
+            // );
           },
           (error) => {
             this.isLoadingForm = false;
@@ -328,54 +447,56 @@ export default {
 
       let formData = {
         ...this.form,
-        staff_id:
-          typeof this.form.staff_id === "object"
-            ? this.form.staff_id.staff_id
+        staff_id_pic:
+          typeof this.form.staff_id_pic === "object"
+            ? this.form.staff_id_pic.staff_id
             : "",
         peralatan_id:
           typeof this.form.peralatan_id === "object"
             ? this.form.peralatan_id.peralatan_id
             : "",
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id
+            : "",
+        user_id_pic:
+          typeof this.form.user_id_pic === "object"
+            ? this.form.user_id_pic.user_id
+            : "",
       };
 
-      formData.detail_pick_order_stok_transfer =
-        formData.detail_pick_order_stok_transfer.map((item) => {
-          return {
-            ...item,
-            pick_request_id:
-              typeof item.pick_request_id === "object"
-                ? item.pick_request_id.pick_request_id
-                : "",
-            item_gudang_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id
-                : "",
-            zona_gudang_id_tujuan:
-              typeof item.zona_gudang_id_tujuan === "object"
-                ? item.zona_gudang_id_tujuan.zona_gudang_id_tujuan
-                : "",
-          };
-        });
+      formData.pick_order_details = formData.pick_order_details.map((item) => {
+        return {
+          ...item,
+          pick_request_id:
+            typeof item.pick_request_id === "object"
+              ? item.pick_request_id.pick_request_id
+              : "",
+          item_gudang_id:
+            typeof item.item_gudang_id === "object"
+              ? item.item_gudang_id.item_gudang_id
+              : "",
+          zona_gudang_id_tujuan:
+            typeof item.zona_gudang_id_tujuan === "object"
+              ? item.zona_gudang_id_tujuan.zona_gudang_id_tujuan
+              : "",
+        };
+      });
 
-      formData.biaya_pick_order_stok_transfer =
-        formData.biaya_pick_order_stok_transfer.map((item) => {
-          return {
-            ...item,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : "",
-            coa_id: typeof item.coa_id === "object" ? item.coa_id.coa_id : "",
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : "",
-            vendor_id:
-              typeof item.vendor_id === "object"
-                ? item.vendor_id.vendor_id
-                : "",
-          };
-        });
+      formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
+        return {
+          ...item,
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id === "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : "",
+          coa_id: typeof item.coa_id === "object" ? item.coa_id.coa_id : "",
+          divisi_id:
+            typeof item.divisi_id === "object" ? item.divisi_id.divisi_id : "",
+          vendor_id:
+            typeof item.vendor_id === "object" ? item.vendor_id.vendor_id : "",
+        };
+      });
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -421,7 +542,8 @@ export default {
         (_, itemIndex) => index !== itemIndex
       );
     },
-    // get  gudang
+
+    // get  staff
     onGetStaff(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -463,13 +585,13 @@ export default {
 
     onSelectStaff(item) {
       if (item) {
-        this.form.staff_id = item;
+        this.form.staff_id_pic = item;
       } else {
-        this.form.staff_id = "";
+        this.form.staff_id_pic = "";
       }
     },
 
-    // get  gudang
+    // get  peralatan
     onGetPeralatan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -514,6 +636,102 @@ export default {
         this.form.peralatan_id = item;
       } else {
         this.form.peralatan_id = "";
+      }
+    },
+
+    // get gudang
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.form.gudang_id = item;
+      } else {
+        this.form.gudang_id = "";
+      }
+    },
+
+    // get gudang
+    onGetUser(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchUser);
+
+      this.isStopSearchUser = setTimeout(() => {
+        this.user_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchUser();
+      }, 600);
+    },
+
+    async onSearchUser() {
+      if (!this.isLoadingGetUser) {
+        this.isLoadingGetUser = true;
+
+        await this.lookUp({
+          url: "setting/user",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.user_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetUser = false;
+      }
+    },
+
+    onSelectUser(item) {
+      if (item) {
+        this.form.user_id_pic = item;
+      } else {
+        this.form.user_id_pic = "";
       }
     },
 
