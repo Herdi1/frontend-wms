@@ -98,7 +98,7 @@
                     <small-edit-button @click="onEdit(item)" />
                   </td>
                   <td class="text-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-detail-button @click="onEdit(item)" />
                   </td>
                   <td class="border border-gray-300">
                     {{
@@ -229,7 +229,7 @@ export default {
         params: {
           soft_deleted: "",
           search: "",
-          order: "approve_stok_transfer_id",
+          order: "stok_transfer_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -316,7 +316,7 @@ export default {
     onEdit(item) {
       this.$router.push(
         "/inventory/stok-transfer/approve-stok-transfer/" +
-          item.permintaan_stok_transfer_id
+          item.stok_transfer_id
       );
     },
 
@@ -336,7 +336,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.approve_stok_transfer_id,
+              id: item.stok_transfer_id,
               params: this.parameters.params,
             });
 

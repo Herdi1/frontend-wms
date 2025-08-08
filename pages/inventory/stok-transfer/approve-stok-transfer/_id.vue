@@ -202,6 +202,12 @@
                       </v-select> -->
                       <p>{{ item.item_gudang_id.nama_item }}</p>
                       <p>{{ item.item_gudang_id.kode_item }}</p>
+                      <p>
+                        Satuan:
+                        <span>{{
+                          item.item_gudang_id.satuan.nama_satuan
+                        }}</span>
+                      </p>
                     </td>
                     <td class="border border-gray-300">
                       <money
@@ -215,7 +221,7 @@
                       <p>
                         Valuation:
                         <span class="text-base font-bold">{{
-                          valuation_id.kode_valuation
+                          item.valuation_id.kode_valuation
                         }}</span>
                       </p>
                     </td>
@@ -319,11 +325,11 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Konfirmasi Stok Transfer",
-      url: "inventory/konfirmas-stok-transfer",
+      title: "Approve Stok Transfer",
+      url: "inventory/approve-stok-transfer",
 
       form: {
-        konfirmasi_stok_transfer_id: "",
+        stok_transfer_id: "",
         kode_stok_transfer: "",
         tanggal: "",
         gudang_id: { gudang_id: "", nama_gudang: "" },
@@ -369,7 +375,7 @@ export default {
       this.form.tanggal_approve = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(
-          `inventory/konfirmasi-stok-transfer/${this.id}`
+          `inventory/approve-stok-transfer/${this.id}`
         );
         Object.keys(this.form).forEach((item) => {
           if (item != "stok_transfer_details") {
@@ -394,7 +400,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("/inventory/stok-transfer/permintaan-stok");
+      console.log(error);
+      this.$router.push("/inventory/stok-transfer/approve-stok-transfer");
     }
   },
 
@@ -458,7 +465,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = "inventory/konfirmasi-stok-transfer";
+      let url = "inventory/approve-stok-transfer";
 
       let formData = {
         ...this.form,
@@ -627,6 +634,11 @@ export default {
         this.form.stok_transfer_details[index].item_gudang_id = "";
         this.form.stok_transfer_details[index].satuan = "";
       }
+    },
+
+    onCloseModal() {
+      this.showModal = false;
+      this.$router.push("/stok-transfer/approve-stok-transfer");
     },
   },
 };
