@@ -21,43 +21,43 @@
           >
             <div class="w-full pt-3 mb-3">
               <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Konfirmasi Stok Transfer</h1>
+                <h1 class="text-xl font-bold">Approve Stok Transfer</h1>
                 <div class=" "></div>
               </div>
             </div>
             <div class="grid grid-cols-1 gap-1 w-[60%] mb-7">
               <div class="form-group flex items-center">
                 <label for="" class="w-[40%]"
-                  >Status Konfirmasi <span class="text-danger">*</span></label
+                  >Status Approve <span class="text-danger">*</span></label
                 >
                 <select
                   name=""
                   id=""
-                  v-model="form.status_konfirmasi"
+                  v-model="form.status_approve"
                   class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
                 >
                   <option value="0">Menunggu</option>
-                  <option value="1">Dikonfirmasi</option>
+                  <option value="1">Diapprove</option>
                 </select>
               </div>
               <div class="form-group">
                 <input-horizontal
-                  label="Tanggal Konfirmasi"
+                  label="Tanggal Approve"
                   type="date"
                   name="tanggal"
                   labelWidth="w-[40%]"
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
-                  v-model="form.tanggal_konfirmasi"
+                  v-model="form.tanggal_approve"
                   :required="true"
                 />
               </div>
               <div class="form-group flex items-top">
-                <label for="" class="w-[40%]">Catatan Konfirmasi</label>
+                <label for="" class="w-[40%]">Catatan Approve</label>
                 <textarea
                   placeholder="Catatan"
                   class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
-                  v-model="form.catatan_konfirmasi"
+                  v-model="form.catatan_approve"
                 ></textarea>
               </div>
               <div class="form-group">
@@ -93,7 +93,7 @@
                   labelWidth="w-[40%]"
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
-                  v-model="form.gudang_penerima.nama_gudang"
+                  v-model="form.gudang_id.nama_gudang"
                   :disabled="true"
                 />
               </div>
@@ -101,11 +101,11 @@
                 <input-horizontal
                   label="Gudang Asal"
                   type="text"
-                  name="gudang_id"
+                  name="gudang_id_pengirim"
                   labelWidth="w-[40%]"
                   inputWidth="w-[60%]"
                   :isHorizontal="true"
-                  v-model="form.gudang_asal.nama_gudang"
+                  v-model="form.gudang_id_pengirim.nama_gudang"
                   :disabled="true"
                 />
               </div>
@@ -146,13 +146,12 @@
             <div class="table-responsive overflow-y-hidden mb-7">
               <table
                 class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                :class="form.detail_stok_transfer.length ? 'mb-[300px]' : ''"
+                :class="form.stok_transfer_details.length ? 'mb-[300px]' : ''"
               >
                 <thead>
                   <tr class="text-sm uppercase text-nowrap">
                     <th class="w-[200px] border border-gray-300">Item</th>
                     <th class="w-[200px] border border-gray-300">Quantity</th>
-                    <th class="w-[200px] border border-gray-300">Satuan</th>
                     <th class="w-[200px] border border-gray-300">keterangan</th>
                     <!-- <th class="w-[50px] border border-gray-300 text-center">
                       Delete
@@ -161,13 +160,13 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in form.detail_stok_transfer"
+                    v-for="(item, index) in form.stok_transfer_details"
                     :key="index"
                     style="border-top: 0.5px solid lightgray"
                     class="align-top mx-0"
                   >
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         label="nama_item"
                         :loading="isLoadingGetItemGudang"
                         :options="lookup_products.data"
@@ -200,7 +199,9 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.item_gudang_id.nama_item }}</p>
+                      <p>{{ item.item_gudang_id.kode_item }}</p>
                     </td>
                     <td class="border border-gray-300">
                       <money
@@ -211,15 +212,21 @@
                           $event.key === '-' ? $event.preventDefault() : null
                         "
                       />
+                      <p>
+                        Valuation:
+                        <span class="text-base font-bold">{{
+                          valuation_id.kode_valuation
+                        }}</span>
+                      </p>
                     </td>
-                    <td class="border border-gray-300">
+                    <!-- <td class="border border-gray-300">
                       <input
                         class="w-full p-1 rounded-md border border-gray-300"
                         type="text"
                         v-model="item.satuan"
                         disabled
                       />
-                    </td>
+                    </td> -->
                     <td class="border border-gray-300">
                       <textarea
                         disabled
@@ -236,7 +243,7 @@
                       ></i>
                     </td> -->
                   </tr>
-                  <tr v-if="!form.detail_stok_transfer.length > 0">
+                  <tr v-if="!form.stok_transfer_details.length > 0">
                     <td colspan="5" class="text-center">
                       <span class="flex justify-center">
                         <img
@@ -319,10 +326,10 @@ export default {
         konfirmasi_stok_transfer_id: "",
         kode_stok_transfer: "",
         tanggal: "",
-        gudang_id_penerima: "",
-        gudang_id_asal: "",
+        gudang_id: { gudang_id: "", nama_gudang: "" },
+        gudang_id_pengirim: { gudang_id: "", nama_gudang: "" },
         keterangan: "",
-        detail_stok_transfer: [],
+        stok_transfer_details: [],
 
         gudang_penerima: { nama_gudang: "" },
         gudang_asal: { nama_gudang: "" },
@@ -339,7 +346,7 @@ export default {
         gudang_id_penerima: "",
         gudang_id_asal: "",
         keterangan: "",
-        detail_stok_transfer: [],
+        stok_transfer_details: [],
 
         user_agent: "",
         device: "",
@@ -351,23 +358,35 @@ export default {
   },
 
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+
     try {
+      this.form.tanggal_approve = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(
           `inventory/konfirmasi-stok-transfer/${this.id}`
         );
         Object.keys(this.form).forEach((item) => {
-          if (item != "detail_stok_transfer") {
+          if (item != "stok_transfer_details") {
             this.form[item] = res.data[item];
           }
         });
 
-        this.form.detail_stok_transfer = res.data.detail_stok_transfer.map(
+        this.form.gudang_id = res.data.gudang;
+        this.form.gudang_id_pengirim = res.data.gudang_pengirim;
+
+        this.form.stok_transfer_details = res.data.stok_transfer_details.map(
           (item) => {
             return {
               ...item,
-              detail_stok_transfer_id: item || "",
+              stok_transfer_details_id: item || "",
               item_gudang_id: item.item_gudang,
+              valuation_id: item.valuation,
             };
           }
         );
@@ -453,7 +472,7 @@ export default {
             : "",
       };
 
-      // formData.detail_stok_transfer =
+      // formData.stok_transfer_details =
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -485,8 +504,8 @@ export default {
     },
 
     addDetailTransfer() {
-      this.form.detail_stok_transfer.push({
-        detail_stok_transfer_id: "",
+      this.form.stok_transfer_details.push({
+        stok_transfer_details_id: "",
         item_gudang_id: "",
         quantity: "",
         satuan_id: "",
@@ -495,7 +514,7 @@ export default {
     },
 
     deleteDetailTransfer(index) {
-      this.form.detail_stok_transfer = this.form.detail_stok_transfer.filter(
+      this.form.stok_transfer_details = this.form.stok_transfer_details.filter(
         (_, itemIndex) => index !== itemIndex
       );
     },
@@ -600,13 +619,13 @@ export default {
 
     onSelectItemGudang(item, index) {
       if (item) {
-        this.form.detail_stok_transfer[index].item_gudang_id = item;
-        this.form.detail_stok_transfer[index].satuan = item.satuan
+        this.form.stok_transfer_details[index].item_gudang_id = item;
+        this.form.stok_transfer_details[index].satuan = item.satuan
           ? item.satuan.nama_satuan
           : "";
       } else {
-        this.form.detail_stok_transfer[index].item_gudang_id = "";
-        this.form.detail_stok_transfer[index].satuan = "";
+        this.form.stok_transfer_details[index].item_gudang_id = "";
+        this.form.stok_transfer_details[index].satuan = "";
       }
     },
   },

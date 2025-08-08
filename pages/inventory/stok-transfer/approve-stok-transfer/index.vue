@@ -87,8 +87,8 @@
                   <th class="border border-gray-300">Tanggal</th>
                   <th class="border border-gray-300">Gudang Penerima</th>
                   <th class="border border-gray-300">Gudang Asal</th>
-                  <th class="border border-gray-300">Status Konfirmasi</th>
-                  <th class="border border-gray-300">Tanggal Konfirmasi</th>
+                  <th class="border border-gray-300">Status Approve</th>
+                  <th class="border border-gray-300">Tanggal Approve</th>
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
@@ -121,17 +121,26 @@
                   </td>
                   <td class="border border-gray-300">{{ item.tanggal }}</td>
                   <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{
-                      item.gudang_penerima
-                        ? item.gudang_penerima.nama_gudang
+                      item.gudang_pengirim
+                        ? item.gudang_pengirim.nama_gudang
                         : "-"
                     }}
                   </td>
-                  <td class="border border-gray-300">
-                    {{ item.gudang_asal ? item.gudang_asal.nama_gudang : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.status_konfirmasi }}
+                  <td class="border border-gray-300 text-center">
+                    <span
+                      v-if="item.status_approve == 0"
+                      class="p-1 rounded-md text-white bg-orange-500"
+                      >Menunggu</span
+                    >
+                    <span
+                      v-if="item.status_approve == 1"
+                      class="p-1 rounded-md text-white bg-green-500"
+                      >Approve</span
+                    >
                   </td>
                   <td class="border border-gray-300">
                     {{ item.tanggal_approve }}
@@ -176,7 +185,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -211,16 +220,16 @@ export default {
 
   data() {
     return {
-      title: "Konfirmasi Stok Transfer",
+      title: "Approve Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/konfirmasi-stok-transfer",
+        url: "inventory/approve-stok-transfer",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "konfirmasi_stok_transfer_id",
+          order: "approve_stok_transfer_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -231,10 +240,10 @@ export default {
         form: {
           kode_stok_transfer: "",
           tanggal: "",
-          gudang_id_penerima: "",
-          gudang_id_asal: "",
+          gudang_id: "",
+          gudang_id_pengirim: "",
           keterangan: "",
-          status_konfirmasi: "",
+          status_approve: "",
           tanggal_approve: "",
           catatan_approve: "",
           detail_stok_transfer: [],
@@ -271,7 +280,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "konfirmasi-stok-transfer"
+          (item) => item.rute == "approve-stok-transfer"
         );
 
         let roles = {};
@@ -301,14 +310,12 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(
-        "/inventory/stok-transfer/konfirmasi-stok-transfer/add"
-      );
+      this.$router.push("/inventory/stok-transfer/approve-stok-transfer/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/stok-transfer/konfirmasi-stok-transfer/" +
+        "/inventory/stok-transfer/approve-stok-transfer/" +
           item.permintaan_stok_transfer_id
       );
     },
@@ -329,7 +336,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.konfirmasi_stok_transfer_id,
+              id: item.approve_stok_transfer_id,
               params: this.parameters.params,
             });
 

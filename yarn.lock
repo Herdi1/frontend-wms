@@ -6854,6 +6854,11 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+material-colors@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.npmjs.org/material-colors/-/material-colors-1.2.6.tgz"
+  integrity sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==
+
 math-intrinsics@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz"
@@ -10207,6 +10212,11 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tinycolor2@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/tinycolor2/-/tinycolor2-1.6.0.tgz"
+  integrity sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.npmjs.org/tmp/-/tmp-0.0.33.tgz"
@@ -10694,6 +10704,14 @@ vue-clusterize@^0.5.1:
   dependencies:
     vue-mixins "^0.2.10"
 
+vue-color@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/vue-color/-/vue-color-3.3.1.tgz"
+  integrity sha512-glLOfCHkcSm1Fo4hTMojshfs62NsYCr7SXVdss0DK/VWEvONcetmkjsP6qrOQc5Hi2heRoAg/ipH+/TFJVfrJw==
+  dependencies:
+    material-colors "^1.2.6"
+    tinycolor2 "^1.6.0"
+
 vue-confirm-dialog@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/vue-confirm-dialog/-/vue-confirm-dialog-1.0.2.tgz"
@@ -10707,6 +10725,11 @@ vue-cool-lightbox@^2.7.4:
     body-scroll-lock "^3.1.5"
     plyr "^3.6.7"
     vue "^2.6.10"
+
+vue-draggable-resizable@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/vue-draggable-resizable/-/vue-draggable-resizable-2.3.0.tgz"
+  integrity sha512-77CLRj1TPwB30pwsjOf3pkd1UzYanCdKXbqhILJ0Oo5QQl50lvBfyQCXxMFzwWwTc3sbBbQH3FfWSV+BkoSElA==
 
 vue-eslint-parser@^7.1.1, vue-eslint-parser@^7.10.0:
   version "7.11.0"

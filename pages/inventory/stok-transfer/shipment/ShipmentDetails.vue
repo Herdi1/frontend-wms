@@ -3,7 +3,7 @@
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Detail Shipment</h1>
       <div class="flex gap-3">
-        <!-- <button
+        <button
           type="button"
           @click="self.onOpenModal"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -18,7 +18,7 @@
         >
           <i class="fas fa-retweet"></i>
           <p class="text-xs font-medium">Generate</p>
-        </button> -->
+        </button>
       </div>
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
@@ -31,7 +31,6 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
             <th class="w-[200px] border border-gray-300">Item</th>
-            <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[200px] border border-gray-300">Alamat Pengiriman</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">
@@ -47,7 +46,7 @@
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <!-- <th class="w-[200px] border border-gray-300">Note</th> -->
             <th class="w-[200px] border border-gray-300">Keterangan</th>
-            <!-- <th class="w-[100px] border border-gray-300 text-center">Hapus</th> -->
+            <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
           </tr>
         </thead>
         <draggable
@@ -100,18 +99,6 @@
                 {{ item.item_gudang_id.kode_item }}
               </p>
             </td>
-            <td class="border border-gray-300 text-center">
-              <span
-                v-if="item.jenis == 0"
-                class="p-1 text-white rounded-md bg-orange-500"
-                >Penjualan</span
-              >
-              <span
-                v-if="item.jenis == 1"
-                class="p-1 text-white rounded-md bg-green-500"
-                >Stok Transfer</span
-              >
-            </td>
             <td class="w-[200px] border border-gray-300">
               <p>
                 {{
@@ -130,24 +117,19 @@
             </td>
             <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
             <td class="w-[200px] border border-gray-300">
-              <!-- <input
+              <input
                 type="text"
                 class="w-full p-1 rounded-md border border-gray-300 outline-none"
                 v-model="item.no_referensi"
-                /> -->
-              <p>{{ item.no_referensi }}</p>
+              />
             </td>
             <td class="w-[200px] border border-gray-300">
-              <p>
-                {{
-                  item.zona_gudang_id
-                    ? item.zona_gudang_id.nama_zona_gudang +
-                      " - " +
-                      item.zona_gudang_id.kode_zona_gudang
-                    : "-"
-                }}
-              </p>
-              <!-- <v-select
+              <!-- {{
+                item.zona_gudang_tujuan
+                  ? item.zona_gudang_tujuan.nama_zona_gudang
+                  : ""
+              }} -->
+              <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_zona_gudang"
                 :loading="isLoadingGetZonaGudang"
@@ -177,7 +159,7 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select> -->
+              </v-select>
             </td>
             <!-- <td class="border border-gray-300"></td>
               <td class="border border-gray-300"></td>
@@ -194,16 +176,13 @@
                 ></textarea>
               </td> -->
             <td class="w-[200px] border border-gray-300">
-              <!-- <textarea
+              <textarea
                 placeholder="Keterangan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="item.keterangan"
-              ></textarea> -->
-              <p>
-                {{ item.keterangan }}
-              </p>
+              ></textarea>
             </td>
-            <!-- <td
+            <td
               class="w-[100px] text-center text-gray-600 border border-gray-300"
             >
               <i
@@ -211,7 +190,7 @@
                 style="cursor: pointer"
                 @click="onDeleteDetailShipment(i)"
               ></i>
-            </td> -->
+            </td>
           </tr>
           <tr v-if="!self.parameters.form.shipment_details.length > 0">
             <td colspan="100" class="text-center">
@@ -254,8 +233,8 @@ export default {
   },
 
   async mounted() {
-    // await this.onSearchItemGudang();
-    // await this.onSearchZonaGudang();
+    await this.onSearchItemGudang();
+    await this.onSearchZonaGudang();
   },
 
   computed: {

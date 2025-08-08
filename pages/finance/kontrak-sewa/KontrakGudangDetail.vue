@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Detail Sewa Peralatan</h1>
+      <h1 class="text-xl font-bold">Detail Sewa Gudang</h1>
       <div class=" ">
         <button
           type="button"
-          @click="addDetailPeralatan"
+          @click="addDetailGudang"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
@@ -17,7 +17,7 @@
       <table
         class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
         :class="
-          self.parameters.form.kontrak_sewa_peralatan_details.length
+          self.parameters.form.kontrak_sewa_gudang_details.length
             ? 'mb-[300px]'
             : ''
         "
@@ -31,21 +31,26 @@
             <th class="w-52 border border-gray-300">Pembayaran</th>
             <th class="w-52 border border-gray-300">Gudang</th>
             <th class="w-52 border border-gray-300">Term Pembayaran</th>
-            <th class="w-52 border border-gray-300">Jenis Peralatan</th>
             <th class="w-52 border border-gray-300">Luas</th>
-            <th class="w-52 border border-gray-300">Dasar Perhitungan</th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(item, i) in self.parameters.form
-              .kontrak_sewa_peralatan_details"
+              .kontrak_sewa_gudang_details"
             :key="i"
             class="border-t align-top"
           >
             <td class="border border-gray-300">
+              <input
+                type="number"
+                v-if="!item.nilai_kontrak"
+                v-model="item.nilai_kontrak"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+              />
               <money
+                v-if="item.nilai_kontrak"
                 v-model="item.nilai_kontrak"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
@@ -59,6 +64,7 @@
                 :options="lookup_customers.data"
                 :filterable="false"
                 @search="onGetMataUang"
+                :reduce="(item) => item.mata_uang_id"
                 v-model="item.mata_uang_id"
               >
                 <li
@@ -92,6 +98,7 @@
                 :options="lookup_custom3.data"
                 :filterable="false"
                 @search="onGetJenisKontrak"
+                :reduce="(item) => item.jenis_kontrak_id"
                 v-model="item.jenis_kontrak_id"
               >
                 <li
@@ -125,6 +132,7 @@
                 :options="lookup_custom4.data"
                 :filterable="false"
                 @search="onGetDivisi"
+                :reduce="(item) => item.divisi_id"
                 v-model="item.divisi_id"
               >
                 <li
@@ -158,6 +166,7 @@
                 :options="lookup_custom5.data"
                 :filterable="false"
                 @search="onGetJenisBiaya"
+                :reduce="(item) => item.jenis_biaya_id"
                 v-model="item.jenis_biaya_id"
               >
                 <li
@@ -203,6 +212,7 @@
                 :options="lookup_suppliers.data"
                 :filterable="false"
                 @search="onGetpembayaran"
+                :reduce="(item) => item.pembayaran_id"
                 v-model="item.pembayaran_id"
               >
                 <li
@@ -236,6 +246,7 @@
                 :options="lookup_custom6.data"
                 :filterable="false"
                 @search="onGetGudang"
+                :reduce="(item) => item.gudang_id"
                 v-model="item.gudang_id"
               >
                 <li
@@ -269,6 +280,7 @@
                 :options="lookup_custom7.data"
                 :filterable="false"
                 @search="onGetTerm"
+                :reduce="(item) => item.term_pembayaran_id"
                 v-model="item.term_pembayaran_id"
               >
                 <li
@@ -295,41 +307,15 @@
               </v-select>
             </td>
             <td class="border border-gray-300">
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_jenis_peralatan"
-                :loading="isLoadingGetPeralatan"
-                :options="lookup_custom9.data"
-                :filterable="false"
-                @search="onGetPeralatan"
-                v-model="item.jenis_peralatan_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom9.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom9.current_page > 1"
-                    @click="onGetPeralatan(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom9.last_page > lookup_custom9.current_page
-                    "
-                    @click="onGetPeralatan(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
               <p>Luas:</p>
+              <input
+                type="number"
+                v-if="!item.luas"
+                v-model="item.luas"
+                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+              />
               <money
+                v-if="item.luas"
                 v-model="item.luas"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
@@ -344,6 +330,7 @@
                 :options="lookup_custom8.data"
                 :filterable="false"
                 @search="onGetSatuan"
+                :reduce="(item) => item.satuan_id_luas"
                 v-model="item.satuan_id_luas"
               >
                 <li
@@ -370,28 +357,15 @@
               </v-select>
             </td>
             <td class="border border-gray-300 text-center">
-              <select
-                name="dasar_perhitungan"
-                id="dasar_perhitungan"
-                v-model="item.dasar_perhitungan"
-                class="w-full p-1 mb-2 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="LUAS">Luas</option>
-                <option value="FLAT">Flat</option>
-              </select>
-            </td>
-            <td class="border border-gray-300 text-center">
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
-                @click="onDeletePeralatan(i)"
+                @click="onDeleteGudang(i)"
               ></i>
             </td>
           </tr>
           <tr
-            v-if="
-              !self.parameters.form.kontrak_sewa_peralatan_details.length > 0
-            "
+            v-if="!self.parameters.form.kontrak_sewa_gudang_details.length > 0"
           >
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
@@ -441,10 +415,6 @@ export default {
       isLoadingGetSatuan: false,
       satuan_search: "",
 
-      isStopSearchPeralatan: false,
-      isLoadingGetPeralatan: false,
-      peralatan_search: "",
-
       isStopSearchPembayaran: false,
       isLoadingGetPembayaran: false,
       pembayaran_search: "",
@@ -462,7 +432,6 @@ export default {
     await this.onSearchJenisKontrak();
     await this.onSearchTerm();
     await this.onSearchSatuan();
-    await this.onSearchPeralatan();
     await this.onSearchPembayaran();
     await this.onSearchMataUang();
   },
@@ -478,8 +447,7 @@ export default {
       "lookup_custom6", //gudang
       "lookup_custom7", //term
       "lookup_custom8", //satuan
-      "lookup_custom9", //peralatan
-      "lookup_suppliers", //pembayaran
+      "lookup_suppliers", //pemayaran
       "lookup_customers", //mata uang
     ]),
   },
@@ -487,27 +455,25 @@ export default {
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
-    addDetailPeralatan() {
-      this.self.parameters.form.kontrak_sewa_peralatan_details.push({
+    addDetailGudang() {
+      this.self.parameters.form.kontrak_sewa_gudang_details.push({
+        nilai_kontrak: 0,
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
         gudang_id: "",
-        term_pembayaran_id: "",
-        jenis_peralatan_id: "",
-        dasar_perhitungan: "",
-        luas: "",
-        satuan_id_luas: "",
-        nilai_kontrak: "",
-        payable_to: "",
         mata_uang_id: "",
         pembayaran_id: "",
+        payable_to: "",
+        term_pembayaran_id: "",
+        luas: 0,
+        satuan_id_luas: "",
       });
     },
 
-    onDeletePeralatan(index) {
-      this.self.parameters.form.kontrak_sewa_peralatan_details =
-        this.self.parameters.form.kontrak_sewa_peralatan_details.filter(
+    onDeleteGudang(index) {
+      this.self.parameters.form.kontrak_sewa_gudang_details =
+        this.self.parameters.form.kontrak_sewa_gudang_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -743,45 +709,6 @@ export default {
         });
 
         this.isLoadingGetSatuan = false;
-      }
-    },
-
-    onGetPeralatan(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchPeralatan);
-
-      this.isStopSearchPeralatan = setTimeout(() => {
-        this.peralatan_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom9.current_page = isNext
-            ? this.lookup_custom9.current_page + 1
-            : this.lookup_custom9.current_page - 1;
-        } else {
-          this.lookup_custom9.current_page = 1;
-        }
-
-        this.onSearchPeralatan();
-      }, 600);
-    },
-
-    async onSearchPeralatan() {
-      if (!this.isLoadingGetPeralatan) {
-        this.isLoadingGetPeralatan = true;
-
-        await this.lookUp({
-          url: "master/jenis-peralatan/get-jenis-peralatan",
-          lookup: "custom9",
-          query:
-            "?search=" +
-            this.peralatan_search +
-            "&page=" +
-            this.lookup_custom9.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetPeralatan = false;
       }
     },
 

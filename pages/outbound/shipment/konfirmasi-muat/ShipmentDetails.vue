@@ -31,6 +31,7 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
             <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[200px] border border-gray-300">Alamat Pengiriman</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">
@@ -98,6 +99,18 @@
                 {{ item.item_gudang_id.nama_item }}
                 {{ item.item_gudang_id.kode_item }}
               </p>
+            </td>
+            <td class="border border-gray-300 text-center">
+              <span
+                v-if="item.jenis == 0"
+                class="p-1 text-white rounded-md bg-orange-500"
+                >Penjualan</span
+              >
+              <span
+                v-if="item.jenis == 1"
+                class="p-1 text-white rounded-md bg-green-500"
+                >Stok Transfer</span
+              >
             </td>
             <td class="w-[200px] border border-gray-300">
               <p>
