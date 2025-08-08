@@ -1351,6 +1351,7 @@ export default {
     onSelectGudang(item, index) {
       if (item) {
         this.parameters.form.gudang_id = item;
+        this.parameters.form.purchase_order_details = [];
       } else {
         this.parameters.form.gudang_id = "";
       }

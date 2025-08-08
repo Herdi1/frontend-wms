@@ -107,18 +107,53 @@
           </div>
         </div>
       </div>
+
+      <div class="mt-7">
+        <tab-component :tabs="tabs">
+          <template #KontrakLastmileJarak>
+            <KontrakLastmileJarak :self="{ detail_lastmile }" />
+          </template>
+          <template #KontrakLastmileRitase>
+            <KontrakLastmileRitase :self="{ detail_lastmile }" />
+          </template>
+          <template #KontrakLastmileBerat>
+            <KontrakLastmileBerat :self="{ detail_lastmile }" />
+          </template>
+          <template #KontrakLastmileAtcost>
+            <KontrakLastmileAtcost :self="{ detail_lastmile }" />
+          </template>
+        </tab-component>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
+import KontrakLastmileAtcost from "./KontrakLastmileAtcost.vue";
+import KontrakLastmileBerat from "./KontrakLastmileBerat.vue";
+import KontrakLastmileJarak from "./KontrakLastmileJarak.vue";
+import KontrakLastmileRitase from "./KontrakLastmileRitase.vue";
 export default {
   props: ["self"],
+
+  components: {
+    KontrakLastmileAtcost,
+    KontrakLastmileBerat,
+    KontrakLastmileJarak,
+    KontrakLastmileRitase,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
 
     return {
+      tabs: [
+        { name: "Kontrak Lastmile Jarak", slotName: "KontrakLastmileJarak" },
+        { name: "Kontrak Lastmile Ritase", slotName: "KontrakLastmileRitase" },
+        { name: "Kontrak Lastmile Berat", slotName: "KontrakLastmileBerat" },
+        { name: "Kontrak Lastmile Atcost", slotName: "KontrakLastmileAtcost" },
+      ],
+
       id,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingData: false,
@@ -166,7 +201,7 @@ export default {
         res.data.kontrak_lastmile_atcost_details;
 
       this.isLoadingPage = false;
-      console.log("detail", this.detail_lastmile);
+      console.log("res", res.data.kontrak_lastmile_atcost_details);
     } catch (error) {
       // this.$router.back();
       console.log("error", error);

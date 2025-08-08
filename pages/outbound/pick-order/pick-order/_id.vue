@@ -1685,6 +1685,7 @@ export default {
         this.parameters.form.gudang_id = item;
         await this.onSearchZonaGudang();
         await this.onSearchZonaGudangVirtual();
+        this.parameters.form.pick_order_details = [];
       } else {
         this.parameters.form.gudang_id = "";
       }

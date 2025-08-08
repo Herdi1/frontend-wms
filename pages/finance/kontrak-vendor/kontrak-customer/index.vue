@@ -30,28 +30,31 @@
         <div class="card-title">
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Detail</th>
-                <th class="w-[5%]">No</th>
+                <th class="w-20 text-center border border-gray-300">Detail</th>
+                <th class="w-20 border border-gray-300">No</th>
                 <th
                   @click="
                     onSort(
-                      'no_kontrak',
+                      'kode_kontrak',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer min-w-40"
+                  class="cursor-pointer w-48 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>No Kontrak</div>
+                    <div>Kode Kontrak</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'no_kontrak' &&
+                          parameters.params.order == 'kode_kontrak' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -60,7 +63,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'no_kontrak' &&
+                          parameters.params.order == 'kode_kontrak' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -69,46 +72,74 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-32">Pelanggan</th>
-                <th class="min-w-32">PIC Kontrak</th>
-                <th class="min-w-40">Tanggal Kontrak</th>
-                <th class="min-w-32">Approver Kontrak</th>
-                <th class="min-w-40">Tanggal Approve</th>
-                <th class="min-w-40">Tanggal Aktif</th>
-                <th class="min-w-40">Tanggal Expired</th>
-                <th class="min-w-32">Status</th>
-                <th class="min-w-32">Keterangan</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Hapus</th>
+                <th class="w-40 border border-gray-300">Pelanggan</th>
+                <th class="w-40 border border-gray-300">Status</th>
+                <th class="w-44 border border-gray-300">Tanggal Kontrak</th>
+                <th class="w-44 border border-gray-300">Tanggal Berlaku</th>
+                <th class="w-44 border border-gray-300">Tanggal Berhenti</th>
+                <th class="w-40 border border-gray-300">Status Kontrak</th>
+                <th class="w-40 border border-gray-300">No Referensi</th>
+                <th class="w-40 border border-gray-300">Keterangan</th>
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-20 text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="text-center">
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td>
+                <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.no_kontrak }}</td>
-                <td>
+                <td class="border border-gray-300">
+                  {{ item.kode_kontrak }}
+
+                  <p
+                    v-if="item.user_input"
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                  </p>
+                  <p
+                    v-else
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: Sistem</i>
+                  </p>
+                </td>
+                <td class="border border-gray-300">
                   {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
                 </td>
-                <td>{{ item.tanggal_kontrak }}</td>
-                <td>{{ item.approver_kontrak }}</td>
-                <td>{{ item.tanggal_approve }}</td>
-                <td>{{ item.tanggal_aktif }}</td>
-                <td>{{ item.tanggal_expired }}</td>
-                <td>{{ item.status }}</td>
-                <td>{{ item.keterangan }}</td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">{{ item.status }}</td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_kontrak }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_berlaku }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_berhenti }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.status_kontrak }}
+                </td>
+                <td class="border border-gray-300">{{ item.no_referensi }}</td>
+                <td class="border border-gray-300">{{ item.keterangan }}</td>
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td class="text-center border border-gray-300">
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>
@@ -181,7 +212,7 @@ export default {
 
   data() {
     return {
-      title: "Kontrak Vendor Customer",
+      title: "Kontrak Pelanggan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -200,34 +231,34 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-vendor/kontrak-customer",
+        url: "finance/kontrak-pelanggan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "kontrak_customer_id",
+          order: "kontrak_pelanggan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            no_kontrak: "",
-            pelanggan_id: "",
-            tanggal_kontrak: "",
-            status: "",
-            tanggal_aktif: "",
-            tanggal_expired: "",
-            user_id_pic: "",
-            user_id_approve: "",
-            tanggal_approve: "",
-            keterangan: "",
-            detail_customer: [],
+        },
+        form: {
+          kode_kontrak: "",
+          no_referensi: "",
+          pelanggan_id: "",
+          tanggal_kontrak: "",
+          tanggal_berlaku: "",
+          tanggal_berhenti: "",
+          user_id_pic: "",
+          jenis_kontrak_id: "",
+          status_kontrak: "",
+          keterangan: "",
+          kontrak_pelanggan_details: [],
 
-            user_agent: "",
-            device: "",
-            longitude: "",
-            latitude: "",
-          },
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
         },
         loadings: {
           isDelete: false,
@@ -280,13 +311,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-customer/${item.kontrak_customer_id}`
+        `/finance/kontrak-vendor/kontrak-customer/${item.kontrak_pelanggan_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-customer/detail/${item.kontrak_customer_id}`
+        `/finance/kontrak-vendor/kontrak-customer/detail/${item.kontrak_pelanggan_id}`
       );
     },
 
