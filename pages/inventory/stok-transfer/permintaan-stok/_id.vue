@@ -396,11 +396,15 @@ export default {
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const day = today.getDate().toString().padStart(2, "0");
+    const hours = today.getHours().toString().padStart(2, "0");
+    const minutes = today.getMinutes().toString().padStart(2, "0");
+    const seconds = today.getSeconds().toString().padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
+    const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
     try {
       this.form.tanggal = formattedDate;
-      // this.form.tanggal_request_kirim = formattedDate;
+      this.form.tanggal_request_kirim = formattedDateTime;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.url}/${this.id}`);
         Object.keys(this.form).forEach((item) => {
@@ -561,7 +565,7 @@ export default {
             "Data Berhasil di " + (this.isEditable ? "Update" : "Tambah")
           );
           if (!this.isEditable) {
-            this.parameters.form = this.default_form;
+            this.form = this.default_form;
           }
           this.$router.back();
         })
@@ -570,7 +574,7 @@ export default {
         })
         .finally(() => {
           this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
+          // this.$refs.formValidate.reset();
         });
     },
 

@@ -192,22 +192,22 @@
                       </div>
                     </div>
                   </th>
-                  <!-- <th
+                  <th
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'status_pick_order',
+                        'status_inspeksi',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Pick Order</div>
+                      <div>Status Inspeksi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'status_pick_order' &&
+                            parameters.params.order == 'status_inspeksi' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -216,7 +216,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'status_pick_order' &&
+                            parameters.params.order == 'status_inspeksi' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -224,7 +224,8 @@
                         ></i>
                       </div>
                     </div>
-                  </th> -->
+                  </th>
+
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
@@ -250,6 +251,40 @@
                           class="fas fa-caret-down"
                           :class="
                             parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_muat',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Muat</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_muat' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_muat' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -296,6 +331,21 @@
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
+                  <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_inspeksi === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_inspeksi === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>SELESAI</p>
+                    </div>
+                  </td>
+
                   <!-- <td class="border border-gray-300">
                     <div>
                       <span v-if="item.status_pick_order === 'MENUNGGU'">
@@ -330,6 +380,20 @@
                   </td> -->
                   <td class="border border-gray-300">{{ item.tanggal }}</td>
                   <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_muat === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_muat === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>SELESAI</p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
                     {{ item.kendaraan ? item.kendaraan.nama_kendaraan : "" }}
                   </td>
                   <!-- <td class="border border-gray-300">
@@ -345,12 +409,16 @@
                     }}
                   </td>
                   <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_inspeksi === '1'"
+                    />
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.status_inspeksi === '1'"
                     />
                   </td>
                 </tr>

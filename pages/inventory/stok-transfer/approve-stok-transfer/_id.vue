@@ -25,41 +25,9 @@
                 <div class=" "></div>
               </div>
             </div>
-            <div class="grid grid-cols-1 gap-1 w-[60%] mb-7">
-              <div class="form-group flex items-center">
-                <label for="" class="w-[40%]"
-                  >Status Approve <span class="text-danger">*</span></label
-                >
-                <select
-                  name=""
-                  id=""
-                  v-model="form.status_approve"
-                  class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
-                >
-                  <option value="0">Menunggu</option>
-                  <option value="1">Diapprove</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <input-horizontal
-                  label="Tanggal Approve"
-                  type="date"
-                  name="tanggal"
-                  labelWidth="w-[40%]"
-                  inputWidth="w-[60%]"
-                  :isHorizontal="true"
-                  v-model="form.tanggal_approve"
-                  :required="true"
-                />
-              </div>
-              <div class="form-group flex items-top">
-                <label for="" class="w-[40%]">Catatan Approve</label>
-                <textarea
-                  placeholder="Catatan"
-                  class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
-                  v-model="form.catatan_approve"
-                ></textarea>
-              </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
+            >
               <div class="form-group">
                 <input-horizontal
                   label="Kode Stok Transfer"
@@ -127,6 +95,44 @@
                   v-model="form.keterangan"
                   :disabled="true"
                 /> -->
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
+            >
+              <div class="form-group flex">
+                <label for="" class="w-[40%]"
+                  >Status Approve <span class="text-danger">*</span></label
+                >
+                <select
+                  name=""
+                  id=""
+                  v-model="form.status_approve"
+                  class="w-[60%] h-8 p-1 rounded-md border border-gray-300 outline-none"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Diapprove</option>
+                </select>
+              </div>
+              <!-- <div class="form-group">
+                <input-horizontal
+                  label="Tanggal Approve"
+                  type="date"
+                  name="tanggal"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                  :isHorizontal="true"
+                  v-model="form.tanggal_approve"
+                  :required="true"
+                />
+              </div> -->
+              <div class="form-group flex justify-between">
+                <label for="" class="w-[40%] pt-1">Catatan Approve</label>
+                <textarea
+                  placeholder="Catatan"
+                  class="w-[60%] pl-2 py-1 border rounded focus:outline-none"
+                  v-model="form.catatan_approve"
+                ></textarea>
               </div>
             </div>
 
@@ -204,7 +210,7 @@
                       <p>{{ item.item_gudang_id.kode_item }}</p>
                       <p>
                         Satuan:
-                        <span>{{
+                        <span class="font-bold">{{
                           item.item_gudang_id.satuan.nama_satuan
                         }}</span>
                       </p>
@@ -271,7 +277,7 @@
           </div>
         </form>
       </ValidationObserver>
-      <success-modal
+      <!-- <success-modal
         v-model="showModal"
         :message="`Data Berhasil ${
           isEditable ? 'Diedit' : 'Disimpan'
@@ -293,7 +299,7 @@
             </button>
           </div>
         </template>
-      </success-modal>
+      </success-modal> -->
     </div>
   </section>
 </template>
@@ -499,14 +505,15 @@ export default {
           if (!this.isEditable) {
             this.form = this.default_form;
           }
-          this.showModal = true;
+          // this.showModal = true;
+          this.$router.back();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
+          // this.$refs.formValidate.reset();
         });
     },
 

@@ -25,11 +25,14 @@
               <list-option-section :self="this" ref="form-option" />
             </div>
             <div class="table-responsive">
-              <table class="mb-5 border border-gray-300" ref="formContainer">
+              <table
+                class="mb-5 border border-gray-300 table-fixed"
+                ref="formContainer"
+              >
                 <thead>
                   <tr class="uppercase">
                     <th
-                      class="w-[30%] cursor-pointer border border-gray-300"
+                      class="w-48 cursor-pointer border border-gray-300"
                       @click="
                         onSort(
                           'kode_pick_request',
@@ -61,7 +64,7 @@
                         </div>
                       </div>
                     </th>
-                    <th class="border border-gray-300">Jenis Transaksi</th>
+                    <th class="border border-gray-300 w-36">Jenis Transaksi</th>
                     <th
                       @click="
                         onSort(
@@ -69,7 +72,7 @@
                           parameters.params.sort == 'asc' ? 'desc' : 'asc'
                         )
                       "
-                      class="cursor-pinter w-[30%] border border-gray-300"
+                      class="cursor-pinter w-32 border border-gray-300"
                     >
                       <div class="flex justify-between items-baseline">
                         <div>Tanggal</div>
@@ -96,7 +99,7 @@
                       </div>
                     </th>
                     <th
-                      class="w-[30%] cursor-pointer border border-gray-300"
+                      class="w-32 cursor-pointer border border-gray-300"
                       @click="
                         onSort(
                           'kode_item',
@@ -129,7 +132,7 @@
                       </div>
                     </th>
                     <th
-                      class="w-[30%] cursor-pointer"
+                      class="w-40 cursor-pointer"
                       @click="
                         onSort(
                           'nama_item',
@@ -162,8 +165,8 @@
                       </div>
                     </th>
 
-                    <th class="border border-gray-300 w-[10%]">Quantity</th>
-                    <th class="w-[5%]">Options</th>
+                    <th class="border border-gray-300 w-32">Quantity</th>
+                    <th class="w-20">Options</th>
                   </tr>
                 </thead>
                 <tbody class="min-h-[500px]">
@@ -201,7 +204,9 @@
                     <td class="border border-gray-300">
                       {{ item.quantity ? item.quantity : "-" }}
                     </td>
-                    <td class="border border-gray-300">
+                    <td
+                      class="border border-gray-300 text-center place-items-center"
+                    >
                       <button
                         class="btn btn-sm btn-primary"
                         @click="self.addItem(item)"

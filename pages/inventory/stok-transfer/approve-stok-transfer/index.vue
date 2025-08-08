@@ -80,7 +80,6 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">Detail</th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th class="border border-gray-300">Kode Stok Transfer</th>
@@ -89,18 +88,18 @@
                   <th class="border border-gray-300">Gudang Asal</th>
                   <th class="border border-gray-300">Status Approve</th>
                   <th class="border border-gray-300">Tanggal Approve</th>
+                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
                     <small-detail-button @click="onEdit(item)" />
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border text-center border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -145,8 +144,21 @@
                   <td class="border border-gray-300">
                     {{ item.tanggal_approve }}
                   </td>
-                  <td class="text-center border border-gray-300">
-                    <small-delete-button @click="onTrashed(item)" />
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_approve == 1"
+                    />
+                  </td>
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      :disabled="item.status_approve == 1"
+                    />
                   </td>
                 </tr>
               </tbody>

@@ -151,7 +151,7 @@
                   <th class="w-60 border border-gray-300">Vendor</th>
                   <th class="w-60 border border-gray-300">Surat Jalan</th>
                   <th class="w-60 border border-gray-300">Kendaraan</th>
-                  <th class="w-60 border border-gray-300">Pengemudi</th>
+                  <th class="w-60 border border-gray-300">Staff</th>
                   <th class="w-60 border border-gray-300">Status PO</th>
                   <th class="w-20 border border-gray-300">Generate ASN</th>
                   <th class="w-20 border border-gray-300">Edit</th>
@@ -207,10 +207,10 @@
                   </td>
                   <td class="border border-gray-300">
                     {{
-                      item.pengemudi
-                        ? item.pengemudi.nama_pengemudi +
+                      item.staff
+                        ? item.staff.nama_lengkap +
                           " - " +
-                          item.pengemudi.kode_pengemudi
+                          item.staff.kode_staff
                         : "-"
                     }}
                   </td>

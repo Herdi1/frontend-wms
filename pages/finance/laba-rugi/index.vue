@@ -115,17 +115,20 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-20 text-center border border-gray-300">No</th>
-                <th class="w-48 border border-gray-300">Kode</th>
-                <th class="w-48 border border-gray-300">Nama</th>
-                <th class="w-48 border border-gray-300">Profit</th>
-                <th class="w-48 border border-gray-300">Cost</th>
-                <th class="w-48 border border-gray-300">Total</th>
+                <th class="w-52 border border-gray-300">Kode</th>
+                <th class="w-52 border border-gray-300">Nama</th>
+                <th class="w-52 border border-gray-300">Profit</th>
+                <th class="w-52 border border-gray-300">Cost</th>
+                <th class="w-52 border border-gray-300">Total</th>
               </tr>
             </thead>
             <table-data-loading-section :self="this" />
 
             <table-data-not-found-section :self="this" />
           </table>
+        </div>
+        <div class="mx-3 mt-2 mb-4">
+          <pagination-section :self="this" ref="pagination" />
         </div>
       </div>
     </div>
