@@ -150,6 +150,7 @@
                       </div>
                     </div>
                   </th>
+                  <th class="border border-gray-300">Jenis Transaksi</th>
                   <th class="border border-gray-300">Nama Peminta</th>
                   <th
                     @click="
@@ -214,6 +215,18 @@
                         <i>Dibuat oleh: Sistem</i>
                       </p>
                     </div>
+                  </td>
+                  <td class="border border-gray-300 text-center">
+                    <span
+                      v-if="item.jenis == 0"
+                      class="p-1 text-white rounded-md bg-orange-500"
+                      >Penjualan</span
+                    >
+                    <span
+                      v-if="item.jenis == 1"
+                      class="p-1 text-white rounded-md bg-green-500"
+                      >Stok Transfer</span
+                    >
                   </td>
                   <td class="border border-gray-300">
                     {{ item.nama_peminta }}

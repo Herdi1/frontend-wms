@@ -64,7 +64,6 @@
                 :options="lookup_customers.data"
                 :filterable="false"
                 @search="onGetMataUang"
-                :reduce="(item) => item.mata_uang_id"
                 v-model="item.mata_uang_id"
               >
                 <li
@@ -98,7 +97,6 @@
                 :options="lookup_custom3.data"
                 :filterable="false"
                 @search="onGetJenisKontrak"
-                :reduce="(item) => item.jenis_kontrak_id"
                 v-model="item.jenis_kontrak_id"
               >
                 <li
@@ -132,7 +130,6 @@
                 :options="lookup_custom4.data"
                 :filterable="false"
                 @search="onGetDivisi"
-                :reduce="(item) => item.divisi_id"
                 v-model="item.divisi_id"
               >
                 <li
@@ -166,7 +163,6 @@
                 :options="lookup_custom5.data"
                 :filterable="false"
                 @search="onGetJenisBiaya"
-                :reduce="(item) => item.jenis_biaya_id"
                 v-model="item.jenis_biaya_id"
               >
                 <li
@@ -212,7 +208,6 @@
                 :options="lookup_suppliers.data"
                 :filterable="false"
                 @search="onGetpembayaran"
-                :reduce="(item) => item.pembayaran_id"
                 v-model="item.pembayaran_id"
               >
                 <li
@@ -246,7 +241,6 @@
                 :options="lookup_custom6.data"
                 :filterable="false"
                 @search="onGetGudang"
-                :reduce="(item) => item.gudang_id"
                 v-model="item.gudang_id"
               >
                 <li
@@ -280,7 +274,6 @@
                 :options="lookup_custom7.data"
                 :filterable="false"
                 @search="onGetTerm"
-                :reduce="(item) => item.term_pembayaran_id"
                 v-model="item.term_pembayaran_id"
               >
                 <li
@@ -330,7 +323,6 @@
                 :options="lookup_custom8.data"
                 :filterable="false"
                 @search="onGetSatuan"
-                :reduce="(item) => item.satuan_id_luas"
                 v-model="item.satuan_id_luas"
               >
                 <li

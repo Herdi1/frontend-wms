@@ -860,9 +860,8 @@ export default {
                 jenis_biaya_id: item.jenis_biaya,
                 jenis_kontrak_id: item.jenis_kontrak,
                 // jenis_peralatan_id: item.jenis_peralatan,
-                satuan_id_luas: item.satuan_luas,
+                // satuan_id_luas: item.satuan_luas,
                 term_pembayaran_id: item.term_pembayaran,
-                mata_uang_id: item.mata_uang,
                 pembayaran_id: item.pembayaran,
               };
             });
@@ -879,8 +878,6 @@ export default {
                 jenis_kontrak_id: item.jenis_kontrak,
                 jenis_peralatan_id: item.jenis_peralatan,
                 satuan_id_luas: item.satuan_luas,
-                mata_uang_id: item.mata_uang,
-                pembayaran_id: item.pembayaran,
                 term_pembayaran_id: item.term_pembayaran,
                 kontrak_sewa_peralatan_detail_id: item,
               };
@@ -1449,8 +1446,12 @@ export default {
                 : item.term_pembayaran_id,
             satuan_id_luas:
               typeof item.satuan_id_luas === "object"
-                ? item.satuan_id_luas.satuan_id
+                ? item.satuan_id_luas.satuan_id_luas
                 : item.satuan_id_luas,
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : item.mata_uang_id,
           };
         });
 
@@ -1493,12 +1494,12 @@ export default {
                 : item.term_pembayaran_id,
             satuan_id_luas:
               typeof item.satuan_id_luas === "object"
-                ? item.satuan_id_luas.satuan_id
+                ? item.satuan_id_luas.satuan_id_luas
                 : item.satuan_id_luas,
-            jenis_peralatan_id:
-              typeof item.jenis_peralatan_id === "object"
-                ? item.jenis_peralatan_id.jenis_peralatan_id
-                : item.jenis_peralatan_id,
+            mata_uang_id:
+              typeof item.mata_uang_id === "object"
+                ? item.mata_uang_id.mata_uang_id
+                : item.mata_uang_id,
           };
         });
 

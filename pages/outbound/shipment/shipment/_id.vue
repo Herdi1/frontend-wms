@@ -1015,9 +1015,6 @@ export default {
         };
         this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
-        // console.log(detailShipment);
-        // Update urutan untuk semua item
-        // this.updateUrutan();
         this.generateRuteShipment();
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
@@ -1044,6 +1041,7 @@ export default {
                     : this.parameters.form.gudang_id.lokasi,
                 lokasi_id_tujuan: item.lokasi_id,
                 jenis_routing: "MUAT",
+                jenis: item.jenis,
               };
             });
           this.parameters.form.rute_shipments.push({
@@ -1053,8 +1051,8 @@ export default {
               ].lokasi_id_tujuan,
             lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
             jenis_routing: "KOSONG",
+            jenis: 0,
           });
-          console.log(this.parameters.form.rute_shipments);
           // await Promise.all(
           //   this.parameters.form.rute_shipments.forEach((item, index) => {
           //     this.$axios
@@ -1068,6 +1066,22 @@ export default {
           //       });
           //   })
           // );
+          this.parameters.form.biaya_lastmiles = [];
+          this.parameters.form.rute_shipments.forEach((item) => {
+            this.parameters.form.biaya_lastmiles.push({
+              lokasi_id: item.lokasi_id_tujuan,
+              jenis_biaya_id: "",
+              jenis: item.jenis,
+              term_pembayaran_id: "",
+              coa_id: "",
+              divisi_id: "",
+              vendor_id: "",
+              keterangan: "",
+              nominal_satuan: "",
+              jumlah: "",
+              total: "",
+            });
+          });
         } catch (error) {
           this.$globalErrorToaster(this.$toaster, error);
         } finally {

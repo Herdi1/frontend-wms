@@ -22,7 +22,6 @@
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
-            <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Jarak</th>
@@ -40,18 +39,6 @@
             :key="i"
             class="border-t align-top"
           >
-            <td class="border border-gray-300 text-center">
-              <span
-                v-if="item.jenis == 0"
-                class="p-1 text-white rounded-md bg-orange-500"
-                >Penjualan</span
-              >
-              <span
-                v-if="item.jenis == 1"
-                class="p-1 text-white rounded-md bg-green-500"
-                >Stok Transfer</span
-              >
-            </td>
             <td class="border border-gray-300">
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"

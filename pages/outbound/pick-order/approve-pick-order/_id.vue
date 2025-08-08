@@ -207,6 +207,9 @@
                         </th>
                         <th class="w-60 border border-gray-300">Kode Item</th>
                         <th class="w-60 border border-gray-300">Nama Item</th>
+                        <th class="w-40 border border-gray-300">
+                          Jenis Transaksi
+                        </th>
                         <th class="w-60 border border-gray-300">Valuation</th>
                         <th class="w-60 border border-gray-300">Zona Asal</th>
                         <th class="w-60 border border-gray-300">
@@ -246,6 +249,18 @@
                         </td>
                         <td class="border border-gray-300">
                           {{ item.nama_item }}
+                        </td>
+                        <td class="border border-gray-300 text-center">
+                          <span
+                            v-if="item.jenis == 0"
+                            class="p-1 text-white rounded-md bg-orange-500"
+                            >Penjualan</span
+                          >
+                          <span
+                            v-if="item.jenis == 1"
+                            class="p-1 text-white rounded-md bg-green-500"
+                            >Stok Transfer</span
+                          >
                         </td>
                         <td class="border border-gray-300">
                           <v-select
@@ -1265,7 +1280,7 @@ export default {
       this.parameters.form.biaya_pick_orders =
         this.parameters.form.biaya_pick_orders.filter(
           (_, itemIndex) => index !== itemIndex
-        )
+        );
     },
 
     onGetUser(search, isNext) {

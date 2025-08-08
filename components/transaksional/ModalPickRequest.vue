@@ -29,7 +29,7 @@
                 <thead>
                   <tr class="uppercase">
                     <th
-                      class="w-[30%] cursor-pointer"
+                      class="w-[30%] cursor-pointer border border-gray-300"
                       @click="
                         onSort(
                           'kode_pick_request',
@@ -61,6 +61,7 @@
                         </div>
                       </div>
                     </th>
+                    <th class="border border-gray-300">Jenis Transaksi</th>
                     <th
                       @click="
                         onSort(
@@ -178,7 +179,18 @@
                         </p>
                       </div>
                     </td>
-
+                    <td class="border border-gray-300 text-center">
+                      <span
+                        v-if="item.jenis == 0"
+                        class="p-1 text-white rounded-md bg-orange-500"
+                        >Penjualan</span
+                      >
+                      <span
+                        v-if="item.jenis == 1"
+                        class="p-1 text-white rounded-md bg-green-500"
+                        >Stok Transfer</span
+                      >
+                    </td>
                     <td class="border border-gray-300">{{ item.tanggal }}</td>
                     <td class="border border-gray-300">
                       {{ item.kode_item ? item.kode_item : "-" }}
