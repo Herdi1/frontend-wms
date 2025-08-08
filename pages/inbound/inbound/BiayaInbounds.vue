@@ -22,8 +22,11 @@
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
+            <th class="w-[200px] border border-gray-300">Dasar Perhitungan</th>
             <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
             <th class="w-[200px] border border-gray-300">Jumlah</th>
+            <th class="w-[200px] border border-gray-300">Berat</th>
+            <th class="w-[200px] border border-gray-300">Volume</th>
             <th class="w-[200px] border border-gray-300">Total</th>
             <th class="w-[200px] border border-gray-300">COA</th>
             <th class="w-[200px] border border-gray-300">Divisi</th>
@@ -77,10 +80,11 @@
                 </li>
               </v-select>
             </td>
+            <td class="border border-gray-300">{{ item.dasar_perhitungan }}</td>
             <td class="border border-gray-300">
               <money
+                disabled
                 v-model="item.nominal_satuan"
-                @change="totalValue(item, index)"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
@@ -90,7 +94,26 @@
             <td class="border border-gray-300">
               <money
                 v-model="item.jumlah"
-                @change="totalValue(item, index)"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+            </td>
+            <td class="border border-gray-300">
+              <money
+                disabled
+                v-model="item.berat"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+            </td>
+            <td class="border border-gray-300">
+              <money
+                disabled
+                v-model="item.volume"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
@@ -100,8 +123,9 @@
             <td class="border border-gray-300">
               <!-- :value="this.totalValue(item, index)" -->
               <money
+                type="text"
                 disabled
-                :value="item.nominal_satuan * item.jumlah"
+                v-model="item.total"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
@@ -266,6 +290,25 @@ export default {
       isLoadingGetVendor: false,
       vendor_search: "",
     };
+  },
+
+  watch: {
+    "self.form.biaya_inbounds": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nilai_kontrak;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nilai_kontrak * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nilai_kontrak * item.volume;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      deep: true,
+    },
   },
 
   async mounted() {
@@ -475,11 +518,18 @@ export default {
       }
     },
 
-    totalValue(item, index) {
-      const total = item.jumlah * item.nominal_satuan;
-      this.self.form.biaya_inbounds[index].total = total;
+    totalValue(item) {
+      let total = 0;
 
-      console.log(total);
+      if (item.dasar_perhitungan === "QTY") {
+        total = item.jumlah * item.nilai_kontrak;
+      } else if (item.dasar_perhitungan === "BERAT") {
+        total = item.jumlah * item.nilai_kontrak * item.berat;
+      } else if (item.dasar_perhitungan === "VOLUME") {
+        total = item.jumlah * item.nilai_kontrak * item.volume;
+      }
+
+      return total;
     },
   },
 };

@@ -1124,24 +1124,39 @@ export default {
       this.self.form.inbound_details[index].item_gudang_id = { item_gudang_id: item.item_gudang_id, item_id: item.item_id, nama_item: item.nama_item}
       // await this.onSearchSlotAisle(index)
 
+      const biaya = await this.$axios.get("/finance/kontrak-tkbm/get-kontrak-tkbm", {
+        params: {
+          item_gudang_id: item.item_gudang_id,
+          gudang_id: this.self.form.gudang_id.gudang_id,
+          jenis: 'inbound'
+        }
+      })
+
+      console.log(biaya)
+
       if(!this.self.form.biaya_inbounds.find(
         (data) => data.item_gudang_id === item.item_gudang_id
       )){
-        this.self.form.biaya_inbounds.push({
-          item_gudang: {nama_item: item.nama_item,
-          kode_item: item.kode_item,},
-          item_id: item.item_id,
-          item_gudang_id: item.item_gudang_id,
-          biaya_inbound_id: "",
-          jenis_biaya_id: "",
-          jenis: 0,
-          nominal_satuan: "",
-          jumlah: "",
-          total: "",
-          coa_id: "",
-          divis_id: "",
-          vendor_id: "",
-        });
+        biaya.data.forEach((data) => {
+          this.self.form.biaya_inbounds.push({
+            ...data,
+            item_gudang: data.item_gudang,
+            item_id: data.item_id,
+            item_gudang_id: data.item_gudang_id,
+            biaya_inbound_id: "",
+            jenis_biaya_id: data.jenis_biaya,
+            nominal_satuan: data.nilai_kontrak,
+            berat: data.item_gudang.berat_kotor,
+            volume: data.item_gudang.volume,
+            jumlah: 0,
+            total: 0,
+            divisi_id: data.divisi_id,
+            vendor_id: data.vendor,
+            coa_id: "",
+            dasar_perhitungan: data.dasar_perhitungan,
+            payable_to: data.payable_to
+          });
+        })
       }
     },
 

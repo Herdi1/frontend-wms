@@ -310,6 +310,10 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
+      isStopSearchItemGudang: false,
+      isLoadingGetItemGudang: false,
+      item_gudang_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -426,6 +430,7 @@ export default {
               ...item,
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
             };
           });
         }
@@ -545,7 +550,7 @@ export default {
       "lookup_custom10",
 
       "lookup_beam",
-
+      "lookup_products",
       "lookup_suppliers",
     ]),
 
@@ -705,6 +710,7 @@ export default {
             item.slot_penyimpanan_bin
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : "",
+          keterangan: item.keterangan || "",
         };
       });
 
@@ -717,6 +723,14 @@ export default {
             typeof item.biaya_inbound_id === "object"
               ? item.biaya_inbound_id.biaya_inbound_id
               : "",
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id === "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
+          berat: item.berat > 0 ? item.berat : 1,
+          volume: item.volume > 0 ? item.volume : 1,
+          jenis: item.jenis ? item.jenis : 0,
+          keterangan: item.keterangan || "",
         };
       });
 
@@ -1060,9 +1074,10 @@ export default {
       }
     },
 
-    onSelectGudang(item) {
+    async onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
       }
@@ -1075,6 +1090,27 @@ export default {
 
     onPrintLabel() {
       console.log("printing label");
+    },
+
+    async onSearchItemGudang() {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
+
+        await this.lookUp({
+          url: "master/item-gudang/get-item-gudang",
+          lookup: "products",
+          query:
+            "?search=" +
+            this.item_gudang_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_products.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItemGudang = false;
+      }
     },
   },
 };
