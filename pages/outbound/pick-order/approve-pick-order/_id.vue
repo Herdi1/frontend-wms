@@ -1231,6 +1231,11 @@ export default {
         this.parameters.form.pick_order_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
+
+      this.parameters.form.biaya_pick_orders =
+        this.parameters.form.biaya_pick_orders.filter(
+          (_, itemIndex) => index !== itemIndex
+        )
     },
 
     onGetUser(search, isNext) {

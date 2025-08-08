@@ -30,6 +30,7 @@ import InputHoriontal from "../components/InputForm/InputHoriontal.vue";
 import TabComponent from "../pages/master/gudang/tabComponent.vue"
 import SuccessModal from "../components/SuccessModal.vue";
 import SelectButton from "../components/transaksional/SelectButton.vue";
+import { ChromePicker } from 'vue-color'
 
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
