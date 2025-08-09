@@ -26,12 +26,96 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
+          <div class="w-full mt-3 mb-7">
+            <div
+              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
+            >
+              <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Awal"
+                      type="date"
+                      name="kode_sap"
+                      :isHorizontal="true"
+                      v-model="parameters.params.start_date"
+                      :required="false"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Akhir"
+                      type="date"
+                      name="periode_akhir"
+                      :isHorizontal="true"
+                      v-model="parameters.params.end_date"
+                      :required="false"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 mb-1">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Gudang</div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
+                  >
+                    <!-- @input="onSelectGudang" -->
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <button
+                  @click="onLoad"
+                  class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
+                >
+                  <i class="fa fa-filter text-white font-bold mr-2"></i>
+                  <div>Filter</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[3%] border border-gray-300">Edit</th>
-                  <th class="w-[3%] border border-gray-300">Delete</th>
                   <th class="w-[2%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -72,19 +156,12 @@
                   <th class="border border-gray-300">Tipe</th>
                   <th class="border border-gray-300">Status</th>
                   <th class="border border-gray-300">Jenis COA</th>
+                  <th class="w-[3%] border border-gray-300">Edit</th>
+                  <th class="w-[3%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -129,6 +206,19 @@
                       >Gudang :
                       {{ item.gudang ? item.gudang.nama_gudang : "" }}</span
                     >
+                  </td>
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -203,6 +293,10 @@ export default {
 
   data() {
     return {
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       title: "Chart Of Account",
       isLoadingData: false,
       isPaginate: true,
@@ -254,7 +348,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -284,6 +378,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
@@ -389,6 +484,45 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudangGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudangGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
     },
   },
 };

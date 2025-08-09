@@ -1078,6 +1078,8 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        this.form.inbound_details = [];
+        this.form.biaya_inbounds = [];
         await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";

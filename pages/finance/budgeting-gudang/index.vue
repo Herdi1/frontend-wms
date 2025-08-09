@@ -114,11 +114,11 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">
+                  <!-- <th class="w-20 text-center border border-gray-300">
                     Detail
-                  </th>
+                  </th> -->
                   <th class="w-12 text-center border border-gray-300">No</th>
-                  <th
+                  <!-- <th
                     class="w-full border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
@@ -150,7 +150,8 @@
                         ></i>
                       </div>
                     </div>
-                  </th>
+                  </th> -->
+                  <th class="w-full border border-gray-300">Gudang</th>
                   <!-- <th class="w-full border border-gray-300">Budget</th> -->
                   <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">Hapus</th>
@@ -158,11 +159,11 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td
+                  <!-- <td
                     class="text-center place-items-center border border-gray-300"
                   >
                     <small-detail-button @click="onDetail(item)" />
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *

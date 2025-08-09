@@ -526,7 +526,7 @@ export default {
     },
 
     async onSearchGudang() {
-      if (!this.isLoadingGetGudangGudang) {
+      if (!this.isLoadingGetGudang) {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({

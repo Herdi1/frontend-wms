@@ -120,15 +120,117 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">Detail</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
-                  <th class="border border-gray-300">Kode Permintaan Stok</th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="border border-gray-300">Status</th>
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-[5%] text-center border border-gray-300">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_stok_transfer',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Kode Stok Transfer</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_stok_transfer' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_stok_transfer' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="border border-gray-300">Gudang Penerima</th>
                   <th class="border border-gray-300">Gudang Pengirim</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Edit
+                  </th>
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -162,13 +264,13 @@
                   <td class="border border-gray-300">
                     <div
                       v-if="item.status_approve === '0'"
-                      class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                      class="p-1 w-3/4 rounded-md bg-orange-500 font-semibold text-white text-center"
                     >
                       <p>MENUNGGU</p>
                     </div>
                     <div
                       v-if="item.status_approve === '1'"
-                      class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
+                      class="bg-green-500 w-3/4 p-1 rounded-md font-semibold text-white text-center"
                     >
                       <p>APPROVE</p>
                     </div>
