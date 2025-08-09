@@ -604,28 +604,37 @@
                   >
                     <thead>
                       <tr class="uppercase">
-                        <th class="w-60 border border-gray-300">Item</th>
-                        <th class="w-60 border border-gray-300">Jenis Biaya</th>
-                        <th class="w-60 border border-gray-300">COA</th>
-                        <th class="w-60 border border-gray-300">Divisi</th>
-                        <th class="w-60 border border-gray-300">Vendor</th>
-                        <th class="w-60 border border-gray-300">
+                        <th class="w-[200px] border border-gray-300">Item</th>
+                        <th class="w-[200px] border border-gray-300">
+                          Jenis Biaya
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Dasar Perhitungan
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
                           Nominal Satuan
                         </th>
-                        <th class="w-60 border border-gray-300">Jumlah</th>
-                        <th class="w-60 border border-gray-300">Keterangan</th>
-                        <th class="w-20 border border-gray-300">Hapus</th>
+                        <th class="w-[200px] border border-gray-300">Jumlah</th>
+                        <th class="w-[200px] border border-gray-300">Berat</th>
+                        <th class="w-[200px] border border-gray-300">Volume</th>
+                        <th class="w-[200px] border border-gray-300">Total</th>
+                        <th class="w-[200px] border border-gray-300">COA</th>
+                        <th class="w-[200px] border border-gray-300">Divisi</th>
+                        <th class="w-[200px] border border-gray-300">Vendor</th>
+                        <th class="w-[300px] border border-gray-300">
+                          Keterangan
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr
                         v-for="(item, i) in parameters.form.biaya_pick_orders"
                         :key="i"
-                        class="alt"
+                        class="alt align-top"
                       >
                         <td class="border border-gray-300">
-                          <p>{{ item.item_gudang_id.nama_item }}</p>
-                          <p>{{ item.item_gudang_id.kode_item }}</p>
+                          {{ item.item_gudang.nama_item }}
+                          {{ item.item_gudang.kode_item }}
                         </td>
                         <td class="border border-gray-300">
                           <v-select
@@ -661,6 +670,70 @@
                               >
                             </li>
                           </v-select>
+                        </td>
+                        <td class="border border-gray-300">
+                          {{ item.dasar_perhitungan }}
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            disabled
+                            v-model="item.nominal_satuan"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            v-model="item.jumlah"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            disabled
+                            v-model="item.berat"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            disabled
+                            v-model="item.volume"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <!-- :value="this.totalValue(item, index)" -->
+                          <money
+                            type="text"
+                            disabled
+                            v-model="item.total"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
                         </td>
                         <td class="border border-gray-300">
                           <v-select
@@ -777,40 +850,22 @@
                           </v-select>
                         </td>
                         <td class="border border-gray-300">
-                          <money
-                            v-model="item.nominal_satuan"
-                            class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.jumlah"
-                            class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
                           <textarea
                             placeholder="Keterangan"
                             class="w-full pl-2 py-1 border rounded focus:outline-none"
                             v-model="item.keterangan"
                           ></textarea>
                         </td>
-                        <td class="border border-gray-300 text-center">
-                          <i
-                            class="fas fa-trash mx-auto"
-                            style="cursor: pointer"
-                            @click="deleteBiaya(index)"
-                          ></i>
+                      </tr>
+                      <tr v-if="!parameters.form.biaya_pick_orders.length > 0">
+                        <td colspan="100" class="text-center">
+                          <span class="flex justify-center">
+                            <img
+                              src="/img/data-not-found.svg"
+                              style="height: 250px; object-fit: cover"
+                            />
+                          </span>
+                          <div class="mt-3">Data Tidak Ditemukan</div>
                         </td>
                       </tr>
                     </tbody>
@@ -980,6 +1035,25 @@ export default {
     };
   },
 
+  watch: {
+    "parameters.form.biaya_pick_orders": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nilai_kontrak;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nilai_kontrak * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nilai_kontrak * item.volume;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      deep: true,
+    },
+  },
+
   async created() {
     const today = new Date();
     const year = today.getFullYear();
@@ -1005,6 +1079,7 @@ export default {
               pick_order_details_id: item.pick_order_details_id
                 ? item.pick_order_details_id
                 : "",
+              item_gudang_id: item.item_gudang,
               kode_item: item.item_gudang
                 ? item.item_gudang.kode_item
                 : item.kode_item,
@@ -1021,25 +1096,43 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
+        console.log(this.parameters.form.pick_order_details);
         if (!res.data.biaya_pick_orders.length) {
-          this.parameters.form.pick_order_details.forEach((item) => {
-            this.parameters.form.biaya_pick_orders.push({
-              item_id: item.item,
-              // item_id: "",
-              item_gudang_id: item.item_gudang,
-              // item_gudang_id: "",
-              jenis_biaya_id: "",
-              pick_order_detail_id: item.pick_order_detail_id,
-              // pick_order_detail_id: "",
-              coa_id: "",
-              divisi_id: "",
-              vendor_id: "",
-              nominal_satuan: "",
-              jumlah: "",
-              keterangan: "",
-              jenis: 0,
-            });
-          });
+          await Promise.all(
+            this.parameters.form.pick_order_details.map((item) => {
+              return this.$axios
+                .get("/finance/kontrak-tkbm/get-kontrak-tkbm", {
+                  params: {
+                    item_gudang_id: item.item_gudang_id.item_gudang_id,
+                    gudang_id: this.parameters.form.gudang_id.gudang_id,
+                    jenis: "outbound",
+                  },
+                })
+                .then((res) => {
+                  res.data.forEach((data) => {
+                    this.parameters.form.biaya_pick_orders.push({
+                      ...data,
+                      pick_order_detail_id: item.pick_order_detail_id,
+                      jenis: item.jenis,
+                      item_gudang: data.item_gudang,
+                      item_id: data.item_id,
+                      item_gudang_id: data.item_gudang_id,
+                      biaya_inbound_id: "",
+                      jenis_biaya_id: data.jenis_biaya,
+                      nominal_satuan: data.nilai_kontrak,
+                      berat: data.item_gudang.berat_kotor,
+                      volume: data.item_gudang.volume,
+                      jumlah: 0,
+                      total: 0,
+                      divisi_id: data.divisi_id,
+                      vendor_id: data.vendor,
+                      coa_id: "",
+                      dasar_perhitungan: data.dasar_perhitungan,
+                    });
+                  });
+                });
+            })
+          );
         } else {
           this.parameters.form.biaya_pick_orders =
             res.data.biaya_pick_orders.map((item) => {
@@ -1219,15 +1312,37 @@ export default {
               : item.slot_penyimpanan_id_bin,
         };
       });
-      formData.biaya_pick_orders = [];
-      // formData.biaya_pick_orders.map((item) => {
-      //   return {
-      //     ...item,
-      //     item_id: item.item_id.item_id,
-      //     item_gudang_id: item.item_gudang_id.item_gudang_id,
-      //     pick_order_detail_id: item.pick_order_detail_id,
-      //   };
-      // });
+      formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
+        return {
+          ...item,
+          pick_order_detail_id:
+            typeof item.pick_order_detail_id === "object"
+              ? item.pick_order_detail_id.pick_order_detail_id
+              : item.pick_order_detail_id,
+          item_id: item.item.item_id,
+          item_gudang_id: item.item_gudang.item_gudang_id,
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id === "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
+          jenis_kontrak_id:
+            typeof item.jenis_kontrak_id === "object"
+              ? item.jenis_kontrak_id.jenis_kontrak_id
+              : item.jenis_kontrak_id,
+          mata_uang_id:
+            typeof item.mata_uang_id === "object"
+              ? item.mata_uang_id.mata_uang_id
+              : item.mata_uang_id,
+          pembayaran_id:
+            typeof item.pembayaran_id === "object"
+              ? item.pembayaran_id.pembayaran_id
+              : item.pembayaran_id,
+          term_pembayaran_id:
+            typeof item.term_pembayaran_id === "object"
+              ? item.term_pembayaran_id.term_pembayaran_id
+              : item.term_pembayaran_id,
+        };
+      });
 
       if (this.isEditable) {
         url += "/" + this.id;
