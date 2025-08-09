@@ -31,41 +31,7 @@
         </div>
 
         <div class="flex gap-3 w-full">
-          <div class="min-w-[600px] w-[600px] h-[600px] relative bg-gray-300">
-            <VueDraggableResizable
-              v-for="room in rooms"
-              :key="index"
-              :x="room.x"
-              :y="room.y"
-              :w="room.width"
-              :h="room.height"
-              :parent="true"
-              :draggable="true"
-              :resizable="true"
-              @dragging="(x, y) => onDragStop(room, x, y)"
-              style="border: 1px solid black"
-              @resizing="
-                (x, y, width, height) => onReziseStop(room, x, y, width, height)
-              "
-            >
-              <div
-                :class="`bg-[#${room.color}] border border-gray-300 h-[100%] w-[100%] text-center`"
-              >
-                {{ room.nama_zona_gudang }}
-              </div>
-            </VueDraggableResizable>
-          </div>
-          <div class="min-w-[500px]">
-            <!-- <div class="flex items-center mb-3">
-              <p class="w-[150px]">Skala</p>
-              <div class="flex items-center gap-2">
-                <div>1 :</div>
-                <input
-                  type="number"
-                  class="p-1 outline-none border border-gray-300 rounded-sm"
-                />
-              </div>
-            </div> -->
+          <div class="">
             <ValidationProvider name="gudang_id">
               <select-button
                 :self="{
@@ -78,7 +44,7 @@
                   input: onSelectGudang,
                 }"
                 width="w-[50%]"
-                class="mb-5"
+                class="mb-5 w-[500px]"
               />
             </ValidationProvider>
 
@@ -119,55 +85,84 @@
                 </div>
               </form> -->
             </div>
-            <div class="mb-3 max-h-[400px] overflow-auto w-full">
-              <h2 class="font-bold text-base">Zona</h2>
-              <ul class="w-full">
+            <div class="mb-3 max-h-[500px] overflow-auto w-full">
+              <h2 class="font-bold text-base mb-1">Zona</h2>
+              <ul class="w-[500px] pl-2">
                 <li v-for="(room, i) in rooms" :key="i" class="w-full">
                   <div class="mb-2 w-full">
-                    <div class="font-bold">{{ room.nama_zona_gudang }}</div>
-                    <!-- <div class="flex items-center mb-2">
-                      <p class="w-[150px]">Panjang</p>
-                      <input
-                        @change="onSizeCange(room, room.width, room.height)"
-                        type="number"
-                        v-model="room.width"
-                        class="p-1 outline-none border border-gray-300 rounded-sm"
-                      />
+                    <div class="font-bold flex justify-between items-center">
+                      <p>{{ room.nama_zona_gudang }}</p>
+                      <button type="button" @click="deleteZona(i)">
+                        <i class="fa fa-trash"></i>
+                      </button>
                     </div>
-                    <div class="flex items-center mb-2">
-                      <p class="w-[150px]">Lebar</p>
-                      <input
-                        @change="onSizeCange(room, room.width, room.height)"
-                        type="number"
-                        v-model="room.height"
-                        class="p-1 outline-none border border-gray-300 rounded-sm"
-                      />
-                    </div> -->
                     <div class="flex items-center justify-between mb-2 w-full">
                       <p class="w-[150px]">Warna</p>
-                      <!-- @change="onSizeCange(room, room.width, room.height)" -->
-                      <!-- <input
-
+                      <input
+                        @change="changeColor(room, i)"
                         type="color"
                         v-model="room.color"
                         class="p-1 outline-none border border-gray-300 rounded-sm"
-                      /> -->
-                      <v-color-picker v-model="room.color"></v-color-picker>
+                      />
+                    </div>
+                  </div>
+                </li>
+                <li v-for="(zona, i) in zona_gudangs" :key="i" class="w-full">
+                  <div class="mb-2 w-full">
+                    <div class="font-bold flex justify-between">
+                      <p>{{ zona.nama_zona_gudang }}</p>
+                      <button
+                        type="button"
+                        class="p-1 px-2 rounded-md bg-gray-200 font-bold"
+                      ></button>
+                    </div>
+                    <div class="flex items-center justify-between mb-2 w-full">
+                      <p class="w-[150px]">Warna</p>
+                      <input
+                        type="color"
+                        v-model="zona.color"
+                        class="p-1 outline-none border border-gray-300 rounded-sm"
+                      />
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-            <div class="mt-5">
-              <button
-                @click="onSubmit"
-                type="button"
-                class="p-2 rounded-md text-white bg-green-400"
-              >
-                Simpan Layout
-              </button>
-            </div>
           </div>
+          <div class="min-w-[800px] w-[800px] h-[800px] relative bg-gray-300">
+            <VueDraggableResizable
+              v-for="room in rooms"
+              :key="index"
+              :x="room.x"
+              :y="room.y"
+              :w="room.width"
+              :h="room.height"
+              :parent="true"
+              :draggable="true"
+              :resizable="true"
+              @dragging="(x, y) => onDragStop(room, x, y)"
+              style="border: 1px solid black"
+              @resizing="
+                (x, y, width, height) => onReziseStop(room, x, y, width, height)
+              "
+            >
+              <div
+                :style="`background-color: ${room.color}`"
+                :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center`"
+              >
+                {{ room.nama_zona_gudang }}
+              </div>
+            </VueDraggableResizable>
+          </div>
+        </div>
+        <div class="mt-5">
+          <button
+            @click="onSubmit"
+            type="button"
+            class="p-2 rounded-md text-white bg-green-400"
+          >
+            Simpan Layout
+          </button>
         </div>
       </div>
     </div>
@@ -329,8 +324,21 @@ export default {
         height: 0,
       },
 
+      zona_gudangs: [],
+
       rooms: [],
     };
+  },
+
+  watch: {
+    rooms: {
+      handler(newVal) {
+        return newVal.map((item) => {
+          return { ...item };
+        });
+      },
+      deep: true,
+    },
   },
 
   methods: {
@@ -346,7 +354,7 @@ export default {
       //   }
       // });
       // console.log(newAxis);
-      console.log(this.checkCollide(this.rooms[1], this.rooms[2]));
+      // console.log(this.checkCollide(this.rooms[1], this.rooms[2]));
     },
     onReziseStop(room, x, y, width, height) {
       room.x = x;
@@ -474,11 +482,12 @@ export default {
       if (item) {
         this.isLoadingData = true;
         this.parameters.form.gudang_id = item;
-        this.rooms = [];
         const layout = await this.$axios.get("inventory/layout-gudang", {
           params: { gudang_id: this.parameters.form.gudang_id.gudang_id },
         });
         if (layout.data.length > 0) {
+          this.rooms = [];
+          this.zona_gudangs = [];
           layout.data.forEach((item) => {
             const rawCanvas = item.canvas;
             const canvas = JSON.parse(`${rawCanvas}`);
@@ -501,7 +510,9 @@ export default {
               `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
             )
             .then((res) => {
-              this.rooms = res.data.data.map((item) => {
+              this.rooms = [];
+              this.zona_gudangs = [];
+              this.zona_gudangs = res.data.data.map((item) => {
                 return {
                   zona_gudang_id: item.zona_gudang_id,
                   nama_zona_gudang: item.nama_zona_gudang,
@@ -515,16 +526,18 @@ export default {
               });
             });
         }
-        // try {
-        // } catch (error) {
-        //   this.$globalErrorToaster(this.$toaster, error);
-        // } finally {
-        //   this.isLoadingData = false;
-        // }
       } else {
         this.parameters.form.gudang_id = "";
         this.rooms = [];
       }
+    },
+
+    changeColor(room, index) {
+      this.rooms[index] = room;
+    },
+
+    deleteZona(index) {
+      this.rooms = this.rooms.filter((_, itemIndex) => index !== itemIndex);
     },
   },
 };

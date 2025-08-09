@@ -126,6 +126,7 @@ export default {
         "~/plugins/nuxt-client-init",
         "~/plugins/global-filters",
         "~/plugins/vue-error-handler",
+        "~/plugins/vue-config",
         // "~/plugins/init-theme",
         // '~/plugins/date-picker',
         // '~/plugins/pagination',
@@ -184,6 +185,7 @@ export default {
                 config.devtool = ctx.isClient ? "source-map" : "inline-source-map";
             }
         },
+        terser: { compress: { drop_console: true } }
     },
 
     pwa: {

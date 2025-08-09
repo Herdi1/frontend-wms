@@ -711,6 +711,7 @@ export default {
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : "",
           keterangan: item.keterangan || "",
+          stok_transfer_detail_id: item.stok_transfer_detail_id,
         };
       });
 

@@ -1073,6 +1073,7 @@ export default {
           slot_penyimpanan_id_rack_tujuan: "",
           slot_penyimpanan_id_level_tujuan: "",
           slot_penyimpanan_id_bin_tujuan: "",
+          stok_transfer_detail_id: item.stok_transfer_detail_id,
         };
       });
 

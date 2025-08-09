@@ -24,8 +24,11 @@
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
-            <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
-            <th class="w-[200px] border border-gray-300">Jumlah</th>
+            <th class="w-[200px] border border-gray-300">Jarak</th>
+            <th class="w-[200px] border border-gray-300">
+              Biaya Per Kilometer
+            </th>
+            <th class="w-[200px] border border-gray-300">Payable To</th>
             <th class="w-[200px] border border-gray-300">Total</th>
             <th class="w-[200px] border border-gray-300">COA</th>
             <th class="w-[200px] border border-gray-300">Divisi</th>
@@ -55,6 +58,7 @@
             <td class="border border-gray-300">
               <div class="w-full">
                 <v-select
+                  disabled
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                   label="nama_jenis_biaya"
                   :loading="isLoadingGetJenisBiaya"
@@ -94,6 +98,7 @@
             </td>
             <td class="border border-gray-300">
               <v-select
+                disabled
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
                 :loading="isLoadingGetLokasi"
@@ -128,6 +133,7 @@
             <td class="border border-gray-300">
               <div class="w-full">
                 <v-select
+                  disabled
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                   label="nama_term_pembayaran"
                   :loading="isLoadingGetTermPembayaran"
@@ -162,29 +168,38 @@
             </td>
             <td class="border border-gray-300">
               <money
-                v-model="item.nominal_satuan"
+                disabled
+                v-model="item.jarak"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
               />
             </td>
             <td class="border border-gray-300">
               <money
-                v-model="item.jumlah"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
+                disabled
+                :value="
+                  item.jenis_routing === 'MUAT'
+                    ? item.biaya_perkm_muat
+                    : item.biaya_perkm_kosong
                 "
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
               />
             </td>
             <td class="border border-gray-300">
+              <select
+                name="payable_to"
+                id="payable_to"
+                v-model="item.payable_to"
+                class="p-1 w-full border border-gray-300 outline-none rounded-sm"
+              >
+                <option value="DRIVER">Driver</option>
+                <option value="VENDOR">Vendor</option>
+              </select>
+            </td>
+            <td class="border border-gray-300">
               <money
-                v-model="item.total"
+                disabled
+                :value="item.total"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
               />
             </td>
             <td class="border border-gray-300">

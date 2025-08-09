@@ -527,6 +527,7 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
                 : "",
+            stok_transfer_detail_id: item.stok_transfer_detail_id,
             // valuation_id:
             //   typeof item.valuation_id === "object"
             //     ? item.valuation_id.valuation_id
@@ -1035,6 +1036,7 @@ export default {
           this.parameters.form.rute_shipments =
             this.parameters.form.shipment_details.map((item, index) => {
               return {
+                item_gudang_id: item.item_gudang_id,
                 lokasi_id_asal:
                   index > 0
                     ? this.parameters.form.shipment_details[index - 1].lokasi_id
@@ -1053,37 +1055,75 @@ export default {
             jenis_routing: "KOSONG",
             jenis: 0,
           });
-          // await Promise.all(
-          //   this.parameters.form.rute_shipments.forEach((item, index) => {
-          //     this.$axios
-          //       .get(
-          //         `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
-          //       )
-          //       .then((res) => {
-          //         this.parameters.form.rute_shipments[index].jarak = res.jarak;
-          //         this.parameters.form.rute_shipments[index].biaya_bbm =
-          //           res.biaya_bbm;
-          //       });
-          //   })
-          // );
+          // if (!res.data.biaya_lastmiles.length) {
+          //   this.parameters.form;
+          // }
+          await Promise.all(
+            this.parameters.form.rute_shipments.map((item, index) => {
+              return this.$axios
+                .get(
+                  `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+                )
+                .then((res) => {
+                  console.log(res);
+                  this.parameters.form.rute_shipments[index].jarak = res.data;
+                  // this.parameters.form.rute_shipments[index].biaya_bbm =
+                  //   res.biaya_bbm;
+                });
+            })
+          );
           this.parameters.form.biaya_lastmiles = [];
-          this.parameters.form.rute_shipments.forEach((item) => {
-            this.parameters.form.biaya_lastmiles.push({
-              lokasi_id: item.lokasi_id_tujuan,
-              jenis_biaya_id: "",
-              jenis: item.jenis,
-              term_pembayaran_id: "",
-              coa_id: "",
-              divisi_id: "",
-              vendor_id: "",
-              keterangan: "",
-              nominal_satuan: "",
-              jumlah: "",
-              total: "",
-            });
-          });
+          await Promise.all(
+            this.parameters.form.rute_shipments.map((item) => {
+              return this.$axios
+                .get("/finance/kontrak-lastmile/get-kontrak-lastmile-atcost", {
+                  params: {
+                    gudang_id: this.parameters.form.gudang_id.gudang_id,
+                    jenis_kendaraan_id:
+                      this.parameters.form.jenis_kendaraan_id
+                        .jenis_kendaraan_id,
+                    lokasi_id: item.lokasi_id_tujuan.lokasi_id,
+                  },
+                })
+                .then((res) => {
+                  res.data.forEach((data) => {
+                    this.parameters.form.biaya_lastmiles.push({
+                      ...data,
+                      // pick_order_detail_id: item.pick_order_detail_id,
+                      jenis: item.jenis,
+                      item_gudang: data.item_gudang,
+                      item_id: data.item_id,
+                      item_gudang_id: data.item_gudang_id,
+                      biaya_inbound_id: "",
+                      jenis_biaya_id: data.jenis_biaya,
+                      jenis_kendaraan_id: data.jenis_kendaraan,
+                      jenis_kontrak_id: data.jenis_kontrak,
+                      mata_uang_id: data.mata_uang,
+                      pembayaran_id: data.pembayaran,
+                      term_pembayaran_id: data.term_pembayaran,
+                      vendor_id: data.vendor,
+                      dasar_perhitungan: data.dasar_perhitungan,
+                      lokasi_id: item.lokasi_id_tujuan,
+                      jenis_routing: item.jenis_routing,
+                      total:
+                        data.jenis == 2
+                          ? item.jenis_routing === "MUAT"
+                            ? data.biaya_perkm_muat * item.jarak
+                            : data.biaya_perkm_kosong * item.jarak
+                          : data.nilai_kontrak,
+                    });
+                  });
+                });
+            })
+          );
+          // if(!res.data.biaya_lastmiles.length){
+          // }else{
+          //   this.parameters.form.biaya_lastmiles = []
+          //   this.parameters.form.biaya_lastmiles = res.data.biaya_lastmiles.map(())
+          // }
         } catch (error) {
           this.$globalErrorToaster(this.$toaster, error);
+          console.log(error);
         } finally {
           this.isLoadingForm = false;
         }
