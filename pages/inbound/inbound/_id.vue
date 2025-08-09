@@ -1063,6 +1063,8 @@ export default {
     onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        this.form.inbound_details = [];
+        this.form.biaya_inbounds = [];
       } else {
         this.form.gudang_id = "";
       }

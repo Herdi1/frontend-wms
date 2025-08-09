@@ -1110,6 +1110,7 @@ export default {
           query:
             "?search=" +
             this.item_gudang_search +
+            // "&gudang_id=1" +
             "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",
