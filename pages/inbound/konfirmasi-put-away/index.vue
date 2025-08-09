@@ -111,26 +111,24 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] border border-gray-300">Konfirmasi</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
-                  <th class="border border-gray-300">Kode Inbound</th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Tanggal Put Away</th>
-                  <th class="border border-gray-300">Status Put Away</th>
-                  <th class="border border-gray-300">Catatan Put Away</th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
+                  <th class="w-52 border border-gray-300">Kode Inbound</th>
+                  <th class="w-52 border border-gray-300">Gudang</th>
+                  <th class="w-52 border border-gray-300">Tanggal Put Away</th>
+                  <th class="w-52 border border-gray-300">Status Put Away</th>
+                  <th class="w-52 border border-gray-300">Catatan Put Away</th>
+                  <th class="w-24 border border-gray-300">Konfirmasi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -141,10 +139,16 @@
                   </td>
                   <td class="border border-gray-300">
                     {{ item.kode_inbound }}
-                    <p v-if="item.user_input" class="text-blue-500">
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 hover:underline cursor-pointer"
+                    >
                       <i>Dibuat oleh: {{ item.user_input.username }}</i>
                     </p>
-                    <p v-else class="text-blue-500">
+                    <p
+                      v-else
+                      class="text-blue-500 hover:underline cursor-pointer"
+                    >
                       <i>Dibuat oleh: Sistem</i>
                     </p>
                   </td>
@@ -155,37 +159,44 @@
                     {{ item.tanggal_put_away }}
                   </td>
                   <td class="border border-gray-300">
-                    <span v-if="item.status_put_away === 'MENUNGGU'">
-                      <p
-                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
-                      >
-                        {{ item.status_put_away }}
-                      </p>
-                    </span>
-                    <span v-if="item.status_put_away === 'PROSES'">
-                      <p
-                        class="bg-purple-500 p-1 rounded-lg w-fit font-semibold text-white"
-                      >
-                        {{ item.status_put_away }}
-                      </p>
-                    </span>
-                    <span v-if="item.status_put_away === 'SELESAI'">
-                      <p
-                        class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
-                      >
-                        {{ item.status_put_away }}
-                      </p>
-                    </span>
-                    <span v-if="item.status_put_away === null">
-                      <p
-                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
-                      >
-                        {{ item.status_put_away }}
-                      </p>
-                    </span>
+                    <div>
+                      <span v-if="item.status_put_away === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === 'SELESAI'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === null">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     {{ item.catatan_put_away }}
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
                   </td>
                 </tr>
               </tbody>

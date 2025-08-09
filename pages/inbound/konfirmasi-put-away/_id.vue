@@ -209,7 +209,7 @@
                       </td>
                       <td class="border border-gray-300">
                         {{
-                          item.alasan_beda_plan.nama_alasan_beda_plan
+                          item.alasan_beda_plan
                             ? item.alasan_beda_plan.nama_alasan_beda_plan
                             : ""
                         }}

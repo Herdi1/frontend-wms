@@ -846,33 +846,57 @@
                   </div>
 
                   <div class="form-group">
-                    <input-form
+                    <label for="jumlah_palet">Jumlah Palet</label>
+                    <money
+                      v-model="form.jumlah_palet"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <!-- <input-form
                       label="Jumlah Palet"
                       type="text"
                       name="jumlah_palet"
                       :required="true"
                       v-model="form.jumlah_palet"
-                    />
+                    /> -->
                   </div>
 
                   <div class="form-group">
-                    <input-form
+                    <label for="kapasitas_palet">Kapasitas Palet</label>
+                    <money
+                      v-model="form.kapasitas_palet"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <!-- <input-form
                       label="kapasitas Palet"
                       type="text"
                       name="kapasitas_palet"
                       :required="true"
                       v-model="form.kapasitas_palet"
-                    />
+                    /> -->
                   </div>
 
                   <div class="form-group">
-                    <input-form
+                    <label for="kebutuhan_palet">Kebutuhan Palet</label>
+                    <money
+                      v-model="form.kebutuhan_palet"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                    <!-- <input-form
                       label="Kebutuhan Palet"
                       type="text"
                       name="kebutuhan_palet"
                       :required="true"
                       v-model="form.kebutuhan_palet"
-                    />
+                    /> -->
                   </div>
 
                   <div class="form-group">

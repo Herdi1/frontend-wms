@@ -24,11 +24,52 @@
         </div>
 
         <div class="w-full mt-3 mb-7">
-          <div
-            class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
-          >
-            <div class="grid grid-flow-col grid-rows-3 gap-2">
-              <div class="flex w-[400px]">
+          <div class="w-full p-2 border border-gray-300 rounded-md">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
+              <div class="flex justify-between">
+                <label class="w-[40%]" for="group_item_id_1">Gudang</label>
+                <v-select
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="filter_params.gudang_id"
+                  :reduce="(item) => item.gudang_id"
+                  class="w-[60%] bg-white"
+                >
+                  <!-- <template #search="{ attributes, events }">
+                              <input
+                                class="w-full outline-none active:outline-none"
+                                :required="!form.vendor_id"
+                                v-bind="attributes"
+                                v-on="events"
+                              />
+                            </template> -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_1"
                   >Group Item Level 1</label
                 >
@@ -73,7 +114,7 @@
                 </v-select>
               </div>
 
-              <div class="flex">
+              <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_2"
                   >Group Item Level 2</label
                 >
@@ -110,7 +151,7 @@
                 </v-select>
               </div>
 
-              <div class="flex">
+              <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_3"
                   >Group Item Level 3</label
                 >
@@ -149,7 +190,7 @@
                 </v-select>
               </div>
 
-              <div class="flex w-[400px]">
+              <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_4"
                   >Group Item Level 4</label
                 >
@@ -188,7 +229,7 @@
                 </v-select>
               </div>
 
-              <div class="flex">
+              <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_5"
                   >Group Item Level 5</label
                 >
@@ -227,7 +268,7 @@
                 </v-select>
               </div>
             </div>
-            <div class="flex gap-3 ml-5 items-self-end">
+            <div class="flex gap-3 mt-5 items-self-end">
               <button
                 @click="onLoad"
                 class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
@@ -493,6 +534,7 @@ export default {
     await this.onSearchGroupItem3();
     await this.onSearchGroupItem4();
     await this.onSearchGroupItem5();
+    await this.onSearchGudang();
   },
 
   data() {
@@ -576,6 +618,7 @@ export default {
         group_item_id_3: "",
         group_item_id_4: "",
         group_item_id_5: "",
+        gudang_id: "",
       },
       selectList: [],
 
@@ -598,6 +641,10 @@ export default {
       isStopSearchGroupItem5: false,
       isLoadingGetGroupItem5: false,
       group_item_5_search: "",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
     };
   },
   computed: {
@@ -610,6 +657,7 @@ export default {
       "lookup_packing",
       "lookup_defects",
       "lookup_department",
+      "lookup_custom1",
     ]),
 
     getRoles() {
@@ -954,6 +1002,45 @@ export default {
         });
 
         this.isLoadingGetGroupItem5 = false;
+      }
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
       }
     },
   },

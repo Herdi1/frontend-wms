@@ -59,20 +59,11 @@
                   v-model="parameters.params.gudang_id"
                   :reduce="(item) => item.gudang_id"
                 >
-                  <!-- @input="onSelectGudang" -->
-                  <!-- <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
-                      </div>
-                    </template> -->
-
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
                     class="d-flex justify-content-between"
-                    v-if="lookup_custom1.data.length || search"
+                    v-if="lookup_custom1.data?.length || search"
                   >
                     <span
                       v-if="lookup_custom1.current_page > 1"
@@ -112,23 +103,51 @@
             ref="formContainer"
             class="mb-5 overflow-auto table-fixed border border-gray-300"
           >
-            <thead>
-              <tr class="uppercase">
-                <th class="w-20 text-center border border-gray-300">No</th>
-                <th class="w-52 border border-gray-300">Kode</th>
-                <th class="w-52 border border-gray-300">Nama</th>
-                <th class="w-52 border border-gray-300">Profit</th>
-                <th class="w-52 border border-gray-300">Cost</th>
-                <th class="w-52 border border-gray-300">Total</th>
+            <tbody v-for="(item, i) in data" :key="i">
+              <tr class="bg-gray-50">
+                <td class="font-bold uppercase">{{ item.nama_coa }}</td>
+                <td></td>
               </tr>
-            </thead>
+              <tr v-for="(itemChild, ic) in item.childs" :key="ic">
+                <td class="pl-8">
+                  {{ itemChild.kode_coa }} {{ itemChild.nama_coa }}
+                </td>
+                <td class="text-right">
+                  <span v-if="passiva_non_real_types.includes(item.tipe)">
+                    {{ itemChild.profit | formatPrice }}
+                  </span>
+                  <span v-else>
+                    {{ itemChild.cost | formatPrice }}
+                  </span>
+                </td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="font-bold">Total</td>
+                <td class="text-right">
+                  <span v-if="passiva_non_real_types.includes(item.tipe)">
+                    {{ item.profit | formatPrice }}
+                  </span>
+                  <span v-else>
+                    {{ item.cost | formatPrice }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+            <tbody v-if="data.length">
+              <tr class="bg-gray-50">
+                <td colspan="2" class="font-bold uppercase">PROFIT/LOSE</td>
+              </tr>
+              <tr>
+                <td class="pl-8">PROFIT/LOSE</td>
+                <td class="text-right">
+                  {{ real_profit_and_lose | formatPrice }}
+                </td>
+              </tr>
+            </tbody>
             <table-data-loading-section :self="this" />
 
             <table-data-not-found-section :self="this" />
           </table>
-        </div>
-        <div class="mx-3 mt-2 mb-4">
-          <pagination-section :self="this" ref="pagination" />
         </div>
       </div>
     </div>
@@ -190,6 +209,7 @@ export default {
 
   data() {
     return {
+      data: [],
       title: "Laba Rugi",
       isLoadingData: false,
       isPaginate: true,
@@ -223,6 +243,14 @@ export default {
           end_date: "",
           gudang_id: "",
         },
+        form: {
+          kode: "",
+          nama: "",
+          profit: "",
+          cost: "",
+          total: "",
+          // checkboxs: [],
+        },
         loadings: {
           isDelete: false,
           isRestore: false,
@@ -232,6 +260,10 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+
+      passiva_non_real_types: ["PENDAPATAN"],
+
+      real_profit_and_lose: 0,
     };
   },
 
@@ -290,21 +322,43 @@ export default {
         onCancel: this.onCancel,
       });
 
-      await this.getData(this.parameters);
+      let url =
+        this.parameters.url +
+        "?" +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
+        "&gudang_id=" +
+        this.parameters.params.gudang_id;
 
-      if (this.result == true) {
-        loader.hide();
+      this.$axios
+        .get(url)
+        .then((res) => {
+          this.data = res.data;
 
-        if (page == 1) {
-          this.$refs["pagination"].generatePage();
-        }
+          let profit = 0;
+          let cost = 0;
 
-        this.$refs["pagination"].active_page = this.parameters.params.page;
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
+          res.data.forEach((itemParent) => {
+            itemParent.childs.forEach((itemChild) => {
+              if (this.passiva_non_real_types.includes(itemParent.tipe)) {
+                cost += parseFloat(itemChild.cost || 0.0);
+              } else {
+                profit += parseFloat(itemChild.profit || 0.0);
+              }
+            });
+          });
 
-      this.isLoadingData = false;
+          this.real_profit_and_lose = parseFloat(profit) - parseFloat(cost);
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          loader.hide();
+          this.isLoadingData = false;
+        });
     },
 
     onSort(column, sort = "asc") {
@@ -338,7 +392,7 @@ export default {
     },
 
     async onSearchGudang() {
-      if (!this.isLoadingGetGudangGudang) {
+      if (!this.isLoadingGetGudang) {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
@@ -353,6 +407,7 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+        console.log(this.lookup_custom1.data);
       }
     },
 
