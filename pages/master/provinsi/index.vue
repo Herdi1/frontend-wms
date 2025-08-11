@@ -29,11 +29,14 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%]">No</th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -41,7 +44,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%]"
+                    class="cursor-pointer w-40 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Provinsi</div>
@@ -67,18 +70,20 @@
                       </div>
                     </div>
                   </th>
-                  <th>Singkatan</th>
-                  <th class="w-[30%]">Kode Provinsi</th>
-                  <th class="w-[30%]">Kode Alternatif</th>
-                  <th class="w-[30%]">Ibu Kota</th>
-                  <th class="w-[25%]">Negara</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="border border-gray-300 w-40">Singkatan</th>
+                  <th class="border border-gray-300 w-40">Kode Provinsi</th>
+                  <th class="border border-gray-300 w-40">Kode Alternatif</th>
+                  <th class="border border-gray-300 w-40">Ibu Kota</th>
+                  <th class="border border-gray-300 w-40">Negara</th>
+                  <th class="border border-gray-300 w-20 text-center">Edit</th>
+                  <th class="border border-gray-300 w-20 text-center">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -86,16 +91,24 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.nama_provinsi }}</td>
-                  <td>{{ item.singkatan }}</td>
-                  <td>{{ item.kode_provinsi }}</td>
-                  <td>{{ item.kode_alternatif }}</td>
-                  <td>{{ item.ibukota }}</td>
-                  <td>{{ item.negara.nama_negara }}</td>
-                  <td class="text-center">
+                  <td class="border border-gray-300">
+                    {{ item.nama_provinsi }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.singkatan }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_provinsi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_alternatif }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.ibukota }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.negara.nama_negara }}
+                  </td>
+                  <td class="border border-gray-300 place-items-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="border border-gray-300 place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

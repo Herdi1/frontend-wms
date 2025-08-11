@@ -21,11 +21,11 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
-          <table ref="formContainer">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">No</th>
-                <th>Kode Tipe Vendor</th>
+                <th class="w-[5%] border border-gray-300 text-center">No</th>
+                <th class="border border-gray-300">Kode Tipe Vendor</th>
                 <th
                   @click="
                     onSort(
@@ -33,7 +33,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer"
+                  class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Tipe Vendor</div>
@@ -59,25 +59,31 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.kode_tipe_vendor }}</td>
-                <td>{{ item.nama_tipe_vendor }}</td>
-                <td>
+                <td class="border border-gray-300">
+                  {{ item.kode_tipe_vendor }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.nama_tipe_vendor }}
+                </td>
+                <td class="place-items-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="place-items-center border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

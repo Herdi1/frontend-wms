@@ -20,12 +20,12 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div>
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">No</th>
-                <th>Kode Jalur</th>
+                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="border border-gray-300">Kode Jalur</th>
                 <th
                   @click="
                     onSort(
@@ -33,7 +33,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer"
+                  class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Jalur</div>
@@ -59,31 +59,33 @@
                     </div>
                   </div>
                 </th>
-                <th>Gudang</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="border border-gray-300">Gudang</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.kode_jalur }}</td>
-                <td>{{ item.nama_jalur }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.kode_jalur }}</td>
+                <td class="border border-gray-300">{{ item.nama_jalur }}</td>
+                <td class="border border-gray-300">
                   {{
                     item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

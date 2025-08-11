@@ -22,14 +22,17 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
+                <th class="w-20 text-center border border-gray-300">Details</th>
 
-                <th class="w-[5%]">No</th>
-                <th>Kode Lokasi</th>
+                <th class="w-20 border text-center border-gray-300">No</th>
+                <th class="w-40 border border-gray-300">Kode Lokasi</th>
                 <th
                   @click="
                     onSort(
@@ -37,6 +40,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
+                  class="cursor-pointer border border-gray-300 w-40"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Lokasi</div>
@@ -62,51 +66,59 @@
                     </div>
                   </div>
                 </th>
-                <th>Kode Pos</th>
-                <th>Kecamatan</th>
-                <th>Kota</th>
-                <th>Provinsi</th>
-                <th>Negara</th>
-                <th>Nama Pemilik</th>
-                <th>No Telp</th>
-                <th>No HP</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Radius (Meter)</th>
-                <th>Tipe Lokasi</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-40 border border-gray-300">Kode Pos</th>
+                <th class="w-40 border border-gray-300">Kecamatan</th>
+                <th class="w-40 border border-gray-300">Kota</th>
+                <th class="w-40 border border-gray-300">Provinsi</th>
+                <th class="w-40 border border-gray-300">Negara</th>
+                <th class="w-40 border border-gray-300">Nama Pemilik</th>
+                <th class="w-40 border border-gray-300">No Telp</th>
+                <th class="w-40 border border-gray-300">No HP</th>
+                <th class="w-40 border border-gray-300">Longitude</th>
+                <th class="w-40 border border-gray-300">Latitude</th>
+                <th class="w-40 border border-gray-300">Radius (Meter)</th>
+                <th class="w-40 border border-gray-300">Tipe Lokasi</th>
+                <th class="w-20 border border-gray-300 text-center">Edit</th>
+                <th class="w-20 border border-gray-300 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
 
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.kode_lokasi }}</td>
-                <td>{{ item.nama_lokasi }}</td>
-                <td>{{ item.kode_pos ? item.kode_pos.nama_kode_pos : "" }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.kode_lokasi }}</td>
+                <td class="border border-gray-300">{{ item.nama_lokasi }}</td>
+                <td class="border border-gray-300">
+                  {{ item.kode_pos ? item.kode_pos.nama_kode_pos : "" }}
+                </td>
+                <td class="border border-gray-300">
                   {{ item.kecamatan ? item.kecamatan.nama_kecamatan : "" }}
                 </td>
-                <td>{{ item.kota ? item.kota.nama_kota : "" }}</td>
-                <td>{{ item.provinsi ? item.provinsi.nama_provinsi : "" }}</td>
-                <td>{{ item.negara ? item.negara.nama_negara : "" }}</td>
-                <td>{{ item.nama_pemilik }}</td>
-                <td>{{ item.no_telp }}</td>
-                <td>{{ item.no_hp }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.radius }}</td>
-                <td>
+                <td class="border border-gray-300">
+                  {{ item.kota ? item.kota.nama_kota : "" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.provinsi ? item.provinsi.nama_provinsi : "" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.negara ? item.negara.nama_negara : "" }}
+                </td>
+                <td class="border border-gray-300">{{ item.nama_pemilik }}</td>
+                <td class="border border-gray-300">{{ item.no_telp }}</td>
+                <td class="border border-gray-300">{{ item.no_hp }}</td>
+                <td class="border border-gray-300">{{ item.longitude }}</td>
+                <td class="border border-gray-300">{{ item.latitude }}</td>
+                <td class="border border-gray-300">{{ item.radius }}</td>
+                <td class="border border-gray-300">
                   {{
                     item.tipe_lokasi === "T"
                       ? "Toko"
@@ -119,10 +131,10 @@
                       : ""
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

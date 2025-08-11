@@ -22,16 +22,19 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
+                <th class="w-20 text-center border border-gray-300">Details</th>
 
-                <th class="w-[5%]">No</th>
-                <th>Tipe Badan Hukum</th>
-                <th>Kode Referensi</th>
-                <th>Kode Pelanggan</th>
+                <th class="w-20 text-center border border-gray-300">No</th>
+                <th class="w-40 border border-gray-300">Tipe Badan Hukum</th>
+                <th class="w-40 border border-gray-300">Kode Referensi</th>
+                <th class="w-40 border border-gray-300">Kode Pelanggan</th>
                 <th
                   @click="
                     onSort(
@@ -39,7 +42,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer"
+                  class="cursor-pointer w-40 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Pelanggan</div>
@@ -65,49 +68,67 @@
                     </div>
                   </div>
                 </th>
-                <th>Kecamatan</th>
-                <th>Kota</th>
-                <th>Provinsi</th>
-                <th>Negara</th>
-                <th>Nama Pemilik</th>
-                <th>Lokasi</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Radius</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-40 border border-gray-300">Kecamatan</th>
+                <th class="w-40 border border-gray-300">Kota</th>
+                <th class="w-40 border border-gray-300">Provinsi</th>
+                <th class="w-40 border border-gray-300">Negara</th>
+                <th class="w-40 border border-gray-300">Nama Pemilik</th>
+                <th class="w-40 border border-gray-300">Lokasi</th>
+                <th class="w-40 border border-gray-300">Longitude</th>
+                <th class="w-40 border border-gray-300">Latitude</th>
+                <th class="w-40 border border-gray-300">Radius</th>
+                <th class="w-20 border border-gray-300 text-center">Edit</th>
+                <th class="w-20 border border-gray-300 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
 
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.tipebadanhukum.nama_tipe_badan_hukum }}</td>
-                <td>{{ item.kode_referensi }}</td>
-                <td>{{ item.kode_pelanggan }}</td>
-                <td>{{ item.nama_pelanggan }}</td>
-                <td>{{ item.kecamatan.nama_kecamatan }}</td>
-                <td>{{ item.kota.nama_kota }}</td>
-                <td>{{ item.provinsi?.nama_provinsi }}</td>
-                <td>{{ item.negara.nama_negara }}</td>
-                <td>{{ item.nama_pemilik }}</td>
-                <td>{{ item.lokasi.nama_lokasi }}</td>
-                <td>{{ item.longitude }}</td>
-                <td>{{ item.latitude }}</td>
-                <td>{{ item.radius }}</td>
-                <td>
+                <td class="border border-gray-300">
+                  {{ item.tipebadanhukum.nama_tipe_badan_hukum }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kode_referensi }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kode_pelanggan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.nama_pelanggan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kecamatan.nama_kecamatan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kota.nama_kota }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.provinsi?.nama_provinsi }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.negara.nama_negara }}
+                </td>
+                <td class="border border-gray-300">{{ item.nama_pemilik }}</td>
+                <td class="border border-gray-300">
+                  {{ item.lokasi.nama_lokasi }}
+                </td>
+                <td class="border border-gray-300">{{ item.longitude }}</td>
+                <td class="border border-gray-300">{{ item.latitude }}</td>
+                <td class="border border-gray-300">{{ item.radius }}</td>
+                <td class="place-items-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="place-items-center border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

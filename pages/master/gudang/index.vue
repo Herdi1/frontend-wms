@@ -24,13 +24,18 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th>Detail</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
 
-                  <th class="w-[3%]">No</th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -38,7 +43,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer w-48 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Lokasi</div>
@@ -64,9 +69,11 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode Gudang External</th>
-                  <th>Kode Gudang</th>
-                  <th>Profit & Cost</th>
+                  <th class="w-48 border border-gray-300">
+                    Kode Gudang External
+                  </th>
+                  <th class="w-48 border border-gray-300">Kode Gudang</th>
+                  <th class="w-48 border border-gray-300">Profit & Cost</th>
                   <th
                     @click="
                       onSort(
@@ -74,7 +81,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer w-48 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Gudang</div>
@@ -103,39 +110,41 @@
                   <!-- <th>Status Konfig External</th>
                   <th>Nomor Rekening</th>
                   <th>Atas Nama Rekening</th> -->
-                  <th>Status Gudang</th>
-                  <th>Group Gudang</th>
-                  <th>Longitude</th>
-                  <th>Latitude</th>
-                  <th>Alamat</th>
-                  <th>Kecamatan</th>
-                  <th>Kota</th>
-                  <th>Provinsi</th>
-                  <th>Negara</th>
+                  <th class="w-48 border border-gray-300">Status Gudang</th>
+                  <th class="w-48 border border-gray-300">Group Gudang</th>
+                  <th class="w-48 border border-gray-300">Longitude</th>
+                  <th class="w-48 border border-gray-300">Latitude</th>
+                  <th class="w-48 border border-gray-300">Alamat</th>
+                  <th class="w-48 border border-gray-300">Kecamatan</th>
+                  <th class="w-48 border border-gray-300">Kota</th>
+                  <th class="w-48 border border-gray-300">Provinsi</th>
+                  <th class="w-48 border border-gray-300">Negara</th>
                   <!-- <th>Vendor Pemilik</th> -->
-                  <th>Vendor Operator</th>
-                  <th>Fungsi Gudang</th>
-                  <th>No Handphone</th>
-                  <th>No WhatsApp</th>
-                  <th>Kapasitas</th>
-                  <th>Kapasitas Bongkar</th>
+                  <th class="w-48 border border-gray-300">Vendor Operator</th>
+                  <th class="w-48 border border-gray-300">Fungsi Gudang</th>
+                  <th class="w-48 border border-gray-300">No Handphone</th>
+                  <th class="w-48 border border-gray-300">No WhatsApp</th>
+                  <th class="w-48 border border-gray-300">Kapasitas</th>
+                  <th class="w-48 border border-gray-300">Kapasitas Bongkar</th>
                   <!-- <th>Fisik Gudang</th> -->
-                  <th>Ukuran Gudang</th>
-                  <th>File Layout</th>
+                  <th class="w-48 border border-gray-300">Ukuran Gudang</th>
+                  <th class="w-24 border border-gray-300">File Layout</th>
                   <!-- <th>Status Sewa</th>
                   <th>Status Satpam</th> -->
                   <!-- <th>Luas Gudang</th>
                   <th>Satuan Luas</th> -->
-                  <th class="w-[3%]">Edit</th>
-                  <th class="w-[3%]">Delete</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -143,10 +152,14 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.lokasi.nama_lokasi }}</td>
-                  <td>{{ item.kode_gudang_sap }}</td>
-                  <td>{{ item.kode_gudang }}</td>
-                  <td>
+                  <td class="border border-gray-300">
+                    {{ item.lokasi.nama_lokasi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_gudang_sap }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.kode_gudang }}</td>
+                  <td class="border border-gray-300">
                     <!-- {{
                       item.profit_cost.nama_wilayah +
                       " (" +
@@ -164,7 +177,7 @@
                       {{ item.cost_center.kode_cost_center }}
                     </div>
                   </td>
-                  <td>{{ item.nama_gudang }}</td>
+                  <td class="border border-gray-300">{{ item.nama_gudang }}</td>
                   <!-- <td>
                     {{
                       item.status_konfig_outbound_sap == 1
@@ -174,8 +187,10 @@
                   </td>
                   <td>{{ item.nomor_rekening }}</td>
                   <td>{{ item.atas_nama_rekening }}</td> -->
-                  <td>{{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}</td>
-                  <td>
+                  <td class="border border-gray-300">
+                    {{ item.status_gudang == 1 ? "Aktif" : "Non Aktif" }}
+                  </td>
+                  <td class="border border-gray-300">
                     <p v-if="item.group_gudang_1">
                       {{
                         item.group_gudang_1
@@ -212,32 +227,46 @@
                       }}
                     </p>
                   </td>
-                  <td>{{ item.longitude }}</td>
-                  <td>{{ item.latitude }}</td>
-                  <td>{{ item.alamat }}</td>
-                  <td>{{ item.kecamatan.nama_kecamatan }}</td>
-                  <td>{{ item.kota.nama_kota }}</td>
-                  <td>{{ item.provinsi.nama_provinsi }}</td>
-                  <td>{{ item.negara.nama_negara }}</td>
+                  <td class="border border-gray-300">{{ item.longitude }}</td>
+                  <td class="border border-gray-300">{{ item.latitude }}</td>
+                  <td class="border border-gray-300">{{ item.alamat }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.kecamatan.nama_kecamatan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kota.nama_kota }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.provinsi.nama_provinsi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.negara.nama_negara }}
+                  </td>
                   <!-- <td>{{ item.vendor_pemilik.nama_vendor }}</td> -->
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.vendor_operator
                         ? item.vendor_operator.nama_vendor
                         : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td>{{ item.fungsi_gudang.nama_fungsi }}</td>
-                  <td>{{ item.no_hp }}</td>
-                  <td>{{ item.no_wa }}</td>
-                  <td>{{ item.kapasitas }}</td>
-                  <td>{{ item.kapasitas_bongkar }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.fungsi_gudang.nama_fungsi }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.no_hp }}</td>
+                  <td class="border border-gray-300">{{ item.no_wa }}</td>
+                  <td class="border border-gray-300">{{ item.kapasitas }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.kapasitas_bongkar }}
+                  </td>
                   <!-- <td>{{ item.fisik_gudang.nama_fisik }}</td> -->
-                  <td>{{ item.ukuran_gudang.nama_ukuran }}</td>
-                  <td class="text-center">
+                  <td class="border border-gray-300">
+                    {{ item.ukuran_gudang.nama_ukuran }}
+                  </td>
+                  <td class="text-center border border-gray-300">
                     <button
                       @click="displayFile"
-                      class="p-2 text-xl w-10 h-auto bg-blue-500 rounded-md"
+                      class="p-1 text-xl w-8 h-auto bg-blue-500 rounded-md"
                     >
                       <i class="fa fa-file text-white"></i>
                     </button>
@@ -253,10 +282,10 @@
                   <td>{{ item.luas_gudang }}</td>
                   <td>{{ item.satuan_luas.nama_satuan }}</td> -->
 
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

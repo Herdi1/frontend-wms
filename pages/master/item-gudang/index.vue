@@ -757,7 +757,7 @@ export default {
         onCancel: this.onCancel,
       });
 
-      this.parameters.params.gudang_id = this.user.gudang_id;
+      this.parameters.params.gudang_id = this.filter_params.gudang_id;
       this.parameters.params.group_item_id_1 =
         this.filter_params.group_item_id_1;
       this.parameters.params.group_item_id_2 =

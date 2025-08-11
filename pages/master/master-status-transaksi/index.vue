@@ -23,46 +23,50 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div class="overflow-x-auto">
-          <table ref="formContainer">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">No</th>
-                <th>Proses</th>
-                <th>Modul</th>
-                <th>Kode Transaksi</th>
-                <th>Keterangan Transaksi</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-[5%] text-center border border-gray-300">No</th>
+                <th class="border border-gray-300">Proses</th>
+                <th class="border border-gray-300">Modul</th>
+                <th class="border border-gray-300">Kode Transaksi</th>
+                <th class="border border-gray-300">Keterangan Transaksi</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.jenis_proses_transaksi
                       ? item.jenis_proses_transaksi.nama_jenis_proses_tansaksi
                       : "Tidak Ditemukan"
                   }}
                 </td>
-                <td>{{ item.modul }}</td>
-                <td>{{ item.kode_status_transaksi }}</td>
+                <td class="border border-gray-300">{{ item.modul }}</td>
+                <td class="border border-gray-300">
+                  {{ item.kode_status_transaksi }}
+                </td>
 
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.keterangan_transaksi ? item.keterangan_transaksi : ""
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

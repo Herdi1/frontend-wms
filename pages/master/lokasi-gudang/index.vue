@@ -26,8 +26,7 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
-                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="w-[5%] border border-gray-300 text-center">No</th>
                 <th
                   @click="
                     onSort(
@@ -64,6 +63,8 @@
                 <th class="border border-gray-300">Gudang</th>
                 <th class="border border-gray-300">Lokasi</th>
                 <th class="border border-gray-300">Jalur Lokasi</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -71,10 +72,7 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="border border-gray-300">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
@@ -93,8 +91,10 @@
                 <td class="border border-gray-300">
                   {{ item.jalur_lokasi ? item.jalur_lokasi.nama_jalur : "" }}
                 </td>
-
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

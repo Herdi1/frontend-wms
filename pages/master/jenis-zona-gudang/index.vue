@@ -25,10 +25,10 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[5%] border border-gray-300 text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -36,7 +36,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Jenis Zona Gudang</div>
@@ -71,7 +71,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Jenis Zona Gudang</div>
@@ -99,13 +99,17 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%] border border-gray-300 text-center">
+                    Edit
+                  </th>
+                  <th class="w-[5%] border border-gray-300 text-center">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -113,12 +117,20 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_jenis_zona_gudang }}</td>
-                  <td>{{ item.nama_jenis_zona_gudang }}</td>
-                  <td class="text-center place-items-center">
+                  <td class="border border-gray-300">
+                    {{ item.kode_jenis_zona_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.nama_jenis_zona_gudang }}
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center place-items-center">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
