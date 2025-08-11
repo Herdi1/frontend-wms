@@ -25,11 +25,9 @@
           </div>
 
           <div class="w-full mt-3 mb-7">
-            <div
-              class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-flow-col grid-rows-3 gap-2">
-                <div class="flex w-[400px]">
+            <div class="w-full p-2 border border-gray-300 rounded-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
+                <div class="flex justify-between">
                   <label class="w-[40%]" for="group_item_id_1"
                     >Group Item Level 1</label
                   >
@@ -76,7 +74,7 @@
                   </v-select>
                 </div>
 
-                <div class="flex">
+                <div class="flex justify-between">
                   <label class="w-[40%]" for="group_item_id_2"
                     >Group Item Level 2</label
                   >
@@ -113,7 +111,7 @@
                   </v-select>
                 </div>
 
-                <div class="flex">
+                <div class="flex justify-between">
                   <label class="w-[40%]" for="group_item_id_3"
                     >Group Item Level 3</label
                   >
@@ -152,7 +150,7 @@
                   </v-select>
                 </div>
 
-                <div class="flex w-[400px]">
+                <div class="flex justify-between">
                   <label class="w-[40%]" for="group_item_id_4"
                     >Group Item Level 4</label
                   >
@@ -191,7 +189,7 @@
                   </v-select>
                 </div>
 
-                <div class="flex">
+                <div class="flex justify-between">
                   <label class="w-[40%]" for="group_item_id_5"
                     >Group Item Level 5</label
                   >
@@ -230,7 +228,7 @@
                   </v-select>
                 </div>
               </div>
-              <div class="flex gap-3 ml-5 items-self-end">
+              <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
