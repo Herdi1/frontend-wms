@@ -25,7 +25,7 @@
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
-            <th class="w-[200px] border border-gray-300">Jarak</th>
+            <th class="w-[200px] border border-gray-300">Jumlah</th>
             <th class="w-[200px] border border-gray-300">
               Biaya Per Kilometer
             </th>
@@ -181,8 +181,7 @@
             </td>
             <td class="border border-gray-300">
               <money
-                disabled
-                v-model="item.jarak"
+                v-model="item.jumlah"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
               />
             </td>

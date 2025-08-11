@@ -375,7 +375,6 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
       this.$router.back();
     }
   },
@@ -1107,6 +1106,13 @@ export default {
                       dasar_perhitungan: data.dasar_perhitungan,
                       lokasi_id: item.lokasi_id_tujuan,
                       jenis_routing: item.jenis_routing,
+                      jumlah: data.jenis == 2 ? item.jarak : 1,
+                      nominal_satuan:
+                        data.jenis == 2
+                          ? item.jenis_routing === "MUAT"
+                            ? data.biaya_perkm_muat
+                            : data.biaya_perkm_kosong
+                          : data.nilai_kontrak,
                       total:
                         data.jenis == 2
                           ? item.jenis_routing === "MUAT"

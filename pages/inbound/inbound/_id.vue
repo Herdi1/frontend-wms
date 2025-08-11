@@ -202,6 +202,18 @@
                     :required="false"
                   />
                 </div>
+                <div class="form-group flex items-center">
+                  <label for="" class="w-[40%]">Jenis Transaksi</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="form.jenis_transaksi"
+                    class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Inbound</option>
+                    <option value="1">Cross Docking</option>
+                  </select>
+                </div>
                 <div class="form-group" v-if="!user.gudang_id">
                   <select-button
                     :self="{
@@ -314,6 +326,10 @@ export default {
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
 
+      isStopSearchSupplier: false,
+      isLoadingGetSupplier: false,
+      supplier_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -333,7 +349,9 @@ export default {
         no_referensi_1: "",
         no_referensi_2: "",
         no_referensi_3: "",
+        supplier_id: "",
         tanggal: "",
+        jenis_transaksi: "0",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -356,7 +374,9 @@ export default {
         no_referensi_1: "",
         no_referensi_2: "",
         no_referensi_3: "",
+        supplier_id: "",
         tanggal: "",
+        jenis_transaksi: "0",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -393,6 +413,7 @@ export default {
         });
 
         this.form.gudang_id = res.data.gudang;
+        this.form.supplier_id = res.data.supplier;
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -525,7 +546,6 @@ export default {
       }
     } catch (error) {
       this.$router.push("/inbound/inbound");
-      console.log(error);
     }
   },
 
@@ -533,6 +553,7 @@ export default {
     // await this.onSearchAsn();
 
     await this.onSearchGudang();
+    await this.onSearchSupplier();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -552,6 +573,7 @@ export default {
       "lookup_beam",
       "lookup_products",
       "lookup_suppliers",
+      "lookup_customers",
     ]),
 
     //check if the real storaage slot is same as the plan
@@ -664,6 +686,10 @@ export default {
             : this.form.purchase_order_id
           : "",
         gudang_id: gudang,
+        supplier_id:
+          typeof this.form.supplier_id === "object"
+            ? this.form.supplier_id.supplier_id
+            : this.form.supplier_id,
         // supplier_id: this.form.asn_id ? this.form.asn_id.supplier_id : this.form.purchase_order_id.supplier_id,
       };
 
@@ -905,6 +931,7 @@ export default {
         this.form.no_referensi_2 = item.no_referensi_2;
         // this.form.tanggal = item.tanggal;
         this.form.gudang_id = item.gudang;
+        this.form.supplier_id = item.supplier;
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
             return {
@@ -982,6 +1009,7 @@ export default {
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
         this.form.gudang_id = item.gudang;
+        this.form.supplier_id = item.supplier;
         // this.form.tanggal = item.tanggal;
         // this.form.gudang_id = item.gudang_id;
         if (item.purchase_order_details) {
@@ -1083,6 +1111,54 @@ export default {
         await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
+      }
+    },
+
+    // get  suppliers
+    onGetSupplier(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSupplier);
+
+      this.isStopSearchSupplier = setTimeout(() => {
+        this.supplier_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchSupplier();
+      }, 600);
+    },
+
+    async onSearchSupplier() {
+      if (!this.isLoadingGetSupplier) {
+        this.isLoadingGetSupplier = true;
+
+        await this.lookUp({
+          url: "master/supplier/get-supplier",
+          lookup: "suppliers",
+          query:
+            "?search=" +
+            this.supplier_search +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSupplier = false;
+      }
+    },
+
+    async onSelectGudang(item) {
+      if (item) {
+        this.form.supplier_id = item;
+      } else {
+        this.form.supplier_id = "";
       }
     },
 

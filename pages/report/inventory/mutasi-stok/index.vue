@@ -168,7 +168,7 @@ export default {
       parameters: {
         url: "inventory/mutasi-stok/export",
         params: {
-          type: "",
+          type: "inbound",
           download: "pdf",
           nama_wilayah: "",
           kode_gudang: "",
@@ -322,7 +322,7 @@ export default {
     async onExport() {
       try {
         let url =
-          this.parameters.params.url +
+          this.parameters.url +
           "?download=" +
           this.parameters.params.download +
           "&type=" +
