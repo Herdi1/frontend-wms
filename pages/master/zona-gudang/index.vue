@@ -82,12 +82,17 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th>Detail</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="border border-gray-300 w-20 text-center">
+                    Detail
+                  </th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -95,7 +100,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer border border-gray-300 w-48"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Zona Gudang</div>
@@ -128,7 +133,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer border border-gray-300 w-48"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Zona Gudang</div>
@@ -154,33 +159,39 @@
                       </div>
                     </div>
                   </th>
-                  <th>Gudang</th>
-                  <th>Vendor</th>
-                  <th>Pelanggan</th>
-                  <th>Profit Cost</th>
-                  <th>Jenis Zona Gudang</th>
-                  <th>Satuan Stocklevel</th>
-                  <th>Satuan Suhu</th>
-                  <th>Status Zona</th>
-                  <th>Allow Overstock</th>
-                  <th>Status Zona Aktif</th>
-                  <th>Metode Pengambilan</th>
-                  <th>Fungsi Zona</th>
-                  <th>Group Zona</th>
-                  <th>Metode Penyimpanan</th>
-                  <th>Last Audit</th>
-                  <th>Last In</th>
-                  <th>Last Out</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-40 border border-gray-300">Gudang</th>
+                  <th class="w-40 border border-gray-300">Vendor</th>
+                  <th class="w-40 border border-gray-300">Pelanggan</th>
+                  <!-- <th class="w-40 border border-gray-300">Profit Cost</th> -->
+                  <th class="w-40 border border-gray-300">Jenis Zona Gudang</th>
+                  <th class="w-40 border border-gray-300">Satuan Stocklevel</th>
+                  <th class="w-40 border border-gray-300">Satuan Suhu</th>
+                  <th class="w-40 border border-gray-300">Status Zona</th>
+                  <th class="w-40 border border-gray-300">Allow Overstock</th>
+                  <th class="w-40 border border-gray-300">Status Zona Aktif</th>
+                  <th class="w-44 border border-gray-300">
+                    Metode Pengambilan
+                  </th>
+                  <th class="w-40 border border-gray-300">Fungsi Zona</th>
+                  <th class="w-40 border border-gray-300">Group Zona</th>
+                  <th class="w-44 border border-gray-300">
+                    Metode Penyimpanan
+                  </th>
+                  <th class="w-40 border border-gray-300">Last Audit</th>
+                  <th class="w-40 border border-gray-300">Last In</th>
+                  <th class="w-40 border border-gray-300">Last Out</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="text-center border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -188,87 +199,86 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_zona_gudang }}</td>
-                  <td>{{ item.nama_zona_gudang }}</td>
-                  <td>{{ item.gudang ? item.gudang.nama_gudang : "" }}</td>
-                  <td>{{ item.vendor ? item.vendor.nama_vendor : "" }}</td>
-                  <td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_zona_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.nama_zona_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.vendor ? item.vendor.nama_vendor : "" }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "" }}
                   </td>
-                  <td>
-                    <!-- {{
-                      item.profit_cost.nama_wilayah +
-                      " (" +
-                      item.profit_cost.profit_center +
-                      "-" +
-                      item.profit_cost.cost_center +
-                      ")"
-                    }} -->
-                  </td>
-                  <td>
+
+                  <td class="border border-gray-300">
                     {{
                       item.jenis_zona_gudang
                         ? item.jenis_zona_gudang.nama_jenis_zona_gudang
-                        : ""
+                        : item.jenis_zona_gudang_id
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.satuan_stoklevel
                         ? item.satuan_stoklevel.nama_satuan
                         : ""
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.satuan_suhu ? item.satuan_suhu.nama_satuan : "" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.status_zona == "f "
                         ? "Fisik"
                         : item.status_zona == "v " && "Virtual"
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.allow_overstock == "1"
                         ? "Diperbolehkan"
                         : "Tidak Diperbolehkan"
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.status_zona_aktif == "1" ? "Aktif" : "Non Aktif" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.metode_pengambilan
                         ? item.metode_pengambilan.nama_metode
                         : ""
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.fungsi_zona ? item.fungsi_zona.nama_fungsi_zona : ""
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.group_zona ? item.group_zona.nama_group_zona : "" }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.metode_penyimpanan
                         ? item.metode_penyimpanan.nama_metode_penyimpanan
                         : ""
                     }}
                   </td>
-                  <td>{{ item.last_audit }}</td>
-                  <td>{{ item.last_in }}</td>
-                  <td>{{ item.last_out }}</td>
+                  <td class="border border-gray-300">{{ item.last_audit }}</td>
+                  <td class="border border-gray-300">{{ item.last_in }}</td>
+                  <td class="border border-gray-300">{{ item.last_out }}</td>
 
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

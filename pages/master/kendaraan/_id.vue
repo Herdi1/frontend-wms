@@ -425,7 +425,7 @@
                     >
                       <option value="">Pilih</option>
                       <option value="dedicated">Dedicated</option>
-                      <option value="share">Share</option>
+                      <option value="shared">Share</option>
                     </select>
                   </div>
                 </div>
@@ -445,25 +445,27 @@
                 />
               </div>
               <div
-                class="p-4 w-full md:w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+                class="p-4 w-full md:w-4/12 dark:bg-slate-800 rounded-md border border-gray-300"
               >
-                <h1 class="text-xl font-bold">Pengemudi</h1>
-                <div class="w-full flex gap-2">
-                  <button
+                <div class="w-full flex justify-between items-center">
+                  <h1 class="text-xl font-bold">Pengemudi</h1>
+                  <!-- <button
                     @click="onFormShow"
                     class="bg-[#21b94f] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    v-if="!isEditable"
                   >
                     <i class="fas fa-plus"></i>
                     <p class="text-xs font-medium">Tambah Pengemudi Baru</p>
-                  </button>
-                  <button
-                    :disabled="
+                  </button> -->
+                  <!-- :disabled="
                       form.status_driver == '' ||
                       (form.status_driver == 'dedicated' &&
                         form.pengemudi_kendaraans.length >= 1)
-                    "
+                    " -->
+                  <button
+                    type="button"
                     @click="addPengemudiKendaraan"
-                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    class="bg-green-600 text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                   >
                     <i class="fas fa-plus"></i>
                     <p class="text-xs font-medium">Tambah Daftar Pengemudi</p>
@@ -495,13 +497,13 @@
                       >
                         <td>
                           <v-select
-                            label="nama_pengemudi"
+                            label="nama_lengkap"
                             :loading="isLoadingGetDriver"
                             :options="lookup_suppliers.data"
                             :filterable="false"
                             @search="onGetDriver"
-                            v-model="item.pengemudi_id"
-                            :reduce="(item) => item.pengemudi_id"
+                            v-model="item.staff_id"
+                            :reduce="(item) => item.staff_id"
                             class="w-full bg-white"
                           >
                             <li
@@ -944,11 +946,12 @@ export default {
         this.isLoadingGetDriver = true;
 
         await this.lookUp({
-          url: "master/pengemudi/get-pengemudi",
+          url: "master/staff/get-staff",
           lookup: "suppliers",
           query:
             "?search=" +
             this.driver_search +
+            "&jenis_user=pengemudi" +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",
@@ -1021,14 +1024,28 @@ export default {
 
     onFormShow() {
       this.$refs.formInput.show();
+      // this.$router.replace("master/staff");
     },
 
     addPengemudiKendaraan() {
-      this.form.pengemudi_kendaraans.push({
-        pengemudi_kendaraans_id: null,
-        pengemudi_id: null,
-        status: null,
-      });
+      if (this.form.status_driver === "") {
+        this.$toaster.error("Status Driver harus diisi");
+        return;
+      } else if (
+        this.form.status_driver === "dedicated" &&
+        this.form.pengemudi_kendaraans.length >= 1
+      ) {
+        this.$toaster.error(
+          "Status driver dedicated hanya dapat menambah maksimal 1 pengemudi"
+        );
+        return;
+      } else {
+        this.form.pengemudi_kendaraans.push({
+          pengemudi_kendaraans_id: null,
+          staff_id: null,
+          status: null,
+        });
+      }
     },
 
     onChangeStatusDriver() {

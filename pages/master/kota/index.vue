@@ -24,11 +24,14 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">No</th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -36,7 +39,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer"
+                    class="cursor-pointer border border-gray-300 w-40"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Kota</div>
@@ -62,18 +65,20 @@
                       </div>
                     </div>
                   </th>
-                  <th>Kode Kota</th>
-                  <th>Longitude</th>
-                  <th>Latitude</th>
-                  <th>Provinsi</th>
-                  <th>Negara</th>
-                  <th class="w-[5%] text-center">Edit</th>
-                  <th class="w-[5%] text-center">Delete</th>
+                  <th class="border border-gray-300 w-40">Kode Kota</th>
+                  <th class="border border-gray-300 w-40">Longitude</th>
+                  <th class="border border-gray-300 w-40">Latitude</th>
+                  <th class="border border-gray-300 w-40">Provinsi</th>
+                  <th class="border border-gray-300 w-40">Negara</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -81,26 +86,28 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.nama_kota }}</td>
-                  <td>{{ item.kode_kota ? item.kode_kota : "-" }}</td>
-                  <td>{{ item.longitude }}</td>
-                  <td>{{ item.latitude }}</td>
-                  <td>
+                  <td class="border border-gray-300">{{ item.nama_kota }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_kota ? item.kode_kota : "-" }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.longitude }}</td>
+                  <td class="border border-gray-300">{{ item.latitude }}</td>
+                  <td class="border border-gray-300">
                     {{
                       item.provinsi
                         ? item.provinsi.nama_provinsi
                         : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

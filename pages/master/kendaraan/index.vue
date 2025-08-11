@@ -24,12 +24,17 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Detail</th>
-                  <th class="w-[5%]">No</th>
+                  <th class="w-20 border border-gray-300 text-center">
+                    Detail
+                  </th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -37,7 +42,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer w-40 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Jenis Kendaraan</div>
@@ -70,7 +75,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer w-40 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Gudang</div>
@@ -103,7 +108,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer w-40 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Vendor</div>
@@ -129,19 +134,21 @@
                       </div>
                     </div>
                   </th>
-                  <th>Nama Kendaraan</th>
-                  <th>Kode Kendaraan</th>
-                  <th>Plat Nomor</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-40 border border-gray-300">Nama Kendaraan</th>
+                  <th class="w-40 border border-gray-300">Kode Kendaraan</th>
+                  <th class="w-40 border border-gray-300">Plat Nomor</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="text-center border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -149,17 +156,27 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
-                  <td>{{ item.gudang.nama_gudang }}</td>
-                  <td>{{ item.vendor.nama_vendor }}</td>
-                  <td>{{ item.nama_kendaraan }}</td>
-                  <td>{{ item.kode_kendaraan }}</td>
-                  <td>{{ item.plat_nomor }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis_kendaraan.nama_jenis_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.vendor.nama_vendor }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.nama_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.plat_nomor }}</td>
 
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

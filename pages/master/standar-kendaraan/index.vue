@@ -22,50 +22,75 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">No</th>
-                <th>Kode Standar Jenis</th>
-                <th>Jenis Kendaraan</th>
-                <th>Gudang</th>
-                <th>Kecepatan Isi</th>
-                <th>Kecepatan Kosong</th>
-                <th>Standar Muat</th>
-                <th>Standar Bongkar</th>
-                <th>Standar Istirahat</th>
-                <th>Minimal Muat</th>
-                <th>Maksimal Muat</th>
-                <th>Konsumsi BBM</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-20 text-center border border-gray-300">No</th>
+                <th class="w-40 border border-gray-300">Kode Standar Jenis</th>
+                <th class="w-40 border border-gray-300">Jenis Kendaraan</th>
+                <th class="w-40 border border-gray-300">Gudang</th>
+                <th class="w-40 border border-gray-300">Kecepatan Isi</th>
+                <th class="w-40 border border-gray-300">Kecepatan Kosong</th>
+                <th class="w-40 border border-gray-300">Standar Muat</th>
+                <th class="w-40 border border-gray-300">Standar Bongkar</th>
+                <th class="w-40 border border-gray-300">Standar Istirahat</th>
+                <th class="w-40 border border-gray-300">Minimal Muat</th>
+                <th class="w-40 border border-gray-300">Maksimal Muat</th>
+                <th class="w-40 border border-gray-300">Konsumsi BBM</th>
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-20 text-center border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.kode_standar_jenis_kendaraan }}</td>
-                <td>{{ item.jenis_kendaraan.nama_jenis_kendaraan }}</td>
-                <td>{{ item.gudang?.nama_gudang }}</td>
-                <td>{{ item.kecepatan_isi }} km/jam</td>
-                <td>{{ item.kecepatan_kosong }} km/jam</td>
-                <td>{{ item.standar_muat }} jam</td>
-                <td>{{ item.standar_bongkar }} jam</td>
-                <td>{{ item.standar_istirahat }} /km</td>
-                <td>{{ item.minimal_muat }} kg</td>
-                <td>{{ item.maksimal_muat }} kg</td>
-                <td>{{ item.konsumsi_bbm }} km/liter</td>
-                <td>
+                <td class="border border-gray-300">
+                  {{ item.kode_standar_jenis_kendaraan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.jenis_kendaraan.nama_jenis_kendaraan }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.gudang?.nama_gudang }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kecepatan_isi }} km/jam
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.kecepatan_kosong }} km/jam
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.standar_muat }} jam
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.standar_bongkar }} jam
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.standar_istirahat }} /km
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.minimal_muat }} kg
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.maksimal_muat }} kg
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.konsumsi_bbm }} km/liter
+                </td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

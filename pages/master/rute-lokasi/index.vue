@@ -2,7 +2,7 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -21,59 +21,72 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div>
-          <table ref="formContainer">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%]">No</th>
-                <th>Kode Rute Lokasi</th>
-                <th>Gudang</th>
-                <th>Lokasi Awal</th>
-                <th>Lokasi Tujuan</th>
-                <th>Jarak</th>
-                <th>Status</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="border border-gray-300">Kode Rute Lokasi</th>
+                <th class="border border-gray-300">Gudang</th>
+                <th class="border border-gray-300">Lokasi Awal</th>
+                <th class="border border-gray-300">Lokasi Tujuan</th>
+                <th class="border border-gray-300">Jarak</th>
+                <th class="border border-gray-300">Status</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>
-                  {{ item.kode_rute_lokasi }}
+                <td class="border border-gray-300">
+                  {{ item.kode_master_rute_lokasi }}
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.lokasi_awal
                       ? item.lokasi_awal.nama_lokasi
                       : "Tidak Ditemukan"
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.lokasi_tujuan
                       ? item.lokasi_tujuan.nama_lokasi
                       : "Tidak Ditemukan"
                   }}
                 </td>
-                <td>{{ item.jarak }}</td>
-                <td>
-                  {{ item.status_approve == "a" ? "Approved" : "Pending" }}
+                <td class="border border-gray-300">{{ item.jarak }}</td>
+                <td class="border border-gray-300">
+                  <div
+                    v-if="item.status_approve === 'p'"
+                    class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                  >
+                    <p>Pending</p>
+                  </div>
+                  <div
+                    v-if="item.status_approve === 'a'"
+                    class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
+                  >
+                    <p>APPROVE</p>
+                  </div>
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

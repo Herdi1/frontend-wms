@@ -1,8 +1,9 @@
 <template>
-  <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-  >
-    <div class="section-body mb-4" v-if="!isLoadingPage">
+  <section class="section h-screen">
+    <div
+      class="section-body bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+      v-if="!isLoadingPage"
+    >
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
           Edit Data Master Rute Lokasi
@@ -24,8 +25,8 @@
             <input-form
               label="Kode Rute Lokasi"
               type="text"
-              name="kode_rute_lokasi"
-              v-model="parameters.form.kode_rute_lokasi"
+              name="kode_master_rute_lokasi"
+              v-model="parameters.form.kode_master_rute_lokasi"
               :required="false"
             />
           </div>
@@ -162,12 +163,20 @@
           </ValidationProvider>
 
           <div class="form-group">
-            <input-form
+            <!-- <input-form
               label="Jarak"
               type="text"
               name="jarak"
               v-model="parameters.form.jarak"
               :required="false"
+            /> -->
+            <label for="min-stok">Jarak</label>
+            <money
+              v-model="parameters.form.jarak"
+              class="w-full pl-2 py-1 border rounded focus:outline-none"
+              @keydown.native="
+                $event.key === '-' ? $event.preventDefault() : null
+              "
             />
           </div>
 
@@ -183,7 +192,6 @@
                 v-model="parameters.form.status_approve"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
-                <option value="">Pilih</option>
                 <option value="a">Approve</option>
                 <option value="p">Pending</option>
               </select>
@@ -232,9 +240,9 @@ export default {
       parameters: {
         url: "master/rute-lokasi",
         form: {
-          kode_rute_lokasi: "",
+          kode_master_rute_lokasi: "",
           jarak: "",
-          status_approve: "p",
+          status_approve: "a",
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
@@ -301,9 +309,9 @@ export default {
         );
         this.isEditable = false;
         this.parameters.form = {
-          kode_rute_lokasi: "",
+          kode_master_rute_lokasi: "",
           jarak: "",
-          status_approve: "p",
+          status_approve: "a",
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
@@ -319,9 +327,9 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_rute_lokasi: "",
+        kode_master_rute_lokasi: "",
         jarak: "",
-        status_approve: "p",
+        status_approve: "a",
         lokasi_id_awal: "",
         lokasi_id_tujuan: "",
         gudang_id: "",

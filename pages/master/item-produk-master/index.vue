@@ -242,13 +242,18 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 border border-gray-300 overflow-auto table-fixed"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%]">Detail</th>
+                  <th class="w-20 border border-gray-300 text-center">
+                    Detail
+                  </th>
 
-                  <th class="w-[5%]">No</th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -256,7 +261,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer border border-gray-300 w-40"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Item</div>
@@ -289,7 +294,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer border border-gray-300 w-40"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Item</div>
@@ -322,7 +327,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pointer border border-gray-300 w-40"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Satuan</div>
@@ -348,29 +353,31 @@
                       </div>
                     </div>
                   </th>
-                  <th>Berat Bersih</th>
-                  <th>Berat Kotor</th>
-                  <th>Volume</th>
-                  <th>Stocklevel</th>
-                  <th>Group Item</th>
+                  <th class="w-40 border border-gray-300">Berat Bersih</th>
+                  <th class="w-40 border border-gray-300">Berat Kotor</th>
+                  <th class="w-40 border border-gray-300">Volume</th>
+                  <th class="w-40 border border-gray-300">Stocklevel</th>
+                  <th class="w-40 border border-gray-300">Group Item</th>
 
-                  <th>Batas Item</th>
-                  <th>Kategori Item</th>
-                  <th>Jumlah Palet</th>
-                  <th>Kebutuhan Palet</th>
-                  <th>Kapasitas Palet</th>
-                  <th>Maksimal Tumpukan</th>
-                  <th>Supplier</th>
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-40 border border-gray-300">Batas Item</th>
+                  <th class="w-40 border border-gray-300">Kategori Item</th>
+                  <th class="w-40 border border-gray-300">Jumlah Palet</th>
+                  <th class="w-40 border border-gray-300">Kebutuhan Palet</th>
+                  <th class="w-40 border border-gray-300">Kapasitas Palet</th>
+                  <th class="w-40 border border-gray-300">Maksimal Tumpukan</th>
+                  <th class="w-40 border border-gray-300">Supplier</th>
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
-                  <td>
+                  <td class="text-center border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -378,32 +385,32 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.kode_wms }}</td>
-                  <td>{{ item.nama_item }}</td>
-                  <td>
+                  <td class="border border-gray-300">{{ item.kode_wms }}</td>
+                  <td class="border border-gray-300">{{ item.nama_item }}</td>
+                  <td class="border border-gray-300">
                     {{
                       item.satuan ? item.satuan.nama_satuan : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.berat_bersih + " " + item.satuan_berat.nama_satuan
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.berat_kotor + " " + item.satuan_berat.nama_satuan }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.volume + " " + item.satuan_volume.nama_satuan }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{
                       item.value_stocklevel +
                       " " +
                       item.satuan_stocklevel.nama_satuan
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
                       <p v-if="item.group_item_1">
                         {{
@@ -443,7 +450,7 @@
                     </div>
                   </td>
 
-                  <td>
+                  <td class="border border-gray-300">
                     <div class="flex items-center gap-2">
                       <i class="fa fa-caret-up text-green-300"></i>
                       <p>{{ item.batas_atas }}</p>
@@ -453,7 +460,7 @@
                       <p>{{ item.batas_bawah }}</p>
                     </div>
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     <div>
                       <p v-if="item.kategori_1">
                         {{
@@ -493,11 +500,19 @@
                     </div>
                   </td>
 
-                  <td>{{ item.jumlah_palet }}</td>
-                  <td>{{ item.kapasitas_palet }}</td>
-                  <td>{{ item.kebutuhan_palet }}</td>
-                  <td>{{ item.maksimal_tumpukan }}</td>
-                  <td>
+                  <td class="border border-gray-300">
+                    {{ item.jumlah_palet }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kapasitas_palet }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kebutuhan_palet }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.maksimal_tumpukan }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{
                       item.supplier
                         ? item.supplier.nama_supplier
@@ -505,10 +520,10 @@
                     }}
                   </td>
 
-                  <td class="text-center">
+                  <td class="border border-gray-300 place-items-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="border border-gray-300 place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

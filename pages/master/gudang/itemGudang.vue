@@ -5,11 +5,11 @@
         class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
       > -->
       <div
-        class="flex w-full justify-between items-end p-2 border border-gray-300 rounded-md"
+        class="flex flex-col w-full justify-between p-2 border bg-white dark:bg-slate-800 border-gray-300 rounded-md"
       >
-        <div class="grid grid-flow-col grid-rows-3 gap-2">
-          <div class="flex w-[400px]">
-            <label class="w-[40%]" for="group_item_id_1"
+        <div class="grid grid-flow-col grid-rows-5 md:grid-rows-3 gap-2">
+          <div class="flex">
+            <label class="w-1/2" for="group_item_id_1"
               >Group Item Level 1</label
             >
             <v-select
@@ -20,7 +20,7 @@
               @search="onGetGroupItem1"
               v-model="filter_params.group_item_id_1"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem1"
             >
               <!-- <template #search="{ attributes, events }">
@@ -55,7 +55,7 @@
           </div>
 
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_2"
+            <label class="w-1/2" for="group_item_id_2"
               >Group Item Level 2</label
             >
             <v-select
@@ -66,7 +66,7 @@
               @search="onGetGroupItem2"
               v-model="filter_params.group_item_id_2"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem2"
             >
               <li
@@ -92,7 +92,7 @@
           </div>
 
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_3"
+            <label class="w-1/2" for="group_item_id_3"
               >Group Item Level 3</label
             >
             <v-select
@@ -103,7 +103,7 @@
               @search="onGetGroupItem3"
               v-model="filter_params.group_item_id_3"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem3"
             >
               <li
@@ -128,8 +128,8 @@
             </v-select>
           </div>
 
-          <div class="flex w-[400px]">
-            <label class="w-[40%]" for="group_item_id_4"
+          <div class="flex">
+            <label class="w-1/2" for="group_item_id_4"
               >Group Item Level 4</label
             >
             <v-select
@@ -140,7 +140,7 @@
               @search="onGetGroupItem4"
               v-model="filter_params.group_item_id_4"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2 bg-white"
               @input="onSelectGroupItem4"
             >
               <li
@@ -168,7 +168,7 @@
           </div>
 
           <div class="flex">
-            <label class="w-[40%]" for="group_item_id_5"
+            <label class="w-1/2" for="group_item_id_5"
               >Group Item Level 5</label
             >
             <v-select
@@ -179,7 +179,7 @@
               @search="onGetGroupItem5"
               v-model="filter_params.group_item_id_5"
               :reduce="(item) => item.group_item_id"
-              class="w-[60%]"
+              class="w-1/2 bg-white"
             >
               <li
                 slot-scope="{ search }"
@@ -205,21 +205,23 @@
             </v-select>
           </div>
         </div>
-        <div class="flex gap-3 ml-5 items-self-end">
+        <div class="flex gap-3 mt-5">
           <button
             type="button"
             @click="onLoad"
-            class="bg-blue-500 hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
+            class="bg-blue-500 flex gap-1 justify-center items-center hover:bg-blue-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-plus text-white font-bold"></i>
+            <i class="fa fa-plus text-white font-bold mr-2"></i>
+            <p>Tambah</p>
             <!-- Tambah ke Item Gudang -->
           </button>
           <button
             type="button"
             @click="deleteSelectedItem"
-            class="bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
+            class="flex gap-1 justify-center items-center bg-red-500 hover:bg-red-600 p-2 text-white rounded-md mb-3 text-center"
           >
-            <i class="fa fa-trash text-white font-bold"></i>
+            <i class="fa fa-trash text-white font-bold mr-2"></i>
+            <p>Hapus</p>
             <!-- Tambah ke Item Gudang -->
           </button>
         </div>

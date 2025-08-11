@@ -1051,15 +1051,12 @@ export default {
     try {
       if (this.isEditable) {
         let response = await this.$axios.get("master/vendor/" + this.id);
-        // if (response.data && response.data.tipe_vendor) {
-        //   response.data.tipe_vendor = response.data.tipe_vendor.trim();
-        // }
 
         this.parameters.form = response.data;
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("/master/vendor");
+      this.$router.back();
     }
   },
 

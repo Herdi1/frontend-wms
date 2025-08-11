@@ -26,7 +26,7 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
                 >
-                  <ValidationProvider name="lokasi_id" class="w-full">
+                  <!-- <ValidationProvider name="lokasi_id" class="w-full">
                     <div slot-scope="{ errors, valid }">
                       <label for="lokasi_id">Lokasi</label>
                       <v-select
@@ -63,7 +63,7 @@
                         </li>
                       </v-select>
                     </div>
-                  </ValidationProvider>
+                  </ValidationProvider> -->
 
                   <div class="w-full form-group">
                     <input-form
@@ -71,6 +71,7 @@
                       type="text"
                       name="kode_gudang_sap"
                       v-model="form.kode_gudang_sap"
+                      :required="false"
                     />
                   </div>
 
@@ -80,6 +81,7 @@
                       type="text"
                       name="kode_gudang"
                       v-model="form.kode_gudang"
+                      :required="true"
                     />
                   </div>
 
@@ -313,6 +315,7 @@
                       type="text"
                       name="nomor_rekening"
                       v-model="form.nomor_rekening"
+                      :required="false"
                     />
                   </div>
 
@@ -322,6 +325,7 @@
                       type="text"
                       name="atas_nama_rekening"
                       v-model="form.atas_nama_rekening"
+                      :required="false"
                     />
                   </div>
 
@@ -647,7 +651,7 @@
                       type="text"
                       name="no_hp"
                       v-model="form.no_hp"
-                      :required="true"
+                      :required="false"
                     />
                   </div>
 
@@ -657,6 +661,7 @@
                       type="text"
                       name="no_wa"
                       v-model="form.no_wa"
+                      :required="false"
                     />
                   </div>
 
@@ -871,20 +876,40 @@
                   </div>
 
                   <div class="w-full form-group">
-                    <input-form
+                    <!-- <input-form
                       label="Kapasitas"
                       type="text"
                       name="kapasitas"
                       v-model="form.kapasitas"
+                      :required="true"
+                    /> -->
+                    <label for="min-stok"
+                      >Kapasitas <span class="text-danger">*</span></label
+                    >
+                    <money
+                      v-model="form.kapasitas"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
                     />
                   </div>
 
                   <div class="w-full form-group">
-                    <input-form
+                    <!-- <input-form
                       label="Kapasitas Bongkar"
                       type="text"
                       name="kapasitas_bongkar"
                       v-model="form.kapasitas_bongkar"
+                      :required="false"
+                    /> -->
+                    <label for="min-stok">Kapasitas Bongkar</label>
+                    <money
+                      v-model="form.kapasitas_bongkar"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
                     />
                   </div>
 
@@ -947,20 +972,10 @@
                     </ValidationProvider>
                   </div>
 
-                  <div class="w-full form-group">
-                    <input-form
-                      label="Radius"
-                      type="text"
-                      name="radius"
-                      :required="true"
-                      v-model="form.radius"
-                    />
-                  </div>
-
                   <div class="form-group">
                     <label
                       for="file_layout"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
                       >File Layout Gudang
                     </label>
                     <input
@@ -979,6 +994,14 @@
                   </div>
 
                   <div>
+                    <!-- <input-form
+                      label="Min Stok"
+                      type="number"
+                      name="min_stok"
+                      :required="false"
+                      v-model="form.min_stok"
+                    /> -->
+                    <!-- :min="0" -->
                     <label for="min-stok">Min Stok</label>
                     <money
                       v-model="form.min_stok"
@@ -989,6 +1012,13 @@
                     />
                   </div>
                   <div>
+                    <!-- <input-form
+                      label="Max Stok"
+                      type="number"
+                      name="max_stok"
+                      :required="false"
+                      v-model="form.max_stok"
+                      /> -->
                     <label for="max-stok">Max Stok</label>
                     <money
                       v-model="form.max_stok"
@@ -1003,6 +1033,23 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-5"
                 >
+                  <div class="w-full form-group">
+                    <!-- <input-form
+                      label="Radius"
+                      type="text"
+                      name="radius"
+                      :required="false"
+                      v-model="form.radius"
+                    /> -->
+                    <label for="min-stok">Radius</label>
+                    <money
+                      v-model="form.radius"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </div>
                   <div class="w-full form-group">
                     <input-form
                       label="Longitude"
@@ -1648,6 +1695,9 @@ export default {
             this.form[item] = response.data[item];
           }
         });
+        // this.form.min_stok = parseInt(response.data.min_stok);
+        // this.form.max_stok = parseInt(response.data.max_stok);
+        // this.form.provinsi_id = response.data.provinsi;
 
         if (Array.isArray(response.data.item_gudang)) {
           response.data.item_gudang.forEach((item) => {
@@ -1655,10 +1705,10 @@ export default {
               ...item,
             });
           });
-          console.log(this.form.item_gudang);
         }
 
         this.isLoadingPage = false;
+        console.log(this.form);
       }
     } catch (error) {
       this.$router.back();
@@ -1757,6 +1807,10 @@ export default {
           }
         }
       });
+
+      formData.kapasitas_bongkar = this.form.kapasitas_bongkar
+        ? this.form.kapasitas_bongkar
+        : 1;
 
       this.form.item_gudang.forEach((item, index) => {
         if (item.item_gudang_id) {

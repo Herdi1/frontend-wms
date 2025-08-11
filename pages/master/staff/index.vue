@@ -23,12 +23,14 @@
           <list-option-section :self="this" ref="form-option" />
         </div>
         <div class="overflow-x-auto">
-          <table ref="formContainer">
+          <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Detail</th>
-                <th class="w-[5%]">No</th>
-                <th class="min-w-28">Kode Staff</th>
+                <th class="w-[5%] text-center border border-gray-300">
+                  Detail
+                </th>
+                <th class="w-[5%] border border-gray-300 text-center">No</th>
+                <th class="min-w-28 border border-gray-300">Kode Staff</th>
                 <th
                   @click="
                     onSort(
@@ -36,7 +38,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer min-w-40"
+                  class="cursor-pointer min-w-40 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Lengkap</div>
@@ -62,39 +64,41 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-28">Email</th>
-                <th class="min-w-28">Jabatan</th>
-                <th class="min-w-28">NIK</th>
-                <th class="min-w-28">No KTP</th>
-                <th class="min-w-28">No BPJS</th>
-                <th class="min-w-28">Jenis Kelamin</th>
-                <th class="min-w-28">Status</th>
-                <th class="min-w-28">Jenis Staff</th>
-                <th class="min-w-36">Alamat</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Hapus</th>
+                <th class="min-w-28 border border-gray-300">Email</th>
+                <th class="min-w-28 border border-gray-300">Jabatan</th>
+                <th class="min-w-28 border border-gray-300">NIK</th>
+                <th class="min-w-28 border border-gray-300">No KTP</th>
+                <th class="min-w-28 border border-gray-300">No BPJS</th>
+                <th class="min-w-28 border border-gray-300">Jenis Kelamin</th>
+                <th class="min-w-28 border border-gray-300">Status</th>
+                <th class="min-w-28 border border-gray-300">Jenis Staff</th>
+                <th class="min-w-36 border border-gray-300">Alamat</th>
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th class="w-[5%] text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="text-center">
+                <td class="place-items-center border border-gray-300">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.kode_staff }}</td>
-                <td>{{ item.nama_lengkap }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}</td>
-                <td>{{ item.nik }}</td>
-                <td>{{ item.no_ktp }}</td>
-                <td>{{ item.no_bpjs }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.kode_staff }}</td>
+                <td class="border border-gray-300">{{ item.nama_lengkap }}</td>
+                <td class="border border-gray-300">{{ item.email }}</td>
+                <td class="border border-gray-300">
+                  {{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}
+                </td>
+                <td class="border border-gray-300">{{ item.nik }}</td>
+                <td class="border border-gray-300">{{ item.no_ktp }}</td>
+                <td class="border border-gray-300">{{ item.no_bpjs }}</td>
+                <td class="border border-gray-300">
                   {{
                     item.jenis_kelamin === "l"
                       ? "Laki Laki"
@@ -103,7 +107,7 @@
                       : "-"
                   }}
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   {{
                     item.status_aktif === "1"
                       ? "AKtif"
@@ -112,12 +116,12 @@
                       : "-"
                   }}
                 </td>
-                <td>{{ item.jenis_user }}</td>
-                <td>{{ item.alamat }}</td>
-                <td class="text-center">
+                <td class="border border-gray-300">{{ item.jenis_user }}</td>
+                <td class="border border-gray-300">{{ item.alamat }}</td>
+                <td class="place-items-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td class="text-center">
+                <td class="place-items-center border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

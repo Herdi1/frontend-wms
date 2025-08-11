@@ -226,13 +226,16 @@
             </button>
           </div>
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center">Details</th>
+                <th class="w-20 border border-gray-300 text-center">Details</th>
 
-                <th class="w-[5%]">No</th>
+                <th class="w-20 border border-gray-300 text-center">No</th>
                 <!-- <th>Item</th> -->
                 <th
                   @click="
@@ -241,7 +244,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer"
+                  class="cursor-pointer w-40 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Nama Item</div>
@@ -267,33 +270,37 @@
                     </div>
                   </div>
                 </th>
-                <th>Vendor</th>
-                <th>Supplier</th>
-                <th>Group Item</th>
-                <th>Kode External</th>
-                <th>Batas Item</th>
-                <th>Kategori Item</th>
-                <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
+                <th class="w-40 border border-gray-300">Vendor</th>
+                <th class="w-40 border border-gray-300">Supplier</th>
+                <th class="w-40 border border-gray-300">Group Item</th>
+                <th class="w-40 border border-gray-300">Kode External</th>
+                <th class="w-40 border border-gray-300">Batas Item</th>
+                <th class="w-40 border border-gray-300">Kategori Item</th>
+                <th class="w-20 border border-gray-300 text-center">Edit</th>
+                <th class="w-20 border border-gray-300 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
 
-                <td>
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td>{{ item.nama_item }}</td>
-                <td>{{ item.vendor.nama_vendor }}</td>
-                <td>{{ item.supplier?.nama_supplier }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.nama_item }}</td>
+                <td class="border border-gray-300">
+                  {{ item.vendor.nama_vendor }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.supplier?.nama_supplier }}
+                </td>
+                <td class="border border-gray-300">
                   <div>
                     <p v-if="item.group_item_1">
                       {{
@@ -332,8 +339,8 @@
                     </p>
                   </div>
                 </td>
-                <td>{{ item.kode_sap }}</td>
-                <td>
+                <td class="border border-gray-300">{{ item.kode_sap }}</td>
+                <td class="border border-gray-300">
                   <div class="flex items-center gap-2">
                     <i class="fa fa-caret-up text-green-300"></i>
                     <p>{{ item.batas_atas }}</p>
@@ -343,7 +350,7 @@
                     <p>{{ item.batas_bawah }}</p>
                   </div>
                 </td>
-                <td>
+                <td class="border border-gray-300">
                   <div>
                     <p v-if="item.kategori_1">
                       {{
@@ -383,10 +390,10 @@
                   </div>
                 </td>
 
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
+                <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

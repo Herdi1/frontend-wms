@@ -4,14 +4,6 @@
       <li>
         <a href="javascript:;" class="text-primary hover:underline">Finance</a>
       </li>
-      <li>
-        <a
-          href="javascript:;"
-          class="text-primary hover:underline before:content-['/']"
-        >
-          Kontrak Vendor</a
-        >
-      </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
@@ -37,7 +29,7 @@
                 <th class="w-[5%] text-center border border-gray-300">
                   Detail
                 </th>
-                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="w-[5%] text-center border border-gray-300">No</th>
                 <th
                   @click="
                     onSort(
@@ -84,7 +76,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="text-center border border-gray-300">
+                <td
+                  class="text-center border border-gray-300 place-items-center"
+                >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
                 <td class="text-center border border-gray-300">
@@ -94,14 +88,25 @@
                     1
                   }}
                 </td>
-                <td class="text-center border border-gray-300">
-                  {{ item.kode_kontrak }}
+                <td class="border border-gray-300">
+                  <div>
+                    {{ item.kode_kontrak }}
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 hover:underline cursor-pointer"
+                    >
+                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                    </p>
+                    <p v-else class="text-blue-500">
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
+                  </div>
                 </td>
                 <td class="text-center border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
                 </td>
                 <td class="text-center border border-gray-300">
-                  {{ item.pic_kontrak }}
+                  {{ item.user_pic ? item.user_pic.nama_lengkap : "-" }}
                 </td>
                 <td class="text-center border border-gray-300">
                   {{ item.tanggal_kontrak }}
@@ -113,25 +118,29 @@
                   {{ item.tanggal_berhenti }}
                 </td>
                 <td class="text-center border border-gray-300">
-                  <span
+                  <div
                     v-if="item.status === 'PENDING'"
-                    class="p-1 rounded-md text-white bg-orange-400"
+                    class="p-1 w-full rounded-md bg-orange-500 font-semibold text-white text-center"
                   >
-                    Menunggu
-                  </span>
-                  <span
+                    <p>MENUNGGU</p>
+                  </div>
+                  <div
                     v-if="item.status === 'APPROVE'"
-                    class="p-1 rounded-md text-white bg-green-400"
+                    class="bg-green-500 w-full p-1 rounded-md font-semibold text-white text-center"
                   >
-                    Disetujui
-                  </span>
+                    <p>APPROVE</p>
+                  </div>
                 </td>
 
-                <td>{{ item.keterangan }}</td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">{{ item.keterangan }}</td>
+                <td
+                  class="text-center border border-gray-300 place-items-center"
+                >
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td class="text-center border border-gray-300">
+                <td
+                  class="text-center border border-gray-300 place-items-center"
+                >
                   <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>
