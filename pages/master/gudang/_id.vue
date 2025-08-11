@@ -998,6 +998,16 @@
                       "
                     />
                   </div>
+                  <div>
+                    <label for="max-stok">Standar Waktu Kerja</label>
+                    <money
+                      v-model="form.standar_waktu_kerja"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
+                    />
+                  </div>
                 </div>
 
                 <div
@@ -1446,6 +1456,7 @@ export default {
         radius: "",
         min_stok: "",
         max_stok: "",
+        standar_waktu_kerja: "",
         item_gudang: [],
         status_transaksis: [],
       },
@@ -1494,6 +1505,7 @@ export default {
         kode_pos_id: "",
         min_stok: "",
         max_stok: "",
+        standar_waktu_kerja: "",
         item_gudang: [],
         status_transaksis: [],
       },

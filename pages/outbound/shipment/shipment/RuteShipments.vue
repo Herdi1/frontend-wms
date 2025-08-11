@@ -31,6 +31,7 @@
               Waktu Sampai Tujuan (menit)
             </th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
+            <th class="w-[150px] border border-gray-300">Jenis Kiriman</th>
             <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
           </tr>
         </thead>
@@ -158,6 +159,18 @@
                 <option value="MUAT">Muat</option>
                 <option value="KOSONG">Kosong</option>
               </select>
+            </td>
+            <td class="border border-gray-300 text-center">
+              <span
+                v-if="item.jenis_kiriman == 0"
+                class="p-1 text-white rounded-md bg-orange-500"
+                >Kembali</span
+              >
+              <span
+                v-if="item.jenis_kiriman == 1"
+                class="p-1 text-white rounded-md bg-green-500"
+                >Berangkat</span
+              >
             </td>
             <td class="text-center text-gray-600 border border-gray-300">
               <i

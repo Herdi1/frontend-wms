@@ -1043,6 +1043,7 @@ export default {
                     : this.parameters.form.gudang_id.lokasi,
                 lokasi_id_tujuan: item.lokasi_id,
                 jenis_routing: "MUAT",
+                jenis_kiriman: 1,
                 jenis: item.jenis,
               };
             });
@@ -1053,6 +1054,7 @@ export default {
               ].lokasi_id_tujuan,
             lokasi_id_tujuan: this.parameters.form.gudang_id.lokasi,
             jenis_routing: "KOSONG",
+            jenis_kiriman: 0,
             jenis: 0,
           });
           // if (!res.data.biaya_lastmiles.length) {
