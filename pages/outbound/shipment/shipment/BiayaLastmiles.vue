@@ -21,6 +21,7 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
             <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
+            <th class="w-[150px] border border-gray-300">Jenis Routing</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
@@ -53,6 +54,18 @@
                 v-if="item.jenis == 1"
                 class="p-1 text-white rounded-md bg-green-500"
                 >Stok Transfer</span
+              >
+            </td>
+            <td class="border border-gray-300 text-center">
+              <span
+                v-if="item.jenis_routing == 'KOSONG'"
+                class="p-1 text-white rounded-md bg-orange-500"
+                >Kosong</span
+              >
+              <span
+                v-if="item.jenis_routing == 'MUAT'"
+                class="p-1 text-white rounded-md bg-green-500"
+                >Muat</span
               >
             </td>
             <td class="border border-gray-300">

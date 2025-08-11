@@ -26,7 +26,7 @@
             <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Jarak</th>
-            <th class="w-[200px] border border-gray-300">Biaya BBM</th>
+            <!-- <th class="w-[200px] border border-gray-300">Biaya BBM</th> -->
             <th class="w-[200px] border border-gray-300">
               Waktu Sampai Tujuan (menit)
             </th>
@@ -130,7 +130,7 @@
                 "
               />
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               <money
                 v-model="item.biaya_bbm"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -138,7 +138,7 @@
                   $event.key === '-' ? $event.preventDefault() : null
                 "
               />
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <input
                 type="number"

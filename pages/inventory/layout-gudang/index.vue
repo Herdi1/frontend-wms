@@ -88,11 +88,21 @@
             <div class="mb-3 max-h-[500px] overflow-auto w-full">
               <h2 class="font-bold text-base mb-1">Zona</h2>
               <ul class="w-[500px] pl-2">
-                <li v-for="(room, i) in rooms" :key="i" class="w-full">
+                <li
+                  v-for="(room, i) in rooms"
+                  :key="i"
+                  class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
+                >
                   <div class="mb-2 w-full">
-                    <div class="font-bold flex justify-between items-center">
+                    <div
+                      class="font-bold flex justify-between items-center mb-2"
+                    >
                       <p>{{ room.nama_zona_gudang }}</p>
-                      <button type="button" @click="deleteZona(i)">
+                      <button
+                        type="button"
+                        class="text-white bg-danger p-1 rounded-md py-1 px-2"
+                        @click="deleteZona(i)"
+                      >
                         <i class="fa fa-trash"></i>
                       </button>
                     </div>
@@ -107,14 +117,21 @@
                     </div>
                   </div>
                 </li>
-                <li v-for="(zona, i) in zona_gudangs" :key="i" class="w-full">
+                <li
+                  v-for="(zona, i) in zona_gudangs"
+                  :key="i"
+                  class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
+                >
                   <div class="mb-2 w-full">
-                    <div class="font-bold flex justify-between">
+                    <div class="font-bold flex justify-between mb-2">
                       <p>{{ zona.nama_zona_gudang }}</p>
                       <button
                         type="button"
-                        class="p-1 px-2 rounded-md bg-gray-200 font-bold"
-                      ></button>
+                        @click="addRooms(zona)"
+                        class="text-white bg-green-500 p-1 rounded-md py-1 px-2"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
                     </div>
                     <div class="flex items-center justify-between mb-2 w-full">
                       <p class="w-[150px]">Warna</p>
@@ -504,6 +521,31 @@ export default {
               color: canvas.color,
             });
           });
+          await this.$axios
+            .get(
+              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+            )
+            .then((res) => {
+              this.zona_gudangs = res.data.data
+                .filter(
+                  (zona) =>
+                    !this.rooms.some(
+                      (data) => data.zona_gudang_id === zona.zona_gudang_id
+                    )
+                )
+                .map((item) => {
+                  return {
+                    zona_gudang_id: item.zona_gudang_id,
+                    nama_zona_gudang: item.nama_zona_gudang,
+                    kode_zona_gudang: item.kode_zona_gudang,
+                    x: 0,
+                    y: 0,
+                    width: 100,
+                    height: 100,
+                    color: "ff0000",
+                  };
+                });
+            });
         } else {
           await this.$axios
             .get(
@@ -532,12 +574,49 @@ export default {
       }
     },
 
+    async getZona() {
+      await this.$axios
+        .get(
+          `master/zona-gudang/get-zona-gudang?gudang_id=${this.parameters.form.gudang_id.gudang_id}`
+        )
+        .then((res) => {
+          this.zona_gudangs = res.data.data
+            .filter(
+              (zona) =>
+                !this.rooms.some(
+                  (data) => data.zona_gudang_id === zona.zona_gudang_id
+                )
+            )
+            .map((item) => {
+              return {
+                zona_gudang_id: item.zona_gudang_id,
+                nama_zona_gudang: item.nama_zona_gudang,
+                kode_zona_gudang: item.kode_zona_gudang,
+                x: 0,
+                y: 0,
+                width: 100,
+                height: 100,
+                color: "ff0000",
+              };
+            });
+          console.log(this.zona_gudangs);
+        });
+    },
+
+    addRooms(item) {
+      this.rooms.push(item);
+      this.zona_gudangs = this.zona_gudangs.filter(
+        (data) => item.zona_gudang_id !== data.zona_gudang_id
+      );
+    },
+
     changeColor(room, index) {
       this.rooms[index] = room;
     },
 
-    deleteZona(index) {
+    async deleteZona(index) {
       this.rooms = this.rooms.filter((_, itemIndex) => index !== itemIndex);
+      await this.getZona();
     },
   },
 };
