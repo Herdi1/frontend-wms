@@ -562,7 +562,7 @@ export default {
       let shipto = await this.$axios.get("master/lokasi/get-lokasi");
       this.detail_item.shipto = shipto.data.data;
 
-      let kendaraan = await this.$axios.get("master/kendaraan");
+      let kendaraan = await this.$axios.get("master/kendaraan/get-kendaraan");
       this.detail_item.kendaraan_gudang = kendaraan.data.data;
 
       this.isLoadingPage = false;

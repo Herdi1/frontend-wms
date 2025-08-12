@@ -1,5 +1,5 @@
 <template>
-  <section class="section h-screen">
+  <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
