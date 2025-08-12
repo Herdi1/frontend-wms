@@ -31,20 +31,6 @@
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
           <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
             <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2">Tipe Mutasi</label>
-              <select
-                name=""
-                id=""
-                v-model="parameters.params.type"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="inbound">Inbound</option>
-                <option value="outbound">Outbound</option>
-                <option value="transfer_stok">Transfer Stok</option>
-                <option value="konversi_stok">Konversi Stok</option>
-              </select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Download</label>
               <select
                 name=""
@@ -174,7 +160,7 @@ export default {
 
   head() {
     return {
-      title: "Laporan Mutasi Stok",
+      title: "Laporan Persediaan damage",
     };
   },
 
@@ -187,13 +173,13 @@ export default {
 
   data() {
     return {
-      title: "Laporan Mutasi Stok",
+      title: "Laporan Persediaan Damage",
       isLoadingData: false,
 
       parameters: {
-        url: "report/mutasi-stok/export",
+        url: "report/persediaan-damage/export",
         params: {
-          type: "",
+          // type: "",
           download: "pdf",
           nama_wilayah: "",
           kode_gudang: "",
@@ -233,7 +219,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-mutasi-sok"
+          (item) => item.rute == "report-persediaan-damage"
         );
 
         let roles = {};
@@ -350,8 +336,8 @@ export default {
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          "&type=" +
-          this.parameters.params.type +
+          // "&type=" +
+          // this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
