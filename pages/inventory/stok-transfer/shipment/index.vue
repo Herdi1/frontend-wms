@@ -68,7 +68,7 @@
                   :options="lookup_custom1.data"
                   :filterable="false"
                   @search="onGetGudang"
-                  @input="onSelectGudang"
+                  :reduce="(item) => item.gudang_id"
                   v-model="parameters.params.gudang_id"
                 >
                   <!-- <template v-slot:option="option">
@@ -415,9 +415,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          gudang_id: {
-            gudang_id: "",
-          },
+          gudang_id: "",
         },
         form: {
           kode_shipment: "",

@@ -185,7 +185,7 @@ export default {
                 config.devtool = ctx.isClient ? "source-map" : "inline-source-map";
             }
         },
-        terser: { compress: { drop_console: true } }
+        // terser: { compress: { drop_console: true } }
     },
 
     pwa: {

@@ -67,7 +67,7 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    @input="onSelectGudang"
+                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.params.gudang_id"
                   >
                     <!-- <template v-slot:option="option">
@@ -106,7 +106,7 @@
               </div>
               <div class="flex gap-3 mt-5">
                 <button
-                  @click="onLoad"
+                  @click="onLoad(1)"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
@@ -511,9 +511,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          gudang_id: {
-            gudang_id: "",
-          },
+          gudang_id: "",
         },
         form: {
           kode_shipment: "",

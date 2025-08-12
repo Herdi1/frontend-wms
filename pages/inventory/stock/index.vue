@@ -125,6 +125,7 @@
                     :options="lookup_custom3.data"
                     :filterable="false"
                     @search="onGetZonaGudang"
+                    :reduce="(item) => item.zona_gudang_id"
                     v-model="filter_params.zona_gudang_id"
                   >
                     <li
@@ -156,7 +157,7 @@
 
               <div class="flex gap-3">
                 <button
-                  @click="onLoad"
+                  @click="onLoad(1)"
                   class="bg-blue-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
@@ -638,8 +639,8 @@ export default {
           per_page: 10,
           page: 1,
 
-          gudang_id: { gudang_id: "" },
-          zona_gudang_id: { zona_gudang_id: "" },
+          gudang_id: "",
+          zona_gudang_id: "",
           start_date: "",
           end_date: "",
 
@@ -706,8 +707,8 @@ export default {
       },
 
       filter_params: {
-        gudang_id: { gudang_id: "" },
-        zona_gudang_id: { zona_gudang_id: "" },
+        gudang_id: "",
+        zona_gudang_id: "",
       },
 
       user: { ...this.$auth.user },
@@ -788,9 +789,9 @@ export default {
         "?page=" +
         this.parameters.params.page +
         "&gudang_id=" +
-        this.parameters.params.gudang_id.gudang_id +
+        this.parameters.params.gudang_id +
         "&zona_gudang_id=" +
-        this.parameters.params.zona_gudang_id.zona_gudang_id +
+        this.parameters.params.zona_gudang_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -798,8 +799,7 @@ export default {
       // "&item_gudang_id=" +
       // this.parameters.params.item_gudang_id +
       this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
-      this.parameters.params.zona_gudang_id =
-        this.filter_params.zona_gudang_id.zona_gudang_id;
+      this.parameters.params.zona_gudang_id = this.filter_params.zona_gudang_id;
 
       await this.getData(this.parameters);
       // await this.$axios

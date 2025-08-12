@@ -228,6 +228,20 @@
                     width="w-[60%]"
                   />
                 </div>
+                <div class="form-group">
+                  <select-button
+                    :self="{
+                      label: 'Supplier',
+                      optionLabel: 'nama_supplier',
+                      isLoading: isLoadingGetSupplier,
+                      lookup: lookup_customers,
+                      value: form.supplier_id,
+                      onGet: onGetSupplier,
+                      input: onSelectSupplier,
+                    }"
+                    width="w-[60%]"
+                  />
+                </div>
                 <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Approve"
@@ -1141,7 +1155,7 @@ export default {
 
         await this.lookUp({
           url: "master/supplier/get-supplier",
-          lookup: "suppliers",
+          lookup: "customers",
           query:
             "?search=" +
             this.supplier_search +
@@ -1151,6 +1165,14 @@ export default {
         });
 
         this.isLoadingGetSupplier = false;
+      }
+    },
+
+    async onSelectSupplier(item) {
+      if (item) {
+        this.form.supplier_id = item;
+      } else {
+        this.form.supplier_id = "";
       }
     },
 
@@ -1168,7 +1190,15 @@ export default {
     },
 
     onPrintLabel() {
-      console.log("printing label");
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "inbound/inbound/get-print-detail-label/" +
+          item.inbound_id +
+          "?token=" +
+          token,
+        "_blank"
+      );
     },
 
     async onSearchItemGudang() {

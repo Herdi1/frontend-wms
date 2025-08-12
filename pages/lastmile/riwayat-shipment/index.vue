@@ -69,7 +69,7 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    @input="onSelectGudang"
+                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.params.gudang_id"
                   >
                     <!-- <template v-slot:option="option">
@@ -108,7 +108,7 @@
               </div>
               <div class="flex gap-3 mt-5">
                 <button
-                  @click="onLoad"
+                  @click="onLoad(1)"
                   class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
@@ -397,10 +397,10 @@
                       <p>Proses</p>
                     </div>
                     <div
-                      v-if="item.status === 'SELESAI'"
+                      v-if="item.status === 'SAMPAI'"
                       class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
                     >
-                      <p>Selesai</p>
+                      <p>Sampai</p>
                     </div>
                     <div
                       v-if="item.status === 'BATAL'"
@@ -525,9 +525,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          gudang_id: {
-            gudang_id: "",
-          },
+          gudang_id: "",
         },
         form: {
           rute_shipment_id: "",
@@ -580,7 +578,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "shipment"
+          (item) => item.rute == "riwayat-shipment"
         );
 
         let roles = {};
@@ -611,18 +609,16 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/lastmile/konfirmasi-checkpoint/add");
+      this.$router.push("/lastmile/riwayat-shipment/add");
     },
 
     onEdit(item) {
-      this.$router.push(
-        "/lastmile/konfirmasi-checkpoint/" + item.rute_shipment_id
-      );
+      this.$router.push("/lastmile/riwayat-shipment/" + item.rute_shipment_id);
     },
 
     onDetail(item) {
       this.$router.push(
-        "/lastmile/konfirmasi-checkpoint/detail/" + item.shipment_id
+        "/lastmile/riwayat-shipment/detail/" + item.rute_shipment_id
       );
     },
 

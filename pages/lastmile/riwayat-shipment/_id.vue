@@ -16,7 +16,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
               <div>
                 <input-horizontal
-                  label="Kode Pick Order"
+                  label="Kode Shipment"
                   type="text"
                   name="kode_pick_order"
                   :isHorizontal="true"

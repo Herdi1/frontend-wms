@@ -2,8 +2,18 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Inbound</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Last Mile</a
+        >
       </li>
+      <!-- <li>
+        <a
+          href="javascript:;"
+          class="text-primary hover:underline before:content-['/']"
+        >
+          Che</a
+        >
+      </li> -->
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
@@ -23,7 +33,6 @@
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
-
           <div class="w-full mt-3 mb-7">
             <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
@@ -60,10 +69,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
                     :reduce="(item) => item.gudang_id"
+                    v-model="parameters.params.gudang_id"
                   >
-                    <!-- @input="onSelectGudang" -->
                     <!-- <template v-slot:option="option">
                       <div class="flex">
                         <div class="col-md-5 p-1 m-0 w-8/12">
@@ -98,11 +106,10 @@
                   </v-select>
                 </div>
               </div>
-
               <div class="flex gap-3 mt-5">
                 <button
-                  @click="onLoad"
-                  class="bg-blue-500 p-2 text-white rounded-md flex shadow-md hover:shadow-none"
+                  @click="onLoad(1)"
+                  class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
@@ -110,30 +117,33 @@
               </div>
             </div>
           </div>
-
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
-                <tr class="text-base uppercase">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
+                <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
                   <th
+                    class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'kode_inbound',
+                        'tanggal',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Put Away</div>
+                      <div>Tanggal</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.order == 'tanggal' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -142,7 +152,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.order == 'tanggal' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -151,31 +161,99 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Nomor Referensi</th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="w-[5%] border border-gray-300">Cetak Label</th>
-                  <th class="w-[5%] border border-gray-300">Cetak GR</th>
-                  <!-- <th>Kendaraan</th>
-                  <th>Pengemudi</th> -->
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kendaraan_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kendaraan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kendaraan_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kendaraan_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'gudang',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Gudang</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'gudang' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'gudang' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">
+                    Pengiriman Pertama
+                  </th>
+                  <th class="w-52 border border-gray-300">Pengiriman Akhir</th>
+                  <th class="w-52 border border-gray-300">
+                    Standar Waktu Kerja
+                  </th>
+                  <th class="w-52 border border-gray-300">Jumlah Ritase</th>
+                  <th class="w-52 border border-gray-300">
+                    Total Standar Waktu
+                  </th>
+                  <th class="w-52 border border-gray-300">Total Realisasi</th>
+                  <th class="w-20 border border-gray-300">Idle</th>
+                  <th class="w-40 border border-gray-300">Presentase</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="item.tanggal !== getTodaysDate"
-                    />
+                  <td class="place-items-center border border-gray-300">
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
+
                   <td class="text-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                      :disabled="item.tanggal !== getTodaysDate"
-                    />
-                  </td>
-                  <td class="border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -184,53 +262,52 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    <div>
-                      {{ item.kode_inbound }}
-                      <p v-if="item.user_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
-                      </p>
-                      <p v-else class="text-blue-500">
-                        <i>Dibuat oleh: Sistem</i>
-                      </p>
-                    </div>
+                    {{ item.tanggal }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{
+                      item.kendaraan
+                        ? item.kendaraan.nama_kendaraan +
+                          " - " +
+                          item.kendaraan.plat_nomor
+                        : "-"
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    <div>
-                      <p v-if="item.no_referensi_1">
-                        - {{ item.no_referensi_1 }}
-                      </p>
-                      <p v-if="item.no_referensi_2">
-                        - {{ item.no_referensi_2 }}
-                      </p>
-                      <p v-if="item.no_referensi_3">
-                        - {{ item.no_referensi_3 }}
-                      </p>
-                    </div>
+                    {{ item.jam_pengiriman_awal || "" }}
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
-                  <td class="text-center border border-gray-300">
-                    <button
-                      type="button"
-                      @click="onPrintDetailInboundLabel(item)"
-                      class="px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-400 text-white text-enter text-lg"
-                    >
-                      <i class="fa fa-book"></i>
-                    </button>
+                  <td class="border border-gray-300">
+                    {{ item.jam_pengiriman_akhir || "Dalam Perjalanan" }}
                   </td>
-                  <td class="text-center border border-gray-300">
-                    <button
-                      type="button"
-                      @click="onPrintDetailInbound(item)"
-                      class="px-2 py-1 rounded-md bg-green-500 hover:bg-green-400 text-white text-enter text-lg"
-                    >
-                      <i class="fa fa-file" aria-hidden="true"></i>
-                    </button>
+                  <td class="border border-gray-300">
+                    {{ item.standar_waktu_kerja }}
                   </td>
-                  <!-- <td>{{ item.kendaraan_id }}</td>
-                  <td>{{ item.pengemudi_id }}</td> -->
+                  <td class="border border-gray-300">
+                    {{ item.jumlah_ritase }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.total_standar_waktu }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.total_realisasi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ getIdle(item) }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ getPresentase(item) }} %
+                  </td>
+
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                      :disabled="item.status_inspeksi === '1'"
+                    />
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -255,7 +332,7 @@ export default {
 
   head() {
     return {
-      title: "Inbound/Goods Receive",
+      title: "Mobilitas Truk",
     };
   },
 
@@ -264,11 +341,11 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -280,7 +357,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -299,20 +376,22 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {
     return {
-      title: "Inbound/Goods Receive",
+      title: "Mobilitas Truk",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inbound/inbound",
+        url: "lastmile/utilitas-kendaraan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "inbound_id",
+          order: "utilitas_kendaraan_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -322,20 +401,27 @@ export default {
           gudang_id: "",
         },
         form: {
-          inbound_id: "",
-          asn_id: "",
-          surat_jalan: "",
-          doc_type_sap: "",
-          kode_inbound: "",
-          no_referensi_1: "",
-          no_referensi_2: "",
-          no_referensi_3: "",
+          utilitas_kendaraan_id: "",
+          gudang_id: "",
           tanggal: "",
-          inbound_details: [],
+          kendaraan_id: "",
+          jenis_kendaraan_id: "",
+          jam_pengiriman_awal: "",
+          jam_pengiriman_akhir: "",
+          standar_waktu_kerja: "",
+          jumlah_ritase: "",
+          total_standar_waktu: "",
+          total_realisasi: "",
+
+          //Tracking
           user_agent: "",
           device: "",
           longitude: "",
           latitude: "",
+        },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
         },
       },
       default_roles: {
@@ -353,6 +439,7 @@ export default {
         import: true,
       },
       user: this.$auth.user,
+
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
@@ -367,7 +454,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "inbound"
+          (item) => item.rute == "utilitas-kendaraan"
         );
 
         let roles = {};
@@ -383,17 +470,6 @@ export default {
         return roles;
       }
     },
-
-    getTodaysDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
-
-      const formattedDate = `${year}-${month}-${day}`;
-
-      return formattedDate;
-    },
   },
 
   methods: {
@@ -408,12 +484,16 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
-    onFormShow() {
-      this.$router.push("/inbound/inbound/add");
+    onEdit(item) {
+      this.$router.push(
+        "/lastmile/utilitas-kendaraan/" + item.rute_shipment_id
+      );
     },
 
-    onEdit(item) {
-      this.$router.push("/inbound/inbound/" + item.inbound_id);
+    onDetail(item) {
+      this.$router.push(
+        "/lastmile/utilitas-kendaraan/detail/" + item.utilitas_kendaraan_id
+      );
     },
 
     onTrashed(item) {
@@ -432,7 +512,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.inbound_id,
+              id: item.utilitas_kendaraan_id,
               params: this.parameters.params,
             });
 
@@ -520,7 +600,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang-user",
+          url: "master/gudang/get-gudang",
           lookup: "custom1",
           query:
             "?search=" +
@@ -538,27 +618,14 @@ export default {
       this.parameters.params.gudang_id = item ? item : "";
     },
 
-    onPrintDetailInbound(item) {
-      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
-          "inbound/inbound/get-print-detail/" +
-          item.inbound_id +
-          "?token=" +
-          token,
-        "_blank"
-      );
+    getIdle(item) {
+      let idle = item.standar_waktu_kerja - item.total_realisasi;
+      return idle;
     },
-    onPrintDetailInboundLabel(item) {
-      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
-          "inbound/inbound/get-print-detail-label/" +
-          item.inbound_id +
-          "?token=" +
-          token,
-        "_blank"
-      );
+
+    getPresentase(item) {
+      let presentase = (item.total_realisasi / item.standar_waktu_kerja) * 100;
+      return presentase;
     },
   },
 };

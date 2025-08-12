@@ -567,7 +567,7 @@ export default {
 
       this.isLoadingPage = false;
     } catch (error) {
-      // this.$router.push("/master/gudang");
+      this.$router.push("/master/gudang");
       console.log("error", error);
     }
   },
