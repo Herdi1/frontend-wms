@@ -30,14 +30,15 @@
         <div class="card-title">
           <list-option-section :self="this" ref="form-option" />
         </div>
-        <div class="overflow-x-auto">
-          <table ref="formContainer">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center border border-gray-300">
-                  Detail
-                </th>
-                <th class="w-[5%] border border-gray-300">No</th>
+                <th class="w-20 text-center border border-gray-300">Detail</th>
+                <th class="w-20 text-center border border-gray-300">No</th>
                 <th
                   @click="
                     onSort(
@@ -45,7 +46,7 @@
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
-                  class="cursor-pointer min-w-40 border border-gray-300"
+                  class="cursor-pointer w-48 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
                     <div>Kode Kontrak</div>
@@ -71,20 +72,22 @@
                     </div>
                   </div>
                 </th>
-                <th class="min-w-32 border border-gray-300">Vendor</th>
-                <th class="min-w-32 border border-gray-300">PIC Kontrak</th>
-                <th class="min-w-40 border border-gray-300">Tanggal Kontrak</th>
-                <th class="min-w-40 border border-gray-300">Tanggal Aktif</th>
-                <th class="min-w-40 border border-gray-300">Tanggal Expired</th>
-                <th class="min-w-32 border border-gray-300">Status</th>
-                <th class="min-w-32 border border-gray-300">Keterangan</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
-                <th class="w-[5%] text-center border border-gray-300">Hapus</th>
+                <th class="w-40 border border-gray-300">Vendor</th>
+                <th class="w-40 border border-gray-300">Status</th>
+                <th class="w-40 border border-gray-300">PIC Kontrak</th>
+                <th class="w-40 border border-gray-300">Tanggal Kontrak</th>
+                <th class="w-40 border border-gray-300">Tanggal Aktif</th>
+                <th class="w-40 border border-gray-300">Tanggal Expired</th>
+                <th class="w-40 border border-gray-300">Keterangan</th>
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-20 text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="text-center border border-gray-300">
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
                 <td class="text-center border border-gray-300">
@@ -94,25 +97,25 @@
                     1
                   }}
                 </td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">
                   {{ item.kode_kontrak }}
+                  <p
+                    v-if="item.user_input"
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                  </p>
+                  <p
+                    v-else
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: Sistem</i>
+                  </p>
                 </td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
                 </td>
-                <td class="text-center border border-gray-300">
-                  {{ item.pic_kontrak }}
-                </td>
-                <td class="text-center border border-gray-300">
-                  {{ item.tanggal_kontrak }}
-                </td>
-                <td class="text-center border border-gray-300">
-                  {{ item.tanggal_berlaku }}
-                </td>
-                <td class="text-center border border-gray-300">
-                  {{ item.tanggal_berhenti }}
-                </td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">
                   <span
                     v-if="item.status === 'PENDING'"
                     class="p-1 rounded-md text-white bg-orange-400"
@@ -126,12 +129,32 @@
                     Disetujui
                   </span>
                 </td>
+                <td class="border border-gray-300">
+                  {{
+                    item.user_pic
+                      ? item.user_pic.nama_lengkap
+                      : item.user_id_pic
+                  }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_kontrak }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_berlaku }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.tanggal_berhenti }}
+                </td>
 
-                <td>{{ item.keterangan }}</td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300">{{ item.keterangan }}</td>
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td class="text-center border border-gray-300">
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
                   <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>

@@ -1146,8 +1146,8 @@ export default {
         // console.log(this.parameters.form);
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      // console.log("error", error);
+      this.$router.back();
     }
   },
 

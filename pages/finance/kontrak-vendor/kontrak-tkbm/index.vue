@@ -123,14 +123,28 @@
                 >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td class="border border-gray-300">
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
                     1
                   }}
                 </td>
-                <td class="border border-gray-300">{{ item.kode_kontrak }}</td>
+                <td class="border border-gray-300">
+                  {{ item.kode_kontrak }}
+                  <p
+                    v-if="item.user_input"
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                  </p>
+                  <p
+                    v-else
+                    class="text-blue-500 cursor-pointer hover:underline"
+                  >
+                    <i>Dibuat oleh: Sistem</i>
+                  </p>
+                </td>
                 <td class="border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
                 </td>

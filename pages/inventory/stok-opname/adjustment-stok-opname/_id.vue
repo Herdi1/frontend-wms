@@ -200,7 +200,7 @@
                     class="align-top border-t"
                   >
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                         label="nama_item"
                         :loading="isLoadingGetItemGudang"
@@ -233,11 +233,12 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      {{ item.item_gudang.nama_item }}
                     </td>
 
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_zona_gudang"
                         :loading="isLoadingGetZonaGudang"
@@ -248,7 +249,6 @@
                         @input="onSelectItem(i)"
                         disabled
                       >
-                        <!-- :reduce="(item) => item.zona_gudang_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -271,10 +271,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      {{ item.zona_gudang.nama_zona_gudang }}
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                         label="nama_valuation"
                         :loading="isLoadingGetValuation"
@@ -285,7 +286,6 @@
                         @input="onSelectItem(i)"
                         disabled
                       >
-                        <!-- :reduce="(item) => item.valuation_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -308,12 +308,13 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      {{ item.valuation.nama_valuation }}
                     </td>
                     <td class="border border-gray-300">
                       <div class="mt-1">
                         <label for="">Lokasi Aisle</label>
-                        <v-select
+                        <!-- <v-select
                           class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                           label="nama_slot_penyimpanan"
                           :loading="isLoadingGetSlotAisle"
@@ -324,7 +325,6 @@
                           @input="onSelectItem(i)"
                           disabled
                         >
-                          <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -347,11 +347,16 @@
                               >Selanjutnya</span
                             >
                           </li>
-                        </v-select>
+                        </v-select> -->
+                        <p class="text-right">
+                          {{
+                            item.slot_penyimpanan_aisle.nama_slot_penyimpanan
+                          }}
+                        </p>
                       </div>
                       <div class="mt-1">
                         <label for="">Lokasi Rack</label>
-                        <v-select
+                        <!-- <v-select
                           class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                           label="nama_slot_penyimpanan"
                           :loading="isLoadingGetSlotRack"
@@ -362,7 +367,6 @@
                           @input="onSelectItem(i)"
                           disabled
                         >
-                          <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -385,11 +389,14 @@
                               >Selanjutnya</span
                             >
                           </li>
-                        </v-select>
+                        </v-select> -->
+                        <p class="text-right">
+                          {{ item.slot_penyimpanan_rack.nama_slot_penyimpanan }}
+                        </p>
                       </div>
                       <div class="mt-1">
                         <label for="">Lokasi Level</label>
-                        <v-select
+                        <!-- <v-select
                           class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                           label="nama_slot_penyimpanan"
                           :loading="isLoadingGetSlotLevel"
@@ -400,7 +407,6 @@
                           @input="onSelectItem(i)"
                           disabled
                         >
-                          <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -423,11 +429,16 @@
                               >Selanjutnya</span
                             >
                           </li>
-                        </v-select>
+                        </v-select> -->
+                        <p class="text-right">
+                          {{
+                            item.slot_penyimpanan_level.nama_slot_penyimpanan
+                          }}
+                        </p>
                       </div>
                       <div class="mt-1">
                         <label for="">Lokasi Bin</label>
-                        <v-select
+                        <!-- <v-select
                           class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                           label="nama_slot_penyimpanan"
                           :loading="isLoadingGetSlotBin"
@@ -438,7 +449,6 @@
                           @input="onSelectItem(i)"
                           disabled
                         >
-                          <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -461,24 +471,27 @@
                               >Selanjutnya</span
                             >
                           </li>
-                        </v-select>
+                        </v-select> -->
+                        <p class="text-right">
+                          {{ item.slot_penyimpanan_bin.nama_slot_penyimpanan }}
+                        </p>
                       </div>
                     </td>
 
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.stok_sistem"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
                         disabled
-                      />
-                      <!-- @input="updateStokSelisih(item)" -->
+                      /> -->
+                      {{ item.stok_sistem }}
                     </td>
 
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.stok_real"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
@@ -486,7 +499,8 @@
                         "
                         @keyup.native="onChangeStok(i)"
                         disabled
-                      />
+                      /> -->
+                      {{ item.stok_real }}
                       <!-- @input="updateStokSelisih(item)" -->
                     </td>
 
@@ -498,22 +512,24 @@
                         type="text"
                       /> -->
                       <!-- v-model="item.stok_selisih" -->
-                      <money
+                      <!-- <money
                         v-model="item.stok_selisih"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
                         disabled
-                      />
+                      /> -->
+                      {{ item.stok_selisih }}
                     </td>
                     <td class="border border-gray-300">
-                      <textarea
+                      <!-- <textarea
                         placeholder="Keterangan"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
                         disabled
-                      ></textarea>
+                      ></textarea> -->
+                      {{ item.keterangan }}
                     </td>
                   </tr>
                   <tr v-if="!parameters.form.stok_opname_details.length > 0">
