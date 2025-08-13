@@ -122,6 +122,7 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
@@ -297,7 +298,7 @@
                   <!-- <th class="w-52 border border-gray-300">Gudang</th> -->
                   <th class="w-52 border border-gray-300">Kendaraan</th>
                   <th class="w-52 border border-gray-300">Staff</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 border border-gray-300">Cetak SPJ</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -305,6 +306,12 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_inspeksi === '1'"
+                    />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -408,11 +415,14 @@
                         : ""
                     }}
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="item.status_inspeksi === '1'"
-                    />
+                  <td class="text-center border border-gray-300">
+                    <button
+                      type="button"
+                      @click="onPrintSpj(item)"
+                      class="px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-400 text-white text-enter text-lg"
+                    >
+                      <i class="fa fa-book"></i>
+                    </button>
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
@@ -728,6 +738,18 @@ export default {
 
     onSelectGudang(item) {
       this.parameters.params.gudang_id = item ? item : "";
+    },
+
+    onPrintSpj(item) {
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "outbound/shipment/get-print-detail/" +
+          item.shipment_id +
+          "?token=" +
+          token,
+        "_blank"
+      );
     },
   },
 };
