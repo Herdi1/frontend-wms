@@ -311,7 +311,10 @@
                   <td class="border border-gray-300">
                     <div>
                       {{ item.kode_shipment }}
-                      <p v-if="item.user_id_input" class="text-blue-500">
+                      <p
+                        v-if="item.user_id_input"
+                        class="text-blue-500 hover:underline cursor-pointer"
+                      >
                         <i>Dibuat oleh: {{ item.user_input.username }}</i>
                       </p>
                       <p v-else class="text-blue-500">
