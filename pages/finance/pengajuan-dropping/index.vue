@@ -26,33 +26,124 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%]">Delete</th>
-                  <th class="w-[5%]">No</th>
-                  <th>Nomor Ajuan</th>
-                  <th>Tanggal</th>
-                  <th>Gudang</th>
-                  <th>Periode Awal</th>
-                  <th>Periode Akhir</th>
-                  <th>Status</th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_pengajuan',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Pengajuan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_pengajuan' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Gudang</th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_pengajuan',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Pengajuan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Periode Awal</th>
+                  <th class="w-48 border border-gray-300">Periode Akhir</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
-                  <td>
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -60,12 +151,28 @@
                       1
                     }}
                   </td>
-                  <td>{{ item.no_ajuan }}</td>
-                  <td>{{ item.tanggal }}</td>
-                  <td>{{ item.gudang_id }}</td>
-                  <td>{{ item.periode_awal }}</td>
-                  <td>{{ item.periode_akhir }}</td>
-                  <td>{{ item.status }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_pengajuan }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.status_pengajuan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.periode_awal }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.periode_akhir }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -226,7 +333,7 @@ export default {
       this.$router.push("/finance/pengajuan-dropping/add");
     },
 
-    inEdit(item) {
+    onEdit(item) {
       this.$router.push(
         "/finance/pengajuan-dropping/" + item.pengajuan_dropping_id
       );

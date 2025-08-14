@@ -109,8 +109,10 @@
                 <td></td>
               </tr>
               <tr v-for="(itemChild, ic) in item.childs" :key="ic">
-                <td class="pl-8">
-                  {{ itemChild.kode_coa }} {{ itemChild.nama_coa }}
+                <td>
+                  <span class="pl-3">
+                    {{ itemChild.kode_coa }} {{ itemChild.nama_coa }}
+                  </span>
                 </td>
                 <td class="text-right">
                   <span v-if="passiva_non_real_types.includes(item.tipe)">
@@ -138,7 +140,9 @@
                 <td colspan="2" class="font-bold uppercase">PROFIT/LOSE</td>
               </tr>
               <tr>
-                <td class="pl-8">PROFIT/LOSE</td>
+                <td>
+                  <span class="pl-3"> PROFIT/LOSE </span>
+                </td>
                 <td class="text-right">
                   {{ real_profit_and_lose | formatPrice }}
                 </td>
