@@ -16,7 +16,7 @@
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
         class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-        :class="self.form.biaya_inbounds.length ? 'mb-[300px]' : ''"
+        :class="self.form.tagihan_inbounds.length ? 'mb-[300px]' : ''"
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
@@ -30,14 +30,14 @@
             <th class="w-[200px] border border-gray-300">Total</th>
             <th class="w-[200px] border border-gray-300">COA</th>
             <th class="w-[200px] border border-gray-300">Divisi</th>
-            <th class="w-[200px] border border-gray-300">Vendor</th>
+            <th class="w-[200px] border border-gray-300">Pelanggan</th>
             <th class="w-[300px] border border-gray-300">Keterangan</th>
             <!-- <th class="w-20 border border-gray-300 text-center">Delete</th> -->
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(item, index) in self.form.biaya_inbounds"
+            v-for="(item, index) in self.form.tagihan_inbounds"
             :key="index"
             style="border-top: 0.5px solid lightgray"
             class="align-top mx-0"
@@ -202,32 +202,32 @@
             </td>
             <td class="border border-gray-300">
               <v-select
-                label="nama_vendor"
-                :loading="isLoadingGetVendor"
-                :options="lookup_custom10.data"
+                label="nama_pelanggan"
+                :loading="isLoadingGetPelanggan"
+                :options="lookup_sellers.data"
                 :filterable="false"
-                @search="onGetVendor"
-                v-model="item.vendor_id"
-                @input="(item) => onSelectVendor(item, index)"
+                @search="onGetPelanggan"
+                v-model="item.pelanggan_id"
+                @input="(item) => onSelectPelanggan(item, index)"
                 class="w-full"
               >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
                   class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom10.data.length || search"
+                  v-if="lookup_sellers.data.length || search"
                 >
                   <span
-                    v-if="lookup_custom10.current_page > 1"
-                    @click="onGetVendor(search, false)"
+                    v-if="lookup_sellers.current_page > 1"
+                    @click="onGetPelanggan(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
                   <span
                     v-if="
-                      lookup_custom10.last_page > lookup_custom10.current_page
+                      lookup_sellers.last_page > lookup_sellers.current_page
                     "
-                    @click="onGetVendor(search, true)"
+                    @click="onGetPelanggan(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -249,7 +249,7 @@
               ></i>
             </td> -->
           </tr>
-          <tr v-if="!self.form.biaya_inbounds.length > 0">
+          <tr v-if="!self.form.tagihan_inbounds.length > 0">
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
                 <img
@@ -286,14 +286,14 @@ export default {
       isLoadingGetDivisi: false,
       divisi_search: "",
 
-      isStopSearchVendor: false,
-      isLoadingGetVendor: false,
-      vendor_search: "",
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
     };
   },
 
   watch: {
-    "self.form.biaya_inbounds": {
+    "self.form.tagihan_inbounds": {
       handler(newVal) {
         newVal.forEach((item) => {
           if (item.dasar_perhitungan === "QTY") {
@@ -315,7 +315,7 @@ export default {
     await this.onSearchJenisBiaya();
     await this.onSearchCoa();
     await this.onSearchDivisi();
-    await this.onSearchVendor();
+    await this.onSearchPelanggan();
   },
 
   computed: {
@@ -327,10 +327,10 @@ export default {
       "lookup_custom7",
       "lookup_custom8",
       "lookup_custom9",
-      "lookup_custom10",
+      // "lookup_sellers",
 
       "lookup_beam",
-
+      "lookup_sellers",
       "lookup_suppliers",
     ]),
   },
@@ -339,7 +339,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     AddBiayaInbound() {
-      this.self.form.biaya_inbounds.push({
+      this.self.form.tagihan_inbounds.push({
         biaya_inbound_id: "",
         jenis_biaya_id: "",
         jenis: 0,
@@ -347,13 +347,13 @@ export default {
         jumlah: "",
         total: "",
         coa_id: "",
-        divis_id: "",
-        vendor_id: "",
+        divisi_id: "",
+        pelanggan_id: "",
       });
     },
 
     onDeleteItem(index) {
-      this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
+      this.self.form.tagihan_inbounds = this.self.form.tagihan_inbounds.filter(
         (_, itemIndex) => index !== itemIndex
       );
     },
@@ -398,7 +398,7 @@ export default {
       }
     },
     onSelectJenisBiaya(item, index) {
-      this.self.form.biaya_inbounds[index].jenis_biaya_id = item || "";
+      this.self.form.tagihan_inbounds[index].jenis_biaya_id = item || "";
     },
 
     // get coa
@@ -441,7 +441,7 @@ export default {
       }
     },
     onSelectCoa(item, index) {
-      this.self.form.biaya_inbounds[index].coa_id = item || "";
+      this.self.form.tagihan_inbounds[index].coa_id = item || "";
     },
 
     // get coa
@@ -484,50 +484,50 @@ export default {
       }
     },
     onSelectDivisi(item, index) {
-      this.self.form.biaya_inbounds[index].divisi_id = item || "";
+      this.self.form.tagihan_inbounds[index].divisi_id = item || "";
     },
 
     // get coa
-    onGetVendor(search, isNext) {
+    onGetPelanggan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchVendor);
+      clearTimeout(this.isStopSearchPelanggan);
 
-      this.isStopSearchVendor = setTimeout(() => {
-        this.vendor_search = search;
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_custom10.current_page = isNext
-            ? this.lookup_custom10.current_page + 1
-            : this.lookup_custom10.current_page - 1;
+          this.lookup_sellers.current_page = isNext
+            ? this.lookup_sellers.current_page + 1
+            : this.lookup_sellers.current_page - 1;
         } else {
-          this.lookup_custom10.current_page = 1;
+          this.lookup_sellers.current_page = 1;
         }
 
-        this.onSearchVendor();
+        this.onSearchPelanggan();
       }, 600);
     },
 
-    async onSearchVendor() {
-      if (!this.isLoadingGetVendor) {
-        this.isLoadingGetVendor = true;
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
 
         await this.lookUp({
-          url: "master/vendor/get-vendor",
+          url: "master/pelanggan/get-pelanggan",
           lookup: "custom10",
           query:
             "?search=" +
-            this.vendor_search +
+            this.pelanggan_search +
             "&page=" +
-            this.lookup_custom10.current_page +
+            this.lookup_sellers.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetVendor = false;
+        this.isLoadingGetPelanggan = false;
       }
     },
-    onSelectVendor(item, index) {
-      this.self.form.biaya_inbounds[index].vendor_id = item || "";
+    onSelectPelanggan(item, index) {
+      this.self.form.tagihan_inbounds[index].pelanggan_id = item || "";
     },
 
     totalValue(item) {

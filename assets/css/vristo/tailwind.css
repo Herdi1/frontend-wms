@@ -740,3 +740,11 @@ hover:text-primary hover:before:!bg-primary before:mr-2 rtl:before:ml-2 dark:bef
 ::-webkit-scrollbar-track {
   background: #eee;
 }
+
+.table-responsive thead tr th {
+  padding: 5px 10px;
+}
+
+.table-responsive tbody tr td {
+  padding: 5px 10px;
+}

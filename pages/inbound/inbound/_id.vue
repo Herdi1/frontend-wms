@@ -263,6 +263,9 @@
                 <template #BiayaInbound>
                   <BiayaInbounds :self="{ form }" />
                 </template>
+                <template #TagihanInbound>
+                  <TagihanInbounds :self="{ form }" />
+                </template>
               </tab-component>
             </div>
             <modal-footer-section
@@ -304,6 +307,7 @@
 import { mapActions, mapState } from "vuex";
 import InboundDetails from "./InboundDetails.vue";
 import BiayaInbounds from "./BiayaInbounds.vue";
+import TagihanInbounds from "./TagihanInbounds.vue";
 
 export default {
   props: ["self"],
@@ -311,6 +315,7 @@ export default {
   components: {
     InboundDetails,
     BiayaInbounds,
+    TagihanInbounds,
   },
 
   data() {
@@ -320,6 +325,7 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
+        { name: "TAGIHAN INBOUND", slotName: "TagihanInbound" },
       ],
 
       id,
@@ -372,6 +378,7 @@ export default {
 
         inbound_details: [],
         biaya_inbounds: [],
+        tagihan_inbounds: [],
 
         user_agent: "",
         device: "",
@@ -397,6 +404,7 @@ export default {
 
         inbound_details: [],
         biaya_inbounds: [],
+        tagihan_inbounds: [],
 
         user_agent: "",
         device: "",
@@ -1122,6 +1130,7 @@ export default {
         this.form.gudang_id = item;
         this.form.inbound_details = [];
         this.form.biaya_inbounds = [];
+        this.form.tagihan_inbounds = [];
         await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
@@ -1176,7 +1185,7 @@ export default {
       }
     },
 
-    async onSelectGudang(item) {
+    async onSelectSupplier(item) {
       if (item) {
         this.form.supplier_id = item;
       } else {

@@ -1133,7 +1133,15 @@ export default {
         }
       })
 
-      console.log(biaya)
+      const tagihan = await this.$axios.get("/finance/kontrak-pelanggan/get-kontrak-pelanggan", {
+        params: {
+          item_gudang_id: item.item_gudang_id,
+          gudang_id: this.self.form.gudang_id.gudang_id,
+          jenis: 'inbound'
+        }
+      })
+
+      console.log(tagihan)
 
       if(!this.self.form.biaya_inbounds.find(
         (data) => data.item_gudang_id === item.item_gudang_id
@@ -1155,8 +1163,33 @@ export default {
             vendor_id: data.vendor,
             coa_id: "",
             dasar_perhitungan: data.dasar_perhitungan,
-            payable_to: data.payable_to
+            payable_to: data.payable_to,
+            pelanggan_id: data.pelanggan,
           });
+        })
+      }
+
+      if(!this.self.form.tagihan_inbounds.find(
+        (data) => data.item_gudang_id === item.item_gudang_id
+      )){
+        tagihan.data.forEach((data) => {
+          this.self.form.tagihan_inbounds.push({
+            ...data,
+            tagihan_inbound_id: "",
+            item_gudang: data.item_gudang,
+            item_id: data.item_id,
+            item_gudang_id: data.item_gudang_id,
+            jenis_kontrak_id: data.jenis_kontrak,
+            divisi_id: data.divisi,
+            jenis_biaya_id: data.jenis_biaya,
+            mata_uang_id: data.mata_uang,
+            pembayaran_id: data.pembayaran,
+            term_pembayaran_id: data.term_pembayaran,
+            group_item_id: data.group_item,
+            jumlah: 0,
+            total: 0,
+            coa_id: "",
+          })
         })
       }
     },

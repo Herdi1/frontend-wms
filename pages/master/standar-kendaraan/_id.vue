@@ -253,6 +253,21 @@
               </div>
             </div>
           </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="form-group col-12 w-full">
+              <label for="konsumsi_bbm"
+                >Standar Ritase Harian <span class="text-danger">*</span></label
+              >
+              <money
+                v-model="parameters.form.standar_ritase_harian"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+              <!-- <div class="text-muted text-sm pl-1 pt-1">* km/liter</div> -->
+            </div>
+          </div>
           <modal-footer-section
             class="mt-5"
             :isLoadingForm="isLoadingForm"
@@ -298,6 +313,7 @@ export default {
           standar_muat: "",
           standar_bongkar: "",
           standar_istirahat: "",
+          standar_ritase_harian: "",
           minimal_muat: "",
           maksimal_muat: "",
           konsumsi_bbm: "",

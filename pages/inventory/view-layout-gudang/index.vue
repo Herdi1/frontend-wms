@@ -155,8 +155,8 @@
               :w="room.width"
               :h="room.height"
               :parent="true"
-              :draggable="true"
-              :resizable="true"
+              :draggable="false"
+              :resizable="false"
               @dragging="(x, y) => onDragStop(room, x, y)"
               style="border: 1px solid black"
               @resizing="
@@ -165,7 +165,8 @@
             >
               <div
                 :style="`background-color: ${room.color}`"
-                :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center`"
+                :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center cursor-pointer`"
+                @click="zonaClick(room)"
               >
                 {{ room.nama_zona_gudang }}
               </div>
@@ -617,6 +618,10 @@ export default {
     async deleteZona(index) {
       this.rooms = this.rooms.filter((_, itemIndex) => index !== itemIndex);
       await this.getZona();
+    },
+
+    zonaClick(room) {
+      console.log(room);
     },
   },
 };
