@@ -58,18 +58,6 @@
                     :required="true"
                   />
                 </div>
-                <div class="form-group flex justify-between w-full">
-                  <label for="plafon_dropping" class="w-1/2"
-                    >Plafon Dropping</label
-                  >
-                  <money
-                    v-model="form.plafon_dropping"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div>
 
                 <div class="form-group">
                   <input-horiontal
@@ -90,52 +78,6 @@
                   />
                 </div>
 
-                <!-- <div class="form-group flex justify-between w-full">
-                  <label for="total_biaya" class="w-1/2">Total Biaya</label>
-                  <money
-                    v-model="form.total_biaya"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div> -->
-                <!-- <div class="form-group flex justify-between w-full">
-                  <label for="total_saldo_awal" class="w-1/2"
-                    >Total Saldo Awal</label
-                  >
-                  <money
-                    v-model="form.total_saldo_awal"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div> -->
-                <!-- <div class="form-group flex justify-between w-full">
-                  <label for="total_saldo_akhir" class="w-1/2"
-                    >Total Saldo Akhir</label
-                  >
-                  <money
-                    v-model="form.total_saldo_akhir"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div> -->
-                <!-- <div class="form-group flex justify-between w-full">
-                  <label for="permintaan_dropping" class="w-1/2"
-                    >Permintaan Dropping</label
-                  >
-                  <money
-                    v-model="form.permintaan_dropping"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </div> -->
                 <div class="flex justify-between">
                   <label class="w-1/2 pt-1">Keterangan</label>
                   <textarea
@@ -153,7 +95,9 @@
               <tab-component :tabs="tabs">
                 <template #PengajuanDroppingDetail>
                   <div class="w-full flex justify-between items-center">
-                    <h1 class="text-xl font-bold">Pengajuan Dropping Detail</h1>
+                    <h1 class="text-xl font-bold uppercase">
+                      Pengajuan Dropping Detail
+                    </h1>
                     <div class=" ">
                       <button
                         type="button"
@@ -169,7 +113,7 @@
                     <table
                       class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                       :class="
-                        form.pengajuan_dropping_details.length ? 'mb-64' : ''
+                        form.pengajuan_dropping_details.length ? 'mb-20' : ''
                       "
                     >
                       <thead>
@@ -197,84 +141,22 @@
                           class="border-t align-top"
                         >
                           <td class="border border-gray-300">
-                            {{ item.kode_coa }}
-                            <!-- <v-select
-                              label="nama_coa"
-                              :loading="isLoadingGetCoa"
-                              :options="lookup_custom2.data"
-                              :filterable="false"
-                              @search="onGetCoa"
-                              v-model="item.coa_id"
-                              @input="(item) => onSelectCoaDetail(item, i)"
-                              class="w-full"
-                            >
-                              <template slot="option" slot-scope="option">
-                                {{ option.kode_coa + " - " + option.nama_coa }}
-                              </template>
-                              <template
-                                slot="selected-option"
-                                slot-scope="option"
-                              >
-                                {{ option.kode_coa + " - " + option.nama_coa }}
-                              </template>
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_custom2.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_custom2.current_page > 1"
-                                  @click="onGetCoa(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_custom2.last_page >
-                                    lookup_custom2.current_page
-                                  "
-                                  @click="onGetCoa(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select> -->
+                            {{
+                              item.kode_coa ? item.kode_coa : item.coa.kode_coa
+                            }}
                           </td>
                           <td class="border border-gray-300">
-                            {{ item.nama_coa }}
+                            {{
+                              item.nama_coa ? item.nama_coa : item.coa.nama_coa
+                            }}
                           </td>
                           <td class="border border-gray-300">
-                            <!-- <input
-                              type="date"
-                              name="tanggal_ambil"
-                              v-model="item.tanggal_ambil"
-                              class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            /> -->
                             {{ item.tanggal_ambil }}
                           </td>
                           <td class="border border-gray-300">
-                            <!-- <money
-                              v-model="item.saldo_awal"
-                              class="w-full pl-2 py-1 border rounded focus:outline-none"
-                              @keydown.native="
-                                $event.key === '-'
-                                  ? $event.preventDefault()
-                                  : null
-                              "
-                            /> -->
                             {{ item.saldo_awal }}
                           </td>
                           <td class="border border-gray-300">
-                            <!-- <money
-                              v-model="item.saldo_akhir"
-                              class="w-full pl-2 py-1 border rounded focus:outline-none"
-                              @keydown.native="
-                                $event.key === '-'
-                                  ? $event.preventDefault()
-                                  : null
-                              "
-                            /> -->
                             {{ item.saldo_akhir }}
                           </td>
                           <td class="border border-gray-300">
@@ -283,80 +165,184 @@
                               v-model="item.keterangan"
                               class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                             ></textarea>
-                            {{ item.keterangan }}
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </template>
-                <!-- <template #BiayaPengajuanDropping>
-                  <div class="w-full flex justify-between items-center">
-                    <h1 class="text-xl font-bold">Biaya Pengajuan Dropping</h1>
-                    <div class=" ">
-                      <button
-                        type="button"
-                        @click="addPengajuanBiaya"
-                        class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                      >
-                        <i class="fas fa-plus"></i>
-                        <p class="text-xs font-medium">Tambah Detail</p>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="table-responsive overflow-y-hidden mb-7">
-                    <table
-                      class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
-                      :class="
-                        form.pengajuan_dropping_biaya_details.length
-                          ? 'mb-48'
-                          : ''
-                      "
-                    >
-                      <thead>
-                        <tr class="text-sm uppercase">
-                          <th class="w-44 border border-gray-300">Kode Coa</th>
-                          <th class="w-44 border border-gray-300">Nama Coa</th>
-                          <th class="w-44 border border-gray-300">Tanggal</th>
-                          <th class="w-44 border border-gray-300">Nominal</th>
-                          <th class="w-44 border border-gray-300">Tipe</th>
-                          <th class="w-44 border border-gray-300">
-                            Keterangan
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="(
-                            item, i
-                          ) in form.pengajuan_dropping_biaya_details"
-                          :key="i"
-                          class="border-t align-top"
-                        >
-                          <td class="border border-gray-300">
-                            {{ item.coa ? item.coa.kode_coa : "-" }}
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ item.coa ? item.coa.nama_coa : "-" }}
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ item.tanggal ? item.tanggal : "-" }}
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ item.credit }}
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ item.credit > 0 ? "CREDIT" : "DEBIT" }}
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ item.keterangan ? item.keterangan : "-" }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </template> -->
               </tab-component>
+            </div>
+            <div
+              v-if="form.pengajuan_dropping_biaya_details.length > 0"
+              class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            >
+              <div>
+                <h1 class="text-xl font-bold uppercase mb-5">
+                  Detail Biaya Dropping
+                </h1>
+              </div>
+              <div class="table-responsive w-full relative overflow-y-auto">
+                <table
+                  ref="formContainer"
+                  class="mb-5 overflow-auto table-fixed border border-gray-300"
+                >
+                  <thead>
+                    <tr class="uppercase border-b">
+                      <th class="font-bold text-center">Keterangan</th>
+                      <th class="font-bold text-center">Nominal</th>
+                      <th class="font-bold text-center">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Informasi Saldo Kas Awal</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr
+                      v-for="(item, i) in form.pengajuan_dropping_details"
+                      :key="i"
+                    >
+                      <td>
+                        <span class="pl-3">
+                          {{
+                            item.kode_coa ? item.kode_coa : item.coa.kode_coa
+                          }}
+                          -
+                          {{
+                            item.nama_coa ? item.nama_coa : item.coa.nama_coa
+                          }}
+                        </span>
+                      </td>
+                      <td class="text-right">
+                        {{ item.saldo_awal | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Total</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalSaldoAwal | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Plafon Dropping</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ budgetGudang | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Control</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalControlAwal | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Informasi Biaya Operasional</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr
+                      v-for="(item, i) in form.pengajuan_dropping_biaya_details"
+                      :key="i"
+                    >
+                      <td>
+                        <span class="pl-3">
+                          {{ item.coa.kode_coa }} - {{ item.coa.nama_coa }} ({{
+                            item.tanggal
+                          }})
+                        </span>
+                      </td>
+                      <td class="text-right">
+                        {{ item.credit | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Total</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalBiayaOperasional | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Informasi Saldo Akhir</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr
+                      v-for="(item, i) in form.pengajuan_dropping_details"
+                      :key="i"
+                    >
+                      <td>
+                        <span class="pl-3">
+                          {{
+                            item.kode_coa ? item.kode_coa : item.coa.kode_coa
+                          }}
+                          -
+                          {{
+                            item.nama_coa ? item.nama_coa : item.coa.nama_coa
+                          }}
+                        </span>
+                      </td>
+                      <td class="text-right">
+                        {{ item.saldo_akhir | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Total</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalSaldoAkhir | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Pengajuan Dropping</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Permintaan Dropping</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalPermintaanDropping | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Saldo Akhir</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalSaldoAkhir | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Plafon Dropping</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ budgetGudang | formatPrice }}
+                      </td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="font-bold">Control</td>
+                      <td></td>
+                      <td class="text-right">
+                        {{ totalControlAkhir | formatPrice }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <div class="w-full flex justify-start items-center">
               <modal-footer-section
@@ -414,21 +400,22 @@ export default {
       isLoadingForm: false,
       title: "Pengajuan Dropping",
       url: "finance/pengajuan-dropping",
+      dataGudang: {},
       form: {
         no_referensi: "",
         gudang_id: "",
         tanggal: "",
         periode_awal: "",
         periode_akhir: "",
+        keterangan: "",
+        pengajuan_dropping_details: [],
+        pengajuan_dropping_biaya_details: [],
+
         plafon_dropping: "",
-        total_biaya: "",
         total_biaya: "",
         total_saldo_awal: "",
         total_saldo_akhir: "",
         permintaan_dropping: "",
-        keterangan: "",
-        pengajuan_dropping_details: [],
-        pengajuan_dropping_biaya_details: [],
 
         user_agent: "",
         device: "",
@@ -441,15 +428,15 @@ export default {
         tanggal: "",
         periode_awal: "",
         periode_akhir: "",
+        keterangan: "",
+        pengajuan_dropping_details: [],
+        pengajuan_dropping_biaya_details: [],
+
         plafon_dropping: "",
-        total_biaya: "",
         total_biaya: "",
         total_saldo_awal: "",
         total_saldo_akhir: "",
         permintaan_dropping: "",
-        keterangan: "",
-        pengajuan_dropping_details: [],
-        pengajuan_dropping_biaya_details: [],
 
         user_agent: "",
         device: "",
@@ -457,35 +444,6 @@ export default {
         latitude: "",
       },
     };
-  },
-
-  async created() {
-    try {
-      if (this.isEditable) {
-        let res = await this.$axios.get(`${this.url}/${this.id}`);
-
-        Object.keys(this.form).forEach((item) => {
-          this.form[item] = res.data[item];
-        });
-        this.form.pengajuan_dropping_details =
-          res.data.pengajuan_dropping_details.map((item) => {
-            return {
-              ...item,
-            };
-          });
-        this.form.pengajuan_dropping_biaya_details =
-          res.data.pengajuan_dropping_biaya_details.map((item) => {
-            return {
-              ...item,
-            };
-          });
-        this.form.gudang_id = res.data.gudang_id;
-        this.isLoadingPage = false;
-      }
-    } catch (error) {
-      console.log("error", error);
-      //this.$router.back()
-    }
   },
 
   async mounted() {
@@ -502,6 +460,70 @@ export default {
       "lookup_custom1",
       "lookup_custom2",
     ]),
+    budgetGudang() {
+      return this.dataGudang?.budget ? parseFloat(this.dataGudang.budget) : 0;
+    },
+
+    totalSaldoAwal() {
+      if (
+        !this.form.pengajuan_dropping_details ||
+        this.form.pengajuan_dropping_details.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.pengajuan_dropping_details.reduce((total, item) => {
+        return total + parseFloat(item.saldo_awal) || 0;
+      }, 0);
+    },
+
+    totalSaldoAkhir() {
+      if (
+        !this.form.pengajuan_dropping_details ||
+        this.form.pengajuan_dropping_details.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.pengajuan_dropping_details.reduce((total, item) => {
+        return total + parseFloat(item.saldo_akhir) || 0;
+      }, 0);
+    },
+
+    totalBiayaOperasional() {
+      if (
+        !this.form.pengajuan_dropping_biaya_details ||
+        this.form.pengajuan_dropping_biaya_details.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.pengajuan_dropping_biaya_details.reduce(
+        (total, item) => {
+          return total + parseFloat(item.credit) || 0;
+        },
+        0
+      );
+    },
+
+    totalControlAwal() {
+      let saldoAwal = this.totalSaldoAwal || 0;
+      let budget = this.budgetGudang ? parseFloat(this.budgetGudang) || 0 : 0;
+      return saldoAwal - budget;
+    },
+
+    totalPermintaanDropping() {
+      let saldoAkhir = this.totalSaldoAkhir || 0;
+      let budget = this.budgetGudang ? parseFloat(this.budgetGudang) || 0 : 0;
+      return budget - saldoAkhir;
+    },
+
+    totalControlAkhir() {
+      let budget = this.budgetGudang ? parseFloat(this.budgetGudang) || 0 : 0;
+      let saldoAkhir = this.totalSaldoAkhir || 0;
+      let permintaanDropping = this.totalPermintaanDropping || 0;
+      return permintaanDropping + saldoAkhir - budget;
+    },
   },
 
   methods: {
@@ -516,8 +538,6 @@ export default {
       } else {
         this.form.device = "Desktop";
       }
-      // console.log("user agent", this.form.user_agent);
-      // console.log("device", this.form.device);
     },
 
     getGeoLocation() {
@@ -529,12 +549,6 @@ export default {
             this.form.longitude = position.coords.longitude.toString();
             this.form.latitude = position.coords.latitude.toString();
             this.isLoadingForm = false;
-            // console.log(
-            //   "latitude",
-            //   this.form.latitude,
-            //   "longitude",
-            //   this.form.longitude
-            // );
           },
           (error) => {
             this.isLoadingForm = false;
@@ -543,7 +557,6 @@ export default {
         );
       } else {
         this.$toaster.error("geolocation not supported");
-        // console.log("geolocation not supported");
       }
     },
 
@@ -589,6 +602,8 @@ export default {
     onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        this.form.pengajuan_dropping_details = [];
+        this.form.pengajuan_dropping_biaya_details = [];
       } else {
         this.form.gudang_id = "";
       }
@@ -605,6 +620,7 @@ export default {
             `finance/pengajuan-dropping/get-balance-pengajuan-dropping?gudang_id=${this.form.gudang_id.gudang_id}&periode_awal=${this.form.periode_awal}&periode_akhir=${this.form.periode_akhir}`
           )
           .then((res) => {
+            this.dataGudang = res.data.gudang;
             this.form.pengajuan_dropping_details = res.data.balance.map(
               (item) => {
                 return {
@@ -620,6 +636,7 @@ export default {
                   ...item,
                   coa_id: item.coa ? item.coa.coa_id : "",
                   tipe: item.credit > 0 ? "CREDIT" : "DEBIT",
+                  nominal: item.credit,
                 };
               }
             );
@@ -629,13 +646,6 @@ export default {
           "Gudang, Periode Awal, dan Periode Akhir harus diisi"
         );
       }
-      // this.form.pengajuan_dropping_details.push({
-      //   coa_id: "",
-      //   tanggal_ambil: "",
-      //   saldo_awal: "",
-      //   saldo_akhir: "",
-      //   keterangan: "",
-      // });
     },
 
     onDeleteDetail(index) {
@@ -739,12 +749,17 @@ export default {
           typeof this.form.gudang_id === "object"
             ? this.form.gudang_id.gudang_id
             : this.form.gudang_id,
+        plafon_dropping: this.budgetGudang,
+        total_biaya: this.totalBiayaOperasional,
+        total_saldo_awal: this.totalSaldoAwal,
+        total_saldo_akhir: this.totalSaldoAkhir,
+        permintaan_dropping: this.totalPermintaanDropping,
       };
       formData.pengajuan_dropping_details =
         this.form.pengajuan_dropping_details.map((item) => {
           return {
             ...item,
-            coa_id: item.coa_id ? item.coa_id.coa_id : item.coa_id,
+            coa_id: item.coa ? item.coa.coa_id : item.coa_id,
           };
         });
 
@@ -752,7 +767,7 @@ export default {
         this.form.pengajuan_dropping_biaya_details.map((item) => {
           return {
             ...item,
-            coa_id: item.coa_id ? item.coa_id.coa_id : item.coa_id,
+            coa_id: item.coa ? item.coa.coa_id : item.coa_id,
           };
         });
 

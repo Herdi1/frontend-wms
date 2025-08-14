@@ -243,7 +243,7 @@
                     </td>
                     <td class="text-success"></td>
                     <td class="text-danger"></td>
-                    <td class="text-primary border border-gray-300">
+                    <td class="text-primary border border-gray-300 text-right">
                       {{
                         raw_data.first_balance
                           ? raw_data.first_balance.saldo
@@ -275,16 +275,20 @@
                     <!-- <td class="text-info">
                     {{ item.saldo > 0 ? item.saldo : "" }}
                   </td> -->
-                    <td class="text-success border border-gray-300">
+                    <td class="text-success border border-gray-300 text-right">
                       {{ item.credit > 0 ? item.credit : "" | formatPrice }}
                     </td>
-                    <td class="text-danger border border-gray-300">
+                    <td class="text-danger border border-gray-300 text-right">
                       {{ item.debit > 0 ? item.debit : "" | formatPrice }}
                     </td>
-                    <td class="text-primary border border-gray-300">
-                      {{
-                        item.last_balance ? item.last_balance : "" | formatPrice
-                      }}
+                    <td class="text-primary border border-gray-300 text-right">
+                      <span class="text-right">
+                        {{
+                          item.last_balance
+                            ? item.last_balance
+                            : "" | formatPrice
+                        }}
+                      </span>
                     </td>
                     <td class="border border-gray-300">
                       <button
@@ -316,7 +320,7 @@
                     <td class="text-info border-b border-gray-300"></td>
                     <td class="text-success border-b border-gray-300"></td>
                     <td class="text-danger border-b border-gray-300"></td>
-                    <td class="text-primary border border-gray-300">
+                    <td class="text-primary border border-gray-300 text-right">
                       {{ last_balance | formatPrice }}
                     </td>
                     <td class="border-b border-gray-300">-</td>
