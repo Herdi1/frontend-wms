@@ -246,7 +246,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-sewa",
+        url: "finance/kontrak-sewa-pelanggan",
         type: "pdf",
         params: {
           soft_deleted: "",

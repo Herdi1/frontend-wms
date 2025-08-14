@@ -405,7 +405,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-lastmile",
+        url: "finance/kontrak-lastmile-pelanggan",
         type: "pdf",
         params: {
           soft_deleted: "",

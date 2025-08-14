@@ -146,7 +146,7 @@
                   </p>
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.pelanggan ? item.pelanggan.nama_vendor : "-" }}
+                  {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
                 </td>
                 <td class="border border-gray-300">
                   <div>
@@ -352,7 +352,7 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-customer/kontrak-tkbm/${item.kontrak_tkbm_id}`
+        `/finance/kontrak-customer/kontrak-tkbm/${item.kontrak_tkbm_pelanggan_id}`
       );
     },
 

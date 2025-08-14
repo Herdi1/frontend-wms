@@ -142,6 +142,9 @@
                             Divisi
                           </th>
                           <th class="w-[200px] border border-gray-300">
+                            Kendaraan
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
                             Jenis Biaya
                           </th>
                           <th class="w-[200px] border border-gray-300">
@@ -263,6 +266,41 @@
                                     lookup_custom3.current_page
                                   "
                                   @click="onGetDivisi(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_kendaraan"
+                              :loading="isLoadingGetKendaraan"
+                              :options="lookup_custom4.data"
+                              :filterable="false"
+                              @search="onGetKendaraan"
+                              :reduce="(item) => item.kendaraan_id"
+                              v-model="item.kendaraan_id"
+                              class="w-full"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom4.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom4.current_page > 1"
+                                  @click="onGetKendaraan(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom4.last_page >
+                                    lookup_custom4.current_page
+                                  "
+                                  @click="onGetKendaraan(search, true)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Selanjutnya</span
                                 >
@@ -594,6 +632,10 @@ export default {
       isLoadingGetDivisi: false,
       divisi_search: "",
 
+      isStopSearchKendaraan: false,
+      isLoadingGetKendaraan: false,
+      kendaraan_search: "",
+
       isStopSearchJenisBiaya: false,
       isLoadingGetJenisBiaya: false,
       jenis_biaya_search: "",
@@ -639,6 +681,7 @@ export default {
             coa_id: item.coa || "",
             jenis_biaya_id: item.jenis_biaya_id || "",
             divisi_id: item.divisi_id || "",
+            kendaraan_id: item.kendaraan_id || "",
             zona_gudang_id: item.zona_gudang_id || "",
           };
         });
@@ -654,6 +697,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchCoa();
     await this.onSearchDivisi();
+    await this.onSearchKendaraan();
     await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
     await this.onSearchProfit();
@@ -667,6 +711,7 @@ export default {
       "lookup_custom1",
       "lookup_custom2",
       "lookup_custom3",
+      "lookup_custom4",
       "lookup_suppliers",
       "lookup_resellers",
       "lookup_regus",
@@ -721,6 +766,7 @@ export default {
             typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
           jenis_biaya_id: item.jenis_biaya_id || "",
           divisi_id: item.divisi_id || "",
+          kendaraan_id: item.kendaraan_id || "",
           zona_gudang_id: item.zona_gudang_id || "",
           profit_center_id: item.profit_center_id || "",
           cost_center_id: item.cost_center_id || "",
@@ -789,6 +835,7 @@ export default {
       await this.onSearchGudang();
       await this.onSearchCoa();
       await this.onSearchDivisi();
+      await this.onSearchKendaraan();
       await this.onSearchJenisBiaya();
       await this.onSearchZonaGudang();
       await this.onSearchProfit();
@@ -912,6 +959,46 @@ export default {
         });
 
         this.isLoadingGetDivisi = false;
+      }
+    },
+
+    //kendaraan
+    onGetKendaraan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchKendaraan);
+
+      this.isStopSearchKendaraan = setTimeout(() => {
+        this.kendaraan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchKendaraan();
+      }, 600);
+    },
+
+    async onSearchKendaraan() {
+      if (!this.isLoadingGetKendaraan) {
+        this.isLoadingGetKendaraan = true;
+
+        await this.lookUp({
+          url: "master/kendaraan/get-kendaraan",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.kendaraan_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetKendaraan = false;
       }
     },
 

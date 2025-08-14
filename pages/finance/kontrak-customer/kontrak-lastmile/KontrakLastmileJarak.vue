@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Detail Kontrak Lastmile Jarak</h1>
+      <h1 class="text-xl font-bold">Detail Kontrak Lastmile Pelanggan Jarak</h1>
       <div class=" ">
         <button
           type="button"
@@ -17,7 +17,8 @@
       <table
         class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
         :class="
-          this.self.parameters.form.kontrak_lastmile_jarak_details.length
+          this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details
+            .length
             ? 'mb-[300px]'
             : ''
         "
@@ -42,7 +43,7 @@
         <tbody>
           <tr
             v-for="(item, i) in this.self.parameters.form
-              .kontrak_lastmile_jarak_details"
+              .kontrak_lastmile_jarak_pelanggan_details"
             :key="i"
             class="align-top"
           >
@@ -361,8 +362,8 @@
           </tr>
           <tr
             v-if="
-              !this.self.parameters.form.kontrak_lastmile_jarak_details.length >
-              0
+              !this.self.parameters.form
+                .kontrak_lastmile_jarak_pelanggan_details.length > 0
             "
           >
             <td colspan="100" class="text-center">
@@ -454,7 +455,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailJarak() {
-      this.self.parameters.form.kontrak_lastmile_jarak_details.push({
+      this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -471,8 +472,8 @@ export default {
     },
 
     deleteJarak(index) {
-      this.self.parameters.form.kontrak_lastmile_jarak_details =
-        this.self.parameters.form.kontrak_lastmile_jarak_details.filter(
+      this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details =
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -791,11 +792,11 @@ export default {
 
     onSelectJenisKontrak(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_kontrak_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_kontrak_id = "";
       }
@@ -803,11 +804,11 @@ export default {
 
     onSelectDivisi(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].divisi_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].divisi_id = "";
       }
@@ -815,11 +816,11 @@ export default {
 
     onSelectJenisBiaya(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_biaya_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_biaya_id = "";
       }
@@ -827,11 +828,11 @@ export default {
 
     onSelectGudang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].gudang_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].gudang_id = "";
       }
@@ -839,11 +840,11 @@ export default {
 
     onSelectPembayaran(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].pembayaran_id = "";
       }
@@ -851,11 +852,11 @@ export default {
 
     onSelectTerm(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].term_pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].term_pembayaran_id = "";
       }
@@ -863,11 +864,11 @@ export default {
 
     onSelectJenisKendaraan(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_kendaraan_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].jenis_kendaraan_id = "";
       }
@@ -875,11 +876,11 @@ export default {
 
     onSelectUang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].mata_uang_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
+        this.self.parameters.form.kontrak_lastmile_jarak_pelanggan_details[
           index
         ].mata_uang_id = "";
       }

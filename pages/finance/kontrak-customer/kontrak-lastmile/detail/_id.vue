@@ -2,7 +2,9 @@
   <section class="section">
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold uppercase">Detail Kontrak Lastmile</h1>
+        <h1 class="text-xl font-bold uppercase">
+          Detail Kontrak Lastmile Pelanggan
+        </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -25,11 +27,11 @@
               </div>
             </div>
             <div class="flex w-full items-center">
-              <label class="w-[40%]">Vendor</label>
+              <label class="w-[40%]">Pelanggan</label>
               <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                 {{
-                  this.detail_lastmile.vendor
-                    ? this.detail_lastmile.vendor.nama_vendor
+                  this.detail_lastmile.pelanggan
+                    ? this.detail_lastmile.pelanggan.nama_pelanggan
                     : "-"
                 }}
               </div>
@@ -159,7 +161,7 @@ export default {
       isLoadingData: false,
       detail_lastmile: {
         no_referensi: "",
-        vendor_id: "",
+        pelanggan_id: "",
         tanggal_kontrak: "",
         tanggal_berlaku: "",
         tanggal_berhenti: "",
@@ -167,11 +169,11 @@ export default {
         status_kontrak: "",
         user_id_pic: "",
         jenis_kontrak_id: "",
-        kontrak_lastmile_jarak_details: [],
-        kontrak_lastmile_ritase_details: [],
-        kontrak_lastmile_berat_details: [],
-        kontrak_lastmile_atcost_details: [],
-        vendor: {},
+        kontrak_lastmile_jarak_pelanggan_details: [],
+        kontrak_lastmile_ritase_pelanggan_details: [],
+        kontrak_lastmile_berat_pelanggan_details: [],
+        kontrak_lastmile_atcost_pelanggan_details: [],
+        pelanggan: {},
         user_pic: {},
         jenis_kontrak: {},
       },
@@ -183,25 +185,25 @@ export default {
       let res = await this.$axios.get(`finance/kontrak-lastmile/${this.id}`);
       Object.keys(this.detail_lastmile).forEach((item) => {
         if (
-          item !== "kontrak_lastmile_jarak_details" &&
-          item !== "kontrak_lastmile_ritase_details" &&
-          item !== "kontrak_lastmile_berat_details" &&
-          item !== "kontrak_lastmile_atcost_details"
+          item !== "kontrak_lastmile_jarak_pelanggan_details" &&
+          item !== "kontrak_lastmile_ritase_pelanggan_details" &&
+          item !== "kontrak_lastmile_berat_pelanggan_details" &&
+          item !== "kontrak_lastmile_atcost_pelanggan_details"
         ) {
           this.detail_lastmile[item] = res.data[item];
         }
       });
-      this.detail_lastmile.kontrak_lastmile_jarak_details =
-        res.data.kontrak_lastmile_jarak_details;
-      this.detail_lastmile.kontrak_lastmile_ritase_details =
-        res.data.kontrak_lastmile_ritase_details;
-      this.detail_lastmile.kontrak_lastmile_berat_details =
-        res.data.kontrak_lastmile_berat_details;
-      this.detail_lastmile.kontrak_lastmile_atcost_details =
-        res.data.kontrak_lastmile_atcost_details;
+      this.detail_lastmile.kontrak_lastmile_jarak_pelanggan_details =
+        res.data.kontrak_lastmile_jarak_pelanggan_details;
+      this.detail_lastmile.kontrak_lastmile_ritase_pelanggan_details =
+        res.data.kontrak_lastmile_ritase_pelanggan_details;
+      this.detail_lastmile.kontrak_lastmile_berat_pelanggan_details =
+        res.data.kontrak_lastmile_berat_pelanggan_details;
+      this.detail_lastmile.kontrak_lastmile_atcost_pelanggan_details =
+        res.data.kontrak_lastmile_atcost_pelanggan_details;
 
       this.isLoadingPage = false;
-      console.log("res", res.data.kontrak_lastmile_atcost_details);
+      console.log("res", res.data.kontrak_lastmile_atcost_pelanggan_details);
     } catch (error) {
       // this.$router.back();
       console.log("error", error);

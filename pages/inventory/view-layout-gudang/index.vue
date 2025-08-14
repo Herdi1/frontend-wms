@@ -98,13 +98,14 @@
                       class="font-bold flex justify-between items-center mb-2"
                     >
                       <p>{{ room.nama_zona_gudang }}</p>
-                      <button
+                      <div></div>
+                      <!-- <button
                         type="button"
                         class="text-white bg-danger p-1 rounded-md py-1 px-2"
                         @click="deleteZona(i)"
                       >
                         <i class="fa fa-trash"></i>
-                      </button>
+                      </button> -->
                     </div>
                     <div class="flex items-center justify-between mb-2 w-full">
                       <p class="w-[150px]">Warna</p>
@@ -117,7 +118,7 @@
                     </div>
                   </div>
                 </li>
-                <li
+                <!-- <li
                   v-for="(zona, i) in zona_gudangs"
                   :key="i"
                   class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
@@ -142,7 +143,7 @@
                       />
                     </div>
                   </div>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>

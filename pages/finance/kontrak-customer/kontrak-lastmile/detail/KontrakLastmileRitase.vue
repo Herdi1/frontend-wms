@@ -20,7 +20,7 @@
       <tbody>
         <tr
           v-for="(item, i) in this.self.detail_lastmile
-            .kontrak_lastmile_ritase_details"
+            .kontrak_lastmile_ritase_pelanggan_details"
           :key="i"
         >
           <td class="border border-gray-300">
