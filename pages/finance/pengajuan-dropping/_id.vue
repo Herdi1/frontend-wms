@@ -109,7 +109,7 @@
                       </button>
                     </div>
                   </div>
-                  <div class="table-responsive overflow-y-hidden mb-7">
+                  <div class="table-responsive w-full relative overflow-y-auto">
                     <table
                       class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                       :class="
@@ -320,7 +320,7 @@
                       </td>
                     </tr>
                     <tr class="bg-gray-50">
-                      <td class="font-bold">Saldo Akhir</td>
+                      <td class="font-bold">Total Saldo Akhir</td>
                       <td></td>
                       <td class="text-right">
                         {{ totalSaldoAkhir | formatPrice }}
@@ -444,6 +444,16 @@ export default {
         latitude: "",
       },
     };
+  },
+
+  created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    this.form.tanggal = formattedDate;
   },
 
   async mounted() {

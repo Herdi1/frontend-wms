@@ -1707,8 +1707,12 @@ export default {
             this.form[item] = response.data[item];
           }
         });
-        // this.form.min_stok = parseInt(response.data.min_stok);
-        // this.form.max_stok = parseInt(response.data.max_stok);
+        this.form.kapasitas = response.data.kapasitas ?? 0;
+        this.form.kapasitas_bongkar = response.data.kapasitas_bongkar ?? 0;
+        this.form.min_stok = response.data.min_stok ?? 0;
+        this.form.max_stok = response.data.max_stok ?? 0;
+        this.form.standar_waktu_kerja = response.data.standar_waktu_kerja ?? 0;
+        this.form.radius = response.data.radius ?? 0;
         // this.form.provinsi_id = response.data.provinsi;
 
         if (Array.isArray(response.data.item_gudang)) {

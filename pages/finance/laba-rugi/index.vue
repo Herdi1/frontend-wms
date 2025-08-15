@@ -411,7 +411,6 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
-        console.log(this.lookup_custom1.data);
       }
     },
 
