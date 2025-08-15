@@ -17,7 +17,7 @@
       <table
         class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
         :class="
-          self.parameters.form.kontrak_sewa_gudang_details.length
+          self.parameters.form.kontrak_sewa_gudang_pelanggan_details.length
             ? 'mb-[300px]'
             : ''
         "
@@ -38,21 +38,24 @@
         <tbody>
           <tr
             v-for="(item, i) in self.parameters.form
-              .kontrak_sewa_gudang_details"
+              .kontrak_sewa_gudang_pelanggan_details"
             :key="i"
             class="border-t align-top"
           >
             <td class="border border-gray-300">
-              <input
+              <!-- v-if="!item.nilai_kontrak" -->
+              <!-- <input
+                v-if="self.isEditable"
                 type="number"
-                v-if="!item.nilai_kontrak"
+                step="0.01"
+                min="0"
                 v-model="item.nilai_kontrak"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-              />
+              /> -->
+              <!-- v-if="!self.isEditable" -->
               <money
-                v-if="item.nilai_kontrak"
                 v-model="item.nilai_kontrak"
-                class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
@@ -301,16 +304,23 @@
             </td>
             <td class="border border-gray-300">
               <p>Luas:</p>
-              <input
+              <!-- <input
                 type="number"
                 v-if="!item.luas"
                 v-model="item.luas"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
-              />
-              <money
-                v-if="item.luas"
+              /> -->
+              <!-- v-if="item.luas" -->
+              <!-- <input
+                min="0"
+                type="number"
+                step="any"
                 v-model="item.luas"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
+              /> -->
+              <money
+                v-model="item.luas"
+                class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
@@ -357,7 +367,10 @@
             </td>
           </tr>
           <tr
-            v-if="!self.parameters.form.kontrak_sewa_gudang_details.length > 0"
+            v-if="
+              !self.parameters.form.kontrak_sewa_gudang_pelanggan_details
+                .length > 0
+            "
           >
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
@@ -448,8 +461,8 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailGudang() {
-      this.self.parameters.form.kontrak_sewa_gudang_details.push({
-        nilai_kontrak: 0,
+      this.self.parameters.form.kontrak_sewa_gudang_pelanggan_details.push({
+        nilai_kontrak: 0.0,
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -458,14 +471,14 @@ export default {
         pembayaran_id: "",
         payable_to: "",
         term_pembayaran_id: "",
-        luas: 0,
+        luas: 0.0,
         satuan_id_luas: "",
       });
     },
 
     onDeleteGudang(index) {
-      this.self.parameters.form.kontrak_sewa_gudang_details =
-        this.self.parameters.form.kontrak_sewa_gudang_details.filter(
+      this.self.parameters.form.kontrak_sewa_gudang_pelanggan_details =
+        this.self.parameters.form.kontrak_sewa_gudang_pelanggan_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },

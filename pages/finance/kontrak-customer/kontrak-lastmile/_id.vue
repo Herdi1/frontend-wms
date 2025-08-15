@@ -209,10 +209,10 @@ export default {
           status_kontrak: "",
           user_id_pic: "",
           jenis_kontrak_id: "",
-          kontrak_lastmile_pelanggan_jarak_details: [],
-          kontrak_lastmile_pelanggan_ritase_details: [],
-          kontrak_lastmile_pelanggan_berat_details: [],
-          kontrak_lastmile_pelanggan_atcost_details: [],
+          kontrak_lastmile_jarak_pelanggan_details: [],
+          kontrak_lastmile_ritase_pelanggan_details: [],
+          kontrak_lastmile_berat_pelanggan_details: [],
+          kontrak_lastmile_atcost_pelanggan_details: [],
 
           user_agent: "",
           device: "",
@@ -230,10 +230,10 @@ export default {
         status_kontrak: "",
         user_id_pic: "",
         jenis_kontrak_id: "",
-        kontrak_lastmile_pelanggan_jarak_details: [],
-        kontrak_lastmile_pelanggan_ritase_details: [],
-        kontrak_lastmile_pelanggan_berat_details: [],
-        kontrak_lastmile_pelanggan_atcost_details: [],
+        kontrak_lastmile_jarak_pelanggan_details: [],
+        kontrak_lastmile_ritase_pelanggan_details: [],
+        kontrak_lastmile_berat_pelanggan_details: [],
+        kontrak_lastmile_atcost_pelanggan_details: [],
 
         user_agent: "",
         device: "",
@@ -249,10 +249,10 @@ export default {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
           if (
-            item !== "kontrak_lastmile_pelanggan_jarak_details" &&
-            item !== "kontrak_lastmile_pelanggan_ritase_details" &&
-            item !== "kontrak_lastmile_pelanggan_berat_details" &&
-            item !== "kontrak_lastmile_pelanggan_atcost_details"
+            item !== "kontrak_lastmile_jarak_pelanggan_details" &&
+            item !== "kontrak_lastmile_ritase_pelanggan_details" &&
+            item !== "kontrak_lastmile_berat_pelanggan_details" &&
+            item !== "kontrak_lastmile_atcost_pelanggan_details"
           ) {
             this.parameters.form[item] = res.data[item];
           }
@@ -262,8 +262,8 @@ export default {
         this.parameters.form.user_id_pic = res.data.user_pic;
         this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
 
-        this.parameters.form.kontrak_lastmile_pelanggan_jarak_details =
-          res.data.kontrak_lastmile_pelanggan_jarak_details.map((item) => {
+        this.parameters.form.kontrak_lastmile_jarak_pelanggan_details =
+          res.data.kontrak_lastmile_jarak_pelanggan_details.map((item) => {
             return {
               ...item,
               kontrak_lastmile_pelanggan_jarak_detail_id:
@@ -284,8 +284,8 @@ export default {
                 : "",
             };
           });
-        this.parameters.form.kontrak_lastmile_pelanggan_ritase_details =
-          res.data.kontrak_lastmile_pelanggan_ritase_details.map((item) => {
+        this.parameters.form.kontrak_lastmile_ritase_pelanggan_details =
+          res.data.kontrak_lastmile_ritase_pelanggan_details.map((item) => {
             return {
               ...item,
               kontrak_lastmile_pelanggan_ritase_detail_id:
@@ -306,8 +306,8 @@ export default {
                 : "",
             };
           });
-        this.parameters.form.kontrak_lastmile_pelanggan_berat_details =
-          res.data.kontrak_lastmile_pelanggan_berat_details.map((item) => {
+        this.parameters.form.kontrak_lastmile_berat_pelanggan_details =
+          res.data.kontrak_lastmile_berat_pelanggan_details.map((item) => {
             return {
               ...item,
               kontrak_lastmile_pelanggan_berat_detail_id:
@@ -330,8 +330,8 @@ export default {
               satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
             };
           });
-        this.parameters.form.kontrak_lastmile_pelanggan_atcost_details =
-          res.data.kontrak_lastmile_pelanggan_atcost_details.map((item) => {
+        this.parameters.form.kontrak_lastmile_atcost_pelanggan_details =
+          res.data.kontrak_lastmile_atcost_pelanggan_details.map((item) => {
             return {
               ...item,
               kontrak_lastmile_pelanggan_atcost_detail_id:
@@ -590,8 +590,8 @@ export default {
             : this.parameters.form.jenis_kontrak_id,
       };
 
-      formData.kontrak_lastmile_pelanggan_jarak_details =
-        this.parameters.form.kontrak_lastmile_pelanggan_jarak_details.map(
+      formData.kontrak_lastmile_jarak_pelanggan_details =
+        this.parameters.form.kontrak_lastmile_jarak_pelanggan_details.map(
           (item) => {
             return {
               ...item,
@@ -637,8 +637,8 @@ export default {
           }
         );
 
-      formData.kontrak_lastmile_pelanggan_ritase_details =
-        this.parameters.form.kontrak_lastmile_pelanggan_ritase_details.map(
+      formData.kontrak_lastmile_ritase_pelanggan_details =
+        this.parameters.form.kontrak_lastmile_ritase_pelanggan_details.map(
           (item) => {
             return {
               ...item,
@@ -684,8 +684,8 @@ export default {
           }
         );
 
-      formData.kontrak_lastmile_pelanggan_berat_details =
-        this.parameters.form.kontrak_lastmile_pelanggan_berat_details.map(
+      formData.kontrak_lastmile_berat_pelanggan_details =
+        this.parameters.form.kontrak_lastmile_berat_pelanggan_details.map(
           (item) => {
             return {
               ...item,
@@ -739,8 +739,8 @@ export default {
           }
         );
 
-      formData.kontrak_lastmile_pelanggan_atcost_details =
-        this.parameters.form.kontrak_lastmile_pelanggan_atcost_details.map(
+      formData.kontrak_lastmile_atcost_pelanggan_details =
+        this.parameters.form.kontrak_lastmile_atcost_pelanggan_details.map(
           (item) => {
             return {
               ...item,

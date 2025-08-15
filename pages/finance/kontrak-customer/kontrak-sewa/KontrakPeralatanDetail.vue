@@ -17,7 +17,7 @@
       <table
         class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
         :class="
-          self.parameters.form.kontrak_sewa_peralatan_details.length
+          self.parameters.form.kontrak_sewa_peralatan_pelanggan_details.length
             ? 'mb-[300px]'
             : ''
         "
@@ -40,7 +40,7 @@
         <tbody>
           <tr
             v-for="(item, i) in self.parameters.form
-              .kontrak_sewa_peralatan_details"
+              .kontrak_sewa_peralatan_pelanggan_details"
             :key="i"
             class="border-t align-top"
           >
@@ -390,7 +390,8 @@
           </tr>
           <tr
             v-if="
-              !self.parameters.form.kontrak_sewa_peralatan_details.length > 0
+              !self.parameters.form.kontrak_sewa_peralatan_pelanggan_details
+                .length > 0
             "
           >
             <td colspan="100" class="text-center">
@@ -488,7 +489,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailPeralatan() {
-      this.self.parameters.form.kontrak_sewa_peralatan_details.push({
+      this.self.parameters.form.kontrak_sewa_peralatan_pelanggan_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -506,8 +507,8 @@ export default {
     },
 
     onDeletePeralatan(index) {
-      this.self.parameters.form.kontrak_sewa_peralatan_details =
-        this.self.parameters.form.kontrak_sewa_peralatan_details.filter(
+      this.self.parameters.form.kontrak_sewa_peralatan_pelanggan_details =
+        this.self.parameters.form.kontrak_sewa_peralatan_pelanggan_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },

@@ -9,7 +9,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Kontrak Vendor</a
+          Kontrak Customer</a
         >
       </li>
       <li
@@ -72,7 +72,7 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-40 border border-gray-300">Vendor</th>
+                <!-- <th class="w-40 border border-gray-300">Vendor</th> -->
                 <th class="w-40 border border-gray-300">Status</th>
                 <th class="w-40 border border-gray-300">PIC Kontrak</th>
                 <th class="w-40 border border-gray-300">Tanggal Kontrak</th>
@@ -112,9 +112,9 @@
                     <i>Dibuat oleh: Sistem</i>
                   </p>
                 </td>
-                <td class="border border-gray-300">
+                <!-- <td class="border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
-                </td>
+                </td> -->
                 <td class="border border-gray-300">
                   <span
                     v-if="item.status === 'PENDING'"
@@ -251,7 +251,7 @@ export default {
         params: {
           soft_deleted: "",
           search: "",
-          order: "kontrak_sewa_id",
+          order: "kontrak_sewa_pelanggan_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -322,18 +322,18 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push(`/finance/kontrak-vendor/kontrak-sewa/add`);
+      this.$router.push(`/finance/kontrak-customer/kontrak-sewa/add`);
     },
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-sewa/${item.kontrak_sewa_id}`
+        `/finance/kontrak-customer/kontrak-sewa/${item.kontrak_sewa_pelanggan_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-sewa/detail/${item.kontrak_sewa_id}`
+        `/finance/kontrak-customer/kontrak-sewa/detail/${item.kontrak_sewa_pelanggan_id}`
       );
     },
 
