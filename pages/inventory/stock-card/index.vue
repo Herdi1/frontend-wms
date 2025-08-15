@@ -684,9 +684,9 @@ export default {
     this.$refs["form-option"].isShowingPage = false;
 
     await this.onSearchChartOfAccount();
-    await this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
     await this.onSearchValuation();
-    await this.onSearchZonaGudang();
+    // await this.onSearchZonaGudang();
   },
 
   data() {
@@ -712,30 +712,14 @@ export default {
           start_date: "",
           end_date: "",
           asal_data: "",
-          gudang_id: {
-            gudang_id: "",
-          },
-          item_gudang_id: {
-            item_gudang_id: "",
-          },
-          valuation_id: {
-            valuation_id: "",
-          },
-          zona_gudang_id: {
-            zona_gudang_id: "",
-          },
-          slot_penyimpanan_id_aisle: {
-            slot_penyimpanan_id: "",
-          },
-          slot_penyimpanan_id_rack: {
-            slot_penyimpanan_id: "",
-          },
-          slot_penyimpanan_id_level: {
-            slot_penyimpanan_id: "",
-          },
-          slot_penyimpanan_id_bin: {
-            slot_penyimpanan_id: "",
-          },
+          gudang_id: "",
+          item_gudang_id: "",
+          valuation_id: "",
+          zona_gudang_id: "",
+          slot_penyimpanan_id_aisle: "",
+          slot_penyimpanan_id_rack: "",
+          slot_penyimpanan_id_level: "",
+          slot_penyimpanan_id_bin: "",
         },
         default_params: {
           soft_deleted: "",
@@ -909,23 +893,27 @@ export default {
         this.parameters.url +
         "?page=1" +
         "&gudang_id=" +
-        this.parameters.params.gudang_id.gudang_id +
+        (this.parameters.params.gudang_id.gudang_id || "") +
         "&item_gudang_id=" +
-        this.parameters.params.item_gudang_id.item_gudang_id +
+        (this.parameters.params.item_gudang_id.item_gudang_id || "") +
         "&valuation_id=" +
-        this.parameters.params.valuation_id.valuation_id +
+        (this.parameters.params.valuation_id.valuation_id || "") +
         "&zona_gudang_id=" +
-        this.parameters.params.zona_gudang_id.zona_gudang_id +
+        (this.parameters.params.zona_gudang_id.zona_gudang_id || "") +
         "&slot_penyimpanan_id_aisle=" +
-        this.parameters.params.slot_penyimpanan_id_aisle.slot_penyimpanan_id +
+        (this.parameters.params.slot_penyimpanan_id_aisle.slot_penyimpanan_id ||
+          "") +
         "&slot_penyimpanan_id_rack=" +
-        this.parameters.params.slot_penyimpanan_id_rack.slot_penyimpanan_id +
+        (this.parameters.params.slot_penyimpanan_id_rack.slot_penyimpanan_id ||
+          "") +
         "&slot_penyimpanan_id_level=" +
-        this.parameters.params.slot_penyimpanan_id_level.slot_penyimpanan_id +
+        (this.parameters.params.slot_penyimpanan_id_level.slot_penyimpanan_id ||
+          "") +
         "&slot_penyimpanan_id_bin=" +
-        this.parameters.params.slot_penyimpanan_id_bin.slot_penyimpanan_id +
+        (this.parameters.params.slot_penyimpanan_id_bin.slot_penyimpanan_id ||
+          "") +
         "&asal_data=" +
-        this.parameters.params.asal_data +
+        (this.parameters.params.asal_data || "") +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -1129,7 +1117,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id=" +
-            this.parameters.params.gudang_id +
+            this.parameters.params.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",

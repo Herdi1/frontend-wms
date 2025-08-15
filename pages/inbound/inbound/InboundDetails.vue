@@ -1133,7 +1133,7 @@ export default {
         }
       })
 
-      const tagihan = await this.$axios.get("/finance/kontrak-pelanggan/get-kontrak-pelanggan", {
+      const tagihan = await this.$axios.get("/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm", {
         params: {
           item_gudang_id: item.item_gudang_id,
           gudang_id: this.self.form.gudang_id.gudang_id,

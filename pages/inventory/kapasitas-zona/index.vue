@@ -30,8 +30,8 @@
           <h1 class="font-bold text-xl uppercase mb-3">Layout Gudang</h1>
         </div>
 
-        <div class="flex gap-3 w-full">
-          <div class="">
+        <div class="relative gap-3 w-full">
+          <div class="mb-3">
             <ValidationProvider name="gudang_id">
               <select-button
                 :self="{
@@ -47,105 +47,6 @@
                 class="mb-5 w-[500px]"
               />
             </ValidationProvider>
-
-            <div class="w-full">
-              <!-- <form @submit.prevent="addZona">
-                <h3 class="font-bold text-base">Tambah Zona</h3>
-                <div class="flex gap3 w-full justify-between items-center mb-2">
-                  <p>Nama Zona</p>
-                  <input
-                    v-model="formZona.name"
-                    type="text"
-                    class="p-1 outline-none border border-gray-300 rounded-sm"
-                  />
-                </div>
-                <div class="flex gap3 w-full justify-between items-center mb-2">
-                  <p>Panjang</p>
-                  <input
-                    v-model="formZona.width"
-                    type="text"
-                    class="p-1 outline-none border border-gray-300 rounded-sm"
-                  />
-                </div>
-                <div class="flex gap3 w-full justify-between items-center mb-2">
-                  <p>Lebar</p>
-                  <input
-                    v-model="formZona.height"
-                    type="text"
-                    class="p-1 outline-none border border-gray-300 rounded-sm"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    class="mb-2 p-2 rounded-md text-white bg-blue-400"
-                  >
-                    Tambah Zona
-                  </button>
-                </div>
-              </form> -->
-            </div>
-            <div class="mb-3 max-h-[500px] overflow-auto w-full">
-              <h2 class="font-bold text-base mb-1">Zona</h2>
-              <ul class="w-[500px] pl-2">
-                <li
-                  v-for="(room, i) in rooms"
-                  :key="i"
-                  class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
-                >
-                  <div class="mb-2 w-full">
-                    <div
-                      class="font-bold flex justify-between items-center mb-2"
-                    >
-                      <p>{{ room.nama_zona_gudang }}</p>
-                      <div></div>
-                      <!-- <button
-                        type="button"
-                        class="text-white bg-danger p-1 rounded-md py-1 px-2"
-                        @click="deleteZona(i)"
-                      >
-                        <i class="fa fa-trash"></i>
-                      </button> -->
-                    </div>
-                    <div class="flex items-center justify-between mb-2 w-full">
-                      <p class="w-[150px]">Warna</p>
-                      <input
-                        @change="changeColor(room, i)"
-                        type="color"
-                        v-model="room.color"
-                        class="p-1 outline-none border border-gray-300 rounded-sm"
-                      />
-                    </div>
-                  </div>
-                </li>
-                <!-- <li
-                  v-for="(zona, i) in zona_gudangs"
-                  :key="i"
-                  class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
-                >
-                  <div class="mb-2 w-full">
-                    <div class="font-bold flex justify-between mb-2">
-                      <p>{{ zona.nama_zona_gudang }}</p>
-                      <button
-                        type="button"
-                        @click="addRooms(zona)"
-                        class="text-white bg-green-500 p-1 rounded-md py-1 px-2"
-                      >
-                        <i class="fa fa-plus"></i>
-                      </button>
-                    </div>
-                    <div class="flex items-center justify-between mb-2 w-full">
-                      <p class="w-[150px]">Warna</p>
-                      <input
-                        type="color"
-                        v-model="zona.color"
-                        class="p-1 outline-none border border-gray-300 rounded-sm"
-                      />
-                    </div>
-                  </div>
-                </li> -->
-              </ul>
-            </div>
           </div>
           <div class="min-w-[800px] w-[800px] h-[800px] relative bg-gray-300">
             <VueDraggableResizable
@@ -167,21 +68,13 @@
               <div
                 :style="`background-color: ${room.color}`"
                 :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center cursor-pointer`"
-                @click="zonaClick(room)"
+                @click="zonaClick(room, $event)"
               >
                 {{ room.nama_zona_gudang }}
               </div>
             </VueDraggableResizable>
+            <ZonaDetail ref="zonaDetail" />
           </div>
-        </div>
-        <div class="mt-5">
-          <button
-            @click="onSubmit"
-            type="button"
-            class="p-2 rounded-md text-white bg-green-400"
-          >
-            Simpan Layout
-          </button>
         </div>
       </div>
     </div>
@@ -192,18 +85,20 @@
 import VueDraggableResizable from "vue-draggable-resizable";
 import "vue-draggable-resizable/dist/VueDraggableResizable.css";
 import { mapActions, mapState } from "vuex";
+import ZonaDetail from "./ZonaDetail.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Layout Gudang",
+      title: "Kapasitas Zona",
     };
   },
 
   components: {
     VueDraggableResizable,
+    ZonaDetail,
   },
 
   async mounted() {
@@ -278,7 +173,7 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Layout Gudang",
+      title: "Kapasitas Zona",
       isLoadingForm: false,
       isLoadingData: false,
       isPaginate: true,
@@ -299,7 +194,7 @@ export default {
       },
 
       parameters: {
-        url: "inventory/layout-gudang",
+        url: "inventory/kapasitas-zona",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -499,7 +394,7 @@ export default {
       if (item) {
         this.isLoadingData = true;
         this.parameters.form.gudang_id = item;
-        const layout = await this.$axios.get("inventory/layout-gudang", {
+        const layout = await this.$axios.get("inventory/kapasitas-zona", {
           params: { gudang_id: this.parameters.form.gudang_id.gudang_id },
         });
         if (layout.data.length > 0) {
@@ -509,6 +404,7 @@ export default {
             const rawCanvas = item.canvas;
             const canvas = JSON.parse(`${rawCanvas}`);
             this.rooms.push({
+              ...item,
               layout_gudang_id: item.layout_gudang_id,
               gudang_id: item.gudang_id,
               zona_gudang_id: item.zona_gudang_id,
@@ -521,54 +417,54 @@ export default {
               color: canvas.color,
             });
           });
-          await this.$axios
-            .get(
-              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
-            )
-            .then((res) => {
-              this.zona_gudangs = res.data.data
-                .filter(
-                  (zona) =>
-                    !this.rooms.some(
-                      (data) => data.zona_gudang_id === zona.zona_gudang_id
-                    ) && zona.status_zona.trim() !== "v"
-                )
-                .map((item) => {
-                  return {
-                    zona_gudang_id: item.zona_gudang_id,
-                    nama_zona_gudang: item.nama_zona_gudang,
-                    kode_zona_gudang: item.kode_zona_gudang,
-                    x: 0,
-                    y: 0,
-                    width: 100,
-                    height: 100,
-                    color: "ff0000",
-                  };
-                });
-            });
+          // await this.$axios
+          //   .get(
+          //     `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+          //   )
+          //   .then((res) => {
+          //     this.zona_gudangs = res.data.data
+          //       .filter(
+          //         (zona) =>
+          //           !this.rooms.some(
+          //             (data) => data.zona_gudang_id === zona.zona_gudang_id
+          //           ) && zona.status_zona.trim() !== "v"
+          //       )
+          //       .map((item) => {
+          //         return {
+          //           zona_gudang_id: item.zona_gudang_id,
+          //           nama_zona_gudang: item.nama_zona_gudang,
+          //           kode_zona_gudang: item.kode_zona_gudang,
+          //           x: 0,
+          //           y: 0,
+          //           width: 100,
+          //           height: 100,
+          //           color: "ff0000",
+          //         };
+          //       });
+          //   });
         } else {
-          await this.$axios
-            .get(
-              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
-            )
-            .then((res) => {
-              this.rooms = [];
-              this.zona_gudangs = [];
-              this.zona_gudangs = res.data.data
-                .filter((data) => data.status_zona.trim() !== "v")
-                .map((item) => {
-                  return {
-                    zona_gudang_id: item.zona_gudang_id,
-                    nama_zona_gudang: item.nama_zona_gudang,
-                    kode_zona_gudang: item.kode_zona_gudang,
-                    x: 0,
-                    y: 0,
-                    width: 100,
-                    height: 100,
-                    color: "ff0000",
-                  };
-                });
-            });
+          // await this.$axios
+          //   .get(
+          //     `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+          //   )
+          //   .then((res) => {
+          //     this.rooms = [];
+          //     this.zona_gudangs = [];
+          //     this.zona_gudangs = res.data.data
+          //       .filter((data) => data.status_zona.trim() !== "v")
+          //       .map((item) => {
+          //         return {
+          //           zona_gudang_id: item.zona_gudang_id,
+          //           nama_zona_gudang: item.nama_zona_gudang,
+          //           kode_zona_gudang: item.kode_zona_gudang,
+          //           x: 0,
+          //           y: 0,
+          //           width: 100,
+          //           height: 100,
+          //           color: "ff0000",
+          //         };
+          //       });
+          //   });
         }
       } else {
         this.parameters.form.gudang_id = "";
@@ -576,53 +472,59 @@ export default {
       }
     },
 
-    async getZona() {
-      await this.$axios
-        .get(
-          `master/zona-gudang/get-zona-gudang?gudang_id=${this.parameters.form.gudang_id.gudang_id}`
-        )
-        .then((res) => {
-          this.zona_gudangs = res.data.data
-            .filter(
-              (zona) =>
-                !this.rooms.some(
-                  (data) => data.zona_gudang_id === zona.zona_gudang_id
-                )
-            )
-            .map((item) => {
-              return {
-                zona_gudang_id: item.zona_gudang_id,
-                nama_zona_gudang: item.nama_zona_gudang,
-                kode_zona_gudang: item.kode_zona_gudang,
-                x: 0,
-                y: 0,
-                width: 100,
-                height: 100,
-                color: "ff0000",
-              };
-            });
-          console.log(this.zona_gudangs);
-        });
-    },
+    // async getZona() {
+    //   await this.$axios
+    //     .get(
+    //       `master/zona-gudang/get-zona-gudang?gudang_id=${this.parameters.form.gudang_id.gudang_id}`
+    //     )
+    //     .then((res) => {
+    //       this.zona_gudangs = res.data.data
+    //         .filter(
+    //           (zona) =>
+    //             !this.rooms.some(
+    //               (data) => data.zona_gudang_id === zona.zona_gudang_id
+    //             )
+    //         )
+    //         .map((item) => {
+    //           return {
+    //             zona_gudang_id: item.zona_gudang_id,
+    //             nama_zona_gudang: item.nama_zona_gudang,
+    //             kode_zona_gudang: item.kode_zona_gudang,
+    //             x: 0,
+    //             y: 0,
+    //             width: 100,
+    //             height: 100,
+    //             color: "ff0000",
+    //           };
+    //         });
+    //       console.log(this.zona_gudangs);
+    //     });
+    // },
 
-    addRooms(item) {
-      this.rooms.push(item);
-      this.zona_gudangs = this.zona_gudangs.filter(
-        (data) => item.zona_gudang_id !== data.zona_gudang_id
-      );
-    },
+    // addRooms(item) {
+    //   this.rooms.push(item);
+    //   this.zona_gudangs = this.zona_gudangs.filter(
+    //     (data) => item.zona_gudang_id !== data.zona_gudang_id
+    //   );
+    // },
 
     changeColor(room, index) {
       this.rooms[index] = room;
     },
 
-    async deleteZona(index) {
-      this.rooms = this.rooms.filter((_, itemIndex) => index !== itemIndex);
-      await this.getZona();
-    },
+    // async deleteZona(index) {
+    //   this.rooms = this.rooms.filter((_, itemIndex) => index !== itemIndex);
+    //   await this.getZona();
+    // },
 
-    zonaClick(room) {
-      console.log(room);
+    async zonaClick(room, event) {
+      const rect = event.target.getBoundingClientRect();
+
+      this.$refs.zonaDetail.visible = !this.$refs.zonaDetail.visible;
+      this.$refs.zonaDetail.layout_id = room.layout_gudang_id;
+      await this.$refs.zonaDetail.getKapasitasZona();
+      this.$refs.zonaDetail.room.x = rect.left;
+      this.$refs.zonaDetail.room.y = rect.top;
     },
   },
 };

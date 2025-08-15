@@ -527,9 +527,10 @@ export default {
               this.zona_gudangs = res.data.data
                 .filter(
                   (zona) =>
+                    zona.status_zona.trim() !== "v" &&
                     !this.rooms.some(
                       (data) => data.zona_gudang_id === zona.zona_gudang_id
-                    ) && zona.status_zona.trim() !== "v"
+                    )
                 )
                 .map((item) => {
                   return {
@@ -583,6 +584,7 @@ export default {
           this.zona_gudangs = res.data.data
             .filter(
               (zona) =>
+                zona.status_zona.trim() !== "v" &&
                 !this.rooms.some(
                   (data) => data.zona_gudang_id === zona.zona_gudang_id
                 )

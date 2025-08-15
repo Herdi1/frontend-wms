@@ -81,14 +81,47 @@
               </div>
             </td>
             <td class="border border-gray-300">
-              <!-- <p>Quantity:</p> -->
+              <p>Quantity:</p>
               <money
                 v-model="item.quantity"
-                class="w-full pl-2 py-1 mb-1 border rounded focus:outline-none"
+                class="w-full pl-2 py-1 border rounded focus:outline-none mb-2"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
               />
+              <p>Valuation:</p>
+              <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
+                label="nama_valuation"
+                :loading="isLoadingGetValuation"
+                :options="lookup_custom4.data"
+                :filterable="false"
+                @search="onGetValuation"
+                v-model="item.valuation_id"
+                @input="(item) => onSelectValuation(item, index)"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom4.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom4.current_page > 1"
+                    @click="onGetValuation(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom4.last_page > lookup_custom4.current_page
+                    "
+                    @click="onGetValuation(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
             </td>
 
             <td class="border border-gray-300">
@@ -136,22 +169,34 @@ export default {
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
 
+      isStopSearchItemValuation: false,
+      isLoadingGetItemValuation: false,
+      valuation_search: "",
+
       formPickRequest: {
         pick_request_detail_id: "",
         item_id: "",
         item_gudang_id: "",
         quantity: "",
+        valuation_id: "",
         keterangan: "",
       },
     };
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom2"]),
+    ...mapState("moduleApi", [
+      "data",
+      "error",
+      "result",
+      "lookup_custom2",
+      "lookup_custom4",
+    ]),
   },
 
   async created() {
-    this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
+    await this.onSearchValuation();
   },
 
   methods: {
@@ -163,6 +208,7 @@ export default {
         item_id: "",
         item_gudang_id: "",
         quantity: "",
+        valuation_id: "",
         keterangan: "",
       });
       // this.resetFormPickRequest();
@@ -174,6 +220,7 @@ export default {
         item_id: "",
         item_gudang_id: "",
         quantity: "",
+        valuation_id: "",
         keterangan: "",
       };
     },
@@ -208,7 +255,7 @@ export default {
           query:
             "?search=" +
             this.item_gudang_search +
-            "&gudang_id" +
+            "&gudang_id=" +
             this.self.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
@@ -226,6 +273,54 @@ export default {
       } else {
         this.self.parameters.form.pick_request_details[index].item_gudang_id =
           "";
+      }
+    },
+
+    onGetValuation(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchValuation);
+
+      this.isStopSearchValuation = setTimeout(() => {
+        this.valuation_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchValuation();
+      }, 600);
+    },
+
+    async onSearchValuation() {
+      if (!this.isLoadingGetValuation) {
+        this.isLoadingGetValuation = true;
+
+        await this.lookUp({
+          url: "master/valuation/get-valuation",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.valuation_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetValuation = false;
+      }
+    },
+
+    onSelectValuation(item, index) {
+      if (item) {
+        this.self.parameters.form.pick_request_details[index].valuation_id =
+          item;
+      } else {
+        this.self.parameters.form.pick_request_details[index].valuation_id = "";
       }
     },
   },

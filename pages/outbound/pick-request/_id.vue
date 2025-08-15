@@ -221,7 +221,7 @@
             </div>
           </div>
 
-          <DetailPickRequest :self="{ parameters }" />
+          <DetailPickRequest ref="detailPickRequest" :self="{ parameters }" />
 
           <div class="w-full flex justify-start items-center">
             <modal-footer-section
@@ -391,6 +391,7 @@ export default {
       "lookup_custom1",
       "lookup_custom2", //kendaraan
       "lookup_custom3", //pengemudi
+      "lookup_custom4", //valuation
       "lookup_suppliers", //suppliers
       "lookup_location", //lokasi
       "lookup_roles", //gudang
@@ -520,6 +521,10 @@ export default {
               typeof item.item_gudang_id === "object"
                 ? item.item_gudang_id.item_gudang_id
                 : item.item_gudang_id,
+            valuation_id:
+              typeof item.valuation_id === "object"
+                ? item.valuation_id.valuation_id
+                : item.valuation_id,
             item_id: this.isEditable
               ? item.item_id
               : typeof item.item_gudang_id === "object"
@@ -769,10 +774,12 @@ export default {
     },
 
     //select gudang
-    onSelectGudang(item) {
+    async onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
         this.parameters.form.pick_request_details = [];
+        await this.$refs.detailPickRequest.onSearchItemGudang();
+        await this.$refs.detailPickRequest.onSearchValuation();
       } else {
         this.parameters.form.gudang_id = "";
       }
