@@ -296,17 +296,19 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
                   <td class="border border-gray-300">
                     <div
                       v-if="item.status_approve === '0'"
-                      class="p-1 w-3/4 rounded-md bg-orange-500 font-semibold text-white text-center"
+                      class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
                     >
                       <p>MENUNGGU</p>
                     </div>
                     <div
                       v-if="item.status_approve === '1'"
-                      class="bg-green-500 w-3/4 p-1 rounded-md font-semibold text-white text-center"
+                      class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
                     >
                       <p>APPROVE</p>
                     </div>
@@ -507,6 +509,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/inventory/stok-transfer/approve-stok-transfer/add");

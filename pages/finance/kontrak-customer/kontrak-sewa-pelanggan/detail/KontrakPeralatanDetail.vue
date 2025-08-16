@@ -10,16 +10,20 @@
           <th class="w-52 border border-gray-300">Pembayaran</th>
           <th class="w-52 border border-gray-300">Gudang</th>
           <th class="w-52 border border-gray-300">Term Pembayaran</th>
+          <th class="w-52 border border-gray-300">Jenis Peralatan</th>
           <th class="w-52 border border-gray-300">Luas</th>
+          <th class="w-52 border border-gray-300">Dasar Perhitungan</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(item, i) in this.self.detail_sewa.kontrak_sewa_gudang_details"
+          v-for="(item, i) in this.self.detail_sewa
+            .kontrak_sewa_peralatan_details"
           :key="i"
         >
           <td class="border border-gray-300">
-            {{ item.nilai_kontrak }}
+            {{ item.mata_uang ? item.mata_uang.kode_mata_uang : "-" }}
+            {{ item.nilai_kontrak | formatPrice }}
           </td>
           <td class="border border-gray-300">
             {{
@@ -45,9 +49,20 @@
                 : "-"
             }}
           </td>
+          <td class="border border-gray-300">
+            {{
+              item.jenis_peralatan
+                ? item.jenis_peralatan.nama_jenis_peralatan
+                : "-"
+            }}
+          </td>
 
           <td class="border border-gray-300">
             {{ item.luas ? item.luas : "-" }}
+            {{ item.satuan_luas ? item.satuan_luas.kode_satuan : "-" }}
+          </td>
+          <td class="border border-gray-300">
+            {{ item.dasar_perhitungan ? item.dasar_perhitungan : "-" }}
           </td>
         </tr>
       </tbody>

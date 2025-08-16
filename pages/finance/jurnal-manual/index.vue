@@ -178,14 +178,24 @@
                       >
                     </div>
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
                   <td class="border border-gray-300">
                     {{
                       item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                     }}
                   </td>
                   <td class="w-[30%] border border-gray-300">
-                    {{ item.keterangan }}
+                    {{
+                      item.keterangan
+                        ? item.keterangan
+                        : item.keterangan_2
+                        ? item.keterangan_2
+                        : item.keterangan_3
+                        ? item.keterangan_3
+                        : "-"
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.total_debit ?? "" | formatPrice }}
@@ -379,6 +389,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/finance/jurnal-manual/add");

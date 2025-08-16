@@ -182,7 +182,9 @@ export default {
 
   async created() {
     try {
-      let res = await this.$axios.get(`finance/kontrak-lastmile/${this.id}`);
+      let res = await this.$axios.get(
+        `finance/kontrak-lastmile-pelanggan/${this.id}`
+      );
       Object.keys(this.detail_lastmile).forEach((item) => {
         if (
           item !== "kontrak_lastmile_jarak_pelanggan_details" &&
@@ -203,10 +205,8 @@ export default {
         res.data.kontrak_lastmile_atcost_pelanggan_details;
 
       this.isLoadingPage = false;
-      console.log("res", res.data.kontrak_lastmile_atcost_pelanggan_details);
     } catch (error) {
-      // this.$router.back();
-      console.log("error", error);
+      this.$router.back();
     }
   },
 };

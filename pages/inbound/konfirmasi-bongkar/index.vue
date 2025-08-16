@@ -189,7 +189,7 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal_bongkar }}
+                    {{ formatDate(item.tanggal_bongkar) }}
                   </td>
                   <td class="border border-gray-300">
                     <!-- <p
@@ -391,6 +391,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/inbound/konfirmasi-bongkar/add");

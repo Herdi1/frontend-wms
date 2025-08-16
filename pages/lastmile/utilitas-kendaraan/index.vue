@@ -262,7 +262,7 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal }}
+                    {{ formatDate(item.tanggal) }}
                   </td>
                   <td class="border border-gray-300">
                     {{
@@ -277,10 +277,13 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.jam_pengiriman_awal || "" }}
+                    {{ formatDateTime(item.jam_pengiriman_awal) || "" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.jam_pengiriman_akhir || "Dalam Perjalanan" }}
+                    {{
+                      formatDateTime(item.jam_pengiriman_akhir) ||
+                      "Dalam Perjalanan"
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.standar_waktu_kerja }}
@@ -483,6 +486,22 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+
+    formatDateTime(dateTimeString) {
+      if (!dateTimeString) return "";
+
+      const [datePart, timePart] = dateTimeString.split(" ");
+      const [year, month, day] = datePart.split("-");
+      const [hour, minute, second] = timePart.split(":");
+
+      return `${day}-${month}-${year} ${hour}-${minute}-${second}`;
+    },
 
     onEdit(item) {
       this.$router.push(

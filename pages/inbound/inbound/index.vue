@@ -115,9 +115,13 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
+                  <th class="w-[5%] border text-center border-gray-300">
+                    Edit
+                  </th>
+                  <th class="w-[5%] border text-center border-gray-300">
+                    Delete
+                  </th>
+                  <th class="w-[5%] border text-center border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -162,20 +166,20 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
+                  <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="item.tanggal !== getTodaysDate"
                     />
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                       :disabled="item.tanggal !== getTodaysDate"
                     />
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -210,7 +214,9 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
                   <td class="text-center border border-gray-300">
                     <button
                       type="button"
@@ -407,6 +413,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/inbound/inbound/add");

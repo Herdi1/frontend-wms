@@ -210,7 +210,7 @@
                 :loading="isLoadingGetPembayaran"
                 :options="lookup_suppliers.data"
                 :filterable="false"
-                @search="onGetpembayaran"
+                @search="onGetPembayaran"
                 v-model="item.pembayaran_id"
               >
                 <li

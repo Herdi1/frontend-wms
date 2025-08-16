@@ -156,7 +156,7 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal_put_away }}
+                    {{ formatDate(item.tanggal_put_away) }}
                   </td>
                   <td class="border border-gray-300">
                     <div>
@@ -356,6 +356,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/inbound/konfirmasi-put-away/add");

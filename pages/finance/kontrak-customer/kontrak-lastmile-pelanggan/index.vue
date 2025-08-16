@@ -293,13 +293,25 @@
                   {{ item.status ? item.status : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_kontrak ? item.tanggal_kontrak : "-" }}
+                  {{
+                    item.tanggal_kontrak
+                      ? formatDate(item.tanggal_kontrak)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berlaku ? item.tanggal_berlaku : "-" }}
+                  {{
+                    item.tanggal_berlaku
+                      ? formatDate(item.tanggal_berlaku)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berhenti ? item.tanggal_berhenti : "-" }}
+                  {{
+                    item.tanggal_berhenti
+                      ? formatDate(item.tanggal_berhenti)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.status_kontrak ? item.status_kontrak : "-" }}
@@ -452,7 +464,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kontrak-lastmile"
+          (item) => item.rute == "kontrak-lastmile-pelanggan"
         );
 
         let roles = {};
@@ -481,19 +493,27 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+
     onFormShow() {
-      this.$router.push(`/finance/kontrak-customer/kontrak-lastmile/add`);
+      this.$router.push(
+        `/finance/kontrak-customer/kontrak-lastmile-pelanggan/add`
+      );
     },
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-customer/kontrak-lastmile/${item.kontrak_lastmile_pelanggan_id}`
+        `/finance/kontrak-customer/kontrak-lastmile-pelanggan/${item.kontrak_lastmile_pelanggan_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/kontrak-customer/kontrak-lastmile/detail/${item.kontrak_lastmile_pelanggan_id}`
+        `/finance/kontrak-customer/kontrak-lastmile-pelanggan/detail/${item.kontrak_lastmile_pelanggan_id}`
       );
     },
 

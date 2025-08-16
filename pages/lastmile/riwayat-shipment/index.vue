@@ -375,7 +375,7 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.shipment.tanggal }}
+                    {{ formatDate(item.shipment.tanggal) }}
                   </td>
                   <td class="border border-gray-300">
                     <div
@@ -606,6 +606,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/lastmile/riwayat-shipment/add");

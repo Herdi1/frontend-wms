@@ -726,8 +726,8 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapState } from "vuex";
-import KontrakGudangDetail from "./KontrakGudangDetail.vue";
-import KontrakPeralatanDetail from "./KontrakPeralatanDetail.vue";
+import KontrakGudangDetail from "../kontrak-sewa-pelanggan/KontrakGudangDetail.vue";
+import KontrakPeralatanDetail from "../kontrak-sewa-pelanggan/KontrakPeralatanDetail.vue";
 export default {
   props: ["self"],
 
@@ -853,7 +853,7 @@ export default {
             res.data.kontrak_sewa_gudang_pelanggan_details.map((item) => {
               return {
                 ...item,
-                kontrak_sewa_gudang_detail_id: item,
+                kontrak_sewa_gudang_pelanggan_details_id: item,
                 divisi_id: item.divisi,
                 gudang_id: item.gudang,
                 luas: item.luas ?? 0,
@@ -888,6 +888,7 @@ export default {
             });
         }
         this.isLoadingPage = false;
+        console.log(this.parameters.form.kontrak_sewa_gudang_pelanggan_details);
       }
     } catch (error) {
       this.$router.back();
@@ -1417,10 +1418,11 @@ export default {
           (item) => {
             return {
               ...item,
-              kontrak_sewa_gudang_detail_id:
-                typeof item.kontrak_sewa_gudang_detail_id === "object"
-                  ? item.kontrak_sewa_gudang_detail_id
-                      .kontrak_sewa_gudang_detail_id
+              kontrak_sewa_gudang_pelanggan_details_id:
+                typeof item.kontrak_sewa_gudang_pelanggan_details_id ===
+                "object"
+                  ? item.kontrak_sewa_gudang_pelanggan_details_id
+                      .kontrak_sewa_gudang_pelanggan_details_id
                   : "",
               jenis_kontrak_id:
                 typeof item.jenis_kontrak_id === "object"

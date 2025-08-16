@@ -293,13 +293,25 @@
                   {{ item.status ? item.status : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_kontrak ? item.tanggal_kontrak : "-" }}
+                  {{
+                    item.tanggal_kontrak
+                      ? formatDate(item.tanggal_kontrak)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berlaku ? item.tanggal_berlaku : "-" }}
+                  {{
+                    item.tanggal_berlaku
+                      ? formatDate(item.tanggal_berlaku)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berhenti ? item.tanggal_berhenti : "-" }}
+                  {{
+                    item.tanggal_berhenti
+                      ? formatDate(item.tanggal_berhenti)
+                      : "-"
+                  }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.status_kontrak ? item.status_kontrak : "-" }}
@@ -480,6 +492,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push(`/finance/kontrak-vendor/kontrak-lastmile/add`);
