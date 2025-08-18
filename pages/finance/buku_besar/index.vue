@@ -206,7 +206,7 @@
                 <!-- table table-striped table-sm vld-parent -->
                 <thead class="border border-gray-300">
                   <tr class="uppercase">
-                    <th class="border border-gray-300">Tgl</th>
+                    <th class="border border-gray-300">Tanggal</th>
                     <th class="border border-gray-300">Gudang</th>
                     <th class="border border-gray-300">Kode</th>
                     <th class="border border-gray-300">Nama</th>
@@ -218,7 +218,7 @@
                     <th class="text-primary border border-gray-300">
                       Saldo Akhir
                     </th>
-                    <th class="border border-gray-300">Options</th>
+                    <th class="border border-gray-300 text-center">Detail</th>
                   </tr>
                 </thead>
                 <tbody class="border border-gray-300">
@@ -250,7 +250,7 @@
                           : "" | formatPrice
                       }}
                     </td>
-                    <td>-</td>
+                    <td></td>
                   </tr>
 
                   <tr v-for="(item, i) in data" :key="i">
@@ -292,7 +292,7 @@
                         }}
                       </span>
                     </td>
-                    <td class="border border-gray-300">
+                    <td class="border border-gray-300 place-items-center">
                       <button
                         class="btn btn-sm btn-primary"
                         @click="onDetail(item)"
@@ -325,7 +325,7 @@
                     <td class="text-primary border border-gray-300 text-right">
                       {{ last_balance | formatPrice }}
                     </td>
-                    <td class="border-b border-gray-300">-</td>
+                    <td class="border-b border-gray-300"></td>
                   </tr>
                 </tbody>
 
