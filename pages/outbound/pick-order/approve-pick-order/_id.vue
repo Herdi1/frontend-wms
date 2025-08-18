@@ -874,7 +874,7 @@
               </template>
               <template #TagihanPickOrder>
                 <div class="w-full flex justify-between items-center">
-                  <h1 class="text-xl font-bold">Detail Biaya Pick Order</h1>
+                  <h1 class="text-xl font-bold">Tagihan Pick Order</h1>
                   <div class=" ">
                     <!-- <button
                       type="button"
@@ -890,13 +890,13 @@
                   <table
                     class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                     :class="
-                      parameters.form.biaya_pick_orders.length
+                      parameters.form.tagihan_pick_orders.length
                         ? 'mb-[300px]'
                         : ''
                     "
                   >
                     <thead>
-                      <tr class="uppercase">
+                      <tr class="text-sm uppercase text-nowrap">
                         <th class="w-[200px] border border-gray-300">Item</th>
                         <th class="w-[200px] border border-gray-300">
                           Jenis Biaya
@@ -919,13 +919,16 @@
                         <th class="w-[300px] border border-gray-300">
                           Keterangan
                         </th>
+                        <!-- <th class="w-20 border border-gray-300 text-center">Delete</th> -->
                       </tr>
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(item, i) in parameters.form.biaya_pick_orders"
-                        :key="i"
-                        class="alt align-top"
+                        v-for="(item, index) in parameters.form
+                          .tagihan_pick_orders"
+                        :key="index"
+                        style="border-top: 0.5px solid lightgray"
+                        class="align-top mx-0"
                       >
                         <td class="border border-gray-300">
                           {{ item.item_gudang.nama_item }}
@@ -935,29 +938,29 @@
                           <v-select
                             label="nama_jenis_biaya"
                             :loading="isLoadingGetJenisBiaya"
-                            :options="lookup_grade.data"
+                            :options="lookup_custom7.data"
                             :filterable="false"
                             @search="onGetJenisBiaya"
                             v-model="item.jenis_biaya_id"
-                            :reduce="(item) => item.jenis_biaya_id"
+                            @input="(item) => onSelectJenisBiaya(item, index)"
                             class="w-full"
                           >
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
                               class="p-1 border-t flex justify-between"
-                              v-if="lookup_grade.data.length || search"
+                              v-if="lookup_custom7.data.length || search"
                             >
                               <span
-                                v-if="lookup_grade.current_page > 1"
+                                v-if="lookup_custom7.current_page > 1"
                                 @click="onGetJenisBiaya(search, false)"
                                 class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                 >Sebelumnya</span
                               >
                               <span
                                 v-if="
-                                  lookup_grade.last_page >
-                                  lookup_grade.current_page
+                                  lookup_custom7.last_page >
+                                  lookup_custom7.current_page
                                 "
                                 @click="onGetJenisBiaya(search, true)"
                                 class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -1038,18 +1041,9 @@
                             :filterable="false"
                             @search="onGetCoa"
                             v-model="item.coa_id"
-                            :reduce="(item) => item.coa_id"
+                            @input="(item) => onSelectCoa(item, index)"
                             class="w-full"
                           >
-                            <template slot="option" slot-scope="option">
-                              {{ option.kode_coa + " - " + option.nama_coa }}
-                            </template>
-                            <template
-                              slot="selected-option"
-                              slot-scope="option"
-                            >
-                              {{ option.kode_coa + " - " + option.nama_coa }}
-                            </template>
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -1078,29 +1072,29 @@
                           <v-select
                             label="nama_divisi"
                             :loading="isLoadingGetDivisi"
-                            :options="lookup_mesin.data"
+                            :options="lookup_custom9.data"
                             :filterable="false"
                             @search="onGetDivisi"
                             v-model="item.divisi_id"
-                            :reduce="(item) => item.divisi_id"
+                            @input="(item) => onSelectDivisi(item, index)"
                             class="w-full"
                           >
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
                               class="p-1 border-t flex justify-between"
-                              v-if="lookup_mesin.data.length || search"
+                              v-if="lookup_custom9.data.length || search"
                             >
                               <span
-                                v-if="lookup_mesin.current_page > 1"
+                                v-if="lookup_custom9.current_page > 1"
                                 @click="onGetDivisi(search, false)"
                                 class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                 >Sebelumnya</span
                               >
                               <span
                                 v-if="
-                                  lookup_mesin.last_page >
-                                  lookup_mesin.current_page
+                                  lookup_custom9.last_page >
+                                  lookup_custom9.current_page
                                 "
                                 @click="onGetDivisi(search, true)"
                                 class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -1117,7 +1111,7 @@
                             :filterable="false"
                             @search="onGetPelanggan"
                             v-model="item.pelanggan_id"
-                            :reduce="(item) => item.pelanggan_id"
+                            @input="(item) => onSelectPelanggan(item, index)"
                             class="w-full"
                           >
                             <li
@@ -1147,10 +1141,17 @@
                         <td class="border border-gray-300">
                           <textarea
                             placeholder="Keterangan"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                             v-model="item.keterangan"
                           ></textarea>
                         </td>
+                        <!-- <td class="text-center text-gray-600 border border-gray-300">
+              <i
+                class="fas fa-trash mx-auto"
+                style="cursor: pointer"
+                @click="onDeleteItem(index)"
+              ></i>
+            </td> -->
                       </tr>
                       <tr
                         v-if="!parameters.form.tagihan_pick_orders.length > 0"
@@ -1338,7 +1339,9 @@ export default {
 
   watch: {
     "parameters.form.biaya_pick_orders": {
+      deep: true,
       handler(newVal) {
+        if (!Array.isArray(newVal)) return;
         newVal.forEach((item) => {
           if (item.dasar_perhitungan === "QTY") {
             item.total = item.jumlah * item.nilai_kontrak;
@@ -1351,7 +1354,23 @@ export default {
           }
         });
       },
+    },
+    "parameters.form.tagihan_pick_orders": {
       deep: true,
+      handler(newVal) {
+        if (!Array.isArray(newVal)) return;
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nilai_kontrak;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nilai_kontrak * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nilai_kontrak * item.volume;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
     },
   },
 
@@ -1423,7 +1442,7 @@ export default {
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
                       jumlah: 0,
-                      total: 0,
+                      total: parseFloat(item.total),
                       divisi_id: data.divisi_id,
                       vendor_id: data.vendor,
                       coa_id: "",
@@ -1446,7 +1465,7 @@ export default {
           await Promise.all(
             this.parameters.form.pick_order_details.map((item) => {
               return this.$axios
-                .get("/finance/kontrak-pelanggan/get-kontrak-pelanggan", {
+                .get("/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm", {
                   params: {
                     item_gudang_id: item.item_gudang_id.item_gudang_id,
                     gudang_id: this.parameters.form.gudang_id.gudang_id,
@@ -1468,7 +1487,8 @@ export default {
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
                       jumlah: 0,
-                      total: 0,
+                      jenis: 0,
+                      total: parseFloat(item.total),
                       divisi_id: data.divisi,
                       pelanggan_id: data.pelanggan,
                       coa_id: "",
@@ -1483,11 +1503,17 @@ export default {
             res.data.tagihan_pick_orders.map((item) => {
               return {
                 ...item,
+                tagihan_inbound_id: item,
+                nama_item: item.item_gudang.nama_item,
+                kode_item: item.item_gudang.kode_item,
+                jenis_biaya_id: item.jenis_biaya,
+                coa_id: item.coa,
+                pelanggan_id: item.pelanggan,
+                divisi_id: item.divisi,
+                vendor_id: item.vendor,
               };
             });
         }
-        console.log(this.parameters.form.biaya_pick_orders);
-        console.log(this.parameters.form.tagihan_pick_orders);
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1596,6 +1622,8 @@ export default {
       this.isLoadingForm = true;
       let url = "outbound/approve-pick-order";
 
+      console.log(this.parameters.form);
+
       let formData = {
         ...this.parameters.form,
         gudang_id:
@@ -1689,6 +1717,38 @@ export default {
               : item.term_pembayaran_id,
         };
       });
+
+      formData.tagihan_pick_orders = formData.tagihan_pick_orders.map(
+        (item) => {
+          return {
+            ...item,
+            tagihan_pick_order_id:
+              typeof item.tagihan_inbound_id === "object"
+                ? item.tagihan_inbound_id.tagihan_inbound_id
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : item.jenis_biaya_id,
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id
+                : item.coa_id,
+            pelanggan_id:
+              typeof item.pelanggan_id === "object"
+                ? item.pelanggan_id.pelanggan_id
+                : item.pelanggan_id,
+            divisi_id:
+              typeof item.divisi_id === "object"
+                ? item.divisi_id.divisi_id
+                : item.divisi_id,
+            berat: item.berat > 0 ? item.berat : 1,
+            volume: item.volume > 0 ? item.volume : 1,
+            jenis: item.jenis ? item.jenis : 0,
+            keterangan: item.keterangan || "",
+          };
+        }
+      );
 
       if (this.isEditable) {
         url += "/" + this.id;
@@ -2432,6 +2492,9 @@ export default {
         this.isLoadingGetCoa = false;
       }
     },
+    onSelectCoa(item, index) {
+      this.parameters.form.tagihan_pick_orders[index].coa_id = item || "";
+    },
 
     onGetDivisi(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -2470,6 +2533,9 @@ export default {
 
         this.isLoadingGetDivisi = false;
       }
+    },
+    onSelectDivisi(item, index) {
+      this.parameters.form.tagihan_pick_orders[index].divisi_id = item || "";
     },
 
     onGetVendor(search, isNext) {
@@ -2547,6 +2613,9 @@ export default {
 
         this.isLoadingGetPelanggan = false;
       }
+    },
+    onSelectPelanggan(item, index) {
+      this.parameters.form.tagihan_pick_orders[index].pelanggan_id = item || "";
     },
 
     formReset() {

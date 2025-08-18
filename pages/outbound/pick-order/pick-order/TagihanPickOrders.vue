@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Tagihan Inbound</h1>
+      <h1 class="text-xl font-bold">Tagihan Pick Order</h1>
       <div class=" ">
         <!-- <button
           type="button"
@@ -16,7 +16,9 @@
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
         class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-        :class="self.form.tagihan_inbounds.length ? 'mb-[300px]' : ''"
+        :class="
+          self.parameters.form.tagihan_pick_orders.length ? 'mb-[300px]' : ''
+        "
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
@@ -37,7 +39,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, index) in self.form.tagihan_inbounds"
+            v-for="(item, index) in self.parameters.form.tagihan_pick_orders"
             :key="index"
             style="border-top: 0.5px solid lightgray"
             class="align-top mx-0"
@@ -249,7 +251,7 @@
               ></i>
             </td> -->
           </tr>
-          <tr v-if="!self.form.tagihan_inbounds.length > 0">
+          <tr v-if="!self.parameters.form.tagihan_pick_orders.length > 0">
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
                 <img
@@ -293,7 +295,7 @@ export default {
   },
 
   watch: {
-    "self.form.tagihan_inbounds": {
+    "self.parameters.form.tagihan_pick_orders": {
       handler(newVal) {
         newVal.forEach((item) => {
           if (item.dasar_perhitungan === "QTY") {
@@ -339,7 +341,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     AddBiayaInbound() {
-      this.self.form.tagihan_inbounds.push({
+      this.self.parameters.form.tagihan_pick_orders.push({
         biaya_inbound_id: "",
         jenis_biaya_id: "",
         jenis: 0,
@@ -353,9 +355,10 @@ export default {
     },
 
     onDeleteItem(index) {
-      this.self.form.tagihan_inbounds = this.self.form.tagihan_inbounds.filter(
-        (_, itemIndex) => index !== itemIndex
-      );
+      this.self.parameters.form.tagihan_pick_orders =
+        this.self.parameters.form.tagihan_pick_orders.filter(
+          (_, itemIndex) => index !== itemIndex
+        );
     },
 
     // get jenis biaya
@@ -398,7 +401,8 @@ export default {
       }
     },
     onSelectJenisBiaya(item, index) {
-      this.self.form.tagihan_inbounds[index].jenis_biaya_id = item || "";
+      this.self.parameters.form.tagihan_pick_orders[index].jenis_biaya_id =
+        item || "";
     },
 
     // get coa
@@ -441,7 +445,7 @@ export default {
       }
     },
     onSelectCoa(item, index) {
-      this.self.form.tagihan_inbounds[index].coa_id = item || "";
+      this.self.parameters.form.tagihan_pick_orders[index].coa_id = item || "";
     },
 
     // get coa
@@ -484,7 +488,8 @@ export default {
       }
     },
     onSelectDivisi(item, index) {
-      this.self.form.tagihan_inbounds[index].divisi_id = item || "";
+      this.self.parameters.form.tagihan_pick_orders[index].divisi_id =
+        item || "";
     },
 
     // get coa
@@ -527,7 +532,8 @@ export default {
       }
     },
     onSelectPelanggan(item, index) {
-      this.self.form.tagihan_inbounds[index].pelanggan_id = item || "";
+      this.self.parameters.form.tagihan_pick_orders[index].pelanggan_id =
+        item || "";
     },
 
     totalValue(item) {

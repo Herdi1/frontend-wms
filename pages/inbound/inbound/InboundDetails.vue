@@ -641,7 +641,7 @@ export default {
 
   async mounted(){
     await this.onSearchValuation();
-    await this.onSearchZonaPlan();
+    // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -1123,7 +1123,8 @@ export default {
     async onSelectItemDetail(item, index) {
       this.self.form.inbound_details[index] = { ...item };
       this.self.form.inbound_details[index].item_gudang_id = { item_gudang_id: item.item_gudang_id, item_id: item.item_id, nama_item: item.nama_item}
-      // await this.onSearchSlotAisle(index)
+      await this.onSearchZonaPlan()
+
 
       const biaya = await this.$axios.get("/finance/kontrak-tkbm/get-kontrak-tkbm", {
         params: {
@@ -1186,8 +1187,10 @@ export default {
             pembayaran_id: data.pembayaran,
             term_pembayaran_id: data.term_pembayaran,
             group_item_id: data.group_item,
+            nominal_satuan: data.nilai_kontrak,
             jumlah: 0,
             total: 0,
+            jenis: 0,
             coa_id: "",
           })
         })

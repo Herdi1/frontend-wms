@@ -478,7 +478,46 @@
                   </div>
                 </template>
                 <template #ReturBarang>
-                  <p>Retur Barang goes here</p>
+                  <div class="w-full table-responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="w-20 border border-gray-300">
+                            Delivery Order
+                          </th>
+                          <th class="w-20 border border-gray-300">
+                            Quantity Kirim
+                          </th>
+                          <th class="w-20 border border-gray-300">Quantity</th>
+                          <th class="w-20 border border-gray-300">Valuation</th>
+                          <th class="w-20 border border-gray-300">Alasan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(retur, index) in parameters.form
+                            .shipment_retur_details"
+                          :key="index"
+                        >
+                          <td class="w-20 border border-gray-300">
+                            {{ retur.shipment_detail.kode_delivery_order }}
+                          </td>
+                          <td class="w-20 border border-gray-300">
+                            {{ retur.quantity_kirim }}
+                          </td>
+                          <td class="w-20 border border-gray-300">
+                            {{ retur.quantity_retur }}
+                          </td>
+                          <td class="w-20 border border-gray-300">
+                            <!-- {{ retur.valuation.nama_valuation }} -->
+                          </td>
+                          <td class="w-20 border border-gray-300">
+                            {{ retur.alasan }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </template>
               </tab-component>
             </div>
@@ -548,6 +587,7 @@ export default {
           shipment_details: [],
           rute_shipments: [],
           biaya_lastmiles: [],
+          shipment_retur_details: [],
 
           status_kiriman: "",
           catatan_kiriman: "",

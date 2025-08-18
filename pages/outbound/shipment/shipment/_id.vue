@@ -198,6 +198,9 @@
             <template #BiayaLastmile>
               <BiayaLastmiles :self="{ parameters }" />
             </template>
+            <template #TagihanLastmile>
+              <TagihanLastmiles :self="{ parameters }" />
+            </template>
           </tab-component>
 
           <div class="w-full flex justify-start items-center">
@@ -221,6 +224,7 @@ import ShipmentDetails from "./ShipmentDetails.vue";
 import RuteShipments from "./RuteShipments.vue";
 import BiayaLastmiles from "./BiayaLastmiles.vue";
 import ModalPickOrder from "../../../../components/transaksional/ModalPickOrder.vue";
+import TagihanLastmiles from "./TagihanLastmiles.vue";
 export default {
   props: ["self"],
   middleware: ["checkRoleUserDetail"],
@@ -230,6 +234,7 @@ export default {
     RuteShipments,
     BiayaLastmiles,
     ModalPickOrder,
+    TagihanLastmiles,
   },
 
   data() {
@@ -248,6 +253,10 @@ export default {
         {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
+        },
+        {
+          name: "Tagihan Lastmile",
+          slotName: "TagihanLastmile",
         },
       ],
       id,
@@ -384,6 +393,23 @@ export default {
               };
             }
           );
+        }
+
+        if (res.data.tagihan_lastmiles) {
+          this.parameters.form.tagihan_lastmiles =
+            res.data.tagihan_lastmiles.map((item) => {
+              return {
+                ...item,
+                biaya_lastmile_id: item,
+                lokasi_id: item.lokasi,
+                jenis_biaya_id: item.jenis_biaya,
+                term_pembayaran_id: item.term_pembayaran,
+                coa_id: item.coa,
+                divisi_id: item.divisi,
+                vendor_id: item.vendor,
+                pelanggan_id: item.pelanggan,
+              };
+            });
         }
         this.isLoadingPage = false;
       }
@@ -598,6 +624,43 @@ export default {
               typeof item.vendor_id == "object"
                 ? item.vendor_id.vendor_id
                 : item.vendor_id,
+          };
+        }
+      );
+      formData.tagihan_lastmiles = this.parameters.form.tagihan_lastmiles.map(
+        (item) => {
+          return {
+            ...item,
+            tagihan_lastmile_id:
+              typeof item.tagihan_lastmile_id === "object"
+                ? item.tagihan_lastmile_id.tagihan_lastmile_id
+                : "",
+            lokasi_id:
+              typeof item.lokasi_id === "object"
+                ? item.lokasi_id.lokasi_id
+                : item.lokasi_id,
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id == "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : item.jenis_biaya_id,
+            term_pembayaran_id:
+              typeof item.term_pembayaran_id == "object"
+                ? item.term_pembayaran_id.term_pembayaran_id
+                : item.term_pembayaran_id,
+            coa_id:
+              typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
+            divisi_id:
+              typeof item.divisi_id == "object"
+                ? item.divisi_id.divisi_id
+                : item.divisi_id,
+            vendor_id:
+              typeof item.vendor_id == "object"
+                ? item.vendor_id.vendor_id
+                : item.vendor_id,
+            pelanggan_id:
+              typeof item.pelanggan_id == "object"
+                ? item.pelanggan_id.pelanggan_id
+                : item.pelanggan_id,
           };
         }
       );
@@ -1117,6 +1180,61 @@ export default {
                       pembayaran_id: data.pembayaran,
                       term_pembayaran_id: data.term_pembayaran,
                       vendor_id: data.vendor,
+                      dasar_perhitungan: data.dasar_perhitungan,
+                      lokasi_id: item.lokasi_id_tujuan,
+                      jenis_routing: item.jenis_routing,
+                      jumlah: data.jenis == 2 ? item.jarak : 1,
+                      nominal_satuan:
+                        data.jenis == 2
+                          ? item.jenis_routing === "MUAT"
+                            ? data.biaya_perkm_muat
+                            : data.biaya_perkm_kosong
+                          : data.nilai_kontrak,
+                      total:
+                        data.jenis == 2
+                          ? item.jenis_routing === "MUAT"
+                            ? data.biaya_perkm_muat * item.jarak
+                            : data.biaya_perkm_kosong * item.jarak
+                          : data.nilai_kontrak,
+                    });
+                  });
+                });
+            })
+          );
+          this.parameters.form.tagihan_lastmiles = [];
+          await Promise.all(
+            this.parameters.form.rute_shipments.map((item) => {
+              return this.$axios
+                .get(
+                  "/finance/kontrak-lastmile-pelanggan/get-kontrak-lastmile-atcost",
+                  {
+                    params: {
+                      gudang_id: this.parameters.form.gudang_id.gudang_id,
+                      jenis_kendaraan_id:
+                        this.parameters.form.jenis_kendaraan_id
+                          .jenis_kendaraan_id,
+                      lokasi_id: item.lokasi_id_tujuan.lokasi_id,
+                    },
+                  }
+                )
+                .then((res) => {
+                  res.data.forEach((data) => {
+                    this.parameters.form.tagihan_lastmiles.push({
+                      ...data,
+                      // pick_order_detail_id: item.pick_order_detail_id,
+                      jenis: item.jenis,
+                      item_gudang: data.item_gudang,
+                      item_id: data.item_id,
+                      item_gudang_id: data.item_gudang_id,
+                      biaya_inbound_id: "",
+                      jenis_biaya_id: data.jenis_biaya,
+                      jenis_kendaraan_id: data.jenis_kendaraan,
+                      jenis_kontrak_id: data.jenis_kontrak,
+                      mata_uang_id: data.mata_uang,
+                      pembayaran_id: data.pembayaran,
+                      term_pembayaran_id: data.term_pembayaran,
+                      vendor_id: data.vendor,
+                      pelanggan_id: data.pelanggan,
                       dasar_perhitungan: data.dasar_perhitungan,
                       lokasi_id: item.lokasi_id_tujuan,
                       jenis_routing: item.jenis_routing,

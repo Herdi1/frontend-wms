@@ -146,42 +146,23 @@
             </div>
           </div>
           <div
-            class="mb-3 mt-7 text-xl font-bold uppercase flex justify-between items-start w-full"
+            class="mt-2 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <span class="w-1/2"><h1>Pick Order Detail</h1></span>
-            <div class="w-full relative flex justify-end gap-2">
-              <button
-                type="button"
-                @click="onOpenModalPickRequest"
-                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-              >
-                <i class="fas fa-plus"></i>
-                <p class="text-xs font-medium">Pick Order Detail</p>
-              </button>
+            <div
+              class="mb-5 text-xl font-bold flex justify-between items-start w-full"
+            >
+              <span class="w-1/2"><h1>Pick Order Detail</h1></span>
+              <div class="w-full relative flex justify-end gap-2">
+                <button
+                  type="button"
+                  @click="onOpenModalPickRequest"
+                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                >
+                  <i class="fas fa-plus"></i>
+                  <p class="text-xs font-medium">Pick Order Detail</p>
+                </button>
+              </div>
             </div>
-          </div>
-          <!-- <div
-            class="bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm flex justify-between items-center"
-          >
-          <div class="w-1/2">
-              <select-button
-                :self="{
-                  label: 'Pick Request',
-                  optionLabel: 'nama_peminta',
-                  lookup: lookup_custom4,
-                  value: parameters.form.pick_request_id,
-                  onGet: onGetPickRequest,
-                  isLoadingL: isLoadingGetPickRequest,
-                  input: onSelectPickRequest,
-                }"
-                width="w-[50%]"
-                class="mb-5"
-              />
-            </div>
-          </div> -->
-          <div
-            class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-          >
             <div class="table-responsive overflow-y-hidden mb-7">
               <table
                 class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
@@ -704,10 +685,28 @@
                       ></i>
                     </td>
                   </tr>
+                  <tr v-if="!parameters.form.pick_order_details.length > 0">
+                    <td colspan="100" class="text-center">
+                      <span class="flex justify-center">
+                        <img
+                          src="/img/data-not-found.svg"
+                          style="height: 250px; object-fit: cover"
+                        />
+                      </span>
+                      <div class="mt-3">Data Tidak Ditemukan</div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          <!-- <tab-component :tabs="tabs" class="mt-5">
+            <template #PickOrderDetail>
+            </template>
+            <template #TagihanPickOrder>
+              <TagihanPickOrders :self="{ parameters }" />
+            </template>
+          </tab-component> -->
           <div class="w-full flex justify-start items-center">
             <modal-footer-section
               class="mt-5"
@@ -727,11 +726,13 @@ import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 // import ModalPickRequest from "../../../components/transaksional/ModalPickRequest.vue";
 import ModalPickRequest from "../../../../components/transaksional/ModalPickRequest.vue";
+import TagihanPickOrders from "./TagihanPickOrders.vue";
 export default {
   props: ["self"],
 
   components: {
     ModalPickRequest,
+    TagihanPickOrders,
   },
 
   data() {
@@ -739,6 +740,11 @@ export default {
 
     return {
       id,
+
+      tabs: [
+        { name: "Pick Order Detail", slotName: "PickOrderDetail" },
+        { name: "Tagihan Pick Order", slotName: "TagihanPickOrder" },
+      ],
 
       isStopSearchUser: false,
       isLoadingGetUser: false,
@@ -813,7 +819,7 @@ export default {
           peralatan_id: "",
           keterangan: "",
           pick_order_details: [],
-          biaya_pick_orders: [],
+          tagihan_pick_orders: [],
 
           //Tracking
           user_agent: "",
@@ -834,7 +840,7 @@ export default {
         peralatan_id: "",
         keterangan: "",
         pick_order_details: [],
-        biaya_pick_orders: [],
+        tagihan_pick_orders: [],
 
         //Tracking
         user_agent: "",
@@ -1769,7 +1775,7 @@ export default {
       }
     },
 
-    addItem(item) {
+    async addItem(item) {
       if (
         !this.parameters.form.pick_order_details.find(
           (data) => data.pick_request_id === item.pick_request_id
@@ -1779,6 +1785,45 @@ export default {
           ...item,
         };
         this.parameters.form.pick_order_details.push(detailItem);
+
+        const tagihan = await this.$axios.get(
+          "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
+          {
+            params: {
+              item_gudang_id: item.item_gudang_id,
+              gudang_id: this.parameters.form.gudang_id.gudang_id,
+              jenis: "outbound",
+            },
+          }
+        );
+
+        if (
+          !this.parameters.form.tagihan_pick_orders.find(
+            (data) => data.item_gudang_id === item.item_gudang_id
+          )
+        ) {
+          tagihan.data.forEach((data) => {
+            this.parameters.form.tagihan_pick_orders.push({
+              ...data,
+              tagihan_inbound_id: "",
+              item_gudang: data.item_gudang,
+              item_id: data.item_id,
+              item_gudang_id: data.item_gudang_id,
+              jenis_kontrak_id: data.jenis_kontrak,
+              divisi_id: data.divisi,
+              jenis_biaya_id: data.jenis_biaya,
+              mata_uang_id: data.mata_uang,
+              pembayaran_id: data.pembayaran,
+              term_pembayaran_id: data.term_pembayaran,
+              group_item_id: data.group_item,
+              nominal_satuan: data.nilai_kontrak,
+              jumlah: 0,
+              total: 0,
+              jenis: 0,
+              coa_id: "",
+            });
+          });
+        }
       } else {
         this.$toaster.error("Pick Request Sudah Ditambahkan");
       }
