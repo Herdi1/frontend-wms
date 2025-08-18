@@ -520,11 +520,15 @@ export default {
     async zonaClick(room, event) {
       const rect = event.target.getBoundingClientRect();
 
-      this.$refs.zonaDetail.visible = !this.$refs.zonaDetail.visible;
-      this.$refs.zonaDetail.layout_id = room.layout_gudang_id;
-      await this.$refs.zonaDetail.getKapasitasZona();
-      this.$refs.zonaDetail.room.x = rect.left;
-      this.$refs.zonaDetail.room.y = rect.top;
+      if (this.$refs.zonaDetail.visible) {
+        this.$refs.zonaDetail.hide();
+      } else {
+        this.$refs.zonaDetail.show();
+        this.$refs.zonaDetail.layout_id = room.layout_gudang_id;
+        // this.$refs.zonaDetail.room.x = rect.left + rect.width / 2;
+        // this.$refs.zonaDetail.room.y = rect.top - 5;
+        await this.$refs.zonaDetail.getKapasitasZona();
+      }
     },
   },
 };

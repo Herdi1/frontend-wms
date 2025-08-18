@@ -157,6 +157,18 @@
                   class="mb-5"
                 />
               </ValidationProvider>
+              <div class="flex px-1 items-center">
+                <label for="jenis_kiriman" class="w-1/2">Jenis Kiriman</label>
+                <select
+                  name="jenis_kiriman"
+                  id="jenis_kiriman"
+                  v-model="parameters.form.jenis_kiriman"
+                  class="w-1/2 outline-none p-1 rounded-sm border border-gray-300"
+                >
+                  <option value="0">Fracco</option>
+                  <option value="1">Locco</option>
+                </select>
+              </div>
               <div class="col-span-2 w-full px-1 mb-3">
                 <label for="keterangan">Keterangan</label>
                 <textarea
@@ -289,6 +301,7 @@ export default {
           status_muat: "",
           catatan_muat: "",
           user_id_pic: "",
+          jenis_kiriman: "0",
 
           shipment_details: [],
           rute_shipments: [],
@@ -986,6 +999,7 @@ export default {
         keterangan: "",
         no_referensi_2: "",
         no_referensi_3: "",
+        jenis_kiriman: "0",
         shipment_details: [],
       };
     },

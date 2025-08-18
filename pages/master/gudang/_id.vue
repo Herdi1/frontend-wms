@@ -647,6 +647,16 @@
 
                   <div class="w-full form-group">
                     <input-form
+                      label="Email"
+                      type="text"
+                      name="email"
+                      v-model="form.email"
+                      :required="false"
+                    />
+                  </div>
+
+                  <div class="w-full form-group">
+                    <input-form
                       label="No Handphone"
                       type="text"
                       name="no_hp"
@@ -1489,6 +1499,7 @@ export default {
         vendor_id_pemilik: "",
         vendor_id_operator: "",
         fungsi_gudang_id: "",
+        email: "",
         no_hp: "",
         no_wa: "",
         kapasitas: 0,
@@ -1537,6 +1548,7 @@ export default {
         vendor_id_pemilik: "",
         vendor_id_operator: "",
         fungsi_gudang_id: "",
+        email: "",
         no_hp: "",
         no_wa: "",
         kapasitas: 0,

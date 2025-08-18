@@ -32,7 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(stok, index) in room.stok_gudang_alls" key="index">
+          <tr v-for="(stok, index) in room.stok_gudang_alls" :key="index">
             <td class="border border-gray-300">
               {{ stok.item_id }}
             </td>
@@ -86,6 +86,13 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    show() {
+      this.visible = true;
+    },
+    hide() {
+      this.visible = false;
     },
   },
 };

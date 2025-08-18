@@ -212,6 +212,7 @@
                   >
                     <option value="0">Inbound</option>
                     <option value="1">Cross Docking</option>
+                    <option value="2">Retur</option>
                   </select>
                 </div>
                 <div class="form-group" v-if="!user.gudang_id">
@@ -471,9 +472,26 @@ export default {
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
             return {
               ...item,
+              biaya_inbound_id: item,
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
+            };
+          });
+          this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
+            return {
+              ...item,
+              tagihan_inbound_id: item,
+              nama_item: item.item_gudang.nama_item,
+              kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              pelanggan_id: item.pelanggan,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
             };
           });
         }
@@ -507,8 +525,26 @@ export default {
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
             return {
               ...item,
+              biaya_inbound_id: item,
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
+            };
+          });
+          this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
+            return {
+              ...item,
+              tagihan_inbound_id: item,
+              nama_item: item.item_gudang.nama_item,
+              kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              pelanggan_id: item.pelanggan,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
             };
           });
         }
@@ -542,8 +578,26 @@ export default {
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
             return {
               ...item,
+              biaya_inbound_id: item,
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
+            };
+          });
+          this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
+            return {
+              ...item,
+              tagihan_inbound_id: item,
+              nama_item: item.item_gudang.nama_item,
+              kode_item: item.item_gudang.kode_item,
+              jenis_biaya_id: item.jenis_biaya,
+              coa_id: item.coa,
+              pelanggan_id: item.pelanggan,
+              divisi_id: item.divisi,
+              vendor_id: item.vendor,
             };
           });
         }
@@ -554,15 +608,15 @@ export default {
           });
         }
 
-        if (res.data.biaya_inbounds) {
-          this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
-            return { ...item, biaya_inbound_id: item };
-          });
-        }
+        // if (res.data.biaya_inbounds) {
+        //   this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
+        //     return { ...item, biaya_inbound_id: item };
+        //   });
+        // }
 
-        if (this.user.gudang_id) {
-          this.form.gudang_id = this.user.gudang_id;
-        }
+        // if (this.user.gudang_id) {
+        //   this.form.gudang_id = this.user.gudang_id;
+        // }
 
         this.isLoadingPage = false;
       }
@@ -780,6 +834,34 @@ export default {
           volume: item.volume > 0 ? item.volume : 1,
           jenis: item.jenis ? item.jenis : 0,
           keterangan: item.keterangan || "",
+        };
+      });
+
+      formData.tagihan_inbounds = formData.tagihan_inbounds.map((item) => {
+        return {
+          ...item,
+          tagihan_inbound_id:
+            typeof item.tagihan_inbound_id === "object"
+              ? item.tagihan_inbound_id.tagihan_inbound_id
+              : "",
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id === "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
+          coa_id:
+            typeof item.coa_id === "object" ? item.coa_id.coa_id : item.coa_id,
+          pelanggan_id:
+            typeof item.pelanggan_id === "object"
+              ? item.pelanggan_id.pelanggan_id
+              : item.pelanggan_id,
+          divis_id:
+            typeof item.divis_id === "object"
+              ? item.divis_id.divis_id
+              : item.divis_id,
+          vendor_id:
+            typeof item.vendor_id === "object"
+              ? item.vendor_id.vendor_id
+              : item.vendor_id,
         };
       });
 

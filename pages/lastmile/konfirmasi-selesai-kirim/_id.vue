@@ -235,7 +235,7 @@
                               item.item_gudang ? item.item_gudang.nama_item : ""
                             }}
                           </td>
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300 text-center">
                             <span
                               v-if="item.jenis == 0"
                               class="p-1 text-white rounded-md bg-orange-500"
@@ -354,7 +354,7 @@
                           <td class="border border-gray-300">
                             {{ item.jenis_routing ? item.jenis_routing : "-" }}
                           </td>
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300 text-center">
                             <span
                               v-if="item.jenis_kiriman == 0"
                               class="p-1 text-white rounded-md bg-orange-500"
@@ -416,7 +416,7 @@
                           :key="i"
                           class="border-t align-top"
                         >
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300 text-center">
                             <span
                               v-if="item.jenis == 0"
                               class="p-1 text-white rounded-md bg-orange-500"
@@ -477,6 +477,9 @@
                     </table>
                   </div>
                 </template>
+                <template #ReturBarang>
+                  <p>Retur Barang goes here</p>
+                </template>
               </tab-component>
             </div>
           </div>
@@ -515,6 +518,10 @@ export default {
         {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
+        },
+        {
+          name: "Retur Barang",
+          slotName: "ReturBarang",
         },
       ],
 

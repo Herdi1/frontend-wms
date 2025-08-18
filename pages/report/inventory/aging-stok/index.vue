@@ -112,6 +112,41 @@
                 </li>
               </v-select>
             </div>
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="group_item_id_1">Group Item</label>
+              <v-select
+                label="nama_group_item"
+                :loading="isLoadingGetGroupItem"
+                :options="lookup_custom3.data"
+                :filterable="false"
+                @search="onGetGroupItem"
+                v-model="parameters.form.group_item"
+                @input="onSetGroupItem"
+                class="w-[50%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom3.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom3.current_page > 1"
+                    @click="onGetGroupItem(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom3.last_page > lookup_custom3.current_page
+                    "
+                    @click="onGetGroupItem(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
             <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
@@ -169,6 +204,7 @@ export default {
   async mounted() {
     await this.onSearchGudang();
     await this.onSearchWilayah();
+    await this.onSearchGroupItem();
   },
 
   data() {
@@ -190,6 +226,7 @@ export default {
         form: {
           gudang_id: "",
           wilayah_id: "",
+          group_item: "",
         },
       },
       user: this.$auth.user,
@@ -201,6 +238,10 @@ export default {
       isStopSearchWilayah: false,
       isLoadingGetWilayah: false,
       wilayah_search: "",
+
+      isStopSearchGroupItem: false,
+      isLoadingGetGroupItem: false,
+      group_item_search: "",
     };
   },
 
@@ -330,6 +371,49 @@ export default {
       this.parameters.form.wilayah_id = item || "";
     },
 
+    onGetGroupItem(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGroupItem);
+
+      this.isStopSearchGroupItem = setTimeout(() => {
+        this.group_item_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchGroupItem();
+      }, 600);
+    },
+
+    async onSearchGroupItem() {
+      if (!this.isLoadingGetGroupItem) {
+        this.isLoadingGetGroupItem = true;
+
+        await this.lookUp({
+          url: "master/group-item/get-group-item",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.group_item_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGroupItem = false;
+      }
+    },
+
+    onSetGroupItem(item) {
+      this.parameters.form.group_item = item || "";
+    },
+
     async onExport() {
       try {
         let url =
@@ -342,6 +426,8 @@ export default {
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
+          "&group_item=" +
+          this.parameters.form.group_item.nama_group_item +
           // "&nama_wilayah=" +
           // this.parameters.params.nama_wilayah +
           "&start_date=" +

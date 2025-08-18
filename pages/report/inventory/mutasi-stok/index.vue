@@ -57,7 +57,9 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -133,7 +135,7 @@
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group w-full">
@@ -143,7 +145,7 @@
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
-                :required="false"
+                :required="true"
               />
             </div>
           </div>
@@ -178,7 +180,15 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    this.parameters.params.end_date = formattedDate;
+  },
 
   async mounted() {
     await this.onSearchGudang();
