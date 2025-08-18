@@ -35,7 +35,7 @@
               <div
                 class="border border-gray-300 bg-gray-50 rounded-md p-1 w-[60%]"
               >
-                {{ this.form.tanggal ? this.form.tanggal : "-" }}
+                {{ this.form.tanggal ? formatDate(this.form.tanggal) : "-" }}
               </div>
             </div>
             <div class="flex w-full items-center">
@@ -51,7 +51,11 @@
               <div
                 class="border border-gray-300 bg-gray-50 rounded-md p-1 w-[60%]"
               >
-                {{ this.form.periode_awal ? this.form.periode_awal : "-" }}
+                {{
+                  this.form.periode_awal
+                    ? formatDate(this.form.periode_awal)
+                    : "-"
+                }}
               </div>
             </div>
             <div class="flex w-full items-center">
@@ -59,7 +63,11 @@
               <div
                 class="border border-gray-300 bg-gray-50 rounded-md p-1 w-[60%]"
               >
-                {{ this.form.periode_akhir ? this.form.periode_akhir : "-" }}
+                {{
+                  this.form.periode_akhir
+                    ? formatDate(this.form.periode_akhir)
+                    : "-"
+                }}
               </div>
             </div>
             <div class="flex w-full items-center">
@@ -110,7 +118,11 @@
                         {{ item.coa ? item.coa.nama_coa : "-" }}
                       </td>
                       <td class="border border-gray-300">
-                        {{ item.tanggal_ambil ? item.tanggal_ambil : "-" }}
+                        {{
+                          item.tanggal_ambil
+                            ? formatDate(item.tanggal_ambil)
+                            : "-"
+                        }}
                       </td>
                       <td class="border border-gray-300">
                         {{ item.saldo_awal | formatPrice }}
@@ -184,10 +196,10 @@
                     {{ form.plafon_dropping | formatPrice }}
                   </td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-gray-50 text-red-600">
                   <td class="font-bold">Control</td>
                   <td></td>
-                  <td class="text-right">
+                  <td class="text-right font-bold">
                     {{
                       (parseFloat(form.total_saldo_awal) -
                         parseFloat(form.plafon_dropping))
@@ -210,7 +222,7 @@
                   <td>
                     <span class="pl-3">
                       {{ item.coa.kode_coa }} - {{ item.coa.nama_coa }} ({{
-                        item.tanggal
+                        formatDate(item.tanggal)
                       }})
                     </span>
                   </td>
@@ -263,10 +275,10 @@
                   <td></td>
                   <td></td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-gray-50 text-green-600">
                   <td class="font-bold">Permintaan Dropping</td>
                   <td></td>
-                  <td class="text-right">
+                  <td class="text-right font-bold">
                     {{ form.permintaan_dropping | formatPrice }}
                   </td>
                 </tr>
@@ -284,10 +296,10 @@
                     {{ form.plafon_dropping | formatPrice }}
                   </td>
                 </tr>
-                <tr class="bg-gray-50">
+                <tr class="bg-gray-50 text-red-600">
                   <td class="font-bold">Control</td>
                   <td></td>
-                  <td class="text-right">
+                  <td class="text-right font-bold">
                     {{
                       (parseFloat(form.permintaan_dropping) +
                         parseFloat(form.total_saldo_akhir) -
@@ -361,6 +373,14 @@ export default {
     } catch (error) {
       this.$router.back();
     }
+  },
+
+  methods: {
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
   },
 };
 </script>

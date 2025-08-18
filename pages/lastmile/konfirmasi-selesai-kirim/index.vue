@@ -346,10 +346,16 @@
                     </div>
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal_muat ? item.tanggal_muat : "" }}
+                    {{
+                      item.tanggal_muat ? formatDateTime(item.tanggal_muat) : ""
+                    }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal_inspeksi ? item.tanggal_inspeksi : "" }}
+                    {{
+                      item.tanggal_inspeksi
+                        ? formatDateTime(item.tanggal_inspeksi)
+                        : ""
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.staff ? item.staff.nama_lengkap : "" }}
@@ -555,6 +561,16 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDateTime(dateTimeString) {
+      if (!dateTimeString) return "";
+
+      const [datePart, timePart] = dateTimeString.split(" ");
+      const [year, month, day] = datePart.split("-");
+      const [hour, minute, second] = timePart.split(":");
+
+      return `${day}-${month}-${year} ${hour}-${minute}-${second}`;
+    },
 
     onEdit(item) {
       this.$router.push(

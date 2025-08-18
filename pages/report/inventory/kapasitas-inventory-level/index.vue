@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="min-h-screen">
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
         <a href="javascript:;" class="text-primary hover:underline">Report</a>
@@ -112,26 +112,6 @@
                 </li>
               </v-select>
             </div>
-            <div class="form-group w-full">
-              <input-horizontal
-                label="Periode Awal"
-                type="date"
-                name="periode_awal"
-                :isHorizontal="true"
-                v-model="parameters.params.start_date"
-                :required="false"
-              />
-            </div>
-            <div class="form-group w-full">
-              <input-horizontal
-                label="Periode Akhir"
-                type="date"
-                name="periode_akhir"
-                :isHorizontal="true"
-                v-model="parameters.params.end_date"
-                :required="false"
-              />
-            </div>
           </div>
 
           <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div>
@@ -148,7 +128,6 @@
         </div>
       </div>
     </div>
-    <div></div>
   </section>
 </template>
 
@@ -160,11 +139,9 @@ export default {
 
   head() {
     return {
-      title: "Laporan Obsolete Stock",
+      title: "Kapasitas Inventory Level",
     };
   },
-
-  created() {},
 
   async mounted() {
     await this.onSearchGudang();
@@ -173,25 +150,24 @@ export default {
 
   data() {
     return {
-      title: "Laporan Obsolete Stock",
+      title: "Kapasitas Inventory Level",
       isLoadingData: false,
 
       parameters: {
-        url: "report/obsolete-stock/export",
+        url: "report/kapasitas/export",
         params: {
-          // type: "",
-          download: "pdf",
-          nama_wilayah: "",
-          kode_gudang: "",
+          download: "",
           nama_gudang: "",
-          start_date: "",
-          end_date: "",
+          nama_wilayah: "",
+          // start_date: "",
+          // end_date: "",
         },
         form: {
           gudang_id: "",
           wilayah_id: "",
         },
       },
+
       user: this.$auth.user,
 
       isStopSearchGudang: false,
@@ -211,7 +187,7 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
-      "lookup_custom3",
+      // "lookup_custom3",
     ]),
 
     getRoles() {
@@ -219,7 +195,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-obsolete-stock"
+          (item) => item.rute == "report-kapasitas-inventory-level"
         );
 
         let roles = {};
@@ -336,49 +312,40 @@ export default {
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          // "&type=" +
-          // this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id +
-          // "&nama_wilayah=" +
-          // this.parameters.params.nama_wilayah +
-          "&start_date=" +
-          this.parameters.params.start_date +
-          "&end_date=" +
-          this.parameters.params.end_date;
+          this.parameters.form.wilayah_id.wilayah_id;
+        // "&start_date=" +
+        // this.parameters.params.start_date +
+        // "&end_date=" +
+        // this.parameters.params.end_date;
 
         this.$axios({
           method: "GET",
           url: url,
           responseType: "blob",
-        })
-          .then((res) => {
-            const blob = new Blob([res.data], {
-              type: res.headers["content-type"],
-            });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-
-            const disposition = res.headers["content-disposition"];
-            let filename = "laporan_obsolete_stok";
-            if (disposition && disposition.indexOf("filename=") !== 0) {
-              filename = disposition
-                .split("filename=")[1]
-                .replace(/"/g, "")
-                .trim();
-            }
-
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$globalErrorToaster(this.$toaster, err);
+        }).then((res) => {
+          const blob = new Blob([res.data], {
+            type: res.headers["content-type"],
           });
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+
+          const disposition = res.headers["content-disposition"];
+          let filename = "laporan_kapasitas_inventory_level";
+          if (disposition && disposition.indexOf("filename=") !== 0) {
+            filename = disposition
+              .split("filename=")[1]
+              .replace(/"/g, "")
+              .trim();
+          }
+
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        });
       } catch (error) {
         console.log(error);
         this.$globalErrorToaster(this.$toaster, error);

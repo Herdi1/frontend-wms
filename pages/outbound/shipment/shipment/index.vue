@@ -385,7 +385,9 @@
                       </span>
                     </div>
                   </td> -->
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
                   <td class="border border-gray-300">
                     <div
                       v-if="item.status_muat === '0'"
@@ -603,6 +605,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/outbound/shipment/shipment/add");

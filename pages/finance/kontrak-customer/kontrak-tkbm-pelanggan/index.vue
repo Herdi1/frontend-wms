@@ -72,13 +72,46 @@
                     </div>
                   </div>
                 </th>
-                <!-- <th class="w-40 border border-gray-300">Vendor</th> -->
-                <th class="w-40 border border-gray-300">Status</th>
-                <th class="w-40 border border-gray-300">PIC Kontrak</th>
-                <th class="w-40 border border-gray-300">Tanggal Kontrak</th>
-                <th class="w-40 border border-gray-300">Tanggal Aktif</th>
-                <th class="w-40 border border-gray-300">Tanggal Expired</th>
-                <th class="w-40 border border-gray-300">Keterangan</th>
+                <th class="w-48 border border-gray-300">Pelanggan</th>
+                <th
+                  @click="
+                    onSort(
+                      'status_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer w-48 border border-gray-300"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Status Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th class="w-48 border border-gray-300">Tanggal Kontrak</th>
+                <th class="w-48 border border-gray-300">Tanggal Berlaku</th>
+                <th class="w-48 border border-gray-300">Tanggal Berhenti</th>
+                <!-- <th class="w-48 border border-gray-300">Jenis Kontrak</th> -->
+                <th class="w-48 border border-gray-300">No Referensi</th>
+                <th class="w-48 border border-gray-300">Keterangan</th>
                 <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Hapus</th>
               </tr>
@@ -86,11 +119,11 @@
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
                 <td
-                  class="text-center place-items-center border border-gray-300"
+                  class="text-center border border-gray-300 place-items-center"
                 >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
-                <td class="text-center border border-gray-300">
+                <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
                     i +
@@ -112,49 +145,43 @@
                     <i>Dibuat oleh: Sistem</i>
                   </p>
                 </td>
-                <!-- <td class="border border-gray-300">
-                  {{ item.vendor ? item.vendor.nama_vendor : "-" }}
-                </td> -->
                 <td class="border border-gray-300">
-                  <span
-                    v-if="item.status === 'PENDING'"
-                    class="p-1 rounded-md text-white bg-orange-400"
-                  >
-                    Menunggu
-                  </span>
-                  <span
-                    v-if="item.status === 'APPROVE'"
-                    class="p-1 rounded-md text-white bg-green-400"
-                  >
-                    Disetujui
-                  </span>
+                  {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{
-                    item.user_pic
-                      ? item.user_pic.nama_lengkap
-                      : item.user_id_pic
-                  }}
+                  <div>
+                    <span v-if="item.status_kontrak === 'FISIK'">
+                      <p
+                        class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                      >
+                        {{ item.status_kontrak }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_kontrak === 'VIRTUAL'">
+                      <p
+                        class="bg-blue-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                      >
+                        {{ item.status_kontrak }}
+                      </p>
+                    </span>
+                  </div>
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_kontrak }}
+                  {{ formatDate(item.tanggal_kontrak) }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berlaku }}
+                  {{ formatDate(item.tanggal_berlaku) }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_berhenti }}
+                  {{ formatDate(item.tanggal_berhenti) }}
                 </td>
-
+                <!-- <td class="border border-gray-300">{{ item.jenis_kontrak }}</td> -->
+                <td class="border border-gray-300">{{ item.no_referensi }}</td>
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
-                <td
-                  class="text-center place-items-center border border-gray-300"
-                >
+                <td class="place-items-center border border-gray-300">
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td
-                  class="text-center place-items-center border border-gray-300"
-                >
+                <td class="place-items-center border border-gray-300">
                   <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>
@@ -180,7 +207,7 @@ export default {
 
   head() {
     return {
-      title: "Kontrak Vendor Sewa",
+      title: "Kontrak Customer TKBM",
     };
   },
 
@@ -227,7 +254,7 @@ export default {
 
   data() {
     return {
-      title: "Kontrak Vendor Sewa",
+      title: "Kontrak Customer TKBM",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -246,35 +273,33 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-sewa-pelanggan",
+        url: "finance/kontrak-tkbm-pelanggan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "kontrak_sewa_pelanggan_id",
+          order: "kontrak_tkbm_pelanggan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            no_kontrak: "",
-            vendor_id: "",
-            user_id_pic: "",
-            tanggal_kontrak: "",
-            user_id_approve: "",
-            tanggal_approve: "",
-            tanggal_aktif: "",
-            tanggal_expired: "",
-            status: "",
-            keterangan: "",
-            detail_kontrak_sewa_gudang: [],
-            detail_kontrak_sewa_peralatan: [],
+        },
+        form: {
+          kode_kontrak: "",
+          no_referensi: "",
+          pelanggan_id: "",
+          tanggal_kontrak: "",
+          tanggal_berlaku: "",
+          tanggal_berhenti: "",
+          status_kontrak: "",
+          jenis_kontrak_id: "",
+          keterangan: "",
+          kontrak_tkbm_details: [],
 
-            user_agent: "",
-            device: "",
-            longitude: "",
-            latitude: "",
-          },
+          user_agent: "",
+          device: "",
+          longitude: "",
+          latitude: "",
         },
         loadings: {
           isDelete: false,
@@ -292,7 +317,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kontrak-sewa"
+          (item) => item.rute == "kontrak-tkbm-pelanggan"
         );
 
         let roles = {};
@@ -321,19 +346,25 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+
     onFormShow() {
-      this.$router.push(`/finance/kontrak-customer/kontrak-sewa/add`);
+      this.$router.push(`/finance/kontrak-customer/kontrak-tkbm-pelanggan/add`);
     },
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-customer/kontrak-sewa/${item.kontrak_sewa_pelanggan_id}`
+        `/finance/kontrak-customer/kontrak-tkbm-pelanggan/${item.kontrak_tkbm_pelanggan_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/kontrak-customer/kontrak-sewa/detail/${item.kontrak_sewa_pelanggan_id}`
+        `/finance/kontrak-customer/kontrak-tkbm-pelanggan/detail/${item.kontrak_tkbm_pelanggan_id}`
       );
     },
 
@@ -353,7 +384,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.kontrak_sewa_id,
+              id: item.kontrak_tkbm_pelanggan_id,
               params: this.parameters.params,
             });
 
@@ -378,10 +409,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

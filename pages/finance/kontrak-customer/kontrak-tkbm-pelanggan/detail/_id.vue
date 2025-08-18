@@ -239,7 +239,6 @@ export default {
       this.detail_tkbm.kontrak_tkbm_pelanggan_details =
         res.data.kontrak_tkbm_pelanggan_details;
       this.isLoadingPage = false;
-      console.log(this.detail_tkbm);
     } catch (error) {
       this.$router.back();
     }

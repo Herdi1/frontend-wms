@@ -116,7 +116,7 @@
               <thead>
                 <tr class="text-base uppercase">
                   <th class="w-[5%] border border-gray-300">Inspeksi</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
+                  <th class="w-[5%] border text-center border-gray-300">No</th>
                   <!-- <th
                     @click="
                       onSort(
@@ -166,7 +166,7 @@
                   >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -189,7 +189,7 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.tanggal_inspeksi }}
+                    {{ formatDate(item.tanggal_inspeksi) }}
                   </td>
                   <td class="border border-gray-300">
                     <!-- <p
@@ -391,6 +391,12 @@ export default {
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push("/inbound/inspeksi-asn/add");

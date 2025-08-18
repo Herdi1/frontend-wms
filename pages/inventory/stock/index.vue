@@ -361,7 +361,7 @@
                   <td class="text-center border border-gray-300">
                     {{ item.kode_valuation }}
                   </td>
-                  <td class="text-success text-center border border-gray-300">
+                  <td class="text-success border border-gray-300 text-right">
                     {{ item.quantity ? item.quantity : "" | formatPrice }}
                   </td>
                   <td

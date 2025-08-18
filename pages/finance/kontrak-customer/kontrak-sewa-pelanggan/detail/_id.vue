@@ -25,11 +25,21 @@
               </div>
             </div>
             <div class="flex w-full items-center">
-              <label class="w-[40%]">Pelanggan</label>
+              <label class="w-[40%]">No Referensi</label>
               <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                 {{
-                  this.detail_sewa.pelanggan
-                    ? this.detail_sewa.pelanggan.nama_pelanggan
+                  this.detail_sewa.no_referensi
+                    ? this.detail_sewa.no_referensi
+                    : "-"
+                }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">PIC Kontrak</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.detail_sewa.user_pic
+                    ? this.detail_sewa.user_pic.nama_lengkap
                     : "-"
                 }}
               </div>
@@ -84,16 +94,7 @@
                 }}
               </div>
             </div>
-            <div class="flex w-full items-center">
-              <label class="w-[40%]">No Referensi</label>
-              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                {{
-                  this.detail_sewa.no_referensi
-                    ? this.detail_sewa.no_referensi
-                    : "-"
-                }}
-              </div>
-            </div>
+
             <div class="flex w-full items-center">
               <label class="w-[40%]">Keterangan</label>
               <div class="border border-gray-300 rounded-md p-1 w-[60%]">
@@ -146,9 +147,10 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingData: false,
       detail_sewa: {
+        kode_kontrak: "",
         no_referensi: "",
         gudang_id: "",
-        vendor_id: "",
+        // vendor_id: "",
         user_id_pic: "",
         tanggal_kontrak: "",
         tanggal_berlaku: "",
@@ -158,6 +160,8 @@ export default {
         keterangan: "",
         kontrak_sewa_gudang_details: [],
         kontrak_sewa_peralatan_details: [],
+        user_pic: {},
+        jenis_kontrak: {},
       },
     };
   },
@@ -172,10 +176,11 @@ export default {
           this.detail_sewa[item] = res.data[item];
         }
       });
-      this.detail_sewa.kontrak_sewa_pelanggan_details =
-        res.data.kontrak_sewa_pelanggan_details;
+      this.detail_sewa.kontrak_sewa_gudang_details =
+        res.data.kontrak_sewa_gudang_pelanggan_details;
+      this.detail_sewa.kontrak_sewa_peralatan_details =
+        res.data.kontrak_sewa_peralatan_pelanggan_details;
       this.isLoadingPage = false;
-      console.log(this.detail_sewa);
     } catch (error) {
       this.$router.back();
     }

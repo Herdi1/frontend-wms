@@ -233,10 +233,10 @@
                         {{ budgetGudang | formatPrice }}
                       </td>
                     </tr>
-                    <tr class="bg-gray-50">
+                    <tr class="bg-gray-50 text-red-600">
                       <td class="font-bold">Control</td>
                       <td></td>
-                      <td class="text-right">
+                      <td class="text-right font-bold">
                         {{ totalControlAwal | formatPrice }}
                       </td>
                     </tr>
@@ -312,10 +312,10 @@
                       <td></td>
                       <td></td>
                     </tr>
-                    <tr class="bg-gray-50">
+                    <tr class="bg-gray-50 text-green-600">
                       <td class="font-bold">Permintaan Dropping</td>
                       <td></td>
-                      <td class="text-right">
+                      <td class="text-right font-bold">
                         {{ totalPermintaanDropping | formatPrice }}
                       </td>
                     </tr>
@@ -333,10 +333,10 @@
                         {{ budgetGudang | formatPrice }}
                       </td>
                     </tr>
-                    <tr class="bg-gray-50">
+                    <tr class="bg-gray-50 text-red-600">
                       <td class="font-bold">Control</td>
                       <td></td>
-                      <td class="text-right">
+                      <td class="text-right font-bold">
                         {{ totalControlAkhir | formatPrice }}
                       </td>
                     </tr>

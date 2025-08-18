@@ -217,6 +217,8 @@
                   </th>
                   <th class="w-48 border border-gray-300">Periode Awal</th>
                   <th class="w-48 border border-gray-300">Periode Akhir</th>
+                  <th class="w-20 border text-center border-gray-300">Print</th>
+
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -240,7 +242,9 @@
                   <td class="border border-gray-300">
                     {{ item.kode_pengajuan }}
                   </td>
-                  <td class="border border-gray-300">{{ item.tanggal }}</td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
@@ -248,10 +252,21 @@
                     {{ item.status_pengajuan }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.periode_awal }}
+                    {{ formatDate(item.periode_awal) }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.periode_akhir }}
+                    {{ formatDate(item.periode_akhir) }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <!-- v-if="!item.deleted_at" -->
+                    <button
+                      type="button"
+                      class="btn btn-sm"
+                      @click="onPrintDetail(item)"
+                      title="Print Pengajuan Dropping"
+                    >
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
@@ -423,6 +438,12 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+
     onFormShow() {
       this.$router.push("/finance/pengajuan-dropping/add");
     },
@@ -436,6 +457,18 @@ export default {
     onDetail(item) {
       this.$router.push(
         "/finance/pengajuan-dropping/detail/" + item.pengajuan_dropping_id
+      );
+    },
+
+    onPrintDetail(item) {
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "finance/pengajuan-dropping/get-print-detail/" +
+          item.pengajuan_dropping_id +
+          "?token=" +
+          token,
+        "_blank"
       );
     },
 

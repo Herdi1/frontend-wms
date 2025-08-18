@@ -237,10 +237,14 @@
                     <p>Approved</p>
                   </div>
                 </td>
-                <td class="border border-gray-300">{{ item.tanggal }}</td>
-                <td class="border border-gray-300">{{ item.tanggal_mulai }}</td>
                 <td class="border border-gray-300">
-                  {{ item.tanggal_selesai }}
+                  {{ formatDate(item.tanggal) }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ formatDate(item.tanggal_mulai) }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ formatDate(item.tanggal_selesai) }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.lama_pengerjaan }}
@@ -426,6 +430,12 @@ export default {
       "lookUp",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onFormShow() {
       this.$router.push(

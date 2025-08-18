@@ -224,7 +224,7 @@
                 <tbody class="border border-gray-300">
                   <tr v-if="data.length">
                     <td class="border border-gray-300">
-                      {{ data[0] ? data[0].tanggal : "-" }}
+                      {{ data[0] ? formatDate(data[0].tanggal) : "-" }}
                     </td>
                     <td></td>
                     <td class="border border-gray-300">
@@ -256,7 +256,9 @@
                   <tr v-for="(item, i) in data" :key="i">
                     <!-- :class="{ 'table-active': ActiveRow == i }"
                   @click="onRowSelected(i)" -->
-                    <td class="border border-gray-300">{{ item.tanggal }}</td>
+                    <td class="border border-gray-300">
+                      {{ formatDate(item.tanggal) }}
+                    </td>
                     <td class="border border-gray-300">
                       {{ item.gudang ? item.gudang.nama_gudang : "" }}
                     </td>
@@ -305,7 +307,7 @@
                     <td class="border border-gray-300">
                       {{
                         data[data.length - 1]
-                          ? data[data.length - 1].tanggal
+                          ? formatDate(data[data.length - 1].tanggal)
                           : "-"
                       }}
                     </td>
@@ -568,6 +570,12 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
