@@ -29,7 +29,9 @@
       <div class="card-body">
         <div class="w-full mt-2 mb-3">
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Download</label>
               <select
@@ -78,7 +80,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Wilayah</label>
+              <label class="w-[50%]" for="group_item_id_1">Region</label>
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -173,7 +175,7 @@ export default {
 
   data() {
     return {
-      title: "Laporan Kapasitas Gudang",
+      title: "Laporan Kapasitas Gudang dan Inventory Level",
       isLoadingData: false,
 
       parameters: {
@@ -219,7 +221,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-kapasitas-gudang"
+          (item) => item.rute == "kapasitas-gudang-inventory-level"
         );
 
         let roles = {};
@@ -362,7 +364,7 @@ export default {
             link.href = window.URL.createObjectURL(blob);
 
             const disposition = res.headers["content-disposition"];
-            let filename = "laporan_mutasi_stok";
+            let filename = "laporan_kapasitas_gudang_inventory_level";
             if (disposition && disposition.indexOf("filename=") !== 0) {
               filename = disposition
                 .split("filename=")[1]

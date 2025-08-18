@@ -29,7 +29,9 @@
       <div class="card-body">
         <div class="w-full mt-2 mb-3">
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Download</label>
               <select
@@ -77,7 +79,7 @@
                 </li>
               </v-select>
             </div>
-            <div class="flex w-full m-1 pr-1">
+            <!-- <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="group_item_id_1">Wilayah</label>
               <v-select
                 label="nama_wilayah"
@@ -111,7 +113,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
             <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
@@ -134,17 +136,16 @@
             </div>
           </div>
 
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div>
-
-          <div class="flex gap-3 mt-3 justify-end">
-            <button
-              @click="onExport"
-              class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
-            >
-              <i class="fa fa-file text-white font-bold mr-2"></i>
-              Export
-            </button>
-          </div>
+          <!-- <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div> -->
+        </div>
+        <div class="flex gap-3 mt-3 justify-end">
+          <button
+            @click="onExport"
+            class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+          >
+            <i class="fa fa-file text-white font-bold mr-2"></i>
+            Export
+          </button>
         </div>
       </div>
     </div>
@@ -181,7 +182,7 @@ export default {
         params: {
           // type: "",
           download: "pdf",
-          nama_wilayah: "",
+          // nama_wilayah: "",
           kode_gudang: "",
           nama_gudang: "",
           start_date: "",
@@ -189,7 +190,7 @@ export default {
         },
         form: {
           gudang_id: "",
-          wilayah_id: "",
+          // wilayah_id: "",
         },
       },
       user: this.$auth.user,
@@ -219,7 +220,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-stok-opname"
+          (item) => item.rute == "stok-opname"
         );
 
         let roles = {};
@@ -340,8 +341,8 @@ export default {
           // this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
-          "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id +
+          // "&wilayah_id=" +
+          // this.parameters.form.wilayah_id.wilayah_id +
           // "&nama_wilayah=" +
           // this.parameters.params.nama_wilayah +
           "&start_date=" +
@@ -362,7 +363,7 @@ export default {
             link.href = window.URL.createObjectURL(blob);
 
             const disposition = res.headers["content-disposition"];
-            let filename = "laporan_mutasi_stok";
+            let filename = "laporan_stok_opname";
             if (disposition && disposition.indexOf("filename=") !== 0) {
               filename = disposition
                 .split("filename=")[1]

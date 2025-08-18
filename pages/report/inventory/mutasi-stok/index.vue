@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="min-h-screen">
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
         <a href="javascript:;" class="text-primary hover:underline">Report</a>
@@ -29,7 +29,9 @@
       <div class="card-body">
         <div class="w-full mt-2 mb-3">
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Tipe Mutasi</label>
               <select
@@ -94,7 +96,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Wilayah</label>
+              <label class="w-[50%]" for="group_item_id_1">Region</label>
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -181,13 +183,12 @@ export default {
   },
 
   created() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0");
-    const day = today.getDate().toString().padStart(2, "0");
-
-    const formattedDate = `${year}-${month}-${day}`;
-    this.parameters.params.end_date = formattedDate;
+    // const today = new Date();
+    // const year = today.getFullYear();
+    // const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    // const day = today.getDate().toString().padStart(2, "0");
+    // const formattedDate = `${year}-${month}-${day}`;
+    // this.parameters.params.end_date = formattedDate;
   },
 
   async mounted() {
@@ -243,7 +244,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-mutasi-sok"
+          (item) => item.rute == "mutasi-sok"
         );
 
         let roles = {};
@@ -265,6 +266,12 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${year}-${month}`;
+    },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -355,6 +362,15 @@ export default {
     },
 
     async onExport() {
+      this.parameters.params.start_date =
+        this.parameters.params.type === "transfer_stok"
+          ? this.parameters.params.start_date
+          : this.formatDate(this.parameters.params.start_date);
+      this.parameters.params.end_date =
+        this.parameters.params.type === "transfer_stok"
+          ? this.parameters.params.end_date
+          : this.formatDate(this.parameters.params.end_date);
+
       try {
         let url =
           this.parameters.url +

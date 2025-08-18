@@ -29,7 +29,9 @@
       <div class="card-body">
         <div class="w-full mt-2 mb-3">
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Download</label>
               <select
@@ -78,7 +80,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Wilayah</label>
+              <label class="w-[50%]" for="group_item_id_1">Region</label>
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
