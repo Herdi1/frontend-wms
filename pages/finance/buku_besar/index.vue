@@ -526,32 +526,21 @@ export default {
     },
 
     last_balance() {
+      if (!this.data || !Array.isArray(this.data)) {
+        return 0;
+      }
+
       let creditAndDebit = this.data.reduce((itemPrev, itemNext) => {
-        // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-        //   if (
-        //     this.passiva_types.includes(this.chart_of_account_id.parent.type)
-        //   ) {
-        //     itemPrev +=
-        //       parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
-        //   } else {
-        //     itemPrev +=
-        //       parseFloat(itemNext.debit) - parseFloat(itemNext.credit);
-        //   }
-        // } else {
-        //   itemPrev += 0;
-        // }
+        const credit = parseFloat(itemNext.credit || 0) || 0;
+        const debit = parseFloat(itemNext.debit || 0) || 0;
 
-        itemPrev += parseFloat(itemNext.credit) - parseFloat(itemNext.debit);
-
-        return itemPrev;
+        return itemPrev + credit - debit;
       }, 0.0);
 
-      let last_balance =
-        parseFloat(
-          this.raw_data.first_balance ? this.raw_data.first_balance.saldo : 0.0
-        ) + parseFloat(creditAndDebit);
+      const firstBalance =
+        parseFloat(this.raw_data?.first_balance?.saldo || 0) || 0;
 
-      return last_balance;
+      return firstBalance + creditAndDebit;
     },
   },
 

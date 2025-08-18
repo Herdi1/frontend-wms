@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="min-h-screen">
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
         <a href="javascript:;" class="text-primary hover:underline">Report</a>
@@ -29,7 +29,9 @@
       <div class="card-body">
         <div class="w-full mt-2 mb-3">
           <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-1 px-1">
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Download</label>
               <select
@@ -78,7 +80,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Wilayah</label>
+              <label class="w-[50%]" for="group_item_id_1">Region</label>
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -112,7 +114,7 @@
                 </li>
               </v-select>
             </div>
-            <div class="form-group w-full">
+            <!-- <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
                 type="date"
@@ -131,7 +133,7 @@
                 v-model="parameters.params.end_date"
                 :required="false"
               />
-            </div>
+            </div> -->
           </div>
 
           <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div>
@@ -184,8 +186,8 @@ export default {
           nama_wilayah: "",
           kode_gudang: "",
           nama_gudang: "",
-          start_date: "",
-          end_date: "",
+          // start_date: "",
+          // end_date: "",
         },
         form: {
           gudang_id: "",
@@ -219,7 +221,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "report-persediaan"
+          (item) => item.rute == "persediaan"
         );
 
         let roles = {};
@@ -341,13 +343,13 @@ export default {
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id +
-          // "&nama_wilayah=" +
-          // this.parameters.params.nama_wilayah +
-          "&start_date=" +
-          this.parameters.params.start_date +
-          "&end_date=" +
-          this.parameters.params.end_date;
+          this.parameters.form.wilayah_id.wilayah_id;
+        // "&nama_wilayah=" +
+        // this.parameters.params.nama_wilayah +
+        // "&start_date=" +
+        // this.parameters.params.start_date +
+        // "&end_date=" +
+        // this.parameters.params.end_date;
 
         this.$axios({
           method: "GET",
@@ -362,7 +364,7 @@ export default {
             link.href = window.URL.createObjectURL(blob);
 
             const disposition = res.headers["content-disposition"];
-            let filename = "laporan_mutasi_stok";
+            let filename = "laporan_persediaan";
             if (disposition && disposition.indexOf("filename=") !== 0) {
               filename = disposition
                 .split("filename=")[1]
