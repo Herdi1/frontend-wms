@@ -619,8 +619,8 @@ export default {
 
             newLastBalance =
               parseFloat(newLastBalance) +
-              parseFloat(item.credit) -
-              parseFloat(item.debit);
+              parseFloat(item.credit ?? 0) -
+              parseFloat(item.debit ?? 0);
 
             return {
               ...item,

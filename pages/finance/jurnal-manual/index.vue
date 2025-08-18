@@ -197,10 +197,10 @@
                         : "-"
                     }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     {{ item.total_debit ?? "" | formatPrice }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     {{ item.total_credit ?? "" | formatPrice }}
                   </td>
                   <td class="text-center border border-gray-300">
