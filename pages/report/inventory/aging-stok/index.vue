@@ -171,12 +171,17 @@
             </div>
           </div>
 
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div>
-
           <div class="flex gap-3 mt-3 justify-end">
             <button
+              @click="onPreview"
+              class="bg-green-600/80 hover:bg-green-600 shadow-lg hover:shadow-none p-2 text-white rounded-md"
+            >
+              <i class="fa fa-eye text-white font-bold mr-2"></i>
+              Preview
+            </button>
+            <button
               @click="onExport"
-              class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+              class="bg-blue-500/80 shadow hover:bg-blue-500 hover:shadow-none p-2 text-white rounded-md"
             >
               <i class="fa fa-file text-white font-bold mr-2"></i>
               Export
@@ -414,6 +419,37 @@ export default {
 
     onSetGroupItem(item) {
       this.parameters.form.group_item = item || "";
+    },
+
+    onPreview() {
+      let url =
+        this.parameters.url +
+        "?download=" +
+        this.parameters.params.download +
+        // "&type=" +
+        // this.parameters.params.type +
+        "&gudang_id=" +
+        this.parameters.form.gudang_id.gudang_id +
+        "&wilayah_id=" +
+        this.parameters.form.wilayah_id.wilayah_id +
+        "&group_item=" +
+        this.parameters.form.group_item.nama_group_item +
+        // "&nama_wilayah=" +
+        // this.parameters.params.nama_wilayah +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
+        "&mode=preview";
+
+      if (this.parameters.params.download === "pdf") {
+        let token = this.$cookiz
+          .get("auth._token.local")
+          .replace("Bearer ", "");
+        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      } else {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+      }
     },
 
     async onExport() {

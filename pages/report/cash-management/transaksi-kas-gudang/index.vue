@@ -9,7 +9,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Cash Management</a
+          Inventory</a
         >
       </li>
       <li
@@ -45,7 +45,7 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang</label>
+              <label class="w-[50%]" for="group_item_id_1">Gudang </label>
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -114,6 +114,26 @@
                 </li>
               </v-select>
             </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Awal"
+                type="date"
+                name="periode_awal"
+                :isHorizontal="true"
+                v-model="parameters.params.start_date"
+                :required="false"
+              />
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="false"
+              />
+            </div>
           </div>
           <div class="flex gap-3 mt-3 justify-end">
             <button
@@ -145,7 +165,7 @@ export default {
 
   head() {
     return {
-      title: "Laporan Revenue dan Biaya Gudang",
+      title: "Laporan Transaksi Kas Gudang",
     };
   },
 
@@ -156,10 +176,10 @@ export default {
 
   data() {
     return {
-      title: "Laporan Revenue dan Biaya Gudang",
+      title: "Laporan Transaksi Kas Gudang",
       isLoadingData: false,
       parameters: {
-        url: "report/revenue-biaya-gudang/export",
+        url: "report/transaksi-kas-gudang/export",
         params: {
           download: "pdf",
           start_date: "",
@@ -190,7 +210,6 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
-      // "lookup_custom3",
     ]),
 
     getRoles() {
@@ -198,7 +217,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "revenue-biaya-gudang"
+          (item) => item.rute == "transaksi-kas-gudang"
         );
 
         let roles = {};
@@ -312,14 +331,10 @@ export default {
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
-        // "&type=" +
-        // this.parameters.params.type +
         "&gudang_id=" +
         this.parameters.form.gudang_id.gudang_id +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
-        // "&nama_wilayah=" +
-        // this.parameters.params.nama_wilayah +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -343,14 +358,10 @@ export default {
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          // "&type=" +
-          // this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
-          // "&nama_wilayah=" +
-          // this.parameters.params.nama_wilayah +
           "&start_date=" +
           this.parameters.params.start_date +
           "&end_date=" +
@@ -370,7 +381,7 @@ export default {
           link.href = window.URL.createObjectURL(blob);
 
           const disposition = res.headers["content-disposition"];
-          let filename = "laporan_revenue_biaya_gudang";
+          let filename = "laporan_transaksi_kas_gudang";
           if (disposition && disposition.indexOf("filename=") !== 0) {
             filename = disposition
               .split("filename=")[1]

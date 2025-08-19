@@ -1011,6 +1011,10 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
+        this.form.provinsi_id = res.data.provinsi;
+        this.form.provinsi_id_pemilik = res.data.provinsi_pemilik;
+        this.form.kota_id = res.data.kota;
+        this.form.kota_id_pemilik = res.data.kota_pemilik;
 
         this.isLoadingPage = false;
       }
@@ -1084,6 +1088,22 @@ export default {
 
       let formData = {
         ...this.form,
+        provinsi_id:
+          typeof this.form.provinsi_id === "object"
+            ? this.form.provinsi_id.provinsi_id
+            : this.form.provinsi_id,
+        provinsi_id_pemilik:
+          typeof this.form.provinsi_id_pemilik === "object"
+            ? this.form.provinsi_id_pemilik.provinsi_id
+            : this.form.provinsi_id_pemilik,
+        kota_id:
+          typeof this.form.kota_id === "object"
+            ? this.form.kota_id.kota_id
+            : this.form.kota_id,
+        kota_id_pemilik:
+          typeof this.form.kota_id_pemilik === "object"
+            ? this.form.kota_id_pemilik.kota_id
+            : this.form.kota_id_pemilik,
       };
 
       formData.item_pelanggans = formData.item_pelanggans.map((item) => {

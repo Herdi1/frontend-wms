@@ -979,7 +979,7 @@
                   :loading="isLoadingGetSatuanStocklevel"
                   :options="lookup_defects.data"
                   :filterable="false"
-                  @search="onGetSatuanStocklevel"
+                  @search="onGetSatuanStockLevel"
                   v-model="parameters.form.satuan_id_stocklevel"
                   :reduce="(item) => item.satuan_id"
                   class="w-1/2 bg-white"
@@ -992,7 +992,7 @@
                   >
                     <span
                       v-if="lookup_defects.current_page > 1"
-                      @click="onGetSatuanStocklevel(search, false)"
+                      @click="onGetSatuanStockLevel(search, false)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Sebelumnya</span
                     >
@@ -1000,7 +1000,7 @@
                       v-if="
                         lookup_defects.last_page > lookup_defects.current_page
                       "
-                      @click="onGetSatuanStocklevel(search, true)"
+                      @click="onGetSatuanStockLevel(search, true)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
@@ -1167,6 +1167,17 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get("master/item-pelanggan/" + this.id);
         this.parameters.form = res.data;
+        this.parameters.form.item_id = res.data.item;
+        this.parameters.form.group_item_id_1 = res.data.group_item_1 ?? "";
+        this.parameters.form.group_item_id_2 = res.data.group_item_2 ?? "";
+        this.parameters.form.group_item_id_3 = res.data.group_item_3 ?? "";
+        this.parameters.form.group_item_id_4 = res.data.group_item_4 ?? "";
+        this.parameters.form.group_item_id_5 = res.data.group_item_5 ?? "";
+        this.parameters.form.kategori_id_1 = res.data.kategori_1;
+        this.parameters.form.kategori_id_2 = res.data.kategori_2;
+        this.parameters.form.kategori_id_3 = res.data.kategori_3;
+        this.parameters.form.kategori_id_4 = res.data.kategori_4;
+        this.parameters.form.kategori_id_5 = res.data.kategori_5 ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1234,6 +1245,46 @@ export default {
           typeof this.parameters.form.item_id === "object"
             ? this.parameters.form.item_id.item_id
             : this.parameters.form.item_id,
+        group_item_id_1:
+          typeof this.parameters.form.group_item_id_1 === "object"
+            ? this.parameters.form.group_item_id_1.group_item_id
+            : this.parameters.form.group_item_id_1,
+        group_item_id_2:
+          typeof this.parameters.form.group_item_id_2 === "object"
+            ? this.parameters.form.group_item_id_2.group_item_id
+            : this.parameters.form.group_item_id_2,
+        group_item_id_3:
+          typeof this.parameters.form.group_item_id_3 === "object"
+            ? this.parameters.form.group_item_id_3.group_item_id
+            : this.parameters.form.group_item_id_3,
+        group_item_id_4:
+          typeof this.parameters.form.group_item_id_4 === "object"
+            ? this.parameters.form.group_item_id_4.group_item_id
+            : this.parameters.form.group_item_id_4,
+        group_item_id_5:
+          typeof this.parameters.form.group_item_id_5 === "object"
+            ? this.parameters.form.group_item_id_5.group_item_id
+            : "",
+        kategori_id_1:
+          typeof this.parameters.form.kategori_id_1 === "object"
+            ? this.parameters.form.kategori_id_1.kategori_item_id
+            : this.parameters.form.kategori_id_1,
+        kategori_id_2:
+          typeof this.parameters.form.kategori_id_2 === "object"
+            ? this.parameters.form.kategori_id_2.kategori_item_id
+            : this.parameters.form.kategori_id_2,
+        kategori_id_3:
+          typeof this.parameters.form.kategori_id_3 === "object"
+            ? this.parameters.form.kategori_id_3.kategori_item_id
+            : this.parameters.form.kategori_id_3,
+        kategori_id_4:
+          typeof this.parameters.form.kategori_id_4 === "object"
+            ? this.parameters.form.kategori_id_4.kategori_item_id
+            : this.parameters.form.kategori_id_4,
+        kategori_id_5:
+          typeof this.parameters.form.kategori_id_5 === "object"
+            ? this.parameters.form.kategori_id_5.kategori_item_id
+            : this.parameters.form.kategori_id_5,
       };
 
       if (this.isEditable) {
@@ -1317,16 +1368,16 @@ export default {
         this.parameters.form.kebutuhan_palet = item.kebutuhan_palet;
         this.parameters.form.maksimal_tumpukan = item.maksimal_tumpukan;
         this.parameters.form.volume = item.volume;
-        this.parameters.form.group_item_id_1 = item.group_item_id_1;
-        this.parameters.form.group_item_id_2 = item.group_item_id_2;
-        this.parameters.form.group_item_id_3 = item.group_item_id_3;
-        this.parameters.form.group_item_id_4 = item.group_item_id_4;
-        this.parameters.form.group_item_id_5 = item.group_item_id_5;
-        this.parameters.form.kategori_id_1 = item.kategori_id_1;
-        this.parameters.form.kategori_id_2 = item.kategori_id_2;
-        this.parameters.form.kategori_id_3 = item.kategori_id_3;
-        this.parameters.form.kategori_id_4 = item.kategori_id_4;
-        this.parameters.form.kategori_id_5 = item.kategori_id_5;
+        this.parameters.form.group_item_id_1 = item.group_item_1;
+        this.parameters.form.group_item_id_2 = item.group_item_2;
+        this.parameters.form.group_item_id_3 = item.group_item_3;
+        this.parameters.form.group_item_id_4 = item.group_item_4;
+        this.parameters.form.group_item_id_5 = item.group_item_5;
+        this.parameters.form.kategori_id_1 = item.kategori_1;
+        this.parameters.form.kategori_id_2 = item.kategori_2;
+        this.parameters.form.kategori_id_3 = item.kategori_3;
+        this.parameters.form.kategori_id_4 = item.kategori_4;
+        this.parameters.form.kategori_id_5 = item.kategori_5;
         this.parameters.form.satuan_id = item.satuan_id;
         this.parameters.form.satuan_id_berat = item.satuan_id_berat;
         //   this.parameters.form.berat_bersih = item.berat_bersih;

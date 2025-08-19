@@ -9,7 +9,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Cash Management</a
+          Inventory</a
         >
       </li>
       <li
@@ -45,7 +45,22 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang</label>
+              <label for="" class="w-1/2">Tipe</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.type"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="historis">Historis</option>
+                <option value="laporan">Laporan</option>
+              </select>
+            </div>
+            <div
+              class="flex w-full m-1 pr-1"
+              v-if="parameters.params.type !== 'laporan'"
+            >
+              <label class="w-[50%]" for="group_item_id_1">Gudang </label>
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -80,15 +95,15 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Region</label>
+              <label class="w-[50%]" for="group_item_id_1">Coa</label>
               <v-select
-                label="nama_wilayah"
-                :loading="isLoadingGetWilayah"
+                label="nama_coa"
+                :loading="isLoadingGetCoa"
                 :options="lookup_custom2.data"
                 :filterable="false"
-                @search="onGetWilayah"
-                v-model="parameters.form.wilayah_id"
-                @input="onSetWilayah"
+                @search="onGetCoa"
+                v-model="parameters.form.coa_id"
+                @input="onSetCoa"
                 class="w-[50%] bg-white"
               >
                 <li
@@ -99,7 +114,7 @@
                 >
                   <span
                     v-if="lookup_custom2.current_page > 1"
-                    @click="onGetWilayah(search, false)"
+                    @click="onGetCoa(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -107,12 +122,32 @@
                     v-if="
                       lookup_custom2.last_page > lookup_custom2.current_page
                     "
-                    @click="onGetWilayah(search, true)"
+                    @click="onGetCoa(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
                 </li>
               </v-select>
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Awal"
+                type="date"
+                name="periode_awal"
+                :isHorizontal="true"
+                v-model="parameters.params.start_date"
+                :required="false"
+              />
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="false"
+              />
             </div>
           </div>
           <div class="flex gap-3 mt-3 justify-end">
@@ -145,29 +180,31 @@ export default {
 
   head() {
     return {
-      title: "Laporan Revenue dan Biaya Gudang",
+      title: "Laporan Saldo Kas Operasional",
     };
   },
 
   async mounted() {
     await this.onSearchGudang();
-    await this.onSearchWilayah();
+    await this.onSearchCoa();
   },
 
   data() {
     return {
-      title: "Laporan Revenue dan Biaya Gudang",
+      title: "Laporan Saldo Kas Operasional",
       isLoadingData: false,
+
       parameters: {
-        url: "report/revenue-biaya-gudang/export",
+        url: "report/saldo-kas-operasional/export",
         params: {
+          type: "",
           download: "pdf",
           start_date: "",
           end_date: "",
         },
         form: {
           gudang_id: "",
-          wilayah_id: "",
+          coa_id: "",
         },
       },
 
@@ -177,9 +214,9 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      isStopSearchWilayah: false,
-      isLoadingGetWilayah: false,
-      wilayah_search: "",
+      isStopSearchCoa: false,
+      isLoadingGetCoa: false,
+      coa_search: "",
     };
   },
 
@@ -190,7 +227,6 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
-      // "lookup_custom3",
     ]),
 
     getRoles() {
@@ -198,7 +234,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "revenue-biaya-gudang"
+          (item) => item.rute == "saldo-kas-operasional"
         );
 
         let roles = {};
@@ -264,13 +300,13 @@ export default {
       this.parameters.form.gudang_id = item || "";
     },
 
-    onGetWilayah(search, isNext) {
+    onGetCoa(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchWilayah);
+      clearTimeout(this.isStopSearchCoa);
 
-      this.isStopSearchWilayah = setTimeout(() => {
-        this.wilayah_search = search;
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom2.current_page = isNext
@@ -280,46 +316,49 @@ export default {
           this.lookup_custom2.current_page = 1;
         }
 
-        this.onSearchWilayah();
+        this.onSearchCoa();
       }, 600);
     },
 
-    async onSearchWilayah() {
-      if (!this.isLoadingGetWilayah) {
-        this.isLoadingGetWilayah = true;
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "master/wilayah/get-wilayah",
+          url: "finance/coa/get-coa",
           lookup: "custom2",
           query:
             "?search=" +
-            this.wilayah_search +
+            this.coa_search +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetWilayah = false;
+        this.isLoadingGetCoa = false;
       }
     },
 
-    onSetWilayah(item) {
-      this.parameters.form.wilayah_id = item || "";
+    onSetCoa(item) {
+      this.parameters.form.coa_id = item || "";
     },
 
     onPreview() {
+      let gudangId =
+        this.parameters.form.gudang_id &&
+        this.parameters.form.gudang_id.gudang_id
+          ? this.parameters.form.gudang_id.gudang_id
+          : "";
       let url =
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
-        // "&type=" +
-        // this.parameters.params.type +
+        "&type=" +
+        this.parameters.params.type +
         "&gudang_id=" +
-        this.parameters.form.gudang_id.gudang_id +
-        "&wilayah_id=" +
-        this.parameters.form.wilayah_id.wilayah_id +
-        // "&nama_wilayah=" +
-        // this.parameters.params.nama_wilayah +
+        gudangId +
+        "&coa_id=" +
+        this.parameters.form.coa_id.coa_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -337,20 +376,28 @@ export default {
     },
 
     async onExport() {
+      if (this.parameters.params.type === "laporan") {
+        this.parameters.form.gudang_id = "";
+      }
+
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+
       try {
+        let gudangId =
+          this.parameters.form.gudang_id &&
+          this.parameters.form.gudang_id.gudang_id
+            ? this.parameters.form.gudang_id.gudang_id
+            : "";
         let url =
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          // "&type=" +
-          // this.parameters.params.type +
+          "&type=" +
+          this.parameters.params.type +
           "&gudang_id=" +
-          this.parameters.form.gudang_id.gudang_id +
-          "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id +
-          // "&nama_wilayah=" +
-          // this.parameters.params.nama_wilayah +
+          gudangId +
+          "&coa_id=" +
+          this.parameters.form.coa_id.coa_id +
           "&start_date=" +
           this.parameters.params.start_date +
           "&end_date=" +
@@ -370,7 +417,7 @@ export default {
           link.href = window.URL.createObjectURL(blob);
 
           const disposition = res.headers["content-disposition"];
-          let filename = "laporan_revenue_biaya_gudang";
+          let filename = "laporan_saldo_kas_operasional";
           if (disposition && disposition.indexOf("filename=") !== 0) {
             filename = disposition
               .split("filename=")[1]

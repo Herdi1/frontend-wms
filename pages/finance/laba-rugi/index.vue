@@ -137,11 +137,11 @@
             </tbody>
             <tbody v-if="data.length">
               <tr class="bg-gray-50">
-                <td colspan="2" class="font-bold uppercase">PROFIT/LOSE</td>
+                <td colspan="2" class="font-bold uppercase">PROFIT/LOSs</td>
               </tr>
               <tr>
                 <td>
-                  <span class="pl-3"> PROFIT/LOSE </span>
+                  <span class="pl-3"> PROFIT/LOSS </span>
                 </td>
                 <td class="text-right">
                   {{ real_profit_and_lose | formatPrice }}

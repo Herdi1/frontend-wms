@@ -169,10 +169,9 @@
               </select>
             </div>
 
-            <div
+            <!-- <div
               class="flex w-full m-1 pr-1"
               v-if="
-                // parameters.params.jenis === null ||
                 parameters.params.kategori === 'pembelian'
               "
             >
@@ -189,9 +188,9 @@
                 <option value="gudang">Gudang</option>
                 <option value="supplier">Supplier</option>
               </select>
-            </div>
+            </div> -->
 
-            <div
+            <!-- <div
               class="flex w-full m-1 pr-1"
               v-if="parameters.params.jenis_item === 'gudang'"
             >
@@ -228,9 +227,9 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
 
-            <div
+            <!-- <div
               class="flex w-full m-1 pr-1"
               v-if="parameters.params.jenis_item === 'wilayah'"
             >
@@ -267,9 +266,9 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
 
-            <div
+            <!-- <div
               class="flex w-full m-1 pr-1"
               v-if="parameters.params.jenis_item === 'group'"
             >
@@ -306,9 +305,9 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
 
-            <div
+            <!-- <div
               class="flex w-full m-1 pr-1"
               v-if="parameters.params.jenis_item === 'supplier'"
             >
@@ -345,7 +344,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
 
             <div
               class="form-group w-full"
@@ -375,12 +374,17 @@
             </div>
           </div>
 
-          <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div>
-
           <div class="flex gap-3 mt-3 justify-end">
             <button
+              @click="onPreview"
+              class="bg-green-600/80 hover:bg-green-600 shadow-lg hover:shadow-none p-2 text-white rounded-md"
+            >
+              <i class="fa fa-eye text-white font-bold mr-2"></i>
+              Preview
+            </button>
+            <button
               @click="onExport"
-              class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md"
+              class="bg-blue-500/80 shadow hover:bg-blue-500 hover:shadow-none p-2 text-white rounded-md"
             >
               <i class="fa fa-file text-white font-bold mr-2"></i>
               Export
@@ -684,6 +688,50 @@ export default {
 
     onSetSupplierJenis(item) {
       this.parameters.params.nama_supplier = item || "";
+    },
+
+    onPreview() {
+      this.parameters.params.start_date = this.formatDate(
+        this.parameters.params.start_date
+      );
+      this.parameters.params.end_date = this.formatDate(
+        this.parameters.params.end_date
+      );
+
+      let url =
+        this.parameters.url +
+        "?download=" +
+        this.parameters.params.download +
+        "&type=" +
+        this.parameters.params.type +
+        "&gudang_id=" +
+        this.parameters.form.gudang_id.gudang_id +
+        "&wilayah_id=" +
+        this.parameters.form.wilayah_id.wilayah_id +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
+        // "&jenis_item=" +
+        // this.parameters.params.jenis_item +
+        // "&nama_gudang=" +
+        // this.parameters.params.nama_gudang.nama_gudang +
+        // "&nama_wilayah=" +
+        // this.parameters.params.nama_wilayah.nama_wilayah +
+        // "&nama_group_item=" +
+        // this.parameters.params.nama_group.nama_group_item +
+        // "&nama_supplier=" +
+        // this.parameters.params.nama_supplier.nama_supplier +
+        "&mode=preview";
+
+      if (this.parameters.params.download === "pdf") {
+        let token = this.$cookiz
+          .get("auth._token.local")
+          .replace("Bearer ", "");
+        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      } else {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+      }
     },
 
     async onExport() {

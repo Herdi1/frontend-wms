@@ -1053,6 +1053,12 @@ export default {
         let response = await this.$axios.get("master/vendor/" + this.id);
 
         this.parameters.form = response.data;
+        this.parameters.form.provinsi_id = response.data.provinsi ?? "";
+        this.parameters.form.provinsi_id_pemilik =
+          response.data.provinsi_pemilik ?? "";
+        this.parameters.form.kota_id = response.data.kota ?? "";
+        this.parameters.form.kota_id_pemilik = response.data.kota_pemilik ?? "";
+        // this.parameters.form.
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1112,74 +1118,91 @@ export default {
 
       this.isLoadingForm = true;
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.vendor_id
-            ? this.parameters.form.vendor_id
-            : "",
-        },
+      let url = this.parameters.url;
+
+      let formData = {
+        ...this.parameters.form,
+        provinsi_id:
+          typeof this.parameters.form.provinsi_id === "object"
+            ? this.parameters.form.provinsi_id.provinsi_id
+            : this.parameters.form.provinsi_id,
+        provinsi_id_pemilik:
+          typeof this.parameters.form.provinsi_id_pemilik === "object"
+            ? this.parameters.form.provinsi_id_pemilik.provinsi_id
+            : this.parameters.form.provinsi_id_pemilik,
+        kota_id:
+          typeof this.parameters.form.kota_id === "object"
+            ? this.parameters.form.kota_id.kota_id
+            : this.parameters.form.kota_id,
+        kota_id_pemilik:
+          typeof this.parameters.form.kota_id_pemilik === "object"
+            ? this.parameters.form.kota_id_pemilik.kota_id
+            : this.parameters.form.kota_id_pemilik,
       };
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-
-        this.isEditable = false;
-        this.parameters.form = {
-          vendor_id_induk: "",
-          tipe_badan_hukum_id: "",
-          alias: "",
-          kode_referensi: "",
-          kode_vendor: "",
-          nama_vendor: "",
-          alamat_vendor: "",
-          kelurahan_id: "",
-          kecamatan_id: "",
-          kota_id: "",
-          provinsi_id: "",
-          negara_id: "",
-          kode_pos_id: "",
-          no_telp: "",
-          no_hp: "",
-          no_npwp: "",
-          email: "",
-          nama_cp: "",
-          telp_cp: "",
-          hp_cp: "",
-          nomor_siup: "",
-          group: "",
-          user_id_pic: "",
-          tipe_vendor_id: "",
-          longitude: "",
-          latitude: "",
-          radius: "",
-          nama_pemilik: "",
-          alamat_pemilik: "",
-          nik_pemilik: "",
-          negara_id_pemilik: "",
-          provinsi_id_pemilik: "",
-          kota_id_pemilik: "",
-          kelurahan_id_pemilik: "",
-          kecamatan_id_pemilik: "",
-          no_npwp_pemilik: "",
-        };
-        this.$refs.formValidate.reset();
-        this.$refs.ruteProvider.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.isLoadingForm = false;
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "PUT" : "POST",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " + (this.isEditable ? "Update" : "Tambah") + " Gudang"
+          );
+          if (!this.isEditable) {
+            this.parameters.form = {
+              vendor_id_induk: "",
+              tipe_badan_hukum_id: "",
+              alias: "",
+              kode_referensi: "",
+              kode_vendor: "",
+              nama_vendor: "",
+              alamat_vendor: "",
+              kelurahan_id: "",
+              kecamatan_id: "",
+              kota_id: "",
+              provinsi_id: "",
+              negara_id: "",
+              kode_pos_id: "",
+              no_telp: "",
+              no_hp: "",
+              no_npwp: "",
+              email: "",
+              nama_cp: "",
+              telp_cp: "",
+              hp_cp: "",
+              nomor_siup: "",
+              group: "",
+              user_id_pic: "",
+              tipe_vendor_id: "",
+              longitude: "",
+              latitude: "",
+              radius: "",
+              nama_pemilik: "",
+              alamat_pemilik: "",
+              nik_pemilik: "",
+              negara_id_pemilik: "",
+              provinsi_id_pemilik: "",
+              kota_id_pemilik: "",
+              kelurahan_id_pemilik: "",
+              kecamatan_id_pemilik: "",
+              no_npwp_pemilik: "",
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+          this.$refs.ruteProvider.reset();
+        });
     },
 
     //Negara Methods Start
