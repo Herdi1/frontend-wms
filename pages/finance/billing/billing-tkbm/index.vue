@@ -113,6 +113,7 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -154,12 +155,17 @@
                   <th class="border border-gray-300">Pajak</th>
                   <th class="border border-gray-300">Grand Total</th>
                   <th class="w-[5%] border border-gray-300">Print</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
+
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -171,10 +177,12 @@
                   <td class="border border-gray-300">
                     <div>
                       <div>
-                        {{ item.kode_billing_tkbm }}
+                        {{ item.kode_billing }}
                       </div>
                       <span class="text-blue-500"
-                        ><i>Dibuat oleh: {{ item.user.nama_lengkap }}</i></span
+                        ><i
+                          >Dibuat oleh: {{ item.user_input.nama_lengkap }}</i
+                        ></span
                       >
                     </div>
                   </td>
@@ -194,15 +202,13 @@
                     }}
                   </td>
                   <td class="w-[30%] border border-gray-300">
-                    {{ item.total ?? "" | formatPrice }}
+                    Rp {{ item.total ?? "" | formatPrice }}
                   </td>
                   <td class="border border-gray-300">
-                    {{
-                      item.tipe_ppn ? item.tipe_ppn.kode_ppn : "Tidak Ditemukan"
-                    }}
+                    Rp {{ item.tax | formatPrice }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.grand_total | formatPrice }}
+                    Rp {{ item.grand_total | formatPrice }}
                   </td>
                   <td class="text-center border border-gray-300">
                     <button
@@ -214,11 +220,7 @@
                       <i class="fas fa-print text-primary"></i>
                     </button>
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -255,9 +257,9 @@ export default {
     };
   },
 
-  created() {
+  async created() {
     this.set_data([]);
-    this.onLoad();
+    await this.onLoad();
   },
 
   mounted() {
@@ -389,12 +391,14 @@ export default {
     },
 
     onEdit(item) {
-      this.$router.push("/finance/billing/billing-tkbm/" + item.jurnal_id);
+      this.$router.push(
+        "/finance/billing/billing-tkbm/" + item.billing_tkbm_id
+      );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/billing/billing-tkbm/detail/${item.gudang_id}`
+        `/finance/billing/billing-tkbm/detail/${item.billing_tkbm_id}`
       );
     },
 
@@ -439,10 +443,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = page;
 
-      this.parameters.form.checkboxs = [];
-      if (document.getElementById("checkAll")) {
-        document.getElementById("checkAll").checked = false;
-      }
+      // this.parameters.form.checkboxs = [];
+      // if (document.getElementById("checkAll")) {
+      //   document.getElementById("checkAll").checked = false;
+      // }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
