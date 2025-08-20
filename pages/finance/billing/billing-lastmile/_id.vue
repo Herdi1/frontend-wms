@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Billing TKBM
+          {{ isEditable ? "Edit" : "Tambah" }} Billing Lastmile
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -123,7 +123,7 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <div class="form-group flex items-center">
+                  <!-- <div class="form-group flex items-center">
                     <label for="pelanggan_id" class="w-1/2"
                       >Jenis <span class="text-danger">*</span></label
                     >
@@ -137,7 +137,7 @@
                       <option value="inbound">Inbound</option>
                       <option value="outbound">Outbound</option>
                     </select>
-                  </div>
+                  </div> -->
                   <ValidationProvider name="tipe_ppn_id" class="w-full mt-1">
                     <div
                       slot-scope="{ errors, valid }"
@@ -280,7 +280,7 @@
                     <button
                       v-if="!isEditable"
                       type="button"
-                      @click="addDetailBillingTkbm"
+                      @click="addDetailBillingLastmile"
                       class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                     >
                       <i class="fas fa-plus"></i>
@@ -294,7 +294,7 @@
                     class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
                   >
                     <!-- :class="
-                      form.billing_tkbm_details.length ? 'mb-[300px]' : ''
+                      form.billing_lastmile_details.length ? 'mb-[300px]' : ''
                     " -->
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
@@ -302,11 +302,11 @@
                         <th class="w-[200px] border border-gray-300">
                           Kode Transaksi
                         </th>
-                        <th class="w-[200px] border border-gray-300">
+                        <!-- <th class="w-[200px] border border-gray-300">
                           Dasar Perhitungan
                         </th>
                         <th class="w-[200px] border border-gray-300">Berat</th>
-                        <th class="w-[200px] border border-gray-300">Volume</th>
+                        <th class="w-[200px] border border-gray-300">Volume</th> -->
                         <th class="w-[200px] border border-gray-300">Jumlah</th>
                         <th class="w-[200px] border border-gray-300">
                           Nominal
@@ -321,21 +321,21 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(item, index) in form.billing_tkbm_details"
+                        v-for="(item, index) in form.billing_lastmile_details"
                         :key="index"
                         style="border-top: 0.5px solid lightgray"
                         class="align-top mx-0"
                       >
                         <td class="border border-gray-300">
-                          <p>{{ item.item_gudang.nama_item }}</p>
-                          <p>{{ item.item_gudang.kode_item }}</p>
+                          <p>{{ item.lokasi.nama_lokasi }}</p>
+                          <p>{{ item.lokasi.kode_lokasi }}</p>
                         </td>
                         <td class="border border-gray-300">
                           <p>
                             {{ item.kode_referensi }}
                           </p>
                         </td>
-                        <td class="border border-gray-300">
+                        <!-- <td class="border border-gray-300">
                           {{ item.dasar_perhitungan }}
                         </td>
                         <td class="border border-gray-300">
@@ -343,7 +343,7 @@
                         </td>
                         <td class="border border-gray-300">
                           {{ item.volume }}
-                        </td>
+                        </td> -->
                         <td class="border border-gray-300">
                           {{ item.jumlah }}
                         </td>
@@ -368,7 +368,7 @@
                       <tr>
                         <td
                           class="border border-gray-300 text-right font-bold"
-                          colspan="7"
+                          colspan="4"
                         >
                           Total
                         </td>
@@ -379,7 +379,7 @@
                       <tr>
                         <td
                           class="border border-gray-300 text-right font-bold"
-                          colspan="7"
+                          colspan="4"
                         >
                           Pajak
                         </td>
@@ -390,7 +390,7 @@
                       <tr>
                         <td
                           class="border border-gray-300 text-right font-bold"
-                          colspan="7"
+                          colspan="4"
                         >
                           Grand Total
                         </td>
@@ -424,7 +424,7 @@ export default {
 
   head() {
     return {
-      title: "Billing TKBM",
+      title: "Billing Lastmile",
     };
   },
 
@@ -437,38 +437,37 @@ export default {
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
-      title: "Billing TKBM",
+      title: "Billing Lastmile",
 
-      url: "finance/billing-tkbm",
+      url: "finance/billing-lastmile",
       form: {
-        billing_tkbm_id: "",
+        billing_lastmile_id: "",
         gudang_id: "",
         pelanggan_id: "",
         tipe_ppn_id: "",
         periode_awal: "",
         periode_akhir: "",
-        jenis: "inbound",
-        kode_billing_tkbm: "",
+        kode_billing_lastmile: "",
         total: "",
         tax: "",
         grand_total: "",
         keterangan: "",
         status_billing: "DIAJUKAN",
-        billing_tkbm_details: [],
+        billing_lastmile_details: [],
       },
       default_form: {
-        billing_tkbm_id: "",
+        billing_lastmile_id: "",
         gudang_id: "",
         pelanggan_id: "",
         tipe_ppn_id: "",
         periode_awal: "",
         periode_akhir: "",
-        kode_billing_tkbm: "",
+        kode_billing_lastmile: "",
         total: "",
         tax: "",
         grand_total: "",
         keterangan: "",
-        billing_tkbm_details: [],
+        billing_lastmile_details: [],
       },
 
       isStopSearchGudang: false,
@@ -505,10 +504,12 @@ export default {
       const formattedDate = `${year}-${month}-${day}`;
       this.form.tanggal = formattedDate;
       if (this.isEditable) {
-        let response = await this.$axios.get("finance/billing-tkbm/" + this.id);
+        let response = await this.$axios.get(
+          "finance/billing-lastmile/" + this.id
+        );
 
         Object.keys(this.form).forEach((item) => {
-          if (item != "billing_tkbm_details") {
+          if (item != "billing_lastmile_details") {
             this.form[item] = response.data[item];
           }
         });
@@ -518,11 +519,11 @@ export default {
         this.form.tipe_ppn_id = response.data.tipe_ppn;
         this.form.mata_uang_id = response.data.mata_uang;
 
-        this.form.billing_tkbm_details = response.data.billing_tkbm_details.map(
-          (item) => {
+        this.form.billing_lastmile_details =
+          response.data.billing_lastmile_details.map((item) => {
             return {
               ...item,
-              billing_tkbm_detail_id: item || "",
+              billing_lastmile_detail_id: item || "",
               tax:
                 this.form.tipe_ppn_id.tipe_ppn_id == 3
                   ? parseFloat(item.nominal_satuan) -
@@ -560,27 +561,17 @@ export default {
                     parseFloat(item.nominal_satuan)
                   : parseFloat(item.nominal_satuan),
               total:
-                item.dasar_perhitungan === "QTY"
-                  ? parseFloat(item.nominal_satuan) * parseFloat(item.jumlah)
-                  : item.dasar_perhitungan === "BERAT"
-                  ? parseFloat(item.berat) *
-                    parseFloat(item.nominal_satuan) *
-                    parseFloat(item.jumlah)
-                  : item.dasar_perhitungan === "VOLUME"
-                  ? parseFloat(item.volume) *
-                    parseFloat(item.nominal_satuan) *
-                    parseFloat(item.jumlah)
-                  : item.total,
+                parseFloat(item.nominal_satuan) * parseFloat(item.jumlah) ||
+                item.total,
             };
-          }
-        );
+          });
 
         this.form.total = 0;
-        this.form.billing_tkbm_details.forEach((item) => {
+        this.form.billing_lastmile_details.forEach((item) => {
           this.form.total += item.total;
         });
         this.form.tax = 0;
-        this.form.billing_tkbm_details.forEach((item) => {
+        this.form.billing_lastmile_details.forEach((item) => {
           let totalTax =
             (parseFloat(item.total) * parseFloat(this.form.tipe_ppn_id.nilai)) /
             100;
@@ -595,7 +586,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      this.$router.push("/finance/billing/billing-tkbm");
+      this.$router.push("/finance/billing/billing-lastmile");
     }
   },
 
@@ -626,7 +617,7 @@ export default {
 
       this.isLoadingForm = true;
 
-      let url = "finance/billing-tkbm";
+      let url = "finance/billing-lastmile";
 
       let formData = {
         ...this.form,
@@ -648,13 +639,14 @@ export default {
             : this.form.mata_uang_id,
       };
 
-      formData.billing_tkbm_details = formData.billing_tkbm_details.map(
+      formData.billing_lastmile_details = formData.billing_lastmile_details.map(
         (item) => {
           return {
             ...item,
-            billing_tkbm_detail_id:
-              typeof this.form.billing_tkbm_detail_id === "object"
-                ? this.form.billing_tkbm_detail_id.billing_tkbm_detail_id
+            billing_lastmile_detail_id:
+              typeof this.form.billing_lastmile_detail_id === "object"
+                ? this.form.billing_lastmile_detail_id
+                    .billing_lastmile_detail_id
                 : "",
           };
         }
@@ -868,7 +860,7 @@ export default {
     },
 
     onSelectItemGudang(item, index) {
-      this.form.billing_tkbm_details[index].item_gudang_id = item || "";
+      this.form.billing_lastmile_details[index].item_gudang_id = item || "";
     },
 
     //mata uang
@@ -915,9 +907,9 @@ export default {
       this.form.mata_uang_id = item || "";
     },
 
-    async addDetailBillingTkbm() {
+    async addDetailBillingLastmile() {
       const tagihanBilling = await this.$axios.get(
-        "/finance/billing-tkbm/get-tagihan-billing-tkbm",
+        "/finance/billing-lastmile/get-tagihan-billing-lastmile",
         {
           params: {
             gudang_id: this.form.gudang_id.gudang_id,
@@ -929,17 +921,11 @@ export default {
         }
       );
 
-      this.form.billing_tkbm_details = tagihanBilling.data.map((item) => {
+      this.form.billing_lastmile_details = tagihanBilling.data.map((item) => {
         return {
           ...item,
-          referensi_id:
-            this.form.jenis === "inbound"
-              ? item.tagihan_inbound_id
-              : item.tagihan_pick_order_id,
-          kode_referensi:
-            this.form.jenis === "inbound"
-              ? item.inbound.kode_inbound
-              : item.pick_order_detail.kode_delivery_order,
+          referensi_id: item.tagihan_lastmile_id,
+          kode_referensi: item.shipment.kode_shipment,
           // tax:
           //   this.form.tipe_ppn_id.tipe_ppn_id == 3
           //     ? parseFloat(item.nominal_satuan) -
@@ -972,18 +958,9 @@ export default {
           //         100 +
           //       parseFloat(item.nominal_satuan)
           //     : item.nominal_satuan,
-          total:
-            item.dasar_perhitungan === "QTY"
-              ? parseFloat(item.nominal_satuan) * parseFloat(item.jumlah)
-              : item.dasar_perhitungan === "BERAT"
-              ? parseFloat(item.berat) *
-                parseFloat(item.nominal_satuan) *
-                parseFloat(item.jumlah)
-              : item.dasar_perhitungan === "VOLUME"
-              ? parseFloat(item.volume) *
-                parseFloat(item.nominal_satuan) *
-                parseFloat(item.jumlah)
-              : 0,
+          berat: item.berat > 0 ? item.berat : 1,
+          volume: item.volume > 0 ? item.volume : 1,
+          total: parseFloat(item.nominal_satuan) * parseFloat(item.jumlah) || 0,
           // this.form.tipe_ppn_id.tipe_ppn_id == 3
           //   ? (item.nominal_satuan -
           //       (parseFloat(item.nominal_satuan) -
@@ -1004,11 +981,11 @@ export default {
       });
 
       this.form.total = 0;
-      this.form.billing_tkbm_details.forEach((item) => {
+      this.form.billing_lastmile_details.forEach((item) => {
         this.form.total += item.total;
       });
       this.form.tax = 0;
-      this.form.billing_tkbm_details.forEach((item) => {
+      this.form.billing_lastmile_details.forEach((item) => {
         let totalTax =
           (parseFloat(item.total) * parseFloat(this.form.tipe_ppn_id.nilai)) /
           100;

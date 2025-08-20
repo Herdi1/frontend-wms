@@ -23,6 +23,7 @@
           <th class="w-20 border border-gray-300">Quantity</th>
           <th class="w-20 border border-gray-300">Valuation</th>
           <th class="w-20 border border-gray-300">Alasan</th>
+          <th class="w-20 border border-gray-300">Edit</th>
           <th class="w-20 border border-gray-300">Hapus</th>
         </tr>
       </thead>
@@ -45,7 +46,14 @@
           </td>
           <td class="w-20 border border-gray-300">{{ retur.alasan }}</td>
           <td class="w-20 border border-gray-300 text-center text-gray-500">
-            <i class="fa fa-trash"></i>
+            <button type="button" @click="self.editRetur(retur)">
+              <i class="fa fa-pen"></i>
+            </button>
+          </td>
+          <td class="w-20 border border-gray-300 text-center text-gray-500">
+            <button type="button" @click="self.deleteRetur(retur)">
+              <i class="fa fa-trash"></i>
+            </button>
           </td>
         </tr>
       </tbody>

@@ -217,7 +217,9 @@
                 </div>
               </template>
               <template #ReturBarang>
-                <ReturBarang :self="{ parameters, showRetur }" />
+                <ReturBarang
+                  :self="{ parameters, showRetur, editRetur, deleteRetur }"
+                />
               </template>
             </tab-component>
           </div>
@@ -295,6 +297,7 @@
                       type="file"
                       name="file"
                       id="file"
+                      @change="handleFileChange"
                       class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                     />
                   </div>
@@ -539,12 +542,13 @@ export default {
           file_bukti_selesai: "",
           riwayat_rute_shipments: [],
 
+          shipment_retur_details: [],
+          shipment_retur_detail_id: "",
           shipment_detail_id: "",
           quantity_retur: "",
           quantity_kirim: "",
           alasan: "",
           valuation_id: "",
-          shipment_retur_details: [],
         },
       },
 
@@ -665,6 +669,7 @@ export default {
 
       if (this.parameters.form.file instanceof File) {
         formData.append("file", this.parameters.form.file);
+        console.log("halo");
       }
 
       if (this.isEditable) {
@@ -696,9 +701,17 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
 
       this.isLoadingForm = true;
-      let url = `lastmile/riwayat-shipment/retur/${this.parameters.form.rute_shipment_id}`;
+      let url;
+
+      if (this.parameters.form.shipment_retur_detail_id) {
+        url = `lastmile/riwayat-shipment/update-retur/${this.parameters.form.shipment_retur_detail_id}`;
+      } else {
+        url = `lastmile/riwayat-shipment/retur/${this.parameters.form.rute_shipment_id}`;
+      }
 
       let formData = {
+        shipment_retur_detail_id:
+          this.parameters.form.shipment_retur_detail_id || "",
         shipment_detail_id:
           typeof this.parameters.form.shipment_detail_id === "object"
             ? this.parameters.form.shipment_detail_id.shipment_detail_id
@@ -714,19 +727,21 @@ export default {
       };
 
       this.$axios({
-        method: "post",
+        method: this.parameters.form.shipment_retur_detail_id ? "put" : "post",
         url: url,
         data: formData,
       })
         .then((res) => {
           this.$toaster.success("Data berhasil di  Tambah");
+          this.getRuteShipment();
+          this.formReturReset();
+          this.hideRetur();
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;
-          this.formResetReset();
         });
     },
 
@@ -737,6 +752,7 @@ export default {
     },
 
     formReturReset() {
+      this.parameters.form.shipment_retur_detail_id = "";
       this.parameters.form.shipment_detail_id = "";
       this.parameters.form.quantity_retur = "";
       this.parameters.form.quantity_kirim = "";
@@ -768,7 +784,7 @@ export default {
     },
 
     handleDo(value) {
-      console.log(value);
+      this.parameters.form.shipment_detail_id = value;
       this.parameters.form.quantity_kirim = value.quantity;
     },
 
@@ -817,12 +833,41 @@ export default {
     hide() {
       this.showModal = false;
     },
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.parameters.form.file = file;
+    },
 
     showRetur() {
       this.showModalRetur = true;
     },
     hideRetur() {
       this.showModalRetur = false;
+    },
+    editRetur(item) {
+      this.showModalRetur = true;
+      this.parameters.form.shipment_retur_detail_id =
+        item.shipment_retur_detail_id;
+      this.parameters.form.shipment_detail_id = item.shipment_detail;
+      this.parameters.form.quantity_retur = item.quantity_retur;
+      this.parameters.form.quantity_kirim = item.quantity_kirim;
+      this.parameters.form.alasan = item.alasan;
+      this.parameters.form.valuation_id = item.valuation_id;
+    },
+    async deleteRetur(item) {
+      try {
+        let url = `lastmile/riwayat-shipment/delete-retur/${item.shipment_retur_detail_id}`;
+
+        await this.$axios({
+          url: url,
+          method: "delete",
+        }).then((res) => {
+          this.$toaster.success("Data berhasil di  Tambah");
+          this.getRuteShipment();
+        });
+      } catch (err) {
+        this.$globalErrorToaster(this.$toaster, err);
+      }
     },
   },
 };

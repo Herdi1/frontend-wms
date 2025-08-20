@@ -1339,38 +1339,40 @@ export default {
 
   watch: {
     "parameters.form.biaya_pick_orders": {
-      deep: true,
       handler(newVal) {
-        if (!Array.isArray(newVal)) return;
-        newVal.forEach((item) => {
-          if (item.dasar_perhitungan === "QTY") {
-            item.total = item.jumlah * item.nilai_kontrak;
-          } else if (item.dasar_perhitungan === "BERAT") {
-            item.total = item.jumlah * item.nilai_kontrak * item.berat;
-          } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total = item.jumlah * item.nilai_kontrak * item.volume;
-          } else {
-            item.total = 0;
-          }
-        });
+        if (!this.isLoadingPage) {
+          newVal.forEach((item) => {
+            if (item.dasar_perhitungan === "QTY") {
+              item.total = item.jumlah * item.nilai_kontrak;
+            } else if (item.dasar_perhitungan === "BERAT") {
+              item.total = item.jumlah * item.nilai_kontrak * item.berat;
+            } else if (item.dasar_perhitungan === "VOLUME") {
+              item.total = item.jumlah * item.nilai_kontrak * item.volume;
+            } else {
+              item.total = 0;
+            }
+          });
+        }
       },
+      deep: true,
     },
     "parameters.form.tagihan_pick_orders": {
-      deep: true,
       handler(newVal) {
-        if (!Array.isArray(newVal)) return;
-        newVal.forEach((item) => {
-          if (item.dasar_perhitungan === "QTY") {
-            item.total = item.jumlah * item.nilai_kontrak;
-          } else if (item.dasar_perhitungan === "BERAT") {
-            item.total = item.jumlah * item.nilai_kontrak * item.berat;
-          } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total = item.jumlah * item.nilai_kontrak * item.volume;
-          } else {
-            item.total = 0;
-          }
-        });
+        if (!this.isLoadingPage) {
+          newVal.forEach((item) => {
+            if (item.dasar_perhitungan === "QTY") {
+              item.total = item.jumlah * item.nilai_kontrak;
+            } else if (item.dasar_perhitungan === "BERAT") {
+              item.total = item.jumlah * item.nilai_kontrak * item.berat;
+            } else if (item.dasar_perhitungan === "VOLUME") {
+              item.total = item.jumlah * item.nilai_kontrak * item.volume;
+            } else {
+              item.total = 0;
+            }
+          });
+        }
       },
+      deep: true,
     },
   },
 
@@ -1503,6 +1505,8 @@ export default {
             res.data.tagihan_pick_orders.map((item) => {
               return {
                 ...item,
+                tagihan_pick_order_id: item,
+                total: 0,
                 tagihan_inbound_id: item,
                 nama_item: item.item_gudang.nama_item,
                 kode_item: item.item_gudang.kode_item,
@@ -1565,6 +1569,20 @@ export default {
       "lookup_regus", //vendor
       "lookup_sellers", //pelanggan
     ]),
+
+    calculateTotal(item) {
+      let total;
+      if (item.dasar_perhitungan === "QTY") {
+        total = item.jumlah * item.nilai_kontrak;
+      } else if (item.dasar_perhitungan === "BERAT") {
+        total = item.jumlah * item.nilai_kontrak * item.berat;
+      } else if (item.dasar_perhitungan === "VOLUME") {
+        total = item.jumlah * item.nilai_kontrak * item.volume;
+      } else {
+        total = 0;
+      }
+      return total;
+    },
   },
 
   methods: {
