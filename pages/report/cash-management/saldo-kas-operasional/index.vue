@@ -60,7 +60,9 @@
               class="flex w-full m-1 pr-1"
               v-if="parameters.params.type !== 'laporan'"
             >
-              <label class="w-[50%]" for="group_item_id_1">Gudang </label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -95,7 +97,9 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Coa</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Coa <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_coa"
                 :loading="isLoadingGetCoa"
@@ -344,11 +348,44 @@ export default {
     },
 
     onPreview() {
-      let gudangId =
+      if (this.parameters.params.type === "") {
+        this.$toaster.error("Mohon Pilih Type Terlebih Dahulu");
+        return;
+      }
+
+      if (this.parameters.params.type === "laporan") {
+        this.parameters.form.gudang_id = "";
+      } else if (this.parameters.params.type === "historis") {
+        if (
+          !this.parameters.form.gudang_id ||
+          (typeof this.parameters.form.gudang_id === "object" &&
+            !this.parameters.form.gudang_id.gudang_id)
+        ) {
+          this.$toaster.error(
+            "Mohon Pilih Gudang Terlebih Dahulu untuk Laporan Historis"
+          );
+          return;
+        }
+      }
+
+      if (!this.parameters.form.coa_id || !this.parameters.form.coa_id.coa_id) {
+        this.$toaster.error("Mohon Pilih COA Terlebih Dahulu");
+        return;
+      }
+
+      if (this.parameters.params.download === "pdf") {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+        return;
+      }
+
+      let gudangId = "";
+      if (
+        this.parameters.params.type === "historis" &&
         this.parameters.form.gudang_id &&
         this.parameters.form.gudang_id.gudang_id
-          ? this.parameters.form.gudang_id.gudang_id
-          : "";
+      ) {
+        gudangId = this.parameters.form.gudang_id.gudang_id;
+      }
       let url =
         this.parameters.url +
         "?download=" +
@@ -365,29 +402,45 @@ export default {
         this.parameters.params.end_date +
         "&mode=preview";
 
-      if (this.parameters.params.download === "pdf") {
-        let token = this.$cookiz
-          .get("auth._token.local")
-          .replace("Bearer ", "");
-        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-      } else {
-        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
-      }
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
     },
 
     async onExport() {
       if (this.parameters.params.type === "laporan") {
         this.parameters.form.gudang_id = "";
+      } else if (this.parameters.params.type === "historis") {
+        if (
+          !this.parameters.form.gudang_id ||
+          (typeof this.parameters.form.gudang_id === "object" &&
+            !this.parameters.form.gudang_id.gudang_id)
+        ) {
+          this.$toaster.error(
+            "Mohon Pilih Gudang Terlebih Dahulu untuk Laporan Historis"
+          );
+          return;
+        }
+      }
+
+      if (!this.parameters.form.coa_id || !this.parameters.form.coa_id.coa_id) {
+        this.$toaster.error("Mohon Pilih COA Terlebih Dahulu");
+        return;
       }
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
-        let gudangId =
+        // Determine gudang_id value based on type
+        let gudangId = "";
+        if (
+          this.parameters.params.type === "historis" &&
           this.parameters.form.gudang_id &&
           this.parameters.form.gudang_id.gudang_id
-            ? this.parameters.form.gudang_id.gudang_id
-            : "";
+        ) {
+          gudangId = this.parameters.form.gudang_id.gudang_id;
+        }
+        // Untuk type "laporan", gudangId tetap empty string
+
         let url =
           this.parameters.url +
           "?download=" +
@@ -405,31 +458,37 @@ export default {
           "&token=" +
           token;
 
+        // Execute axios request
         this.$axios({
           method: "GET",
           url: url,
           responseType: "blob",
-        }).then((res) => {
-          const blob = new Blob([res.data], {
-            type: res.headers["content-type"],
+        })
+          .then((res) => {
+            const blob = new Blob([res.data], {
+              type: res.headers["content-type"],
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+
+            const disposition = res.headers["content-disposition"];
+            let filename = "laporan_saldo_kas_operasional";
+            if (disposition && disposition.indexOf("filename=") !== -1) {
+              filename = disposition
+                .split("filename=")[1]
+                .replace(/"/g, "")
+                .trim();
+            }
+
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$globalErrorToaster(this.$toaster, err);
           });
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-
-          const disposition = res.headers["content-disposition"];
-          let filename = "laporan_saldo_kas_operasional";
-          if (disposition && disposition.indexOf("filename=") !== 0) {
-            filename = disposition
-              .split("filename=")[1]
-              .replace(/"/g, "")
-              .trim();
-          }
-
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        });
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);
       }

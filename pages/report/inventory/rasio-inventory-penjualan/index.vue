@@ -45,7 +45,9 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -80,7 +82,9 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Region</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Region <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -121,7 +125,7 @@
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group w-full">
@@ -131,7 +135,7 @@
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
-                :required="false"
+                :required="true"
               />
             </div>
           </div>
@@ -370,10 +374,21 @@ export default {
         "&mode=preview";
 
       if (this.parameters.params.download === "pdf") {
-        let token = this.$cookiz
-          .get("auth._token.local")
-          .replace("Bearer ", "");
-        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        if (
+          this.parameters.form.gudang_id &&
+          this.parameters.form.wilayah_id &&
+          this.parameters.params.start_date &&
+          this.parameters.params.end_date
+        ) {
+          let token = this.$cookiz
+            .get("auth._token.local")
+            .replace("Bearer ", "");
+          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        } else {
+          this.$toaster.error(
+            "Mohon Pilih Gudang, Region, Periode Awal dan Akhir Terlebih Dahulu"
+          );
+        }
       } else {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
       }
@@ -404,12 +419,17 @@ export default {
           "&end_date=" +
           this.parameters.params.end_date;
 
-        this.$axios({
-          method: "GET",
-          url: url,
-          responseType: "blob",
-        })
-          .then((res) => {
+        if (
+          this.parameters.form.gudang_id &&
+          this.parameters.form.wilayah_id &&
+          this.parameters.params.start_date &&
+          this.parameters.params.end_date
+        ) {
+          this.$axios({
+            method: "GET",
+            url: url,
+            responseType: "blob",
+          }).then((res) => {
             const blob = new Blob([res.data], {
               type: res.headers["content-type"],
             });
@@ -429,11 +449,12 @@ export default {
             document.body.appendChild(link);
             link.click();
             link.remove();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$globalErrorToaster(this.$toaster, err);
           });
+        } else {
+          this.$toaster.error(
+            "Mohon Pilih Gudang, Region, Periode Awal dan Akhir Terlebih Dahulu"
+          );
+        }
       } catch (error) {
         console.log(error);
         this.$globalErrorToaster(this.$toaster, error);

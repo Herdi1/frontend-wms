@@ -1,6 +1,6 @@
 <template>
   <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm min-h-screen"
   >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
@@ -20,7 +20,9 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="modal-body mt-4">
+          <div
+            class="modal-body mt-4 grid grid-cols-1 md:grid-cols-2 w-full gap-2 gap-x-4"
+          >
             <ValidationProvider
               ref="inputProvider"
               name="nama_provinsi"
@@ -154,6 +156,49 @@
                 </v-select>
               </div>
             </ValidationProvider>
+            <ValidationProvider
+              ref="inputProvider"
+              name="wilayah_id"
+              rules="required"
+            >
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="w-4/12"
+                  >Region<span class="text-danger">*</span></label
+                >
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_wilayah"
+                  :loading="isLoadingGetWilayah"
+                  :options="lookup_custom2.data"
+                  :filterable="false"
+                  @search="onGetWilayah"
+                  :reduce="(item) => item.wilayah_id"
+                  v-model="parameters.form.wilayah_id"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom2.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom2.current_page > 1"
+                      @click="onGetWilayah(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom2.last_page > lookup_custom2.current_page
+                      "
+                      @click="onGetWilayah(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </ValidationProvider>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -181,6 +226,10 @@ export default {
       isLoadingGetNegara: false,
       negara_search: "",
 
+      isStopSearchWilayah: false,
+      isLoadingGetWilayah: false,
+      wilayah_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -189,6 +238,7 @@ export default {
         url: "master/provinsi",
         form: {
           negara_id: "",
+          wilayah_id: "",
           kode_provinsi: "",
           kode_alternatif: "",
           nama_provinsi: "",
@@ -201,6 +251,7 @@ export default {
 
   async mounted() {
     await this.onSearchNegara();
+    await this.onSearchWilayah();
   },
 
   async created() {
@@ -216,7 +267,12 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
   },
 
   methods: {
@@ -252,6 +308,7 @@ export default {
         this.isEditable = false;
         this.parameters.form = {
           negara_id: "",
+          wilayah_id: "",
           kode_provinsi: "",
           kode_alternatif: "",
           nama_provinsi: "",
@@ -307,10 +364,50 @@ export default {
       }
     },
 
+    onGetWilayah(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchWilayah);
+
+      this.isStopSearchWilayah = setTimeout(() => {
+        this.wilayah_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchWilayah();
+      }, 600);
+    },
+
+    async onSearchWilayah() {
+      if (!this.isLoadingGetWilayah) {
+        this.isLoadingGetWilayah = true;
+
+        await this.lookUp({
+          url: "master/wilayah/get-wilayah",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.wilayah_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetWilayah = false;
+      }
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
         negara_id: "",
+        wilayah_id: "",
         kode_provinsi: "",
         kode_alternatif: "",
         nama_provinsi: "",

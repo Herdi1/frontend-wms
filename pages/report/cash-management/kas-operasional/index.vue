@@ -45,7 +45,9 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang </label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -80,7 +82,9 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Coa</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Coa <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_coa"
                 :loading="isLoadingGetCoa"
@@ -342,10 +346,14 @@ export default {
         this.parameters.params.end_date;
 
       if (this.parameters.params.download === "pdf") {
-        let token = this.$cookiz
-          .get("auth._token.local")
-          .replace("Bearer ", "");
-        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        if (this.parameters.form.gudang_id && this.parameters.form.coa_id) {
+          let token = this.$cookiz
+            .get("auth._token.local")
+            .replace("Bearer ", "");
+          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        } else {
+          this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
+        }
       } else {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
       }
@@ -369,31 +377,35 @@ export default {
           "&token=" +
           token;
 
-        this.$axios({
-          method: "GET",
-          url: url,
-          responseType: "blob",
-        }).then((res) => {
-          const blob = new Blob([res.data], {
-            type: res.headers["content-type"],
+        if (this.parameters.form.gudang_id && this.parameters.form.coa_id) {
+          this.$axios({
+            method: "GET",
+            url: url,
+            responseType: "blob",
+          }).then((res) => {
+            const blob = new Blob([res.data], {
+              type: res.headers["content-type"],
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+
+            const disposition = res.headers["content-disposition"];
+            let filename = "laporan_kas_operasional";
+            if (disposition && disposition.indexOf("filename=") !== 0) {
+              filename = disposition
+                .split("filename=")[1]
+                .replace(/"/g, "")
+                .trim();
+            }
+
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
           });
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-
-          const disposition = res.headers["content-disposition"];
-          let filename = "laporan_kas_operasional";
-          if (disposition && disposition.indexOf("filename=") !== 0) {
-            filename = disposition
-              .split("filename=")[1]
-              .replace(/"/g, "")
-              .trim();
-          }
-
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        });
+        } else {
+          this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
+        }
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);
       }

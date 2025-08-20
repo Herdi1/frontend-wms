@@ -1256,8 +1256,18 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
+        this.form.item_id = res.data.item;
+        this.form.group_item_id_1 = res.data.group_item_1 ?? "";
+        this.form.group_item_id_2 = res.data.group_item_2 ?? "";
+        this.form.group_item_id_3 = res.data.group_item_3 ?? "";
+        this.form.group_item_id_4 = res.data.group_item_4 ?? "";
+        this.form.group_item_id_5 = res.data.group_item_5 ?? "";
+        this.form.kategori_id_1 = res.data.kategori_1 ?? "";
+        this.form.kategori_id_2 = res.data.kategori_2 ?? "";
+        this.form.kategori_id_3 = res.data.kategori_3 ?? "";
+        this.form.kategori_id_4 = res.data.kategori_4 ?? "";
+        this.form.kategori_id_5 = res.data.kategori_5 ?? "";
         this.isLoadingPage = false;
-        console.log(this.form);
       }
     } catch (error) {
       this.$router.push("/master/item-gudang");
@@ -1331,6 +1341,46 @@ export default {
           typeof this.form.item_id === "object"
             ? this.form.item_id.item_id
             : this.form.item_id,
+        group_item_id_1:
+          typeof this.form.group_item_id_1 === "object"
+            ? this.form.group_item_id_1.group_item_id
+            : this.form.group_item_id_1,
+        group_item_id_2:
+          typeof this.form.group_item_id_2 === "object"
+            ? this.form.group_item_id_2.group_item_id
+            : this.form.group_item_id_2,
+        group_item_id_3:
+          typeof this.form.group_item_id_3 === "object"
+            ? this.form.group_item_id_3.group_item_id
+            : this.form.group_item_id_3,
+        group_item_id_4:
+          typeof this.form.group_item_id_4 === "object"
+            ? this.form.group_item_id_4.group_item_id
+            : this.form.group_item_id_4,
+        group_item_id_5:
+          typeof this.form.group_item_id_5 === "object"
+            ? this.form.group_item_id_5.group_item_id
+            : this.form.group_item_id_5,
+        kategori_id_1:
+          typeof this.form.kategori_id_1 === "object"
+            ? this.form.kategori_id_1.kategori_item_id
+            : this.form.kategori_id_1,
+        kategori_id_2:
+          typeof this.form.kategori_id_2 === "object"
+            ? this.form.kategori_id_2.kategori_item_id
+            : this.form.kategori_id_2,
+        kategori_id_3:
+          typeof this.form.kategori_id_3 === "object"
+            ? this.form.kategori_id_3.kategori_item_id
+            : this.form.kategori_id_3,
+        kategori_id_4:
+          typeof this.form.kategori_id_4 === "object"
+            ? this.form.kategori_id_4.kategori_item_id
+            : this.form.kategori_id_4,
+        kategori_id_5:
+          typeof this.form.kategori_id_5 === "object"
+            ? this.form.kategori_id_5.kategori_item_id
+            : this.form.kategori_id_5,
       };
 
       if (this.isEditable) {
@@ -1378,16 +1428,16 @@ export default {
         this.form.kebutuhan_palet = item.kebutuhan_palet;
         this.form.maksimal_tumpukan = item.maksimal_tumpukan;
         this.form.volume = item.volume;
-        this.form.group_item_id_1 = item.group_item_id_1;
-        this.form.group_item_id_2 = item.group_item_id_2;
-        this.form.group_item_id_3 = item.group_item_id_3;
-        this.form.group_item_id_4 = item.group_item_id_4;
-        this.form.group_item_id_5 = item.group_item_id_5;
-        this.form.kategori_id_1 = item.kategori_id_1;
-        this.form.kategori_id_2 = item.kategori_id_2;
-        this.form.kategori_id_3 = item.kategori_id_3;
-        this.form.kategori_id_4 = item.kategori_id_4;
-        this.form.kategori_id_5 = item.kategori_id_5;
+        this.form.group_item_id_1 = item.group_item_1;
+        this.form.group_item_id_2 = item.group_item_2;
+        this.form.group_item_id_3 = item.group_item_3;
+        this.form.group_item_id_4 = item.group_item_4;
+        this.form.group_item_id_5 = item.group_item_5;
+        this.form.kategori_id_1 = item.kategori_1;
+        this.form.kategori_id_2 = item.kategori_2;
+        this.form.kategori_id_3 = item.kategori_3;
+        this.form.kategori_id_4 = item.kategori_4;
+        this.form.kategori_id_5 = item.kategori_5;
       } else {
         this.form.nama_item = "";
         this.form.supplier_id = "";

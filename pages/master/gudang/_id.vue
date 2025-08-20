@@ -2811,9 +2811,13 @@ export default {
       this.onSearchProvinsi();
     },
     onSelectProvinsi() {
+      // if (item) {
+      //   this.form.wilayah_id = item.wilayah_id;
+      // } else {
+      // }
+      this.onSearchKota();
       this.form.kota_id = "";
       this.form.kecamatan_id = "";
-      this.onSearchKota();
     },
     onSelectKota() {
       this.kecamatan_id = "";

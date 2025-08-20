@@ -888,6 +888,10 @@ export default {
           radius: res.data.radius || 0,
           radius2: res.data.radius2 || 0,
           radius3: res.data.radius3 || 0,
+          provinsi_id: res.data.provinsi,
+          provinsi_id_pemilik: res.data.provinsi_pemilik,
+          kota_id: res.data.kota,
+          kota_id_pemilik: res.data.kota_pemilik,
         };
         this.isLoadingPage = false;
       }
@@ -951,6 +955,22 @@ export default {
           id: this.parameters.form.lokasi_id
             ? this.parameters.form.lokasi_id
             : "",
+          provinsi_id:
+            typeof this.parameters.form.provinsi_id === "object"
+              ? this.parameters.form.provinsi_id.provinsi_id
+              : this.parameters.form.provinsi_id,
+          provinsi_id_pemilik:
+            typeof this.parameters.form.provinsi_id_pemilik === "object"
+              ? this.parameters.form.provinsi_id_pemilik.provinsi_id
+              : this.parameters.form.provinsi_id_pemilik,
+          kota_id:
+            typeof this.parameters.form.kota_id === "object"
+              ? this.parameters.form.kota_id.kota_id
+              : this.parameters.form.kota_id,
+          kota_id_pemilik:
+            typeof this.parameters.form.kota_id_pemilik === "object"
+              ? this.parameters.form.kota_id_pemilik.kota_id
+              : this.parameters.form.kota_id_pemilik,
         },
       };
 
