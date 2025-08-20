@@ -221,7 +221,6 @@
                       <i class="fas fa-print text-primary"></i>
                     </button>
                   </td>
-
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >

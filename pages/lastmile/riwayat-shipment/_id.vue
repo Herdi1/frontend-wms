@@ -775,7 +775,7 @@ export default {
         await this.lookUp({
           url: `outbound/shipment/get-shipment-detail/${this.parameters.form.shipment_id}`,
           lookup: "custom6",
-          query: "?lokasi_id=" + this.parameters.form.lokasi_id_asal,
+          query: "?lokasi_id=" + this.parameters.form.lokasi_id_tujuan,
         });
 
         console.log(this.lookup_custom6);
@@ -862,7 +862,7 @@ export default {
           url: url,
           method: "delete",
         }).then((res) => {
-          this.$toaster.success("Data berhasil di  Tambah");
+          this.$toaster.error("Data berhasil di  Hapus");
           this.getRuteShipment();
         });
       } catch (err) {

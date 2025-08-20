@@ -1140,11 +1140,15 @@ export default {
             this.parameters.form.rute_shipments.map((item, index) => {
               return this.$axios
                 .get(
-                  `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_asal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
+                  `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_awal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
                 )
                 .then((res) => {
                   console.log(res);
-                  this.parameters.form.rute_shipments[index].jarak = res.data;
+                  this.parameters.form.rute_shipments[index].jarak =
+                    res.data.jarak;
+                  this.parameters.form.rute_shipments[
+                    index
+                  ].waktu_sampai_tujuan = res.data.waktu_sampai_tujuan;
                   // this.parameters.form.rute_shipments[index].biaya_bbm =
                   //   res.biaya_bbm;
                 });

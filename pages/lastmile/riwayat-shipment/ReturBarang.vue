@@ -42,7 +42,7 @@
             {{ retur.quantity_retur }}
           </td>
           <td class="w-20 border border-gray-300">
-            <!-- {{ retur.valuation.nama_valuation }} -->
+            {{ retur.valuation.nama_valuation }}
           </td>
           <td class="w-20 border border-gray-300">{{ retur.alasan }}</td>
           <td class="w-20 border border-gray-300 text-center text-gray-500">

@@ -183,10 +183,10 @@
 
                     <td class="border border-gray-300">{{ item.tanggal }}</td>
                     <td class="border border-gray-300">
-                      {{ item.kode_item ? item.kode_item : "-" }}
+                      {{ item.item_gudang ? item.item_gudang.kode_item : "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.nama_item ? item.nama_item : "-" }}
+                      {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                     </td>
                     <td class="border border-gray-300">
                       {{ item.quantity ? item.quantity : "-" }}
