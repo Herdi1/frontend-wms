@@ -272,7 +272,7 @@
                           >
                         </li>
                       </v-select> -->
-                      {{ item.zona_gudang.nama_zona_gudang }}
+                      {{ item.zona_gudang?.nama_zona_gudang ?? "-" }}
                     </td>
                     <td class="border border-gray-300">
                       <!-- <v-select
@@ -309,7 +309,7 @@
                           >
                         </li>
                       </v-select> -->
-                      {{ item.valuation.nama_valuation }}
+                      {{ item.valuation?.nama_valuation ?? "-" }}
                     </td>
                     <td class="border border-gray-300">
                       <div class="mt-1">
@@ -350,7 +350,8 @@
                         </v-select> -->
                         <p class="text-right">
                           {{
-                            item.slot_penyimpanan_aisle.nama_slot_penyimpanan
+                            item.slot_penyimpanan_aisle
+                              ?.nama_slot_penyimpanan ?? "-"
                           }}
                         </p>
                       </div>
@@ -391,7 +392,10 @@
                           </li>
                         </v-select> -->
                         <p class="text-right">
-                          {{ item.slot_penyimpanan_rack.nama_slot_penyimpanan }}
+                          {{
+                            item.slot_penyimpanan_rack?.nama_slot_penyimpanan ??
+                            "-"
+                          }}
                         </p>
                       </div>
                       <div class="mt-1">
@@ -432,7 +436,8 @@
                         </v-select> -->
                         <p class="text-right">
                           {{
-                            item.slot_penyimpanan_level.nama_slot_penyimpanan
+                            item.slot_penyimpanan_level
+                              ?.nama_slot_penyimpanan ?? "-"
                           }}
                         </p>
                       </div>
@@ -473,7 +478,10 @@
                           </li>
                         </v-select> -->
                         <p class="text-right">
-                          {{ item.slot_penyimpanan_bin.nama_slot_penyimpanan }}
+                          {{
+                            item.slot_penyimpanan_bin?.nama_slot_penyimpanan ??
+                            "-"
+                          }}
                         </p>
                       </div>
                     </td>
@@ -677,10 +685,10 @@ export default {
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
               valuation_id: item.valuation,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
         this.isLoadingPage = false;
@@ -800,19 +808,19 @@ export default {
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
                   ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_aisle,
+                  : "",
               slot_penyimpanan_id_bin:
                 typeof item.slot_penyimpanan_id_bin === "object"
                   ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_bin,
+                  : "",
               slot_penyimpanan_id_level:
                 typeof item.slot_penyimpanan_id_level === "object"
                   ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_level,
+                  : "",
               slot_penyimpanan_id_rack:
                 typeof item.slot_penyimpanan_id_rack === "object"
                   ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_rack,
+                  : "",
               valuation_id:
                 typeof item.valuation_id === "object"
                   ? item.valuation_id.valuation_id

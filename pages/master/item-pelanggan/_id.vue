@@ -18,7 +18,9 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full"
+            >
               <ValidationProvider name="item_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -175,10 +177,7 @@
                   </div>
                 </div>
               </ValidationProvider>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-3 md:mt-7"
-            >
+
               <div class="form-group">
                 <input-horizontal
                   label="Nama Item"
@@ -206,11 +205,7 @@
                   v-model="parameters.form.kode_sap"
                 />
               </div>
-            </div>
 
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-4"
-            >
               <ValidationProvider name="group1_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -336,10 +331,7 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="flex items-center justify-between w-full">
                 <label for="item_id" class="w-1/2">Group Item 4</label>
                 <v-select
@@ -411,10 +403,7 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <ValidationProvider name="kategori1_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -536,10 +525,7 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="flex items-center justify-between w-full">
                 <label for="item_id" class="w-1/2">Kategori Item 4 </label>
                 <v-select
@@ -609,10 +595,7 @@
                   </li>
                 </v-select>
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="form-group flex justify-between items-center">
                 <label for="jumlah_palet" class="w-1/2">Jumlah Palet</label>
                 <money
@@ -647,10 +630,7 @@
                   "
                 />
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="form-group flex justify-between items-center">
                 <label for="batas_atas" class="w-1/2"
                   >Batas Atas <span class="text-danger">*</span></label
@@ -687,11 +667,7 @@
                   "
                 />
               </div>
-            </div>
 
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
               <ValidationProvider name="supplier_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -804,11 +780,7 @@
                   </div>
                 </div>
               </ValidationProvider>
-            </div>
 
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
               <div class="form-group flex justify-between items-center">
                 <label for="berat_bersih" class="w-1/2">Berat Bersih</label>
                 <money
@@ -862,11 +834,7 @@
                   </li>
                 </v-select>
               </div>
-            </div>
 
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
               <div class="form-group flex justify-between items-center">
                 <label for="panjang" class="w-1/2">Panjang</label>
                 <money
@@ -897,10 +865,7 @@
                   "
                 />
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="form-group flex justify-between items-center">
                 <label for="volume" class="w-1/2">Volume</label>
                 <money
@@ -957,10 +922,7 @@
                   v-model="parameters.form.warna"
                 />
               </div>
-            </div>
-            <div
-              class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full mt-2 md:mt-7"
-            >
+
               <div class="form-group">
                 <input-horizontal
                   label="Stocklevel"

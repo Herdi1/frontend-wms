@@ -33,7 +33,9 @@
             class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
           >
             <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2">Tipe Mutasi</label>
+              <label for="" class="w-1/2"
+                >Tipe Mutasi <span class="text-danger">*</span></label
+              >
               <select
                 name=""
                 id=""
@@ -96,7 +98,9 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Region</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Region <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -386,10 +390,22 @@ export default {
         "&mode=preview";
 
       if (this.parameters.params.download === "pdf") {
-        let token = this.$cookiz
-          .get("auth._token.local")
-          .replace("Bearer ", "");
-        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        if (
+          this.parameters.gudang_id &&
+          this.parameters.wilayah_id &&
+          this.parameters.params.type &&
+          this.parameters.params.start_date &&
+          this.parameters.params.end_date
+        ) {
+          let token = this.$cookiz
+            .get("auth._token.local")
+            .replace("Bearer ", "");
+          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        } else {
+          this.$toaster.error(
+            "Mohon Pilih Gudang, Region, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
+          );
+        }
       } else {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
       }
@@ -425,36 +441,48 @@ export default {
           "&token=" +
           token;
 
-        this.$axios({
-          method: "GET",
-          url: url,
-          responseType: "blob",
-        })
-          .then((res) => {
-            const blob = new Blob([res.data], {
-              type: res.headers["content-type"],
-            });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-
-            const disposition = res.headers["content-disposition"];
-            let filename = "laporan_mutasi_stok";
-            if (disposition && disposition.indexOf("filename=") !== 0) {
-              filename = disposition
-                .split("filename=")[1]
-                .replace(/"/g, "")
-                .trim();
-            }
-
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+        if (
+          this.parameters.gudang_id &&
+          this.parameters.wilayah_id &&
+          this.parameters.params.type &&
+          this.parameters.params.start_date &&
+          this.parameters.params.end_date
+        ) {
+          this.$axios({
+            method: "GET",
+            url: url,
+            responseType: "blob",
           })
-          .catch((err) => {
-            console.log(err);
-            this.$globalErrorToaster(this.$toaster, err);
-          });
+            .then((res) => {
+              const blob = new Blob([res.data], {
+                type: res.headers["content-type"],
+              });
+              const link = document.createElement("a");
+              link.href = window.URL.createObjectURL(blob);
+
+              const disposition = res.headers["content-disposition"];
+              let filename = "laporan_mutasi_stok";
+              if (disposition && disposition.indexOf("filename=") !== 0) {
+                filename = disposition
+                  .split("filename=")[1]
+                  .replace(/"/g, "")
+                  .trim();
+              }
+
+              link.download = filename;
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$globalErrorToaster(this.$toaster, err);
+            });
+        } else {
+          this.$toaster.error(
+            "Mohon Pilih Gudang, Region, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
+          );
+        }
       } catch (error) {
         console.log(error);
         this.$globalErrorToaster(this.$toaster, error);

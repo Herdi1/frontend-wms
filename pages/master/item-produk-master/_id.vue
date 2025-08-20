@@ -1211,6 +1211,12 @@ export default {
           this.form[item] = response.data[item];
         });
 
+        this.form.kategori_id_1 = response.data.kategori_1 ?? "";
+        this.form.kategori_id_2 = response.data.kategori_2 ?? "";
+        this.form.kategori_id_3 = response.data.kategori_3 ?? "";
+        this.form.kategori_id_4 = response.data.kategori_4 ?? "";
+        this.form.kategori_id_5 = response.data.kategori_5 ?? "";
+
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1968,6 +1974,26 @@ export default {
 
       let formData = {
         ...this.form,
+        kategori_id_1:
+          typeof this.form.kategori_id_1 === "object"
+            ? this.form.kategori_id_1.kategori_item_id
+            : this.form.kategori_id_1,
+        kategori_id_2:
+          typeof this.form.kategori_id_2 === "object"
+            ? this.form.kategori_id_2.kategori_item_id
+            : this.form.kategori_id_2,
+        kategori_id_3:
+          typeof this.form.kategori_id_3 === "object"
+            ? this.form.kategori_id_3.kategori_item_id
+            : this.form.kategori_id_3,
+        kategori_id_4:
+          typeof this.form.kategori_id_4 === "object"
+            ? this.form.kategori_id_4.kategori_item_id
+            : this.form.kategori_id_4,
+        kategori_id_5:
+          typeof this.form.kategori_id_5 === "object"
+            ? this.form.kategori_id_5.kategori_item_id
+            : this.form.kategori_id_5,
       };
 
       if (this.isEditable) {

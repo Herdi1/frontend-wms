@@ -1441,9 +1441,19 @@ export default {
       ) {
         this.parameters.form.stok_opname_details[index].stok_sistem = 0.0;
         this.onChangeStok(index);
+
+        const aisleParam =
+          aisle && aisle.slot_penyimpanan_id ? aisle.slot_penyimpanan_id : "";
+        const rackParam =
+          rack && rack.slot_penyimpanan_id ? rack.slot_penyimpanan_id : "";
+        const levelParam =
+          level && level.slot_penyimpanan_id ? level.slot_penyimpanan_id : "";
+        const binParam =
+          bin && bin.slot_penyimpanan_id ? bin.slot_penyimpanan_id : "";
         this.$axios
+
           .get(
-            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id.item_gudang_id}/${zona_gudang_id.zona_gudang_id}/${valuation_id.valuation_id}?slot_penyimpanan_id_aisle=${aisle.slot_penyimpanan_id}&slot_penyimpanan_id_bin=${bin.slot_penyimpanan_id}&slot_penyimpanan_id_level=${level.slot_penyimpanan_id}&slot_penyimpanan_id_rack=${rack.slot_penyimpanan_id}`
+            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id.item_gudang_id}/${zona_gudang_id.zona_gudang_id}/${valuation_id.valuation_id}?slot_penyimpanan_id_aisle=${aisleParam}&slot_penyimpanan_id_bin=${binParam}&slot_penyimpanan_id_level=${levelParam}&slot_penyimpanan_id_rack=${rackParam}`
           )
           .then((res) => {
             if (res.data) {

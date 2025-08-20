@@ -46,7 +46,66 @@
             </div>
 
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Gudang</label>
+              <label for="" class="w-1/2"
+                >Kategori <span class="text-danger">*</span></label
+              >
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.kategori"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="pembelian">Pembelian</option>
+                <option value="total_stok">Total Stok</option>
+              </select>
+            </div>
+
+            <div
+              class="flex w-full m-1 pr-1"
+              v-if="
+                // parameters.params.jenis === null ||
+                parameters.params.kategori !== ''
+              "
+            >
+              <label for="" class="w-1/2"
+                >Type <span class="text-danger">*</span></label
+              >
+
+              <select
+                v-if="parameters.params.kategori === 'pembelian'"
+                name=""
+                id=""
+                v-model="parameters.params.type"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="rasio_damage_pembelian_per_barang">
+                  Barang
+                </option>
+                <option value="rasio_damage_pembelian_per_wilayah">
+                  Wilayah
+                </option>
+                <option value="rasio_damage_pembelian_per_cabang">
+                  Cabang
+                </option>
+                <option value="rasio_damage_pembelian_per_supplier">
+                  Supplier
+                </option>
+              </select>
+              <select
+                v-if="parameters.params.kategori === 'total_stok'"
+                name=""
+                id=""
+                v-model="parameters.params.type"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="rasio_damage_total_stok">Total Stok</option>
+              </select>
+            </div>
+
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -81,7 +140,9 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1">Region</label>
+              <label class="w-[50%]" for="group_item_id_1"
+                >Region <span class="text-danger">*</span></label
+              >
               <v-select
                 label="nama_wilayah"
                 :loading="isLoadingGetWilayah"
@@ -114,59 +175,6 @@
                   >
                 </li>
               </v-select>
-            </div>
-
-            <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2">Kategori</label>
-              <select
-                name=""
-                id=""
-                v-model="parameters.params.kategori"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="pembelian">Pembelian</option>
-                <option value="total_stok">Total Stok</option>
-              </select>
-            </div>
-
-            <div
-              class="flex w-full m-1 pr-1"
-              v-if="
-                // parameters.params.jenis === null ||
-                parameters.params.kategori !== ''
-              "
-            >
-              <label for="" class="w-1/2">Type</label>
-
-              <select
-                v-if="parameters.params.kategori === 'pembelian'"
-                name=""
-                id=""
-                v-model="parameters.params.type"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="rasio_damage_pembelian_per_barang">
-                  Barang
-                </option>
-                <option value="rasio_damage_pembelian_per_wilayah">
-                  Wilayah
-                </option>
-                <option value="rasio_damage_pembelian_per_cabang">
-                  Cabang
-                </option>
-                <option value="rasio_damage_pembelian_per_supplier">
-                  Supplier
-                </option>
-              </select>
-              <select
-                v-if="parameters.params.kategori === 'total_stok'"
-                name=""
-                id=""
-                v-model="parameters.params.type"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="rasio_damage_total_stok">Total Stok</option>
-              </select>
             </div>
 
             <!-- <div
@@ -725,10 +733,21 @@ export default {
         "&mode=preview";
 
       if (this.parameters.params.download === "pdf") {
-        let token = this.$cookiz
-          .get("auth._token.local")
-          .replace("Bearer ", "");
-        window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        if (
+          this.parameters.gudang_id &&
+          this.parameters.params.wilayah_id &&
+          this.parameters.params.type &&
+          this.parameters.params.ketegori
+        ) {
+          let token = this.$cookiz
+            .get("auth._token.local")
+            .replace("Bearer ", "");
+          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+        } else {
+          this.$toaster.error(
+            "Mohon Pilih Gudang, Region, Kategori dan Type Terlebih Dahulu"
+          );
+        }
       } else {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
       }
@@ -798,7 +817,7 @@ export default {
           });
         } else {
           this.$toaster.error(
-            "Silahkan pilih jenis dan tipe, gudang, wilyah terlebih dahulu"
+            "Mohon Pilih Gudang, Region, Kategori dan Type Terlebih Dahulu"
           );
         }
       } catch (error) {
