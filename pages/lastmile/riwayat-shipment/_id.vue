@@ -604,6 +604,16 @@ export default {
           Object.keys(this.parameters.form).forEach((item) => {
             this.parameters.form[item] = res.data[item];
           });
+
+          if (res.data.shipment_retur_details) {
+            this.parameters.form.shipment_retur_details =
+              res.data.shipment_retur_details.map((item) => {
+                return {
+                  ...item,
+                  shipment_detail_id: item.shipment_detail,
+                };
+              });
+          }
         }
         console.log(this.parameters.form);
       } catch (error) {
@@ -832,6 +842,7 @@ export default {
     },
     hide() {
       this.showModal = false;
+      this.formReset();
     },
     handleFileChange(e) {
       let file = e.target.files[0];
@@ -843,6 +854,7 @@ export default {
     },
     hideRetur() {
       this.showModalRetur = false;
+      this.formReturReset();
     },
     editRetur(item) {
       this.showModalRetur = true;

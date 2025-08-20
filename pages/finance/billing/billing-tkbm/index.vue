@@ -118,7 +118,7 @@
                   <th
                     @click="
                       onSort(
-                        'kode_billing_tkbm',
+                        'kode_billing',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
@@ -130,7 +130,7 @@
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_billing_tkbm' &&
+                            parameters.params.order == 'kode_billing' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -139,7 +139,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_billing_tkbm' &&
+                            parameters.params.order == 'kode_billing' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -148,12 +148,45 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Tanggal</th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer border border-gray-300"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="border border-gray-300">Gudang</th>
                   <th class="border border-gray-300">Pelanggan</th>
                   <th class="border border-gray-300">Total</th>
                   <th class="border border-gray-300">Pajak</th>
                   <th class="border border-gray-300">Grand Total</th>
+                  <th class="border border-gray-300">Keterangan</th>
                   <th class="w-[5%] border border-gray-300">Print</th>
 
                   <th class="w-[5%] border border-gray-300">Delete</th>
@@ -201,14 +234,17 @@
                         : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td class="w-[30%] border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     Rp {{ item.total ?? "" | formatPrice }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     Rp {{ item.tax | formatPrice }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     Rp {{ item.grand_total | formatPrice }}
+                  </td>
+                  <td class="text-center border border-gray-300">
+                    {{ keterangan }}
                   </td>
                   <td class="text-center border border-gray-300">
                     <button
