@@ -341,105 +341,96 @@ export default {
     },
 
     onPreview() {
+      if (
+        !this.parameters.form.gudang_id &&
+        !this.parameters.params.start_date &&
+        !this.parameters.params.end_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
+        );
+        return;
+      }
+
+      if (this.parameters.params.download !== "pdf") {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+        return;
+      }
+
       let url =
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
-        // "&type=" +
-        // this.parameters.params.type +
         "&gudang_id=" +
         this.parameters.form.gudang_id.gudang_id +
-        // "&wilayah_id=" +
-        // this.parameters.form.wilayah_id.wilayah_id +
-        // "&nama_wilayah=" +
-        // this.parameters.params.nama_wilayah +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
         this.parameters.params.end_date +
         "&mode=preview";
 
-      if (this.parameters.params.download === "pdf") {
-        if (
-          this.parameters.gudang_id &&
-          this.parameters.params.start_date &&
-          this.parameters.params.end_date
-        ) {
-          let token = this.$cookiz
-            .get("auth._token.local")
-            .replace("Bearer ", "");
-          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-        } else {
-          this.$toaster.error(
-            "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
-          );
-        }
-      } else {
-        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
-      }
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
     },
 
     async onExport() {
+      if (
+        !this.parameters.form.gudang_id &&
+        !this.parameters.params.start_date &&
+        !this.parameters.params.end_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
+        );
+        return;
+      }
+
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+
       try {
         let url =
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          // "&type=" +
-          // this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
-          // "&wilayah_id=" +
-          // this.parameters.form.wilayah_id.wilayah_id +
-          // "&nama_wilayah=" +
-          // this.parameters.params.nama_wilayah +
           "&start_date=" +
           this.parameters.params.start_date +
           "&end_date=" +
-          this.parameters.params.end_date;
+          this.parameters.params.end_date +
+          "&token=" +
+          token;
 
-        if (
-          this.parameters.gudang_id &&
-          this.parameters.params.start_date &&
-          this.parameters.params.end_date
-        ) {
-          this.$axios({
-            method: "GET",
-            url: url,
-            responseType: "blob",
-          })
-            .then((res) => {
-              const blob = new Blob([res.data], {
-                type: res.headers["content-type"],
-              });
-              const link = document.createElement("a");
-              link.href = window.URL.createObjectURL(blob);
-
-              const disposition = res.headers["content-disposition"];
-              let filename = "laporan_stok_opname";
-              if (disposition && disposition.indexOf("filename=") !== 0) {
-                filename = disposition
-                  .split("filename=")[1]
-                  .replace(/"/g, "")
-                  .trim();
-              }
-
-              link.download = filename;
-              document.body.appendChild(link);
-              link.click();
-              link.remove();
-            })
-            .catch((err) => {
-              console.log(err);
-              this.$globalErrorToaster(this.$toaster, err);
+        this.$axios({
+          method: "GET",
+          url: url,
+          responseType: "blob",
+        })
+          .then((res) => {
+            const blob = new Blob([res.data], {
+              type: res.headers["content-type"],
             });
-        } else {
-          this.$toaster.error(
-            "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
-          );
-        }
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+
+            const disposition = res.headers["content-disposition"];
+            let filename = "laporan_stok_opname";
+            if (disposition && disposition.indexOf("filename=") !== 0) {
+              filename = disposition
+                .split("filename=")[1]
+                .replace(/"/g, "")
+                .trim();
+            }
+
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          })
+          .catch((err) => {
+            this.$globalErrorToaster(this.$toaster, err);
+          });
       } catch (error) {
-        console.log(error);
         this.$globalErrorToaster(this.$toaster, error);
       }
     },

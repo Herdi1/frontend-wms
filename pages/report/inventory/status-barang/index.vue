@@ -44,6 +44,83 @@
                 <option value="excel">Excel</option>
               </select>
             </div>
+
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="provinsi"
+                >Provinsi <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_provinsi"
+                :loading="isLoadingGetProvinsi"
+                :options="lookup_custom3.data"
+                :filterable="false"
+                @search="onGetProvinsi"
+                v-model="parameters.form.provinsi_id"
+                @input="(item) => onSetProvinsi(item)"
+                class="w-[50%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom3.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom3.current_page > 1"
+                    @click="onGetProvinsi(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom3.last_page > lookup_custom3.current_page
+                    "
+                    @click="onGetProvinsi(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="region"
+                >Region <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_wilayah"
+                :loading="isLoadingGetWilayah"
+                :options="lookup_custom2.data"
+                :filterable="false"
+                @search="onGetWilayah"
+                v-model="parameters.form.wilayah_id"
+                @input="onSetWilayah"
+                class="w-[50%] bg-white"
+                disabled
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom2.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom2.current_page > 1"
+                    @click="onGetWilayah(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom2.last_page > lookup_custom2.current_page
+                    "
+                    @click="onGetWilayah(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="group_item_id_1"
                 >Gudang <span class="text-danger">*</span></label
@@ -75,43 +152,6 @@
                       lookup_custom1.last_page > lookup_custom1.current_page
                     "
                     @click="onGetGudang(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1"
-                >Region <span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_wilayah"
-                :loading="isLoadingGetWilayah"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onGetWilayah"
-                v-model="parameters.form.wilayah_id"
-                @input="onSetWilayah"
-                class="w-[50%] bg-white"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetWilayah(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetWilayah(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -154,8 +194,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchGudang();
-    await this.onSearchWilayah();
+    await this.onSearchProvinsi();
   },
 
   data() {
@@ -174,6 +213,7 @@ export default {
         form: {
           gudang_id: "",
           wilayah_id: "",
+          provinsi_id: "",
         },
       },
 
@@ -186,6 +226,10 @@ export default {
       isStopSearchWilayah: false,
       isLoadingGetWilayah: false,
       wilayah_search: "",
+
+      isStopSearchProvinsi: false,
+      isLoadingGetProvinsi: false,
+      provinsi_search: "",
     };
   },
 
@@ -196,7 +240,7 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
-      // "lookup_custom3",
+      "lookup_custom3",
     ]),
 
     getRoles() {
@@ -313,7 +357,71 @@ export default {
       this.parameters.form.wilayah_id = item || "";
     },
 
+    onGetProvinsi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchProvinsi);
+
+      this.isStopSearchProvinsi = setTimeout(() => {
+        this.provinsi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchProvinsi();
+      }, 600);
+    },
+
+    async onSearchProvinsi() {
+      if (!this.isLoadingGetProvinsi) {
+        this.isLoadingGetProvinsi = true;
+
+        await this.lookUp({
+          url: "master/provinsi/get-provinsi",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.provinsi_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetProvinsi = false;
+      }
+    },
+
+    async onSetProvinsi(item) {
+      if (item) {
+        this.parameters.form.provinsi_id = item;
+        this.parameters.form.wilayah_id = item.wilayah;
+        await this.onSearchGudang();
+        await this.onSearchWilayah();
+      } else {
+        this.parameters.form.provinsi_id = "";
+        this.parameters.form.wilayah_id = "";
+      }
+    },
+
     onPreview() {
+      if (
+        !this.parameters.form.gudang_id &&
+        !this.parameters.form.provinsi_id
+      ) {
+        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        return;
+      }
+
+      if (this.parameters.params.download !== "pdf") {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+        return;
+      }
+
       let url =
         this.parameters.url +
         "?download=" +
@@ -322,23 +430,25 @@ export default {
         this.parameters.form.gudang_id.gudang_id +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
+        "&provinsi_id=" +
+        this.parameters.form.provinsi_id.provinsi_id +
         "&mode=preview";
 
-      if (this.parameters.params.download === "pdf") {
-        if (this.parameters.form.gudang_id && this.parameters.form.wilayah_id) {
-          let token = this.$cookiz
-            .get("auth._token.local")
-            .replace("Bearer ", "");
-          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-        } else {
-          this.$toaster.error("Mohon Pilih Gudang dan Region Terlebih Dahulu");
-        }
-      } else {
-        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
-      }
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
     },
 
     async onExport() {
+      if (
+        !this.parameters.form.gudang_id &&
+        !this.parameters.form.provinsi_id
+      ) {
+        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        return;
+      }
+
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+
       try {
         let url =
           this.parameters.url +
@@ -347,39 +457,38 @@ export default {
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id;
+          this.parameters.form.wilayah_id.wilayah_id +
+          "&provinsi_id=" +
+          this.parameters.form.provinsi_id.provinsi_id +
+          "&token=" +
+          token;
 
-        if (this.parameters.form.gudang_id && this.parameters.form.wilayah_id) {
-          this.$axios({
-            method: "GET",
-            url: url,
-            responseType: "blob",
-          }).then((res) => {
-            const blob = new Blob([res.data], {
-              type: res.headers["content-type"],
-            });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-
-            const disposition = res.headers["content-disposition"];
-            let filename = "laporan_status_barang";
-            if (disposition && disposition.indexOf("filename=") !== 0) {
-              filename = disposition
-                .split("filename=")[1]
-                .replace(/"/g, "")
-                .trim();
-            }
-
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+        this.$axios({
+          method: "GET",
+          url: url,
+          responseType: "blob",
+        }).then((res) => {
+          const blob = new Blob([res.data], {
+            type: res.headers["content-type"],
           });
-        } else {
-          this.$toaster.error("Mohon Pilih Gudang dan Region Terlebih Dahulu");
-        }
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+
+          const disposition = res.headers["content-disposition"];
+          let filename = "laporan_status_barang";
+          if (disposition && disposition.indexOf("filename=") !== 0) {
+            filename = disposition
+              .split("filename=")[1]
+              .replace(/"/g, "")
+              .trim();
+          }
+
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        });
       } catch (error) {
-        console.log(error);
         this.$globalErrorToaster(this.$toaster, error);
       }
     },

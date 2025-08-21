@@ -160,18 +160,18 @@
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'status_opname',
+                        'status_adjustment',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Opname</div>
+                      <div>Status Adjustment</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'status_opname' &&
+                            parameters.params.order == 'status_adjustment' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -180,7 +180,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'status_opname' &&
+                            parameters.params.order == 'status_adjustment' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -223,22 +223,23 @@
                     </div>
                   </th>
                   <th class="w-52 border border-gray-300">Gudang</th>
+
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'status_adjustment',
+                        'status_opname',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Adjustment</div>
+                      <div>Status Opname</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.order == 'status_opname' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -247,7 +248,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.order == 'status_opname' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -326,6 +327,26 @@
                     </p>
                   </td>
                   <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_adjustment === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_adjustment === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>APPROVE</p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
                     <div>
                       <span v-if="item.status_opname === 'MENUNGGU'">
                         <p
@@ -355,26 +376,6 @@
                           {{ item.status_opname }}
                         </p>
                       </span>
-                    </div>
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.tanggal) }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.gudang.nama_gudang }}
-                  </td>
-                  <td class="border border-gray-300">
-                    <div
-                      v-if="item.status_adjustment === '0'"
-                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
-                    >
-                      <p>MENUNGGU</p>
-                    </div>
-                    <div
-                      v-if="item.status_adjustment === '1'"
-                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                    >
-                      <p>APPROVE</p>
                     </div>
                   </td>
                   <td class="border border-gray-300">
