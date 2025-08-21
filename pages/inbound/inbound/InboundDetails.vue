@@ -1135,6 +1135,7 @@ export default {
     async onSelectItemDetail(item, index) {
       this.self.form.inbound_details[index] = { ...item };
       this.self.form.inbound_details[index].quantity_terima = item.quantity_request;
+      this.self.form.inbound_details[index].quantity_request = item.quantity_request;
       this.self.form.inbound_details[index].item_gudang_id = { item_gudang_id: item.item_gudang_id, item_id: item.item_id, nama_item: item.nama_item}
       await this.onSearchZonaPlan()
 

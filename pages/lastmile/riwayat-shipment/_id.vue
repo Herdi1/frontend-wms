@@ -745,6 +745,8 @@ export default {
           this.parameters.form.shipment_detail_id.pick_order_detail_id,
         pick_request_detail_id:
           this.parameters.form.shipment_detail_id.pick_request_detail_id,
+        item_gudang_id: this.parameters.form.shipment_detail_id.item_gudang_id,
+        item_id: this.parameters.form.shipment_detail_id.item_id,
         quantity_kirim: this.parameters.form.quantity_kirim,
         quantity_retur: this.parameters.form.quantity_retur,
         valuation_id: this.parameters.form.valuation_id,
