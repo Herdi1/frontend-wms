@@ -1145,10 +1145,10 @@ export default {
                 .then((res) => {
                   console.log(res);
                   this.parameters.form.rute_shipments[index].jarak =
-                    res.data.jarak;
+                    res.data.jarak ?? 0;
                   this.parameters.form.rute_shipments[
                     index
-                  ].waktu_sampai_tujuan = res.data.waktu_sampai_tujuan;
+                  ].waktu_sampai_tujuan = res.data.waktu_sampai_tujuan ?? 0;
                   // this.parameters.form.rute_shipments[index].biaya_bbm =
                   //   res.biaya_bbm;
                 });

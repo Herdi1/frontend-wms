@@ -1,5 +1,5 @@
 <template>
-  <section class="section uppercase">
+  <section class="section">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -396,7 +396,6 @@ export default {
         latitude: "",
       },
       default_form: {
-        inbound_id: "",
         sumber_data: "ASN",
         asn_id: "",
         surat_jalan: "",
@@ -446,6 +445,7 @@ export default {
 
         this.form.gudang_id = res.data.gudang;
         this.form.supplier_id = res.data.supplier;
+        this.form.keterangan = res.data.keterangan;
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -781,10 +781,10 @@ export default {
       // today's date
 
       // formData.tanggal_approve = formattedDate;
-      console.log(this.form);
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
           ...item,
+          quantity_request: item.quantity,
           detail_inbound_id: item.detail_inbound_id
             ? item.detail_inbound_id.detail_inbound_id
             : "",
@@ -825,8 +825,6 @@ export default {
           stok_transfer_detail_id: item.stok_transfer_detail_id,
         };
       });
-
-      console.log("after inbound");
 
       formData.biaya_inbounds = formData.biaya_inbounds.map((item) => {
         return {
@@ -902,14 +900,21 @@ export default {
         data: formData,
       })
         .then((res) => {
+          if (res.data.id) {
+            this.form.inbound_id = res.data.id;
+          }
+
+          console.log(this.form.inbound_id);
+
           this.$toaster.success(
             "Data berhasil di " +
               (this.isEditable == true ? "Diedit" : "Tambah")
           );
 
-          if (!this.isEditable) {
-            this.form = this.default_form;
-          }
+          // if (!this.isEditable) {
+          //   this.form = this.default_form;
+          // }
+
           this.showModal = true;
         })
         .catch((err) => {
@@ -1069,7 +1074,7 @@ export default {
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               serial_number: data.serial_number ?? "",
               no_referensi: data.no_referensi ?? "",
-              quantity: parseFloat(data.quantity),
+              quantity_request: parseFloat(data.quantity ?? 0),
               panjang: data.panjang,
               lebar: data.lebar,
               berat: data.berat,
@@ -1089,7 +1094,6 @@ export default {
                 : "",
             };
           });
-          console.log(this.items);
           let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
             if (!acc[data.item.nama_item]) {
               acc[data.item.nama_item] = 0;
@@ -1148,7 +1152,7 @@ export default {
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
               serial_number: data.serial_number ?? "",
               no_referensi: data.no_referensi ?? "",
-              quantity: parseFloat(data.quantity),
+              quantity_request: parseFloat(data.quantity ?? 0),
             };
           });
           console.log(this.items);
@@ -1236,7 +1240,7 @@ export default {
         this.form.inbound_details = [];
         this.form.biaya_inbounds = [];
         this.form.tagihan_inbounds = [];
-        await this.onSearchItemGudang();
+        // await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
       }
@@ -1308,7 +1312,7 @@ export default {
       window.open(
         process.env.API_URL +
           "inbound/inbound/get-print-detail-label/" +
-          item.inbound_id +
+          this.form.inbound_id +
           "?token=" +
           token,
         "_blank"

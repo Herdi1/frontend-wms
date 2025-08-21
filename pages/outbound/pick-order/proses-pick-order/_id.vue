@@ -774,11 +774,11 @@ export default {
               quantity: item.quantity_request,
               sisa_quantity: item.quantity,
               zona_gudang_id: item.zona_gudang,
-              zona_gudang_id_tujuan: item.zona_gudang_tujuan,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              zona_gudang_id_tujuan: item.zona_gudang_tujuan ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
         this.isLoadingPage = false;
@@ -879,6 +879,8 @@ export default {
 
       this.isLoadingForm = true;
       let url = "outbound/proses-pick-order";
+
+      console.log(this.parameters.form);
 
       let formData = {
         ...this.parameters.form,

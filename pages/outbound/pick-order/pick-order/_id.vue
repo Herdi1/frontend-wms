@@ -237,7 +237,6 @@
                         :filterable="false"
                         @search="onGetValuation"
                         v-model="item.valuation_id"
-                        :reduce="(item) => item.valuation_id"
                       >
                         <!-- @input="onSelectItem(i)" -->
                         <li
@@ -886,6 +885,7 @@ export default {
                 : item.nama_item,
               quantity: item.quantity_request,
               sisa_quantity: item.quantity,
+              valuation_id: item.valuation,
               zona_gudang_id: item.zona_gudang,
               zona_gudang_id_tujuan: item.zona_gudang_tujuan,
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
@@ -1059,22 +1059,26 @@ export default {
               : item.zona_gudang_id_tujuan,
           quantity: item.sisa_quantity ? item.sisa_quantity : "",
           quantity_request: item.quantity ? item.quantity : "",
+          valuation_id:
+            typeof item.valuation_id === "object"
+              ? item.valuation_id.valuation_id
+              : item.valuation_id,
           slot_penyimpanan_id_aisle:
             typeof item.slot_penyimpanan_id_aisle == "object"
               ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_aisle,
+              : item.slot_penyimpanan_id_aisle ?? "",
           slot_penyimpanan_id_rack:
             typeof item.slot_penyimpanan_id_rack == "object"
               ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_rack,
+              : item.slot_penyimpanan_id_rack ?? "",
           slot_penyimpanan_id_level:
             typeof item.slot_penyimpanan_id_level == "object"
               ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_level,
+              : item.slot_penyimpanan_id_level ?? "",
           slot_penyimpanan_id_bin:
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_bin,
+              : item.slot_penyimpanan_id_bin ?? "",
           slot_penyimpanan_id_aisle_tujuan: "",
           slot_penyimpanan_id_rack_tujuan: "",
           slot_penyimpanan_id_level_tujuan: "",

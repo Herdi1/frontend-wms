@@ -343,6 +343,10 @@ export default {
           longitude: "",
           latitude: "",
         },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
       },
       default_roles: {
         store: true,
