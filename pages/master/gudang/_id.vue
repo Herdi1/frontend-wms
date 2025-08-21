@@ -189,7 +189,6 @@
                           :filterable="false"
                           @search="onGetProfit"
                           v-model="form.profit_center_id"
-                          :reduce="(item) => item.profit_center_id"
                           class="w-full"
                         >
                           <!-- <template slot="option" slot-scope="option">
@@ -256,7 +255,6 @@
                           :filterable="false"
                           @search="onGetCost"
                           v-model="form.cost_center_id"
-                          :reduce="(item) => item.cost_center_id"
                           class="w-full"
                         >
                           <!-- <template slot="option" slot-scope="option">
@@ -345,7 +343,6 @@
                         :filterable="false"
                         @search="onGetGroupGudang1"
                         v-model="form.group_gudang_id_1"
-                        :reduce="(item) => item.group_gudang_id"
                         class="w-full"
                         @input="onSelectGroup1"
                         :class="
@@ -392,7 +389,6 @@
                           :filterable="false"
                           @search="onGetGroupGudang2"
                           v-model="form.group_gudang_id_2"
-                          :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup2"
                           :class="
@@ -439,7 +435,6 @@
                           :filterable="false"
                           @search="onGetGroupGudang3"
                           v-model="form.group_gudang_id_3"
-                          :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup3"
                           :class="
@@ -489,7 +484,6 @@
                           :filterable="false"
                           @search="onGetGroupGudang2"
                           v-model="form.group_gudang_id_4"
-                          :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                           @input="onSelectGroup4"
                         >
@@ -528,7 +522,6 @@
                           :filterable="false"
                           @search="onGetGroupGudang5"
                           v-model="form.group_gudang_id_5"
-                          :reduce="(item) => item.group_gudang_id"
                           class="w-full"
                         >
                           <li
@@ -574,7 +567,6 @@
                         :filterable="false"
                         @search="onGetVendorPemilik"
                         v-model="form.vendor_id_pemilik"
-                        :reduce="(item) => item.vendor_id"
                         class="w-full"
                       >
                         <li
@@ -616,7 +608,6 @@
                         :filterable="false"
                         @search="onGetVendorOperator"
                         v-model="form.vendor_id_operator"
-                        :reduce="(item) => item.vendor_id"
                         class="w-full"
                       >
                         <li
@@ -691,7 +682,6 @@
                         :filterable="false"
                         @search="onGetFungsiGudang"
                         v-model="form.fungsi_gudang_id"
-                        :reduce="(item) => item.fungsi_gudang_id"
                         class="w-full"
                       >
                         <li
@@ -738,7 +728,6 @@
                         :filterable="false"
                         @search="onGetFisikGudang"
                         v-model="form.fisik_gudang_id"
-                        :reduce="(item) => item.fisik_gudang_id"
                         class="w-full"
                       >
                         <li
@@ -786,7 +775,6 @@
                         :filterable="false"
                         @search="onGetUkuranGudang"
                         v-model="form.ukuran_gudang_id"
-                        :reduce="(item) => item.ukuran_gudang_id"
                         class="w-full"
                       >
                         <li
@@ -949,7 +937,6 @@
                           :filterable="false"
                           @search="onGetSatuanLuas"
                           v-model="form.satuan_id_luas"
-                          :reduce="(item) => item.satuan_id"
                           class="w-full"
                         >
                           <li
@@ -1105,7 +1092,6 @@
                         :filterable="false"
                         @search="onGetNegara"
                         v-model="form.negara_id"
-                        :reduce="(item) => item.negara_id"
                         class="w-full"
                         @input="onSelectNegara"
                       >
@@ -1154,7 +1140,6 @@
                         :filterable="false"
                         @search="onGetProvinsi"
                         v-model="form.provinsi_id"
-                        :reduce="(item) => item.provinsi_id"
                         class="w-full"
                         @input="onSelectProvinsi"
                       >
@@ -1202,7 +1187,6 @@
                         :filterable="false"
                         @search="onGetKota"
                         v-model="form.kota_id"
-                        :reduce="(item) => item.kota_id"
                         class="w-full"
                         @input="onSelectKota"
                       >
@@ -1250,7 +1234,6 @@
                         :filterable="false"
                         @search="onGetKecamatan"
                         v-model="form.kecamatan_id"
-                        :reduce="(item) => item.kecamatan_id"
                         class="w-full"
                       >
                         <li
@@ -1296,7 +1279,6 @@
                         :filterable="false"
                         @search="onGetKodePos"
                         v-model="form.kode_pos_id"
-                        :reduce="(item) => item.kode_pos_id"
                         class="w-full"
                       >
                         <template slot="option" slot-scope="option">
@@ -1343,7 +1325,6 @@
                         :options="lookup_custom6.data"
                         :filterable="false"
                         @search="onGetWilayah"
-                        :reduce="(item) => item.wilayah_id"
                         v-model="form.wilayah_id"
                       >
                         <li
@@ -1725,7 +1706,26 @@ export default {
         this.form.max_stok = response.data.max_stok ?? 0;
         this.form.standar_waktu_kerja = response.data.standar_waktu_kerja ?? 0;
         this.form.radius = response.data.radius ?? 0;
-        // this.form.provinsi_id = response.data.provinsi;
+        this.form.profit_center_id = response.data.profit_center;
+        this.form.cost_center_id = response.data.cost_center;
+        this.form.negara_id = response.data.negara;
+        this.form.wilayah_id = response.data.wilayah;
+        this.form.provinsi_id = response.data.provinsi;
+        this.form.kota_id = response.data.kota;
+        this.form.kecamatan_id = response.data.kecamatan;
+        // this.form.kelurahan_id = response.data.kelurahan;
+        this.form.kode_pos_id = response.data.kode_pos;
+        this.form.group_gudang_id_1 = response.data.group_gudang_1;
+        this.form.group_gudang_id_2 = response.data.group_gudang_2;
+        this.form.group_gudang_id_3 = response.data.group_gudang_3;
+        this.form.group_gudang_id_4 = response.data.group_gudang_4;
+        this.form.group_gudang_id_5 = response.data.group_gudang_5;
+        this.form.vendor_id_operator = response.data.vendor_operator;
+        this.form.vendor_id_pemilik = response.data.vendor_pemilik;
+        this.form.fungsi_gudang_id = response.data.fungsi_gudang;
+        this.form.fisik_gudang_id = response.data.fisik_gudang;
+        this.form.ukuran_gudang_id = response.data.ukuran_gudang;
+        this.form.satuan_id_luas = response.data.satuan_luas;
 
         if (Array.isArray(response.data.item_gudang)) {
           response.data.item_gudang.forEach((item) => {
@@ -1830,15 +1830,136 @@ export default {
 
       Object.entries(this.form).forEach(([key, value]) => {
         if (key !== "item_gudang") {
-          if (key != "file_layout") {
+          if (key != "file_layout" && typeof value !== "object") {
             formData.append(key, value ?? "");
           }
         }
       });
 
-      formData.kapasitas_bongkar = this.form.kapasitas_bongkar
-        ? this.form.kapasitas_bongkar
-        : 1;
+      formData.append(
+        "kapasitas_bongkar",
+        this.form.kapasitas_bongkar ? this.form.kapasitas_bongkar : 1
+      );
+      formData.append(
+        "profit_center_id",
+        typeof this.form.profit_center_id === "object"
+          ? this.form.profit_center_id.profit_center_id
+          : this.form.profit_center_id
+      );
+      formData.append(
+        "cost_center_id",
+        typeof this.form.cost_center_id === "object"
+          ? this.form.cost_center_id.cost_center_id
+          : this.form.cost_center_id
+      );
+      formData.append(
+        "negara_id",
+        typeof this.form.negara_id === "object"
+          ? this.form.negara_id.negara_id
+          : this.form.negara_id
+      );
+      formData.append(
+        "wilayah_id",
+        typeof this.form.wilayah_id === "object"
+          ? this.form.wilayah_id.wilayah_id
+          : this.form.wilayah_id
+      );
+      formData.append(
+        "provinsi_id",
+        typeof this.form.provinsi_id === "object"
+          ? this.form.provinsi_id.provinsi_id
+          : this.form.provinsi_id
+      );
+      formData.append(
+        "kota_id",
+        typeof this.form.kota_id === "object"
+          ? this.form.kota_id.kota_id
+          : this.form.kota_id
+      );
+      formData.append(
+        "kecamatan_id",
+        typeof this.form.kecamatan_id === "object"
+          ? this.form.kecamatan_id.kecamatan_id
+          : this.form.kecamatan_id
+      );
+      // formData.append(
+      //   "kelurahan_id",
+      //   typeof this.form.kelurahan_id === "object"
+      //     ? this.form.kelurahan_id.kelurahan_id
+      //     : this.form.kelurahan_id
+      // );
+      formData.append(
+        "kode_pos_id",
+        typeof this.form.kode_pos_id === "object"
+          ? this.form.kode_pos_id.kode_pos_id
+          : this.form.kode_pos_id
+      );
+      formData.append(
+        "group_gudang_id_1",
+        typeof this.form.group_gudang_id_1 === "object"
+          ? this.form.group_gudang_id_1.group_gudang_id
+          : this.form.group_gudang_id_1
+      );
+      formData.append(
+        "group_gudang_id_2",
+        typeof this.form.group_gudang_id_2 === "object"
+          ? this.form.group_gudang_id_2.group_gudang_id
+          : this.form.group_gudang_id_2
+      );
+      formData.append(
+        "group_gudang_id_3",
+        typeof this.form.group_gudang_id_3 === "object"
+          ? this.form.group_gudang_id_3.group_gudang_id
+          : this.form.group_gudang_id_3
+      );
+      formData.append(
+        "group_gudang_id_4",
+        typeof this.form.group_gudang_id_4 === "object"
+          ? this.form.group_gudang_id_4.group_gudang_id
+          : this.form.group_gudang_id_4
+      );
+      formData.append(
+        "group_gudang_id_5",
+        typeof this.form.group_gudang_id_5 === "object"
+          ? this.form.group_gudang_id_5.group_gudang_id
+          : this.form.group_gudang_id_5
+      );
+      formData.append(
+        "vendor_id_pemilik",
+        typeof this.form.vendor_id_pemilik === "object"
+          ? this.form.vendor_id_pemilik.vendor_id
+          : this.form.vendor_id_pemilik
+      );
+      formData.append(
+        "vendor_id_operator",
+        typeof this.form.vendor_id_operator === "object"
+          ? this.form.vendor_id_operator.vendor_id
+          : this.form.vendor_id_operator
+      );
+      formData.append(
+        "fungsi_gudang_id",
+        typeof this.form.fungsi_gudang_id === "object"
+          ? this.form.fungsi_gudang_id.fungsi_gudang_id
+          : this.form.fungsi_gudang_id
+      );
+      formData.append(
+        "fisik_gudang_id",
+        typeof this.form.fisik_gudang_id === "object"
+          ? this.form.fisik_gudang_id.fisik_gudang_id
+          : this.form.fisik_gudang_id
+      );
+      formData.append(
+        "ukuran_gudang_id",
+        typeof this.form.ukuran_gudang_id === "object"
+          ? this.form.ukuran_gudang_id.ukuran_gudang_id
+          : this.form.ukuran_gudang_id
+      );
+      formData.append(
+        "satuan_id_luas",
+        typeof this.form.satuan_id_luas === "object"
+          ? this.form.satuan_id_luas.satuan_id
+          : this.form.satuan_id_luas
+      );
 
       this.form.item_gudang.forEach((item, index) => {
         if (item.item_gudang_id) {
@@ -2083,7 +2204,7 @@ export default {
             this.group_gudang_2_search +
             "&status=2" +
             "&group_gudang_id_induk=" +
-            this.form.group_gudang_id_1 +
+            this.form.group_gudang_id_1.group_gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -2125,7 +2246,7 @@ export default {
             this.group_gudang_3_search +
             "&status=3" +
             "&group_gudang_id_induk=" +
-            this.form.group_gudang_id_2 +
+            this.form.group_gudang_id_2.group_gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -2167,7 +2288,7 @@ export default {
             this.group_gudang_4_search +
             "&status=4" +
             "&group_gudang_id_induk=" +
-            this.form.group_gudang_id_3 +
+            this.form.group_gudang_id_3.group_gudang_id +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",
@@ -2209,7 +2330,7 @@ export default {
             this.group_gudang_5_search +
             "&status=5" +
             "&group_gudang_id_induk=" +
-            this.form.group_gudang_id_4 +
+            this.form.group_gudang_id_4.group_gudang_id +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
@@ -2251,7 +2372,7 @@ export default {
             "?search=" +
             this.kecamatan_search +
             "&kota_id=" +
-            this.form.kota_id +
+            this.form.kota_id.kota_id +
             "&page=" +
             this.lookup_regus.current_page +
             "&per_page=10",
@@ -2293,7 +2414,7 @@ export default {
             "?search=" +
             this.kota_search +
             "&provinsi_id=" +
-            this.form.provinsi_id +
+            this.form.provinsi_id.provinsi_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
@@ -2335,7 +2456,7 @@ export default {
             "?search=" +
             this.provinsi_search +
             "&negara_id=" +
-            this.form.negara_id +
+            this.form.negara_id.negara_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -2787,39 +2908,45 @@ export default {
       }
     },
 
-    onSelectGroup1() {
+    onSelectGroup1(item) {
+      this.form.group_gudang_id_1 = item;
       this.form.group_gudang_id_2 = "";
       this.onSearchGroupGudang2();
     },
-    onSelectGroup2() {
+    onSelectGroup2(item) {
+      this.form.group_gudang_id_2 = item;
       this.form.group_gudang_id_3 = "";
       this.onSearchGroupGudang3();
     },
-    onSelectGroup3() {
+    onSelectGroup3(item) {
+      this.form.group_gudang_id_3 = item;
       this.form.group_gudang_id_4 = "";
       this.onSearchGroupGudang4();
     },
-    onSelectGroup4() {
+    onSelectGroup4(item) {
+      this.form.group_gudang_id_4 = item;
       this.form.group_gudang_id_5 = "";
       this.onSearchGroupGudang5();
     },
 
-    onSelectNegara() {
+    onSelectNegara(item) {
+      this.form.negara_id = item;
       this.form.provinsi_id = "";
       this.form.kota_id = "";
       this.form.kecamatan_id = "";
       this.onSearchProvinsi();
     },
-    onSelectProvinsi() {
-      // if (item) {
-      //   this.form.wilayah_id = item.wilayah_id;
-      // } else {
-      // }
+    onSelectProvinsi(item) {
+      this.form.provinsi_id = item;
+      if (item.wilayah) {
+        this.form.wilayah_id = item.wilayah;
+      }
       this.onSearchKota();
       this.form.kota_id = "";
       this.form.kecamatan_id = "";
     },
-    onSelectKota() {
+    onSelectKota(item) {
+      this.form.kota_id = item;
       this.kecamatan_id = "";
       this.onSearchKecamatan();
     },

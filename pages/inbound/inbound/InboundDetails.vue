@@ -159,7 +159,7 @@
                             <p class="mb-2">
                               Quantity:
                               <money
-                                v-model="item.quantity"
+                                v-model="item.quantity_terima"
                                 @change="sumQuantity(item)"
                                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                                 @keydown.native="
@@ -169,7 +169,7 @@
                                 "
                               />
                             </p>
-                            <div>
+                            <div class="mb-2">
                               <p class="mb-2">Valuation:</p>
                               <v-select
                                 label="nama_valuation"
@@ -204,6 +204,13 @@
                                   >
                                 </li>
                               </v-select>
+                            </div>
+                            <div>
+                              <p class="mb-2">Status Terima:</p>
+                              <select name="status_terima" id="status_terima" v-model="item.status_terima">
+                                <option value="FULL">Diterima Full</option>
+                                <option value="SEBAGIAN">Diterima Sebagian</option>
+                              </select>
                             </div>
                           </td>
                           <td class="border border-gray-300">
@@ -686,6 +693,7 @@ export default {
         serial_number: "",
         quantity: "",
         valuation_id: "",
+        status_terima: "FULL",
         panjang: "",
         lebar: "",
         tinggi: "",
@@ -1122,9 +1130,9 @@ export default {
 
     async onSelectItemDetail(item, index) {
       this.self.form.inbound_details[index] = { ...item };
+      this.self.form.inbound_details[index].quantity_terima = item.quantity_request;
       this.self.form.inbound_details[index].item_gudang_id = { item_gudang_id: item.item_gudang_id, item_id: item.item_id, nama_item: item.nama_item}
       await this.onSearchZonaPlan()
-
 
       const biaya = await this.$axios.get("/finance/kontrak-tkbm/get-kontrak-tkbm", {
         params: {
@@ -1141,8 +1149,6 @@ export default {
           jenis: 'inbound'
         }
       })
-
-      console.log(tagihan)
 
       if(!this.self.form.biaya_inbounds.find(
         (data) => data.item_gudang_id === item.item_gudang_id

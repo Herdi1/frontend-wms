@@ -255,6 +255,15 @@
                     :required="false"
                   />
                 </div> -->
+                <div class="col-span-2 m-1">
+                  <label for="" class="">Keterangan</label>
+                  <textarea
+                    name="keterangan"
+                    id="keterangan"
+                    class="w-full p-1 rounded-md outline-none border border-gray-300"
+                    v-model="form.keterangan"
+                  ></textarea>
+                </div>
               </div>
 
               <tab-component :tabs="tabs">

@@ -18,6 +18,7 @@
     <table>
       <thead>
         <tr>
+          <th class="w-20 border border-gray-300">Kode Retur</th>
           <th class="w-20 border border-gray-300">Delivery Order</th>
           <th class="w-20 border border-gray-300">Quantity Kirim</th>
           <th class="w-20 border border-gray-300">Quantity</th>
@@ -33,7 +34,10 @@
           :key="index"
         >
           <td class="w-20 border border-gray-300">
-            {{ retur.shipment_detail.kode_delivery_order }}
+            {{ retur.kode_shipment_retur }}
+          </td>
+          <td class="w-20 border border-gray-300">
+            {{ retur.kode_delivery_order }}
           </td>
           <td class="w-20 border border-gray-300">
             {{ retur.quantity_kirim }}

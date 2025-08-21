@@ -2,9 +2,7 @@
   <section>
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Billing TKBM
-        </h1>
+        <h1 class="text-xl font-bold">Detail Billing TKBM</h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -269,6 +267,7 @@
                       >Status Billing</label
                     >
                     <select
+                      disabled
                       name="status_billing"
                       id="status_billing"
                       v-model="form.status_billing"
@@ -410,11 +409,6 @@
                     </tbody>
                   </table>
                 </div>
-
-                <modal-footer-section
-                  :isLoadingForm="isLoadingForm"
-                  @reset="formReset()"
-                />
               </div>
             </div>
           </form>
@@ -442,7 +436,7 @@ export default {
     return {
       id,
 
-      isEditable: Number.isInteger(id) ? true : false,
+      isEditable: true,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
 
@@ -609,10 +603,10 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchGudang();
-    await this.onSearchPelanggan();
-    await this.onSearchTipePPN();
-    await this.onSearchMataUang();
+    // await this.onSearchGudang();
+    // await this.onSearchPelanggan();
+    // await this.onSearchTipePPN();
+    // await this.onSearchMataUang();
   },
 
   computed: {

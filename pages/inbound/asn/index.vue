@@ -208,9 +208,9 @@
                   <td class="border border-gray-300">
                     {{
                       item.kendaraan
-                        ? item.kendaraan.nama_kendaraan +
+                        ? item.kendaraan.plat_nomor +
                           " - " +
-                          item.kendaraan.kode_kendaraan
+                          item.kendaraan.nama_kendaraan
                         : "-"
                     }}
                   </td>

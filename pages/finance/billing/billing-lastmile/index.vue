@@ -114,6 +114,7 @@
               <thead>
                 <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] border border-gray-300">Detail</th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -199,6 +200,11 @@
                   >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -243,6 +249,9 @@
                   </td>
                   <td class="border border-gray-300 text-right">
                     Rp {{ item.grand_total | formatPrice }}
+                  </td>
+                  <td class="text-center border border-gray-300">
+                    {{ item.keterangan }}
                   </td>
                   <td class="text-center border border-gray-300">
                     <button
@@ -425,13 +434,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        "/finance/billing/billing-lastmile/" + item.billing_tkbm_id
+        "/finance/billing/billing-lastmile/" + item.billing_lastmile_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/billing/billing-lastmile/detail/${item.billing_tkbm_id}`
+        `/finance/billing/billing-lastmile/detail/${item.billing_lastmile_id}`
       );
     },
 

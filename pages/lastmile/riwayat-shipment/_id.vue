@@ -356,7 +356,10 @@
               >
                 <div class="grid grid-cols-1 w-full gap-2 mt-10">
                   <div>
-                    <div class="form-group flex items-center">
+                    <div
+                      class="form-group flex items-center"
+                      v-if="!parameters.form.shipment_detail_id"
+                    >
                       <label for="" class="w-1/2"
                         >Delivery Order
                         <span class="text-danger">*</span></label
@@ -377,6 +380,18 @@
                           {{ value.item_gudang.nama_item }}
                         </option>
                       </select>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between"
+                    v-if="parameters.form.shipment_detail_id"
+                  >
+                    <label for="" class="w-1/2">Delivery Order</label>
+                    <div class="w-1/2 p-1 rounded-sm border border-gray-300">
+                      {{
+                        parameters.form.shipment_detail_id
+                          .kode_delivery_order || "-"
+                      }}
                     </div>
                   </div>
                   <div class="flex items-center justify-between">
@@ -726,6 +741,10 @@ export default {
           typeof this.parameters.form.shipment_detail_id === "object"
             ? this.parameters.form.shipment_detail_id.shipment_detail_id
             : this.parameters.form.shipment_detail_id,
+        pick_order_detail_id:
+          this.parameters.form.shipment_detail_id.pick_order_detail_id,
+        pick_request_detail_id:
+          this.parameters.form.shipment_detail_id.pick_request_detail_id,
         quantity_kirim: this.parameters.form.quantity_kirim,
         quantity_retur: this.parameters.form.quantity_retur,
         valuation_id: this.parameters.form.valuation_id,

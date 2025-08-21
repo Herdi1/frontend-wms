@@ -202,7 +202,7 @@
                       {{ item.nama_item ? item.nama_item : "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.quantity ? item.quantity : "-" }}
+                      {{ item.sisa_quantity ? item.sisa_quantity : "-" }}
                     </td>
                     <td
                       class="border border-gray-300 text-center place-items-center"

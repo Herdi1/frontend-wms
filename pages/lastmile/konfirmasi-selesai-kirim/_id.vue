@@ -289,7 +289,7 @@
                       <thead>
                         <tr class="uppercase">
                           <th class="border border-gray-300 w-44">
-                            Jenis Transaksi
+                            Jenis Kiriman
                           </th>
                           <th class="border border-gray-300 w-44">
                             Lokasi Asal
@@ -304,9 +304,6 @@
                           <th class="border border-gray-300 w-44">
                             Jenis Routing
                           </th>
-                          <th class="border border-gray-300 w-44">
-                            Jenis Kiriman
-                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -315,16 +312,16 @@
                           :key="i"
                           class="border-t align-top"
                         >
-                          <td class="border border-gray-300">
+                          <td class="border border-gray-300 text-center">
                             <span
-                              v-if="item.jenis == 0"
+                              v-if="item.jenis_kiriman == 0"
                               class="p-1 text-white rounded-md bg-orange-500"
-                              >Penjualan</span
+                              >Kembali</span
                             >
                             <span
-                              v-if="item.jenis == 1"
+                              v-if="item.jenis_kiriman == 1"
                               class="p-1 text-white rounded-md bg-green-500"
-                              >Stok Transfer</span
+                              >Berangkat</span
                             >
                           </td>
                           <td class="border border-gray-300">
@@ -353,18 +350,6 @@
                           </td>
                           <td class="border border-gray-300">
                             {{ item.jenis_routing ? item.jenis_routing : "-" }}
-                          </td>
-                          <td class="border border-gray-300 text-center">
-                            <span
-                              v-if="item.jenis_kiriman == 0"
-                              class="p-1 text-white rounded-md bg-orange-500"
-                              >Kembali</span
-                            >
-                            <span
-                              v-if="item.jenis_kiriman == 1"
-                              class="p-1 text-white rounded-md bg-green-500"
-                              >Berangkat</span
-                            >
                           </td>
                         </tr>
                       </tbody>
@@ -479,18 +464,33 @@
                 </template>
                 <template #ReturBarang>
                   <div class="w-full table-responsive">
-                    <table>
+                    <table class="table-fixed">
                       <thead>
-                        <tr>
-                          <th class="w-20 border border-gray-300">
+                        <tr class="text-nowrap">
+                          <th class="w-[200px] border border-gray-300">
                             Delivery Order
                           </th>
-                          <th class="w-20 border border-gray-300">
+                          <th class="w-[100px] border border-gray-300">
                             Quantity Kirim
                           </th>
-                          <th class="w-20 border border-gray-300">Quantity</th>
-                          <th class="w-20 border border-gray-300">Valuation</th>
-                          <th class="w-20 border border-gray-300">Alasan</th>
+                          <th class="w-[100px] border border-gray-300">
+                            Quantity
+                          </th>
+                          <th class="w-[100px] border border-gray-300">
+                            Valuation
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Alasan
+                          </th>
+                          <th class="w-[200px] border border-gray-300">Zona</th>
+                          <th class="w-[200px] border border-gray-300">
+                            Aisle
+                          </th>
+                          <th class="w-[200px] border border-gray-300">Rack</th>
+                          <th class="w-[200px] border border-gray-300">
+                            Level
+                          </th>
+                          <th class="w-[200px] border border-gray-300">Bin</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -513,6 +513,249 @@
                           </td>
                           <td class="w-20 border border-gray-300">
                             {{ retur.alasan }}
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_zona_gudang"
+                              :loading="isLoadingGetZonaPlan"
+                              :options="lookup_custom1.data"
+                              :filterable="false"
+                              @search="onGetZonaPlan"
+                              v-model="retur.zona_gudang_id"
+                              class="w-full"
+                              @input="(item) => onSelectZona(item, index)"
+                            >
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom1.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom1.current_page > 1"
+                                  @click="onGetZonaPlan(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom1.last_page >
+                                    lookup_custom1.current_page
+                                  "
+                                  @click="onGetZonaPlan(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_slot_penyimpanan"
+                              :loading="isLoadingGetSlotAisle"
+                              :options="lookup_custom2.data"
+                              :filterable="false"
+                              @search="onGetSlotAisle(index)"
+                              v-model="retur.slot_penyimpanan_id_aisle"
+                              @input="(item) => onSelectAisle(item, index)"
+                              class="w-full"
+                            >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom2.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom2.current_page > 1"
+                                  @click="onGetSlotAisle(index, search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom2.last_page >
+                                    lookup_custom2.current_page
+                                  "
+                                  @click="onGetSlotAisle(index, search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_slot_penyimpanan"
+                              :loading="isLoadingGetSlotRack"
+                              :options="lookup_custom3.data"
+                              :filterable="false"
+                              @search="onGetSlotRack(index)"
+                              v-model="retur.slot_penyimpanan_id_rack"
+                              @input="(item) => onSelectRack(item, index)"
+                              class="w-full"
+                            >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom3.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom3.current_page > 1"
+                                  @click="onGetSlotRack(index, search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom3.last_page >
+                                    lookup_custom3.current_page
+                                  "
+                                  @click="onGetSlotRack(index, search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_slot_penyimpanan"
+                              :loading="isLoadingGetSlotLevel"
+                              :options="lookup_custom4.data"
+                              :filterable="false"
+                              @search="onGetSlotLevel(index)"
+                              v-model="retur.slot_penyimpanan_id_level"
+                              @input="(item) => onSelectLevel(item, index)"
+                              class="w-full"
+                            >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom4.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom4.current_page > 1"
+                                  @click="onGetSlotLevel(index, search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom4.last_page >
+                                    lookup_custom4.current_page
+                                  "
+                                  @click="onGetSlotLevel(index, search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
+                          </td>
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_slot_penyimpanan"
+                              :loading="isLoadingGetSlotBin"
+                              :options="lookup_custom5.data"
+                              :filterable="false"
+                              @search="onGetSlotBin(index)"
+                              v-model="retur.slot_penyimpanan_id_bin"
+                              @input="(item) => onSelectBin(item, index)"
+                              class="w-full"
+                            >
+                              <template slot="option" slot-scope="option">
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                {{
+                                  option.nama_slot_penyimpanan +
+                                  " - " +
+                                  option.kode_slot_penyimpanan
+                                }}
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom5.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom5.current_page > 1"
+                                  @click="onGetSlotBin(index, search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Sebelumnya</span
+                                >
+                                <span
+                                  v-if="
+                                    lookup_custom5.last_page >
+                                    lookup_custom5.current_page
+                                  "
+                                  @click="onGetSlotBin(index, search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                  >Selanjutnya</span
+                                >
+                              </li>
+                            </v-select>
                           </td>
                         </tr>
                       </tbody>
@@ -599,6 +842,26 @@ export default {
           latitude: "",
         },
       },
+
+      isStopSearchZonaPlan: false,
+      isLoadingGetZonaPlan: false,
+      zona_plan_search: "",
+
+      isStopSearchSlotAisle: false,
+      isLoadingGetSlotAisle: false,
+      slot_aisle_search: "",
+
+      isStopSearchSlotRack: false,
+      isLoadingGetSlotRack: false,
+      slot_rack_search: "",
+
+      isStopSearchSlotLevel: false,
+      isLoadingGetSlotLevel: false,
+      slot_level_search: "",
+
+      isStopSearchSlotBin: false,
+      isLoadingGetSlotBin: false,
+      slot_bin_search: "",
     };
   },
 
@@ -635,7 +898,19 @@ export default {
           };
         }
       );
+      this.parameters.form.shipment_retur_details =
+        res.data.shipment_retur_details.map((item) => {
+          return {
+            ...item,
+            zona_gudang_id: item.zona_gudang || "",
+            slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle || "",
+            slot_penyimpanan_id_rack: item.slot_penyimpanan_rack || "",
+            slot_penyimpanan_id_level: item.slot_penyimpanan_level || "",
+            slot_penyimpanan_id_bin: item.slot_penyimpanan_bin || "",
+          };
+        });
       this.isLoadingPage = false;
+      await this.onSearchZonaPlan();
     } catch (error) {
       this.$router.back();
     }
@@ -647,11 +922,19 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["error", "result"]),
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+      "lookup_custom3",
+      "lookup_custom4",
+      "lookup_custom5",
+    ]),
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData"]),
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
 
     getUserAgent() {
       this.parameters.form.user_agent = navigator.userAgent;
@@ -707,6 +990,35 @@ export default {
         latitude: this.parameters.form.latitude,
       };
 
+      if (this.parameters.form.shipment_retur_details.length) {
+        formData.shipment_retur_details =
+          this.parameters.form.shipment_retur_details.map((item) => {
+            return {
+              ...item,
+              zona_gudang_id:
+                typeof item.zona_gudang_id === "object"
+                  ? item.zona_gudang_id.zona_gudang_id
+                  : item.zona_gudang_id,
+              slot_penyimpanan_id_aisle:
+                typeof item.slot_penyimpanan_id_aisle === "object"
+                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_aisle,
+              slot_penyimpanan_id_rack:
+                typeof item.slot_penyimpanan_id_rack === "object"
+                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_rack,
+              slot_penyimpanan_id_level:
+                typeof item.slot_penyimpanan_id_level === "object"
+                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_level,
+              slot_penyimpanan_id_bin:
+                typeof item.slot_penyimpanan_id_bin === "object"
+                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+                  : item.slot_penyimpanan_id_bin,
+            };
+          });
+      }
+
       if (this.isEditable) {
         url += "/" + this.id;
       }
@@ -749,6 +1061,326 @@ export default {
           this.isLoadingForm = false;
           this.$refs.formValidate.reset();
         });
+    },
+
+    // Get zona plan
+    onGetZonaPlan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchZonaPlan);
+
+      this.isStopSearchZonaPlan = setTimeout(() => {
+        this.zona_plan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchZonaPlan();
+      }, 600);
+    },
+
+    async onSearchZonaPlan() {
+      if (!this.isLoadingGetZonaPlan) {
+        this.isLoadingGetZonaPlan = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.zona_plan_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaPlan = false;
+      }
+    },
+
+    async onSelectZona(item, index) {
+      if (item) {
+        this.parameters.form.shipment_retur_details[index].zona_gudang_id =
+          item;
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        await this.onSearchSlotAisle(index);
+      } else {
+        this.parameters.form.shipment_retur_details[index].zona_gudang_id = "";
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+      }
+    },
+
+    // Get slot aisle
+    onGetSlotAisle(index, search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotAisle);
+
+      this.isStopSearchSlotAisle = setTimeout(() => {
+        this.slot_aisle_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchSlotAisle(index);
+      }, 600);
+    },
+
+    async onSearchSlotAisle(index) {
+      if (!this.isLoadingGetSlotAisle) {
+        this.isLoadingGetSlotAisle = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.slot_aisle_search +
+            "&level=1" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.shipment_retur_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotAisle = false;
+      }
+    },
+
+    async onSelectAisle(item, index) {
+      if (item) {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_aisle = item;
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        await this.onSearchSlotRack(index);
+      } else {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+      }
+    },
+
+    // Get slot rack
+    onGetSlotRack(index, search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotRack);
+
+      this.isStopSearchSlotRack = setTimeout(() => {
+        this.slot_rack_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchSlotRack(index);
+      }, 600);
+    },
+
+    async onSearchSlotRack(index) {
+      if (!this.isLoadingGetSlotRack) {
+        this.isLoadingGetSlotRack = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.slot_rack_search +
+            "&level=2" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.shipment_retur_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.shipment_retur_details[index]
+              .slot_penyimpanan_id_aisle.slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotRack = false;
+      }
+    },
+
+    async onSelectRack(item, index) {
+      if (item) {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_rack = item;
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+        await this.onSearchSlotLevel(index);
+      } else {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+      }
+    },
+
+    // Get slot level
+    onGetSlotLevel(index, search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotLevel);
+
+      this.isStopSearchSlotLevel = setTimeout(() => {
+        this.slot_level_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchSlotLevel(index);
+      }, 600);
+    },
+
+    async onSearchSlotLevel(index) {
+      if (!this.isLoadingGetSlotLevel) {
+        this.isLoadingGetSlotLevel = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.slot_rack_search +
+            "&level=3" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.shipment_retur_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.shipment_retur_details[index]
+              .slot_penyimpanan_id_rack.slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotLevel = false;
+      }
+    },
+
+    async onSelectLevel(item, index) {
+      if (item) {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_level = item;
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+        await this.onSearchSlotBin(index);
+      } else {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
+    },
+
+    // Get slot level
+    onGetSlotBin(index, search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSlotBin);
+
+      this.isStopSearchSlotBin = setTimeout(() => {
+        this.slot_bin_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchSlotBin(index);
+      }, 600);
+    },
+
+    async onSearchSlotBin(index) {
+      if (!this.isLoadingGetSlotBin) {
+        this.isLoadingGetSlotBin = true;
+
+        await this.lookUp({
+          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.slot_bin_search +
+            "&level=4" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.shipment_retur_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.shipment_retur_details[index]
+              .slot_penyimpanan_id_level.slot_penyimpanan_id +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSlotBin = false;
+      }
+    },
+
+    async onSelectBin(item, index) {
+      if (item) {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_bin = item;
+      } else {
+        this.parameters.form.shipment_retur_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
     },
   },
 };

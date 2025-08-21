@@ -114,6 +114,7 @@
               <thead>
                 <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] border border-gray-300">Detail</th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -198,6 +199,11 @@
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
                   <td class="border border-gray-300 text-center">
                     {{

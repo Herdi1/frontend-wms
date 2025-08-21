@@ -35,7 +35,7 @@
                       :disabled="isEditable"
                     />
                   </div>
-                  <ValidationProvider name="gudang_id" class="w-full mt-1">
+                  <ValidationProvider name="gudang_id" class="w-full mt-1 mb-2">
                     <div
                       slot-scope="{ errors, valid }"
                       class="flex items-center"
@@ -79,7 +79,10 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider name="pelanggan_id" class="w-full mt-1">
+                  <ValidationProvider
+                    name="pelanggan_id"
+                    class="w-full mt-1 mb-2"
+                  >
                     <div
                       slot-scope="{ errors, valid }"
                       class="flex items-center"
@@ -138,7 +141,10 @@
                       <option value="outbound">Outbound</option>
                     </select>
                   </div> -->
-                  <ValidationProvider name="tipe_ppn_id" class="w-full mt-1">
+                  <ValidationProvider
+                    name="tipe_ppn_id"
+                    class="w-full mt-1 mb-2"
+                  >
                     <div
                       slot-scope="{ errors, valid }"
                       class="flex items-center"
@@ -182,7 +188,10 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider name="mata_uang_id" class="w-full mt-1">
+                  <ValidationProvider
+                    name="mata_uang_id"
+                    class="w-full mt-1 mb-2"
+                  >
                     <div
                       slot-scope="{ errors, valid }"
                       class="flex items-center"
@@ -298,7 +307,7 @@
                     " -->
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
-                        <th class="w-[200px] border border-gray-300">Item</th>
+                        <th class="w-[200px] border border-gray-300">Lokasi</th>
                         <th class="w-[200px] border border-gray-300">
                           Kode Transaksi
                         </th>

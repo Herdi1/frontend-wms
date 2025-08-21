@@ -22,7 +22,7 @@
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
-            <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
+            <th class="w-[150px] border border-gray-300">Jenis Kiriman</th>
             <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Jarak</th>
@@ -42,14 +42,14 @@
           >
             <td class="border border-gray-300 text-center">
               <span
-                v-if="item.jenis == 0"
+                v-if="item.jenis_kiriman == 0"
                 class="p-1 text-white rounded-md bg-orange-500"
-                >Penjualan</span
+                >Pulang</span
               >
               <span
-                v-if="item.jenis == 1"
+                v-if="item.jenis_kiriman == 1"
                 class="p-1 text-white rounded-md bg-green-500"
-                >Stok Transfer</span
+                >Berangkat</span
               >
             </td>
             <td class="border border-gray-300">

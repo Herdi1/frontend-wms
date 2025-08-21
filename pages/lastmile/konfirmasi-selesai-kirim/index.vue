@@ -116,6 +116,7 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
@@ -289,7 +290,6 @@
                   <th class="w-52 border border-gray-300">Kendaraan</th>
                   <th class="w-52 border border-gray-300">Jenis Kendaraan</th>
                   <th class="w-52 border border-gray-300">Catatan Kiriman</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -297,6 +297,15 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_kiriman === 'SELESAI' ||
+                        item.status_kiriman === 'BATAL'
+                      "
+                    />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -373,15 +382,7 @@
                   <td class="border border-gray-300">
                     {{ item.catatan_kiriman ? item.catatan_kiriman : "" }}
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="
-                        item.status_kiriman === 'SELESAI' ||
-                        item.status_kiriman === 'BATAL'
-                      "
-                    />
-                  </td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

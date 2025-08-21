@@ -274,6 +274,7 @@
                     <option value="MENUNGGU">Menunggu</option>
                     <option value="PROSES">Proses</option>
                     <option value="SELESAI">Selesai</option>
+                    <option value="BATAL">Batal</option>
                   </select>
                 </div>
                 <!-- <div class="form-group">
