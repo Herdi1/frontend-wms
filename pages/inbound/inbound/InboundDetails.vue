@@ -206,8 +206,12 @@
                               </v-select>
                             </div>
                             <div>
-                              <p class="mb-2">Status Terima:</p>
-                              <select name="status_terima" id="status_terima" v-model="item.status_terima">
+                              <label for="status_terima" class="mb-2">Status Terima:</label>
+                              <!-- <p class="mb-2">Status Terima:</p> -->
+                              <select name="status_terima" id="status_terima" v-model="item.status_terima"
+                class="w-full p-1 rounded-md border border-gray-300 outline-none"
+
+                              >
                                 <option value="FULL">Diterima Full</option>
                                 <option value="SEBAGIAN">Diterima Sebagian</option>
                               </select>
