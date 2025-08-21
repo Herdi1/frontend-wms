@@ -332,6 +332,16 @@ export default {
     },
 
     onPreview() {
+      if (!this.parameters.form.gudang_id && !this.parameters.form.coa_id) {
+        this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
+        return;
+      }
+
+      if (this.parameters.params.download !== "pdf") {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+        return;
+      }
+
       let url =
         this.parameters.url +
         "?download=" +
@@ -345,21 +355,15 @@ export default {
         "&end_date=" +
         this.parameters.params.end_date;
 
-      if (this.parameters.params.download === "pdf") {
-        if (this.parameters.form.gudang_id && this.parameters.form.coa_id) {
-          let token = this.$cookiz
-            .get("auth._token.local")
-            .replace("Bearer ", "");
-          window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-        } else {
-          this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
-        }
-      } else {
-        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
-      }
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
     },
 
     async onExport() {
+      if (!this.parameters.form.gudang_id && !this.parameters.form.coa_id) {
+        this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
+        return;
+      }
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       try {
         let url =
@@ -377,35 +381,31 @@ export default {
           "&token=" +
           token;
 
-        if (this.parameters.form.gudang_id && this.parameters.form.coa_id) {
-          this.$axios({
-            method: "GET",
-            url: url,
-            responseType: "blob",
-          }).then((res) => {
-            const blob = new Blob([res.data], {
-              type: res.headers["content-type"],
-            });
-            const link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-
-            const disposition = res.headers["content-disposition"];
-            let filename = "laporan_kas_operasional";
-            if (disposition && disposition.indexOf("filename=") !== 0) {
-              filename = disposition
-                .split("filename=")[1]
-                .replace(/"/g, "")
-                .trim();
-            }
-
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+        this.$axios({
+          method: "GET",
+          url: url,
+          responseType: "blob",
+        }).then((res) => {
+          const blob = new Blob([res.data], {
+            type: res.headers["content-type"],
           });
-        } else {
-          this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
-        }
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+
+          const disposition = res.headers["content-disposition"];
+          let filename = "laporan_kas_operasional";
+          if (disposition && disposition.indexOf("filename=") !== 0) {
+            filename = disposition
+              .split("filename=")[1]
+              .replace(/"/g, "")
+              .trim();
+          }
+
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        });
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);
       }

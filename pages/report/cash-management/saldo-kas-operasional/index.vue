@@ -430,7 +430,6 @@ export default {
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
-        // Determine gudang_id value based on type
         let gudangId = "";
         if (
           this.parameters.params.type === "historis" &&
@@ -439,7 +438,6 @@ export default {
         ) {
           gudangId = this.parameters.form.gudang_id.gudang_id;
         }
-        // Untuk type "laporan", gudangId tetap empty string
 
         let url =
           this.parameters.url +
@@ -458,7 +456,6 @@ export default {
           "&token=" +
           token;
 
-        // Execute axios request
         this.$axios({
           method: "GET",
           url: url,
