@@ -521,7 +521,7 @@
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
                   <th class="w-40 border border-gray-300">Item Gudang</th>
-                  <th class="w-40 border border-gray-300">Zona Gudang</th>
+                  <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
                   <th class="w-40 border border-gray-300">Nomor Referensi</th>
@@ -659,7 +659,7 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <v-select
                       class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_zona_gudang"
@@ -692,7 +692,7 @@
                         >
                       </li>
                     </v-select>
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
                     <money
                       v-model="item.quantity"

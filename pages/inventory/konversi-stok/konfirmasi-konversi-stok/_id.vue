@@ -310,9 +310,9 @@ export default {
     //   lookup: "custom1",
     //   query: "?q=jenis_kontrak",
     // });
-    await this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
     await this.onSearchValuation();
-    await this.onSearchZonaPlan();
+    // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -343,6 +343,8 @@ export default {
         });
 
         this.parameters.form.gudang_id = res.data.gudang;
+        await this.onSearchItemGudang();
+        await this.onSearchZonaPlan();
 
         this.parameters.form.konversi_stok_detail_bahan =
           res.data.konversi_stok_detail_bahans.map((item) => {
@@ -448,12 +450,13 @@ export default {
 
       let formData = {
         ...this.parameters.form,
-        id: this.parameters.form.konversi_stok_id
-          ? this.parameters.form.konversi_stok_id
-          : "",
+        id:
+          this.parameters.form.konversi_stok_id ?? ""
+            ? this.parameters.form.konversi_stok_id ?? ""
+            : "",
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
-            ? this.parameters.form.gudang_id.gudang_id
+            ? this.parameters.form.gudang_id.gudang_id ?? ""
             : "",
         // ...this.parameters.form,
         // form: {
@@ -464,35 +467,31 @@ export default {
         this.parameters.form.konversi_stok_detail_bahan.map((item) => {
           return {
             ...item,
-            item_id: item.item_id,
+            item_id: item.item_id ?? "",
             // item_pelanggan_id:
             //   typeof item.item_gudang_id === "object"
             //     ? item.item_gudang_id.item_pelanggan_id
             //     : "",
             item_gudang_id:
               typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id
+                ? item.item_gudang_id.item_gudang_id ?? ""
                 : "",
             zona_gudang_id:
               typeof item.zona_gudang_id === "object"
-                ? item.zona_gudang_id.zona_gudang_id
+                ? item.zona_gudang_id.zona_gudang_id ?? ""
                 : "",
-            slot_penyimpanan_id_aisle:
-              typeof item.slot_penyimpanan_id_aisle === "object"
-                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_rack:
-              typeof item.slot_penyimpanan_id_rack === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_level:
-              typeof item.slot_penyimpanan_id_level === "object"
-                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-                : "",
-            slot_penyimpanan_id_bin:
-              typeof item.slot_penyimpanan_id_bin === "object"
-                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-                : "",
+            slot_penyimpanan_id_aisle: item.slot_penyimpanan_id_aisle
+              ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+              : "",
+            slot_penyimpanan_id_rack: item.slot_penyimpanan_id_rack
+              ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+              : "",
+            slot_penyimpanan_id_level: item.slot_penyimpanan_id_level
+              ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+              : "",
+            slot_penyimpanan_id_bin: item.slot_penyimpanan_id_bin
+              ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+              : "",
           };
         });
 
@@ -507,27 +506,27 @@ export default {
             //     : "",
             item_gudang_id:
               typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id
+                ? item.item_gudang_id.item_gudang_id ?? ""
                 : "",
             zona_gudang_id:
               typeof item.zona_gudang_id === "object"
-                ? item.zona_gudang_id.zona_gudang_id
+                ? item.zona_gudang_id.zona_gudang_id ?? ""
                 : "",
             slot_penyimpanan_id_aisle:
               typeof item.slot_penyimpanan_id_aisle === "object"
-                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_rack:
               typeof item.slot_penyimpanan_id_rack === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_level:
               typeof item.slot_penyimpanan_id_level === "object"
-                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_bin:
               typeof item.slot_penyimpanan_id_bin === "object"
-                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
                 : "",
           };
         });
@@ -874,6 +873,8 @@ export default {
           query:
             "?search=" +
             this.item_gudang_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
@@ -925,7 +926,7 @@ export default {
 
     async onSelectGudang(item) {
       this.parameters.form.gudang_id = item;
-      await this.onSearchZonaPlan();
+      // await this.onSearchZonaPlan();
       // await this.onSearchSlotAisle();
       // await this.onSearchSlotRack();
       // await this.onSearchSlotLevel();

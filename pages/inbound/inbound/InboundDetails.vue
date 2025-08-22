@@ -1076,14 +1076,14 @@ export default {
       };
       await this.onSearchZonaPlan();
 
-      if (this.self.form.sumber_data == "ASN") {
-        const rekomendasiZona = await this.$axios.get(
-          `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`
-        );
-        if (rekomendasiZona.data.length > 0) {
-          this.onSelectZona(rekomendasiZona.data[0], index);
-        }
-      }
+      // if (this.self.form.sumber_data == "ASN") {
+      //   const rekomendasiZona = await this.$axios.get(
+      //     `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`
+      //   );
+      //   if (rekomendasiZona.data.length > 0) {
+      //     this.onSelectZona(rekomendasiZona.data[0], index);
+      //   }
+      // }
 
       const biaya = await this.$axios.get(
         "/finance/kontrak-tkbm/get-kontrak-tkbm",

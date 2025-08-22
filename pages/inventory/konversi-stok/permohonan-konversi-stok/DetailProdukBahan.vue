@@ -3,7 +3,7 @@
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Detail Produk Bahan</h1>
       <div class="flex gap-2">
-        <button
+        <!-- <button
           type="button"
           @click="addDetailProdukBahan"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
@@ -18,7 +18,7 @@
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Kartu Stok</p>
-        </button>
+        </button> -->
         <button
           type="button"
           @click="self.onOpenModalStokGudang"

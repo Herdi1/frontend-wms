@@ -60,7 +60,7 @@
               </p>
             </td>
             <td class="border border-gray-300">
-              <p class="font-bold">
+              <p class="font-bold" v-if="item.slot_penyimpanan_aisle">
                 {{
                   item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
                   " - " +
@@ -69,7 +69,7 @@
               </p>
             </td>
             <td class="border border-gray-300">
-              <p class="font-bold">
+              <p class="font-bold" v-if="item.slot_penyimpanan_rack">
                 {{
                   item.slot_penyimpanan_rack.nama_slot_penyimpanan +
                   " - " +
@@ -78,7 +78,7 @@
               </p>
             </td>
             <td class="border border-gray-300">
-              <p class="font-bold">
+              <p class="font-bold" v-if="item.slot_penyimpanan_level">
                 {{
                   item.slot_penyimpanan_level.nama_slot_penyimpanan +
                   " - " +
@@ -87,7 +87,7 @@
               </p>
             </td>
             <td class="border border-gray-300">
-              <p class="font-bold">
+              <p class="font-bold" v-if="item.slot_penyimpanan_bin">
                 {{
                   item.slot_penyimpanan_bin.nama_slot_penyimpanan +
                   " - " +
