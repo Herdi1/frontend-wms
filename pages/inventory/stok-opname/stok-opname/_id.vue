@@ -957,10 +957,14 @@ export default {
           (detailItem) =>
             (detailItem.zona_gudang_id
               ? detailItem.zona_gudang_id.zona_gudang_id
-              : 0) === item.zona_gudang_id &&
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].zona_gudang_id
+                .zona_gudang_id &&
             (detailItem.item_gudang_id
               ? detailItem.item_gudang_id.item_gudang_id
-              : 0) === item.item_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].item_gudang_id
+                .item_gudang_id
         );
 
         console.log(itemGudangs);
