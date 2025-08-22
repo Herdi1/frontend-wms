@@ -158,6 +158,7 @@
           >
             <thead>
               <tr class="uppercase text-nowrap">
+                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Detail</th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th class="w-52 border border-gray-300">Kode Konversi Stok</th>
@@ -168,12 +169,20 @@
                 <th class="w-52 border border-gray-300">Tanggal Mulai</th>
                 <th class="w-52 border border-gray-300">Tanggal Selesai</th>
                 <th class="w-52 border border-gray-300">Lama Pengerjaan</th>
-                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button
+                    @click="onEdit(item)"
+                    :disabled="
+                      item.status_approve == 1 ||
+                      item.status_konversi === 'BATAL'
+                    "
+                  />
+                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -249,15 +258,7 @@
                 <td class="border border-gray-300">
                   {{ item.lama_pengerjaan }}
                 </td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button
-                    @click="onEdit(item)"
-                    :disabled="
-                      item.status_approve == 1 ||
-                      item.status_konversi === 'BATAL'
-                    "
-                  />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
@@ -296,7 +297,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -330,6 +331,8 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {

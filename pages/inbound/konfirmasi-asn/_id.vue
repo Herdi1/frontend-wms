@@ -803,6 +803,15 @@ export default {
           };
         });
 
+        const rekomendasiZona = await this.$axios.get(
+          `inbound/asn/get-rekomendasi-zona/${this.form.gudang_id}`
+        );
+        if (rekomendasiZona.data.length > 0) {
+          this.form.asn_details.forEach((item, index) => {
+            this.onSelectZona(rekomendasiZona.data[0], index);
+          });
+        }
+
         if (this.form.asn_details) {
           await this.onSearchSlotAisle(0);
         }

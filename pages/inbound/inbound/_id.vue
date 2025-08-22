@@ -793,14 +793,14 @@ export default {
           : "",
         purchase_order_id: this.form.purchase_order_id
           ? typeof this.form.purchase_order_id === "object"
-            ? this.form.purchase_order_id.purchase_order_id
-            : this.form.purchase_order_id
+            ? this.form.purchase_order_id.purchase_order_id ?? ""
+            : this.form.purchase_order_id ?? ""
           : "",
         gudang_id: gudang,
         supplier_id:
           typeof this.form.supplier_id === "object"
-            ? this.form.supplier_id.supplier_id
-            : this.form.supplier_id,
+            ? this.form.supplier_id.supplier_id ?? ""
+            : this.form.supplier_id ?? "",
         pelanggan_id:
           typeof this.form.pelanggan_id === "object"
             ? this.form.pelanggan_id.pelanggan_id
@@ -814,45 +814,45 @@ export default {
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
           ...item,
-          quantity_request: item.quantity,
+          quantity_request: item.quantity ?? "",
           detail_inbound_id: item.detail_inbound_id
-            ? item.detail_inbound_id.detail_inbound_id
+            ? item.detail_inbound_id.detail_inbound_id ?? ""
             : "",
           valuation_id: item.valuation_id ?? "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id
-              : item.item_gudang_id,
+              ? item.item_gudang_id.item_gudang_id ?? ""
+              : item.item_gudang_id ?? "",
           item_id: this.isEditable
-            ? item.item.item_id
-            : item.item_gudang_id.item_id,
+            ? item.item.item_id ?? ""
+            : item.item_gudang_id.item_id ?? "",
           item_pelanggan_id: "",
           zona_gudang_id:
             typeof item.zona_gudang_id === "object"
-              ? item.zona_gudang_id.zona_gudang_id
+              ? item.zona_gudang_id.zona_gudang_id ?? ""
               : "",
           slot_penyimpanan_id_aisle:
             typeof item.slot_penyimpanan_id_aisle === "object" &&
             item.slot_penyimpanan_aisle
-              ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+              ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
               : "",
           slot_penyimpanan_id_rack:
             typeof item.slot_penyimpanan_id_rack === "object" &&
             item.slot_penyimpanan_rack
-              ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+              ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
               : "",
           slot_penyimpanan_id_level:
             typeof item.slot_penyimpanan_id_level === "object" &&
             item.slot_penyimpanan_level
-              ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+              ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
               : "",
           slot_penyimpanan_id_bin:
             typeof item.slot_penyimpanan_id_bin === "object" &&
             item.slot_penyimpanan_bin
-              ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+              ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
               : "",
           keterangan: item.keterangan || "",
-          stok_transfer_detail_id: item.stok_transfer_detail_id,
+          stok_transfer_detail_id: item.stok_transfer_detail_id ?? "",
         };
       });
 
@@ -861,22 +861,24 @@ export default {
           ...item,
           biaya_inbound_id:
             typeof item.biaya_inbound_id === "object"
-              ? item.biaya_inbound_id.biaya_inbound_id
+              ? item.biaya_inbound_id.biaya_inbound_id ?? ""
               : "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id === "object"
-              ? item.jenis_biaya_id.jenis_biaya_id
-              : item.jenis_biaya_id,
+              ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+              : item.jenis_biaya_id ?? "",
           coa_id:
-            typeof item.coa_id === "object" ? item.coa_id.coa_id : item.coa_id,
+            typeof item.coa_id === "object"
+              ? item.coa_id.coa_id ?? ""
+              : item.coa_id ?? "",
           divisi_id:
             typeof item.divisi_id === "object"
-              ? item.divisi_id.divisi_id
-              : item.divisi_id,
+              ? item.divisi_id.divisi_id ?? ""
+              : item.divisi_id ?? "",
           vendor_id:
             typeof item.vendor_id === "object"
-              ? item.vendor_id.vendor_id
-              : item.vendor_id,
+              ? item.vendor_id.vendor_id ?? ""
+              : item.vendor_id ?? "",
           berat: item.berat > 0 ? item.berat : 1,
           volume: item.volume > 0 ? item.volume : 1,
           jenis: item.jenis ? item.jenis : 0,
@@ -889,26 +891,28 @@ export default {
           ...item,
           tagihan_inbound_id:
             typeof item.tagihan_inbound_id === "object"
-              ? item.tagihan_inbound_id.tagihan_inbound_id
+              ? item.tagihan_inbound_id.tagihan_inbound_id ?? ""
               : "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id === "object"
-              ? item.jenis_biaya_id.jenis_biaya_id
-              : item.jenis_biaya_id,
+              ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+              : item.jenis_biaya_id ?? "",
           coa_id:
-            typeof item.coa_id === "object" ? item.coa_id.coa_id : item.coa_id,
+            typeof item.coa_id === "object"
+              ? item.coa_id.coa_id ?? ""
+              : item.coa_id ?? "",
           pelanggan_id:
             typeof item.pelanggan_id === "object"
-              ? item.pelanggan_id.pelanggan_id
-              : item.pelanggan_id,
+              ? item.pelanggan_id.pelanggan_id ?? ""
+              : item.pelanggan_id ?? "",
           divisi_id:
             typeof item.divisi_id === "object"
-              ? item.divisi_id.divisi_id
-              : item.divisi_id,
-          // vendor_id:
-          //   typeof item.vendor_id === "object"
-          //     ? item.vendor_id.vendor_id
-          //     : item.vendor_id,
+              ? item.divisi_id.divisi_id ?? ""
+              : item.divisi_id ?? "",
+          vendor_id:
+            typeof item.vendor_id === "object"
+              ? item.vendor_id.vendor_id ?? ""
+              : item.vendor_id ?? "",
           berat: item.berat > 0 ? item.berat : 1,
           volume: item.volume > 0 ? item.volume : 1,
           jenis: item.jenis ? item.jenis : 0,
