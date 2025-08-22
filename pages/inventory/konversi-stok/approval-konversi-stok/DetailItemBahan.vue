@@ -60,36 +60,36 @@
             <td class="border border-gray-300">
               <p class="font-bold">
                 {{
-                  item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
+                  item.slot_penyimpanan_aisle?.nama_slot_penyimpanan +
                   " - " +
-                  item.slot_penyimpanan_aisle.kode_slot_penyimpanan
+                  item.slot_penyimpanan_aisle?.kode_slot_penyimpanan
                 }}
               </p>
             </td>
             <td class="border border-gray-300">
               <p class="font-bold">
                 {{
-                  item.slot_penyimpanan_rack.nama_slot_penyimpanan +
+                  item.slot_penyimpanan_rack?.nama_slot_penyimpanan +
                   " - " +
-                  item.slot_penyimpanan_rack.kode_slot_penyimpanan
+                  item.slot_penyimpanan_rack?.kode_slot_penyimpanan
                 }}
               </p>
             </td>
             <td class="border border-gray-300">
               <p class="font-bold">
                 {{
-                  item.slot_penyimpanan_level.nama_slot_penyimpanan +
+                  item.slot_penyimpanan_level?.nama_slot_penyimpanan +
                   " - " +
-                  item.slot_penyimpanan_level.kode_slot_penyimpanan
+                  item.slot_penyimpanan_level?.kode_slot_penyimpanan
                 }}
               </p>
             </td>
             <td class="border border-gray-300">
               <p class="font-bold">
                 {{
-                  item.slot_penyimpanan_bin.nama_slot_penyimpanan +
+                  item.slot_penyimpanan_bin?.nama_slot_penyimpanan +
                   " - " +
-                  item.slot_penyimpanan_bin.kode_slot_penyimpanan
+                  item.slot_penyimpanan_bin?.kode_slot_penyimpanan
                 }}
               </p>
             </td>
