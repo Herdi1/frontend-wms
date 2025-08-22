@@ -21,9 +21,7 @@
                 <h1 class="text-xl font-bold">Data ASN</h1>
                 <div class=" "></div>
               </div>
-              <div
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full mb-7"
-              >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full mb-7">
                 <div>
                   <input-horizontal
                     label="Kode External"
@@ -37,7 +35,7 @@
                     :required="false"
                   />
                 </div>
-                <!-- <div>
+                <div>
                   <input-horizontal
                     label="Kode ASN"
                     type="text"
@@ -49,7 +47,7 @@
                     v-model="form.kode_asn"
                     :required="false"
                   />
-                </div> -->
+                </div>
                 <div>
                   <input-horizontal
                     label="Tanggal"
@@ -167,20 +165,21 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="form.kendaraan">
-                  <input-horizontal
-                    label="Kendaraan"
-                    type="text"
-                    name="kendaraan"
-                    :disabled="true"
-                    labelWidth="w-[50%]"
-                    inputWidth="w-[50%]"
-                    :isHorizontal="true"
-                    v-model="form.kendaraan.nama_kendaraan"
-                    :required="false"
-                  />
+                <div class="flex w-full items-center" v-if="form.kendaraan">
+                  <label class="w-1/2">Kendaraan</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{
+                      form.kendaraan
+                        ? form.kendaraan.kode_kendaraan +
+                          " - " +
+                          form.kendaraan.nama_kendaraan
+                        : "-"
+                    }}
+                  </div>
                 </div>
-                <div v-if="form.pengemudi">
+                <div v-if="form.staff">
                   <input-horizontal
                     label="Pengemudi"
                     type="text"
@@ -189,7 +188,7 @@
                     labelWidth="w-[50%]"
                     inputWidth="w-[50%]"
                     :isHorizontal="true"
-                    v-model="form.pengemudi.nama_pengemudi"
+                    v-model="form.staff.nama_lengkap"
                     :required="false"
                   />
                 </div>
@@ -206,7 +205,7 @@
                     :required="false"
                   />
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-2">
                   <div class="grid grid-cols-2 gap-2">
                     <div>
                       <label for="">Kebutuhan Peralatan</label>
@@ -228,7 +227,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-2">
                   <label for="">Catatan</label>
                   <textarea
                     disabled
@@ -630,6 +629,7 @@ export default {
         handling_instruction: "",
         catatan: "",
         status_transaksi: {},
+        staff: {},
 
         status_inspeksi: "",
         tanggal_inspeksi: "",

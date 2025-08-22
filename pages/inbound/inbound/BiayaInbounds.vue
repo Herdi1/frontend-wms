@@ -56,6 +56,7 @@
                 v-model="item.jenis_biaya_id"
                 @input="(item) => onSelectJenisBiaya(item, index)"
                 class="w-full"
+                :disabled="self.isEditable"
               >
                 <li
                   slot-scope="{ search }"

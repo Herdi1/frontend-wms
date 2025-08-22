@@ -110,6 +110,8 @@
             >
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-28 border border-gray-300">Generate ASN</th>
+                  <th class="w-20 border border-gray-300">Edit</th>
                   <th class="w-20 border border-gray-300">Details</th>
                   <th class="w-20 border border-gray-300">No</th>
                   <!-- <th
@@ -153,13 +155,25 @@
                   <th class="w-60 border border-gray-300">Kendaraan</th>
                   <th class="w-60 border border-gray-300">Staff</th>
                   <th class="w-60 border border-gray-300">Status PO</th>
-                  <th class="w-20 border border-gray-300">Generate ASN</th>
-                  <th class="w-20 border border-gray-300">Edit</th>
+
                   <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="text-center border border-gray-300">
+                    <button
+                      class="text-white p-1 rounded-md bg-orange-500 px-3"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </td>
+
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -230,17 +244,7 @@
                       Dibuat {{ item.asns_count }} ASN
                     </span>
                   </td>
-                  <td class="text-center border border-gray-300">
-                    <button class="text-white p-1 rounded-md bg-blue-500 px-3">
-                      <i class="fa fa-plus"></i>
-                    </button>
-                  </td>
 
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -318,6 +322,10 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
   },
 
   data() {
@@ -490,7 +498,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {

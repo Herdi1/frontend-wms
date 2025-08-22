@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Tagihan Inbound</h1>
+      <h1 class="text-xl font-bold">Pendapatan Inbound</h1>
       <div class=" ">
         <!-- <button
           type="button"

@@ -100,6 +100,31 @@
                   }"
                   width="w-[60%]"
                 />
+                <div class="form-group">
+                  <input-horizontal
+                    label="Tanggal"
+                    type="date"
+                    name="tanggal"
+                    labelWidth="w-[40%]"
+                    inputWidth="w-[60%]"
+                    :isHorizontal="true"
+                    v-model="form.tanggal"
+                    :required="false"
+                  />
+                </div>
+                <div class="form-group flex items-center">
+                  <label for="" class="w-[40%]">Jenis Transaksi</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="form.jenis_transaksi"
+                    class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Inbound</option>
+                    <option value="1">Cross Docking</option>
+                    <option value="2">Retur</option>
+                  </select>
+                </div>
                 <select-button
                   v-if="form.sumber_data === 'PO'"
                   :self="{
@@ -190,31 +215,7 @@
                     :disabled="form.sumber_data !== 'NON'"
                   />
                 </div>
-                <div class="form-group">
-                  <input-horizontal
-                    label="Tanggal"
-                    type="date"
-                    name="tanggal"
-                    labelWidth="w-[40%]"
-                    inputWidth="w-[60%]"
-                    :isHorizontal="true"
-                    v-model="form.tanggal"
-                    :required="false"
-                  />
-                </div>
-                <div class="form-group flex items-center">
-                  <label for="" class="w-[40%]">Jenis Transaksi</label>
-                  <select
-                    name=""
-                    id=""
-                    v-model="form.jenis_transaksi"
-                    class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="0">Inbound</option>
-                    <option value="1">Cross Docking</option>
-                    <option value="2">Retur</option>
-                  </select>
-                </div>
+
                 <div class="form-group" v-if="!user.gudang_id">
                   <select-button
                     :self="{
@@ -226,6 +227,7 @@
                       onGet: onGetGudang,
                       input: onSelectGudang,
                     }"
+                    :disabled="true"
                     width="w-[60%]"
                   />
                 </div>
@@ -239,6 +241,21 @@
                       value: form.supplier_id,
                       onGet: onGetSupplier,
                       input: onSelectSupplier,
+                    }"
+                    :disabled="true"
+                    width="w-[60%]"
+                  />
+                </div>
+                <div>
+                  <select-button
+                    :self="{
+                      label: 'Pelanggan',
+                      optionLabel: 'nama_pelanggan',
+                      lookup: lookup_department,
+                      value: form.pelanggan_id,
+                      onGet: onGetPelanggan,
+                      isLoadingL: isLoadingGetPelanggan,
+                      input: onSelectPelanggan,
                     }"
                     width="w-[60%]"
                   />
@@ -271,7 +288,7 @@
                   <InboundDetails :self="{ form, items }" />
                 </template>
                 <template #BiayaInbound>
-                  <BiayaInbounds :self="{ form }" />
+                  <BiayaInbounds :self="{ form, isEditable }" />
                 </template>
                 <template #TagihanInbound>
                   <TagihanInbounds :self="{ form }" />
@@ -335,7 +352,7 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
-        { name: "TAGIHAN INBOUND", slotName: "TagihanInbound" },
+        { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
       ],
 
       id,
@@ -360,6 +377,10 @@ export default {
       isLoadingGetSupplier: false,
       supplier_search: "",
 
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -382,6 +403,7 @@ export default {
         supplier_id: "",
         tanggal: "",
         jenis_transaksi: "0",
+        pelanggan_id: "",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -407,6 +429,7 @@ export default {
         supplier_id: "",
         tanggal: "",
         jenis_transaksi: "0",
+        pelanggan_id: "",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -446,6 +469,7 @@ export default {
         this.form.gudang_id = res.data.gudang;
         this.form.supplier_id = res.data.supplier;
         this.form.keterangan = res.data.keterangan;
+        this.form.pelanggan_id = res.data.pelanggan;
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -485,7 +509,7 @@ export default {
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               jenis_biaya_id: item.jenis_biaya,
-              coa_id: item.coa,
+              coa_id: item.coa ?? "",
               divisi_id: item.divisi,
               vendor_id: item.vendor,
             };
@@ -497,7 +521,7 @@ export default {
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               jenis_biaya_id: item.jenis_biaya,
-              coa_id: item.coa,
+              coa_id: item.coa ?? "",
               pelanggan_id: item.pelanggan,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
@@ -639,6 +663,7 @@ export default {
 
     await this.onSearchGudang();
     await this.onSearchSupplier();
+    await this.onSearchPelanggan();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -659,6 +684,7 @@ export default {
       "lookup_products",
       "lookup_suppliers",
       "lookup_customers",
+      "lookup_department",
     ]),
 
     //check if the real storaage slot is same as the plan
@@ -775,6 +801,10 @@ export default {
           typeof this.form.supplier_id === "object"
             ? this.form.supplier_id.supplier_id
             : this.form.supplier_id,
+        pelanggan_id:
+          typeof this.form.pelanggan_id === "object"
+            ? this.form.pelanggan_id.pelanggan_id
+            : this.form.pelanggan_id,
         // supplier_id: this.form.asn_id ? this.form.asn_id.supplier_id : this.form.purchase_order_id.supplier_id,
       };
 
@@ -875,10 +905,10 @@ export default {
             typeof item.divisi_id === "object"
               ? item.divisi_id.divisi_id
               : item.divisi_id,
-          vendor_id:
-            typeof item.vendor_id === "object"
-              ? item.vendor_id.vendor_id
-              : item.vendor_id,
+          // vendor_id:
+          //   typeof item.vendor_id === "object"
+          //     ? item.vendor_id.vendor_id
+          //     : item.vendor_id,
           berat: item.berat > 0 ? item.berat : 1,
           volume: item.volume > 0 ? item.volume : 1,
           jenis: item.jenis ? item.jenis : 0,
@@ -1049,6 +1079,53 @@ export default {
         });
 
         this.isLoadingGetPurchaseOrder = false;
+      }
+    },
+
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPelanggan);
+
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_department.current_page = isNext
+            ? this.lookup_department.current_page + 1
+            : this.lookup_department.current_page - 1;
+        } else {
+          this.lookup_department.current_page = 1;
+        }
+
+        this.onSearchPelanggan();
+      }, 600);
+    },
+
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
+
+        await this.lookUp({
+          url: "master/pelanggan/get-pelanggan",
+          lookup: "department",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_department.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPelanggan = false;
+      }
+    },
+
+    onSelectPelanggan(item) {
+      if (item) {
+        this.form.pelanggan_id = item;
+      } else {
+        this.form.pelanggan_id = "";
       }
     },
 
