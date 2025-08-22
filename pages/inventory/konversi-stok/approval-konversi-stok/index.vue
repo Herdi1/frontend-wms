@@ -158,7 +158,9 @@
           >
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-24 text-center border border-gray-300">
+                  Konfirmasi
+                </th>
                 <th class="w-20 text-center border border-gray-300">Detail</th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th class="w-52 border border-gray-300">Kode Konversi Stok</th>

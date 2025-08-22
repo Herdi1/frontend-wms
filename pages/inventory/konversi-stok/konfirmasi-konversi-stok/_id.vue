@@ -354,10 +354,10 @@ export default {
               item_id: item.item_id,
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
 
@@ -369,10 +369,10 @@ export default {
               item_id: item.item_id,
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
 
