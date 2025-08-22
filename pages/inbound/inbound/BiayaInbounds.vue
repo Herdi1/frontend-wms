@@ -21,6 +21,9 @@
         <thead>
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[200px] border border-gray-300">Vendor</th>
+            <th class="w-[200px] border border-gray-300">Divisi</th>
+            <th class="w-[200px] border border-gray-300">COA</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Dasar Perhitungan</th>
             <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
@@ -28,9 +31,6 @@
             <th class="w-[200px] border border-gray-300">Berat</th>
             <th class="w-[200px] border border-gray-300">Volume</th>
             <th class="w-[200px] border border-gray-300">Total</th>
-            <th class="w-[200px] border border-gray-300">COA</th>
-            <th class="w-[200px] border border-gray-300">Divisi</th>
-            <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[300px] border border-gray-300">Keterangan</th>
             <!-- <th class="w-20 border border-gray-300 text-center">Delete</th> -->
           </tr>
@@ -46,6 +46,109 @@
               {{ item.item_gudang.nama_item }}
               {{ item.item_gudang.kode_item }}
             </td>
+            <td class="border border-gray-300">
+              <v-select
+                label="nama_vendor"
+                :loading="isLoadingGetVendor"
+                :options="lookup_custom10.data"
+                :filterable="false"
+                @search="onGetVendor"
+                v-model="item.vendor_id"
+                @input="(item) => onSelectVendor(item, index)"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom10.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom10.current_page > 1"
+                    @click="onGetVendor(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom10.last_page > lookup_custom10.current_page
+                    "
+                    @click="onGetVendor(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </td>
+            <td class="border border-gray-300">
+              <v-select
+                label="nama_divisi"
+                :loading="isLoadingGetDivisi"
+                :options="lookup_custom9.data"
+                :filterable="false"
+                @search="onGetDivisi"
+                v-model="item.divisi_id"
+                @input="(item) => onSelectDivisi(item, index)"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom9.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom9.current_page > 1"
+                    @click="onGetDivisi(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom9.last_page > lookup_custom9.current_page
+                    "
+                    @click="onGetDivisi(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </td>
+            <td class="border border-gray-300">
+              <v-select
+                label="nama_coa"
+                :loading="isLoadingGetCoa"
+                :options="lookup_custom8.data"
+                :filterable="false"
+                @search="onGetCoa"
+                v-model="item.coa_id"
+                @input="(item) => onSelectCoa(item, index)"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom8.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom8.current_page > 1"
+                    @click="onGetCoa(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom8.last_page > lookup_custom8.current_page
+                    "
+                    @click="onGetCoa(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </td>
+
             <td class="border border-gray-300">
               <v-select
                 label="nama_jenis_biaya"
@@ -133,108 +236,7 @@
                 "
               />
             </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_coa"
-                :loading="isLoadingGetCoa"
-                :options="lookup_custom8.data"
-                :filterable="false"
-                @search="onGetCoa"
-                v-model="item.coa_id"
-                @input="(item) => onSelectCoa(item, index)"
-                class="w-full"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom8.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom8.current_page > 1"
-                    @click="onGetCoa(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom8.last_page > lookup_custom8.current_page
-                    "
-                    @click="onGetCoa(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_divisi"
-                :loading="isLoadingGetDivisi"
-                :options="lookup_custom9.data"
-                :filterable="false"
-                @search="onGetDivisi"
-                v-model="item.divisi_id"
-                @input="(item) => onSelectDivisi(item, index)"
-                class="w-full"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom9.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom9.current_page > 1"
-                    @click="onGetDivisi(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom9.last_page > lookup_custom9.current_page
-                    "
-                    @click="onGetDivisi(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_vendor"
-                :loading="isLoadingGetVendor"
-                :options="lookup_custom10.data"
-                :filterable="false"
-                @search="onGetVendor"
-                v-model="item.vendor_id"
-                @input="(item) => onSelectVendor(item, index)"
-                class="w-full"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom10.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom10.current_page > 1"
-                    @click="onGetVendor(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom10.last_page > lookup_custom10.current_page
-                    "
-                    @click="onGetVendor(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
+
             <td class="border border-gray-300">
               <textarea
                 placeholder="Keterangan"

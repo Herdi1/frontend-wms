@@ -87,6 +87,20 @@
                     <option value="NON">Non ASN/Non PO</option>
                   </select>
                 </div>
+                <div class="form-group" v-if="!user.gudang_id">
+                  <select-button
+                    :self="{
+                      label: 'Gudang',
+                      optionLabel: 'nama_gudang',
+                      isLoading: isLoadingGetGudang,
+                      lookup: lookup_suppliers,
+                      value: form.gudang_id,
+                      onGet: onGetGudang,
+                      input: onSelectGudang,
+                    }"
+                    width="w-[60%]"
+                  />
+                </div>
                 <select-button
                   v-if="form.sumber_data === 'ASN'"
                   :self="{
@@ -216,21 +230,6 @@
                   />
                 </div>
 
-                <div class="form-group" v-if="!user.gudang_id">
-                  <select-button
-                    :self="{
-                      label: 'Gudang',
-                      optionLabel: 'nama_gudang',
-                      isLoading: isLoadingGetGudang,
-                      lookup: lookup_suppliers,
-                      value: form.gudang_id,
-                      onGet: onGetGudang,
-                      input: onSelectGudang,
-                    }"
-                    :disabled="true"
-                    width="w-[60%]"
-                  />
-                </div>
                 <div class="form-group">
                   <select-button
                     :self="{
@@ -242,7 +241,7 @@
                       onGet: onGetSupplier,
                       input: onSelectSupplier,
                     }"
-                    :disabled="true"
+                    :disabled="form.sumber_data !== 'NON'"
                     width="w-[60%]"
                   />
                 </div>
@@ -257,6 +256,7 @@
                       isLoadingL: isLoadingGetPelanggan,
                       input: onSelectPelanggan,
                     }"
+                    :disabled="form.sumber_data !== 'NON'"
                     width="w-[60%]"
                   />
                 </div>
@@ -574,7 +574,7 @@ export default {
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               jenis_biaya_id: item.jenis_biaya,
-              coa_id: item.coa,
+              coa_id: item.coa ?? "",
               pelanggan_id: item.pelanggan,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
@@ -627,7 +627,7 @@ export default {
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               jenis_biaya_id: item.jenis_biaya,
-              coa_id: item.coa,
+              coa_id: item.coa ?? "",
               pelanggan_id: item.pelanggan,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
@@ -897,10 +897,10 @@ export default {
             typeof item.jenis_biaya_id === "object"
               ? item.jenis_biaya_id.jenis_biaya_id ?? ""
               : item.jenis_biaya_id ?? "",
-          coa_id:
-            typeof item.coa_id === "object"
-              ? item.coa_id.coa_id ?? ""
-              : item.coa_id ?? "",
+          // coa_id:
+          //   typeof item.coa_id === "object"
+          //     ? item.coa_id.coa_id ?? ""
+          //     : item.coa_id ?? "",
           pelanggan_id:
             typeof item.pelanggan_id === "object"
               ? item.pelanggan_id.pelanggan_id ?? ""
@@ -909,10 +909,10 @@ export default {
             typeof item.divisi_id === "object"
               ? item.divisi_id.divisi_id ?? ""
               : item.divisi_id ?? "",
-          vendor_id:
-            typeof item.vendor_id === "object"
-              ? item.vendor_id.vendor_id ?? ""
-              : item.vendor_id ?? "",
+          // vendor_id:
+          //   typeof item.vendor_id === "object"
+          //     ? item.vendor_id.vendor_id ?? ""
+          //     : item.vendor_id ?? "",
           berat: item.berat > 0 ? item.berat : 1,
           volume: item.volume > 0 ? item.volume : 1,
           jenis: item.jenis ? item.jenis : 0,
@@ -1037,6 +1037,8 @@ export default {
           query:
             "?search=" +
             this.asn_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom6.current_page +
             "&per_page=10",
@@ -1321,7 +1323,8 @@ export default {
         this.form.inbound_details = [];
         this.form.biaya_inbounds = [];
         this.form.tagihan_inbounds = [];
-        // await this.onSearchItemGudang();
+        await this.onSearchAsn();
+        await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
       }
