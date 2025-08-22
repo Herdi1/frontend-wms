@@ -966,7 +966,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchItemGudang();
     await this.onSearchValuation();
-    await this.onSearchZonaGudang();
+    // await this.onSearchZonaGudang();
     await this.onSearchSlotAisle();
     await this.onSearchSlotRack();
     await this.onSearchSlotLevel();
@@ -1175,9 +1175,10 @@ export default {
       }
     },
 
-    onSelectGudang() {
+    async onSelectGudang() {
       this.parameters.form.mutasi_stok_details = [];
       this.parameters.form.biaya = [];
+      await this.onSearchZonaGudang();
     },
 
     onGetValuation(search, isNext) {
@@ -1246,6 +1247,8 @@ export default {
           query:
             "?search=" +
             this.zonaGudang_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
