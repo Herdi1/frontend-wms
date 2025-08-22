@@ -109,7 +109,22 @@
                   :required="false"
                 />
               </div>
-              <ValidationProvider name="vendor">
+              <div>
+                <select-button
+                  :self="{
+                    label: 'Pelanggan',
+                    optionLabel: 'nama_pelanggan',
+                    lookup: lookup_department,
+                    value: parameters.form.pelanggan_id,
+                    onGet: onGetPelanggan,
+                    isLoadingL: isLoadingGetPelanggan,
+                    input: onSelectPelanggan,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                />
+              </div>
+              <!-- <ValidationProvider name="vendor">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
@@ -126,8 +141,8 @@
                     :required="true"
                   />
                 </div>
-              </ValidationProvider>
-              <div class="form-group">
+              </ValidationProvider> -->
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Nama Transporter"
                   type="text"
@@ -135,14 +150,14 @@
                   v-model="parameters.form.nama_transporter"
                   :required="false"
                 />
-              </div>
+              </div> -->
               <div class="form-group">
                 <input-horiontal
                   label="Surat Jalan"
                   type="text"
                   name="surat_jalan"
                   v-model="parameters.form.surat_jalan"
-                  :required="true"
+                  :required="false"
                 />
               </div>
               <div class="form-group">
@@ -163,7 +178,7 @@
                   :required="false"
                 />
               </div>
-              <ValidationProvider name="kendaraan">
+              <!-- <ValidationProvider name="kendaraan">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
@@ -180,8 +195,8 @@
                     :required="true"
                   />
                 </div>
-              </ValidationProvider>
-              <div class="form-group">
+              </ValidationProvider> -->
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Nama Kendaraan"
                   type="text"
@@ -189,8 +204,8 @@
                   v-model="parameters.form.nama_kendaraan"
                   :required="false"
                 />
-              </div>
-              <ValidationProvider name="staff">
+              </div> -->
+              <!-- <ValidationProvider name="staff">
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
@@ -207,8 +222,8 @@
                     :required="true"
                   />
                 </div>
-              </ValidationProvider>
-              <div class="form-group">
+              </ValidationProvider> -->
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Nama Pengemudi"
                   type="text"
@@ -216,10 +231,12 @@
                   v-model="parameters.form.nama_pengemudi"
                   :required="false"
                 />
-              </div>
+              </div> -->
               <ValidationProvider name="supplier">
                 <div class="form-group w-full flex justify-between mb-5">
-                  <label for="" class="w-1/2">Supplier</label>
+                  <label for="" class="w-1/2"
+                    >Supplier <span class="text-danger">*</span></label
+                  >
                   <v-select
                     class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_supplier"
@@ -577,9 +594,9 @@ export default {
       isLoadingGetItem: false,
       item_search: "",
 
-      // isStopSearchPelanggan: false,
-      // isLoadingGetPelanggan: false,
-      // pelanggan_search: "",
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
 
       isStopSearchItemGudang: false,
       isLoadingGetItemGudang: false,
@@ -619,6 +636,7 @@ export default {
           kebutuhan_peralatan: "",
           handling_instruction: "",
           catatan: "",
+          pelanggan_id: "",
 
           //Tracking
           user_agent: "",
@@ -664,7 +682,7 @@ export default {
         this.onSelectKendaraan(res.data.kendaraan);
         this.parameters.form.staff_id = res.data.staff || "";
         this.onSelectStaff(res.data.staff);
-
+        this.parameters.form.pelanggan_id = res.data.pelanggan || "";
         this.parameters.form.purchase_order_details =
           res.data.purchase_order_details.map((item) => {
             return {
@@ -690,7 +708,7 @@ export default {
     await this.onSearchLokasi();
     await this.onSearchGudang();
     await this.onSearchItem();
-    // await this.onSearchPelanggan();
+    await this.onSearchPelanggan();
     // await this.onSearchItemGudang();
     await this.onSearchZonaGudang();
     this.getGeoLocation();
@@ -708,7 +726,7 @@ export default {
       "lookup_location", //lokasi
       "lookup_roles", //gudang
       "lookup_packing", //item
-      // "lookup_department", //pelanggan
+      "lookup_department", //pelanggan
       "lookup_defects", //item gudang
       "lookup_regus", //zona gudang
       "lookup_beam", // get superadmin / no
@@ -803,6 +821,10 @@ export default {
         staff_id:
           typeof this.parameters.form.staff_id === "object"
             ? this.parameters.form.staff_id.staff_id
+            : "",
+        pelanggan_id:
+          typeof this.parameters.form.pelanggan_id === "object"
+            ? this.parameters.form.pelanggan_id.pelanggan_id
             : "",
       };
 
@@ -1233,44 +1255,44 @@ export default {
     },
 
     //Get Item Pelanggan
-    // onGetPelanggan(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
 
-    //   clearTimeout(this.isStopSearchPelanggan);
+      clearTimeout(this.isStopSearchPelanggan);
 
-    //   this.isStopSearchPelanggan = setTimeout(() => {
-    //     this.pelanggan_search = search;
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
 
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_department.current_page = isNext
-    //         ? this.lookup_department.current_page + 1
-    //         : this.lookup_department.current_page - 1;
-    //     } else {
-    //       this.lookup_department.current_page = 1;
-    //     }
+        if (typeof isNext !== "function") {
+          this.lookup_department.current_page = isNext
+            ? this.lookup_department.current_page + 1
+            : this.lookup_department.current_page - 1;
+        } else {
+          this.lookup_department.current_page = 1;
+        }
 
-    //     this.onSearchPelanggan();
-    //   }, 600);
-    // },
+        this.onSearchPelanggan();
+      }, 600);
+    },
 
-    // async onSearchPelanggan() {
-    //   if (!this.isLoadingGetPelanggan) {
-    //     this.isLoadingGetPelanggan = true;
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
 
-    //     await this.lookUp({
-    //       url: "master/item-pelanggan/get-item-pelanggan",
-    //       lookup: "department",
-    //       query:
-    //         "?search=" +
-    //         this.pelanggan_search +
-    //         "&page=" +
-    //         this.lookup_department.current_page +
-    //         "&per_page=10",
-    //     });
+        await this.lookUp({
+          url: "master/pelanggan/get-pelanggan",
+          lookup: "department",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_department.current_page +
+            "&per_page=10",
+        });
 
-    //     this.isLoadingGetPelanggan = false;
-    //   }
-    // },
+        this.isLoadingGetPelanggan = false;
+      }
+    },
 
     // Get Item Gudang
     onGetItemGudang(search, isNext) {
@@ -1371,11 +1393,22 @@ export default {
         this.parameters.form.supplier_id = "";
       }
     },
+    onSelectPelanggan(item, index) {
+      if (item) {
+        this.parameters.form.pelanggan_id = item;
+      } else {
+        this.parameters.form.pelanggan_id = "";
+      }
+    },
     //select item gudang
     onSelectItemGudang(item, index) {
       if (item) {
         this.parameters.form.purchase_order_details[index].item_id =
           item.item_id;
+        this.parameters.form.purchase_order_details[index].panjang =
+          item.panjang;
+        this.parameters.form.purchase_order_details[index].lebar = item.lebar;
+        this.parameters.form.purchase_order_details[index].tinggi = item.tebal;
       } else {
         this.parameters.form.purchase_order_details[index].item_id = "";
       }

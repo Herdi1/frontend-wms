@@ -118,17 +118,31 @@
             >
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-24 border border-gray-300">Konfirmasi</th>
+                  <th class="w-20 border border-gray-300">Detail</th>
                   <th class="w-20 text-center border border-gray-300">No</th>
                   <th class="w-52 border border-gray-300">Kode Inbound</th>
                   <th class="w-52 border border-gray-300">Gudang</th>
                   <th class="w-52 border border-gray-300">Tanggal Put Away</th>
                   <th class="w-52 border border-gray-300">Status Put Away</th>
                   <th class="w-52 border border-gray-300">Catatan Put Away</th>
-                  <th class="w-24 border border-gray-300">Konfirmasi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_put_away === 'SELESAI'"
+                    />
+                  </td>
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -192,11 +206,6 @@
                   </td>
                   <td class="border border-gray-300">
                     {{ item.catatan_put_away }}
-                  </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
                   </td>
                 </tr>
               </tbody>
@@ -266,6 +275,10 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
   },
 
   data() {
@@ -371,6 +384,12 @@ export default {
       this.$router.push("/inbound/konfirmasi-put-away/" + item.inbound_id);
     },
 
+    onDetail(item) {
+      this.$router.push(
+        "/inbound/konfirmasi-put-away/detail/" + item.inbound_id
+      );
+    },
+
     onTrashed(item) {
       if (this.parameters.loadings.isDelete) return;
 
@@ -410,7 +429,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
