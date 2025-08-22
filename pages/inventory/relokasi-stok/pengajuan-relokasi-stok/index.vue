@@ -128,6 +128,9 @@
               <thead>
                 <tr class="uppercase">
                   <th class="w-[5%] text-center border border-gray-300">
+                    Edit
+                  </th>
+                  <th class="w-[5%] text-center border border-gray-300">
                     Detail
                   </th>
                   <th class="w-[5%] text-center border border-gray-300">No</th>
@@ -199,9 +202,7 @@
                     </div>
                   </th>
                   <th class="border border-gray-300">Status Relokasi</th>
-                  <th class="w-[5%] text-center border border-gray-300">
-                    Edit
-                  </th>
+
                   <th class="w-[5%] text-center border border-gray-300">
                     Delete
                   </th>
@@ -209,6 +210,12 @@
               </thead>
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
                   <td
                     class="text-center place-content-center border border-gray-300"
                   >
@@ -264,12 +271,6 @@
                         item.status_mutasi === 'BATAL' ||
                         item.status_adjustment == 1
                       "
-                    />
-                  </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
                     />
                   </td>
                 </tr>

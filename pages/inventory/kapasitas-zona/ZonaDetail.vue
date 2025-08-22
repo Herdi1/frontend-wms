@@ -17,6 +17,10 @@
         <p>Kapasitas</p>
         <p class="font-bold">{{ room.zona_gudang.kapasitas }}</p>
       </div>
+      <div class="flex justify-between items-center gap-3">
+        <p>Kapasitas Terisi</p>
+        <p class="font-bold">{{ room.total_quantity }}</p>
+      </div>
       <!-- <div class="flex justify-between items-center gap-3">
         <p>Gudang</p>
         <p class="font-bold">{{ room.gudang.nama_gudang }}</p>
@@ -34,7 +38,8 @@
         <tbody>
           <tr v-for="(stok, index) in room.stok_gudang_alls" :key="index">
             <td class="border border-gray-300">
-              {{ stok.item_id }}
+              {{ stok.item_gudang.nama_item }} -
+              {{ stok.item_gudang.kode_item }}
             </td>
             <td class="border border-gray-300">
               {{ stok.quantity }} {{ stok.valuation.kode_valuation }}

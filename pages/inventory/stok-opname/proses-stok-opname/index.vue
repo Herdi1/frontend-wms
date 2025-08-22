@@ -119,6 +119,7 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
@@ -292,12 +293,21 @@
                   </th>
 
                   <th class="w-52 border border-gray-300">Keterangan</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_adjustment === '1' ||
+                        item.status_opname === 'BATAL'
+                      "
+                    />
+                  </td>
                   <td
                     class="text-center place-items-center border border-gray-300"
                   >
@@ -386,15 +396,7 @@
                     }}
                   </td>
                   <td class="border border-gray-300">{{ item.keterangan }}</td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="
-                        item.status_adjustment === '1' ||
-                        item.status_opname === 'BATAL'
-                      "
-                    />
-                  </td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

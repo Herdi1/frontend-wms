@@ -159,11 +159,12 @@
               />
             </template>
             <template #DetailProdukJadi>
-              <DetailItemJadi
+              <!-- <DetailItemJadi
                 :self="{
                   parameters,
                 }"
-              />
+              /> -->
+              <DetailItemJadi :self="{ parameters }" />
             </template>
           </tab-component>
 

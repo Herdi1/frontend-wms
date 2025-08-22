@@ -951,8 +951,29 @@ export default {
     async onSelectZona(item, index) {
       if (item) {
         this.parameters.form.stok_opname_details[index].zona_gudang_id = item;
-        await this.onSearchSlotAisle(index);
-        this.onGetSystemStok(index);
+        let details = [...this.parameters.form.stok_opname_details];
+
+        let itemGudangs = details.filter(
+          (detailItem) =>
+            (detailItem.zona_gudang_id
+              ? detailItem.zona_gudang_id.zona_gudang_id
+              : 0) === item.zona_gudang_id &&
+            (detailItem.item_gudang_id
+              ? detailItem.item_gudang_id.item_gudang_id
+              : 0) === item.item_gudang_id
+        );
+
+        console.log(itemGudangs);
+
+        if (itemGudangs.length > 1) {
+          this.$toaster.error("Item gudang sudah ada");
+          this.parameters.form.stok_opname_details = details.filter(
+            (_, indexItem) => index != indexItem
+          );
+        } else {
+          await this.onSearchSlotAisle(index);
+          this.onGetSystemStok(index);
+        }
       } else {
         this.parameters.form.stok_opname_details[index].zona_gudang_id = "";
         this.parameters.form.stok_opname_details[
@@ -1266,23 +1287,7 @@ export default {
     async onSelectItemGudang(item, index) {
       if (item) {
         this.parameters.form.stok_opname_details[index].item_gudang_id = item;
-        let details = [...this.parameters.form.stok_opname_details];
 
-        let itemGudangs = details.filter(
-          (detailItem) =>
-            (detailItem.item_gudang_id
-              ? detailItem.item_gudang_id.item_gudang_id
-              : 0) === item.item_gudang_id
-        );
-
-        if (itemGudangs.length > 1) {
-          this.$toaster.error("Item gudang sudah ada");
-          this.parameters.form.stok_opname_details = details.filter(
-            (_, indexItem) => index != indexItem
-          );
-        } else {
-          this.onGetSystemStok(index);
-        }
         await this.onSearchZonaGudang();
       } else {
         this.parameters.form.stok_opname_details[index].item_gudang_id = "";
