@@ -1406,9 +1406,13 @@ export default {
         this.parameters.form.purchase_order_details[index].item_id =
           item.item_id;
         this.parameters.form.purchase_order_details[index].panjang =
-          item.panjang;
-        this.parameters.form.purchase_order_details[index].lebar = item.lebar;
-        this.parameters.form.purchase_order_details[index].tinggi = item.tebal;
+          item.panjang ?? 0;
+        this.parameters.form.purchase_order_details[index].lebar =
+          item.lebar ?? 0;
+        this.parameters.form.purchase_order_details[index].tinggi =
+          item.tebal ?? 0;
+        this.parameters.form.purchase_order_details[index].berat =
+          item.berat_kotor ?? 0;
       } else {
         this.parameters.form.purchase_order_details[index].item_id = "";
       }

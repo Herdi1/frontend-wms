@@ -207,18 +207,16 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="form.perekiraan_tiba">
-                  <input-horizontal
-                    label="Perkiraan Tiba"
-                    type="date"
-                    name="perkiraan_tiba"
-                    :disabled="true"
-                    labelWidth="w-[50%]"
-                    inputWidth="w-[50%]"
-                    :isHorizontal="true"
-                    v-model="form.perkiraan_tiba"
-                    :required="false"
-                  />
+                <div
+                  class="flex w-full items-center"
+                  v-if="form.perkiraan_tiba"
+                >
+                  <label class="w-1/2">Perkiraan Tiba</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.perkiraan_tiba ? form.perkiraan_tiba : "-" }}
+                  </div>
                 </div>
                 <div class="col-span-2">
                   <div class="grid grid-cols-2 gap-2">
