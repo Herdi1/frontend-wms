@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Alasan Beda Plan</span>
+        <span>Tipe Alasan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -28,19 +28,19 @@
                 <th
                   @click="
                     onSort(
-                      'kode_alasan_beda_plan',
+                      'kode_tipe_alasan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Kode Alasan Beda Plan</div>
+                    <div>Kode Tipe Alasan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'kode_alasan_beda_plan' &&
+                          parameters.params.order == 'kode_tipe_alasan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -49,7 +49,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'kode_alasan_beda_plan' &&
+                          parameters.params.order == 'kode_tipe_alasan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -61,19 +61,19 @@
                 <th
                   @click="
                     onSort(
-                      'nama_alasan_beda_plan',
+                      'nama_tipe_alasan',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Alasan Beda Plan</div>
+                    <div>Nama Tipe Alasan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.order == 'nama_tipe_alasan' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -82,7 +82,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'nama_alasan_beda_plan' &&
+                          parameters.params.order == 'nama_tipe_alasan' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -91,7 +91,6 @@
                     </div>
                   </div>
                 </th>
-                <th class="border border-gray-300">Tipe Alasan</th>
                 <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
@@ -108,15 +107,10 @@
                   }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kode_alasan_beda_plan }}
+                  {{ item.kode_tipe_alasan_ }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.nama_alasan_beda_plan }}
-                </td>
-                <td class="border border-gray-300">
-                  {{
-                    item.tipe_alasan ? item.tipe_alasan.nama_tipe_alasan : "-"
-                  }}
+                  {{ item.nama_tipe_alasan }}
                 </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-edit-button @click="onEdit(item)" />
@@ -144,12 +138,13 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+
 export default {
   middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: "Alasan Beda Plan",
+      title: "Tipe Alasan",
     };
   },
 
@@ -196,7 +191,7 @@ export default {
 
   data() {
     return {
-      title: "Alasan Beda Plan",
+      title: "Tipe Alasan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -215,20 +210,20 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/alasan-beda-plan",
+        url: "master/tipe-alasan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "alasan_beda_plan_id",
+          order: "tipe_alasan_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            kode_alasan_beda_plan: "",
-            nama_alasan_beda_plan: "",
-          },
+        },
+        form: {
+          kode_tipe_alasan: "",
+          nama_tipe_alasan: "",
         },
         loadings: {
           isDelete: false,
@@ -246,7 +241,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "alasan-beda-plan"
+          (item) => item.rute == "tipe-alasan"
         );
 
         let roles = {};
@@ -275,11 +270,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/alasan-beda-plan/add");
+      this.$router.push("/master/tipe-alasan/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/alasan-beda-plan/" + item.alasan_beda_plan_id);
+      this.$router.push("/master/tipe-alasan/" + item.tipe_alasan_id);
     },
 
     onTrashed(item) {
@@ -298,7 +293,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.alasan_beda_plan_id,
+              id: item.tipe_alasan_id,
               params: this.parameters.params,
             });
 

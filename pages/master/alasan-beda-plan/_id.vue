@@ -20,6 +20,41 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
+          <div class="form-group w-full items-center mb-5">
+            <label for="" class="w-4/12"
+              >Tipe Alasan<span class="text-danger">*</span></label
+            >
+            <v-select
+              class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+              label="nama_tipe_alasan"
+              :loading="isLoadingGetTipe"
+              :options="lookup_custom1.data"
+              :filterable="false"
+              @search="onGetTipeAlasan"
+              :reduce="(item) => item.tipe_alasan_id"
+              v-model="parameters.form.tipe_alasan_id"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_custom1.data.length || search"
+              >
+                <span
+                  v-if="lookup_custom1.current_page > 1"
+                  @click="onGetTipeAlasan(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_custom1.last_page > lookup_custom1.current_page"
+                  @click="onGetTipeAlasan(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
           <div class="form-group">
             <input-form
               label="Kode Alasan Beda Plan"
@@ -59,6 +94,11 @@ export default {
 
     return {
       id,
+
+      isStopSearchTipe: false,
+      isLoadingGetTipe: false,
+      tipe_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -68,6 +108,7 @@ export default {
         form: {
           kode_alasan_beda_plan: "",
           nama_alasan_beda_plan: "",
+          tipe_alasan_id: "",
         },
       },
     };
@@ -85,12 +126,55 @@ export default {
     }
   },
 
+  async mounted() {
+    await this.onSearchTipeAlasan();
+  },
+
   computed: {
-    ...mapState("moduleApi", ["error", "result"]),
+    ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
   },
 
   methods: {
-    ...mapActions("moduleApi", ["addData", "updateData"]),
+    ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+
+    onGetTipeAlasan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchTipe);
+
+      this.isStopSearchTipe = setTimeout(() => {
+        this.tipe_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchTipeAlasan();
+      }, 600);
+    },
+
+    async onSearchTipeAlasan() {
+      if (!this.isLoadingGetTipe) {
+        this.isLoadingGetTipe = true;
+
+        await this.lookUp({
+          url: "master/tipe-alasan/get-tipe-alasan",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.tipe_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetTipe = false;
+      }
+    },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
@@ -121,6 +205,7 @@ export default {
         this.parameters.form = {
           kode_alasan_beda_plan: "",
           nama_alasan_beda_plan: "",
+          tipe_alasan_id: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -135,6 +220,7 @@ export default {
       this.parameters.form = {
         kode_alasan_beda_plan: "",
         nama_alasan_beda_plan: "",
+        tipe_alasan_id: "",
       };
     },
   },
