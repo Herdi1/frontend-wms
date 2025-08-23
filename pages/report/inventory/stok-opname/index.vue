@@ -136,6 +136,18 @@
                 :required="true"
               />
             </div>
+            <div class="flex w-full m-1 pr-1">
+              <label for="" class="w-1/2">Urutan</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.urutan"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="asc">ASC</option>
+                <option value="desc">DESC</option>
+              </select>
+            </div>
           </div>
 
           <!-- <div class="w-full grid grid-flow-row grid-cols-2 gap-2 mx-1"></div> -->
@@ -196,6 +208,7 @@ export default {
           nama_gudang: "",
           start_date: "",
           end_date: "",
+          urutan: "",
         },
         form: {
           gudang_id: "",
@@ -367,6 +380,8 @@ export default {
         this.parameters.params.start_date +
         "&end_date=" +
         this.parameters.params.end_date +
+        "&urutan=" +
+        this.parameters.params.urutan +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
@@ -398,6 +413,10 @@ export default {
           this.parameters.params.start_date +
           "&end_date=" +
           this.parameters.params.end_date +
+          "&end_date=" +
+          this.parameters.params.end_date +
+          "&urutan=" +
+          this.parameters.params.urutan +
           "&token=" +
           token;
 

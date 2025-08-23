@@ -81,6 +81,8 @@
                     id=""
                     v-model="form.sumber_data"
                     class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                    :disabled="isEditable"
+                    :class="isEditable ? 'bg-gray-100/80' : ''"
                   >
                     <option value="PO">Purchase Order</option>
                     <option value="ASN">ASN</option>
@@ -98,6 +100,7 @@
                       onGet: onGetGudang,
                       input: onSelectGudang,
                     }"
+                    :disabled="isEditable"
                     width="w-[60%]"
                   />
                 </div>
@@ -112,6 +115,7 @@
                     value: form.asn_id,
                     input: onSelectAsn,
                   }"
+                  :disabled="isEditable"
                   width="w-[60%]"
                 />
                 <div class="form-group">
@@ -124,6 +128,7 @@
                     :isHorizontal="true"
                     v-model="form.tanggal"
                     :required="false"
+                    :disabled="isEditable"
                   />
                 </div>
                 <div class="form-group flex items-center">
@@ -133,12 +138,27 @@
                     id=""
                     v-model="form.jenis_transaksi"
                     class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
+                    :disabled="isEditable"
+                    :class="isEditable ? 'bg-gray-100/80' : ''"
                   >
                     <option value="0">Inbound</option>
                     <option value="1">Cross Docking</option>
                     <option value="2">Retur</option>
                   </select>
                 </div>
+                <select-button
+                  :self="{
+                    label: 'Peralatan',
+                    optionLabel: 'nama_peralatan',
+                    isLoading: isLoadingGetPeralatan,
+                    lookup: lookup_custom10,
+                    onGet: onGetPeralatan,
+                    value: form.peralatan_id,
+                    input: onSelectPeralatan,
+                  }"
+                  :disabled="isEditable"
+                  width="w-[60%]"
+                />
                 <select-button
                   v-if="form.sumber_data === 'PO'"
                   :self="{
@@ -272,6 +292,33 @@
                     :required="false"
                   />
                 </div> -->
+
+                <select-button
+                  :self="{
+                    label: 'Staff',
+                    optionLabel: 'nama_lengkap',
+                    isLoading: isLoadingGetStaff,
+                    lookup: lookup_custom8,
+                    onGet: onGetStaff,
+                    value: form.staff_id,
+                    input: onSelectStaff,
+                  }"
+                  width="w-[60%]"
+                  :disabled="true"
+                />
+                <select-button
+                  :self="{
+                    label: 'Vendor Transporter',
+                    optionLabel: 'nama_vendor',
+                    isLoading: isLoadingGetVendor,
+                    lookup: lookup_custom9,
+                    onGet: onGetVendor,
+                    value: form.vendor_id_transporter,
+                    input: onSelectVendor,
+                  }"
+                  width="w-[60%]"
+                  :disabled="true"
+                />
                 <div class="col-span-2 m-1">
                   <label for="" class="">Keterangan</label>
                   <textarea
@@ -381,6 +428,18 @@ export default {
       isLoadingGetPelanggan: false,
       pelanggan_search: "",
 
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
+
+      isStopSearchVendor: false,
+      isLoadingGetVendor: false,
+      vendor_search: "",
+
+      isStopSearchPeralatan: false,
+      isLoadingGetPeralatan: false,
+      peralatan_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -404,6 +463,9 @@ export default {
         tanggal: "",
         jenis_transaksi: "0",
         pelanggan_id: "",
+        staff_id: "",
+        vendor_id_transporter: "",
+        peralatan_id: "",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -430,6 +492,9 @@ export default {
         tanggal: "",
         jenis_transaksi: "0",
         pelanggan_id: "",
+        staff_id: "",
+        vendor_id_transporter: "",
+        peralatan_id: "",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -470,6 +535,9 @@ export default {
         this.form.supplier_id = res.data.supplier;
         this.form.keterangan = res.data.keterangan;
         this.form.pelanggan_id = res.data.pelanggan;
+        this.form.peralatan_id = res.data.peralatan;
+        this.form.staff_id = res.data.staff;
+        this.form.vendor_id_transporter = res.data.vendor_transporter;
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -664,6 +732,9 @@ export default {
     await this.onSearchGudang();
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
+    await this.onSearchPeralatan();
+    await this.onSearchVendor();
+    await this.onSearchStaff();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -805,6 +876,18 @@ export default {
           typeof this.form.pelanggan_id === "object"
             ? this.form.pelanggan_id.pelanggan_id
             : this.form.pelanggan_id,
+        staff_id:
+          typeof this.form.staff_id === "object"
+            ? this.form.staff_id.staff_id
+            : this.form.staff_id,
+        vendor_id_transporter:
+          typeof this.form.vendor_id_transporter === "object"
+            ? this.form.vendor_id_transporter.vendor_id
+            : this.form.vendor_id_transporter,
+        peralatan_id:
+          typeof this.form.peralatan_id === "object"
+            ? this.form.peralatan_id.peralatan_id
+            : this.form.peralatan_id,
         // supplier_id: this.form.asn_id ? this.form.asn_id.supplier_id : this.form.purchase_order_id.supplier_id,
       };
 
@@ -1147,6 +1230,10 @@ export default {
         // this.form.tanggal = item.tanggal;
         this.form.gudang_id = item.gudang;
         this.form.supplier_id = item.supplier;
+        this.form.pelanggan_id = item.pelanggan;
+        this.form.staff_id = item.staff;
+        this.form.vendor_id_transporter = item.vendor_transporter;
+        console.log(item);
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
             return {
@@ -1224,6 +1311,9 @@ export default {
         this.form.no_referensi_2 = item.no_referensi_2;
         this.form.gudang_id = item.gudang;
         this.form.supplier_id = item.supplier;
+        this.form.pelanggan_id = item.pelanggan;
+        this.form.staff_id = item.staff;
+        this.form.vendor_id_transporter = item.vendor_transporter;
         // this.form.tanggal = item.tanggal;
         // this.form.gudang_id = item.gudang_id;
         if (item.purchase_order_details) {
@@ -1421,6 +1511,148 @@ export default {
         });
 
         this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    onGetStaff(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom8.current_page = isNext
+            ? this.lookup_custom8.current_page + 1
+            : this.lookup_custom8.current_page - 1;
+        } else {
+          this.lookup_custom8.current_page = 1;
+        }
+
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "custom8",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&jenis_user=pengemudi" +
+            "&page=" +
+            this.lookup_custom8.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetStaff = false;
+      }
+    },
+
+    onSelectStaff(item) {
+      if (item) {
+        this.form.staff_id = item;
+      } else {
+        this.form.staff_id = "";
+      }
+    },
+
+    onGetVendor(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendor);
+
+      this.isStopSearchVendor = setTimeout(() => {
+        this.vendor_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom9.current_page = isNext
+            ? this.lookup_custom9.current_page + 1
+            : this.lookup_custom9.current_page - 1;
+        } else {
+          this.lookup_custom9.current_page = 1;
+        }
+
+        this.onSearchVendor();
+      }, 600);
+    },
+
+    async onSearchVendor() {
+      if (!this.isLoadingGetVendor) {
+        this.isLoadingGetVendor = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "custom9",
+          query:
+            "?search=" +
+            this.vendor_search +
+            "&page=" +
+            this.lookup_custom9.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendor = false;
+      }
+    },
+
+    onSelectVendor(item) {
+      if (item) {
+        this.form.vendor_id_transporter = item;
+      } else {
+        this.form.vendor_id_transporter = "";
+      }
+    },
+
+    onGetPeralatan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPeralatan);
+
+      this.isStopSearchPeralatan = setTimeout(() => {
+        this.peralatan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom10.current_page = isNext
+            ? this.lookup_custom10.current_page + 1
+            : this.lookup_custom10.current_page - 1;
+        } else {
+          this.lookup_custom10.current_page = 1;
+        }
+
+        this.onSearchPeralatan();
+      }, 600);
+    },
+
+    async onSearchPeralatan() {
+      if (!this.isLoadingGetPeralatan) {
+        this.isLoadingGetPeralatan = true;
+
+        await this.lookUp({
+          url: "master/peralatan/get-peralatan",
+          lookup: "custom10",
+          query:
+            "?search=" +
+            this.peralatan_search +
+            "&page=" +
+            this.lookup_custom10.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPeralatan = false;
+      }
+    },
+
+    onSelectPeralatan(item) {
+      if (item) {
+        this.form.peralatan_id = item;
+      } else {
+        this.form.peralatan_id = "";
       }
     },
   },

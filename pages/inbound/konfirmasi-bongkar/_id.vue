@@ -20,9 +20,20 @@
             <div
               class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
             >
-              <div
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full mb-7"
-              >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full mb-7">
+                <div>
+                  <input-horizontal
+                    label="Kode ASN"
+                    type="text"
+                    name="kode_asn"
+                    :disabled="true"
+                    labelWidth="w-[50%]"
+                    inputWidth="w-[50%]"
+                    :isHorizontal="true"
+                    v-model="form.kode_asn"
+                    :required="false"
+                  />
+                </div>
                 <div>
                   <input-horizontal
                     label="Kode External"
@@ -36,19 +47,19 @@
                     :required="false"
                   />
                 </div>
-                <!-- <div>
+                <div>
                   <input-horizontal
-                    label="Kode ASN"
+                    label="Surat Jalan"
                     type="text"
-                    name="kode_asn"
+                    name="surat_jalan"
                     :disabled="true"
                     labelWidth="w-[50%]"
                     inputWidth="w-[50%]"
                     :isHorizontal="true"
-                    v-model="form.kode_asn"
+                    v-model="form.surat_jalan"
                     :required="false"
                   />
-                </div> -->
+                </div>
                 <div>
                   <input-horizontal
                     label="Tanggal"
@@ -127,19 +138,7 @@
                     :required="false"
                   />
                 </div>
-                <div>
-                  <input-horizontal
-                    label="Nomor Surat Jalan"
-                    type="text"
-                    name="surat_jalan"
-                    :disabled="true"
-                    labelWidth="w-[50%]"
-                    inputWidth="w-[50%]"
-                    :isHorizontal="true"
-                    v-model="form.surat_jalan"
-                    :required="false"
-                  />
-                </div>
+
                 <div>
                   <input-horizontal
                     label="Nomor Referensi 1"
@@ -166,46 +165,45 @@
                     :required="false"
                   />
                 </div>
-                <div v-if="form.kendaraan">
+                <div class="flex w-full items-center" v-if="form.kendaraan">
+                  <label class="w-1/2">Kendaraan</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{
+                      form.kendaraan
+                        ? form.kendaraan.kode_kendaraan +
+                          " - " +
+                          form.kendaraan.nama_kendaraan
+                        : "-"
+                    }}
+                  </div>
+                </div>
+                <div v-if="form.staff">
                   <input-horizontal
-                    label="Kendaraan"
+                    label="Staff"
                     type="text"
-                    name="kendaraan"
+                    name="staff"
                     :disabled="true"
                     labelWidth="w-[50%]"
                     inputWidth="w-[50%]"
                     :isHorizontal="true"
-                    v-model="form.kendaraan.nama_kendaraan"
+                    v-model="form.staff.nama_lengkap"
                     :required="false"
                   />
                 </div>
-                <div v-if="form.pengemudi">
-                  <input-horizontal
-                    label="Pengemudi"
-                    type="text"
-                    name="pengemudi"
-                    :disabled="true"
-                    labelWidth="w-[50%]"
-                    inputWidth="w-[50%]"
-                    :isHorizontal="true"
-                    v-model="form.pengemudi.nama_pengemudi"
-                    :required="false"
-                  />
+                <div
+                  class="flex w-full items-center"
+                  v-if="form.perkiraan_tiba"
+                >
+                  <label class="w-1/2">Perkiraan Tiba</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.perkiraan_tiba ? form.perkiraan_tiba : "-" }}
+                  </div>
                 </div>
-                <div v-if="form.perekiraan_tiba">
-                  <input-horizontal
-                    label="Perkiraan Tiba"
-                    type="date"
-                    name="perkiraan_tiba"
-                    :disabled="true"
-                    labelWidth="w-[50%]"
-                    inputWidth="w-[50%]"
-                    :isHorizontal="true"
-                    v-model="form.perkiraan_tiba"
-                    :required="false"
-                  />
-                </div>
-                <div class="col-span-3">
+                <div class="col-span-2">
                   <div class="grid grid-cols-2 gap-2">
                     <div>
                       <label for="">Kebutuhan Peralatan</label>
@@ -227,7 +225,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-2">
                   <label for="">Catatan</label>
                   <textarea
                     disabled
@@ -639,8 +637,8 @@ export default {
         nama_transporter: "",
         vendor_transporter: {},
         surat_jalan: "",
-        nomor_referensi: "",
-        nomor_referensi_2: "",
+        no_referensi: "",
+        no_referensi_2: "",
         kendaraan: {},
         pengemudi: {},
         perkiraan_tiba: "",
@@ -648,6 +646,7 @@ export default {
         handling_instruction: "",
         catatan: "",
         status_transaksi: {},
+        staff: {},
 
         status_bongkar: "",
         tanggal_bongkar: "",

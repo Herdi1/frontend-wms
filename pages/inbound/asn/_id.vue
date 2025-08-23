@@ -217,6 +217,15 @@
                   />
                 </div>
               </ValidationProvider>
+              <div class="form-group">
+                <input-horiontal
+                  label="Nama Transporter"
+                  type="text"
+                  name="nama_transporter"
+                  v-model="parameters.form.nama_transporter"
+                  :required="false"
+                />
+              </div>
               <div>
                 <select-button
                   :self="{
@@ -230,15 +239,6 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
-                />
-              </div>
-              <div class="form-group">
-                <input-horiontal
-                  label="Nama Transporter"
-                  type="text"
-                  name="nama_transporter"
-                  v-model="parameters.form.nama_transporter"
-                  :required="false"
                 />
               </div>
               <div class="form-group">
@@ -1752,6 +1752,9 @@ export default {
         this.parameters.form.kebutuhan_peralatan = item.kebutuhan_peralatan;
         this.parameters.form.handling_instruction = item.handling_instruction;
         this.parameters.form.catatan = item.catatan;
+        this.parameters.form.pelanggan_id = item.pelanggan;
+
+        console.log(item);
         if (item.purchase_order_details) {
           this.parameters.form.asn_details = item.purchase_order_details.map(
             (item) => {

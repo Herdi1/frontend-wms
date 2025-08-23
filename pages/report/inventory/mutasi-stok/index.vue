@@ -136,9 +136,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="gudang"
-                >Gudang <span class="text-danger">*</span></label
-              >
+              <label class="w-[50%]" for="gudang">Gudang </label>
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -192,6 +190,24 @@
                 v-model="parameters.params.end_date"
                 :required="true"
               />
+            </div>
+            <div
+              class="flex w-full m-1 pr-1"
+              v-if="
+                parameters.params.type === 'transfer_stok' ||
+                parameters.params.type === 'konversi_stok'
+              "
+            >
+              <label for="" class="w-1/2">Urutan</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.urutan"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="asc">ASC</option>
+                <option value="desc">DESC</option>
+              </select>
             </div>
           </div>
 
@@ -258,6 +274,7 @@ export default {
           nama_gudang: "",
           start_date: "",
           end_date: "",
+          urutan: "",
         },
         form: {
           gudang_id: "",
@@ -468,14 +485,13 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
         !this.parameters.form.provinsi_id &&
         !this.parameters.params.type &&
         !this.parameters.params.start_date &&
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Provinsi, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -485,6 +501,15 @@ export default {
         return;
       }
 
+      let gudangId = this.parameters.form.gudang_id?.gudang_id || "";
+
+      if (
+        this.parameters.params.type !== "transfer_stok" &&
+        this.parameters.params.type !== "konversi_stok"
+      ) {
+        this.parameters.params.urutan = "";
+      }
+
       let url =
         this.parameters.url +
         "?download=" +
@@ -492,13 +517,15 @@ export default {
         "&type=" +
         this.parameters.params.type +
         "&gudang_id=" +
-        this.parameters.form.gudang_id.gudang_id +
+        gudangId +
         "&provinsi_id=" +
         this.parameters.form.provinsi_id.provinsi_id +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
         // "&nama_wilayah=" +
         // this.parameters.params.nama_wilayah +
+        "&urutan=" +
+        this.parameters.params.urutan +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -511,14 +538,13 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
         !this.parameters.form.provinsi_id &&
         !this.parameters.params.type &&
         !this.parameters.params.start_date &&
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Provinsi, Tipe Transaksi, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -532,6 +558,13 @@ export default {
           ? this.parameters.params.end_date
           : this.formatDate(this.parameters.params.end_date);
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      let gudangId = this.parameters.form.gudang_id?.gudang_id || "";
+      if (
+        this.parameters.params.type !== "transfer_stok" &&
+        this.parameters.params.type !== "konversi_stok"
+      ) {
+        this.parameters.params.urutan = "";
+      }
       try {
         let url =
           this.parameters.url +
@@ -540,13 +573,15 @@ export default {
           "&type=" +
           this.parameters.params.type +
           "&gudang_id=" +
-          this.parameters.form.gudang_id.gudang_id +
+          gudangId +
           "&provinsi_id=" +
           this.parameters.form.provinsi_id.provinsi_id +
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
           // "&nama_wilayah=" +
           // this.parameters.params.nama_wilayah +
+          "&urutan=" +
+          this.parameters.params.urutan +
           "&start_date=" +
           startDateParams +
           "&end_date=" +
