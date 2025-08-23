@@ -353,7 +353,8 @@ export default {
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
-        this.parameters.params.end_date;
+        this.parameters.params.end_date +
+        "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");

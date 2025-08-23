@@ -889,35 +889,61 @@ export default {
         onCancel: this.onCancel,
       });
 
-      let url =
-        this.parameters.url +
-        "?page=1" +
-        "&gudang_id=" +
-        (this.parameters.params.gudang_id.gudang_id || "") +
-        "&item_gudang_id=" +
-        (this.parameters.params.item_gudang_id.item_gudang_id || "") +
-        "&valuation_id=" +
-        (this.parameters.params.valuation_id.valuation_id || "") +
-        "&zona_gudang_id=" +
-        (this.parameters.params.zona_gudang_id.zona_gudang_id || "") +
-        "&slot_penyimpanan_id_aisle=" +
-        (this.parameters.params.slot_penyimpanan_id_aisle.slot_penyimpanan_id ||
-          "") +
-        "&slot_penyimpanan_id_rack=" +
-        (this.parameters.params.slot_penyimpanan_id_rack.slot_penyimpanan_id ||
-          "") +
-        "&slot_penyimpanan_id_level=" +
-        (this.parameters.params.slot_penyimpanan_id_level.slot_penyimpanan_id ||
-          "") +
-        "&slot_penyimpanan_id_bin=" +
-        (this.parameters.params.slot_penyimpanan_id_bin.slot_penyimpanan_id ||
-          "") +
-        "&asal_data=" +
-        (this.parameters.params.asal_data || "") +
-        "&start_date=" +
-        this.parameters.params.start_date +
-        "&end_date=" +
-        this.parameters.params.end_date;
+      const params = {
+        page: this.parameters.params.page,
+        gudang_id: this.parameters.params.gudang_id?.gudang_id || "",
+        item_gudang_id:
+          this.parameters.params.item_gudang_id?.item_gudang_id || "",
+        valuation_id: this.parameters.params.valuation_id?.valuation_id || "",
+        zona_gudang_id:
+          this.parameters.params.zona_gudang_id?.zona_gudang_id || "",
+        aisle_id:
+          this.parameters.params.slot_penyimpanan_id_rack
+            ?.slot_penyimpanan_id || "",
+        rack_id:
+          this.parameters.params.slot_penyimpanan_id_rack
+            ?.slot_penyimpanan_id || "",
+        level_id:
+          this.parameters.params.slot_penyimpanan_id_level
+            ?.slot_penyimpanan_id || "",
+        bin_id:
+          this.parameters.params.slot_penyimpanan_id_bin?.slot_penyimpanan_id ||
+          "",
+        start_date: this.parameters.params.start_date || "",
+        end_date: this.parameters.params.end_date || "",
+      };
+
+      let url = `${this.parameters.url}?page=${params.page}&gudang_id=${params.gudang_id}&item_gudang_id=${params.item_gudang_id}&valuation_id=${params.valuation_id}&zona_gudang_id=${params.zona_gudang_id}&slot_penyimpanan_id_aisle=${params.aisle_id}&slot_penyimpanan_id_rack=${params.rack_id}&slot_penyimpanan_id_level=${params.level_id}&slot_penyimpanan_id_bin=${params.bin_id}&start_date=${params.start_date}&end_date=${params.end_date}`;
+
+      // let url =
+      //   this.parameters.url +
+      //   "?page=1" +
+      //   "&gudang_id=" +
+      //   (this.parameters.params.gudang_id.gudang_id ?? "") +
+      //   "&item_gudang_id=" +
+      //   (this.parameters.params.item_gudang_id.item_gudang_id ?? "") +
+      //   "&valuation_id=" +
+      //   (this.parameters.params.valuation_id.valuation_id ?? "") +
+      //   "&zona_gudang_id=" +
+      //   (this.parameters.params.zona_gudang_id.zona_gudang_id ?? "") +
+      //   "&slot_penyimpanan_id_aisle=" +
+      //   (this.parameters.params.slot_penyimpanan_id_aisle.slot_penyimpanan_id ??
+      //     "");
+      // "&slot_penyimpanan_id_rack=" +
+      //   (this.parameters.params.slot_penyimpanan_id_rack.slot_penyimpanan_id ??
+      //     "") +
+      //   "&slot_penyimpanan_id_level=" +
+      //   (this.parameters.params.slot_penyimpanan_id_level.slot_penyimpanan_id ??
+      //     "") +
+      //   "&slot_penyimpanan_id_bin=" +
+      //   (this.parameters.params.slot_penyimpanan_id_bin.slot_penyimpanan_id ??
+      //     "") +
+      //   "&asal_data=" +
+      //   (this.parameters.params.asal_data ?? "") +
+      //   "&start_date=" +
+      //   this.parameters.params.start_date +
+      //   "&end_date=" +
+      //   this.parameters.params.end_date;
 
       this.$axios
         .get(url)
@@ -927,25 +953,6 @@ export default {
           );
 
           let newData = res.data.data.map((item) => {
-            // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-            //   if (
-            //     this.passiva_types.includes(
-            //       this.chart_of_account_id.parent.type
-            //     )
-            //   ) {
-            //     newLastBalance =
-            //       parseFloat(newLastBalance) +
-            //       parseFloat(item.credit) -
-            //       parseFloat(item.debit);
-            //   } else {
-            //     newLastBalance =
-            //       parseFloat(newLastBalance) +
-            //       parseFloat(item.debit) -
-            //       parseFloat(item.credit);
-            //   }
-            // } else {
-            //   newLastBalance = 0;
-            // }
             newLastBalance =
               parseFloat(newLastBalance) +
               parseFloat(item.masuk) -
@@ -982,23 +989,19 @@ export default {
 
       this.isLoadingData = true;
 
-      let url =
-        this.parameters.url +
-        "?page=" +
-        this.parameters.params.page +
-        "&gudang_id=" +
-        this.parameters.params.gudang_id.gudang_id +
-        "&item_gudang_id=" +
-        this.parameters.params.item_gudang_id.item_gudang_id +
-        "&valuation_id=" +
-        this.parameters.params.valuation_id.valuation_id +
-        "&zona_gudang_id=" +
-        this.parameters.params.zona_gudang_id.zona_gudang_id +
-        "&start_date=" +
-        this.parameters.params.start_date +
-        "&end_date=" +
-        this.parameters.params.end_date;
+      const params = {
+        page: this.parameters.params.page,
+        gudang_id: this.parameters.params.gudang_id?.gudang_id || "",
+        item_gudang_id:
+          this.parameters.params.item_gudang_id?.item_gudang_id || "",
+        valuation_id: this.parameters.params.valuation_id?.valuation_id || "",
+        zona_gudang_id:
+          this.parameters.params.zona_gudang_id?.zona_gudang_id || "",
+        start_date: this.parameters.params.start_date || "",
+        end_date: this.parameters.params.end_date || "",
+      };
 
+      let url = `${this.parameters.url}?page=${params.page}&gudang_id=${params.gudang_id}&item_gudang_id=${params.item_gudang_id}&valuation_id=${params.valuation_id}&zona_gudang_id=${params.zona_gudang_id}&start_date=${params.start_date}&end_date=${params.end_date}`;
       this.$axios
         .get(url)
         .then((res) => {

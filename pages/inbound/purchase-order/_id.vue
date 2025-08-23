@@ -151,7 +151,7 @@
                   :required="false"
                 />
               </div> -->
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input-horiontal
                   label="Surat Jalan"
                   type="text"
@@ -159,7 +159,7 @@
                   v-model="parameters.form.surat_jalan"
                   :required="false"
                 />
-              </div>
+              </div> -->
               <div class="form-group">
                 <input-horiontal
                   label="Nomor Referensi"
@@ -273,7 +273,9 @@
                 </div>
               </ValidationProvider>
               <div class="form-group mb-2 flex justify-between">
-                <label for="" class="w-1/2">Perkiraan Tiba</label>
+                <label for="" class="w-1/2"
+                  >Perkiraan Tiba <span class="text-danger">*</span></label
+                >
                 <input
                   type="datetime-local"
                   step="1"
@@ -307,6 +309,19 @@
                   v-model="parameters.form.catatan"
                   :required="false"
                 />
+              </div>
+              <div class="form-group w-full flex" v-if="isEditable">
+                <div class="mb-3 w-1/2">Status PO</div>
+
+                <select
+                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                  name="status_selesai"
+                  id="status_selesai"
+                  v-model="parameters.form.status_selesai"
+                >
+                  <option value="0">Open</option>
+                  <option value="1">Close</option>
+                </select>
               </div>
             </div>
           </div>
@@ -637,6 +652,7 @@ export default {
           handling_instruction: "",
           catatan: "",
           pelanggan_id: "",
+          status_selesai: "",
 
           //Tracking
           user_agent: "",
@@ -672,6 +688,7 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
+        this.parameters.form.status_selesai = res.data.status_selesai || 0;
 
         this.parameters.form.gudang_id = res.data.gudang || "";
         this.parameters.form.lokasi_id_asal_muat =

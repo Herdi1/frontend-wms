@@ -89,6 +89,36 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Status PO</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="status_selesai"
+                    id="status_selesai"
+                    v-model="parameters.params.status_po"
+                  >
+                    <option value=""></option>
+                    <option value="0">Belum Dibuat ASN</option>
+                    <option value="1">Sudah Dibuat ASN</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Status Selesai</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="status_selesai"
+                    id="status_selesai"
+                    v-model="parameters.params.status_selesai"
+                  >
+                    <option value=""></option>
+                    <option value="0">Open</option>
+                    <option value="1">Close</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -148,13 +178,17 @@
                       </div>
                     </th> -->
                   <th class="w-60 border border-gray-300">Kode PO</th>
-                  <th class="w-60 border border-gray-300">Tanggal</th>
+                  <th class="w-60 border border-gray-300">Kode ASN</th>
                   <th class="w-60 border border-gray-300">Gudang</th>
-                  <th class="w-60 border border-gray-300">Vendor</th>
+                  <th class="w-60 border border-gray-300">Item</th>
+                  <th class="w-60 border border-gray-300">Quantity</th>
+                  <th class="w-60 border border-gray-300">Tanggal</th>
+                  <!-- <th class="w-60 border border-gray-300">Vendor</th>
                   <th class="w-60 border border-gray-300">Surat Jalan</th>
                   <th class="w-60 border border-gray-300">Kendaraan</th>
-                  <th class="w-60 border border-gray-300">Staff</th>
+                  <th class="w-60 border border-gray-300">Staff</th> -->
                   <th class="w-60 border border-gray-300">Status PO</th>
+                  <th class="w-60 border border-gray-300">Total QTY ASN</th>
 
                   <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
@@ -187,6 +221,7 @@
                       1
                     }}
                   </td>
+
                   <td class="border border-gray-300">
                     <div>
                       {{ item.kode_po }}
@@ -198,21 +233,48 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.tanggal) }}
+                  <td
+                    class="border border-gray-300"
+                    v-if="item.asns.length > 0"
+                  >
+                    <span v-for="(asn, index) in item.asns" :key="index">
+                      {{ asn.kode_asn }}
+                    </span>
                   </td>
+                  <td class="border border-gray-300" v-else></td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
+                  <td
+                    class="border border-gray-300"
+                    v-for="(itemDetail, index) in item.purchase_order_details"
+                    :key="index"
+                  >
+                    <p>{{ itemDetail.item_gudang.nama_item }}</p>
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-for="(itemDetail, index) in item.purchase_order_details"
+                    :key="index"
+                  >
+                    <p>
+                      {{ itemDetail.quantity | formatPrice }}
+                      {{ itemDetail.item_gudang.satuan.nama_satuan }}
+                    </p>
+                  </td>
                   <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+
+                  <!-- <td class="border border-gray-300">
                     {{
                       item.vendor_transporter
                         ? item.vendor_transporter.nama_vendor
                         : "-"
                     }}
-                  </td>
-                  <td class="border border-gray-300">{{ item.surat_jalan }}</td>
-                  <td class="border border-gray-300">
+                  </td> -->
+                  <!-- <td class="border border-gray-300">{{ item.surat_jalan }}</td> -->
+                  <!-- <td class="border border-gray-300">
                     {{
                       item.kendaraan
                         ? item.kendaraan.nama_kendaraan +
@@ -220,8 +282,8 @@
                           item.kendaraan.kode_kendaraan
                         : "-"
                     }}
-                  </td>
-                  <td class="border border-gray-300">
+                  </td> -->
+                  <!-- <td class="border border-gray-300">
                     {{
                       item.staff
                         ? item.staff.nama_lengkap +
@@ -229,7 +291,7 @@
                           item.staff.kode_staff
                         : "-"
                     }}
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
                     <span
                       v-if="item.asns_count == 0"
@@ -243,6 +305,17 @@
                     >
                       Dibuat {{ item.asns_count }} ASN
                     </span>
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-for="(itemDetail, index) in item.purchase_order_details"
+                    :key="index"
+                  >
+                    <p>
+                      {{
+                        itemDetail.asn_details_sum_quantity ?? 0 | formatPrice
+                      }}
+                    </p>
                   </td>
 
                   <td
@@ -347,6 +420,8 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_po: "",
+          status_selesai: "",
         },
         form: {
           gudang_id: "",

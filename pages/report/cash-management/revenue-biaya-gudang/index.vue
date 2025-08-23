@@ -120,9 +120,7 @@
               </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1"
-                >Gudang <span class="text-danger">*</span></label
-              >
+              <label class="w-[50%]" for="group_item_id_1">Gudang </label>
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"
@@ -155,6 +153,38 @@
                   >
                 </li>
               </v-select>
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Awal"
+                type="date"
+                name="periode_awal"
+                :isHorizontal="true"
+                v-model="parameters.params.start_date"
+                :required="true"
+              />
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="true"
+              />
+            </div>
+            <div class="flex w-full m-1 pr-1">
+              <label for="" class="w-1/2">Urutan</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.urutan"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="asc">ASC</option>
+                <option value="desc">DESC</option>
+              </select>
             </div>
           </div>
           <div class="flex gap-3 mt-3 justify-end">
@@ -203,6 +233,9 @@ export default {
         url: "report/revenue-biaya-gudang/export",
         params: {
           download: "pdf",
+          urutan: "",
+          start_date: "",
+          end_date: "",
         },
         form: {
           gudang_id: "",
@@ -404,10 +437,13 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id
+        !this.parameters.form.provinsi_id &&
+        !this.parameters.params.start_date &&
+        !this.parameters.params.end_date
       ) {
-        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        this.$toaster.error(
+          "Mohon Pilih Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
 
@@ -416,14 +452,22 @@ export default {
         return;
       }
 
+      let gudangId = this.parameters.form.gudang_id?.gudang_id || "";
+
       let url =
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
         "&gudang_id=" +
-        this.parameters.form.gudang_id.gudang_id +
+        gudangId +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
+        "&urutan=" +
+        this.parameters.params.urutan +
         "&provinsi_id=" +
         this.parameters.form.provinsi_id.provinsi_id +
         "&mode=preview";
@@ -434,22 +478,34 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id
+        !this.parameters.form.provinsi_id &&
+        !this.parameters.params.start_date &&
+        !this.parameters.params.end_date
       ) {
-        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        this.$toaster.error(
+          "Mohon Pilih Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
+
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      let gudangId = this.parameters.form.gudang_id?.gudang_id || "";
+
       try {
         let url =
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
           "&gudang_id=" +
-          this.parameters.form.gudang_id.gudang_id +
+          gudangId +
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
+          "&start_date=" +
+          this.parameters.params.start_date +
+          "&end_date=" +
+          this.parameters.params.end_date +
+          "&urutan=" +
+          this.parameters.params.urutan +
           "&provinsi_id=" +
           this.parameters.form.provinsi_id.provinsi_id +
           "&token=" +
