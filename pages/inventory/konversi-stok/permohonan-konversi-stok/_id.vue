@@ -279,8 +279,8 @@ export default {
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
+    this.parameters.form.tanggal = formattedDate;
     try {
-      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {

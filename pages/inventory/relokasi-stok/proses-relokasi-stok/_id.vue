@@ -297,7 +297,6 @@
                               :options="lookup_custom3.data"
                               :filterable="false"
                               @search="onGetZonaGudang"
-                              :reduce="(item) => item.zona_gudang_id"
                               v-model="item.zona_gudang_id"
                               disabled
                             >
@@ -336,7 +335,6 @@
                               :filterable="false"
                               @search="onGetSlotAisle"
                               v-model="item.slot_penyimpanan_id_aisle"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                               @input="onGetSystemStok(i)"
                               disabled
@@ -391,7 +389,6 @@
                               :filterable="false"
                               @search="onGetSlotRack"
                               v-model="item.slot_penyimpanan_id_rack"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                               @input="onGetSystemStok(i)"
                               disabled
@@ -446,7 +443,6 @@
                               :filterable="false"
                               @search="onGetSlotLevel"
                               v-model="item.slot_penyimpanan_id_level"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                               @input="onGetSystemStok(i)"
                               disabled
@@ -501,7 +497,6 @@
                               :filterable="false"
                               @search="onGetSlotBin"
                               v-model="item.slot_penyimpanan_id_bin"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
                               @input="onGetSystemStok(i)"
                               disabled
@@ -729,7 +724,6 @@
                             :filterable="false"
                             @search="onGetJenisBiaya"
                             v-model="item.jenis_biaya_id"
-                            :reduce="(item) => item.jenis_biaya_id"
                             class="w-full"
                           >
                             <li
@@ -797,7 +791,6 @@
                             :filterable="false"
                             @search="onGetCoa"
                             v-model="item.coa_id"
-                            :reduce="(item) => item.coa_id"
                             class="w-full"
                           >
                             <li
@@ -832,7 +825,6 @@
                             :filterable="false"
                             @search="onGetVendor"
                             v-model="item.vendor_id"
-                            :reduce="(item) => item.vendor_id"
                             class="w-full"
                           >
                             <li
@@ -871,14 +863,14 @@
                         >
                           <span class="flex justify-center">
                             <i
+                              @click="onDeleteBiaya(i)"
                               class="fas fa-trash mx-auto"
                               style="cursor: pointer"
-                              @click="onDeleteBiaya(i)"
                             ></i>
                           </span>
                         </td>
                       </tr>
-                      <tr v-if="!parameters.form.biaya.length > 0">
+                      <tr v-if="!parameters.form.biaya.length">
                         <td colspan="100" class="text-center">
                           <span class="flex justify-center">
                             <img
@@ -1031,13 +1023,11 @@ export default {
               mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id,
               valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
               kode_valuation: item.valuation.kode_valuation,
             };
           });
@@ -1047,8 +1037,13 @@ export default {
             return {
               ...item,
               biaya_id: item,
+              jenis_biaya_id: item.jenis_biaya ?? item.jenis_biaya_id,
+              coa_id: item.coa ?? item.coa_id,
+              vendor_id: item.vendor ?? item.vendor_id,
             };
           });
+        } else {
+          this.parameters.form.biaya = [];
         }
       }
     } catch (error) {
@@ -1060,17 +1055,17 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchItemGudang();
-    await this.onSearchValuation();
-    await this.onSearchZonaGudang();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
+    // await this.onSearchItemGudang();
+    // await this.onSearchValuation();
+    // await this.onSearchZonaGudang();
+    // await this.onSearchSlotAisle();
+    // await this.onSearchSlotRack();
+    // await this.onSearchSlotLevel();
+    // await this.onSearchSlotBin();
 
-    await this.onSearchJenisBiaya();
-    await this.onSearchCoa();
-    await this.onSearchVendor();
+    // await this.onSearchJenisBiaya();
+    // await this.onSearchCoa();
+    // await this.onSearchVendor();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1134,6 +1129,7 @@ export default {
       if (isInvalid || this.isLoadingForm) return;
       this.isLoadingForm = true;
       let url = "inventory/proses-mutasi-stok";
+      console.log(this.parameters.form);
       let formData = {
         ...this.parameters.form,
         gudang_id: this.parameters.form.gudang_id.gudang_id,
@@ -1141,19 +1137,56 @@ export default {
           (item) => {
             return {
               ...item,
-              mutasi_stok_details_id: item,
-              item_gudang_id: item.item_gudang_id,
-              valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
+              mutasi_stok_detail_id:
+                typeof item.mutasi_stok_detail_id === "object"
+                  ? item.mutasi_stok_detail_id.mutasi_stok_detail_id ?? ""
+                  : "",
+              item_gudang_id: item.item_gudang_id ?? "",
+              valuation_id: item.valuation_id ?? "",
+              zona_gudang_id:
+                typeof item.zona_gudang_id === "object"
+                  ? item.zona_gudang_id.zona_gudang_id ?? ""
+                  : item.zona_gudang_id ?? "",
+              slot_penyimpanan_id_aisle:
+                typeof item.slot_penyimpanan_id_aisle === "object"
+                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_aisle ?? "",
+              slot_penyimpanan_id_rack:
+                typeof item.slot_penyimpanan_id_rack === "object"
+                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_rack ?? "",
+              slot_penyimpanan_id_level:
+                typeof item.slot_penyimpanan_id_level === "object"
+                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_level ?? "",
+              slot_penyimpanan_id_bin:
+                typeof item.slot_penyimpanan_id_bin === "object"
+                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_bin ?? "",
             };
           }
         ),
+        biaya: this.parameters.form.biaya.map((item) => {
+          return {
+            ...item,
+            biaya_id:
+              typeof item.biaya_id === "object"
+                ? item.biaya_id.biaya_id ?? ""
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                : item.jenis_biaya_id ?? "",
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
+            vendor_id:
+              typeof item.vendor_id === "object"
+                ? item.vendor_id.vendor_id ?? ""
+                : item.vendor_id ?? "",
+          };
+        }),
       };
 
       const today = new Date();

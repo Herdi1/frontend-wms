@@ -140,6 +140,34 @@
                 labelWidth="w-[40%]"
               />
             </div>
+            <div class="form-group">
+              <select-button
+                :self="{
+                  label: 'Staff',
+                  optionLabel: 'nama_lengkap',
+                  lookup: lookup_custom9,
+                  value: parameters.form.staff_id,
+                  onGet: onGetStaff,
+                  isLoadingL: isLoadingGetStaff,
+                  input: onSelectStaff,
+                }"
+                width="w-[60%]"
+                class="mb-5"
+                :required="true"
+              />
+            </div>
+            <div class="form-group">
+              <input-horizontal
+                :disabled="true"
+                :isHorizontal="true"
+                label="Vendor"
+                type="text"
+                name="vendor"
+                v-model="parameters.form.vendor_id.nama_vendor"
+                inputWidth="w-[60%]"
+                labelWidth="w-[40%]"
+              />
+            </div>
             <div class="form-group col-span-2">
               <label for="catatan_konversi" class="mb-2"
                 >Catatan Konversi</label
@@ -257,6 +285,8 @@ export default {
           tanggal_selesai: "",
           lama_pengerjaan: "",
           gudang_id: "",
+          staff_id: "",
+          vendor_id: "",
           status_transaksi_id: "",
           keterangan: "",
           konversi_stok_detail_bahan: [],
@@ -301,6 +331,10 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
     };
   },
 
@@ -312,6 +346,7 @@ export default {
     // });
     // await this.onSearchItemGudang();
     await this.onSearchValuation();
+    await this.onSearchStaff();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -343,6 +378,8 @@ export default {
         });
 
         this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.staff_id = res.data.staff ?? "";
+        this.parameters.form.vendor_id = res.data.vendor ?? "";
         await this.onSearchItemGudang();
         await this.onSearchZonaPlan();
 
@@ -458,6 +495,14 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id ?? ""
             : "",
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id ?? ""
+            : this.parameters.form.staff_id ?? "",
+        vendor_id:
+          typeof this.parameters.form.vendor_id === "object"
+            ? this.parameters.form.vendor_id.vendor_id ?? ""
+            : this.parameters.form.vendor_id ?? "",
         // ...this.parameters.form,
         // form: {
         // },
@@ -931,6 +976,54 @@ export default {
       // await this.onSearchSlotRack();
       // await this.onSearchSlotLevel();
       // await this.onSearchSlotBin();
+    },
+
+    //staff
+    onGetStaff(search, isNext) {
+      if (!search?.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom9.current_page = isNext
+            ? this.lookup_custom9.current_page + 1
+            : this.lookup_custom9.current_page - 1;
+        } else {
+          this.lookup_custom9.current_page = 1;
+        }
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "custom9",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&page=" +
+            this.lookup_custom9.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetStaff = false;
+      }
+    },
+
+    onSelectStaff(item) {
+      if (item) {
+        this.parameters.form.staff_id = item || "";
+        this.parameters.form.vendor_id = item.vendor_operator || "";
+      } else {
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
+      }
     },
   },
 };

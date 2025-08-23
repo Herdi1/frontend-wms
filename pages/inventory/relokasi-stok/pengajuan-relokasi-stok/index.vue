@@ -239,9 +239,12 @@
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
                   <td class="place-items-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_mutasi === 'BATAL' ||
+                        item.status_adjustment == 1
+                      "
                     />
                   </td>
                   <td
@@ -292,9 +295,11 @@
                       <p>Batal</p>
                     </div>
                   </td>
+
                   <td class="place-items-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
+                    <small-delete-button
+                      v-if="!item.deleted_at"
+                      @click="onTrashed(item)"
                       :disabled="
                         item.status_mutasi === 'BATAL' ||
                         item.status_adjustment == 1

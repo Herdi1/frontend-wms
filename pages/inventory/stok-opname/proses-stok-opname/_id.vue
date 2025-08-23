@@ -681,16 +681,19 @@ export default {
           res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              stok_opname_details_id: item.stok_opname_details_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              valuation_id: item.valuation,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              stok_opname_detail_id: item,
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
+              valuation_id: item.valuation ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
+        this.parameters.form.stok_opname_details.forEach((item, index) => {
+          this.onSearchSlotAisle(index);
+        });
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -700,16 +703,16 @@ export default {
   },
 
   async mounted() {
-    // await this.onSearchUser();
-    // await this.onSearchJabatan();
     await this.onSearchGudang();
-
-    // await this.onSearchItem();
     await this.onSearchItemGudang();
-    // await this.onSearchItemPelanggan();
-    // await this.onSearchSupplier();
     await this.onSearchValuation();
     await this.onSearchZonaGudang();
+    // await this.onSearchUser();
+    // await this.onSearchJabatan();
+
+    // await this.onSearchItem();
+    // await this.onSearchItemPelanggan();
+    // await this.onSearchSupplier();
 
     // await this.onSearchZonaGudang();
     // await this.onSearchSlotAisle();
@@ -788,9 +791,10 @@ export default {
           (item) => {
             return {
               ...item,
-              // stok_opname_details_id: item.stok_opname_details_id
-              //   ? item.stok_opname_details_id
-              //   : "",
+              stok_opname_detail_id:
+                typeof item.stok_opname_detail_id === "object"
+                  ? item.stok_opname_detail_id.stok_opname_detail_id
+                  : "",
               item_id:
                 typeof item.item_gudang_id === "object"
                   ? item.item_gudang_id.item_id || item.item.item_id
@@ -995,8 +999,31 @@ export default {
     async onSelectZona(item, index) {
       if (item) {
         this.parameters.form.stok_opname_details[index].zona_gudang_id = item;
-        await this.onSearchSlotAisle(index);
-        this.onGetSystemStok(index);
+        let details = [...this.parameters.form.stok_opname_details];
+
+        let itemGudangs = details.filter(
+          (detailItem) =>
+            (detailItem.zona_gudang_id
+              ? detailItem.zona_gudang_id.zona_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].zona_gudang_id
+                .zona_gudang_id &&
+            (detailItem.item_gudang_id
+              ? detailItem.item_gudang_id.item_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].item_gudang_id
+                .item_gudang_id
+        );
+
+        if (itemGudangs.length > 1) {
+          this.$toaster.error("Item gudang sudah ada");
+          this.parameters.form.stok_opname_details = details.filter(
+            (_, indexItem) => index != indexItem
+          );
+        } else {
+          await this.onSearchSlotAisle(index);
+          this.onGetSystemStok(index);
+        }
       } else {
         this.parameters.form.stok_opname_details[index].zona_gudang_id = "";
         this.parameters.form.stok_opname_details[
@@ -1310,14 +1337,24 @@ export default {
     async onSelectItemGudang(item, index) {
       if (item) {
         this.parameters.form.stok_opname_details[index].item_gudang_id = item;
+
         let details = [...this.parameters.form.stok_opname_details];
 
         let itemGudangs = details.filter(
           (detailItem) =>
+            (detailItem.zona_gudang_id
+              ? detailItem.zona_gudang_id.zona_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].zona_gudang_id
+                .zona_gudang_id &&
             (detailItem.item_gudang_id
               ? detailItem.item_gudang_id.item_gudang_id
-              : 0) === item.item_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].item_gudang_id
+                .item_gudang_id
         );
+
+        console.log(itemGudangs);
 
         if (itemGudangs.length > 1) {
           this.$toaster.error("Item gudang sudah ada");
@@ -1325,9 +1362,11 @@ export default {
             (_, indexItem) => index != indexItem
           );
         } else {
+          await this.onSearchSlotAisle(index);
           this.onGetSystemStok(index);
         }
-        await this.onSearchZonaGudang();
+
+        // await this.onSearchZonaGudang();
       } else {
         this.parameters.form.stok_opname_details[index].item_gudang_id = "";
       }

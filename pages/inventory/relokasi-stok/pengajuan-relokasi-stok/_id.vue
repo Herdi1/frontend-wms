@@ -28,7 +28,7 @@
                 :options="lookup_warehouses.data"
                 :filterable="false"
                 v-model="parameters.form.gudang_id"
-                @input="onSelectGudang"
+                @input="(item) => onSelectGudang(item)"
               >
                 <!-- v-model="item.item_gudang_id" -->
                 <li
@@ -223,8 +223,8 @@
                               :options="lookup_custom3.data"
                               :filterable="false"
                               @search="onGetZonaGudang"
-                              :reduce="(item) => item.zona_gudang_id"
                               v-model="item.zona_gudang_id"
+                              @input="(item) => onSelectZona(item, i)"
                             >
                               <li
                                 slot-scope="{ search }"
@@ -259,11 +259,10 @@
                               :loading="isLoadingGetSlotAisle"
                               :options="lookup_custom4.data"
                               :filterable="false"
-                              @search="onGetSlotAisle"
+                              @search="onGetSlotAisle(i)"
                               v-model="item.slot_penyimpanan_id_aisle"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
-                              @input="onGetSystemStok(i)"
+                              @input="(item) => onSelectSlotAisle(item, i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -275,6 +274,7 @@
                               <template
                                 slot="selected-option"
                                 slot-scope="option"
+                                class="whitespace-nowrap overflow-hidden text-ellipsis"
                               >
                                 {{
                                   option.nama_slot_penyimpanan +
@@ -290,7 +290,7 @@
                               >
                                 <span
                                   v-if="lookup_custom4.current_page > 1"
-                                  @click="onGetSlotAisle(search, false)"
+                                  @click="onGetSlotAisle(i, search, false)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Sebelumnya</span
                                 >
@@ -299,7 +299,7 @@
                                     lookup_custom4.last_page >
                                     lookup_custom4.current_page
                                   "
-                                  @click="onGetSlotAisle(search, true)"
+                                  @click="onGetSlotAisle(i, search, true)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Selanjutnya</span
                                 >
@@ -313,11 +313,10 @@
                               :loading="isLoadingGetSlotRack"
                               :options="lookup_custom5.data"
                               :filterable="false"
-                              @search="onGetSlotRack"
+                              @search="onGetSlotRack(i)"
                               v-model="item.slot_penyimpanan_id_rack"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
-                              @input="onGetSystemStok(i)"
+                              @input="(item) => onSelectSlotRack(item, i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -329,6 +328,7 @@
                               <template
                                 slot="selected-option"
                                 slot-scope="option"
+                                class="whitespace-nowrap overflow-hidden text-ellipsis"
                               >
                                 {{
                                   option.nama_slot_penyimpanan +
@@ -344,7 +344,7 @@
                               >
                                 <span
                                   v-if="lookup_custom5.current_page > 1"
-                                  @click="onGetSlotRack(search, false)"
+                                  @click="onGetSlotRack(i, search, false)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Sebelumnya</span
                                 >
@@ -353,7 +353,7 @@
                                     lookup_custom5.last_page >
                                     lookup_custom5.current_page
                                   "
-                                  @click="onGetSlotRack(search, true)"
+                                  @click="onGetSlotRack(i, search, true)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Selanjutnya</span
                                 >
@@ -367,11 +367,10 @@
                               :loading="isLoadingGetSlotLevel"
                               :options="lookup_custom6.data"
                               :filterable="false"
-                              @search="onGetSlotLevel"
+                              @search="onGetSlotLevel(i)"
                               v-model="item.slot_penyimpanan_id_level"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
-                              @input="onGetSystemStok(i)"
+                              @input="(item) => onSelectSlotLevel(item, i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -383,6 +382,7 @@
                               <template
                                 slot="selected-option"
                                 slot-scope="option"
+                                class="whitespace-nowrap overflow-hidden text-ellipsis"
                               >
                                 {{
                                   option.nama_slot_penyimpanan +
@@ -398,7 +398,7 @@
                               >
                                 <span
                                   v-if="lookup_custom6.current_page > 1"
-                                  @click="onGetSlotLevel(search, false)"
+                                  @click="onGetSlotLevel(i, search, false)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Sebelumnya</span
                                 >
@@ -407,7 +407,7 @@
                                     lookup_custom6.last_page >
                                     lookup_custom6.current_page
                                   "
-                                  @click="onGetSlotLevel(search, true)"
+                                  @click="onGetSlotLevel(i, search, true)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Selanjutnya</span
                                 >
@@ -421,11 +421,10 @@
                               :loading="isLoadingGetSlotBin"
                               :options="lookup_custom7.data"
                               :filterable="false"
-                              @search="onGetSlotBin"
+                              @search="onGetSlotBin(i)"
                               v-model="item.slot_penyimpanan_id_bin"
-                              :reduce="(item) => item.slot_penyimpanan_id"
                               class="w-full"
-                              @input="onGetSystemStok(i)"
+                              @input="(item) => onSelectSlotBin(item, i)"
                             >
                               <template slot="option" slot-scope="option">
                                 {{
@@ -437,6 +436,7 @@
                               <template
                                 slot="selected-option"
                                 slot-scope="option"
+                                class="whitespace-nowrap overflow-hidden text-ellipsis"
                               >
                                 {{
                                   option.nama_slot_penyimpanan +
@@ -452,7 +452,7 @@
                               >
                                 <span
                                   v-if="lookup_custom7.current_page > 1"
-                                  @click="onGetSlotBin(search, false)"
+                                  @click="onGetSlotBin(i, search, false)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Sebelumnya</span
                                 >
@@ -461,7 +461,7 @@
                                     lookup_custom7.last_page >
                                     lookup_custom7.current_page
                                   "
-                                  @click="onGetSlotBin(search, true)"
+                                  @click="onGetSlotBin(i, search, true)"
                                   class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                                   >Selanjutnya</span
                                 >
@@ -570,9 +570,7 @@
                           </span>
                         </td>
                       </tr>
-                      <tr
-                        v-if="!parameters.form.mutasi_stok_details.length > 0"
-                      >
+                      <tr v-if="!parameters.form.mutasi_stok_details.length">
                         <td colspan="100" class="text-center">
                           <span class="flex justify-center">
                             <img
@@ -643,9 +641,15 @@
                             :filterable="false"
                             @search="onGetJenisBiaya"
                             v-model="item.jenis_biaya_id"
-                            :reduce="(item) => item.jenis_biaya_id"
                             class="w-full"
                           >
+                            <!-- <template
+                              slot="selected-option"
+                              slot-scope="option"
+                              class="whitespace-nowrap overflow-hidden text-ellipsis"
+                            >
+                              {{ option.nama_jenis_biaya }}
+                            </template> -->
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -711,9 +715,15 @@
                             :filterable="false"
                             @search="onGetCoa"
                             v-model="item.coa_id"
-                            :reduce="(item) => item.coa_id"
                             class="w-full"
                           >
+                            <template
+                              slot="selected-option"
+                              slot-scope="option"
+                              class="whitespace-nowrap overflow-hidden text-ellipsis"
+                            >
+                              {{ option.nama_coa }}
+                            </template>
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -746,9 +756,18 @@
                             :filterable="false"
                             @search="onGetVendor"
                             v-model="item.vendor_id"
-                            :reduce="(item) => item.vendor_id"
                             class="w-full"
                           >
+                            <template slot="option" slot-scope="option">
+                              {{ option.nama_vendor }}
+                            </template>
+                            <template
+                              slot="selected-option"
+                              slot-scope="option"
+                              class="text-nowrap whitespace-nowrap overflow-hidden text-ellipsis"
+                            >
+                              {{ option.nama_vendor }}
+                            </template>
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -920,6 +939,13 @@ export default {
     };
   },
   async created() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    this.parameters.form.tanggal = formattedDate;
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(`inventory/mutasi-stok/${this.id}`);
@@ -934,13 +960,11 @@ export default {
               mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id,
               valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
+              zona_gudang_id: item.zona_gudang,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
               kode_valuation: item.valuation.kode_valuation,
             };
           });
@@ -950,8 +974,13 @@ export default {
             return {
               ...item,
               biaya_id: item,
+              jenis_biaya_id: item.jenis_biaya ?? item.jenis_biaya_id,
+              coa_id: item.coa ?? item.coa_id,
+              vendor_id: item.vendor ?? item.vendor_id,
             };
           });
+        } else {
+          this.parameters.form.biaya = [];
         }
       }
     } catch (error) {
@@ -964,13 +993,16 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (!this.isEditable) {
+      await this.onSelectGudang(this.lookup_warehouses.data[0]);
+    }
     await this.onSearchItemGudang();
     await this.onSearchValuation();
     // await this.onSearchZonaGudang();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
+    //await this.onSearchSlotAisle();
+    // await this.onSearchSlotRack();
+    // await this.onSearchSlotLevel();
+    // await this.onSearchSlotBin();
 
     await this.onSearchJenisBiaya();
     await this.onSearchCoa();
@@ -1045,19 +1077,56 @@ export default {
           (item) => {
             return {
               ...item,
-              mutasi_stok_details_id: item,
-              item_gudang_id: item.item_gudang_id,
-              valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang_id,
-              slot_penyimpanan_id_aisle_plan:
-                item.slot_penyimpanan_id_aisle_plan,
-              slot_penyimpanan_id_rack_plan: item.slot_penyimpanan_id_rack_plan,
-              slot_penyimpanan_id_level_plan:
-                item.slot_penyimpanan_id_level_plan,
-              slot_penyimpanan_id_bin_plan: item.slot_penyimpanan_id_bin_plan,
+              mutasi_stok_detail_id:
+                typeof item.mutasi_stok_detail_id === "object"
+                  ? item.mutasi_stok_detail_id.mutasi_stok_detail_id ?? ""
+                  : "",
+              item_gudang_id: item.item_gudang_id ?? "",
+              valuation_id: item.valuation_id ?? "",
+              zona_gudang_id:
+                typeof item.zona_gudang_id === "object"
+                  ? item.zona_gudang_id.zona_gudang_id ?? ""
+                  : item.zona_gudang_id ?? "",
+              slot_penyimpanan_id_aisle:
+                typeof item.slot_penyimpanan_id_aisle === "object"
+                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_aisle ?? "",
+              slot_penyimpanan_id_rack:
+                typeof item.slot_penyimpanan_id_rack === "object"
+                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_rack ?? "",
+              slot_penyimpanan_id_level:
+                typeof item.slot_penyimpanan_id_level === "object"
+                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_level ?? "",
+              slot_penyimpanan_id_bin:
+                typeof item.slot_penyimpanan_id_bin === "object"
+                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_bin ?? "",
             };
           }
         ),
+        biaya: this.parameters.form.biaya.map((item) => {
+          return {
+            ...item,
+            biaya_id:
+              typeof item.biaya_id === "object"
+                ? item.biaya_id.biaya_id ?? ""
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                : item.jenis_biaya_id ?? "",
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
+            vendor_id:
+              typeof item.vendor_id === "object"
+                ? item.vendor_id.vendor_id ?? ""
+                : item.vendor_id ?? "",
+          };
+        }),
       };
 
       if (this.isEditable) {
@@ -1175,10 +1244,17 @@ export default {
       }
     },
 
-    async onSelectGudang() {
-      this.parameters.form.mutasi_stok_details = [];
-      this.parameters.form.biaya = [];
-      await this.onSearchZonaGudang();
+    async onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+        this.parameters.form.mutasi_stok_details = [];
+        this.parameters.form.biaya = [];
+        await this.onSearchZonaGudang();
+      } else {
+        this.parameters.form.gudang_id = "";
+        this.parameters.form.mutasi_stok_details = [];
+        this.parameters.form.biaya = [];
+      }
     },
 
     onGetValuation(search, isNext) {
@@ -1257,7 +1333,26 @@ export default {
       }
     },
 
-    onGetSlotAisle(search, isNext) {
+    async onSelectZona(item, index) {
+      if (item) {
+        this.parameters.form.mutasi_stok_details[index].zona_gudang_id = item;
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        console.log(
+          this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+        );
+        await this.onSearchSlotAisle(index);
+        await this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.mutasi_stok_details[index].zona_gudang_id = "";
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+      }
+    },
+
+    onGetSlotAisle(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotAisle);
@@ -1273,11 +1368,11 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotAisle();
+        this.onSearchSlotAisle(index);
       }, 600);
     },
 
-    async onSearchSlotAisle() {
+    async onSearchSlotAisle(index) {
       if (!this.isLoadingGetSlotAisle) {
         this.isLoadingGetSlotAisle = true;
 
@@ -1288,6 +1383,11 @@ export default {
             "?search=" +
             this.slot_aisle_search +
             "&level=1" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+              .zona_gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
@@ -1297,7 +1397,27 @@ export default {
       }
     },
 
-    onGetSlotRack(search, isNext) {
+    async onSelectSlotAisle(item, index) {
+      if (item) {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_aisle = item;
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        await this.onSearchSlotRack(index);
+        await this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_aisle = "";
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+      }
+    },
+
+    onGetSlotRack(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotRack);
@@ -1313,11 +1433,11 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotRack();
+        this.onSearchSlotRack(index);
       }, 600);
     },
 
-    async onSearchSlotRack() {
+    async onSearchSlotRack(index) {
       if (!this.isLoadingGetSlotRack) {
         this.isLoadingGetSlotRack = true;
 
@@ -1328,6 +1448,14 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=2" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.mutasi_stok_details[index]
+              .slot_penyimpanan_id_aisle.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1337,7 +1465,27 @@ export default {
       }
     },
 
-    onGetSlotLevel(search, isNext) {
+    async onSelectSlotRack(item, index) {
+      if (item) {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_rack = item;
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+        await this.onSearchSlotLevel(index);
+        await this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_rack = "";
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+      }
+    },
+
+    onGetSlotLevel(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotLevel);
@@ -1353,11 +1501,11 @@ export default {
           this.lookup_custom6.current_page = 1;
         }
 
-        this.onSearchSlotLevel();
+        this.onSearchSlotLevel(index);
       }, 600);
     },
 
-    async onSearchSlotLevel() {
+    async onSearchSlotLevel(index) {
       if (!this.isLoadingGetSlotLevel) {
         this.isLoadingGetSlotLevel = true;
 
@@ -1368,6 +1516,14 @@ export default {
             "?search=" +
             this.slot_rack_search +
             "&level=3" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.mutasi_stok_details[index]
+              .slot_penyimpanan_id_rack.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom6.current_page +
             "&per_page=10",
@@ -1377,7 +1533,27 @@ export default {
       }
     },
 
-    onGetSlotBin(search, isNext) {
+    async onSelectSlotLevel(item, index) {
+      if (item) {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_level = item;
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+        await this.onSearchSlotBin(index);
+        await this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_level = "";
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
+      }
+    },
+
+    onGetSlotBin(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchSlotBin);
@@ -1393,11 +1569,11 @@ export default {
           this.lookup_custom7.current_page = 1;
         }
 
-        this.onSearchSlotBin();
+        this.onSearchSlotBin(index);
       }, 600);
     },
 
-    async onSearchSlotBin() {
+    async onSearchSlotBin(index) {
       if (!this.isLoadingGetSlotBin) {
         this.isLoadingGetSlotBin = true;
 
@@ -1408,12 +1584,33 @@ export default {
             "?search=" +
             this.slot_bin_search +
             "&level=4" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+              .zona_gudang_id +
+            "&slot_penyimpanan_id_induk=" +
+            this.parameters.form.mutasi_stok_details[index]
+              .slot_penyimpanan_id_bin.slot_penyimpanan_id +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetSlotBin = false;
+      }
+    },
+
+    async onSelectSlotBin(item, index) {
+      if (item) {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_bin = item;
+        await this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.mutasi_stok_details[
+          index
+        ].slot_penyimpanan_id_bin = "";
       }
     },
 
@@ -1636,22 +1833,24 @@ export default {
       // let gudang_id = this.parameters.form.gudang_id;
       console.log(this.parameters.form.mutasi_stok_details);
       let item_gudang_id =
-        this.parameters.form.mutasi_stok_details[index].item_gudang_id;
+        this.parameters.form.mutasi_stok_details[index].item_gudang_id ?? "";
       let zona_gudang_id =
-        this.parameters.form.mutasi_stok_details[index].zona_gudang_id;
+        this.parameters.form.mutasi_stok_details[index].zona_gudang_id
+          .zona_gudang_id ?? "";
       let valuation_id =
-        this.parameters.form.mutasi_stok_details[index].valuation_id;
+        this.parameters.form.mutasi_stok_details[index].valuation_id ?? "";
       let aisle =
         this.parameters.form.mutasi_stok_details[index]
-          .slot_penyimpanan_id_aisle;
+          .slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? "";
       let rack =
-        this.parameters.form.mutasi_stok_details[index]
-          .slot_penyimpanan_id_rack;
+        this.parameters.form.mutasi_stok_details[index].slot_penyimpanan_id_rack
+          .slot_penyimpanan_id ?? "";
       let level =
         this.parameters.form.mutasi_stok_details[index]
-          .slot_penyimpanan_id_level;
+          .slot_penyimpanan_id_level.slot_penyimpanan_id ?? "";
       let bin =
-        this.parameters.form.mutasi_stok_details[index].slot_penyimpanan_id_bin;
+        this.parameters.form.mutasi_stok_details[index].slot_penyimpanan_id_bin
+          .slot_penyimpanan_id ?? "";
 
       if (
         typeof this.parameters.form.gudang_id == "object" &&

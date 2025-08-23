@@ -108,23 +108,100 @@
               </div>
             </div>
           </div>
-          <div class="w-full flex justify-between items-center mt-5">
-            <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
-
-            <div>
-              <button
-                type="button"
-                @click="AddDetailItem"
-                class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-              >
-                <i class="fas fa-plus"></i>
-                <p class="text-xs font-medium">Tambah Stok Opname</p>
-              </button>
-            </div>
-          </div>
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
+            <div class="w-full flex justify-between items-center mt-3">
+              <h1 class="text-xl font-bold uppercase">Detail Stok Opname</h1>
+
+              <div class="flex gap-2">
+                <div
+                  class="flex gap-2 p-1 border border-gray-300 rounded-md items-baseline"
+                >
+                  <v-select
+                    class="w-[200px] rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
+                    label="nama_item"
+                    :loading="isLoadingGetItemGudang"
+                    :options="lookup_custom8.data"
+                    :filterable="false"
+                    @search="onGetItemGudang"
+                    v-model="add_params.item_gudang_id"
+                    @input="(item) => onSelectItemAdd(item)"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom8.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom8.current_page > 1"
+                        @click="onGetItemGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom8.last_page > lookup_custom8.current_page
+                        "
+                        @click="onGetItemGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                  <v-select
+                    class="w-[200px] rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_zona_gudang"
+                    :loading="isLoadingGetZonaGudang"
+                    :options="lookup_custom3.data"
+                    :filterable="false"
+                    @search="onGetZonaGudang"
+                    v-model="add_params.zona_gudang_id"
+                    @input="(item) => onSelectZonaAdd(item)"
+                  >
+                    <!-- :reduce="(item) => item.zona_gudang_id" -->
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom3.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom3.current_page > 1"
+                        @click="onGetZonaGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom3.last_page > lookup_custom3.current_page
+                        "
+                        @click="onGetZonaGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                  <button
+                    type="button"
+                    @click="AddDetailItemAll"
+                    class="bg-[#20b93f] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Load Data</p>
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  @click="AddDetailItem"
+                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                >
+                  <i class="fas fa-plus"></i>
+                  <p class="text-xs font-medium">Tambah Detail</p>
+                </button>
+              </div>
+            </div>
             <div class="table-responsive overflow-y-hidden mb-7">
               <table
                 class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
@@ -158,12 +235,12 @@
                     <th class="w-[200px] border border-gray-300">
                       Stok Sistem <span class="text-danger">*</span>
                     </th>
-                    <th class="w-[200px] border border-gray-300">
+                    <!-- <th class="w-[200px] border border-gray-300">
                       Stok Real <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
                       Stok Selisih <span class="text-danger">*</span>
-                    </th>
+                    </th> -->
                     <th class="w-[200px] border border-gray-300">Keterangan</th>
                     <th class="w-[100px] border border-gray-300 text-center">
                       Hapus
@@ -446,7 +523,7 @@
                       />
                       <!-- @input="updateStokSelisih(item)" -->
                     </td>
-                    <td class="border border-gray-300">
+                    <!-- <td class="border border-gray-300">
                       <money
                         v-model="item.stok_real"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -455,17 +532,10 @@
                         "
                         @keyup.native="onChangeStok(i)"
                       />
-                      <!-- @input="updateStokSelisih(item)" -->
-                    </td>
+                    </td> -->
+                    <!-- @input="updateStokSelisih(item)" -->
 
-                    <td class="border border-gray-300">
-                      <!-- <input
-                        v-model="item.stok_selisih"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none bg-gray-100"
-                        readonly
-                        type="text"
-                      /> -->
-                      <!-- v-model="item.stok_selisih" -->
+                    <!-- <td class="border border-gray-300">
                       <money
                         v-model="item.stok_selisih"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -474,7 +544,7 @@
                         "
                         disabled
                       />
-                    </td>
+                    </td> -->
                     <td class="border border-gray-300">
                       <textarea
                         placeholder="Keterangan"
@@ -608,6 +678,10 @@ export default {
           latitude: "",
         },
       },
+      add_params: {
+        zona_gudang_id: "",
+        item_gudang_id: "",
+      },
     };
   },
 
@@ -633,21 +707,25 @@ export default {
           res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              stok_opname_details_id: item.stok_opname_details_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              valuation_id: item.valuation,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              stok_opname_detail_id: item,
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
+              valuation_id: item.valuation ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
         this.isLoadingPage = false;
+
+        this.parameters.form.stok_opname_details.forEach((item, index) => {
+          this.onSearchSlotAisle(index);
+        });
       }
     } catch (error) {
-      console.log("error", error);
-      //this.$router.back()
+      // console.log("error", error);
+      this.$router.back();
     }
   },
 
@@ -655,13 +733,16 @@ export default {
     // await this.onSearchUser();
     // await this.onSearchJabatan();
     await this.onSearchGudang();
+    if (!this.isEditable) {
+      await this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
 
     // await this.onSearchItem();
-    await this.onSearchItemGudang();
+    // await this.onSearchItemGudang();
     // await this.onSearchItemPelanggan();
     // await this.onSearchSupplier();
     await this.onSearchValuation();
-    await this.onSearchZonaGudang();
+    // await this.onSearchZonaGudang();
 
     // await this.onSearchZonaGudang();
     // await this.onSearchSlotAisle();
@@ -672,6 +753,19 @@ export default {
     this.getUserAgent();
     this.getGeoLocation();
   },
+
+  // watch: {
+  //   "parameters.form.stok_opname_details": {
+  //     handler(newVal) {
+  //       newVal.map((item) => {
+  //         return {
+  //           ...item,
+  //         };
+  //       });
+  //     },
+  //     deep: true,
+  //   },
+  // },
 
   computed: {
     ...mapState("moduleApi", [
@@ -740,41 +834,43 @@ export default {
           (item) => {
             return {
               ...item,
-              // stok_opname_details_id: item.stok_opname_details_id
-              //   ? item.stok_opname_details_id
-              //   : "",
+              stok_opname_detail_id:
+                typeof item.stok_opname_detail_id === "object"
+                  ? item.stok_opname_detail_id.stok_opname_detail_id
+                  : "",
               item_id:
                 typeof item.item_gudang_id === "object"
                   ? item.item_gudang_id.item_id || item.item.item_id
-                  : item.item_id,
+                  : item.item_id ?? "",
               item_gudang_id:
                 typeof item.item_gudang_id === "object"
-                  ? item.item_gudang_id.item_gudang_id
-                  : item.item_gudang_id,
+                  ? item.item_gudang_id.item_gudang_id ?? ""
+                  : item.item_gudang_id ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
-                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_aisle,
+                  ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_aisle ?? "",
               slot_penyimpanan_id_bin:
                 typeof item.slot_penyimpanan_id_bin === "object"
-                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_bin,
+                  ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_bin ?? "",
               slot_penyimpanan_id_level:
                 typeof item.slot_penyimpanan_id_level === "object"
-                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_level,
+                  ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_level ?? "",
               slot_penyimpanan_id_rack:
                 typeof item.slot_penyimpanan_id_rack === "object"
-                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-                  : item.slot_penyimpanan_id_rack,
+                  ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
+                  : item.slot_penyimpanan_id_rack ?? "",
               valuation_id:
                 typeof item.valuation_id === "object"
-                  ? item.valuation_id.valuation_id
-                  : item.valuation_id,
+                  ? item.valuation_id.valuation_id ?? ""
+                  : item.valuation_id ?? "",
               zona_gudang_id:
                 typeof item.zona_gudang_id === "object"
-                  ? item.zona_gudang_id.zona_gudang_id
-                  : item.zona_gudang_id,
+                  ? item.zona_gudang_id.zona_gudang_id ?? ""
+                  : item.zona_gudang_id ?? "",
+              keterangan: item.keterangan ?? "",
             };
           }
         ),
@@ -864,18 +960,16 @@ export default {
 
     async onSelectGudang(item) {
       if (item) {
-        // this.parameters.form.gudang_id = item;
+        this.parameters.form.gudang_id = item;
         this.parameters.form.stok_opname_details.forEach((_, index) => {
           this.onGetSystemStok(index);
         });
+        await this.onSearchZonaGudang();
         await this.onSearchItemGudang();
         this.parameters.form.stok_opname_details = [];
-        // await this.onSearchSlotAisle();
-        // await this.onSearchSlotRack();
-        // await this.onSearchSlotLevel();
-        // await this.onSearchSlotBin();
       } else {
         this.parameters.form.gudang_id = "";
+        this.parameters.form.stok_opname_details = [];
       }
     },
 
@@ -966,8 +1060,6 @@ export default {
               this.parameters.form.stok_opname_details[index].item_gudang_id
                 .item_gudang_id
         );
-
-        console.log(itemGudangs);
 
         if (itemGudangs.length > 1) {
           this.$toaster.error("Item gudang sudah ada");
@@ -1292,7 +1384,35 @@ export default {
       if (item) {
         this.parameters.form.stok_opname_details[index].item_gudang_id = item;
 
-        await this.onSearchZonaGudang();
+        let details = [...this.parameters.form.stok_opname_details];
+
+        let itemGudangs = details.filter(
+          (detailItem) =>
+            (detailItem.zona_gudang_id
+              ? detailItem.zona_gudang_id.zona_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].zona_gudang_id
+                .zona_gudang_id &&
+            (detailItem.item_gudang_id
+              ? detailItem.item_gudang_id.item_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].item_gudang_id
+                .item_gudang_id
+        );
+
+        console.log(itemGudangs);
+
+        if (itemGudangs.length > 1) {
+          this.$toaster.error("Item gudang sudah ada");
+          this.parameters.form.stok_opname_details = details.filter(
+            (_, indexItem) => index != indexItem
+          );
+        } else {
+          await this.onSearchSlotAisle(index);
+          this.onGetSystemStok(index);
+        }
+
+        // await this.onSearchZonaGudang();
       } else {
         this.parameters.form.stok_opname_details[index].item_gudang_id = "";
       }
@@ -1334,45 +1454,6 @@ export default {
         this.isLoadingGetValuation = false;
       }
     },
-
-    // onSelectItemGudang(item, index) {
-    //   this.self.parameters.form.konversi_stok_detail_bahan[
-    //     index
-    //   ].item_gudang_id = item ? item : "";
-    //   this.self.parameters.form.konversi_stok_detail_bahan[index].item_id = item
-    //     ? item.item_id
-    //     : "";
-    // },
-
-    // onSelectItem(index) {
-    //   let details = [...this.parameters.form.stok_opname_details];
-
-    //   let itemDetail = {
-    //     ...this.parameters.form.stok_opname_details[index],
-    //   };
-
-    //   if (!itemDetail.item_gudang_id) {
-    //     this.parameters.form.stok_opname_details[index].item_gudang_id = "";
-    //     return;
-    //   }
-
-    //   let itemGudang = itemDetail.item_gudang_id;
-
-    //   let itemGudangs = details.filter(
-    //     (item) =>
-    //       (item.item_gudang_id ? item.item_gudang_id.item_gudang_id : 0) ===
-    //       itemGudang.item_gudang_id
-    //   );
-
-    //   if (itemGudangs.length > 1) {
-    //     this.$toaster.error("Item gudang sudah ada");
-    //     this.parameters.form.stok_opname_details = details.filter(
-    //       (_, indexItem) => index != indexItem
-    //     );
-    //   } else {
-    //     this.onGetSystemStok(index);
-    //   }
-    // },
 
     onChangeStok(index) {
       this.parameters.form.stok_opname_details[index].stok_selisih =
@@ -1449,6 +1530,140 @@ export default {
         longitude: "",
         latitude: "",
       };
+    },
+
+    onSelectZonaAdd(item) {
+      this.add_params.zona_gudang_id = item || "";
+    },
+
+    onSelectItemAdd(item) {
+      this.add_params.item_gudang_id = item || "";
+    },
+
+    async AddDetailItemAll() {
+      if (this.add_params.zona_gudang_id && this.add_params.item_gudang_id) {
+        this.parameters.form.stok_opname_details.push({
+          item_gudang_id: this.add_params.item_gudang_id,
+          zona_gudang_id: this.add_params.zona_gudang_id,
+          valuation_id: "",
+          stok_sistem: 0,
+        });
+
+        let index = this.parameters.form.stok_opname_details.length - 1;
+
+        let details = [...this.parameters.form.stok_opname_details];
+
+        let itemGudangs = details.filter(
+          (detailItem) =>
+            (detailItem.zona_gudang_id
+              ? detailItem.zona_gudang_id.zona_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].zona_gudang_id
+                .zona_gudang_id &&
+            (detailItem.item_gudang_id
+              ? detailItem.item_gudang_id.item_gudang_id
+              : 0) ===
+              this.parameters.form.stok_opname_details[index].item_gudang_id
+                .item_gudang_id
+        );
+
+        if (itemGudangs.length > 1) {
+          this.$toaster.error("Item gudang sudah ada");
+          this.parameters.form.stok_opname_details = details.filter(
+            (_, indexItem) => index != indexItem
+          );
+        } else {
+          await this.onSearchSlotAisle(index);
+          this.onGetSystemStok(index);
+        }
+      }
+      if (
+        this.add_params.zona_gudang_id &&
+        this.add_params.item_gudang_id === ""
+      ) {
+        let res = await this.$axios.get(
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?zona_gudang_id=${this.add_params.zona_gudang_id.zona_gudang_id}`
+        );
+        res.data.data.forEach((item) => {
+          this.parameters.form.stok_opname_details.push({
+            item_gudang_id: item,
+            zona_gudang_id: this.add_params.zona_gudang_id,
+            valuation_id: item.valuation,
+            stok_sistem: 0,
+          });
+
+          let index = this.parameters.form.stok_opname_details.length - 1;
+
+          let details = [...this.parameters.form.stok_opname_details];
+
+          let itemGudangs = details.filter(
+            (detailItem) =>
+              (detailItem.zona_gudang_id
+                ? detailItem.zona_gudang_id.zona_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].zona_gudang_id
+                  .zona_gudang_id &&
+              (detailItem.item_gudang_id
+                ? detailItem.item_gudang_id.item_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].item_gudang_id
+                  .item_gudang_id
+          );
+
+          if (itemGudangs.length > 1) {
+            this.parameters.form.stok_opname_details = details.filter(
+              (_, indexItem) => index != indexItem
+            );
+          } else {
+            // await this.onSearchSlotAisle(index);
+            this.onSelectValuation(item.valuation, index);
+          }
+        });
+      }
+      if (
+        this.add_params.zona_gudang_id === "" &&
+        this.add_params.item_gudang_id
+      ) {
+        let res = await this.$axios.get(
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?item_gudang_id=${this.add_params.item_gudang_id.item_gudang_id}`
+        );
+        res.data.data.forEach((item) => {
+          this.parameters.form.stok_opname_details.push({
+            item_gudang_id: this.add_params.item_gudang_id,
+            zona_gudang_id: item.zona_gudang,
+            valuation_id: item.valuation,
+            stok_sistem: 0,
+          });
+
+          let index = this.parameters.form.stok_opname_details.length - 1;
+
+          let details = [...this.parameters.form.stok_opname_details];
+
+          let itemGudangs = details.filter(
+            (detailItem) =>
+              (detailItem.zona_gudang_id
+                ? detailItem.zona_gudang_id.zona_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].zona_gudang_id
+                  .zona_gudang_id &&
+              (detailItem.item_gudang_id
+                ? detailItem.item_gudang_id.item_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].item_gudang_id
+                  .item_gudang_id
+          );
+
+          if (itemGudangs.length > 1) {
+            // this.$toaster.error("Item gudang sudah ada");
+            this.parameters.form.stok_opname_details = details.filter(
+              (_, indexItem) => index != indexItem
+            );
+          } else {
+            // await this.onSearchSlotAisle(index);
+            this.onSelectValuation(item.valuation, index);
+          }
+        });
+      }
     },
   },
 };

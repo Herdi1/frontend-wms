@@ -681,10 +681,10 @@ export default {
           res.data.stok_opname_details.map((item) => {
             return {
               ...item,
-              stok_opname_details_id: item.stok_opname_details_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              valuation_id: item.valuation,
+              stok_opname_detail_id: item,
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
+              valuation_id: item.valuation ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
@@ -692,6 +692,9 @@ export default {
             };
           });
         this.isLoadingPage = false;
+        this.parameters.form.stok_opname_details.forEach((item, index) => {
+          this.onSearchSlotAisle(index);
+        });
       }
     } catch (error) {
       console.log("error", error);
@@ -700,20 +703,10 @@ export default {
   },
 
   async mounted() {
-    // await this.onSearchUser();
-    // await this.onSearchJabatan();
     await this.onSearchGudang();
-
-    // await this.onSearchItem();
     await this.onSearchItemGudang();
-    // await this.onSearchItemPelanggan();
-    // await this.onSearchSupplier();
     await this.onSearchValuation();
     await this.onSearchZonaGudang();
-    await this.onSearchSlotAisle();
-    await this.onSearchSlotRack();
-    await this.onSearchSlotLevel();
-    await this.onSearchSlotBin();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -794,9 +787,10 @@ export default {
           (item) => {
             return {
               ...item,
-              // stok_opname_details_id: item.stok_opname_details_id
-              //   ? item.stok_opname_details_id
-              //   : "",
+              stok_opname_detail_id:
+                typeof item.stok_opname_detail_id === "object"
+                  ? item.stok_opname_detail_id.stok_opname_detail_id
+                  : "",
               item_id:
                 typeof item.item_gudang_id === "object"
                   ? item.item_gudang_id.item_id || item.item.item_id
@@ -808,19 +802,19 @@ export default {
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
                   ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-                  : "",
+                  : item.slot_penyimpanan_id_aisle,
               slot_penyimpanan_id_bin:
                 typeof item.slot_penyimpanan_id_bin === "object"
                   ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-                  : "",
+                  : item.slot_penyimpanan_id_bin,
               slot_penyimpanan_id_level:
                 typeof item.slot_penyimpanan_id_level === "object"
                   ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-                  : "",
+                  : item.slot_penyimpanan_id_level,
               slot_penyimpanan_id_rack:
                 typeof item.slot_penyimpanan_id_rack === "object"
                   ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-                  : "",
+                  : item.slot_penyimpanan_id_rack,
               valuation_id:
                 typeof item.valuation_id === "object"
                   ? item.valuation_id.valuation_id
