@@ -310,19 +310,6 @@
                   :required="false"
                 />
               </div>
-              <div class="form-group w-full flex" v-if="isEditable">
-                <div class="mb-3 w-1/2">Status PO</div>
-
-                <select
-                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
-                  name="status_selesai"
-                  id="status_selesai"
-                  v-model="parameters.form.status_selesai"
-                >
-                  <option value="0">Open</option>
-                  <option value="1">Close</option>
-                </select>
-              </div>
             </div>
           </div>
           <div
@@ -652,7 +639,6 @@ export default {
           handling_instruction: "",
           catatan: "",
           pelanggan_id: "",
-          status_selesai: "",
 
           //Tracking
           user_agent: "",

@@ -97,6 +97,21 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Status Put Away</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="status_selesai"
+                    id="status_selesai"
+                    v-model="parameters.params.status_put_away"
+                  >
+                    <option value=""></option>
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -121,10 +136,106 @@
                   <th class="w-24 border border-gray-300">Konfirmasi</th>
                   <th class="w-20 border border-gray-300">Detail</th>
                   <th class="w-20 text-center border border-gray-300">No</th>
-                  <th class="w-52 border border-gray-300">Kode Inbound</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_inbound',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Inbound</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_inbound' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="w-52 border border-gray-300">Gudang</th>
-                  <th class="w-52 border border-gray-300">Tanggal Put Away</th>
-                  <th class="w-52 border border-gray-300">Status Put Away</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal_put_away',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal Put Away</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal_put_away' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal_put_away' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_put_away',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Put Away</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_put_away' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_put_away' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="w-52 border border-gray-300">Catatan Put Away</th>
                 </tr>
               </thead>
@@ -300,6 +411,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_put_away: "",
         },
         form: {
           status_put_away: "",

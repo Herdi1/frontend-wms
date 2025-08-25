@@ -197,6 +197,7 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td class="text-center border border-gray-300">
                     <button
+                      @click="onGenerate(item)"
                       class="text-white p-1 rounded-md bg-orange-500 px-3"
                     >
                       <i class="fa fa-plus"></i>
@@ -206,7 +207,10 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_selesai === '1'"
+                    />
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
@@ -324,6 +328,7 @@
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.status_selesai === '1'"
                     />
                   </td>
                 </tr>
@@ -405,6 +410,7 @@ export default {
     return {
       title: "Purchase Order",
       isLoadingData: false,
+      isLoadingGenerate: false,
       isPaginate: true,
       parameters: {
         url: "inbound/purchase-order",
@@ -532,6 +538,47 @@ export default {
       this.$router.push(
         "/inbound/purchase-order/detail/" + item.purchase_order_id
       );
+    },
+
+    async onGenerate(item) {
+      try {
+        this.isLoadingGenerate = true;
+
+        const response = await this.$axios.get(
+          `inbound/purchase-order/${item.purchase_order_id}`
+        );
+
+        const fullPOData = response.data;
+
+        if (fullPOData.purchase_order_details) {
+          fullPOData.purchase_order_details =
+            fullPOData.purchase_order_details.map((detail) => ({
+              ...detail,
+              serial_number: detail.serial_number || "",
+              panjang: detail.panjang || "",
+              lebar: detail.lebar || "",
+              tinggi: detail.tinggi || "",
+              berat: detail.berat || "",
+              no_referensi: detail.no_referensi || "",
+              note: detail.note || "",
+            }));
+        }
+
+        console.log("Full PO data with complete details:", fullPOData);
+
+        sessionStorage.setItem("asnGenerateData", JSON.stringify(fullPOData));
+
+        this.$router.push("/inbound/asn/add");
+      } catch (error) {
+        this.isLoadingGenerate = false;
+
+        this.$toaster.error(
+          "Gagal generate ASN: " +
+            (error.response?.data?.message || error.message)
+        );
+      } finally {
+        this.isLoadingGenerate = false;
+      }
     },
 
     onTrashed(item) {
