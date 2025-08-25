@@ -77,7 +77,9 @@
                   }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kode_status_jenis_biaya }}
+                  {{ item.kode_status_jenis_biaya }} ({{
+                    item.status_jenis_biaya_id
+                  }})
                 </td>
                 <td class="border border-gray-300">
                   {{ item.nama_status_jenis_biaya }}

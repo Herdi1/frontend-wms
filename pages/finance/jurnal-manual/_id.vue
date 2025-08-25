@@ -52,6 +52,13 @@
                         class="w-1/2"
                         @input="onSearchZonaGudang"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-full whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_gudang }}
+                          </div>
+                        </template>
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -189,7 +196,13 @@
                                 slot="selected-option"
                                 slot-scope="option"
                               >
-                                {{ option.nama_coa + " - " + option.kode_coa }}
+                                <div
+                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{
+                                    option.nama_coa + " - " + option.kode_coa
+                                  }}
+                                </div>
                               </template>
                               <li
                                 slot-scope="{ search }"
@@ -248,6 +261,16 @@
                               v-model="item.divisi_id"
                               class="w-full"
                             >
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                <div
+                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{ option.nama_divisi }}
+                                </div>
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -283,6 +306,16 @@
                               v-model="item.kendaraan_id"
                               class="w-full"
                             >
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                <div
+                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{ option.nama_kendaraan }}
+                                </div>
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -318,6 +351,16 @@
                               v-model="item.jenis_biaya_id"
                               class="w-full"
                             >
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                <div
+                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{ option.nama_jenis_biaya }}
+                                </div>
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -353,6 +396,16 @@
                               v-model="item.zona_gudang_id"
                               class="w-full"
                             >
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                <div
+                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{ option.nama_zona_gudang }}
+                                </div>
+                              </template>
                               <li
                                 slot-scope="{ search }"
                                 slot="list-footer"
@@ -410,6 +463,16 @@
                                     option.kode_profit_center
                                   }}
                                 </template> -->
+                                <template
+                                  slot="selected-option"
+                                  slot-scope="option"
+                                >
+                                  <div
+                                    class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                  >
+                                    {{ option.kode_profit_center }}
+                                  </div>
+                                </template>
                                 <li
                                   slot-scope="{ search }"
                                   slot="list-footer"
@@ -463,6 +526,16 @@
                                     option.kode_cost_center
                                   }}
                                 </template> -->
+                                <template
+                                  slot="selected-option"
+                                  slot-scope="option"
+                                >
+                                  <div
+                                    class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                  >
+                                    {{ option.kode_cost_center }}
+                                  </div>
+                                </template>
                                 <li
                                   slot-scope="{ search }"
                                   slot="list-footer"
