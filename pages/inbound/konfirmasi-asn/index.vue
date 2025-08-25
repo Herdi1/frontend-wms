@@ -97,6 +97,20 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Status ASN</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="status_selesai"
+                    id="status_selesai"
+                    v-model="parameters.params.status_masuk_gudang"
+                  >
+                    <option value=""></option>
+                    <option value="0">Open</option>
+                    <option value="1">Close</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -150,10 +164,106 @@
                       </div>
                     </div>
                   </th> -->
-                  <th class="border border-gray-300">Kode ASN</th>
+                  <th
+                    class="border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_asn',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode ASN</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_asn' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_asn' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="border border-gray-300">Status Konfirmasi</th>
+                  <th
+                    class="border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_konfirmasi',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Konformasi</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_konfirmasi' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_konfirmasi' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
                   <th class="border border-gray-300">Catatan Konfirmasi</th>
                   <!-- <th>Kendaraan</th>
                   <th>Pengemudi</th> -->
@@ -164,7 +274,10 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_konfirmasi == 1"
+                    />
                   </td>
                   <td class="border border-gray-300 text-center">
                     {{
@@ -302,6 +415,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
+          status_masuk_gudang: "",
         },
         form: {
           status_konfirmasi: "",

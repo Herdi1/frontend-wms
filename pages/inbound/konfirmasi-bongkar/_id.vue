@@ -203,35 +203,31 @@
                     {{ form.perkiraan_tiba ? form.perkiraan_tiba : "-" }}
                   </div>
                 </div>
-                <div class="col-span-2">
-                  <div class="grid grid-cols-2 gap-2">
-                    <div>
-                      <label for="">Kebutuhan Peralatan</label>
-                      <textarea
-                        disabled
-                        name="kebutuhan_peralatan"
-                        v-model="form.kebutuhan_peralatan"
-                        class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div>
-                    <div>
-                      <label for="">Handling Intruction</label>
-                      <textarea
-                        disabled
-                        name="handling_instruction"
-                        v-model="form.handling_instruction"
-                        class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div>
-                  </div>
+                <div class="flex justify-between">
+                  <label for="" class="w-1/2">Kebutuhan Peralatan</label>
+                  <textarea
+                    disabled
+                    name="kebutuhan_peralatan"
+                    v-model="form.kebutuhan_peralatan"
+                    class="w-1/2 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
+                  ></textarea>
                 </div>
-                <div class="col-span-2">
-                  <label for="">Catatan</label>
+                <div class="flex justify-between">
+                  <label for="" class="w-1/2">Handling Intruction</label>
+                  <textarea
+                    disabled
+                    name="handling_instruction"
+                    v-model="form.handling_instruction"
+                    class="w-1/2 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
+                  ></textarea>
+                </div>
+                <div class="flex justify-between">
+                  <label for="" class="w-1/2">Catatan</label>
                   <textarea
                     disabled
                     name="catatan"
                     v-model="form.catatan"
-                    class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    class="w-1/2 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
                   ></textarea>
                 </div>
               </div>
@@ -275,18 +271,7 @@
                     <option value="BATAL">Batal</option>
                   </select>
                 </div>
-                <!-- <div class="form-group">
-                  <input-horizontal
-                    label="Tanggal Inspeksi"
-                    type="date"
-                    name="tanggal_konfirmasi"
-                    labelWidth="w-[30%]"
-                    inputWidth="w-[70%]"
-                    :isHorizontal="true"
-                    v-model="form.tanggal_konfirmasi"
-                    :required="false"
-                  />
-                </div> -->
+
                 <div class="col-span-2 flex items-center w-full">
                   <label for="catatan_bongkar" class="w-[30%]"
                     >Catatan Konfirmasi</label
@@ -298,280 +283,7 @@
                   ></textarea>
                 </div>
               </div>
-
-              <!-- <div class="w-full flex justify-between items-center">
-                <h1 class="text-xl font-bold">Detail ASN</h1>
-                <div class=" ">
-                </div>
-              </div> -->
-              <!-- <div class="table-responsive overflow-y-hidden mb-7">
-                <table
-                  class="table border-collapse border border-gray-300 mt-5 overflow-auto table-fixed"
-                  :class="form.asn_details.length ? 'mb-[300px]' : ''"
-                >
-                  <thead>
-                    <tr class="text-sm uppercase text-nowrap">
-                      <th class="w-[200px] border border-gray-300">Item</th>
-                      <th class="w-[200px] border border-gray-300">Nomor</th>
-                      <th class="w-[200px] border border-gray-300">Quantity</th>
-                      <th class="w-[200px] border border-gray-300">Dimensi</th>
-                      <th class="w-[200px] border border-gray-300">
-                        Zona Plan
-                      </th>
-                      <th class="w-[200px] border border-gray-300">
-                        Aisle Plan
-                      </th>
-                      <th class="w-[200px] border border-gray-300">
-                        Rack Plan
-                      </th>
-                      <th class="w-[200px] border border-gray-300">
-                        Level Plan
-                      </th>
-                      <th class="w-[200px] border border-gray-300">Bin Plan</th>
-                      <th class="w-[300px] border border-gray-300">Note</th>
-                      <th class="w-[100px] border border-gray-300">Delete</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(item, index) in form.asn_details"
-                      :key="index"
-                      style="border-top: 0.5px solid lightgray"
-                      class="align-top mx-0"
-                    >
-                      <td class="border border-gray-300">
-                        {{ item.item ? item.item.nama_item : "-" }}
-                      </td>
-                      <td class="border border-gray-300">
-                        <div>
-                          <p>
-                            Serial Number:
-                            {{ item.serial_number ? item.serial_number : "-" }}
-                          </p>
-                          <p>
-                            Nomor Referensi:
-                            {{ item.no_referensi ? item.no_referensi : "-" }}
-                          </p>
-                        </div>
-                      </td>
-                      <td class="border border-gray-300">
-                        {{ item.quantity ? item.quantity : "-" }}
-                      </td>
-                      <td class="border border-gray-300">
-                        <div>
-                          <p v-if="item.panjang">Panjang: {{ item.panjang }}</p>
-                          <p v-if="item.lebar">Lebar: {{ item.lebar }}</p>
-                          <p v-if="item.tinggi">Tinggi: {{ item.tinggi }}</p>
-                          <p v-if="item.berat">Berat: {{ item.berat }}</p>
-                        </div>
-                      </td>
-                      <td class="border border-gray-300">
-                        <v-select
-                          label="nama_zona_gudang"
-                          :loading="isLoadingGetZonaPlan"
-                          :options="lookup_custom1.data"
-                          :filterable="false"
-                          @search="onGetZonaPlan"
-                          v-model="item.zona_gudang_id_plan"
-                          :reduce="(item) => item.zona_gudang_id"
-                          class="w-full"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom1.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom1.current_page > 1"
-                              @click="onGetZonaPlan(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom1.last_page >
-                                lookup_custom1.current_page
-                              "
-                              @click="onGetZonaPlan(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </td>
-                      <td class="border border-gray-300">
-                        <v-select
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotAisle"
-                          :options="lookup_custom2.data"
-                          :filterable="false"
-                          @search="onGetSlotAisle"
-                          v-model="item.slot_penyimpanan_id_aisle_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                          class="w-full"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom2.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom2.current_page > 1"
-                              @click="onGetSlotAisle(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom2.last_page >
-                                lookup_custom2.current_page
-                              "
-                              @click="onGetSlotAisle(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </td>
-                      <td class="border border-gray-300">
-                        <v-select
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotRack"
-                          :options="lookup_custom3.data"
-                          :filterable="false"
-                          @search="onGetSlotRack"
-                          v-model="item.slot_penyimpanan_id_rack_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                          class="w-full"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom3.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom3.current_page > 1"
-                              @click="onGetSlotRack(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom3.last_page >
-                                lookup_custom3.current_page
-                              "
-                              @click="onGetSlotRack(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </td>
-                      <td class="border border-gray-300">
-                        <v-select
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotLevel"
-                          :options="lookup_custom4.data"
-                          :filterable="false"
-                          @search="onGetSlotLevel"
-                          v-model="item.slot_penyimpanan_id_level_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                          class="w-full"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom4.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom4.current_page > 1"
-                              @click="onGetSlotLevel(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom4.last_page >
-                                lookup_custom4.current_page
-                              "
-                              @click="onGetSlotLevel(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </td>
-                      <td class="border border-gray-300">
-                        <v-select
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotBin"
-                          :options="lookup_custom5.data"
-                          :filterable="false"
-                          @search="onGetSlotBin"
-                          v-model="item.slot_penyimpanan_id_bin_plan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                          class="w-full"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom5.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom5.current_page > 1"
-                              @click="onGetSlotBin(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom5.last_page >
-                                lookup_custom5.current_page
-                              "
-                              @click="onGetSlotBin(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </td>
-                      <td class="border border-gray-300">{{ item.note }}</td>
-                      <td class="border border-gray-300 text-center">
-                        <i
-                          class="fas fa-trash mx-auto"
-                          style="cursor: pointer"
-                          @click="onDeleteItem(index)"
-                        ></i>
-                      </td>
-                    </tr>
-                    <tr v-if="!form.asn_details.length > 0">
-                      <td colspan="100" class="text-center">
-                        <span class="flex justify-center">
-                          <img
-                            src="/img/data-not-found.svg"
-                            style="height: 250px; object-fit: cover"
-                          />
-                        </span>
-                        <div class="mt-3">Data Tidak Ditemukan</div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> -->
             </div>
-
-            <!-- Detail ASN -->
-            <!-- <div>
-              <h1 class="text-xl font-bold">Detail ASN</h1>
-            </div>
-            <div
-              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            ></div> -->
 
             <modal-footer-section
               :isLoadingForm="isLoadingForm"

@@ -34,46 +34,7 @@
                   </button> -->
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-3 w-full mb-7">
-                <!-- <div class="form-group flex items-center">
-                  <label for="" class="w-[40%]">ASN</label>
-                  let itemsQuantity = this.form.inbound_details.reduce((acc, data) => {
-            if (!acc[data.item.nama_item]) {
-              acc[data.item.nama_item] = 0;
-            }
-            acc[data.item.nama_item] += data.quantity;
-            return acc;
-          }, {});
-
-          const result = Object.entries(itemsQuantity).map(
-            ([nama_item, quantity]) => ({
-              nama_item,
-              quantity,
-            })
-          );
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom6.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom6.current_page > 1"
-                        @click="onGetAsn(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom6.last_page > lookup_custom6.current_page
-                        "
-                        @click="onGetAsn(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div> -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4s w-full mb-7">
                 <div class="form-group flex items-center">
                   <label for="" class="w-[40%]">Status Inbound</label>
                   <select
@@ -118,6 +79,19 @@
                   :disabled="isEditable"
                   width="w-[60%]"
                 />
+                <select-button
+                  v-if="form.sumber_data === 'PO'"
+                  :self="{
+                    label: 'Purchase Order',
+                    optionLabel: 'kode_po',
+                    isLoading: isLoadingGetPurchaseOrder,
+                    lookup: lookup_beam,
+                    onGet: onGetPurchaseOrder,
+                    value: form.purchase_order_id,
+                    input: onSelectPo,
+                  }"
+                  width="w-[60%]"
+                />
                 <div class="form-group">
                   <input-horizontal
                     label="Tanggal"
@@ -159,19 +133,7 @@
                   :disabled="isEditable"
                   width="w-[60%]"
                 />
-                <select-button
-                  v-if="form.sumber_data === 'PO'"
-                  :self="{
-                    label: 'Purchase Order',
-                    optionLabel: 'kode_po',
-                    isLoading: isLoadingGetPurchaseOrder,
-                    lookup: lookup_beam,
-                    onGet: onGetPurchaseOrder,
-                    value: form.purchase_order_id,
-                    input: onSelectPo,
-                  }"
-                  width="w-[60%]"
-                />
+
                 <div class="form-group">
                   <input-horizontal
                     label="Tipe Dokumen External"
@@ -1162,6 +1124,8 @@ export default {
           query:
             "?search=" +
             this.po_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -1415,6 +1379,7 @@ export default {
         this.form.tagihan_inbounds = [];
         await this.onSearchAsn();
         await this.onSearchItemGudang();
+        await this.onSearchPurchaseOrder();
       } else {
         this.form.gudang_id = "";
       }

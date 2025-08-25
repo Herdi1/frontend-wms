@@ -154,8 +154,74 @@
                       </div>
                     </div>
                   </th> -->
-                  <th class="w-52 border border-gray-300">Kode ASN</th>
-                  <th class="w-52 border border-gray-300">Tanggal</th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_asn',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode ASN</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_asn' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_asn' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">Kode PO</th>
                   <th class="w-52 border border-gray-300">Gudang</th>
                   <th class="w-52 border border-gray-300">Vendor</th>
                   <th class="w-52 border border-gray-300">Surat Jalan</th>
@@ -195,6 +261,11 @@
                     {{ formatDate(item.tanggal) }}
                   </td>
                   <td class="border border-gray-300">
+                    {{
+                      item.purchase_order ? item.purchase_order.kode_po : "-"
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
@@ -226,7 +297,15 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_masuk_gudang === '1' ||
+                        item.status_bongkar === 'PROSES' ||
+                        item.status_bongkar === 'SELESAI' ||
+                        item.status_bongkar === 'BATAL'
+                      "
+                    />
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
@@ -234,6 +313,12 @@
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="
+                        item.status_masuk_gudang === '1' ||
+                        item.status_bongkar === 'PROSES' ||
+                        item.status_bongkar === 'SELESAI' ||
+                        item.status_bongkar === 'BATAL'
+                      "
                     />
                   </td>
                 </tr>

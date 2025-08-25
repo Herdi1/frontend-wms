@@ -950,6 +950,14 @@ export default {
     await this.onSearchZonaGudang();
     this.getGeoLocation();
     this.getUserAgent();
+
+    const generateData = sessionStorage.getItem("asnGenerateData");
+    if (generateData) {
+      const itemData = JSON.parse(generateData);
+      this.setGenerate(itemData);
+      // Hapus data setelah digunakan
+      sessionStorage.removeItem("asnGenerateData");
+    }
   },
 
   computed: {
@@ -1018,6 +1026,10 @@ export default {
         this.$toaster.error("geolocation not supported");
         // console.log("geolocation not supported");
       }
+    },
+
+    setGenerate(data) {
+      this.onSelectPo(data);
     },
 
     async onSubmit(isInvalid) {
@@ -1489,10 +1501,12 @@ export default {
           lookup: "custom4",
           query:
             "?search=" +
-              this.po_search +
-              "&gudang_id=" +
-              this.parameters.form.gudang_id.gudang_id ||
-            "" + "&page=" + this.lookup_custom4.current_page + "&per_page=10",
+            this.po_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
         });
 
         this.isLoadingGetPo = false;
@@ -1660,10 +1674,11 @@ export default {
     },
 
     //select gudang
-    onSelectGudang(item, index) {
+    async onSelectGudang(item, index) {
       if (item) {
         this.parameters.form.gudang_id = item;
         this.parameters.form.asn_details = [];
+        await this.onSearchPo();
       } else {
         this.parameters.form.gudang_id = "";
       }
@@ -1741,12 +1756,9 @@ export default {
         this.parameters.form.kode_sap = item.kode_sap;
         this.parameters.form.doc_type_sap = item.doc_type_sap;
         this.onSelectAsalMuat(item.lokasi_asal_muat);
-        this.onSelectTransporter(item.vendor_transporter);
         this.parameters.form.surat_jalan = item.surat_jalan;
         this.parameters.form.no_referensi = item.no_referensi;
         this.parameters.form.no_referensi_2 = item.no_referensi_2;
-        this.onSelectKendaraan(item.kendaraan);
-        this.onSelectStaff(item.staff);
         this.onSelectSupplier(item.supplier);
         this.parameters.form.perkiraan_tiba = item.perkiraan_tiba;
         this.parameters.form.kebutuhan_peralatan = item.kebutuhan_peralatan;
@@ -1757,12 +1769,12 @@ export default {
         console.log(item);
         if (item.purchase_order_details) {
           this.parameters.form.asn_details = item.purchase_order_details.map(
-            (item) => {
+            (detail) => {
               return {
-                ...item,
-                asn_details_id: item || null,
-                purchase_order_detail_id: item.purchase_order_detail_id,
-                item_gudang_id: item.item_gudang ? item.item_gudang : "",
+                ...detail,
+                asn_details_id: detail || null,
+                purchase_order_detail_id: detail.purchase_order_detail_id,
+                item_gudang_id: detail.item_gudang ? detail.item_gudang : "",
               };
             }
           );

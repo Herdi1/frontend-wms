@@ -218,27 +218,23 @@
                     {{ form.perkiraan_tiba ? form.perkiraan_tiba : "-" }}
                   </div>
                 </div>
-                <div class="col-span-2">
-                  <div class="grid grid-cols-2 gap-2">
-                    <div>
-                      <label for="">Kebutuhan Peralatan</label>
-                      <textarea
-                        disabled
-                        name="kebutuhan_peralatan"
-                        v-model="form.kebutuhan_peralatan"
-                        class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div>
-                    <div>
-                      <label for="">Handling Intruction</label>
-                      <textarea
-                        disabled
-                        name="handling_instruction"
-                        v-model="form.handling_instruction"
-                        class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div>
-                  </div>
+                <div class="flex justify-between">
+                  <label for="" class="w-1/2">Kebutuhan Peralatan</label>
+                  <textarea
+                    disabled
+                    name="kebutuhan_peralatan"
+                    v-model="form.kebutuhan_peralatan"
+                    class="w-1/2 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
+                  ></textarea>
+                </div>
+                <div class="flex justify-between">
+                  <label for="" class="w-1/2">Handling Intruction</label>
+                  <textarea
+                    disabled
+                    name="handling_instruction"
+                    v-model="form.handling_instruction"
+                    class="w-1/2 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
+                  ></textarea>
                 </div>
                 <div class="col-span-2">
                   <label for="">Catatan</label>
@@ -252,7 +248,7 @@
               </div>
 
               <!-- konfirmasi -->
-              <div class="w-full flex justify-between items-center">
+              <div class="w-full flex justify-between items-center my-5">
                 <h1 class="text-xl font-bold">Konfirmasi ASN</h1>
                 <div class=" ">
                   <!-- <button
@@ -265,23 +261,22 @@
                   </button> -->
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-3 w-full mb-7">
-                <div class="form-group flex items-center">
-                  <label for="status_konfirmasi" class="w-[30%]"
-                    >Status Konfirmasi</label
-                  >
-                  <select
-                    class="w-[70%] p-1 border rounded focus:outline-none"
-                    name="status_konfirmasi"
-                    id="status_konfirmasi"
-                    v-model="form.status_konfirmasi"
-                  >
-                    <option value="">Pilih</option>
-                    <option value="1">Dikonfirmasi</option>
-                    <option value="0">Ditolak</option>
-                  </select>
-                </div>
-                <!-- <div class="form-group">
+              <div class="form-group flex items-center">
+                <label for="status_konfirmasi" class="w-[30%]"
+                  >Status Konfirmasi</label
+                >
+                <select
+                  class="w-[70%] p-1 border rounded focus:outline-none"
+                  name="status_konfirmasi"
+                  id="status_konfirmasi"
+                  v-model="form.status_konfirmasi"
+                >
+                  <option value="">Pilih</option>
+                  <option value="1">Dikonfirmasi</option>
+                  <option value="0">Pending</option>
+                </select>
+              </div>
+              <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Konfirmasi"
                     type="date"
@@ -293,17 +288,21 @@
                     :required="false"
                   />
                 </div> -->
-                <div class="col-span-2">
-                  <label for="catatan_konfirmasi">Catatan Konfirmasi</label>
-                  <textarea
-                    name="catatan_konfirmasi"
-                    v-model="form.catatan_konfirmasi"
-                    class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                  ></textarea>
-                </div>
+              <div
+                class="flex justify-between mt-5"
+                v-if="form.status_konfirmasi === '1'"
+              >
+                <label for="catatan_konfirmasi" class="w-[30%]"
+                  >Catatan Konfirmasi</label
+                >
+                <textarea
+                  name="catatan_konfirmasi"
+                  v-model="form.catatan_konfirmasi"
+                  class="w-[70%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                ></textarea>
               </div>
 
-              <div class="w-full flex justify-between items-center">
+              <div class="w-full flex justify-between items-center mt-10">
                 <h1 class="text-xl font-bold">Detail ASN</h1>
                 <div class=" ">
                   <!-- <button
@@ -319,7 +318,7 @@
               <div class="table-responsive overflow-y-hidden mb-7">
                 <table
                   class="table border-collapse border border-gray-300 mt-5 overflow-auto table-fixed"
-                  :class="form.asn_details.length ? 'mb-[300px]' : ''"
+                  :class="form.asn_details.length ? 'mb-[100px]' : ''"
                 >
                   <thead>
                     <tr class="text-sm uppercase text-nowrap">
@@ -746,6 +745,7 @@ export default {
         status_konfirmasi: "",
         tanggal_konfirmasi: "",
         catatan_konfirmasi: "",
+
         asn_details: [],
 
         user_agent: "",

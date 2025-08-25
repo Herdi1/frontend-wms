@@ -164,7 +164,13 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_inspeksi === 'DITERIMA' ||
+                        item.status_inspeksi === 'DITOLAK'
+                      "
+                    />
                   </td>
                   <td class="border border-gray-300 text-center">
                     {{
