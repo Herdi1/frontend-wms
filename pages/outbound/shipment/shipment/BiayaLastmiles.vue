@@ -25,13 +25,13 @@
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
-            <th class="w-[200px] border border-gray-300">Jumlah</th>
+            <th class="w-[200px] border border-gray-300">Quantity</th>
             <th class="w-[200px] border border-gray-300">
               Biaya Per Kilometer
             </th>
             <th class="w-[200px] border border-gray-300">Payable To</th>
             <th class="w-[200px] border border-gray-300">Total</th>
-            <th class="w-[200px] border border-gray-300">COA</th>
+            <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
             <th class="w-[200px] border border-gray-300">Divisi</th>
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Keterangan</th>
@@ -214,7 +214,7 @@
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
               />
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               <v-select
                 label="nama_coa"
                 :loading="isLoadingGetCoa"
@@ -247,7 +247,7 @@
                   >
                 </li>
               </v-select>
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <v-select
                 label="nama_divisi"
@@ -283,7 +283,7 @@
               </v-select>
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_vendor"
                 :loading="isLoadingGetVendor"
                 :options="lookup_custom9.data"
@@ -314,7 +314,10 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p v-if="item.nama_vendor">
+                {{ item.nama_vendor }}
+              </p>
             </td>
             <td class="border border-gray-300">
               <textarea

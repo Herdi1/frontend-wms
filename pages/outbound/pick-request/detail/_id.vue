@@ -3,7 +3,7 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data
+          Detail Pick Request
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -45,6 +45,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
 
@@ -55,6 +56,7 @@
                   name="nama_peminta"
                   v-model="parameters.form.nama_peminta"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
 
@@ -71,6 +73,7 @@
                   }"
                   width="w-[50%]"
                   required="true"
+                  :disabled="true"
                 />
                 <!-- <ValidationProvider name="gudang" rules="required">
                   <div slot-scope="{ errors, valid }">
@@ -98,6 +101,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
 
@@ -138,6 +142,7 @@
                   name="no_referensi_1"
                   v-model="parameters.form.no_referensi_1"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
               <div class="form-group">
@@ -147,6 +152,7 @@
                   name="no_referensi_2"
                   v-model="parameters.form.no_referensi_2"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
               <div class="form-group">
@@ -156,6 +162,7 @@
                   name="no_referensi_3"
                   v-model="parameters.form.no_referensi_3"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
               <div class="form-group flex justify-between items-center">
@@ -178,6 +185,7 @@
                   <span class="text-danger">*</span></label
                 >
                 <input
+                  disabled
                   required
                   type="datetime-local"
                   step="1"
@@ -192,6 +200,7 @@
                   <span class="text-danger">*</span></label
                 >
                 <input
+                  disabled
                   required
                   type="datetime-local"
                   step="1"
@@ -216,20 +225,13 @@
                   name="keterangan"
                   v-model="parameters.form.keterangan"
                   :required="false"
+                  :disabled="true"
                 />
               </div>
             </div>
           </div>
 
           <DetailPickRequest ref="detailPickRequest" :self="{ parameters }" />
-
-          <div class="w-full flex justify-start items-center">
-            <modal-footer-section
-              class="mt-5"
-              :isLoadingForm="isLoadingForm"
-              @reset="formReset()"
-            />
-          </div>
         </form>
       </ValidationObserver>
     </div>
@@ -377,10 +379,10 @@ export default {
     // await this.onSearchKendaraan();
     // await this.onSearchPengemudi();
     // await this.onSearchSupplier();
-    await this.onSearchLokasi();
-    await this.onSearchGudang();
-    await this.onSearchPelanggan();
-    await this.onSearchItemGudang();
+    // await this.onSearchLokasi();
+    // await this.onSearchGudang();
+    // await this.onSearchPelanggan();
+    // await this.onSearchItemGudang();
     this.getGeoLocation();
     this.getUserAgent();
   },

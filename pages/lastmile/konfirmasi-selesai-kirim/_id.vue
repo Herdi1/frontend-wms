@@ -23,7 +23,7 @@
               <div class="form-group">
                 <div class="form-group flex items-center">
                   <label for="" class="w-2/5"
-                    >Status Opname <span class="text-danger">*</span></label
+                    >Status Selesai <span class="text-danger">*</span></label
                   >
                   <select
                     name=""
@@ -463,7 +463,12 @@
                   </div>
                 </template>
                 <template #ReturBarang>
-                  <div class="w-full table-responsive">
+                  <div
+                    class="w-full table-responsive"
+                    :class="
+                      parameters.form.shipment_details.length ? 'mb-40' : 'mb-5'
+                    "
+                  >
                     <table class="table-fixed">
                       <thead>
                         <tr class="text-nowrap">

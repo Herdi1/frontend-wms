@@ -1459,6 +1459,8 @@ export default {
             res.data.biaya_pick_orders.map((item) => {
               return {
                 ...item,
+                coa: item.coa ?? "",
+                jenis_biaya_id: item.jenis_biaya ?? "",
               };
             });
         }
@@ -1511,7 +1513,7 @@ export default {
                 nama_item: item.item_gudang.nama_item,
                 kode_item: item.item_gudang.kode_item,
                 jenis_biaya_id: item.jenis_biaya,
-                coa_id: item.coa,
+                coa_id: item.coa ?? "",
                 pelanggan_id: item.pelanggan,
                 divisi_id: item.divisi,
                 vendor_id: item.vendor,
@@ -1733,6 +1735,7 @@ export default {
             typeof item.term_pembayaran_id === "object"
               ? item.term_pembayaran_id.term_pembayaran_id
               : item.term_pembayaran_id,
+          total: item.total ?? 0,
         };
       });
 
@@ -1750,8 +1753,8 @@ export default {
                 : item.jenis_biaya_id,
             coa_id:
               typeof item.coa_id === "object"
-                ? item.coa_id.coa_id
-                : item.coa_id,
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
             pelanggan_id:
               typeof item.pelanggan_id === "object"
                 ? item.pelanggan_id.pelanggan_id
@@ -1764,6 +1767,7 @@ export default {
             volume: item.volume > 0 ? item.volume : 1,
             jenis: item.jenis ? item.jenis : 0,
             keterangan: item.keterangan || "",
+            total: item.total ?? 0,
           };
         }
       );

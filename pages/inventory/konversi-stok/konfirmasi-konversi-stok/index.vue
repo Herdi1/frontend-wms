@@ -461,7 +461,7 @@ export default {
 
     onDetail(item) {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/detail/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/konfirmasi-konversi-stok/detail/${item.konversi_stok_id}`
       );
     },
 

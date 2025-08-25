@@ -59,96 +59,192 @@
         <div
           class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
         >
-          <div class="table-responsive overflow-y-hidden mb-7">
-            <table
-              class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
-            >
-              <thead>
-                <tr class="text-sm uppercase">
-                  <th class="w-[200px] border border-gray-300">
-                    Item Gudang <span class="text-danger">*</span>
-                  </th>
-                  <th class="w-[200px] border border-gray-300">
-                    Zona <span class="text-danger">*</span>
-                  </th>
-                  <th class="w-[200px] border border-gray-300">
-                    Valuation <span class="text-danger">*</span>
-                  </th>
-
-                  <th class="w-[200px] border border-gray-300">Lokasi Aisle</th>
-                  <th class="w-[200px] border border-gray-300">Lokasi Rack</th>
-                  <th class="w-[200px] border border-gray-300">Lokasi Level</th>
-                  <th class="w-[200px] border border-gray-300">Lokasi Bin</th>
-                  <th class="w-[200px] border border-gray-300">
-                    Stok Sistem <span class="text-danger">*</span>
-                  </th>
-                  <th class="w-[200px] border border-gray-300">
-                    Stok Real <span class="text-danger">*</span>
-                  </th>
-                  <th class="w-[200px] border border-gray-300">
-                    Stok Selisih <span class="text-danger">*</span>
-                  </th>
-                  <th class="w-[200px] border border-gray-300">Keterangan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item, i) in this.detail_opname.stok_opname_details"
-                  :key="i"
+          <tab-component :tabs="tabs">
+            <template #DetailOpname>
+              <div class="table-responsive overflow-y-hidden mb-7">
+                <table
+                  class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                 >
-                  <td class="border border-gray-300">
-                    {{ item.item_gudang.nama_item }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.zona_gudang.nama_zona_gudang }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.valuation.nama_valuation }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.slot_penyimpanan_aisle
-                        ? item.slot_penyimpanan_aisle.nama_slot_penyimpanan
-                        : "-"
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.slot_penyimpanan_rack
-                        ? item.slot_penyimpanan_rack.nama_slot_penyimpanan
-                        : "-"
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.slot_penyimpanan_level
-                        ? item.slot_penyimpanan_level.nama_slot_penyimpanan
-                        : "-"
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.slot_penyimpanan_bin
-                        ? item.slot_penyimpanan_bin.nama_slot_penyimpanan
-                        : "-"
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.stok_sistem ? item.stok_sistem : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.stok_real ? item.stok_real : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.stok_selisih ? item.stok_selisih : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.keterangan ? item.keterangan : "-" }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  <thead>
+                    <tr class="text-sm uppercase">
+                      <th class="w-[200px] border border-gray-300">
+                        Item Gudang <span class="text-danger">*</span>
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Zona <span class="text-danger">*</span>
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Valuation <span class="text-danger">*</span>
+                      </th>
+
+                      <th class="w-[200px] border border-gray-300">
+                        Lokasi Aisle
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Lokasi Rack
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Lokasi Level
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Lokasi Bin
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Stok Sistem <span class="text-danger">*</span>
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Stok Real <span class="text-danger">*</span>
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Stok Selisih <span class="text-danger">*</span>
+                      </th>
+                      <th class="w-[200px] border border-gray-300">
+                        Keterangan
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item, i) in detail_opname.stok_opname_details"
+                      :key="i"
+                    >
+                      <td class="border border-gray-300">
+                        {{ item.item_gudang.nama_item }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.zona_gudang.nama_zona_gudang }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.valuation.nama_valuation }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{
+                          item.slot_penyimpanan_aisle
+                            ? item.slot_penyimpanan_aisle.nama_slot_penyimpanan
+                            : "-"
+                        }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{
+                          item.slot_penyimpanan_rack
+                            ? item.slot_penyimpanan_rack.nama_slot_penyimpanan
+                            : "-"
+                        }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{
+                          item.slot_penyimpanan_level
+                            ? item.slot_penyimpanan_level.nama_slot_penyimpanan
+                            : "-"
+                        }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{
+                          item.slot_penyimpanan_bin
+                            ? item.slot_penyimpanan_bin.nama_slot_penyimpanan
+                            : "-"
+                        }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.stok_sistem ? item.stok_sistem : "-" }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.stok_real ? item.stok_real : "-" }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.stok_selisih ? item.stok_selisih : "-" }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.keterangan ? item.keterangan : "-" }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </template>
+            <template #HistoryOpname>
+              <div class="table-responsive overflow-y-hidden mb-7">
+                <table
+                  class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+                >
+                  <thead>
+                    <tr class="text-sm uppercase">
+                      <th class="w-[200px] border border-gray-300">Status</th>
+                      <th class="w-[200px] border border-gray-300">Tanggal</th>
+                      <th class="w-[200px] border border-gray-300">User</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="border border-gray-300 text-center">
+                        <span class="p-1 rounded-md text-white bg-orange-500">
+                          Menunggu
+                        </span>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.tanggal }}
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.user_input.nama_lengkap }}
+                      </td>
+                    </tr>
+                    <tr v-if="detail_opname.user_proses">
+                      <td class="border border-gray-300 text-center">
+                        <span class="p-1 rounded-md text-white bg-purple-500">
+                          Proses
+                        </span>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.tanggal_proses }}
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.user_proses.nama_lengkap }}
+                      </td>
+                    </tr>
+                    <tr v-if="detail_opname.user_selesai">
+                      <td class="border border-gray-300 text-center">
+                        <span class="p-1 rounded-md text-white bg-blue-500">
+                          Selesai
+                        </span>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.tanggal_selesai }}
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.user_selesai.nama_lengkap }}
+                      </td>
+                    </tr>
+                    <tr v-if="detail_opname.user_adjustment">
+                      <td class="border border-gray-300 text-center">
+                        <span class="p-1 rounded-md text-white bg-green-500">
+                          Adjusted
+                        </span>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.tanggal_adjustment }}
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.user_adjustment.nama_lengkap }}
+                      </td>
+                    </tr>
+                    <tr v-if="detail_opname.user_batal">
+                      <td class="border border-gray-300 text-center">
+                        <span class="p-1 rounded-md text-white bg-red-500">
+                          Batal
+                        </span>
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.tanggal_batal }}
+                      </td>
+                      <td class="border border-gray-300 text-center">
+                        {{ detail_opname.user_batal.nama_lengkap }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </template>
+          </tab-component>
         </div>
       </div>
     </div>
@@ -165,6 +261,11 @@ export default {
     return {
       id,
 
+      tabs: [
+        { name: "Detail Stok Opname", slotName: "DetailOpname" },
+        { name: "Riwayat Status Opname", slotName: "HistoryOpname" },
+      ],
+
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingData: false,
       detail_opname: {
@@ -180,6 +281,16 @@ export default {
         catatan_adjustment: "",
         stok_opname_details: [],
         gudang: {},
+
+        user_input: {},
+        user_proses: {},
+        user_selesai: {},
+        user_adjustment: {},
+        user_batal: {},
+        tanggal_proses: "",
+        tanggal_selesai: "",
+        tanggal_adjustment: "",
+        tanggal_batal: "",
       },
     };
   },

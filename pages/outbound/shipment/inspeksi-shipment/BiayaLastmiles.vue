@@ -3,14 +3,14 @@
     <div class="w-full flex justify-between items-center">
       <h1 class="text-xl font-bold">Biaya Lastmile</h1>
       <div class=" ">
-        <button
+        <!-- <button
           type="button"
           @click="AddDetailBiaya"
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
           <p class="text-xs font-medium">Tambah Detail Biaya</p>
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">

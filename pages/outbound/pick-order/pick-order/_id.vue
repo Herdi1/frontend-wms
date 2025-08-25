@@ -1782,11 +1782,16 @@ export default {
     async addItem(item) {
       if (
         !this.parameters.form.pick_order_details.find(
-          (data) => data.pick_request_id === item.pick_request_id
+          (data) =>
+            data.pick_request_id === item.pick_request_id &&
+            data.item_gudang_id === item.item_gudang_id
         )
       ) {
         let detailItem = {
           ...item,
+          zona_gudang_id_tujuan: this.lookup_warehouses.data.length
+            ? this.lookup_warehouses.data[0]
+            : "",
         };
         this.parameters.form.pick_order_details.push(detailItem);
 

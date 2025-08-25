@@ -112,6 +112,16 @@
                   :required="true"
                 />
               </div>
+              <div v-if="parameters.form.vendor_id" class="form-group">
+                <input-horizontal
+                  label="Vendor"
+                  type="text"
+                  name="vendor_id"
+                  :isHorizontal="true"
+                  v-model="parameters.form.vendor_id.nama_vendor"
+                  :disabled="true"
+                />
+              </div>
               <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
@@ -305,6 +315,7 @@ export default {
           kendaraan_id: "",
           jenis_kendaraan_id: "",
           pengemudi_id: "",
+          vendor_id: "",
           keterangan: "",
           no_referensi: "",
           status_muat: "",
@@ -341,6 +352,7 @@ export default {
           this.parameters.form[item] = res.data[item];
         });
         this.parameters.form.pengemudi_id = res.data.pengemudi;
+        this.parameters.form.vendor_id = res.data.vendor;
         this.parameters.form.kendaraan_id = res.data.kendaraan;
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id = res.data.staff;
@@ -539,33 +551,33 @@ export default {
                 : "",
             lokasi_id:
               typeof item.lokasi_id === "object"
-                ? item.lokasi_id.lokasi_id
-                : item.lokasi_id,
+                ? item.lokasi_id.lokasi_id ?? ""
+                : item.lokasi_id ?? "",
             item_gudang_id:
               typeof item.item_gudang_id == "object"
-                ? item.item_gudang_id.item_gudang_id
-                : item.item_gudang_id,
+                ? item.item_gudang_id.item_gudang_id ?? ""
+                : item.item_gudang_id ?? "",
             zona_gudang_id:
               typeof item.zona_gudang_id == "object"
-                ? item.zona_gudang_id.zona_gudang_id
-                : item.zona_gudang_id,
+                ? item.zona_gudang_id.zona_gudang_id ?? ""
+                : item.zona_gudang_id ?? "",
             slot_penyimpanan_id_aisle:
               typeof item.slot_penyimpanan_id_aisle === "object"
-                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_rack:
               typeof item.slot_penyimpanan_id_rack === "object"
-                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_level:
               typeof item.slot_penyimpanan_id_level === "object"
-                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_level.slot_penyimpanan_id ?? ""
                 : "",
             slot_penyimpanan_id_bin:
               typeof item.slot_penyimpanan_id_bin === "object"
-                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
+                ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
                 : "",
-            stok_transfer_detail_id: item.stok_transfer_detail_id,
+            stok_transfer_detail_id: item.stok_transfer_detail_id ?? "",
             // valuation_id:
             //   typeof item.valuation_id === "object"
             //     ? item.valuation_id.valuation_id
@@ -580,16 +592,16 @@ export default {
             ...item,
             rute_shipment_id:
               typeof item.rute_shipment_id === "object"
-                ? item.rute_shipment_id.rute_shipment_id
-                : item.rute_shipment_id,
+                ? item.rute_shipment_id.rute_shipment_id ?? ""
+                : item.rute_shipment_id ?? "",
             lokasi_id_asal:
               typeof item.lokasi_id_asal === "object"
-                ? item.lokasi_id_asal.lokasi_id
-                : item.lokasi_id_asal,
+                ? item.lokasi_id_asal.lokasi_id ?? ""
+                : item.lokasi_id_asal ?? "",
             lokasi_id_tujuan:
               typeof item.lokasi_id_tujuan === "object"
-                ? item.lokasi_id_tujuan.lokasi_id
-                : item.lokasi_id_tujuan,
+                ? item.lokasi_id_tujuan.lokasi_id ?? ""
+                : item.lokasi_id_tujuan ?? "",
           };
         }
       );
@@ -604,26 +616,28 @@ export default {
                 : "",
             lokasi_id:
               typeof item.lokasi_id === "object"
-                ? item.lokasi_id.lokasi_id
-                : item.lokasi_id,
+                ? item.lokasi_id.lokasi_id ?? ""
+                : item.lokasi_id ?? "",
             jenis_biaya_id:
               typeof item.jenis_biaya_id == "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
+                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                : item.jenis_biaya_id ?? "",
             term_pembayaran_id:
               typeof item.term_pembayaran_id == "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
+                ? item.term_pembayaran_id.term_pembayaran_id ?? ""
+                : item.term_pembayaran_id ?? "",
             coa_id:
-              typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
+              typeof item.coa_id == "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
             divisi_id:
               typeof item.divisi_id == "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
+                ? item.divisi_id.divisi_id ?? ""
+                : item.divisi_id ?? "",
             vendor_id:
               typeof item.vendor_id == "object"
-                ? item.vendor_id.vendor_id
-                : item.vendor_id,
+                ? item.vendor_id.vendor_id ?? ""
+                : item.vendor_id ?? "",
           };
         }
       );
@@ -637,30 +651,32 @@ export default {
                 : "",
             lokasi_id:
               typeof item.lokasi_id === "object"
-                ? item.lokasi_id.lokasi_id
-                : item.lokasi_id,
+                ? item.lokasi_id.lokasi_id ?? ""
+                : item.lokasi_id ?? "",
             jenis_biaya_id:
               typeof item.jenis_biaya_id == "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
+                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                : item.jenis_biaya_id ?? "",
             term_pembayaran_id:
               typeof item.term_pembayaran_id == "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
+                ? item.term_pembayaran_id.term_pembayaran_id ?? ""
+                : item.term_pembayaran_id ?? "",
             coa_id:
-              typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
+              typeof item.coa_id == "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
             divisi_id:
               typeof item.divisi_id == "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
+                ? item.divisi_id.divisi_id ?? ""
+                : item.divisi_id ?? "",
             vendor_id:
               typeof item.vendor_id == "object"
-                ? item.vendor_id.vendor_id
-                : item.vendor_id,
+                ? item.vendor_id.vendor_id ?? ""
+                : item.vendor_id ?? "",
             pelanggan_id:
               typeof item.pelanggan_id == "object"
-                ? item.pelanggan_id.pelanggan_id
-                : item.pelanggan_id,
+                ? item.pelanggan_id.pelanggan_id ?? ""
+                : item.pelanggan_id ?? "",
           };
         }
       );
@@ -929,8 +945,10 @@ export default {
     onSelectPengemudi(item) {
       if (item) {
         this.parameters.form.pengemudi_id = item;
+        this.parameters.form.vendor_id = item.vendor_id;
       } else {
         this.parameters.form.pengemudi_id = "";
+        this.parameters.form.vendor_id = "";
       }
     },
 
@@ -1036,9 +1054,10 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id = item;
-        this.parameters.form.staff_id = item;
+        this.parameters.form.vendor_id = item.vendor_operator;
       } else {
         this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
       }
     },
 
@@ -1143,7 +1162,6 @@ export default {
                   `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_awal=${item.lokasi_id_asal.lokasi_id}&lokasi_id_tujuan=${item.lokasi_id_tujuan.lokasi_id}`
                 )
                 .then((res) => {
-                  console.log(res);
                   this.parameters.form.rute_shipments[index].jarak =
                     res.data.jarak ?? 0;
                   this.parameters.form.rute_shipments[
@@ -1165,6 +1183,7 @@ export default {
                       this.parameters.form.jenis_kendaraan_id
                         .jenis_kendaraan_id,
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
+                    vendor_id: this.parameters.form.vendor_id.vendor_id,
                   },
                 })
                 .then((res) => {

@@ -96,6 +96,34 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Pick Order</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_pick_order"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                    <option value="BATAL">Batal</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mb-1">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Approve</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_approve"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Menunggu</option>
+                    <option value="1">Approved</option>
+                  </select>
+                </div>
               </div>
               <div class="flex gap-3 mt-5">
                 <button
@@ -115,6 +143,7 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
@@ -288,7 +317,7 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -296,6 +325,15 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_pick_order === 'BATAL' ||
+                        item.status_approve === '1'
+                      "
+                    />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -380,15 +418,7 @@
                       </span>
                     </div>
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="
-                        item.status_pick_order === 'BATAL' ||
-                        item.status_approve === '1'
-                      "
-                    />
-                  </td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

@@ -169,16 +169,16 @@
                   {{ item.zona_gudang.nama_zona_gudang }}
                 </td>
                 <td class="border border-gray-300">
-                  <span
+                  <span v-if="item.slot_penyimpanan_aisle"
                     >{{ item.slot_penyimpanan_aisle.nama_slot_penyimpanan }} -
                   </span>
-                  <span
+                  <span v-if="item.slot_penyimpanan_rack"
                     >{{ item.slot_penyimpanan_rack.nama_slot_penyimpanan }} -
                   </span>
-                  <span
+                  <span v-if="item.slot_penyimpanan_level"
                     >{{ item.slot_penyimpanan_level.nama_slot_penyimpanan }} -
                   </span>
-                  <span>{{
+                  <span v-if="item.slot_penyimpanan_bin">{{
                     item.slot_penyimpanan_bin.nama_slot_penyimpanan
                   }}</span>
                 </td>

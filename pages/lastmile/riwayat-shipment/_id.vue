@@ -408,7 +408,7 @@
                   </div>
                   <div class="flex items-center justify-between">
                     <label for="" class="w-1/2"
-                      >Quantity <span class="text-danger">*</span></label
+                      >Quantity Retur <span class="text-danger">*</span></label
                     >
                     <!-- type="text" -->
                     <money
@@ -462,6 +462,16 @@
                       placeholder="Alasan"
                       class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                       v-model="parameters.form.alasan"
+                    ></textarea>
+                  </div>
+                  <div class="form-group flex items-start mb-5">
+                    <label for="Alasan" class="w-1/2 pt-1"
+                      >Keterangan Retur</label
+                    >
+                    <textarea
+                      placeholder="Alasan"
+                      class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                      v-model="parameters.form.keterangan_retur"
                     ></textarea>
                   </div>
                 </div>
@@ -564,6 +574,7 @@ export default {
           quantity_kirim: "",
           alasan: "",
           valuation_id: "",
+          keterangan_retur: "",
         },
       },
 
@@ -751,6 +762,7 @@ export default {
         quantity_retur: this.parameters.form.quantity_retur,
         valuation_id: this.parameters.form.valuation_id,
         alasan: this.parameters.form.alasan,
+        keterangan: this.parameters.form.keterangan_retur,
         latitude: this.tracking.latitude,
         longitude: this.tracking.longitude,
         user_agent: this.tracking.user_agent,

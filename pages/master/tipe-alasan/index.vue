@@ -107,7 +107,7 @@
                   }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kode_tipe_alasan_ }}
+                  {{ item.kode_tipe_alasan }} ({{ item.tipe_alasan_id }})
                 </td>
                 <td class="border border-gray-300">
                   {{ item.nama_tipe_alasan }}

@@ -65,6 +65,9 @@
                       </div>
                     </th>
                     <th class="border border-gray-300 w-36">Jenis Transaksi</th>
+                    <th class="border border-gray-300 w-36">
+                      Kode Stok Transfer
+                    </th>
                     <th
                       @click="
                         onSort(
@@ -193,6 +196,14 @@
                         class="p-1 text-white rounded-md bg-green-500"
                         >Stok Transfer</span
                       >
+                    </td>
+                    <td class="border border-gray-300">
+                      {{
+                        item.stok_transfer_detail
+                          ? item.stok_transfer_detail.stok_transfer
+                              .kode_stok_transfer
+                          : "-"
+                      }}
                     </td>
                     <td class="border border-gray-300">{{ item.tanggal }}</td>
                     <td class="border border-gray-300">
