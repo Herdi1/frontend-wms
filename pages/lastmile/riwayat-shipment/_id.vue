@@ -106,6 +106,41 @@
                 />
               </div>
             </div>
+            <div class="table-responsive my-2" v-if="lookup_custom6.length > 0">
+              <table
+                class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+              >
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <th class="w-[200px] border border-gray-300">
+                      Item Gudang
+                    </th>
+                    <th class="w-[200px] border border-gray-300">
+                      Kode Delivery Order
+                    </th>
+                    <th class="w-[200px] border border-gray-300">Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="aligh-top border-t"
+                    v-for="(item, i) in lookup_custom6"
+                    :key="i"
+                  >
+                    <td class="border border-gray-300">
+                      {{ item.item_gudang.nama_item }} -
+                      {{ item.item_gudang.kode_item }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.kode_delivery_order }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
@@ -458,11 +493,39 @@
                   </div>
                   <div class="form-group flex items-start mb-5">
                     <label for="Alasan" class="w-1/2 pt-1">Alasan</label>
-                    <textarea
-                      placeholder="Alasan"
-                      class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                      v-model="parameters.form.alasan"
-                    ></textarea>
+                    <v-select
+                      label="nama_alasan_beda_plan"
+                      :loading="isLoadingGetAlasan"
+                      :options="lookup_custom1.data"
+                      :filterable="false"
+                      @search="onGetAlasan"
+                      v-model="parameters.form.alasan_beda_plan_id"
+                      :reduce="(item) => item.alasan_beda_plan_id"
+                      class="w-1/2"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom1.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom1.current_page > 1"
+                          @click="onGetAlasan(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom1.last_page >
+                            lookup_custom1.current_page
+                          "
+                          @click="onGetAlasan(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
                   </div>
                   <div class="form-group flex items-start mb-5">
                     <label for="Alasan" class="w-1/2 pt-1"
@@ -597,6 +660,10 @@ export default {
       isStopSearchValuation: false,
       isLoadingGetValuation: false,
       valuation_search: "",
+
+      isStopSearchAlasan: false,
+      isLoadingGetAlasan: false,
+      alasan_search: "",
     };
   },
 
@@ -607,6 +674,7 @@ export default {
 
   async mounted() {
     await this.onSearchValuation();
+    await this.onSearchAlasan();
     this.getUserAgent();
     this.getGeoLocation();
   },
@@ -617,6 +685,7 @@ export default {
       "result",
       "lookup_custom6",
       "lookup_warehouses",
+      "lookup_custom1",
     ]),
   },
 
@@ -695,13 +764,16 @@ export default {
 
       let formData = new FormData();
 
-      formData.append("status", this.parameters.form.status);
-      formData.append("catatan", this.parameters.form.catatan);
-      formData.append("catatan_selesai", this.parameters.form.catatan_selesai);
-      formData.append("latitude", this.tracking.latitude);
-      formData.append("longitude", this.tracking.longitude);
-      formData.append("user_agent", this.tracking.user_agent);
-      formData.append("device", this.tracking.device);
+      formData.append("status", this.parameters.form.status ?? "");
+      formData.append("catatan", this.parameters.form.catatan ?? "");
+      formData.append(
+        "catatan_selesai",
+        this.parameters.form.catatan_selesai ?? ""
+      );
+      formData.append("latitude", this.tracking.latitude ?? "");
+      formData.append("longitude", this.tracking.longitude ?? "");
+      formData.append("user_agent", this.tracking.user_agent ?? "");
+      formData.append("device", this.tracking.device ?? "");
 
       if (this.parameters.form.file instanceof File) {
         formData.append("file", this.parameters.form.file);
@@ -821,7 +893,6 @@ export default {
           query: "?lokasi_id=" + this.parameters.form.lokasi_id_tujuan,
         });
 
-        console.log(this.lookup_custom6);
         this.isLoadingGetShipmentDetail = false;
       }
     },
@@ -867,6 +938,46 @@ export default {
         });
 
         this.isLoadingGetValuation = false;
+      }
+    },
+
+    onGetAlasan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchAlasan);
+
+      this.isStopSearchAlasan = setTimeout(() => {
+        this.alasan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchAlasan();
+      }, 600);
+    },
+
+    async onSearchAlasan() {
+      if (!this.isLoadingGetAlasan) {
+        this.isLoadingGetAlasan = true;
+
+        await this.lookUp({
+          url: "master/alasan-beda-plan/get-alasan-beda-plan",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.alasan_search +
+            "&tipe_alasan_id=4" +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetAlasan = false;
       }
     },
 

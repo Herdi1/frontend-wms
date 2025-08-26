@@ -671,6 +671,16 @@ export default {
           catatan_batal: "",
           stok_opname_details: [],
 
+          user_input: {},
+          user_proses: {},
+          user_selesai: {},
+          user_adjustment: {},
+          user_batal: {},
+          tanggal_proses: "",
+          tanggal_selesai: "",
+          tanggal_adjustment: "",
+          tanggal_batal: "",
+
           //Tracking
           user_agent: "",
           device: "",
@@ -724,7 +734,7 @@ export default {
         });
       }
     } catch (error) {
-      // console.log("error", error);
+      console.log("error", error);
       this.$router.back();
     }
   },

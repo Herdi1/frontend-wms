@@ -1443,8 +1443,8 @@ export default {
                       nominal_satuan: data.nilai_kontrak,
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
-                      jumlah: 0,
-                      total: parseFloat(item.total),
+                      jumlah: data.jumlah,
+                      total: 0,
                       divisi_id: data.divisi_id,
                       vendor_id: data.vendor,
                       coa_id: "",
@@ -1458,7 +1458,7 @@ export default {
           this.parameters.form.biaya_pick_orders =
             res.data.biaya_pick_orders.map((item) => {
               return {
-                ...item,
+                ...JSON.parse(JSON.stringify(item)),
                 coa: item.coa ?? "",
                 jenis_biaya_id: item.jenis_biaya ?? "",
               };
@@ -2643,6 +2643,18 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = this.default_form;
+    },
+
+    quantityChange(item) {
+      if (item.dasar_perhitungan === "QTY") {
+        item.total = item.jumlah * item.nilai_kontrak;
+      } else if (item.dasar_perhitungan === "BERAT") {
+        item.total = item.jumlah * item.nilai_kontrak * item.berat;
+      } else if (item.dasar_perhitungan === "VOLUME") {
+        item.total = item.jumlah * item.nilai_kontrak * item.volume;
+      } else {
+        item.total = 0;
+      }
     },
   },
 };

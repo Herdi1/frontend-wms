@@ -128,6 +128,34 @@
                   <option value="BATAL">Batal</option>
                 </select>
               </div>
+              <div class="form-group">
+                <select-button
+                  :self="{
+                    label: 'Staff',
+                    optionLabel: 'nama_lengkap',
+                    lookup: lookup_customers,
+                    value: parameters.form.staff_id,
+                    onGet: onGetStaff,
+                    isLoadingL: isLoadingGetStaff,
+                    input: onSelectStaff,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                  :required="true"
+                />
+              </div>
+              <div class="form-group" v-if="parameters.form.staff_id">
+                <input-horizontal
+                  :disabled="true"
+                  :isHorizontal="true"
+                  label="Vendor"
+                  type="text"
+                  name="vendor"
+                  v-model="parameters.form.vendor_id.nama_vendor"
+                  inputWidth="w-[50%]"
+                  labelWidth="w-[40%]"
+                />
+              </div>
               <div
                 class="form-group flex items-start"
                 v-if="parameters.form.status_mutasi === 'PROSES'"
@@ -168,7 +196,7 @@
             </div>
           </div>
 
-          <div class="mt-7">
+          <div class="">
             <TabComponent :tabs="tabs">
               <template #DetailItem>
                 <div class="w-full flex justify-between items-center mt-3">
@@ -973,6 +1001,10 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -987,6 +1019,8 @@ export default {
           tanggal: "",
           keterangan: "",
           keterangan_proses: "",
+          staff_id: "",
+          vendor_id: "",
           mutasi_stok_details: [],
           biaya: [],
 
@@ -1065,7 +1099,7 @@ export default {
 
     // await this.onSearchJenisBiaya();
     // await this.onSearchCoa();
-    // await this.onSearchVendor();
+    await this.onSearchStaff();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1086,6 +1120,7 @@ export default {
       "lookup_custom9", //coa
       "lookup_custom10", //vendor
       "lookup_warehouses", //gudang
+      "lookup_customers",
     ]),
   },
 
@@ -1163,6 +1198,14 @@ export default {
                 typeof item.slot_penyimpanan_id_bin === "object"
                   ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
                   : item.slot_penyimpanan_id_bin ?? "",
+              staff_id:
+                typeof item.staff_id === "object"
+                  ? item.staff_id.staff_id ?? ""
+                  : item.staff_id ?? "",
+              vendor_id:
+                typeof item.vendor_id === "object"
+                  ? item.vendor_id.vendor_id ?? ""
+                  : item.vendor_id ?? "",
             };
           }
         ),
@@ -1803,6 +1846,54 @@ export default {
           }
           this.onChangeStok(index);
         });
+    },
+
+    //staff
+    onGetStaff(search, isNext) {
+      if (!search?.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetStaff = false;
+      }
+    },
+
+    onSelectStaff(item) {
+      if (item) {
+        this.parameters.form.staff_id = item || "";
+        this.parameters.form.vendor_id = item.vendor_operator || "";
+      } else {
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
+      }
     },
   },
 };

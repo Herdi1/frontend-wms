@@ -49,10 +49,10 @@
               </div>
             </div>
           </div>
-          <div class="mt-7">
-            <h1 class="text-xl font-bold mb-2 uppercase">Data Shipment</h1>
+          <div class="mt-3">
+            <h1 class="text-xl font-bold uppercase">Data Shipment</h1>
             <div
-              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+              class="mt-4 mb-7 py-5 bg-white dark:bg-slate-800 rounded-md px-4 shadow-sm"
             >
               <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-2 gap-x-4">
                 <div class="flex w-full items-center">
@@ -463,13 +463,15 @@
                   </div>
                 </template>
                 <template #ReturBarang>
-                  <div
-                    class="w-full table-responsive"
-                    :class="
-                      parameters.form.shipment_details.length ? 'mb-40' : 'mb-5'
-                    "
-                  >
-                    <table class="table-fixed">
+                  <div class="w-full table-responsive">
+                    <table
+                      class="border-collapse border border-gray-300 h-full overflow-auto table-fixed"
+                      :class="
+                        parameters.form.shipment_retur_details.length
+                          ? 'mb-40'
+                          : 'mb-5'
+                      "
+                    >
                       <thead>
                         <tr class="text-nowrap">
                           <th class="w-[200px] border border-gray-300">

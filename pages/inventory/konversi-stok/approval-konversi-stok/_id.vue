@@ -49,7 +49,7 @@
               <input-horizontal
                 :isHorizontal="true"
                 label="Tanggal Mulai"
-                type="date"
+                type="datetime"
                 name="tanggal_mulai"
                 :disabled="true"
                 v-model="parameters.form.tanggal_mulai"
@@ -61,7 +61,7 @@
               <input-horizontal
                 :isHorizontal="true"
                 label="Tanggal Selesai"
-                type="date"
+                type="datetime"
                 name="tanggal_selesai"
                 :disabled="true"
                 v-model="parameters.form.tanggal_selesai"

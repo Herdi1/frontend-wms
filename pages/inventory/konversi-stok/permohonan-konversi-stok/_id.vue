@@ -46,7 +46,7 @@
                 labelWidth="w-[40%]"
               />
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
                 label="Tanggal Mulai"
@@ -70,18 +70,43 @@
                 labelWidth="w-[40%]"
                 @input="getEstimasiLamaPengerjaan"
               />
+            </div> -->
+            <div class="form-group flex justify-between">
+              <label for="" class="w-[40%]"
+                >Tanggal Mulai <span class="text-danger">*</span></label
+              >
+              <input
+                @input="setTanggalMulai"
+                type="datetime-local"
+                step="1"
+                v-model="parameters.form.tanggal_mulai"
+                class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div class="form-group flex justify-between">
+              <label for="" class="w-[40%]"
+                >Tanggal Selesai <span class="text-danger">*</span></label
+              >
+              <input
+                @input="getEstimasiLamaPengerjaan"
+                type="datetime-local"
+                step="1"
+                v-model="parameters.form.tanggal_selesai"
+                class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
             </div>
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
                 label="Estimasi Lama Pengerjaan"
-                type="number"
+                type="text"
                 name="lama_pengerjaan"
                 v-model="parameters.form.lama_pengerjaan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
-                @input="getEstimasiSelesai"
+                disabled
               />
+              <!-- @input="getEstimasiSelesai" -->
             </div>
             <select-button
               v-if="!user.gudang_id"
@@ -951,15 +976,25 @@ export default {
       const start = new Date(this.parameters.form.tanggal_mulai);
       const end = new Date(this.parameters.form.tanggal_selesai);
 
-      const lamaPengerjaan =
-        Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
-        Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+      const diffMils = end - start;
+
+      // const lamaPengerjaan =
+      //   Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
+      //   Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
 
       const oneDayInMilis = 1000 * 60 * 60 * 24;
+      const msInHour = 1000 * 60 * 60;
+      const msInMinute = 1000 * 60;
 
-      this.parameters.form.lama_pengerjaan = Math.round(
-        lamaPengerjaan / oneDayInMilis + 1
-      );
+      const days = Math.floor(diffMils / oneDayInMilis) ?? 0;
+      const remainingOfDay = diffMils % oneDayInMilis;
+
+      const hours = Math.floor(remainingOfDay / msInHour) ?? 0;
+      const remainingOfHour = remainingOfDay % msInHour;
+
+      const minutes = Math.floor(remainingOfHour / msInMinute) ?? 0;
+
+      this.parameters.form.lama_pengerjaan = `${days} hari, ${hours} jam, ${minutes} menit`;
     },
 
     getEstimasiSelesai() {
