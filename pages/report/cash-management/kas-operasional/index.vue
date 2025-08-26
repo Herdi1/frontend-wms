@@ -332,7 +332,7 @@ export default {
     },
 
     onPreview() {
-      if (!this.parameters.form.gudang_id && !this.parameters.form.coa_id) {
+      if (!this.parameters.form.gudang_id || !this.parameters.form.coa_id) {
         this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
         return;
       }
@@ -361,7 +361,7 @@ export default {
     },
 
     async onExport() {
-      if (!this.parameters.form.gudang_id && !this.parameters.form.coa_id) {
+      if (!this.parameters.form.gudang_id || !this.parameters.form.coa_id) {
         this.$toaster.error("Mohon Pilih Gudang dan COA Terlebih Dahulu");
         return;
       }

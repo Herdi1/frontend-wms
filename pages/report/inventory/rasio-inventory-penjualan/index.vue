@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="min-h-screen">
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
         <a href="javascript:;" class="text-primary hover:underline">Report</a>
@@ -161,15 +161,15 @@
 
             <div class="form-group w-full">
               <input-horizontal
-                label="Periode Awal"
+                label="Periode"
                 type="date"
-                name="periode_awal"
+                name="periode"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
                 :required="true"
               />
             </div>
-            <div class="form-group w-full">
+            <!-- <div class="form-group w-full">
               <input-horizontal
                 label="Periode Akhir"
                 type="date"
@@ -178,7 +178,7 @@
                 v-model="parameters.params.end_date"
                 :required="true"
               />
-            </div>
+            </div> -->
           </div>
 
           <div class="flex gap-3 mt-3 justify-end">
@@ -236,7 +236,7 @@ export default {
           kode_gudang: "",
           nama_gudang: "",
           start_date: "",
-          end_date: "",
+          // end_date: "",
         },
         form: {
           gudang_id: "",
@@ -445,13 +445,12 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.start_date &&
-        !this.parameters.params.end_date
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi dan Periode Awal Terlebih Dahulu"
         );
         return;
       }
@@ -463,9 +462,6 @@ export default {
 
       this.parameters.params.start_date = this.formatDate(
         this.parameters.params.start_date
-      );
-      this.parameters.params.end_date = this.formatDate(
-        this.parameters.params.end_date
       );
 
       let url =
@@ -480,23 +476,21 @@ export default {
         this.parameters.form.wilayah_id.wilayah_id +
         "&start_date=" +
         this.parameters.params.start_date +
-        "&end_date=" +
-        this.parameters.params.end_date +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.parameters.params.start_date = "";
     },
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.start_date &&
-        !this.parameters.params.end_date
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi dan Periode Awal Terlebih Dahulu"
         );
         return;
       }
@@ -506,9 +500,7 @@ export default {
       this.parameters.params.start_date = this.formatDate(
         this.parameters.params.start_date
       );
-      this.parameters.params.end_date = this.formatDate(
-        this.parameters.params.end_date
-      );
+
       try {
         let url =
           this.parameters.url +
@@ -522,8 +514,6 @@ export default {
           this.parameters.form.wilayah_id.wilayah_id +
           "&start_date=" +
           this.parameters.params.start_date +
-          "&end_date=" +
-          this.parameters.params.end_date +
           "&token=" +
           token;
 
@@ -551,6 +541,7 @@ export default {
           document.body.appendChild(link);
           link.click();
           link.remove();
+          this.parameters.params.start_date = "";
         });
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);

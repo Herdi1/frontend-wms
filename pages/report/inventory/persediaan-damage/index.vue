@@ -216,30 +216,24 @@
               </v-select>
             </div>
 
-            <div
-              class="form-group w-full"
-              v-if="parameters.params.kategori === 'pembelian'"
-            >
+            <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
                 type="date"
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
-                :required="false"
+                :required="true"
               />
             </div>
-            <div
-              class="form-group w-full"
-              v-if="parameters.params.kategori === 'pembelian'"
-            >
+            <div class="form-group w-full">
               <input-horizontal
                 label="Periode Akhir"
                 type="date"
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
-                :required="false"
+                :required="true"
               />
             </div>
           </div>
@@ -618,21 +612,15 @@ export default {
     },
 
     onPreview() {
-      this.parameters.params.start_date = this.formatDate(
-        this.parameters.params.start_date
-      );
-      this.parameters.params.end_date = this.formatDate(
-        this.parameters.params.end_date
-      );
-
       if (
-        !this.parameters.gudang_id &&
-        !this.parameters.params.provinsi_id &&
-        !this.parameters.params.type &&
-        !this.parameters.params.ketegori
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date ||
+        (!this.parameters.params.type && !this.parameters.params.ketegori)
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, dan Kategori Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, Kategori, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -641,6 +629,13 @@ export default {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
         return;
       }
+
+      this.parameters.params.start_date = this.formatDate(
+        this.parameters.params.start_date
+      );
+      this.parameters.params.end_date = this.formatDate(
+        this.parameters.params.end_date
+      );
 
       let url =
         this.parameters.url +
@@ -662,27 +657,30 @@ export default {
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
     },
 
     async onExport() {
+      if (
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date ||
+        (!this.parameters.params.type && !this.parameters.params.ketegori)
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, Kategori, Periode Awal dan Akhir Terlebih Dahulu"
+        );
+        return;
+      }
+
       this.parameters.params.start_date = this.formatDate(
         this.parameters.params.start_date
       );
       this.parameters.params.end_date = this.formatDate(
         this.parameters.params.end_date
       );
-
-      if (
-        !this.parameters.gudang_id &&
-        !this.parameters.params.provinsi_id &&
-        !this.parameters.params.type &&
-        !this.parameters.params.ketegori
-      ) {
-        this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Tipe Transaksi, dan Kategori Terlebih Dahulu"
-        );
-        return;
-      }
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
@@ -733,6 +731,10 @@ export default {
         });
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);
+      } finally {
+        this.isLoadingData = false;
+        this.parameters.params.start_date = "";
+        this.parameters.params.end_date = "";
       }
     },
   },

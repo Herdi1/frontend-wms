@@ -199,6 +199,12 @@
                     <button
                       @click="onGenerate(item)"
                       class="text-white p-1 rounded-md bg-orange-500 px-3"
+                      :class="
+                        item.status_selesai === '1'
+                          ? 'bg-gray-200 cursor-not-allowed'
+                          : 'bg-orange-500 hover:bg-orange-600'
+                      "
+                      :disabled="item.status_selesai === '1'"
                     >
                       <i class="fa fa-plus"></i>
                     </button>

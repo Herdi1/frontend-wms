@@ -43,7 +43,7 @@
               </div>
               <div class="w-full">
                 <ValidationProvider name="gudang_id">
-                  <div slot-scope="{ errors, valid }">
+                  <div>
                     <select-button
                       :self="{
                         label: 'Gudang',
@@ -57,13 +57,13 @@
                       width="w-[50%]"
                       required="true"
                     />
-                    <div class="w-full flex justify-end">
+                    <!-- <div class="w-full flex justify-end">
                       <span
                         class="text-danger text-xs pl-1 w-1/2"
                         v-if="errors[0]"
                         >{{ errors[0] }}</span
                       >
-                    </div>
+                    </div> -->
                   </div>
                 </ValidationProvider>
               </div>
@@ -247,6 +247,14 @@
                     :reduce="(item) => item.supplier_id"
                     v-model="parameters.form.supplier_id"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_supplier }}
+                      </div>
+                           </template
+                    >
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -342,7 +350,7 @@
                   </th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-40 border border-gray-300">Item Gudang</th>
+                  <th class="w-60 border border-gray-300">Item Gudang</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
@@ -380,6 +388,13 @@
                         v-model="item.item_gudang_id"
                         @input="(item) => onSelectItemGudang(item, index)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_item }}
+                          </div>
+                        </template>
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"

@@ -414,6 +414,13 @@
                           @input="(item) => onSelectZona(item, index)"
                           class="w-full"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_zona_gudang }}
+                            </div>
+                          </template>
                           <!-- <template slot="option" slot-scope="option">
                                   {{ option.nama_coa + " - " + option.kode_coa }}
                                 </template>
@@ -466,11 +473,15 @@
                             }}
                           </template>
                           <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
+                            <div
+                              class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.nama_slot_penyimpanan +
+                                " - " +
+                                option.kode_slot_penyimpanan
+                              }}
+                            </div>
                           </template>
                           <li
                             slot-scope="{ search }"
@@ -515,11 +526,15 @@
                             }}
                           </template>
                           <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
+                            <div
+                              class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.nama_slot_penyimpanan +
+                                " - " +
+                                option.kode_slot_penyimpanan
+                              }}
+                            </div>
                           </template>
                           <li
                             slot-scope="{ search }"
@@ -564,11 +579,15 @@
                             }}
                           </template>
                           <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
+                            <div
+                              class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.nama_slot_penyimpanan +
+                                " - " +
+                                option.kode_slot_penyimpanan
+                              }}
+                            </div>
                           </template>
                           <li
                             slot-scope="{ search }"
@@ -613,11 +632,15 @@
                             }}
                           </template>
                           <template slot="selected-option" slot-scope="option">
-                            {{
-                              option.nama_slot_penyimpanan +
-                              " - " +
-                              option.kode_slot_penyimpanan
-                            }}
+                            <div
+                              class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.nama_slot_penyimpanan +
+                                " - " +
+                                option.kode_slot_penyimpanan
+                              }}
+                            </div>
                           </template>
                           <li
                             slot-scope="{ search }"

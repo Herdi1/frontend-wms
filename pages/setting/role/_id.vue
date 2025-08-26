@@ -229,13 +229,21 @@
               </span>
             </div>
             <div>
-              <input-form
+              <label for="urutan">Urutan</label>
+              <input
+                type="number"
+                v-model="parameters.form.urutan"
+                min="0"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+              <!-- <input-form
                 label="Urutan"
                 type="number"
                 name="urutan"
                 v-model="parameters.form.urutan"
                 :required="false"
-              />
+                :min="'0'"
+              /> -->
             </div>
           </div>
 

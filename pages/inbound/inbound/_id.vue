@@ -34,7 +34,9 @@
                   </button> -->
                 </div>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4s w-full mb-7">
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
+              >
                 <div class="form-group flex items-center">
                   <label for="" class="w-[40%]">Status Inbound</label>
                   <select
@@ -266,7 +268,7 @@
                     input: onSelectStaff,
                   }"
                   width="w-[60%]"
-                  :disabled="true"
+                  :disabled="form.sumber_data !== 'NON'"
                 />
                 <select-button
                   :self="{
@@ -279,14 +281,14 @@
                     input: onSelectVendor,
                   }"
                   width="w-[60%]"
-                  :disabled="true"
+                  :disabled="form.sumber_data !== 'NON'"
                 />
-                <div class="col-span-2 m-1">
-                  <label for="" class="">Keterangan</label>
+                <div class="m-1 flex justify-between md:col-span-2">
+                  <label for="" class="w-[40%] md:w-[20%]">Keterangan</label>
                   <textarea
                     name="keterangan"
                     id="keterangan"
-                    class="w-full p-1 rounded-md outline-none border border-gray-300"
+                    class="w-[60%] md:w-[80%] p-1 rounded-md outline-none border border-gray-300"
                     v-model="form.keterangan"
                   ></textarea>
                 </div>
@@ -868,9 +870,10 @@ export default {
             typeof item.item_gudang_id === "object"
               ? item.item_gudang_id.item_gudang_id ?? ""
               : item.item_gudang_id ?? "",
-          item_id: this.isEditable
-            ? item.item.item_id ?? ""
-            : item.item_gudang_id.item_id ?? "",
+          item_id:
+            typeof item.item_id === "object"
+              ? item.item_id.item_id ?? ""
+              : item.item_id ?? "",
           item_pelanggan_id: "",
           zona_gudang_id:
             typeof item.zona_gudang_id === "object"
@@ -1185,7 +1188,7 @@ export default {
     async onSelectAsn(item) {
       if (item) {
         this.form.inbound_details = [];
-        this.items = [];
+        // this.items = [];
         this.form.asn_id = item;
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
@@ -1197,12 +1200,13 @@ export default {
         this.form.pelanggan_id = item.pelanggan;
         this.form.staff_id = item.staff;
         this.form.vendor_id_transporter = item.vendor_transporter;
-        console.log(item);
+        // console.log(item);
         if (item.asn_details) {
-          this.items = item.asn_details.map((data) => {
+          this.form.inbound_details = item.asn_details.map((data) => {
             return {
               ...data,
-              item_gudang_id: data.item_gudang_id,
+              item_gudang_id: data.item_gudang,
+              item_id: data.item,
               nama_item: data.item.nama_item,
               asn_detail_id: data.asn_detail_id,
               purchase_order_detail_id: data.purchase_order_detail_id ?? "",
