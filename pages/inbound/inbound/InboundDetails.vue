@@ -81,6 +81,13 @@
                 class="w-full"
                 @input="(item) => onSelectItemDetail(item, index)"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_item }}
+                  </div>
+                </template>
               </v-select>
               <v-select
                 v-else
@@ -93,6 +100,13 @@
                 class="w-full"
                 @input="(item) => onSelectItemDetail(item, index)"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_item }}
+                  </div>
+                </template>
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -259,6 +273,13 @@
                 class="w-full"
                 @input="(item) => onSelectZona(item, index)"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_zona_gudang }}
+                  </div>
+                </template>
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -301,11 +322,15 @@
                   }}
                 </template>
                 <template slot="selected-option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{
+                      option.nama_slot_penyimpanan +
+                      " - " +
+                      option.kode_slot_penyimpanan
+                    }}
+                  </div>
                 </template>
                 <li
                   slot-scope="{ search }"
@@ -349,11 +374,15 @@
                   }}
                 </template>
                 <template slot="selected-option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{
+                      option.nama_slot_penyimpanan +
+                      " - " +
+                      option.kode_slot_penyimpanan
+                    }}
+                  </div>
                 </template>
                 <li
                   slot-scope="{ search }"
@@ -397,11 +426,15 @@
                   }}
                 </template>
                 <template slot="selected-option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{
+                      option.nama_slot_penyimpanan +
+                      " - " +
+                      option.kode_slot_penyimpanan
+                    }}
+                  </div>
                 </template>
                 <li
                   slot-scope="{ search }"
@@ -445,11 +478,15 @@
                   }}
                 </template>
                 <template slot="selected-option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
+                  <div
+                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{
+                      option.nama_slot_penyimpanan +
+                      " - " +
+                      option.kode_slot_penyimpanan
+                    }}
+                  </div>
                 </template>
                 <li
                   slot-scope="{ search }"
@@ -498,6 +535,13 @@
                     :reduce="(item) => item.alasan_beda_plan_id"
                     class="w-full"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_alasan_beda_plan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"

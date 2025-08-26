@@ -878,6 +878,42 @@ export default {
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
+    // printFile() {
+    //   let url =
+    //     "inventory/get-print-detail?type=pdf" +
+    //       "&gudang_id=" +
+    //       this.parameters.params.gudang_id?.gudang_id ||
+    //     "" +
+    //       "&item_gudang_id=" +
+    //       this.parameters.params.item_gudang_id?.item_gudang_id ||
+    //     "" +
+    //       "&valuation_id=" +
+    //       this.parameters.params.valuation_id?.valuation_id ||
+    //     "" +
+    //       "&zona_gudang_id=" +
+    //       this.parameters.params.zona_gudang_id?.zona_gudang_id ||
+    //     "" +
+    //       "&asile_id=" +
+    //       this.parameters.params.slot_penyimpanan_id_aisle
+    //         ?.slot_penyimpanan_id ||
+    //     "";
+    //   "&rack_id=" +
+    //     this.parameters.params.slot_penyimpanan_id_rack?.slot_penyimpanan_id ||
+    //     "";
+    //   "&level_id=" +
+    //     this.parameters.params.slot_penyimpanan_id_level?.slot_penyimpanan_id ||
+    //     "";
+    //   "&bin_id=" +
+    //     this.parameters.params.slot_penyimpanan_id_bin?.slot_penyimpanan_id ||
+    //     "";
+    //   "&start_date=" + this.parameters.params.start_date ||
+    //     "" +
+    //     "&end_date=" + this.parameters.params.end_date ||
+    //     "";
+
+    //   window.open(process.env.API_URL + url);
+    // },
+
     async onLoad(page = 1) {
       if (this.isLoadingData) return;
 
@@ -898,7 +934,7 @@ export default {
         zona_gudang_id:
           this.parameters.params.zona_gudang_id?.zona_gudang_id || "",
         aisle_id:
-          this.parameters.params.slot_penyimpanan_id_rack
+          this.parameters.params.slot_penyimpanan_id_aisle
             ?.slot_penyimpanan_id || "",
         rack_id:
           this.parameters.params.slot_penyimpanan_id_rack

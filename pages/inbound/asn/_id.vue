@@ -499,7 +499,7 @@
                   </th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-40 border border-gray-300">Item Gudang</th>
+                  <th class="w-60 border border-gray-300">Item Gudang</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-40 border border-gray-300">Quantity</th>
                   <th class="w-40 border border-gray-300">Serial Number</th>
@@ -606,6 +606,14 @@
                         v-model="item.item_gudang_id"
                         @input="(item) => onSelectItemGudang(item, index)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_item }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"

@@ -45,7 +45,9 @@
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2">Tipe</label>
+              <label for="" class="w-1/2"
+                >Tipe <span class="text-danger">*</span></label
+              >
               <select
                 name=""
                 id=""
@@ -140,7 +142,7 @@
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group w-full">
@@ -150,7 +152,7 @@
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
-                :required="false"
+                :required="true"
               />
             </div>
           </div>
@@ -368,20 +370,26 @@ export default {
         }
       }
 
-      if (!this.parameters.form.coa_id || !this.parameters.form.coa_id.coa_id) {
-        this.$toaster.error("Mohon Pilih COA Terlebih Dahulu");
+      if (
+        !this.parameters.form.coa_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih COA, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
 
-      if (this.parameters.params.download === "pdf") {
+      if (this.parameters.params.download !== "pdf") {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
         return;
       }
 
       let gudangId = "";
       if (
-        this.parameters.params.type === "historis" &&
-        this.parameters.form.gudang_id &&
+        this.parameters.params.type === "historis" ||
+        this.parameters.form.gudang_id ||
         this.parameters.form.gudang_id.gudang_id
       ) {
         gudangId = this.parameters.form.gudang_id.gudang_id;
@@ -422,8 +430,14 @@ export default {
         }
       }
 
-      if (!this.parameters.form.coa_id || !this.parameters.form.coa_id.coa_id) {
-        this.$toaster.error("Mohon Pilih COA Terlebih Dahulu");
+      if (
+        !this.parameters.form.coa_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih COA, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
 
@@ -432,8 +446,8 @@ export default {
       try {
         let gudangId = "";
         if (
-          this.parameters.params.type === "historis" &&
-          this.parameters.form.gudang_id &&
+          this.parameters.params.type === "historis" ||
+          this.parameters.form.gudang_id ||
           this.parameters.form.gudang_id.gudang_id
         ) {
           gudangId = this.parameters.form.gudang_id.gudang_id;

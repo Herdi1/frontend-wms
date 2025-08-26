@@ -485,9 +485,9 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.type &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.type ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
@@ -500,6 +500,15 @@ export default {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
         return;
       }
+
+      let startDateParams =
+        this.parameters.params.type == "transfer_stok"
+          ? this.parameters.params.start_date
+          : this.formatDate(this.parameters.params.start_date);
+      let endDateParams =
+        this.parameters.params.type == "transfer_stok"
+          ? this.parameters.params.end_date
+          : this.formatDate(this.parameters.params.end_date);
 
       let gudangId = this.parameters.form.gudang_id?.gudang_id || "";
 
@@ -527,9 +536,9 @@ export default {
         "&urutan=" +
         this.parameters.params.urutan +
         "&start_date=" +
-        this.parameters.params.start_date +
+        startDateParams +
         "&end_date=" +
-        this.parameters.params.end_date +
+        endDateParams +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
@@ -538,9 +547,9 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.type &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.type ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(

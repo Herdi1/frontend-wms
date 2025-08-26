@@ -50,9 +50,7 @@
             <div
               class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
             >
-              <div
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full mb-7"
-              >
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mb-7">
                 <div>
                   <input-horizontal
                     label="Kode Inbound"
@@ -60,6 +58,16 @@
                     name="kode_inbound"
                     :disabled="true"
                     v-model="form.kode_inbound"
+                    :required="false"
+                  />
+                </div>
+                <div>
+                  <input-horizontal
+                    label="Kode TKBM"
+                    type="text"
+                    name="kode_tkbm"
+                    :disabled="true"
+                    v-model="form.kode_tkbm"
                     :required="false"
                   />
                 </div>
@@ -83,10 +91,6 @@
                     :required="false"
                   />
                 </div>
-              </div>
-              <div
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full mb-7"
-              >
                 <div>
                   <input-horizontal
                     label="No Referensi 1"
@@ -106,6 +110,62 @@
                     v-model="form.no_referensi_2"
                     :required="false"
                   />
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Gudang</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.gudang_id ? form.gudang_id.nama_gudang : "-" }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Pelanggan</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{
+                      form.pelanggan_id ? form.pelanggan_id.nama_pelanggan : "-"
+                    }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Supplier</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{
+                      form.supplier_id ? form.supplier_id.nama_supplier : "-"
+                    }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Vendor Transporter</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{
+                      form.vendor_id_transporter
+                        ? form.vendor_id_transporter.nama_vendor
+                        : "-"
+                    }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Staff</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.staff_id ? form.staff_id.nama_lengkap : "-" }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center my-1">
+                  <label class="w-1/2">Keterangan</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.keterangan ? form.keterangan : "-" }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -220,40 +280,6 @@
               </div>
             </div>
 
-            <!-- <div>
-              <h1 class="text-xl font-bold mb-2 uppercase">
-                Konfirmasi Put Away
-              </h1>
-            </div>
-            <div
-              class="mt-4 mb-10 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            >
-              <div class="flex justify-between items-center mb-5">
-                <label for="status_put_away" class="w[40%]"
-                  >Status Put Away</label
-                >
-                <select
-                  name="status_put_away"
-                  id="status_put_away"
-                  class="w-[60%] p-1 border rounded focus:outline-none"
-                  v-model="form.status_put_away"
-                >
-                  <option value="MENUNGGU">Menunggu</option>
-                  <option value="DITERIMA">Diterima</option>
-                  <option value="DITOLAK">Ditolak</option>
-                </select>
-              </div>
-              <div class="flex justify-between items-center">
-                <label for="catatan_put_away" class="w-[40%]"
-                  >Catatan Put Away</label
-                >
-                <textarea
-                  name="catatan_put_away"
-                  v-model="form.catatan_put_away"
-                  class="w-[60%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                ></textarea>
-              </div>
-            </div> -->
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"
@@ -287,12 +313,20 @@ export default {
       url: "inbound/konfirmasi-put-away",
 
       form: {
-        // gudang_id: "",
+        gudang_id: "",
+        supplier_id: "",
+        pelanggan_id: "",
+        peralatan_id: "",
+        vendor_id_transporter: "",
+        staff_id: "",
+        surat_jalan: "",
+        kode_tkbm: "",
         doc_type_sap: "",
         tanggal: "",
         kode_inbound: "",
         no_referensi_1: "",
         no_referensi_2: "",
+        keterangan: "",
         inbound_details: [],
 
         status_put_away: "",
@@ -306,17 +340,25 @@ export default {
       },
 
       default_form: {
-        // gudang_id: "",
+        gudang_id: "",
+        supplier_id: "",
+        pelanggan_id: "",
+        peralatan_id: "",
+        vendor_id_transporter: "",
+        staff_id: "",
+        surat_jalan: "",
+        kode_tkbm: "",
         doc_type_sap: "",
         tanggal: "",
         kode_inbound: "",
         no_referensi_1: "",
         no_referensi_2: "",
+        keterangan: "",
+        inbound_details: [],
 
         status_put_away: "",
         tanggal_put_away: "",
         catatan_put_away: "",
-        inbound_details: [],
 
         user_agent: "",
         device: "",
@@ -337,6 +379,12 @@ export default {
             this.form[item] = res.data[item];
           }
         });
+        this.form.gudang_id = res.data.gudang ?? "";
+        this.form.pelanggan_id = res.data.pelanggan ?? "";
+        this.form.peralatan_id = res.data.peralatan ?? "";
+        this.form.supplier_id = res.data.supplier ?? "";
+        this.form.vendor_id_transporter = res.data.vendor_transporter ?? "";
+        this.form.staff_id = res.data.staff ?? "";
 
         this.form.inbound_details = res.data.inbound_details.map((item) => {
           return {
@@ -409,10 +457,6 @@ export default {
       this.isLoadingForm = true;
       let url = "inbound/konfirmasi-put-away";
 
-      let formData = {
-        ...this.form,
-      };
-
       //today get
       const today = new Date();
       const year = today.getFullYear();
@@ -420,22 +464,11 @@ export default {
       const day = today.getDate().toString().padStart(2, "0");
 
       const formattedDate = `${year}-${month}-${day}`;
-      formData.tanggal_put_away = formattedDate;
-
-      formData.inbound_details = formData.inbound_details.map((item) => {
-        return {
-          ...item,
-          inbound_details_id: item.inbound_details_id
-            ? item.inbound_details_id
-            : "",
-        };
-      });
-
-      // if (this.user.gudang_id) {
-      //   this.form.gudang_id = this.user.gudang_id;
-      // }
-
-      // console.log("formdata", formData);
+      let formData = {
+        status_put_away: this.form.status_put_away,
+        catatan_put_away: this.form.catatan_put_away,
+        tanggal_put_away: formattedDate,
+      };
 
       if (this.isEditable) {
         url += "/" + this.id;

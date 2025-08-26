@@ -157,14 +157,14 @@
               </v-select>
             </div>
 
-            <!-- <div class="form-group w-full">
+            <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
                 type="date"
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group w-full">
@@ -174,9 +174,9 @@
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
-                :required="false"
+                :required="true"
               />
-            </div> -->
+            </div>
           </div>
 
           <div class="flex gap-3 mt-3 justify-end">
@@ -233,8 +233,8 @@ export default {
           nama_wilayah: "",
           kode_gudang: "",
           nama_gudang: "",
-          // start_date: "",
-          // end_date: "",
+          start_date: "",
+          end_date: "",
         },
         form: {
           gudang_id: "",
@@ -295,6 +295,12 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${year}-${month}`;
+    },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -439,10 +445,14 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date
       ) {
-        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
 
@@ -450,6 +460,13 @@ export default {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
         return;
       }
+
+      this.parameters.params.start_date = this.formatDate(
+        this.parameters.params.start_date
+      );
+      this.parameters.params.end_date = this.formatDate(
+        this.parameters.params.end_date
+      );
 
       let url =
         this.parameters.url +
@@ -461,20 +478,37 @@ export default {
         this.parameters.form.provinsi_id.provinsi_id +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
+        "&start_date=" +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
     },
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date
       ) {
-        this.$toaster.error("Mohon Pilih Gudang dan Provinsi Terlebih Dahulu");
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+        );
         return;
       }
+
+      this.parameters.params.start_date = this.formatDate(
+        this.parameters.params.start_date
+      );
+      this.parameters.params.end_date = this.formatDate(
+        this.parameters.params.end_date
+      );
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
@@ -489,6 +523,10 @@ export default {
           this.parameters.form.wilayah_id.wilayah_id +
           "&provinsi_id=" +
           this.parameters.form.provinsi_id.provinsi_id +
+          "&start_date=" +
+          this.parameters.params.start_date +
+          "&end_date=" +
+          this.parameters.params.end_date +
           "&token=" +
           token;
 
@@ -517,6 +555,8 @@ export default {
             document.body.appendChild(link);
             link.click();
             link.remove();
+            this.parameters.params.start_date = "";
+            this.parameters.params.end_date = "";
           })
           .catch((err) => {
             this.$globalErrorToaster(this.$toaster, err);

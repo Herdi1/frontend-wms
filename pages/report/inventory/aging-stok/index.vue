@@ -160,9 +160,7 @@
             </div>
 
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="group_item_id_1"
-                >Group Item <span class="text-danger">*</span></label
-              >
+              <label class="w-[50%]" for="group_item_id_1">Group Item </label>
               <v-select
                 label="nama_group_item"
                 :loading="isLoadingGetGroupItem"
@@ -527,14 +525,13 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.form.group_item &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Group Item, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -568,14 +565,13 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.form.group_item &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Group Item, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }

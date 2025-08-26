@@ -437,9 +437,9 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
@@ -475,9 +475,9 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id &&
-        !this.parameters.form.provinsi_id &&
-        !this.parameters.params.start_date &&
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.provinsi_id ||
+        !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
