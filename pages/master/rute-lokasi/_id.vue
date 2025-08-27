@@ -179,6 +179,15 @@
               "
             />
           </div>
+          <div class="my-2">
+            <label for="">Waktu Sampai Tujuan (Menit)</label>
+            <input
+              type="number"
+              min="0"
+              v-model="parameters.form.waktu_sampai_tujuan"
+              class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+            />
+          </div>
 
           <ValidationProvider rules="required">
             <div class="form-group" slot-scope="{ errors, valid }">
@@ -246,6 +255,7 @@ export default {
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
+          waktu_sampai_tujuan: "",
         },
       },
     };
@@ -315,6 +325,7 @@ export default {
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
+          waktu_sampai_tujuan: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -333,6 +344,7 @@ export default {
         lokasi_id_awal: "",
         lokasi_id_tujuan: "",
         gudang_id: "",
+        waktu_sampai_tujuan: "",
       };
     },
 

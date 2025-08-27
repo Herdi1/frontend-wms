@@ -39,6 +39,42 @@
                 :required="true"
               />
             </div>
+            <div class="form-group w-full items-center">
+              <label for="">Gudang <span class="text-danger">*</span></label>
+              <v-select
+                label="nama_gudang"
+                :loading="isLoadingGetGudang"
+                :options="lookup_custom6.data"
+                :filterable="false"
+                @search="onGetGudang"
+                v-model="parameters.form.gudang_id"
+                :reduce="(item) => item.gudang_id"
+                class="w-full"
+              >
+                <!-- :aria-disabled="parameters.form.status_user == 2" -->
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom6.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom6.current_page > 1"
+                    @click="onGetGudang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom6.last_page > lookup_custom6.current_page
+                    "
+                    @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
             <div class="form-group">
               <input-form
                 label="Nomor HP"
@@ -567,6 +603,10 @@ export default {
     return {
       id,
 
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       isStopSearchJabatan: false,
       isLoadingGetJabatan: false,
       jabatan_search: "",
@@ -594,6 +634,7 @@ export default {
       parameters: {
         url: "master/staff",
         form: {
+          gudang_id: "",
           nama_lengkap: "",
           kode_staff: "",
           no_hp: "",
@@ -629,6 +670,7 @@ export default {
     await this.onSearchTipeSIM();
     await this.onSearchVendor();
     await this.onSearchBank();
+    await this.onSearchGudang();
   },
 
   async created() {
@@ -666,6 +708,7 @@ export default {
       "lookup_custom3", // tipe_sim
       "lookup_custom4", // vendor
       "lookup_custom5", // bank
+      "lookup_custom6", // gudang
     ]),
   },
 
@@ -706,6 +749,7 @@ export default {
           );
           if (!this.isEditable) {
             this.parameters.form = {
+              gudang_id: "",
               nama_lengkap: "",
               kode_staff: "",
               no_hp: "",
@@ -939,6 +983,45 @@ export default {
       }
     },
 
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
     addRekening() {
       this.parameters.form.rekening_staffs.push({
         bank_id: "",
@@ -959,6 +1042,7 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
+        gudang_id: "",
         nama_lengkap: "",
         kode_staff: "",
         no_hp: "",

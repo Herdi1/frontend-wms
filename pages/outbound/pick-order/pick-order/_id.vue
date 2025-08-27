@@ -133,6 +133,23 @@
                   :required="true"
                 />
               </div>
+              <div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Handling Muat</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.form.handling_muat"
+                    class="w-1/2 p-1 mr-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="BONGKAR GUDANG">Bongkar Gudang</option>
+                    <option value="MUAT DOKING">Muat Gudang</option>
+                    <option value="CROSS DOKING">Cross Doking</option>
+                    <option value="FORKLIF">Forklif</option>
+                    <option value="BONGKAR TUJUAN">Bongkar Tujuan</option>
+                  </select>
+                </div>
+              </div>
               <div class="flex px-1">
                 <label for="keterangan" class="block mb-2 w-1/2"
                   >Keterangan</label
@@ -522,152 +539,6 @@
                         </li>
                       </v-select>
                     </td>
-                    <!-- <td class="border border-gray-300">
-                      <div>
-                        <label for="">Lokasi Aisle Tujuan</label>
-                        <v-select
-                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotAisle"
-                          :options="lookup_custom8.data"
-                          :filterable="false"
-                          @search="onGetSlotAisle"
-                          v-model="item.slot_penyimpanan_id_aisle_tujuan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom8.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom8.current_page > 1"
-                              @click="onGetSlotAisle(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom8.last_page >
-                                lookup_custom8.current_page
-                              "
-                              @click="onGetSlotAisle(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </div>
-                      <div class="mt-1">
-                        <label for="">Lokasi Rack Tujuan</label>
-                        <v-select
-                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotRack"
-                          :options="lookup_custom9.data"
-                          :filterable="false"
-                          @search="onGetSlotRack"
-                          v-model="item.slot_penyimpanan_id_rack_tujuan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom9.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom9.current_page > 1"
-                              @click="onGetSlotRack(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom9.last_page >
-                                lookup_custom9.current_page
-                              "
-                              @click="onGetSlotRack(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </div>
-                      <div class="mt-1">
-                        <label for="">Lokasi Level Tujuan</label>
-                        <v-select
-                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotLevel"
-                          :options="lookup_custom10.data"
-                          :filterable="false"
-                          @search="onGetSlotLevel"
-                          v-model="item.slot_penyimpanan_id_level_tujuan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_custom10.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_custom10.current_page > 1"
-                              @click="onGetSlotLevel(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_custom10.last_page >
-                                lookup_custom10.current_page
-                              "
-                              @click="onGetSlotLevel(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </div>
-                      <div class="mt-1">
-                        <label for="">Lokasi Bin Tujuan</label>
-                        <v-select
-                          class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                          label="nama_slot_penyimpanan"
-                          :loading="isLoadingGetSlotBin"
-                          :options="lookup_roles.data"
-                          :filterable="false"
-                          @search="onGetSlotBin"
-                          v-model="item.slot_penyimpanan_id_bin_tujuan"
-                          :reduce="(item) => item.slot_penyimpanan_id"
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_roles.data.length || search"
-                          >
-                            <span
-                              v-if="lookup_roles.current_page > 1"
-                              @click="onGetSlotBin(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_roles.last_page >
-                                lookup_roles.current_page
-                              "
-                              @click="onGetSlotBin(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                      </div>
-                    </td> -->
 
                     <td class="border border-gray-300">
                       <textarea
@@ -699,13 +570,7 @@
               </table>
             </div>
           </div>
-          <!-- <tab-component :tabs="tabs" class="mt-5">
-            <template #PickOrderDetail>
-            </template>
-            <template #TagihanPickOrder>
-              <TagihanPickOrders :self="{ parameters }" />
-            </template>
-          </tab-component> -->
+
           <div class="w-full flex justify-start items-center">
             <modal-footer-section
               class="mt-5"
@@ -817,6 +682,7 @@ export default {
           staff_id_pic: "",
           peralatan_id: "",
           keterangan: "",
+          handling_muat: "",
           pick_order_details: [],
           tagihan_pick_orders: [],
 
@@ -838,6 +704,7 @@ export default {
         staff_id_pic: "",
         peralatan_id: "",
         keterangan: "",
+        handling_muat: "",
         pick_order_details: [],
         tagihan_pick_orders: [],
 
@@ -912,7 +779,7 @@ export default {
     // await this.onSearchPickRequest();
     await this.onSearchGudang();
     // await this.onSearchItemGudang();
-    await this.onSearchStaff();
+    // await this.onSearchStaff();
     await this.onSearchPeralatan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -1376,6 +1243,9 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&jenis_user=pengemudi" +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
@@ -1709,6 +1579,7 @@ export default {
         this.parameters.form.gudang_id = item;
         await this.onSearchZonaGudang();
         await this.onSearchZonaGudangVirtual();
+        await this.onSearchStaff();
         this.parameters.form.pick_order_details = [];
       } else {
         this.parameters.form.gudang_id = "";
