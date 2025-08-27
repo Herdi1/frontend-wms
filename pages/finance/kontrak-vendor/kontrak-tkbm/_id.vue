@@ -209,7 +209,6 @@
                         :options="lookup_custom4.data"
                         :filterable="false"
                         @search="onGetDivisi"
-                        :reduce="(item) => item.divisi_id"
                         v-model="item.divisi_id"
                       >
                         <li
@@ -244,7 +243,6 @@
                         :options="lookup_custom5.data"
                         :filterable="false"
                         @search="onGetJenisBiaya"
-                        :reduce="(item) => item.jenis_biaya_id"
                         v-model="item.jenis_biaya_id"
                       >
                         <li
@@ -280,7 +278,6 @@
                         :options="lookup_beam.data"
                         :filterable="false"
                         @search="onGetUang"
-                        :reduce="(item) => item.mata_uang_id"
                         v-model="item.mata_uang_id"
                       >
                         <li
@@ -314,7 +311,6 @@
                         :options="lookup_custom2.data"
                         :filterable="false"
                         @search="onGetPembayaran"
-                        :reduce="(item) => item.pembayaran_id"
                         v-model="item.pembayaran_id"
                       >
                         <li
@@ -349,7 +345,6 @@
                         :options="lookup_custom7.data"
                         :filterable="false"
                         @search="onGetTerm"
-                        :reduce="(item) => item.term_pembayaran_id"
                         v-model="item.term_pembayaran_id"
                       >
                         <li
@@ -430,7 +425,6 @@
                         :options="lookup_custom8.data"
                         :filterable="false"
                         @search="onGetGroup"
-                        :reduce="(item) => item.group_item_id"
                         v-model="item.group_item_id"
                       >
                         <li
@@ -700,14 +694,22 @@ export default {
           res.data.kontrak_tkbm_details.map((item) => {
             return {
               ...item,
-              kontrak_tkbm_details_id: item.kontrak_tkbm_details_id
-                ? item.kontrak_tkbm_details_id
+              kontrak_tkbm_detail_id: item.kontrak_tkbm_detail_id
+                ? item.kontrak_tkbm_detail_id
                 : "",
               jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
               item_id: item.item ? item.item : "",
               item_gudang_id: item.item_gudang ? item.item_gudang : "",
               satuan_id: item.satuan ? item.satuan : "",
               gudang_id: item.gudang ? item.gudang : "",
+              divisi_id: item.divisi ? item.divisi : "",
+              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+              mata_uang_id: item.mata_uang ? item.mata_uang : "",
+              pembayaran_id: item.pembayaran ? item.pembayaran : "",
+              term_pembayaran_id: item.term_pembayaran
+                ? item.term_pembayaran
+                : "",
+              group_item_id: item.group_item ? item.group_item : "",
             };
           });
         this.isLoadingPage = false;
@@ -1386,6 +1388,10 @@ export default {
         this.parameters.form.kontrak_tkbm_details.map((item) => {
           return {
             ...item,
+            kontrak_tkbm_detail_id:
+              typeof item.kontrak_tkbm_detail_id === "object"
+                ? item.kontrak_tkbm_detail_id.kontrak_tkbm_detail_id
+                : "",
             jenis_kontrak_id:
               typeof item.jenis_kontrak_id == "object"
                 ? item.jenis_kontrak_id.jenis_kontrak_id
@@ -1406,6 +1412,30 @@ export default {
               typeof item.gudang_id == "object"
                 ? item.gudang_id.gudang_id
                 : item.gudang_id,
+            divisi_id:
+              typeof item.divisi_id == "object"
+                ? item.divisi_id.divisi_id
+                : item.divisi_id,
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id == "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : item.jenis_biaya_id,
+            mata_uang_id:
+              typeof item.mata_uang_id == "object"
+                ? item.mata_uang_id.mata_uang_id
+                : item.mata_uang_id,
+            pembayaran_id:
+              typeof item.pembayaran_id == "object"
+                ? item.pembayaran_id.pembayaran_id
+                : item.pembayaran_id,
+            term_pembayaran_id:
+              typeof item.term_pembayaran_id == "object"
+                ? item.term_pembayaran_id.term_pembayaran_id
+                : item.term_pembayaran_id,
+            group_item_id:
+              typeof item.group_item_id == "object"
+                ? item.group_item_id.group_item_id
+                : item.group_item_id,
           };
         });
       // console.log(

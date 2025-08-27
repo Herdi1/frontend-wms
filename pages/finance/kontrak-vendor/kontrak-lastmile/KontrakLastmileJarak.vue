@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Detail Kontrak Lastmile Jarak</h1>
+      <h1 class="text-xl font-bold">Detail Insentif Jarak</h1>
       <div class=" ">
         <button
           type="button"

@@ -3,7 +3,7 @@
     <div>
       <div>
         <div class="w-full flex justify-between items-center">
-          <h1 class="text-xl font-bold">Detail Biaya BBM</h1>
+          <h1 class="text-xl font-bold">Detail Biaya Premi</h1>
           <div class=" ">
             <button
               type="button"
@@ -19,7 +19,7 @@
           <table
             class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
             :class="
-              this.self.parameters.form.kontrak_lastmile_berat_details.length
+              this.self.parameters.form.kontrak_lastmile_premi_details.length
                 ? 'mb-[300px]'
                 : ''
             "
@@ -34,38 +34,17 @@
                 <th class="w-60 border border-gray-300">Pembayaran</th>
                 <th class="w-60 border border-gray-300">Term Pembayaran</th>
                 <th class="w-60 border border-gray-300">Payable To</th>
-                <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
-                <th class="w-60 border border-gray-300">Biaya Muat /km</th>
-                <th class="w-60 border border-gray-300">Biaya Kosong /km</th>
-                <th class="w-60 border border-gray-300">Standar Muat</th>
-                <th class="w-60 border border-gray-300">Minimal Muat</th>
-                <th class="w-60 border border-gray-300">Maksimal Muat</th>
-                <th class="w-60 border border-gray-300">
-                  Kecepatan Muat (Km/h)
-                </th>
-                <th class="w-60 border border-gray-300">
-                  Kecepatan Kosong (Km/h)
-                </th>
-                <th class="w-60 border border-gray-300">Standar Waktu Muat</th>
-                <th class="w-60 border border-gray-300">
-                  Standar Waktu Bongkar
-                </th>
-                <th class="w-60 border border-gray-300">
-                  Standar Waktu Istirahat /km
-                </th>
-                <th class="w-60 border border-gray-300">Maksimal Panjang</th>
-                <th class="w-60 border border-gray-300">Maksimal Lebar</th>
-                <th class="w-60 border border-gray-300">Maksimal Tinggi</th>
-                <th class="w-60 border border-gray-300">Satuan Dimensi</th>
-                <th class="w-60 border border-gray-300">Satuan Volume</th>
-                <th class="w-60 border border-gray-300">Maksimal Volume</th>
+                <th class="w-60 border border-gray-300">Group Item</th>
+                <th class="w-60 border border-gray-300">Item Gudang</th>
+                <th class="w-60 border border-gray-300">Berat</th>
+                <th class="w-60 border border-gray-300">Nilai Kontrak</th>
                 <th class="w-20 border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 v-for="(item, i) in this.self.parameters.form
-                  .kontrak_lastmile_berat_details"
+                  .kontrak_lastmile_premi_details"
                 :key="i"
                 class="align-top"
               >
@@ -316,195 +295,32 @@
                 </td>
                 <td class="border border-gray-300">
                   <v-select
-                    label="nama_jenis_kendaraan"
-                    :loading="isLoadingGetJenisKendaraan"
-                    :options="lookup_custom9.data"
+                    label="nama_group_item"
+                    :loading="isLoadingGetGroupItem"
+                    :options="lookup_customers.data"
                     :filterable="false"
-                    v-model="item.jenis_kendaraan_id"
-                    @input="(item) => onSelectJenisKendaraan(item, i)"
+                    @search="onGetGroupItem"
+                    v-model="item.group_item_id"
                     class="w-full mb-2"
                   >
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
                       class="p-1 border-t flex justify-between"
-                      v-if="lookup_custom9.data.length || search"
+                      v-if="lookup_customers.data.length || search"
                     >
                       <span
-                        v-if="lookup_custom9.current_page > 1"
-                        @click="onGetJenisKendaraan(search, false)"
+                        v-if="lookup_customers.current_page > 1"
+                        @click="onGetGroupItem(search, false)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
                         v-if="
-                          lookup_custom9.last_page > lookup_custom9.current_page
+                          lookup_customers.last_page >
+                          lookup_customers.current_page
                         "
-                        @click="onGetJenisKendaraan(search, true)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    v-model="item.biaya_perkm_muat"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    v-model="item.biaya_perkm_kosong"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.standar_muat"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    v-model="item.minimal_muat"
-                    disabled
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    v-model="item.maksimal_muat"
-                    disabled
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    v-model="item.kecepatan_muat"
-                    disabled
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.kecepatan_kosong"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.standar_waktu_muat"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.standar_waktu_bongkar"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.standar_waktu_istirahat_perkm"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.maksimal_panjang"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.maksimal_lebar"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <money
-                    disabled
-                    v-model="item.maksimal_tinggi"
-                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
-                </td>
-                <td class="border border-gray-300">
-                  <v-select
-                    disabled
-                    label="nama_satuan"
-                    :loading="isLoadingGetDimensi"
-                    :options="lookup_pengawas.data"
-                    :filterable="false"
-                    v-model="item.satuan_id_dimensi"
-                    class="w-full mb-2"
-                    :reduce="(item) => item.satuan_id"
-                  >
-                    <!-- @input="(item) => onSelectLuas(item, i)" -->
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="p-1 border-t flex justify-between"
-                      v-if="lookup_pengawas.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_pengawas.current_page > 1"
-                        @click="onGetDimensi(search, false)"
-                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_pengawas.last_page >
-                          lookup_pengawas.current_page
-                        "
-                        @click="onGetDimensi(search, true)"
+                        @click="onGetGroupItem(search, true)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
@@ -513,34 +329,32 @@
                 </td>
                 <td class="border border-gray-300">
                   <v-select
-                    disabled
-                    label="nama_satuan"
-                    :loading="isLoadingGetVolume"
-                    :options="lookup_operator.data"
+                    label="nama_item"
+                    :loading="isLoadingGetItemGudang"
+                    :options="lookup_grade.data"
                     :filterable="false"
-                    v-model="item.satuan_id_volume"
+                    v-model="item.item_gudang_id"
+                    @search="onGetItemGudang(i)"
+                    @input="(item) => onSelectItemGudang(item, i)"
                     class="w-full mb-2"
-                    :reduce="(item) => item.satuan_id"
                   >
-                    <!-- @input="(item) => onSelectLuas(item, i)" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
                       class="p-1 border-t flex justify-between"
-                      v-if="lookup_operator.data.length || search"
+                      v-if="lookup_grade.data.length || search"
                     >
                       <span
-                        v-if="lookup_operator.current_page > 1"
-                        @click="onGetVolume(search, false)"
+                        v-if="lookup_grade.current_page > 1"
+                        @click="onGetItemGudang(i, search, false)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
                         v-if="
-                          lookup_operator.last_page >
-                          lookup_operator.current_page
+                          lookup_grade.last_page > lookup_grade.current_page
                         "
-                        @click="onGetVolume(search, true)"
+                        @click="onGetItemGudang(i, search, true)"
                         class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
@@ -549,8 +363,16 @@
                 </td>
                 <td class="border border-gray-300">
                   <money
-                    disabled
-                    v-model="item.maksimal_volume"
+                    v-model="item.berat"
+                    class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </td>
+                <td class="border border-gray-300">
+                  <money
+                    v-model="item.nilai_kontrak"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
@@ -567,7 +389,7 @@
               </tr>
               <tr
                 v-if="
-                  !this.self.parameters.form.kontrak_lastmile_berat_details
+                  !this.self.parameters.form.kontrak_lastmile_premi_details
                     .length > 0
                 "
               >
@@ -629,13 +451,13 @@ export default {
       isLoadingGetUang: false,
       uang_search: "",
 
-      isStopSearchDimensi: false,
-      isLoadingGetDimensi: false,
-      dimensi_search: "",
+      isStopSearchGroupItem: false,
+      isLoadingGetGroupItem: false,
+      group_item_search: "",
 
-      isStopSearchVolume: false,
-      isLoadingGetVolume: false,
-      volume_search: "",
+      isStopSearchItemGudang: false,
+      isLoadingGetItemGudang: false,
+      item_gudang_search: "",
     };
   },
 
@@ -648,8 +470,8 @@ export default {
     await this.onSearchTerm();
     await this.onSearchJenisKendaraan();
     await this.onSearchUang();
-    // await this.onSearchDimensi();
-    // await this.onSearchVolume();
+    await this.onSearchGroupItem();
+    // await this.onSearchItemGudang();
   },
 
   computed: {
@@ -667,6 +489,8 @@ export default {
       "lookup_custom10", //uang
       "lookup_pengawas", //satuan dimensi
       "lookup_operator", //satuan volume
+      "lookup_customers", //group item
+      "lookup_grade", //item gudang
     ]),
   },
 
@@ -674,7 +498,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailBerat() {
-      this.self.parameters.form.kontrak_lastmile_berat_details.push({
+      this.self.parameters.form.kontrak_lastmile_premi_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
@@ -698,14 +522,14 @@ export default {
         maksimal_lebar: "",
         maksimal_tinggi: "",
         satuan_id_dimensi: "",
-        satuan_id_volume: "",
-        maksimal_volume: "",
+        group_item_id: "",
+        item_gudang_id: "",
       });
     },
 
     deleteBerat(index) {
-      this.self.parameters.form.kontrak_lastmile_berat_details =
-        this.self.parameters.form.kontrak_lastmile_berat_details.filter(
+      this.self.parameters.form.kontrak_lastmile_premi_details =
+        this.self.parameters.form.kontrak_lastmile_premi_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -1022,93 +846,94 @@ export default {
       }
     },
 
-    onGetDimensi(search, isNext) {
+    onGetGroupItem(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchDimensi);
+      clearTimeout(this.isStopSearchGroupItem);
 
-      this.isStopSearchDimensi = setTimeout(() => {
-        this.dimensi_search = search;
+      this.isStopSearchGroupItem = setTimeout(() => {
+        this.group_item_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_pengawas.current_page = isNext
-            ? this.lookup_pengawas.current_page + 1
-            : this.lookup_pengawas.current_page - 1;
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
         } else {
-          this.lookup_pengawas.current_page = 1;
+          this.lookup_customers.current_page = 1;
         }
 
-        this.onSearchDimensi();
+        this.onSearchGroupItem();
       }, 600);
     },
 
-    async onSearchDimensi() {
-      if (!this.isLoadingGetDimensi) {
-        this.isLoadingGetDimensi = true;
+    async onSearchGroupItem() {
+      if (!this.isLoadingGetGroupItem) {
+        this.isLoadingGetGroupItem = true;
 
         await this.lookUp({
-          url: "master/satuan/get-satuan",
-          lookup: "pengawas",
+          url: "master/group-item/get-group-item",
+          lookup: "customers",
           query:
             "?search=" +
-            this.dimensi_search +
-            "&jenis_satuan_id=" +
+            this.group_item_search +
             "&page=" +
-            this.lookup_pengawas.current_page +
+            this.lookup_customers.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetDimensi = false;
+        this.isLoadingGetGroupItem = false;
       }
     },
 
-    onGetVolume(search, isNext) {
+    onGetItemGudang(index, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchVolume);
+      clearTimeout(this.isStopSearchItemGudang);
 
-      this.isStopSearchVolume = setTimeout(() => {
-        this.volume_search = search;
+      this.isStopSearchItemGudang = setTimeout(() => {
+        this.item_gudang_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_operator.current_page = isNext
-            ? this.lookup_operator.current_page + 1
-            : this.lookup_operator.current_page - 1;
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
         } else {
-          this.lookup_operator.current_page = 1;
+          this.lookup_grade.current_page = 1;
         }
 
-        this.onSearchVolume();
+        this.onSearchItemGudang(index);
       }, 600);
     },
 
-    async onSearchVolume() {
-      if (!this.isLoadingGetVolume) {
-        this.isLoadingGetVolume = true;
+    async onSearchItemGudang(index) {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
 
         await this.lookUp({
-          url: "master/satuan/get-satuan",
-          lookup: "operator",
+          url: "master/item-gudang/get-item-gudang",
+          lookup: "grade",
           query:
             "?search=" +
-            this.volume_search +
-            "&jenis_satuan_id=" +
+            this.item_gudang_search +
+            "&gudang_id=" +
+            this.self.parameters.form.kontrak_lastmile_premi_details[index]
+              .gudang_id.gudang_id +
             "&page=" +
-            this.lookup_operator.current_page +
+            this.lookup_grade.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetVolume = false;
+        this.isLoadingGetItemGudang = false;
       }
     },
 
     onSelectJenisKontrak(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_kontrak_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_kontrak_id = "";
       }
@@ -1116,11 +941,11 @@ export default {
 
     onSelectDivisi(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].divisi_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].divisi_id = "";
       }
@@ -1128,35 +953,60 @@ export default {
 
     onSelectJenisBiaya(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_biaya_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_biaya_id = "";
       }
     },
 
-    onSelectGudang(item, index) {
+    async onSelectGudang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].gudang_id = item;
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_gudang_id = "";
+        await this.onSearchItemGudang(index);
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].gudang_id = "";
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_gudang_id = "";
+      }
+    },
+
+    onSelectItemGudang(item, index) {
+      if (item) {
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_gudang_id = item;
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_id = item.item_id;
+      } else {
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_gudang_id = "";
+        this.self.parameters.form.kontrak_lastmile_premi_details[
+          index
+        ].item_id = "";
       }
     },
 
     onSelectPembayaran(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].pembayaran_id = "";
       }
@@ -1164,11 +1014,11 @@ export default {
 
     onSelectTerm(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].term_pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].term_pembayaran_id = "";
       }
@@ -1176,11 +1026,11 @@ export default {
 
     onSelectJenisKendaraan(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_kendaraan_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].jenis_kendaraan_id = "";
       }
@@ -1188,11 +1038,11 @@ export default {
 
     onSelectUang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].mata_uang_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_berat_details[
+        this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].mata_uang_id = "";
       }

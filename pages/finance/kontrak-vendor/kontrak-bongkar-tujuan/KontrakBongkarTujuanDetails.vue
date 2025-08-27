@@ -2,11 +2,11 @@
   <div>
     <div>
       <div class="w-full flex justify-between items-center">
-        <h1 class="text-xl font-bold">Detail Biaya Lainnya</h1>
+        <h1 class="text-xl font-bold">Detail Kontrak Bongkar Tujuan</h1>
         <div class=" ">
           <button
             type="button"
-            @click="addDetailAtcost"
+            @click="addDetailBongkarTujuan"
             class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
           >
             <i class="fas fa-plus"></i>
@@ -18,7 +18,7 @@
         <table
           class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
           :class="
-            this.self.parameters.form.kontrak_lastmile_atcost_details.length
+            this.self.parameters.form.kontrak_bongkar_tujuan_details.length
               ? 'mb-[300px]'
               : ''
           "
@@ -33,8 +33,10 @@
               <th class="w-60 border border-gray-300">Pembayaran</th>
               <th class="w-60 border border-gray-300">Term Pembayaran</th>
               <th class="w-60 border border-gray-300">Payable To</th>
-              <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
-              <th class="w-60 border border-gray-300">Lokasi</th>
+              <th class="w-60 border border-gray-300">Group Item</th>
+              <th class="w-60 border border-gray-300">Item Gudang</th>
+              <th class="w-60 border border-gray-300">Satuan</th>
+              <th class="w-60 border border-gray-300">Dasar Perhitungan</th>
               <th class="w-60 border border-gray-300">Nilai Kontrak</th>
               <th class="w-20 border border-gray-300">Hapus</th>
             </tr>
@@ -42,7 +44,7 @@
           <tbody>
             <tr
               v-for="(item, i) in this.self.parameters.form
-                .kontrak_lastmile_atcost_details"
+                .kontrak_bongkar_tujuan_details"
               :key="i"
               class="align-top"
             >
@@ -147,6 +149,7 @@
               </td>
               <td class="border border-gray-300">
                 <v-select
+                  disabled
                   label="nama_gudang"
                   :loading="isLoadingGetGudang"
                   :options="lookup_custom6.data"
@@ -292,12 +295,12 @@
               </td>
               <td class="border border-gray-300">
                 <v-select
-                  label="nama_jenis_kendaraan"
-                  :loading="isLoadingGetJenisKendaraan"
+                  label="nama_group_item"
+                  :loading="isLoadingGetGroupItem"
                   :options="lookup_custom9.data"
                   :filterable="false"
-                  v-model="item.jenis_kendaraan_id"
-                  @input="(item) => onSelectJenisKendaraan(item, i)"
+                  v-model="item.group_item_id"
+                  @input="(item) => onSelectGroupItem(item, i)"
                   class="w-full mb-2"
                 >
                   <li
@@ -308,7 +311,7 @@
                   >
                     <span
                       v-if="lookup_custom9.current_page > 1"
-                      @click="onGetJenisKendaraan(search, false)"
+                      @click="onGetGroupItem(search, false)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Sebelumnya</span
                     >
@@ -316,7 +319,7 @@
                       v-if="
                         lookup_custom9.last_page > lookup_custom9.current_page
                       "
-                      @click="onGetJenisKendaraan(search, true)"
+                      @click="onGetGroupItem(search, true)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
@@ -325,13 +328,13 @@
               </td>
               <td class="border border-gray-300">
                 <v-select
-                  label="nama_lokasi"
-                  :loading="isLoadingGetLokasi"
+                  label="nama_item"
+                  :loading="isLoadingGetItemGudang"
                   :options="lookup_mesin.data"
                   :filterable="false"
-                  v-model="item.lokasi_id"
+                  @search="onGetItemGudang"
+                  v-model="item.item_gudang_id"
                   class="w-full mb-2"
-                  :reduce="(item) => item.lokasi_id"
                 >
                   <li
                     slot-scope="{ search }"
@@ -341,93 +344,63 @@
                   >
                     <span
                       v-if="lookup_mesin.current_page > 1"
-                      @click="onGetLokasi(search, false)"
+                      @click="onGetItemGudang(search, false)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Sebelumnya</span
                     >
                     <span
                       v-if="lookup_mesin.last_page > lookup_mesin.current_page"
-                      @click="onGetLokasi(search, true)"
+                      @click="onGetItemGudang(search, true)"
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
                   </li>
                 </v-select>
               </td>
-              <!-- <td class="border border-gray-300">
+              <td class="border border-gray-300">
+                <v-select
+                  label="nama_satuan"
+                  :loading="isLoadingGetSatuan"
+                  :options="lookup_customers.data"
+                  :filterable="false"
+                  @search="onGetSatuan"
+                  v-model="item.satuan_id"
+                  class="w-full mb-2"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_customers.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_customers.current_page > 1"
+                      @click="onGetSatuan(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_customers.last_page >
+                        lookup_customers.current_page
+                      "
+                      @click="onGetSatuan(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </td>
+              <td class="border border-gray-300">
                 <select
+                  class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                   v-model="item.dasar_perhitungan"
-                  name=""
-                  id=""
-                  class="pl-2 py-1 border border-gray-300 rounded focus:outline-none w-full"
                 >
-                  <option value=""></option>
-                  <option value="FLAT">Flat</option>
-                  <option value="LUASAN">Luasan</option>
+                  <option value="QTY">Qty</option>
+                  <option value="BERAT">Berat</option>
+                  <option value="VOLUME">Volume</option>
                 </select>
-              </td> -->
-              <!-- <td class="border border-gray-300">
-                <v-select
-                  label="nama_satuan"
-                  :loading="isLoadingGetLuas"
-                  :options="lookup_roles.data"
-                  :filterable="false"
-                  v-model="item.satuan_id_luas"
-                  class="w-full mb-2"
-                  :reduce="(item) => item.satuan_id"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_roles.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_roles.current_page > 1"
-                      @click="onGetLuas(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="lookup_roles.last_page > lookup_roles.current_page"
-                      @click="onGetLuas(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </td> -->
-              <!-- <td class="border border-gray-300">
-                <v-select
-                  label="nama_satuan"
-                  :loading="isLoadingGetWaktu"
-                  :options="lookup_beam.data"
-                  :filterable="false"
-                  v-model="item.satuan_id_waktu"
-                  class="w-full mb-2"
-                  :reduce="(item) => item.satuan_id"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_beam.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_beam.current_page > 1"
-                      @click="onGetWaktu(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="lookup_beam.last_page > lookup_beam.current_page"
-                      @click="onGetWaktu(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </td> -->
+              </td>
               <td class="border border-gray-300">
                 <money
                   v-model="item.nilai_kontrak"
@@ -447,7 +420,7 @@
             </tr>
             <tr
               v-if="
-                !this.self.parameters.form.kontrak_lastmile_atcost_details
+                !this.self.parameters.form.kontrak_bongkar_tujuan_details
                   .length > 0
               "
             >
@@ -500,9 +473,9 @@ export default {
       isLoadingGetTerm: false,
       term_search: "",
 
-      isStopSearchJenisKendaraan: false,
-      isLoadingGetJenisKendaraan: false,
-      jenis_kendaraan_search: "",
+      isStopSearchGroupItem: false,
+      isLoadingGetGroupItem: false,
+      group_item_search: "",
 
       isStopSearchUang: false,
       isLoadingGetUang: false,
@@ -516,9 +489,13 @@ export default {
       isLoadingGetWaktu: false,
       waktu_search: "",
 
-      isStopSearchLokasi: false,
-      isLoadingGetLokasi: false,
-      lokasi_search: "",
+      isStopSearchItemGudang: false,
+      isLoadingGetItemGudang: false,
+      item_gudang_search: "",
+
+      isStopSearchSatuan: false,
+      isLoadingGetSatuan: false,
+      satuan_search: "",
     };
   },
 
@@ -526,14 +503,15 @@ export default {
     await this.onSearchJenisKontrak();
     await this.onSearchDivisi();
     await this.onSearchJenisBiaya();
-    await this.onSearchGudang();
+    // await this.onSearchGudang();
     await this.onSearchPembayaran();
     await this.onSearchTerm();
-    await this.onSearchJenisKendaraan();
+    await this.onSearchGroupItem();
     await this.onSearchUang();
+    await this.onSearchSatuan();
     // await this.onSearchWaktu();
     // await this.onSearchLuas();
-    await this.onSearchLokasi();
+    // await this.onSearchItemGudang();
   },
 
   computed: {
@@ -549,34 +527,35 @@ export default {
       "lookup_custom8", //term
       "lookup_custom9", //jenis kendaraan
       "lookup_custom10", //uang
-      "lookup_mesin", //lokasi
+      "lookup_mesin", //item_gudang
       "lookup_roles", //satuan luas
       "lookup_beam", //satuan waktu
+      "lookup_customers", //satuan
     ]),
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
 
-    addDetailAtcost() {
-      this.self.parameters.form.kontrak_lastmile_atcost_details.push({
+    addDetailBongkarTujuan() {
+      this.self.parameters.form.kontrak_bongkar_tujuan_details.push({
         jenis_kontrak_id: "",
         divisi_id: "",
         jenis_biaya_id: "",
-        gudang_id: "",
+        gudang_id: this.self.parameters.form.gudang_id,
         mata_uang_id: "",
         pembayaran_id: "",
         term_pembayaran_id: "",
         payable_to: "",
-        jenis_kendaraan_id: "",
-        lokasi_id: "",
+        group_item_id: "",
+        item_gudang_id: "",
         nilai_kontrak: "",
       });
     },
 
     deleteAtcost(index) {
-      this.self.parameters.form.kontrak_lastmile_atcost_details =
-        this.self.parameters.form.kontrak_lastmile_atcost_details.filter(
+      this.self.parameters.form.kontrak_bongkar_tujuan_details =
+        this.self.parameters.form.kontrak_bongkar_tujuan_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
     },
@@ -973,13 +952,13 @@ export default {
       }
     },
 
-    onGetJenisKendaraan(search, isNext) {
+    onGetGroupItem(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchJenisKendaraan);
+      clearTimeout(this.isStopSearchGroupItem);
 
-      this.isStopSearchJenisKendaraan = setTimeout(() => {
-        this.jenis_kendaraan_search = search;
+      this.isStopSearchGroupItem = setTimeout(() => {
+        this.group_item_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom9.current_page = isNext
@@ -989,36 +968,36 @@ export default {
           this.lookup_custom9.current_page = 1;
         }
 
-        this.onSearchJenisKendaraan();
+        this.onSearchGroupItem();
       }, 600);
     },
 
-    async onSearchJenisKendaraan() {
-      if (!this.isLoadingGetJenisKendaraan) {
-        this.isLoadingGetJenisKendaraan = true;
+    async onSearchGroupItem() {
+      if (!this.isLoadingGetGroupItem) {
+        this.isLoadingGetGroupItem = true;
 
         await this.lookUp({
-          url: "master/jenis-kendaraan/get-jenis-kendaraan",
+          url: "master/group-item/get-group-item",
           lookup: "custom9",
           query:
             "?search=" +
-            this.jenis_kendaraan_search +
+            this.group_item_search +
             "&page=" +
             this.lookup_custom9.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetJenisKendaraan = false;
+        this.isLoadingGetGroupItem = false;
       }
     },
 
-    onGetLokasi(search, isNext) {
+    onGetItemGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchLokasi);
+      clearTimeout(this.isStopSearchItemGudang);
 
-      this.isStopSearchLokasi = setTimeout(() => {
-        this.lokasi_search = search;
+      this.isStopSearchItemGudang = setTimeout(() => {
+        this.item_gudang_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_mesin.current_page = isNext
@@ -1028,36 +1007,78 @@ export default {
           this.lookup_mesin.current_page = 1;
         }
 
-        this.onSearchLokasi();
+        this.onSearchItemGudang();
       }, 600);
     },
 
-    async onSearchLokasi() {
-      if (!this.isLoadingGetLokasi) {
-        this.isLoadingGetLokasi = true;
+    async onSearchItemGudang() {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
 
         await this.lookUp({
-          url: "master/lokasi/get-lokasi",
+          url: "master/item-gudang/get-item-gudang",
           lookup: "mesin",
           query:
             "?search=" +
-            this.lokasi_search +
+            this.item_gudang_search +
+            "&gudang_id=" +
+            this.self.parameters.form.kontrak_bongkar_tujuan_details[index]
+              .gudang_id.gudang_id +
             "&page=" +
             this.lookup_mesin.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetLokasi = false;
+        this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    onGetSatuan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchSatuan);
+
+      this.isStopSearchSatuan = setTimeout(() => {
+        this.satuan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchSatuan();
+      }, 600);
+    },
+
+    async onSearchSatuan() {
+      if (!this.isLoadingGetSatuan) {
+        this.isLoadingGetSatuan = true;
+
+        await this.lookUp({
+          url: "master/satuan/get-satuan",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.satuan_search +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetSatuan = false;
       }
     },
 
     onSelectJenisKontrak(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_kontrak_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_kontrak_id = "";
       }
@@ -1065,11 +1086,11 @@ export default {
 
     onSelectDivisi(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].divisi_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].divisi_id = "";
       }
@@ -1077,11 +1098,11 @@ export default {
 
     onSelectJenisBiaya(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_biaya_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_biaya_id = "";
       }
@@ -1089,11 +1110,11 @@ export default {
 
     onSelectGudang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].gudang_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].gudang_id = "";
       }
@@ -1101,11 +1122,11 @@ export default {
 
     onSelectPembayaran(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].pembayaran_id = "";
       }
@@ -1113,11 +1134,11 @@ export default {
 
     onSelectTerm(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].term_pembayaran_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].term_pembayaran_id = "";
       }
@@ -1125,11 +1146,11 @@ export default {
 
     onSelectJenisPeralatan(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_peralatan_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].jenis_peralatan_id = "";
       }
@@ -1137,11 +1158,11 @@ export default {
 
     onSelectUang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].mata_uang_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].mata_uang_id = "";
       }
@@ -1149,11 +1170,11 @@ export default {
 
     onSelectLuas(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].satuan_id_luas = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].satuan_id_luas = "";
       }
@@ -1161,25 +1182,25 @@ export default {
 
     onSelectWaktu(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].satuan_id_waktu = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
         ].satuan_id_waktu = "";
       }
     },
 
-    onSelectJenisKendaraan(item, index) {
+    onSelectGroupItem(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
-        ].jenis_kendaraan_id = item;
+        ].group_item_id = item;
       } else {
-        this.self.parameters.form.kontrak_lastmile_atcost_details[
+        this.self.parameters.form.kontrak_bongkar_tujuan_details[
           index
-        ].jenis_kendaraan_id = "";
+        ].group_item_id = "";
       }
     },
   },

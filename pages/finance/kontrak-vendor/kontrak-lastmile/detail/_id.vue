@@ -122,6 +122,9 @@
           <template #KontrakLastmileAtcost>
             <KontrakLastmileAtcost :self="{ detail_lastmile }" />
           </template>
+          <template #BiayaPremi>
+            <KontrakLastmileBiayaPremi :self="{ detail_lastmile }" />
+          </template>
         </tab-component>
       </div>
     </div>
@@ -131,6 +134,7 @@
 <script>
 import KontrakLastmileAtcost from "./KontrakLastmileAtcost.vue";
 import KontrakLastmileBerat from "./KontrakLastmileBerat.vue";
+import KontrakLastmileBiayaPremi from "./KontrakLastmileBiayaPremi.vue";
 import KontrakLastmileJarak from "./KontrakLastmileJarak.vue";
 import KontrakLastmileRitase from "./KontrakLastmileRitase.vue";
 export default {
@@ -141,6 +145,7 @@ export default {
     KontrakLastmileBerat,
     KontrakLastmileJarak,
     KontrakLastmileRitase,
+    KontrakLastmileBiayaPremi,
   },
 
   data() {
@@ -148,10 +153,11 @@ export default {
 
     return {
       tabs: [
-        { name: "Kontrak Lastmile Jarak", slotName: "KontrakLastmileJarak" },
-        { name: "Kontrak Lastmile Ritase", slotName: "KontrakLastmileRitase" },
-        { name: "Kontrak Lastmile Berat", slotName: "KontrakLastmileBerat" },
-        { name: "Kontrak Lastmile Atcost", slotName: "KontrakLastmileAtcost" },
+        { name: "Insentif Jarak", slotName: "KontrakLastmileJarak" },
+        { name: "Insentif Ritase", slotName: "KontrakLastmileRitase" },
+        { name: "Biaya BBM", slotName: "KontrakLastmileBerat" },
+        { name: "Biaya Lainnya", slotName: "KontrakLastmileAtcost" },
+        { name: "Biaya Premi", slotName: "BiayaPremi" },
       ],
 
       id,
@@ -171,6 +177,7 @@ export default {
         kontrak_lastmile_ritase_details: [],
         kontrak_lastmile_berat_details: [],
         kontrak_lastmile_atcost_details: [],
+        kontrak_lastmile_premi_details: [],
         vendor: {},
         user_pic: {},
         jenis_kontrak: {},
@@ -186,7 +193,8 @@ export default {
           item !== "kontrak_lastmile_jarak_details" &&
           item !== "kontrak_lastmile_ritase_details" &&
           item !== "kontrak_lastmile_berat_details" &&
-          item !== "kontrak_lastmile_atcost_details"
+          item !== "kontrak_lastmile_atcost_details" &&
+          item !== "kontrak_lastmile_premi_details"
         ) {
           this.detail_lastmile[item] = res.data[item];
         }
@@ -199,12 +207,12 @@ export default {
         res.data.kontrak_lastmile_berat_details;
       this.detail_lastmile.kontrak_lastmile_atcost_details =
         res.data.kontrak_lastmile_atcost_details;
+      this.detail_lastmile.kontrak_lastmile_premi_details =
+        res.data.kontrak_lastmile_premi_details;
 
       this.isLoadingPage = false;
-      console.log("res", res.data.kontrak_lastmile_atcost_details);
     } catch (error) {
-      // this.$router.back();
-      console.log("error", error);
+      this.$router.back();
     }
   },
 };

@@ -351,7 +351,7 @@ export default {
 
   head() {
     return {
-      title: "Kontrak Vendor Lastmile",
+      title: "Kontrak Vendor Bongkar Tujuan",
     };
   },
 
@@ -398,7 +398,7 @@ export default {
 
   data() {
     return {
-      title: "Kontrak Vendor Lastmile",
+      title: "Kontrak Vendor Bongkar Tujuan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -417,12 +417,12 @@ export default {
         import: true,
       },
       parameters: {
-        url: "finance/kontrak-lastmile",
+        url: "finance/kontrak-bongkar-tujuan",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "kontrak_lastmile_id",
+          order: "kontrak_bongkar_tujuan_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -438,10 +438,10 @@ export default {
           status_kontrak: "",
           user_id_pic: "",
           jenis_kontrak_id: "",
-          kontrak_lastmile_jarak_details: [],
-          kontrak_lastmile_ritase_details: [],
-          kontrak_lastmile_berat_details: [],
-          kontrak_lastmile_atcost_details: [],
+          kontrak_bongkar_tujuan_details: [],
+          // kontrak_lastmile_ritase_details: [],
+          // kontrak_lastmile_berat_details: [],
+          // kontrak_lastmile_atcost_details: [],
 
           user_agent: "",
           device: "",
@@ -464,7 +464,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kontrak-lastmile"
+          (item) => item.rute == "kontrak-bongkar-tujuan"
         );
 
         let roles = {};
@@ -500,18 +500,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push(`/finance/kontrak-vendor/kontrak-lastmile/add`);
+      this.$router.push(`/finance/kontrak-vendor/kontrak-bongkar-tujuan/add`);
     },
 
     onEdit(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-lastmile/${item.kontrak_lastmile_id}`
+        `/finance/kontrak-vendor/kontrak-bongkar-tujuan/${item.kontrak_bongkar_tujuan_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/kontrak-vendor/kontrak-lastmile/detail/${item.kontrak_lastmile_id}`
+        `/finance/kontrak-vendor/kontrak-bongkar-tujuan/detail/${item.kontrak_bongkar_tujuan_id}`
       );
     },
 
@@ -531,7 +531,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.kontrak_lastmile_id,
+              id: item.kontrak_bongkar_tujuan_id,
               params: this.parameters.params,
             });
 
