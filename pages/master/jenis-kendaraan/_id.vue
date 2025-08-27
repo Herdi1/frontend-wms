@@ -75,6 +75,114 @@
                 />
               </div>
             </ValidationProvider>
+            <!-- <div>
+              <label for="">Standar Muat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.standar_muat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Minimal Muat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.minimal_muat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Maksimal Muat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.maksimal_muat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Kecepatan Muat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.kecepatan_muat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Kecepatan Kosong</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.kecepatan_kosong"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Standar Waktu Muat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.standar_waktu_muat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Standar Waktu Bongkar</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.standar_waktu_bongkar"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Standar Waktu Istirahat</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.standar_waktu_istirahat"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Maksimal Panjang</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.maksimal_panjang"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Maksimal Lebar</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.maksimal_lebar"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Maksimal Tinggi</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.maksimal_tinggi"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="">Maksimal Volume</label>
+              <input
+                type="number"
+                min="0"
+                v-model="parameters.form.maksimal_volume"
+                class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              />
+            </div> -->
           </div>
           <modal-footer-section
             class="mt-5"
@@ -109,6 +217,20 @@ export default {
           kode_jenis_kendaraan: "",
           nama_jenis_kendaraan: "",
           standar_ritase_hari: "",
+          // standar_muat: "",
+          // minimal_muat: "",
+          // maksimal_muat: "",
+          // kecepatan_muat: "",
+          // kecepatan_kosong: "",
+          // standar_waktu_muat: "",
+          // standar_waktu_bongkar: "",
+          // standar_waktu_istirahat: "",
+          // maksimal_panjang: "",
+          // maksimal_lebar: "",
+          // maksimal_tinggi: "",
+          // maksimal_volume: "",
+          // satuan_dimensi_id: "",
+          // satuan_volume_id: "",
         },
       },
     };
@@ -165,6 +287,20 @@ export default {
           kode_jenis_kendaraan: "",
           nama_jenis_kendaraan: "",
           standar_ritase_hari: "",
+          // standar_muat: "",
+          // minimal_muat: "",
+          // maksimal_muat: "",
+          // kecepatan_muat: "",
+          // kecepatan_kosong: "",
+          // standar_waktu_muat: "",
+          // standar_waktu_bongkar: "",
+          // standar_waktu_istirahat: "",
+          // maksimal_panjang: "",
+          // maksimal_lebar: "",
+          // maksimal_tinggi: "",
+          // maksimal_volume: "",
+          // satuan_dimensi_id: "",
+          // satuan_volume_id: "",
         };
 
         this.$refs.formValidate.reset();
@@ -182,6 +318,20 @@ export default {
         kode_jenis_kendaraan: "",
         nama_jenis_kendaraan: "",
         standar_ritase_hari: "",
+        // standar_muat: "",
+        // minimal_muat: "",
+        // maksimal_muat: "",
+        // kecepatan_muat: "",
+        // kecepatan_kosong: "",
+        // standar_waktu_muat: "",
+        // standar_waktu_bongkar: "",
+        // standar_waktu_istirahat: "",
+        // maksimal_panjang: "",
+        // maksimal_lebar: "",
+        // maksimal_tinggi: "",
+        // maksimal_volume: "",
+        // satuan_dimensi_id: "",
+        // satuan_volume_id: "",
       };
     },
   },

@@ -109,21 +109,24 @@
               </div>
             </div>
           </div>
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Detail</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
+                  <th class="w-20 border border-gray-300">Edit</th>
+                  <th class="w-20 border border-gray-300">Detail</th>
+                  <th class="w-20 border border-gray-300">No</th>
                   <th
+                    class="w-48 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
                         'kode_billing',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Billing</div>
@@ -156,7 +159,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer border border-gray-300"
+                    class="w-48 border border-gray-300 cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Tanggal</div>
@@ -182,15 +185,16 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Pelanggan</th>
-                  <th class="border border-gray-300">Total</th>
-                  <th class="border border-gray-300">Pajak</th>
-                  <th class="border border-gray-300">Grand Total</th>
-                  <th class="border border-gray-300">Keterangan</th>
-                  <th class="w-[5%] border border-gray-300">Print</th>
+                  <th class="w-48 border border-gray-300">Gudang</th>
+                  <th class="w-48 border border-gray-300">Pelanggan</th>
+                  <th class="w-48 border border-gray-300">Total</th>
+                  <th class="w-48 border border-gray-300">Pajak</th>
+                  <th class="w-48 border border-gray-300">Tipe Pajak</th>
+                  <th class="w-48 border border-gray-300">Grand Total</th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-28 border border-gray-300">Print</th>
 
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -244,8 +248,10 @@
                     Rp {{ item.total ?? "" | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    <p>{{ item.tipe_ppn.nama_tipe_pajak }}</p>
-                    <p>Rp {{ item.tax | formatPrice }}</p>
+                    Rp {{ item.tax | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.tipe_ppn ? item.tipe_ppn.nama_tipe_pajak : "" }}
                   </td>
                   <td class="border border-gray-300 text-right">
                     Rp {{ item.grand_total | formatPrice }}
@@ -253,7 +259,9 @@
                   <td class="text-center border border-gray-300">
                     {{ item.keterangan }}
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <button
                       class="btn btn-sm"
                       v-if="!item.deleted_at"

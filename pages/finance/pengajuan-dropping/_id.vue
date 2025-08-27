@@ -154,10 +154,10 @@
                             {{ item.tanggal_ambil }}
                           </td>
                           <td class="border border-gray-300">
-                            {{ item.saldo_awal }}
+                            {{ item.saldo_awal | formatPrice }}
                           </td>
                           <td class="border border-gray-300">
-                            {{ item.saldo_akhir }}
+                            {{ item.saldo_akhir | formatPrice }}
                           </td>
                           <td class="border border-gray-300">
                             <textarea

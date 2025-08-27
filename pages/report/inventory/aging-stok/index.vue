@@ -541,6 +541,10 @@ export default {
         return;
       }
 
+      let groupItem = this.parameters.form.group_item
+        ? this.parameters.form.group_item.nama_group_item
+        : "";
+
       let url =
         this.parameters.url +
         "?download=" +
@@ -550,7 +554,7 @@ export default {
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
         "&group_item=" +
-        this.parameters.form.group_item.nama_group_item +
+        groupItem +
         "&provinsi_id=" +
         this.parameters.form.provinsi_id.provinsi_id +
         "&start_date=" +
@@ -576,6 +580,10 @@ export default {
         return;
       }
 
+      let groupItem = this.parameters.form.group_item
+        ? this.parameters.form.group_item.nama_group_item
+        : "";
+
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
@@ -588,7 +596,7 @@ export default {
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
           "&group_item=" +
-          this.parameters.form.group_item.nama_group_item +
+          groupItem +
           "&provinsi_id=" +
           this.parameters.form.provinsi_id.provinsi_id +
           "&start_date=" +
