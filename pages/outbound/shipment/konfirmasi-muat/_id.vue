@@ -328,11 +328,11 @@ export default {
               lokasi_id: item.lokasi,
               item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
-              valuation_id: item.valuation,
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
+              valuation_id: item.valuation ?? "",
             };
           }
         );
@@ -343,8 +343,8 @@ export default {
               return {
                 ...item,
                 rute_shipment_id: item,
-                lokasi_id_asal: item.lokasi_asal,
-                lokasi_id_tujuan: item.lokasi_tujuan,
+                lokasi_id_asal: item.lokasi_asal ?? "",
+                lokasi_id_tujuan: item.lokasi_tujuan ?? "",
               };
             }
           );
@@ -356,12 +356,12 @@ export default {
               return {
                 ...item,
                 biaya_lastmile_id: item,
-                lokasi_id: item.lokasi,
-                jenis_biaya_id: item.jenis_biaya,
-                term_pembayaran_id: item.term_pembayaran,
-                coa_id: item.coa,
-                divisi_id: item.divisi,
-                vendor_id: item.vendor,
+                lokasi_id: item.lokasi ?? "",
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                term_pembayaran_id: item.term_pembayaran ?? "",
+                coa_id: item.coa ?? "",
+                divisi_id: item.divisi ?? "",
+                vendor_id: item.vendor ?? "",
               };
             }
           );
@@ -552,30 +552,32 @@ export default {
             ...item,
             biaya_lastmile_id:
               typeof item.biaya_lastmile_id === "object"
-                ? item.biaya_lastmile_id.biaya_lastmile_id
+                ? item.biaya_lastmile_id.biaya_lastmile_id ?? ""
                 : "",
             lokasi_id:
               typeof item.lokasi_id === "object"
-                ? item.lokasi_id.lokasi_id
-                : item.lokasi_id,
+                ? item.lokasi_id.lokasi_id ?? ""
+                : item.lokasi_id ?? "",
             jenis_biaya_id:
               typeof item.jenis_biaya_id == "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
+                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                : item.jenis_biaya_id ?? "",
             term_pembayaran_id:
               typeof item.term_pembayaran_id == "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
+                ? item.term_pembayaran_id.term_pembayaran_id ?? ""
+                : item.term_pembayaran_id ?? "",
             coa_id:
-              typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
+              typeof item.coa_id == "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
             divisi_id:
               typeof item.divisi_id == "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
+                ? item.divisi_id.divisi_id ?? ""
+                : item.divisi_id ?? "",
             vendor_id:
               typeof item.vendor_id == "object"
-                ? item.vendor_id.vendor_id
-                : item.vendor_id,
+                ? item.vendor_id.vendor_id ?? ""
+                : item.vendor_id ?? "",
           };
         }
       );

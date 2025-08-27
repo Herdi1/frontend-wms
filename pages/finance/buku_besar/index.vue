@@ -213,8 +213,8 @@
                     <th class="border border-gray-300">Kode Transaksi</th>
                     <th class="border border-gray-300">Keterangan</th>
                     <!-- <th class="text-info">Saldo Awal</th> -->
-                    <th class="text-primary border border-gray-300">Kredit</th>
-                    <th class="text-danger border border-gray-300">Debit</th>
+                    <th class="text-primary border border-gray-300">Debit</th>
+                    <th class="text-danger border border-gray-300">Kredit</th>
                     <th class="text-primary border border-gray-300">
                       Saldo Akhir
                     </th>
@@ -278,10 +278,10 @@
                     {{ item.saldo > 0 ? item.saldo : "" }}
                   </td> -->
                     <td class="text-success border border-gray-300 text-right">
-                      {{ item.credit > 0 ? item.credit : "" | formatPrice }}
+                      {{ item.debit > 0 ? item.debit : "" | formatPrice }}
                     </td>
                     <td class="text-danger border border-gray-300 text-right">
-                      {{ item.debit > 0 ? item.debit : "" | formatPrice }}
+                      {{ item.credit > 0 ? item.credit : "" | formatPrice }}
                     </td>
                     <td class="text-primary border border-gray-300 text-right">
                       <span class="text-right">
@@ -534,7 +534,7 @@ export default {
         const credit = parseFloat(itemNext.credit || 0) || 0;
         const debit = parseFloat(itemNext.debit || 0) || 0;
 
-        return itemPrev + credit - debit;
+        return itemPrev + debit - credit;
       }, 0.0);
 
       const firstBalance =
@@ -619,8 +619,8 @@ export default {
 
             newLastBalance =
               parseFloat(newLastBalance) +
-              parseFloat(item.credit ?? 0) -
-              parseFloat(item.debit ?? 0);
+              parseFloat(item.debit ?? 0) -
+              parseFloat(item.credit ?? 0);
 
             return {
               ...item,

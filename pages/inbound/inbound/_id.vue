@@ -1188,7 +1188,7 @@ export default {
     async onSelectAsn(item) {
       if (item) {
         this.form.inbound_details = [];
-        // this.items = [];
+        this.items = [];
         this.form.asn_id = item;
         this.form.doc_type_sap = item.doc_type_sap;
         this.form.surat_jalan = item.surat_jalan;
@@ -1202,7 +1202,7 @@ export default {
         this.form.vendor_id_transporter = item.vendor_transporter;
         // console.log(item);
         if (item.asn_details) {
-          this.form.inbound_details = item.asn_details.map((data) => {
+          this.items = item.asn_details.map((data) => {
             return {
               ...data,
               item_gudang_id: data.item_gudang,
@@ -1213,6 +1213,7 @@ export default {
               serial_number: data.serial_number ?? "",
               no_referensi: data.no_referensi ?? "",
               quantity_request: parseFloat(data.quantity ?? 0),
+              quantity_terima: parseFloat(data.quantity ?? 0),
               panjang: data.panjang,
               lebar: data.lebar,
               berat: data.berat,
@@ -1526,6 +1527,7 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.form.staff_id = item;
+        this.form.vendor_id_transporter = item.vendor_operator;
       } else {
         this.form.staff_id = "";
       }

@@ -447,12 +447,18 @@
                   <th class="min-w-[150px] border border-gray-300">
                     Lokasi Penyimpanan
                   </th>
-                  <th class="min-w-[200px] border border-gray-300">Items</th>
+                  <th class="min-w-[50px] border border-gray-300">Kode Item</th>
+                  <th class="min-w-[200px] border border-gray-300">
+                    Nama Item
+                  </th>
                   <th class="min-w-[100px] border border-gray-300">
                     Valuation
                   </th>
                   <th class="min-w-[120px] border border-gray-300">
                     Kode Transaksi
+                  </th>
+                  <th class="min-w-[120px] border border-gray-300">
+                    Kode Referensi
                   </th>
                   <th class="min-w-[120px] border border-gray-300">
                     Deskripsi
@@ -485,6 +491,8 @@
                   </td>
                   <td></td>
                   <td></td>
+                  <td></td>
+                  <td></td>
                   <!-- <td class="text-info">
                     {{
                       raw_data.first_balance
@@ -511,11 +519,13 @@
                   <td class="whitespace-nowrap border border-gray-300">
                     {{ formatDateTime(item.created_at) }}
                   </td>
-                  <td class="whitespace-nowrap border border-gray-300">
+                  <td class="border border-gray-300">
                     {{ item.kode_slot_penyimpanan_terakhir ?? "-" }}
                   </td>
+                  <td class="border border-gray-300">
+                    {{ item.item_gudang ? item.item_gudang.kode_item : "-" }}
+                  </td>
                   <td class="whitespace-nowrap border border-gray-300">
-                    {{ item.item_gudang ? item.item_gudang.kode_item : "-" }} -
                     {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
                   </td>
                   <td
@@ -524,14 +534,10 @@
                     {{ item.kode_valuation ? item.kode_valuation : "-" }}
                   </td>
                   <td class="whitespace-nowrap border border-gray-300">
-                    {{
-                      item.kode_referensi
-                        ? item.kode_referensi +
-                          (item.kode_referensi_2
-                            ? " - " + item.kode_referensi_2
-                            : "")
-                        : "-"
-                    }}
+                    {{ item.kode_referensi }}
+                  </td>
+                  <td class="whitespace-nowrap border border-gray-300">
+                    {{ item.kode_referensi_2 }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.deskripsi || "" }}
@@ -583,6 +589,8 @@
                   <td class="border-y border-gray-300">
                     <!-- {{ coa_id ? coa_id.nama_coa : "-" }} -->
                   </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-gray-300"></td>
                   <td class="border-y border-gray-300"></td>
                   <!-- <td></td> -->
                   <td class="text-info border-y border-gray-300"></td>

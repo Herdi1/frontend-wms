@@ -73,7 +73,7 @@
                   </div>
                 </th>
                 <th class="w-48 border border-gray-300">Vendor</th>
-                <th
+                <!-- <th
                   @click="
                     onSort(
                       'status_kontrak',
@@ -105,7 +105,7 @@
                       ></i>
                     </div>
                   </div>
-                </th>
+                </th> -->
                 <th class="w-48 border border-gray-300">Tanggal Kontrak</th>
                 <th class="w-48 border border-gray-300">Tanggal Berlaku</th>
                 <th class="w-48 border border-gray-300">Tanggal Berhenti</th>
@@ -148,7 +148,7 @@
                 <td class="border border-gray-300">
                   {{ item.vendor ? item.vendor.nama_vendor : "-" }}
                 </td>
-                <td class="border border-gray-300">
+                <!-- <td class="border border-gray-300">
                   <div>
                     <span v-if="item.status_kontrak === 'FISIK'">
                       <p
@@ -165,7 +165,7 @@
                       </p>
                     </span>
                   </div>
-                </td>
+                </td> -->
                 <td class="border border-gray-300">
                   {{ formatDate(item.tanggal_kontrak) }}
                 </td>

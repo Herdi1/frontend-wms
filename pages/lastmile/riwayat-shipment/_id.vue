@@ -431,7 +431,7 @@
                   </div>
                   <div class="flex items-center justify-between">
                     <label for="" class="w-1/2"
-                      >Quantity Kirim <span class="text-danger">*</span></label
+                      >Quantity SO <span class="text-danger">*</span></label
                     >
                     <!-- type="text" -->
                     <money
@@ -447,6 +447,19 @@
                     >
                     <!-- type="text" -->
                     <money
+                      name="quantity"
+                      id="quantity"
+                      v-model="parameters.form.quantity_retur"
+                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                    />
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <label for="" class="w-1/2"
+                      >Quantity Terima <span class="text-danger">*</span></label
+                    >
+                    <!-- type="text" -->
+                    <money
+                      disabled
                       name="quantity"
                       id="quantity"
                       v-model="parameters.form.quantity_retur"

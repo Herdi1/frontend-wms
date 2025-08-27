@@ -336,7 +336,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
                   <div>
                     <input-form
-                      label="Kode Kendaraan"
+                      label="Nomor Pintu"
                       type="text"
                       name="kode_kendaraan"
                       :required="true"

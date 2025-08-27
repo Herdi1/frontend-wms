@@ -20,8 +20,8 @@
         <tr>
           <th class="w-20 border border-gray-300">Kode Retur</th>
           <th class="w-20 border border-gray-300">Delivery Order</th>
-          <th class="w-20 border border-gray-300">Quantity Kirim</th>
-          <th class="w-20 border border-gray-300">Quantity</th>
+          <th class="w-20 border border-gray-300">Quantity SO</th>
+          <th class="w-20 border border-gray-300">Quantity Retur</th>
           <th class="w-20 border border-gray-300">Valuation</th>
           <th class="w-20 border border-gray-300">Alasan</th>
           <th class="w-20 border border-gray-300">Edit</th>

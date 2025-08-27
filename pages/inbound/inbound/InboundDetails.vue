@@ -160,7 +160,18 @@
 
             <td class="border border-gray-300">
               <p class="mb-2">
-                Quantity:
+                Quantity Request:
+                <money
+                  v-model="item.quantity_request"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                  disabled
+                />
+              </p>
+              <p class="mb-2">
+                Quantity Terima:
                 <money
                   v-model="item.quantity_terima"
                   @change="sumQuantity(item)"
@@ -1120,20 +1131,20 @@ export default {
       };
       await this.onSearchZonaPlan();
 
-      // if (this.self.form.sumber_data == "ASN") {
-      //   const rekomendasiZona = await this.$axios.get(
-      //     `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`
-      //   );
-      //   if (rekomendasiZona.data.length > 0) {
-      //     this.onSelectZona(rekomendasiZona.data[0], index);
-      //   }
-      // }
+      if (this.self.form.sumber_data == "ASN") {
+        const rekomendasiZona = await this.$axios.get(
+          `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`
+        );
+        if (rekomendasiZona.data.length > 0) {
+          this.onSelectZona(rekomendasiZona.data[0], index);
+        }
+      }
 
       const biaya = await this.$axios.get(
         "/finance/kontrak-tkbm/get-kontrak-tkbm",
         {
           params: {
-            item_gudang_id: item.item_gudang_id,
+            item_gudang_id: item.item_gudang_id.item_gudang_id,
             gudang_id: this.self.form.gudang_id.gudang_id,
             jenis: "inbound",
           },
@@ -1144,7 +1155,7 @@ export default {
         "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
         {
           params: {
-            item_gudang_id: item.item_gudang_id,
+            item_gudang_id: item.item_gudang_id.item_gudang_id,
             gudang_id: this.self.form.gudang_id.gudang_id,
             jenis: "inbound",
           },

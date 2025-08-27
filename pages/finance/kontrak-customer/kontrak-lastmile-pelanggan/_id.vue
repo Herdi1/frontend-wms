@@ -173,10 +173,11 @@ export default {
 
     return {
       tabs: [
-        { name: "Kontrak Lastmile Jarak", slotName: "KontrakLastmileJarak" },
-        { name: "Kontrak Lastmile Ritase", slotName: "KontrakLastmileRitase" },
-        { name: "Kontrak Lastmile Berat", slotName: "KontrakLastmileBerat" },
-        { name: "Kontrak Lastmile Atcost", slotName: "KontrakLastmileAtcost" },
+        { name: "Insentif Jarak", slotName: "KontrakLastmileJarak" },
+        { name: "Insentif Ritase", slotName: "KontrakLastmileRitase" },
+        { name: "Biaya BBM", slotName: "KontrakLastmileBerat" },
+        { name: "Biaya Lainnya", slotName: "KontrakLastmileAtcost" },
+        { name: "Biaya Premi", slotName: "BiayaPremi" },
       ],
 
       id,

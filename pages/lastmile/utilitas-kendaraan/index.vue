@@ -239,7 +239,9 @@
                   <th class="w-52 border border-gray-300">
                     Total Standar Waktu
                   </th>
-                  <th class="w-52 border border-gray-300">Total Realisasi</th>
+                  <th class="w-52 border border-gray-300">
+                    Total Realisasi Waktu
+                  </th>
                   <th class="w-20 border border-gray-300">Idle</th>
                   <th class="w-40 border border-gray-300">Presentase</th>
                   <th class="w-20 text-center border border-gray-300">
