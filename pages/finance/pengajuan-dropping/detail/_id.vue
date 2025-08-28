@@ -112,10 +112,10 @@
                       class="border-t border-gray-300"
                     >
                       <td class="border border-gray-300">
-                        {{ item.coa ? item.coa.kode_coa : "-" }}
+                        {{ item.coa ? item.coa.kode_coa ?? "" : "-" }}
                       </td>
                       <td class="border border-gray-300">
-                        {{ item.coa ? item.coa.nama_coa : "-" }}
+                        {{ item.coa ? item.coa.nama_coa ?? "" : "-" }}
                       </td>
                       <td class="border border-gray-300">
                         {{
@@ -173,9 +173,17 @@
                 >
                   <td>
                     <span class="pl-3">
-                      {{ item.kode_coa ? item.kode_coa : item.coa.kode_coa }}
+                      {{
+                        item.kode_coa
+                          ? item.kode_coa ?? ""
+                          : item.coa.kode_coa ?? ""
+                      }}
                       -
-                      {{ item.nama_coa ? item.nama_coa : item.coa.nama_coa }}
+                      {{
+                        item.nama_coa
+                          ? item.nama_coa ?? ""
+                          : item.coa.nama_coa ?? ""
+                      }}
                     </span>
                   </td>
                   <td class="text-right">
@@ -221,7 +229,8 @@
                 >
                   <td>
                     <span class="pl-3">
-                      {{ item.coa.kode_coa }} - {{ item.coa.nama_coa }} ({{
+                      {{ item.coa.kode_coa ?? "" }} -
+                      {{ item.coa.nama_coa ?? "" }} ({{
                         formatDate(item.tanggal)
                       }})
                     </span>
@@ -251,9 +260,17 @@
                 >
                   <td>
                     <span class="pl-3">
-                      {{ item.kode_coa ? item.kode_coa : item.coa.kode_coa }}
+                      {{
+                        item.kode_coa
+                          ? item.kode_coa ?? ""
+                          : item.coa.kode_coa ?? ""
+                      }}
                       -
-                      {{ item.nama_coa ? item.nama_coa : item.coa.nama_coa }}
+                      {{
+                        item.nama_coa
+                          ? item.nama_coa ?? ""
+                          : item.coa.nama_coa ?? ""
+                      }}
                     </span>
                   </td>
                   <td class="text-right">

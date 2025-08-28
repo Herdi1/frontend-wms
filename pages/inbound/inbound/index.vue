@@ -125,17 +125,19 @@
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] border text-center border-gray-300">
-                    Edit
+                  <th class="w-20 border text-center border-gray-300">Edit</th>
+                  <th class="w-20 border text-center border-gray-300">
+                    Detail
                   </th>
-                  <th class="w-[5%] border text-center border-gray-300">
-                    Delete
-                  </th>
-                  <th class="w-[5%] border text-center border-gray-300">No</th>
+
+                  <th class="w-20 border text-center border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -143,7 +145,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
+                    class="cursor-pinter w-44 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Put Away</div>
@@ -169,12 +171,15 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Status Put Away</th>
-                  <th class="border border-gray-300">Nomor Referensi</th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="w-[5%] border border-gray-300">Cetak Label</th>
-                  <th class="w-[5%] border border-gray-300">Cetak GR</th>
+                  <th class="w-44 border border-gray-300">Gudang</th>
+                  <th class="w-44 border border-gray-300">Status Put Away</th>
+                  <th class="w-44 border border-gray-300">Nomor Referensi</th>
+                  <th class="w-44 border border-gray-300">Tanggal</th>
+                  <th class="w-24 border border-gray-300">Cetak Label</th>
+                  <th class="w-24 border border-gray-300">Cetak GR</th>
+                  <th class="w-20 border text-center border-gray-300">
+                    Delete
+                  </th>
                   <!-- <th>Kendaraan</th>
                   <th>Pengemudi</th> -->
                 </tr>
@@ -187,13 +192,13 @@
                       :disabled="item.tanggal !== getTodaysDate"
                     />
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                      :disabled="item.tanggal !== getTodaysDate"
-                    />
+
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
                   </td>
+
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -220,28 +225,28 @@
                     <div>
                       <span v-if="item.status_put_away === 'MENUNGGU'">
                         <p
-                          class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
                         >
                           {{ item.status_put_away }}
                         </p>
                       </span>
                       <span v-if="item.status_put_away === 'PROSES'">
                         <p
-                          class="bg-purple-500 p-1 rounded-md font-semibold text-white text-center"
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
                         >
                           {{ item.status_put_away }}
                         </p>
                       </span>
                       <span v-if="item.status_put_away === 'SELESAI'">
                         <p
-                          class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
                         >
                           {{ item.status_put_away }}
                         </p>
                       </span>
                       <span v-if="item.status_put_away === null">
                         <p
-                          class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
                         >
                           {{ item.status_put_away }}
                         </p>
@@ -282,6 +287,13 @@
                       <i class="fa fa-file" aria-hidden="true"></i>
                     </button>
                   </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                      :disabled="item.tanggal !== getTodaysDate"
+                    />
+                  </td>
                   <!-- <td>{{ item.kendaraan_id }}</td>
                   <td>{{ item.pengemudi_id }}</td> -->
                 </tr>
@@ -317,7 +329,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -352,9 +364,6 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
-  },
-
-  async mounted() {
     await this.onSearchGudang();
   },
 
@@ -482,6 +491,10 @@ export default {
 
     onEdit(item) {
       this.$router.push("/inbound/inbound/" + item.inbound_id);
+    },
+
+    onDetail(item) {
+      this.$router.push("/inbound/inbound/detail/" + item.inbound_id);
     },
 
     onTrashed(item) {

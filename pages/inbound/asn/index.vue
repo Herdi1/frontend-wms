@@ -125,7 +125,7 @@
 
           <div class="table-responsive w-full relative overflow-y-auto">
             <table
-              class="mb-5 overflow-auto table-fixed border border-gray-30"
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
               ref="formContainer"
             >
               <thead>
