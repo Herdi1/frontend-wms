@@ -54,7 +54,8 @@
               >
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
+                disabled
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
                 :loading="isLoadingGetLokasi"
@@ -85,10 +86,12 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p>{{ item.lokasi_id_asal.nama_lokasi }}</p>
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
+                disabled
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
                 :loading="isLoadingGetLokasi"
@@ -119,7 +122,8 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p>{{ item.lokasi_id_tujuan.nama_lokasi }}</p>
             </td>
             <td class="border border-gray-300">
               <money
@@ -212,7 +216,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchLokasi();
+    // await this.onSearchLokasi();
   },
 
   computed: {

@@ -318,7 +318,7 @@
                       }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.coa.kode_coa }} -
+                      {{ item.coa ? item.coa.kode_coa : "" }} -
                       {{ item.coa ? item.coa.nama_coa : "-" }}
                     </td>
                     <td class="border border-gray-300">

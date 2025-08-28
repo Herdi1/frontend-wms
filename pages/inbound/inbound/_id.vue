@@ -241,9 +241,9 @@
                       input: onSelectPelanggan,
                     }"
                     width="w-[60%]"
+                    :disabled="form.sumber_data !== 'NON'"
                   />
                 </div>
-                <!-- :disabled="form./sumber_data !== 'NON'" -->
                 <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Approve"
@@ -268,8 +268,8 @@
                     input: onSelectStaff,
                   }"
                   width="w-[60%]"
-                  :disabled="form.sumber_data !== 'NON'"
                 />
+                <!-- :disabled="form.sumber_data !== 'NON'" -->
                 <select-button
                   :self="{
                     label: 'Vendor Operator',
@@ -403,6 +403,10 @@ export default {
       isStopSearchPeralatan: false,
       isLoadingGetPeralatan: false,
       peralatan_search: "",
+
+      isStopSearchZonaPlan: false,
+      isLoadingGetZonaPlan: false,
+      zona_plan_search: "",
 
       user: this.$auth.user,
 
@@ -677,6 +681,8 @@ export default {
           });
         }
 
+        await this.onSearchZonaPlan();
+
         // if (res.data.biaya_inbounds) {
         //   this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
         //     return { ...item, biaya_inbound_id: item };
@@ -713,6 +719,7 @@ export default {
       "error",
       "result",
 
+      "lookup_custom1",
       "lookup_custom6",
       "lookup_custom7",
       "lookup_custom8",
@@ -1636,6 +1643,27 @@ export default {
         this.form.peralatan_id = item;
       } else {
         this.form.peralatan_id = "";
+      }
+    },
+
+    async onSearchZonaPlan() {
+      if (!this.isLoadingGetZonaPlan) {
+        this.isLoadingGetZonaPlan = true;
+
+        await this.lookUp({
+          url: "master/zona-gudang/get-zona-gudang",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.zona_plan_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetZonaPlan = false;
       }
     },
   },

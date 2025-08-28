@@ -1425,6 +1425,11 @@ export default {
                 .get("/finance/kontrak-tkbm/get-kontrak-tkbm", {
                   params: {
                     item_gudang_id: item.item_gudang_id.item_gudang_id,
+                    peralatan_id:
+                      this.parameters.form.peralatan_id.peralatan_id ?? "",
+                    vendor_id:
+                      this.parameters.form.staff_id_pic.vendor_id_operator ??
+                      "",
                     gudang_id: this.parameters.form.gudang_id.gudang_id,
                     jenis: "outbound",
                   },

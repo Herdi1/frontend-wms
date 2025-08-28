@@ -30,6 +30,7 @@
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap w-full">
+            <th class="w-[200px] border border-gray-300">Urutan</th>
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[200px] border border-gray-300">Alamat Pengiriman</th>
@@ -37,7 +38,6 @@
             <th class="w-[200px] border border-gray-300">
               Kode Delivery Order
             </th>
-            <th class="w-[200px] border border-gray-300">Urutan</th>
             <th class="w-[200px] border border-gray-300">Nomor Referensi</th>
             <th class="w-[200px] border border-gray-300">Zona Gudang</th>
             <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
@@ -60,8 +60,9 @@
           <tr
             v-for="(item, i) in self.parameters.form.shipment_details"
             :key="i"
-            class="border-t align-top"
+            class="border-t align-top cursor-grab"
           >
+            <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
             <td class="w-[200px] border border-gray-300">
               <!-- <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
@@ -128,7 +129,7 @@
             <td class="w-[200px] border border-gray-300">
               {{ item.kode_delivery_order }}
             </td>
-            <td class="w-[200px] border border-gray-300">{{ setUrutan(i) }}</td>
+
             <td class="w-[200px] border border-gray-300">
               <input
                 type="text"

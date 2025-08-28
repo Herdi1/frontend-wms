@@ -372,7 +372,6 @@ export default {
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
               slot_penyimpanan_id_level: item.slot_penyimpanan_level,
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
-              valuation_id: item.valuation,
             };
           }
         );
@@ -400,7 +399,6 @@ export default {
                 lokasi_id: item.lokasi,
                 jenis_biaya_id: item.jenis_biaya,
                 term_pembayaran_id: item.term_pembayaran,
-                coa_id: item.coa,
                 divisi_id: item.divisi,
                 vendor_id: item.vendor,
               };
@@ -417,7 +415,6 @@ export default {
                 lokasi_id: item.lokasi,
                 jenis_biaya_id: item.jenis_biaya,
                 term_pembayaran_id: item.term_pembayaran,
-                coa_id: item.coa,
                 divisi_id: item.divisi,
                 vendor_id: item.vendor,
                 pelanggan_id: item.pelanggan,
@@ -611,6 +608,8 @@ export default {
         (item) => {
           return {
             ...item,
+            biaya_perkm_muat: item.nominal_satuan,
+            biaya_perkm_kosong: item.nominal_satuan,
             biaya_lastmile_id:
               typeof item.biaya_lastmile_id === "object"
                 ? item.biaya_lastmile_id.biaya_lastmile_id
@@ -627,10 +626,6 @@ export default {
               typeof item.term_pembayaran_id == "object"
                 ? item.term_pembayaran_id.term_pembayaran_id ?? ""
                 : item.term_pembayaran_id ?? "",
-            coa_id:
-              typeof item.coa_id == "object"
-                ? item.coa_id.coa_id ?? ""
-                : item.coa_id ?? "",
             divisi_id:
               typeof item.divisi_id == "object"
                 ? item.divisi_id.divisi_id ?? ""
@@ -662,10 +657,6 @@ export default {
               typeof item.term_pembayaran_id == "object"
                 ? item.term_pembayaran_id.term_pembayaran_id ?? ""
                 : item.term_pembayaran_id ?? "",
-            coa_id:
-              typeof item.coa_id == "object"
-                ? item.coa_id.coa_id ?? ""
-                : item.coa_id ?? "",
             divisi_id:
               typeof item.divisi_id == "object"
                 ? item.divisi_id.divisi_id ?? ""
@@ -1132,19 +1123,28 @@ export default {
           this.isLoadingForm = true;
           this.parameters.form.rute_shipments = [];
           this.parameters.form.rute_shipments =
-            this.parameters.form.shipment_details.map((item, index) => {
-              return {
-                item_gudang_id: item.item_gudang_id,
-                lokasi_id_asal:
-                  index > 0
-                    ? this.parameters.form.shipment_details[index - 1].lokasi_id
-                    : this.parameters.form.gudang_id.lokasi,
-                lokasi_id_tujuan: item.lokasi_id,
-                jenis_routing: "MUAT",
-                jenis_kiriman: 1,
-                jenis: item.jenis,
-              };
-            });
+            this.parameters.form.shipment_details
+              .filter(
+                (value, index, self) =>
+                  index ===
+                  self.findIndex(
+                    (t) => t.lokasi_id.lokasi_id === value.lokasi_id.lokasi_id
+                  )
+              )
+              .map((item, index) => {
+                return {
+                  item_gudang_id: item.item_gudang_id,
+                  lokasi_id_asal:
+                    index > 0
+                      ? this.parameters.form.shipment_details[index - 1]
+                          .lokasi_id
+                      : this.parameters.form.gudang_id.lokasi,
+                  lokasi_id_tujuan: item.lokasi_id,
+                  jenis_routing: "MUAT",
+                  jenis_kiriman: 1,
+                  jenis: item.jenis,
+                };
+              });
           this.parameters.form.rute_shipments.push({
             lokasi_id_asal:
               this.parameters.form.rute_shipments[
@@ -1186,7 +1186,7 @@ export default {
                       this.parameters.form.jenis_kendaraan_id
                         .jenis_kendaraan_id,
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
-                    vendor_id: this.parameters.form.vendor_id.vendor_id,
+                    vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
                   },
                 })
                 .then((res) => {
@@ -1222,6 +1222,10 @@ export default {
                             ? data.biaya_perkm_muat * item.jarak
                             : data.biaya_perkm_kosong * item.jarak
                           : data.nilai_kontrak,
+                      vendor_id: {
+                        vendor_id: item.vendor_id,
+                        nama_vendor: item.nama_vendor,
+                      },
                     });
                   });
                 });
@@ -1260,7 +1264,10 @@ export default {
                       pembayaran_id: data.pembayaran,
                       term_pembayaran_id: data.term_pembayaran,
                       vendor_id: data.vendor,
-                      pelanggan_id: data.pelanggan,
+                      pelanggan_id: {
+                        pelanggan_id: data.pelanggan_id,
+                        nama_pelanggan: data.nama_pelanggan,
+                      },
                       dasar_perhitungan: data.dasar_perhitungan,
                       lokasi_id: item.lokasi_id_tujuan,
                       jenis_routing: item.jenis_routing,

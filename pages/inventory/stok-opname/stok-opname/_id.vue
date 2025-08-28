@@ -119,6 +119,7 @@
                   class="flex gap-2 p-1 border border-gray-300 rounded-md items-baseline"
                 >
                   <v-select
+                    placeholder="Item Gudang"
                     class="w-[200px] rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                     label="nama_item"
                     :loading="isLoadingGetItemGudang"
@@ -151,6 +152,7 @@
                     </li>
                   </v-select>
                   <v-select
+                    placeholder="Zona Gudang"
                     class="w-[200px] rounded-sm bg-white text-gray-500 border-gray-300"
                     label="nama_zona_gudang"
                     :loading="isLoadingGetZonaGudang"
@@ -1640,6 +1642,50 @@ export default {
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
             item_gudang_id: this.add_params.item_gudang_id,
+            zona_gudang_id: item.zona_gudang,
+            valuation_id: item.valuation,
+            stok_sistem: 0,
+          });
+
+          let index = this.parameters.form.stok_opname_details.length - 1;
+
+          let details = [...this.parameters.form.stok_opname_details];
+
+          let itemGudangs = details.filter(
+            (detailItem) =>
+              (detailItem.zona_gudang_id
+                ? detailItem.zona_gudang_id.zona_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].zona_gudang_id
+                  .zona_gudang_id &&
+              (detailItem.item_gudang_id
+                ? detailItem.item_gudang_id.item_gudang_id
+                : 0) ===
+                this.parameters.form.stok_opname_details[index].item_gudang_id
+                  .item_gudang_id
+          );
+
+          if (itemGudangs.length > 1) {
+            // this.$toaster.error("Item gudang sudah ada");
+            this.parameters.form.stok_opname_details = details.filter(
+              (_, indexItem) => index != indexItem
+            );
+          } else {
+            // await this.onSearchSlotAisle(index);
+            this.onSelectValuation(item.valuation, index);
+          }
+        });
+      }
+      if (
+        this.add_params.zona_gudang_id === "" &&
+        this.add_params.item_gudang_id === ""
+      ) {
+        let res = await this.$axios.get(
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}`
+        );
+        res.data.data.forEach((item) => {
+          this.parameters.form.stok_opname_details.push({
+            item_gudang_id: item,
             zona_gudang_id: item.zona_gudang,
             valuation_id: item.valuation,
             stok_sistem: 0,

@@ -29,7 +29,7 @@
             <th class="w-[200px] border border-gray-300">
               Biaya Per Kilometer
             </th>
-            <th class="w-[200px] border border-gray-300">Payable To</th>
+            <!-- <th class="w-[200px] border border-gray-300">Payable To</th> -->
             <th class="w-[200px] border border-gray-300">Total</th>
             <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
             <th class="w-[200px] border border-gray-300">Divisi</th>
@@ -70,7 +70,7 @@
             </td>
             <td class="border border-gray-300">
               <div class="w-full">
-                <v-select
+                <!-- <v-select
                   disabled
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                   label="nama_jenis_biaya"
@@ -80,7 +80,6 @@
                   @search="onGetJenisBiaya"
                   v-model="item.jenis_biaya_id"
                 >
-                  <!-- @input="(item) => onSelectItemGudang(item, index)" -->
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -106,11 +105,12 @@
 
                 <p v-if="item.item_gudang_id">
                   {{ item.item_gudang_id.nama_item }}
-                </p>
+                </p> -->
+                <p>{{ item.jenis_biaya_id.nama_jenis_biaya }}</p>
               </div>
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 disabled
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_lokasi"
@@ -141,11 +141,12 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p>{{ item.lokasi_id.nama_lokasi }}</p>
             </td>
             <td class="border border-gray-300">
               <div class="w-full">
-                <v-select
+                <!-- <v-select
                   disabled
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
                   label="nama_term_pembayaran"
@@ -176,7 +177,8 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.term_pembayaran_id.nama_term_pembayaran }}</p>
               </div>
             </td>
             <td class="border border-gray-300">
@@ -191,12 +193,14 @@
                 :value="
                   item.jenis_routing === 'MUAT'
                     ? item.biaya_perkm_muat
-                    : item.biaya_perkm_kosong
+                    : item.jenis_routing === 'KOSONG'
+                    ? item.biaya_perkm_kosong
+                    : item.nominal_satuan
                 "
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
               />
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               <select
                 name="payable_to"
                 id="payable_to"
@@ -206,7 +210,7 @@
                 <option value="DRIVER">Driver</option>
                 <option value="VENDOR">Vendor</option>
               </select>
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <money
                 disabled
@@ -249,14 +253,13 @@
               </v-select>
             </td> -->
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_divisi"
                 :loading="isLoadingGetDivisi"
                 :options="lookup_custom8.data"
                 :filterable="false"
                 @search="onGetDivisi"
                 v-model="item.divisi_id"
-                :reduce="(item) => item.divisi_id"
                 class="w-full"
               >
                 <li
@@ -280,7 +283,8 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p>{{ item.divisi_id.nama_divisi }}</p>
             </td>
             <td class="border border-gray-300">
               <!-- <v-select
@@ -315,8 +319,8 @@
                   >
                 </li>
               </v-select> -->
-              <p v-if="item.nama_vendor">
-                {{ item.nama_vendor }}
+              <p>
+                {{ item.vendor_id.nama_vendor }}
               </p>
             </td>
             <td class="border border-gray-300">
@@ -386,12 +390,12 @@ export default {
   },
 
   async created() {
-    await this.onSearchJenisBiaya();
-    await this.onSearchCoa();
-    await this.onSearchDivisi();
-    await this.onSearchVendor();
-    await this.onSearchTermPembayaran();
-    await this.onSearchLokasi();
+    // await this.onSearchJenisBiaya();
+    // await this.onSearchCoa();
+    // await this.onSearchDivisi();
+    // await this.onSearchVendor();
+    // await this.onSearchTermPembayaran();
+    // await this.onSearchLokasi();
   },
 
   computed: {

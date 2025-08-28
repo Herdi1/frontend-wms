@@ -130,7 +130,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
-                  :required="true"
+                  :required="false"
                 />
               </div>
               <div>
@@ -761,6 +761,12 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
             };
           });
+
+        this.parameters.form.pick_order_details.forEach((item, index) => {
+          this.onGetSystemStok(index);
+        });
+        // await Promise.all(
+        // );
 
         // if (!res.data.biaya_pick_orders.length) {
         // }
@@ -1656,61 +1662,61 @@ export default {
     },
 
     async addItem(item) {
+      // if (
+      //   !this.parameters.form.pick_order_details.find(
+      //     (data) =>
+      //       data.pick_request_id === item.pick_request_id &&
+      //       data.item_gudang_id === item.item_gudang_id
+      //   )
+      // ) {
+      // } else {
+      //   this.$toaster.error("Pick Request Sudah Ditambahkan");
+      // }
+      let detailItem = {
+        ...item,
+        zona_gudang_id_tujuan: this.lookup_warehouses.data.length
+          ? this.lookup_warehouses.data[0]
+          : "",
+      };
+      this.parameters.form.pick_order_details.push(detailItem);
+
+      const tagihan = await this.$axios.get(
+        "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
+        {
+          params: {
+            item_gudang_id: item.item_gudang_id,
+            gudang_id: this.parameters.form.gudang_id.gudang_id,
+            jenis: "outbound",
+          },
+        }
+      );
+
       if (
-        !this.parameters.form.pick_order_details.find(
-          (data) =>
-            data.pick_request_id === item.pick_request_id &&
-            data.item_gudang_id === item.item_gudang_id
+        !this.parameters.form.tagihan_pick_orders.find(
+          (data) => data.item_gudang_id === item.item_gudang_id
         )
       ) {
-        let detailItem = {
-          ...item,
-          zona_gudang_id_tujuan: this.lookup_warehouses.data.length
-            ? this.lookup_warehouses.data[0]
-            : "",
-        };
-        this.parameters.form.pick_order_details.push(detailItem);
-
-        const tagihan = await this.$axios.get(
-          "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
-          {
-            params: {
-              item_gudang_id: item.item_gudang_id,
-              gudang_id: this.parameters.form.gudang_id.gudang_id,
-              jenis: "outbound",
-            },
-          }
-        );
-
-        if (
-          !this.parameters.form.tagihan_pick_orders.find(
-            (data) => data.item_gudang_id === item.item_gudang_id
-          )
-        ) {
-          tagihan.data.forEach((data) => {
-            this.parameters.form.tagihan_pick_orders.push({
-              ...data,
-              tagihan_inbound_id: "",
-              item_gudang: data.item_gudang,
-              item_id: data.item_id,
-              item_gudang_id: data.item_gudang_id,
-              jenis_kontrak_id: data.jenis_kontrak,
-              divisi_id: data.divisi,
-              jenis_biaya_id: data.jenis_biaya,
-              mata_uang_id: data.mata_uang,
-              pembayaran_id: data.pembayaran,
-              term_pembayaran_id: data.term_pembayaran,
-              group_item_id: data.group_item,
-              nominal_satuan: data.nilai_kontrak,
-              jumlah: 0,
-              total: 0,
-              jenis: 0,
-              coa_id: "",
-            });
+        tagihan.data.forEach((data) => {
+          this.parameters.form.tagihan_pick_orders.push({
+            ...data,
+            tagihan_inbound_id: "",
+            item_gudang: data.item_gudang,
+            item_id: data.item_id,
+            item_gudang_id: data.item_gudang_id,
+            jenis_kontrak_id: data.jenis_kontrak,
+            divisi_id: data.divisi,
+            jenis_biaya_id: data.jenis_biaya,
+            mata_uang_id: data.mata_uang,
+            pembayaran_id: data.pembayaran,
+            term_pembayaran_id: data.term_pembayaran,
+            group_item_id: data.group_item,
+            nominal_satuan: data.nilai_kontrak,
+            jumlah: 0,
+            total: 0,
+            jenis: 0,
+            coa_id: "",
           });
-        }
-      } else {
-        this.$toaster.error("Pick Request Sudah Ditambahkan");
+        });
       }
     },
 

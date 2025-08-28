@@ -926,6 +926,8 @@ export default {
         this.onSelectKendaraan(res.data.kendaraan);
         this.parameters.form.staff_id = res.data.staff || "";
         this.onSelectStaff(res.data.staff);
+        this.parameters.form.nama_kendaraan = res.data.nama_kendaraan || "";
+        this.parameters.form.nama_pengemudi = res.data.nama_pengemudi || "";
         this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
 
         this.parameters.form.asn_details = res.data.asn_details.map((item) => {

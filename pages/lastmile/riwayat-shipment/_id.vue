@@ -430,15 +430,14 @@
                     </div>
                   </div>
                   <div class="flex items-center justify-between">
-                    <label for="" class="w-1/2"
-                      >Quantity SO <span class="text-danger">*</span></label
-                    >
+                    <label for="" class="w-1/2">Quantity SO</label>
                     <!-- type="text" -->
                     <money
+                      disabled
                       name="quantity"
                       id="quantity"
                       v-model="parameters.form.quantity_kirim"
-                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none disabled:bg-gray-300"
                     />
                   </div>
                   <div class="flex items-center justify-between">
@@ -454,16 +453,14 @@
                     />
                   </div>
                   <div class="flex items-center justify-between">
-                    <label for="" class="w-1/2"
-                      >Quantity Terima <span class="text-danger">*</span></label
-                    >
+                    <label for="" class="w-1/2">Quantity Terima</label>
                     <!-- type="text" -->
                     <money
                       disabled
                       name="quantity"
                       id="quantity"
-                      v-model="parameters.form.quantity_retur"
-                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                      v-model="quantityTerima"
+                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none disabled:bg-gray-300"
                     />
                   </div>
                   <div class="flex items-center justify-between">
@@ -513,7 +510,6 @@
                       :filterable="false"
                       @search="onGetAlasan"
                       v-model="parameters.form.alasan_beda_plan_id"
-                      :reduce="(item) => item.alasan_beda_plan_id"
                       class="w-1/2"
                     >
                       <li
@@ -700,6 +696,13 @@ export default {
       "lookup_warehouses",
       "lookup_custom1",
     ]),
+
+    quantityTerima() {
+      let quantityTerima =
+        parseFloat(this.parameters.form.quantity_kirim) -
+        parseFloat(this.parameters.form.quantity_retur);
+      return quantityTerima;
+    },
   },
 
   methods: {
@@ -837,6 +840,10 @@ export default {
           typeof this.parameters.form.shipment_detail_id === "object"
             ? this.parameters.form.shipment_detail_id.shipment_detail_id
             : this.parameters.form.shipment_detail_id,
+        alasan_beda_plan_id:
+          typeof this.parameters.form.alasan_beda_plan_id === "object"
+            ? this.parameters.form.alasan_beda_plan_id.alasan_beda_plan_id
+            : this.parameters.form.alasan_beda_plan_id,
         pick_order_detail_id:
           this.parameters.form.shipment_detail_id.pick_order_detail_id,
         pick_request_detail_id:
