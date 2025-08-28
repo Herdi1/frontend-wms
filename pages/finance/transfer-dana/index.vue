@@ -24,113 +24,34 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="w-full mt-3 mb-7">
-            <div
-              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              ref="formContainer"
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
             >
-              <div class="grid grid-cols-2 gap-2">
-                <div class="grid grid-cols-1 gap-5 w-full">
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Awal"
-                      type="date"
-                      name="kode_sap"
-                      :isHorizontal="true"
-                      v-model="parameters.params.start_date"
-                      :required="false"
-                    />
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-5 w-full">
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Akhir"
-                      type="date"
-                      name="periode_akhir"
-                      :isHorizontal="true"
-                      v-model="parameters.params.end_date"
-                      :required="false"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-2 mb-1">
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Gudang</div>
-
-                  <v-select
-                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
-                    label="nama_gudang"
-                    :loading="isLoadingGetGudang"
-                    :options="lookup_custom1.data"
-                    :filterable="false"
-                    @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
-                    :reduce="(item) => item.gudang_id"
-                  >
-                    <!-- @input="onSelectGudang" -->
-                    <li
-                      slot-scope="{ search }"
-                      slot="list-footer"
-                      class="d-flex justify-content-between"
-                      v-if="lookup_custom1.data.length || search"
-                    >
-                      <span
-                        v-if="lookup_custom1.current_page > 1"
-                        @click="onGetGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
-                        >Sebelumnya</span
-                      >
-                      <span
-                        v-if="
-                          lookup_custom1.last_page > lookup_custom1.current_page
-                        "
-                        @click="onGetGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
-                        >Selanjutnya</span
-                      >
-                    </li>
-                  </v-select>
-                </div>
-              </div>
-
-              <div class="flex gap-3">
-                <button
-                  @click="onLoad"
-                  class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
-                >
-                  <i class="fa fa-filter text-white font-bold mr-2"></i>
-                  <div>Filter</div>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">No</th>
+                <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
                   <th
                     @click="
                       onSort(
-                        'kode_jurnal',
+                        'kode_transfer_dana',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer border border-gray-300"
+                    class="cursor-pointer w-48 border border-gray-300"
                   >
-                    <div class="flex justify-between items-baseline">
-                      <div>Kode Jurnal</div>
+                    <div class="flex justify-between align-baseline">
+                      <div>Kode Transfer Dana</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_jurnal' &&
+                            parameters.params.order == 'kode_transfer_dana' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -139,7 +60,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_jurnal' &&
+                            parameters.params.order == 'kode_transfer_dana' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -148,18 +69,89 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Tanggal</th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="border border-gray-300">Keterangan</th>
-                  <th class="border border-gray-300">Debit</th>
-                  <th class="border border-gray-300">Kredit</th>
-                  <th class="w-[5%] border border-gray-300">Print</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th class="w-48 border border-gray-300">Coa</th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Total Transfer</th>
+                  <th class="w-48 border border-gray-300">No Referensi</th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -169,62 +161,41 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    <div>
-                      <div>
-                        {{ item.kode_jurnal }}
-                      </div>
-                      <span class="text-blue-500"
-                        ><i>Dibuat oleh: {{ item.user.nama_lengkap }}</i></span
-                      >
-                    </div>
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.tanggal) }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td class="w-[30%] border border-gray-300">
-                    {{
-                      item.keterangan
-                        ? item.keterangan
-                        : item.keterangan_2
-                        ? item.keterangan_2
-                        : item.keterangan_3
-                        ? item.keterangan_3
-                        : "-"
-                    }}
-                  </td>
-                  <td class="border border-gray-300 text-right">
-                    {{ item.total_debit ?? "" | formatPrice }}
-                  </td>
-                  <td class="border border-gray-300 text-right">
-                    {{ item.total_credit ?? "" | formatPrice }}
-                  </td>
-                  <td class="text-center border border-gray-300">
-                    <button
-                      class="btn btn-sm"
-                      v-if="!item.deleted_at"
-                      @click="onPrintDetail(item)"
-                      title="Print Invoice Jurnal"
+                    {{ item.kode_transfer_dana }}
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 cursor-pointer hover:underline"
                     >
-                      <i class="fas fa-print text-primary"></i>
-                    </button>
+                      <i>Dibuat oleh: {{ item.user_input.nama_lengkap }}</i>
+                    </p>
+                    <p
+                      v-else
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
+                  <td class="border border-gray-300">
+                    {{ item.coa ? item.coa.kode_coa : "-" }} -
+                    {{ item.coa ? item.coa.nama_coa : "-" }}
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
+                  <td class="border border-gray-300">
+                    {{ item.tanggal }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.status_approve }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.total_transfer | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button @click="onTrashed(item)" />
                   </td>
                 </tr>
               </tbody>
@@ -250,7 +221,7 @@ export default {
 
   head() {
     return {
-      title: "Jurnal Entri",
+      title: "Transfer Dana",
     };
   },
 
@@ -300,38 +271,34 @@ export default {
 
   data() {
     return {
-      title: "Jurnal Entri",
+      title: "Transfer Dana",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/jurnal",
+        url: "finance/transfer-dana",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "jurnal_id",
+          order: "transfer_dana_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
         },
         form: {
-          jurnal_id: "",
+          coa_id: "",
+          no_referensi: "",
           tanggal: "",
           keterangan: "",
-          keterangan_2: "",
-          keterangan_3: "",
-          kode_referensi: "",
-          kode_referensi_2: "",
-          kode_referensi_3: "",
-          gudang_id: "",
-          jurnal_details: [],
+          transfer_dana_details: [],
         },
         loadings: {
           isDelete: false,
           isRestore: false,
         },
       },
+
       default_roles: {
         store: true,
         update: true,
@@ -353,6 +320,7 @@ export default {
       gudang_search: "",
     };
   },
+
   computed: {
     ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
@@ -361,7 +329,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "jurnal"
+          (item) => item.rute == "transfer-dana"
         );
 
         let roles = {};
@@ -398,15 +366,17 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/finance/jurnal-manual/add");
+      this.$router.push("/finance/transfer-dana/add");
     },
 
     onEdit(item) {
-      this.$router.push("/finance/jurnal-manual/" + item.jurnal_id);
+      this.$router.push("/finance/transfer-dana/" + item.transfer_dana_id);
     },
 
     onDetail(item) {
-      this.$router.push(`/finance/jurnal-manual/detail/${item.gudang_id}`);
+      this.$router.push(
+        `/finance/transfer-dana/detail/${item.transfer_dana_id}`
+      );
     },
 
     onTrashed(item) {
@@ -425,7 +395,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.jurnal_id,
+              id: item.transfer_dana_id,
               params: this.parameters.params,
             });
 
@@ -486,18 +456,6 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
-    },
-
-    onPrintDetail(item) {
-      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
-          "finance/jurnal/get-print-detail/" +
-          item.jurnal_id +
-          "?token=" +
-          token,
-        "_blank"
-      );
     },
 
     onGetGudang(search, isNext) {

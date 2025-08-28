@@ -285,10 +285,10 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = false;
+    this.$refs["form-option"].isMaintenancePage = true;
     this.$refs["form-option"].isAddData = false;
 
     if (
@@ -297,7 +297,7 @@ export default {
       this.getRoles.restore ||
       this.getRoles.restore_all
     ) {
-      this.$refs["form-option"].isMaintenancePage = false;
+      this.$refs["form-option"].isMaintenancePage = true;
     }
 
     if (this.getRoles.store) {
@@ -305,10 +305,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -318,11 +318,9 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
-  },
 
-  async mounted() {
     await this.onSearchGudang();
   },
 

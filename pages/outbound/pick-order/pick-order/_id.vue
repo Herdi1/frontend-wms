@@ -117,7 +117,7 @@
                   :required="true"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <select-button
                   :self="{
                     label: 'Peralatan',
@@ -132,8 +132,8 @@
                   class="mb-5"
                   :required="false"
                 />
-              </div>
-              <div>
+              </div> -->
+              <!-- <div>
                 <div class="flex w-full m-1 pr-1">
                   <label for="" class="w-1/2">Handling Muat</label>
                   <select
@@ -149,7 +149,7 @@
                     <option value="BONGKAR TUJUAN">Bongkar Tujuan</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
               <div class="flex px-1">
                 <label for="keterangan" class="block mb-2 w-1/2"
                   >Keterangan</label
@@ -193,9 +193,11 @@
                       Kode Pick Request
                     </th>
                     <th class="w-60 border border-gray-300">Tanggal</th> -->
-                    <th class="w-60 border border-gray-300">Kode Item</th>
-                    <th class="w-60 border border-gray-300">Nama Item</th>
-                    <th class="w-40 border border-gray-300">Jenis Transaksi</th>
+                    <th class="w-40 border border-gray-300">Kode Item</th>
+                    <th class="w-40 border border-gray-300">Nama Item</th>
+                    <th class="w-40 border border-gray-300">Jenis</th>
+                    <th class="w-60 border border-gray-300">Peralatan</th>
+                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
                     <th class="w-60 border border-gray-300">Zona Asal</th>
                     <th class="w-60 border border-gray-300">
@@ -244,6 +246,75 @@
                         class="p-1 text-white rounded-md bg-green-500"
                         >Stok Transfer</span
                       >
+                    </td>
+                    <td class="border border-gray-300">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_peralatan"
+                        :loading="isLoadingGetPeralatan"
+                        :options="lookup_custom6.data"
+                        :filterable="false"
+                        @search="onGetPeralatan"
+                        v-model="item.peralatan_id"
+                      >
+                        <!-- @input="onSelectItem(i)" -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom6.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom6.current_page > 1"
+                            @click="onGetPeralatan(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom6.last_page >
+                              lookup_custom6.current_page
+                            "
+                            @click="onGetPeralatan(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </td>
+                    <td class="border border-gray-300">
+                      <v-select
+                        class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_jenis_biaya"
+                        :loading="isLoadingGetJenisBiaya"
+                        :options="lookup_beam.data"
+                        :filterable="false"
+                        @search="onGetJenisBiaya"
+                        v-model="item.jenis_biaya_id"
+                      >
+                        <!-- @input="onSelectItem(i)" -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_beam.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_beam.current_page > 1"
+                            @click="onGetJenisBiaya(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_beam.last_page > lookup_beam.current_page
+                            "
+                            @click="onGetJenisBiaya(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -662,6 +733,10 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      isStopSearchJenisBiaya: false,
+      isLoadingGetJenisBiaya: false,
+      jenis_biaya_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -680,7 +755,7 @@ export default {
           gudang_id: "",
           user_id_pic: "",
           staff_id_pic: "",
-          peralatan_id: "",
+          // peralatan_id: "",
           keterangan: "",
           handling_muat: "",
           pick_order_details: [],
@@ -702,7 +777,7 @@ export default {
         gudang_id: "",
         user_id_pic: "",
         staff_id_pic: "",
-        peralatan_id: "",
+        // peralatan_id: "",
         keterangan: "",
         handling_muat: "",
         pick_order_details: [],
@@ -772,7 +847,7 @@ export default {
         // }
 
         this.isLoadingPage = false;
-        console.log(res.data);
+        // console.log(res.data);
       }
     } catch (error) {
       // console.log("error", error);
@@ -786,7 +861,8 @@ export default {
     await this.onSearchGudang();
     // await this.onSearchItemGudang();
     // await this.onSearchStaff();
-    // await this.onSearchPeralatan();
+    await this.onSearchPeralatan();
+    await this.onSearchJenisBiaya();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -812,6 +888,7 @@ export default {
       "lookup_roles", //bin
       "lookup_custom2", //valuation
       "lookup_warehouses", //zona virtual
+      "lookup_beam", //jenis biaya
     ]),
   },
 
@@ -880,7 +957,7 @@ export default {
       // Jika ada item yang tidak valid, tampilkan pesan error dan hentikan submit
       if (invalidItems.length > 0) {
         this.$toaster.error(
-          `Quantity Tidak Boleh Melebih i Quantity Request dan Stok`
+          `Quantity Tidak Boleh Melebihi Quantity Request dan Stok`
         );
         return;
       }
@@ -902,10 +979,10 @@ export default {
           typeof this.parameters.form.staff_id_pic == "object"
             ? this.parameters.form.staff_id_pic.staff_id
             : this.parameters.form.staff_id_pic,
-        peralatan_id:
-          typeof this.parameters.form.peralatan_id == "object"
-            ? this.parameters.form.peralatan_id.peralatan_id
-            : this.parameters.form.peralatan_id,
+        // peralatan_id:
+        //   typeof this.parameters.form.peralatan_id == "object"
+        //     ? this.parameters.form.peralatan_id.peralatan_id
+        //     : this.parameters.form.peralatan_id,
       };
 
       formData.pick_order_details = formData.pick_order_details.map((item) => {
@@ -957,6 +1034,14 @@ export default {
           slot_penyimpanan_id_level_tujuan: "",
           slot_penyimpanan_id_bin_tujuan: "",
           stok_transfer_detail_id: item.stok_transfer_detail_id,
+          peralatan_id:
+            typeof item.peralatan_id == "object"
+              ? item.peralatan_id.peralatan_id
+              : item.peralatan_id,
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id == "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
         };
       });
 
@@ -1007,6 +1092,8 @@ export default {
         slot_penyimpanan_id_aisle_bin_tujuan: "",
         keterangan: "",
         stok: "",
+        peralatan_id: "",
+        jenis_biaya_id: "",
         // pick_order_details: "",
       });
     },
@@ -1299,6 +1386,43 @@ export default {
       }
     },
 
+    onGetJenisBiaya(search, isNext) {
+      if (!search?.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchJenisBiaya);
+
+      this.isStopSearchJenisBiaya = setTimeout(() => {
+        this.jenis_biaya_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_beam.current_page = isNext
+            ? this.lookup_beam.current_page + 1
+            : this.lookup_beam.current_page - 1;
+        } else {
+          this.lookup_beam.current_page = 1;
+        }
+        this.onSearchJenisBiaya();
+      }, 600);
+    },
+
+    async onSearchJenisBiaya() {
+      if (!this.isLoadingGetJenisBiaya) {
+        this.isLoadingGetJenisBiaya = true;
+
+        await this.lookUp({
+          url: "master/jenis-biaya/get-jenis-biaya",
+          lookup: "beam",
+          query:
+            "?search=" +
+            this.jenis_biaya_search +
+            "&page=" +
+            this.lookup_beam.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetJenisBiaya = false;
+      }
+    },
+
     onGetSlotAisle(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -1560,6 +1684,7 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id_pic = item;
+        // console.log(item);
       } else {
         this.parameters.form.staff_id_pic = "";
       }

@@ -122,7 +122,7 @@
                   :disabled="true"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <select-button
                   :self="{
                     label: 'Peralatan',
@@ -138,7 +138,7 @@
                   :required="true"
                   :disabled="true"
                 />
-              </div>
+              </div> -->
               <div class="flex px-1">
                 <label for="keterangan" class="block mb-2 w-1/2"
                   >Keterangan</label
@@ -205,11 +205,11 @@
                         <th class="w-60 border border-gray-300">
                           Kode Delivery Order
                         </th>
-                        <th class="w-60 border border-gray-300">Kode Item</th>
-                        <th class="w-60 border border-gray-300">Nama Item</th>
-                        <th class="w-40 border border-gray-300">
-                          Jenis Transaksi
-                        </th>
+                        <th class="w-40 border border-gray-300">Kode Item</th>
+                        <th class="w-40 border border-gray-300">Nama Item</th>
+                        <th class="w-40 border border-gray-300">Jenis</th>
+                        <th class="w-60 border border-gray-300">Peralatan</th>
+                        <th class="w-60 border border-gray-300">Jenis Biaya</th>
                         <th class="w-60 border border-gray-300">Valuation</th>
                         <th class="w-60 border border-gray-300">Zona Asal</th>
                         <th class="w-60 border border-gray-300">
@@ -263,6 +263,20 @@
                           >
                         </td>
                         <td class="border border-gray-300">
+                          {{
+                            item.peralatan_id
+                              ? item.peralatan_id?.nama_peralatan ?? ""
+                              : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.jenis_biaya_id
+                              ? item.jenis_biaya_id?.nama_jenis_biaya ?? ""
+                              : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
                           <v-select
                             class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                             label="nama_valuation"
@@ -274,7 +288,6 @@
                             :reduce="(item) => item.valuation_id"
                             disabled
                           >
-                            <!-- @input="onSelectItem(i)" -->
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -822,9 +835,10 @@
                             :filterable="false"
                             @search="onGetVendor"
                             v-model="item.vendor_id"
-                            :reduce="(item) => item.vendor_id"
                             class="w-full"
+                            disabled
                           >
+                            <!-- :reduce="(item) => item.vendor_id" -->
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -1416,6 +1430,8 @@ export default {
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
+              peralatan_id: item.peralatan ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
             };
           });
         if (!res.data.biaya_pick_orders.length) {
@@ -1663,10 +1679,10 @@ export default {
           typeof this.parameters.form.staff_id_pic == "object"
             ? this.parameters.form.staff_id_pic.staff_id
             : this.parameters.form.staff_id_pic,
-        peralatan_id:
-          typeof this.parameters.form.peralatan_id == "object"
-            ? this.parameters.form.peralatan_id.peralatan_id
-            : this.parameters.form.peralatan_id,
+        // peralatan_id:
+        //   typeof this.parameters.form.peralatan_id == "object"
+        //     ? this.parameters.form.peralatan_id.peralatan_id
+        //     : this.parameters.form.peralatan_id,
       };
 
       formData.pick_order_details = formData.pick_order_details.map((item) => {
@@ -1709,6 +1725,14 @@ export default {
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : item.slot_penyimpanan_id_bin,
+          peralatan_id:
+            typeof item.peralatan_id == "object"
+              ? item.peralatan_id.peralatan_id
+              : item.peralatan_id,
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id == "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
         };
       });
       formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
@@ -1740,6 +1764,10 @@ export default {
             typeof item.term_pembayaran_id === "object"
               ? item.term_pembayaran_id.term_pembayaran_id
               : item.term_pembayaran_id,
+          vendor_id:
+            typeof item.vendor_id === "object"
+              ? item.vendor_id.vendor_id
+              : item.vendor_id,
           total: item.total ?? 0,
         };
       });
@@ -1819,6 +1847,8 @@ export default {
         slot_penyimpanan_id_bin: "",
         zona_gudang_id_tujuan: "",
         keterangan: "",
+        peralatan_id: "",
+        jenis_biaya_id: "",
         // pick_order_details: "",
       });
     },
@@ -2367,6 +2397,7 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id_pic = item;
+        this.parameters.form.biaya_pick_orders.vendor_id = item.vendor_operator;
       } else {
         this.parameters.form.staff_id_pic = "";
       }

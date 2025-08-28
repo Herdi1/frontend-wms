@@ -358,9 +358,9 @@
                       id="status_zona"
                       v-model="form.status_zona"
                     >
-                      <option value="">Pilih</option>
                       <option value="f ">Fisik</option>
                       <option value="v ">Virtual</option>
+                      <option value="c ">Crossdocking</option>
                     </select>
                   </div>
                   <div class="form-group">

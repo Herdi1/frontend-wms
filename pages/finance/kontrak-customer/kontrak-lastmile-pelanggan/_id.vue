@@ -122,6 +122,27 @@
               ></textarea>
             </div>
           </div>
+          <div v-if="isEditable" class="my-10">
+            <h1 class="text-xl font-bold mb-2 uppercase">Status Kontrak</h1>
+            <div
+              class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+            >
+              <div class="flex w-full m-1 pr-1">
+                <label for="" class="w-[30%]">Status</label>
+                <select
+                  name=""
+                  id=""
+                  v-model="parameters.form.status"
+                  class="w-[70%] p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="PENDING">Pending</option>
+                  <option value="APPROVED">Approve</option>
+                  <option value="REJECT">Reject</option>
+                  <option value="INACTIVE">Inactive</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div
             class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
@@ -214,6 +235,7 @@ export default {
           kontrak_lastmile_ritase_pelanggan_details: [],
           kontrak_lastmile_berat_pelanggan_details: [],
           kontrak_lastmile_atcost_pelanggan_details: [],
+          status: "",
 
           user_agent: "",
           device: "",
