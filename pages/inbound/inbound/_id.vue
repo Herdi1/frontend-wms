@@ -122,7 +122,7 @@
                     <option value="2">Retur</option>
                   </select>
                 </div>
-                <select-button
+                <!-- <select-button
                   :self="{
                     label: 'Peralatan',
                     optionLabel: 'nama_peralatan',
@@ -134,7 +134,7 @@
                   }"
                   :disabled="isEditable"
                   width="w-[60%]"
-                />
+                /> -->
 
                 <div class="form-group">
                   <input-horizontal
@@ -240,10 +240,10 @@
                       isLoadingL: isLoadingGetPelanggan,
                       input: onSelectPelanggan,
                     }"
-                    :disabled="form.sumber_data !== 'NON'"
                     width="w-[60%]"
                   />
                 </div>
+                <!-- :disabled="form./sumber_data !== 'NON'" -->
                 <!-- <div class="form-group">
                   <input-horizontal
                     label="Tanggal Approve"
@@ -495,13 +495,15 @@ export default {
           }
         });
 
-        this.form.gudang_id = res.data.gudang;
-        this.form.supplier_id = res.data.supplier;
-        this.form.keterangan = res.data.keterangan;
-        this.form.pelanggan_id = res.data.pelanggan;
-        this.form.peralatan_id = res.data.peralatan;
-        this.form.staff_id = res.data.staff;
-        this.form.vendor_id_transporter = res.data.vendor_transporter;
+        this.form.gudang_id = res.data.gudang ?? "";
+        this.form.supplier_id = res.data.supplier ?? "";
+        this.form.keterangan = res.data.keterangan ?? "";
+        this.form.pelanggan_id = res.data.pelanggan ?? "";
+        this.form.peralatan_id = res.data.peralatan ?? "";
+        this.form.staff_id = res.data.staff ?? "";
+        this.form.vendor_id_transporter = res.data.vendor_transporter ?? "";
+
+        await this.onSearchPeralatan();
 
         if (res.data.sumber_data === "ASN") {
           // this.onSelectAsn(res.data.purchase_order)
@@ -509,8 +511,8 @@ export default {
           this.form.inbound_details = res.data.inbound_details.map((item) => {
             return {
               ...item,
-              item_gudang_id: item.item_gudang,
               detail_inbound_id: item,
+              item_gudang_id: item.item_gudang ?? "",
               zona_gudang_id: item.zona_gudang,
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_aisle === "object" &&
@@ -532,6 +534,7 @@ export default {
                 item.slot_penyimpanan_bin
                   ? item.slot_penyimpanan_bin
                   : "",
+              peralatan_id: item.peralatan ?? "",
             };
           });
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
@@ -585,6 +588,7 @@ export default {
                 typeof item.slot_penyimpanan_bin === "object"
                   ? item.slot_penyimpanan_bin
                   : "",
+              peralatan_id: item.peralatan ?? "",
             };
           });
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
@@ -720,6 +724,7 @@ export default {
       "lookup_suppliers",
       "lookup_customers",
       "lookup_department",
+      "lookup_mesin",
     ]),
 
     //check if the real storaage slot is same as the plan
@@ -838,20 +843,20 @@ export default {
             : this.form.supplier_id ?? "",
         pelanggan_id:
           typeof this.form.pelanggan_id === "object"
-            ? this.form.pelanggan_id.pelanggan_id
-            : this.form.pelanggan_id,
+            ? this.form.pelanggan_id.pelanggan_id ?? ""
+            : this.form.pelanggan_id ?? "",
         staff_id:
           typeof this.form.staff_id === "object"
-            ? this.form.staff_id.staff_id
-            : this.form.staff_id,
+            ? this.form.staff_id.staff_id ?? ""
+            : this.form.staff_id ?? "",
         vendor_id_transporter:
           typeof this.form.vendor_id_transporter === "object"
-            ? this.form.vendor_id_transporter.vendor_id
-            : this.form.vendor_id_transporter,
-        peralatan_id:
-          typeof this.form.peralatan_id === "object"
-            ? this.form.peralatan_id.peralatan_id
-            : this.form.peralatan_id,
+            ? this.form.vendor_id_transporter.vendor_id ?? ""
+            : this.form.vendor_id_transporter ?? "",
+        // peralatan_id:
+        //   typeof this.form.peralatan_id === "object"
+        //     ? this.form.peralatan_id.peralatan_id
+        //     : this.form.peralatan_id,
         // supplier_id: this.form.asn_id ? this.form.asn_id.supplier_id : this.form.purchase_order_id.supplier_id,
       };
 
@@ -868,7 +873,7 @@ export default {
           valuation_id: item.valuation_id ?? "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id.item_gudang_id ?? ""
+              ? item.item_gudang_id.item_gudang_id ?? ""
               : item.item_gudang_id ?? "",
           item_id:
             typeof item.item_id === "object"
@@ -898,6 +903,10 @@ export default {
             typeof item.slot_penyimpanan_id_bin === "object" &&
             item.slot_penyimpanan_bin
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
+              : "",
+          peralatan_id:
+            typeof item.peralatan_id === "object"
+              ? item.peralatan_id.peralatan_id ?? ""
               : "",
           keterangan: item.keterangan || "",
           stok_transfer_detail_id: item.stok_transfer_detail_id ?? "",
@@ -1195,11 +1204,11 @@ export default {
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
         // this.form.tanggal = item.tanggal;
-        this.form.gudang_id = item.gudang;
-        this.form.supplier_id = item.supplier;
-        this.form.pelanggan_id = item.pelanggan;
-        this.form.staff_id = item.staff;
-        this.form.vendor_id_transporter = item.vendor_transporter;
+        this.form.gudang_id = item.gudang ?? "";
+        this.form.supplier_id = item.supplier ?? "";
+        this.form.pelanggan_id = item.pelanggan ?? "";
+        this.form.staff_id = item.staff ?? "";
+        this.form.vendor_id_transporter = item.vendor_transporter ?? "";
         // console.log(item);
         if (item.asn_details) {
           this.items = item.asn_details.map((data) => {
@@ -1278,11 +1287,11 @@ export default {
         this.form.surat_jalan = item.surat_jalan;
         this.form.no_referensi_1 = item.no_referensi;
         this.form.no_referensi_2 = item.no_referensi_2;
-        this.form.gudang_id = item.gudang;
-        this.form.supplier_id = item.supplier;
-        this.form.pelanggan_id = item.pelanggan;
-        this.form.staff_id = item.staff;
-        this.form.vendor_id_transporter = item.vendor_transporter;
+        this.form.gudang_id = item.gudang ?? "";
+        this.form.supplier_id = item.supplier ?? "";
+        this.form.pelanggan_id = item.pelanggan ?? "";
+        this.form.staff_id = item.staff ?? "";
+        this.form.vendor_id_transporter = item.vendor_transporter ?? "";
         // this.form.tanggal = item.tanggal;
         // this.form.gudang_id = item.gudang_id;
         if (item.purchase_order_details) {
@@ -1590,11 +1599,11 @@ export default {
         this.peralatan_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_custom10.current_page = isNext
-            ? this.lookup_custom10.current_page + 1
-            : this.lookup_custom10.current_page - 1;
+          this.lookup_mesin.current_page = isNext
+            ? this.lookup_mesin.current_page + 1
+            : this.lookup_mesin.current_page - 1;
         } else {
-          this.lookup_custom10.current_page = 1;
+          this.lookup_mesin.current_page = 1;
         }
 
         this.onSearchPeralatan();
@@ -1607,14 +1616,14 @@ export default {
 
         await this.lookUp({
           url: "master/peralatan/get-peralatan",
-          lookup: "custom10",
+          lookup: "mesin",
           query:
             "?search=" +
             this.peralatan_search +
             "&gudang_id=" +
             this.form.gudang_id.gudang_id +
             "&page=" +
-            this.lookup_custom10.current_page +
+            this.lookup_mesin.current_page +
             "&per_page=10",
         });
 

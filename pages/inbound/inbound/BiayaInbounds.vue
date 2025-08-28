@@ -32,7 +32,7 @@
             <th class="w-[200px] border border-gray-300">Volume</th>
             <th class="w-[200px] border border-gray-300">Total</th>
             <th class="w-[300px] border border-gray-300">Keterangan</th>
-            <!-- <th class="w-20 border border-gray-300 text-center">Delete</th> -->
+            <th class="w-20 border border-gray-300 text-center">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -47,7 +47,7 @@
               {{ item.item_gudang.kode_item }}
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_vendor"
                 :loading="isLoadingGetVendor"
                 :options="lookup_custom10.data"
@@ -78,7 +78,8 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <p>{{ item.nama_vendor }}</p>
             </td>
             <td class="border border-gray-300">
               <v-select
@@ -244,13 +245,13 @@
                 v-model="item.keterangan"
               ></textarea>
             </td>
-            <!-- <td class="text-center text-gray-600 border border-gray-300">
+            <td class="text-center text-gray-600 border border-gray-300">
               <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
                 @click="onDeleteItem(index)"
               ></i>
-            </td> -->
+            </td>
           </tr>
           <tr v-if="!self.form.biaya_inbounds.length > 0">
             <td colspan="100" class="text-center">

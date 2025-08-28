@@ -38,7 +38,7 @@
               class="w-[200px] border border-gray-300"
               v-if="self.form.sumber_data === 'ASN'"
             >
-              Dimensi
+              Peralatan
             </th>
             <th
               class="w-[200px] border border-gray-300"
@@ -237,16 +237,44 @@
                 v-model="item.tanggal_expired"
               />
             </td>
-            <td
-              class="border border-gray-300"
-              v-if="self.form.sumber_data === 'ASN'"
-            >
-              <div>
+            <td class="border border-gray-300">
+              <!-- <div>
                 <p v-if="item.panjang">Panjang: {{ item.panjang }}</p>
                 <p v-if="item.lebar">Lebar: {{ item.lebar }}</p>
                 <p v-if="item.tinggi">Tinggi: {{ item.tinggi }}</p>
                 <p v-if="item.berat">Berat: {{ item.berat }}</p>
-              </div>
+              </div> -->
+
+              <v-select
+                label="nama_peralatan"
+                :loading="isLoadingGetPeralatan"
+                :options="lookup_mesin.data"
+                :filterable="false"
+                @search="onGetPeralatan"
+                v-model="item.peralatan_id"
+                @input="(item) => onSelectPeralatan(item, index)"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_mesin.data.length || search"
+                >
+                  <span
+                    v-if="lookup_mesin.current_page > 1"
+                    @click="onGetPeralatan(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="lookup_mesin.last_page > lookup_mesin.current_page"
+                    @click="onGetPeralatan(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
             </td>
             <td
               class="border border-gray-300"
@@ -649,6 +677,10 @@ export default {
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
 
+      isStopSearchPeralatan: false,
+      isLoadingGetPeralatan: false,
+      peralatan_search: "",
+
       items: [],
     };
   },
@@ -676,6 +708,7 @@ export default {
       "lookup_warehouses",
       "lookup_products",
       "lookup_grade",
+      "lookup_mesin",
     ]),
 
     lookupItem() {
@@ -699,6 +732,7 @@ export default {
         item_id: "",
         serial_number: "",
         quantity: "",
+        peralatan_id: "",
         valuation_id: "",
         status_terima: "FULL",
         panjang: "",
@@ -1112,7 +1146,7 @@ export default {
       this.self.form.inbound_details[index].quantity_request =
         item.quantity_request;
       this.self.form.inbound_details[index].item_gudang_id = {
-        item_gudang_id: item.item_gudang_id,
+        item_gudang_id: item.item_gudang_id.item_gudang_id,
         item_id: item.item_id,
         nama_item: item.nama_item,
       };
@@ -1145,83 +1179,7 @@ export default {
         }
       }
 
-      const biaya = await this.$axios.get(
-        "/finance/kontrak-tkbm/get-kontrak-tkbm",
-        {
-          params: {
-            item_gudang_id: item.item_gudang_id.item_gudang_id,
-            gudang_id: this.self.form.gudang_id.gudang_id,
-            jenis: "inbound",
-          },
-        }
-      );
-
-      const tagihan = await this.$axios.get(
-        "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
-        {
-          params: {
-            item_gudang_id: item.item_gudang_id.item_gudang_id,
-            gudang_id: this.self.form.gudang_id.gudang_id,
-            jenis: "inbound",
-          },
-        }
-      );
-
-      if (
-        !this.self.form.biaya_inbounds.find(
-          (data) => data.item_gudang_id === item.item_gudang_id
-        )
-      ) {
-        biaya.data.forEach((data) => {
-          this.self.form.biaya_inbounds.push({
-            ...data,
-            item_gudang: data.item_gudang,
-            item_id: data.item_id,
-            item_gudang_id: data.item_gudang_id,
-            biaya_inbound_id: "",
-            jenis_biaya_id: data.jenis_biaya,
-            nominal_satuan: data.nilai_kontrak,
-            berat: data.item_gudang.berat_kotor,
-            volume: data.item_gudang.volume,
-            jumlah: 0,
-            total: 0,
-            divisi_id: data.divisi_id,
-            vendor_id: data.vendor,
-            coa_id: "",
-            dasar_perhitungan: data.dasar_perhitungan,
-            payable_to: data.payable_to,
-            pelanggan_id: data.pelanggan,
-          });
-        });
-      }
-
-      if (
-        !this.self.form.tagihan_inbounds.find(
-          (data) => data.item_gudang_id === item.item_gudang_id
-        )
-      ) {
-        tagihan.data.forEach((data) => {
-          this.self.form.tagihan_inbounds.push({
-            ...data,
-            tagihan_inbound_id: "",
-            item_gudang: data.item_gudang,
-            item_id: data.item_id,
-            item_gudang_id: data.item_gudang_id,
-            jenis_kontrak_id: data.jenis_kontrak,
-            divisi_id: data.divisi,
-            jenis_biaya_id: data.jenis_biaya,
-            mata_uang_id: data.mata_uang,
-            pembayaran_id: data.pembayaran,
-            term_pembayaran_id: data.term_pembayaran,
-            group_item_id: data.group_item,
-            nominal_satuan: data.nilai_kontrak,
-            jumlah: 0,
-            total: 0,
-            jenis: 0,
-            coa_id: "",
-          });
-        });
-      }
+      await this.generateBiayaTagihan(index);
     },
 
     // get alasan
@@ -1278,6 +1236,169 @@ export default {
         (data) => data.item_gudang_id == item.item_gudang_id.item_gudang_id
       );
       this.self.form.biaya_inbounds[index].jumlah = quantity;
+    },
+
+    onGetPeralatan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPeralatan);
+
+      this.isStopSearchPeralatan = setTimeout(() => {
+        this.peralatan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_mesin.current_page = isNext
+            ? this.lookup_mesin.current_page + 1
+            : this.lookup_mesin.current_page - 1;
+        } else {
+          this.lookup_mesin.current_page = 1;
+        }
+
+        this.onSearchPeralatan();
+      }, 600);
+    },
+
+    async onSearchPeralatan() {
+      if (!this.isLoadingGetPeralatan) {
+        this.isLoadingGetPeralatan = true;
+
+        await this.lookUp({
+          url: "master/peralatan/get-peralatan",
+          lookup: "mesin",
+          query:
+            "?search=" +
+            this.peralatan_search +
+            "&gudang_id=" +
+            this.self.form.gudang_id.gudang_id +
+            "&page=" +
+            this.lookup_mesin.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPeralatan = false;
+      }
+    },
+
+    async onSelectPeralatan(item, index) {
+      if (item) {
+        this.self.form.inbound_details[index].peralatan_id = item;
+        await this.generateBiayaTagihan(index);
+      } else {
+        this.self.form.inbound_details[index].peralatan_id = "";
+      }
+    },
+
+    async generateBiayaTagihan(index) {
+      const biaya = await this.$axios.get(
+        "/finance/kontrak-tkbm/get-kontrak-tkbm",
+        {
+          params: {
+            item_gudang_id:
+              this.self.form.inbound_details[index].item_gudang_id
+                .item_gudang_id ?? "",
+            peralatan_id:
+              typeof this.self.form.inbound_details[index].peralatan_id ===
+              "object"
+                ? this.self.form.inbound_details[index].peralatan_id
+                    .peralatan_id
+                : "",
+            vendor_id: this.self.form.vendor_id_transporter.vendor_id,
+            gudang_id: this.self.form.gudang_id.gudang_id,
+            jenis: "inbound",
+          },
+        }
+      );
+
+      const tagihan = await this.$axios.get(
+        "/finance/kontrak-tkbm-pelanggan/get-kontrak-tkbm",
+        {
+          params: {
+            item_gudang_id:
+              this.self.form.inbound_details[index].item_gudang_id
+                .item_gudang_id.item_gudang_id ?? "",
+            peralatan_id:
+              typeof this.self.form.inbound_details[index].peralatan_id ===
+              "object"
+                ? this.self.form.inbound_details[index].peralatan_id
+                    .peralatan_id
+                : "",
+            gudang_id: this.self.form.gudang_id.gudang_id,
+            jenis: "inbound",
+          },
+        }
+      );
+
+      // this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
+      //   (item) =>
+      //     item.item_gudang_id !==
+      //       this.self.form.inbound_details[index].item_gudang_id.item_gudang_id
+      //         .item_gudang_id
+      // );
+
+      if (
+        !this.self.form.biaya_inbounds.find(
+          (data) =>
+            data.item_gudang_id ===
+            this.self.form.inbound_details[index].item_gudang_id.item_gudang_id
+        )
+      ) {
+        biaya.data.forEach((data) => {
+          this.self.form.biaya_inbounds.push({
+            ...data,
+            item_gudang: data.item_gudang,
+            item_id: data.item_id,
+            item_gudang_id: data.item_gudang_id,
+            biaya_inbound_id: "",
+            jenis_biaya_id: data.jenis_biaya,
+            nominal_satuan: data.nilai_kontrak,
+            berat: data.item_gudang.berat_kotor,
+            volume: data.item_gudang.volume,
+            jumlah: parseFloat(
+              this.self.form.inbound_details[index].quantity_terima
+            ),
+            total: 0,
+            divisi_id: data.divisi,
+            vendor_id: data.vendor_id,
+            coa_id: "",
+            dasar_perhitungan: data.dasar_perhitungan,
+            payable_to: data.payable_to,
+            pelanggan_id: data.pelanggan,
+          });
+        });
+      }
+
+      if (
+        !this.self.form.tagihan_inbounds.find(
+          (data) =>
+            data.item_gudang_id ===
+            this.self.form.inbound_details[index].item_gudang_id.item_gudang_id
+        )
+      ) {
+        tagihan.data.forEach((data) => {
+          this.self.form.tagihan_inbounds.push({
+            ...data,
+            tagihan_inbound_id: "",
+            item_gudang: data.item_gudang,
+            item_id: data.item_id,
+            item_gudang_id: data.item_gudang_id,
+            jenis_kontrak_id: data.jenis_kontrak,
+            divisi_id: data.divisi,
+            jenis_biaya_id: data.jenis_biaya,
+            mata_uang_id: data.mata_uang,
+            pembayaran_id: data.pembayaran,
+            term_pembayaran_id: data.term_pembayaran,
+            group_item_id: data.group_item,
+            nominal_satuan: data.nilai_kontrak,
+            jumlah: parseFloat(
+              this.self.form.inbound_details[index].quantity_terima
+            ),
+            total: 0,
+            jenis: 0,
+            coa_id: "",
+            pelanggan_id: data.pelanggan ?? "",
+          });
+        });
+      }
     },
   },
 };
