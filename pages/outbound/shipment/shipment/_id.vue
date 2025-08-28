@@ -165,6 +165,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :disabled="true"
                 />
               </ValidationProvider>
               <div class="flex px-1 items-center">
@@ -434,7 +435,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchPengemudi();
     await this.onSearchKendaraan();
-    await this.onSearchJenisKendaraan();
+    // await this.onSearchJenisKendaraan();
     await this.onSearchUser();
     await this.onSearchStaff();
 
@@ -955,8 +956,10 @@ export default {
     onSelectKendaraan(item) {
       if (item) {
         this.parameters.form.kendaraan_id = item;
+        this.parameters.form.jenis_kendaraan_id = item.jenis_kendaraan;
       } else {
         this.parameters.form.kendaraan_id = "";
+        this.parameters.form.jenis_kendaraan_id = "";
       }
     },
 

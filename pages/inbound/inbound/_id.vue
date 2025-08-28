@@ -259,7 +259,7 @@
 
                 <select-button
                   :self="{
-                    label: 'Staff',
+                    label: 'Operator',
                     optionLabel: 'nama_lengkap',
                     isLoading: isLoadingGetStaff,
                     lookup: lookup_custom8,
@@ -272,7 +272,7 @@
                 />
                 <select-button
                   :self="{
-                    label: 'Vendor Transporter',
+                    label: 'Vendor Operator',
                     optionLabel: 'nama_vendor',
                     isLoading: isLoadingGetVendor,
                     lookup: lookup_custom9,
@@ -868,7 +868,7 @@ export default {
           valuation_id: item.valuation_id ?? "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id ?? ""
+              ? item.item_gudang_id.item_gudang_id.item_gudang_id ?? ""
               : item.item_gudang_id ?? "",
           item_id:
             typeof item.item_id === "object"

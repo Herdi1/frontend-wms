@@ -334,7 +334,7 @@
                 <div class="form-group mb-5" slot-scope="{ errors, valid }">
                   <select-button
                     :self="{
-                      label: 'Staff',
+                      label: 'Pengemudi',
                       optionLabel: 'nama_lengkap',
                       lookup: lookup_custom3,
                       value: parameters.form.staff_id,

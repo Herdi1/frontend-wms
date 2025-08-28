@@ -131,9 +131,9 @@
                   <th class="w-[5%] border border-gray-300 text-center">
                     Edit
                   </th>
-                  <th class="w-[5%] border border-gray-300 text-center">
+                  <!-- <th class="w-[5%] border border-gray-300 text-center">
                     Delete
-                  </th>
+                  </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -156,12 +156,12 @@
                   <td class="border border-gray-300 place-items-center">
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="border border-gray-300 place-items-center">
+                  <!-- <td class="border border-gray-300 place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                     />
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

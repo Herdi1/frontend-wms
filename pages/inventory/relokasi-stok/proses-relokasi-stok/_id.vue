@@ -131,7 +131,7 @@
               <div class="form-group">
                 <select-button
                   :self="{
-                    label: 'Staff',
+                    label: 'Petugas',
                     optionLabel: 'nama_lengkap',
                     lookup: lookup_customers,
                     value: parameters.form.staff_id,
@@ -144,7 +144,7 @@
                   :required="true"
                 />
               </div>
-              <div class="form-group" v-if="parameters.form.staff_id">
+              <div class="form-group" v-if="parameters.form.vendor_id">
                 <input-horizontal
                   :disabled="true"
                   :isHorizontal="true"

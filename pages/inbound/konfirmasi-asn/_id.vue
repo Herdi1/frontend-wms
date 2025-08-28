@@ -196,7 +196,7 @@
                 </div>
                 <div v-if="form.staff">
                   <input-horizontal
-                    label="Staff"
+                    label="Pengemudi"
                     type="text"
                     name="staff"
                     :disabled="true"
