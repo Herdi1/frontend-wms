@@ -2,10 +2,9 @@
   <section class="section min-h-screen">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
-        <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data
+        <h1 class="text-xl font-bold mb-2 uppercase">
+          Detaili Kontrak Bongkar Tujuan
         </h1>
-        <h1 v-else class="text-xl font-bold mb-2 uppercase">Tambah Data</h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
           Kembali

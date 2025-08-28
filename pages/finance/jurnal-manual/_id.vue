@@ -48,9 +48,8 @@
                         :filterable="false"
                         @search="onGetGudang"
                         v-model="form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
                         class="w-1/2"
-                        @input="onSearchZonaGudang"
+                        @input="onSelectGudang"
                       >
                         <template slot="selected-option" slot-scope="option">
                           <div
@@ -155,14 +154,14 @@
                             Jenis Biaya
                           </th>
                           <th class="w-[200px] border border-gray-300">
-                            Zona Gudang
+                            Peralatan
                           </th>
-                          <th
+                          <!-- <th
                             v-if="!user.gudang_id"
                             class="w-[200px] border border-gray-300"
                           >
                             Profit & Cost Center
-                          </th>
+                          </th> -->
                           <th class="w-[200px] border border-gray-300">
                             Keterangan
                           </th>
@@ -257,7 +256,6 @@
                               :options="lookup_custom3.data"
                               :filterable="false"
                               @search="onGetDivisi"
-                              :reduce="(item) => item.divisi_id"
                               v-model="item.divisi_id"
                               class="w-full"
                             >
@@ -302,7 +300,6 @@
                               :options="lookup_custom4.data"
                               :filterable="false"
                               @search="onGetKendaraan"
-                              :reduce="(item) => item.kendaraan_id"
                               v-model="item.kendaraan_id"
                               class="w-full"
                             >
@@ -347,7 +344,6 @@
                               :options="lookup_suppliers.data"
                               :filterable="false"
                               @search="onGetJenisBiaya"
-                              :reduce="(item) => item.jenis_biaya_id"
                               v-model="item.jenis_biaya_id"
                               class="w-full"
                             >
@@ -387,13 +383,12 @@
                           </td>
                           <td class="border border-gray-300">
                             <v-select
-                              label="nama_zona_gudang"
+                              label="nama_peralatan"
                               :loading="isLoadingGetZonaGudang"
                               :options="lookup_resellers.data"
                               :filterable="false"
                               @search="onGetZonaGudang"
-                              :reduce="(item) => item.zona_gudang_id"
-                              v-model="item.zona_gudang_id"
+                              v-model="item.peralatan_id"
                               class="w-full"
                             >
                               <template
@@ -403,7 +398,7 @@
                                 <div
                                   class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
                                 >
-                                  {{ option.nama_zona_gudang }}
+                                  {{ option.nama_peralatan }}
                                 </div>
                               </template>
                               <li
@@ -430,7 +425,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <td
+                          <!-- <td
                             v-if="!user.gudang_id"
                             class="border border-gray-300"
                           >
@@ -446,23 +441,6 @@
                                 v-model="item.profit_center_id"
                                 class="w-full"
                               >
-                                <!-- <template slot="option" slot-scope="option">
-                                  {{
-                                    option.wilayah.nama_wilayah +
-                                    " - " +
-                                    option.kode_profit_center
-                                  }}
-                                </template>
-                                <template
-                                  slot="selected-option"
-                                  slot-scope="option"
-                                >
-                                  {{
-                                    option.wilayah.nama_wilayah +
-                                    " - " +
-                                    option.kode_profit_center
-                                  }}
-                                </template> -->
                                 <template
                                   slot="selected-option"
                                   slot-scope="option"
@@ -509,23 +487,6 @@
                                 v-model="item.cost_center_id"
                                 class="w-full"
                               >
-                                <!-- <template slot="option" slot-scope="option">
-                                  {{
-                                    option.wilayah.nama_wilayah +
-                                    " - " +
-                                    option.kode_cost_center
-                                  }}
-                                </template>
-                                <template
-                                  slot="selected-option"
-                                  slot-scope="option"
-                                >
-                                  {{
-                                    option.wilayah.nama_wilayah +
-                                    " - " +
-                                    option.kode_cost_center
-                                  }}
-                                </template> -->
                                 <template
                                   slot="selected-option"
                                   slot-scope="option"
@@ -560,7 +521,7 @@
                                 </li>
                               </v-select>
                             </div>
-                          </td>
+                          </td> -->
                           <td class="border border-gray-300">
                             <textarea
                               name="keterangan"
@@ -747,15 +708,17 @@ export default {
           }
         });
 
+        this.form.gudang_id = response.data.gudang ?? "";
+
         this.form.jurnal_details = response.data.jurnal_details.map((item) => {
           return {
             ...item,
-            jurnal_details_id: item || null,
+            jurnal_details_id: item || "",
             coa_id: item.coa || "",
-            jenis_biaya_id: item.jenis_biaya_id || "",
-            divisi_id: item.divisi_id || "",
-            kendaraan_id: item.kendaraan_id || "",
-            zona_gudang_id: item.zona_gudang_id || "",
+            jenis_biaya_id: item.jenis_biaya || "",
+            divisi_id: item.divisi || "",
+            kendaraan_id: item.kendaraan || "",
+            peralatan_id: item.peralatan || "",
           };
         });
 
@@ -773,8 +736,8 @@ export default {
     await this.onSearchKendaraan();
     await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
-    await this.onSearchProfit();
-    await this.onSearchCost();
+    // await this.onSearchProfit();
+    // await this.onSearchCost();
   },
 
   computed: {
@@ -820,13 +783,18 @@ export default {
 
       let url = "finance/jurnal";
 
-      if (this.user.gudang_id) {
-        this.form.gudang_id = this.user.gudang_id;
-      }
+      // if (this.user.gudang_id) {
+      //   this.form.gudang_id = this.user.gudang_id;
+      // }
 
       let formData = {
         ...this.form,
       };
+
+      formData.gudang_id =
+        typeof this.form.gudang_id === "object"
+          ? this.form.gudang_id.gudang_id
+          : this.form.gudang_id;
 
       formData.jurnal_details = formData.jurnal_details.map((item) => {
         return {
@@ -834,15 +802,29 @@ export default {
           jurnal_detail_id:
             typeof item.jurnal_detail_id == "object"
               ? item.jurnal_detail_id.jurnal_detail_id
-              : item.jurnal_detail_id,
+              : "",
           coa_id:
-            typeof item.coa_id == "object" ? item.coa_id.coa_id : item.coa_id,
-          jenis_biaya_id: item.jenis_biaya_id || "",
-          divisi_id: item.divisi_id || "",
-          kendaraan_id: item.kendaraan_id || "",
-          zona_gudang_id: item.zona_gudang_id || "",
-          profit_center_id: item.profit_center_id || "",
-          cost_center_id: item.cost_center_id || "",
+            typeof item.coa_id == "object"
+              ? item.coa_id.coa_id ?? ""
+              : item.coa_id ?? "",
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id == "object"
+              ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+              : item.jenis_biaya_id ?? "",
+          divisi_id:
+            typeof item.divisi_id == "object"
+              ? item.divisi_id.divisi_id ?? ""
+              : item.divisi_id ?? "",
+          kendaraan_id:
+            typeof item.kendaraan_id == "object"
+              ? item.kendaraan_id.kendaraan_id ?? ""
+              : item.kendaraan_id ?? "",
+          peralatan_id:
+            typeof item.peralatan_id == "object"
+              ? item.peralatan_id.peralatan_id ?? ""
+              : item.peralatan_id ?? "",
+          // profit_center_id: item.profit_center_id || "",
+          // cost_center_id: item.cost_center_id || "",
         };
       });
 
@@ -886,7 +868,7 @@ export default {
         jurnal_details_id: null,
         coa_id: null,
         divisi_id: null,
-        zona_gudang_id: null,
+        peralatan_id: null,
         tipe: null,
         jumlah: 0,
         keterangan: null,
@@ -911,8 +893,8 @@ export default {
       await this.onSearchKendaraan();
       await this.onSearchJenisBiaya();
       await this.onSearchZonaGudang();
-      await this.onSearchProfit();
-      await this.onSearchCost();
+      // await this.onSearchProfit();
+      // await this.onSearchCost();
     },
 
     //gudang
@@ -952,6 +934,17 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    async onSelectGudang(item) {
+      if (item) {
+        this.form.gudang_id = item;
+        this.form.jurnal_details = [];
+        await this.onSearchZonaGudang();
+      } else {
+        this.form.gudang_id = "";
+        this.form.jurnal_details = [];
       }
     },
 
@@ -1141,13 +1134,13 @@ export default {
         this.isLoadingGetZonaGudang = true;
 
         await this.lookUp({
-          url: "master/zona-gudang/get-zona-gudang",
+          url: "master/peralatan/get-peralatan",
           lookup: "resellers",
           query:
             "?search=" +
             this.zona_gudang_search +
             "&gudang_id=" +
-            this.form.gudang_id +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",

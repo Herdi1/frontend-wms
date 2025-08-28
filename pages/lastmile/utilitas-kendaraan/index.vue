@@ -347,7 +347,7 @@ export default {
   },
 
   async mounted() {
-    this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isExport = true;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
     this.$refs["form-option"].isAddData = false;
@@ -647,6 +647,19 @@ export default {
     getPresentase(item) {
       let presentase = (item.total_realisasi / item.standar_waktu_kerja) * 100;
       return presentase;
+    },
+
+    onPrintUtilitasKendaraan(item) {
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "utilitas-kendaraan/get-print-detail" +
+          item.shipment_id +
+          "?token=" +
+          token +
+          "&type=spj-detail",
+        "_blank"
+      );
     },
   },
 };

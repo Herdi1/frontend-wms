@@ -696,7 +696,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
-    await this.onSearchPeralatan();
+    // await this.onSearchPeralatan();
     await this.onSearchVendor();
     await this.onSearchStaff();
 
@@ -1385,6 +1385,7 @@ export default {
         await this.onSearchAsn();
         await this.onSearchItemGudang();
         await this.onSearchPurchaseOrder();
+        await this.onSearchPeralatan();
       } else {
         this.form.gudang_id = "";
       }
@@ -1610,6 +1611,8 @@ export default {
           query:
             "?search=" +
             this.peralatan_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom10.current_page +
             "&per_page=10",

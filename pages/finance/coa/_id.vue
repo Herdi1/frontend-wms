@@ -144,6 +144,7 @@
                     >
                       <option value="UMUM">Umum</option>
                       <option value="SPESIFIK">Spesifik Gudang</option>
+                      <option value="PUSAT">Pusat</option>
                     </select>
                   </div>
                 </ValidationProvider>

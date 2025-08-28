@@ -63,8 +63,8 @@
             {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
           </td>
 
-          <td class="border border-gray-300">
-            {{ item.nilai_kontrak ? item.nilai_kontrak : "-" }}
+          <td class="border border-gray-300 text-right">
+            {{ item.nilai_kontrak ? item.nilai_kontrak : 0 | formatPrice }}
           </td>
         </tr>
       </tbody>

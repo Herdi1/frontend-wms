@@ -299,6 +299,7 @@
                   <th class="w-52 border border-gray-300">Kendaraan</th>
                   <th class="w-52 border border-gray-300">Staff</th>
                   <th class="w-20 border border-gray-300">Cetak SPJ</th>
+                  <th class="w-20 border border-gray-300">Cetak SPJ Header</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -422,6 +423,15 @@
                       type="button"
                       @click="onPrintSpj(item)"
                       class="px-2 py-1 rounded-md bg-blue-500 hover:bg-blue-400 text-white text-enter text-lg"
+                    >
+                      <i class="fa fa-book"></i>
+                    </button>
+                  </td>
+                  <td class="text-center border border-gray-300">
+                    <button
+                      type="button"
+                      @click="onPrintSpjHeader(item)"
+                      class="px-2 py-1 rounded-md bg-orange-500 hover:bg-orange-400 text-white text-enter text-lg"
                     >
                       <i class="fa fa-book"></i>
                     </button>
@@ -755,7 +765,21 @@ export default {
           "outbound/shipment/get-print-detail/" +
           item.shipment_id +
           "?token=" +
-          token,
+          token +
+          "&type=spj-detail",
+        "_blank"
+      );
+    },
+
+    onPrintSpjHeader(item) {
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "outbound/shipment/get-print-detail/" +
+          item.shipment_id +
+          "?token=" +
+          token +
+          "&type=spj",
         "_blank"
       );
     },

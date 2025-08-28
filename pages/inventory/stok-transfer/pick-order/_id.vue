@@ -380,7 +380,7 @@ export default {
     await this.onSearchUser();
     await this.onSearchGudang();
     await this.onSearchStaff();
-    await this.onSearchPeralatan();
+    // await this.onSearchPeralatan();
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -622,6 +622,8 @@ export default {
           query:
             "?search=" +
             this.peralatan_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",
@@ -679,11 +681,14 @@ export default {
       }
     },
 
-    onSelectGudang(item) {
+    async onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        this.form.peralatan_id = "";
+        await this.onSearchPeralatan();
       } else {
         this.form.gudang_id = "";
+        this.form.peralatan_id = "";
       }
     },
 
