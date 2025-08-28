@@ -97,6 +97,19 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Status Inspeksi</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_inspeksi"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="DITERIMA">Diterima</option>
+                    <option value="DITOLAK">Ditolak</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -275,7 +288,7 @@ export default {
   mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isAddData = false;
 
     if (
@@ -284,7 +297,7 @@ export default {
       this.getRoles.restore ||
       this.getRoles.restore_all
     ) {
-      this.$refs["form-option"].isMaintenancePage = true;
+      this.$refs["form-option"].isMaintenancePage = false;
     }
 
     if (this.getRoles.store) {
@@ -292,10 +305,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -305,7 +318,7 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
   },
 
@@ -332,6 +345,7 @@ export default {
           start_date: "",
           end_data: "",
           gudang_id: "",
+          status_inspeksi: "",
         },
         form: {
           status_inspeksi: "",
@@ -408,9 +422,9 @@ export default {
       return `${day}-${month}-${year}`;
     },
 
-    onFormShow() {
-      this.$router.push("/inbound/inspeksi-asn/add");
-    },
+    // onFormShow() {
+    //   this.$router.push("/inbound/inspeksi-asn/add");
+    // },
 
     onEdit(item) {
       this.$router.push("/inbound/inspeksi-asn/" + item.asn_id);

@@ -166,17 +166,27 @@
                   />
                 </div>
                 <div class="flex w-full items-center" v-if="form.kendaraan">
-                  <label class="w-1/2">Kendaraan</label>
+                  <label class="w-1/2">Nama Kendaraan</label>
                   <div
                     class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
                   >
-                    {{
-                      form.kendaraan
-                        ? form.kendaraan.kode_kendaraan +
-                          " - " +
-                          form.kendaraan.nama_kendaraan
-                        : "-"
-                    }}
+                    {{ form.kendaraan ? form.kendaraan.nama_kendaraan : "-" }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center" v-if="form.kendaraan">
+                  <label class="w-1/2">Kode Kendaraan</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.kendaraan ? form.kendaraan.kode_kendaraan : "-" }}
+                  </div>
+                </div>
+                <div class="flex w-full items-center" v-if="form.kendaraan">
+                  <label class="w-1/2">Plat Nomor</label>
+                  <div
+                    class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                  >
+                    {{ form.kendaraan ? form.kendaraan.plat_nomor : "-" }}
                   </div>
                 </div>
                 <div v-if="form.staff">

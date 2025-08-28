@@ -97,6 +97,20 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Status Put Away</b></div>
+
+                  <select
+                    class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                    name="status_selesai"
+                    id="status_selesai"
+                    v-model="parameters.params.status_put_away"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -156,6 +170,7 @@
                     </div>
                   </th>
                   <th class="border border-gray-300">Gudang</th>
+                  <th class="border border-gray-300">Status Put Away</th>
                   <th class="border border-gray-300">Nomor Referensi</th>
                   <th class="border border-gray-300">Tanggal</th>
                   <th class="w-[5%] border border-gray-300">Cetak Label</th>
@@ -200,6 +215,38 @@
                   </td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_put_away === 'MENUNGGU'">
+                        <p
+                          class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === 'SELESAI'">
+                        <p
+                          class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_put_away === null">
+                        <p
+                          class="p-1 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_put_away }}
+                        </p>
+                      </span>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     <div>
@@ -330,6 +377,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_put_away: "",
         },
         form: {
           inbound_id: "",
