@@ -97,6 +97,18 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Status ASN</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_masuk_gudang"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Open</option>
+                    <option value="1">Close</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -118,6 +130,8 @@
             >
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-20 border border-gray-300">Edit</th>
+
                   <th class="border border-gray-300 w-20">Details</th>
 
                   <th class="w-20 border border-gray-300">No</th>
@@ -223,16 +237,32 @@
 
                   <th class="w-52 border border-gray-300">Kode PO</th>
                   <th class="w-52 border border-gray-300">Gudang</th>
+                  <th class="w-52 border border-gray-300">Status ASN</th>
                   <th class="w-52 border border-gray-300">Vendor</th>
                   <th class="w-52 border border-gray-300">Surat Jalan</th>
                   <th class="w-52 border border-gray-300">Kendaraan</th>
                   <th class="w-52 border border-gray-300">Staff</th>
-                  <th class="w-20 border border-gray-300">Edit</th>
+                  <th class="w-52 border border-gray-300">Status Inspeksi</th>
+                  <th class="w-52 border border-gray-300">Status Konfirmasi</th>
+                  <th class="w-52 border border-gray-300">Status Bongkar</th>
                   <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="
+                        item.status_masuk_gudang === '1' ||
+                        item.status_bongkar === 'PROSES' ||
+                        item.status_bongkar === 'SELESAI' ||
+                        item.status_bongkar === 'BATAL'
+                      "
+                    />
+                  </td>
                   <td
                     class="text-center place-items-center border border-gray-300"
                   >
@@ -269,6 +299,20 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_masuk_gudang === '0'"
+                      class="p-1 w-1/2 rounded-md bg-green-500 font-semibold text-white text-center"
+                    >
+                      <p>OPEN</p>
+                    </div>
+                    <div
+                      v-if="item.status_masuk_gudang === '1'"
+                      class="bg-orange-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>CLOSE</p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
                     {{
                       item.vendor_transporter
                         ? item.vendor_transporter.nama_vendor
@@ -294,19 +338,97 @@
                         : "-"
                     }}
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="
-                        item.status_masuk_gudang === '1' ||
-                        item.status_bongkar === 'PROSES' ||
-                        item.status_bongkar === 'SELESAI' ||
-                        item.status_bongkar === 'BATAL'
-                      "
-                    />
+                  <td class="border border-gray-300">
+                    <!-- <p
+                      class="text-green-500"
+                      v-if="item.status_konfirmasi == 1"
+                    >
+                      Dikonfirmasi
+                    </p>
+                    <p class="text-red-500" v-else>Pending</p> -->
+                    <span v-if="item.status_inspeksi === 'MENUNGGU'">
+                      <p
+                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_inspeksi }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_inspeksi === 'DITERIMA'">
+                      <p
+                        class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_inspeksi }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_inspeksi === 'DITOLAK'">
+                      <p
+                        class="bg-red-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_inspeksi }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_inspeksi === null">
+                      <p
+                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_inspeksi }}
+                      </p>
+                    </span>
                   </td>
+                  <td class="border border-gray-300">
+                    <span v-if="item.status_konfirmasi == 1">
+                      <p
+                        class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        KONFIRMASI
+                      </p>
+                    </span>
+                    <span v-else>
+                      <p
+                        class="bg-red-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        PENDING
+                      </p>
+                    </span>
+                  </td>
+                  <td class="border border-gray-300">
+                    <!-- <p
+                      class="text-green-500"
+                      v-if="item.status_konfirmasi == 1"
+                    >
+                      Dikonfirmasi
+                    </p>
+                    <p class="text-red-500" v-else>Pending</p> -->
+                    <span v-if="item.status_bongkar === 'MENUNGGU'">
+                      <p
+                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_bongkar }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_bongkar === 'SELESAI'">
+                      <p
+                        class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_bongkar }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_bongkar === 'PROSES'">
+                      <p
+                        class="bg-purple-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_bongkar }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_bongkar === null">
+                      <p
+                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                      >
+                        {{ item.status_bongkar }}
+                      </p>
+                    </span>
+                  </td>
+
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -415,6 +537,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_masuk_gudang: "",
         },
         form: {
           gudang_id: "",

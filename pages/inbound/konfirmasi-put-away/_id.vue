@@ -81,6 +81,12 @@
                     :required="false"
                   />
                 </div>
+                <div class="flex w-full items-center">
+                  <label class="w-1/2">Tanggal Put Away</label>
+                  <div class="border border-gray-300 rounded-md p-1 w-1/2">
+                    {{ form.tanggal_put_away ? form.tanggal_put_away : "-" }}
+                  </div>
+                </div>
                 <div>
                   <input-horizontal
                     label="Doc Type External"
@@ -323,6 +329,7 @@ export default {
         kode_tkbm: "",
         doc_type_sap: "",
         tanggal: "",
+        tanggal_put_away: "",
         kode_inbound: "",
         no_referensi_1: "",
         no_referensi_2: "",
@@ -350,6 +357,8 @@ export default {
         kode_tkbm: "",
         doc_type_sap: "",
         tanggal: "",
+        tanggal_put_away: "",
+
         kode_inbound: "",
         no_referensi_1: "",
         no_referensi_2: "",
@@ -396,7 +405,7 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // this.$router.back();
+      this.$router.back();
       console.log("error", error);
     }
   },

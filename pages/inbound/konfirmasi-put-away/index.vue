@@ -106,7 +106,6 @@
                     id="status_selesai"
                     v-model="parameters.params.status_put_away"
                   >
-                    <option value=""></option>
                     <option value="MENUNGGU">Menunggu</option>
                     <option value="PROSES">Proses</option>
                     <option value="SELESAI">Selesai</option>

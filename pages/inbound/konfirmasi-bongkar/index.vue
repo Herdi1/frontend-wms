@@ -97,6 +97,19 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Status Bongkar</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_bongkar"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -328,6 +341,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_bongkar: "",
         },
         form: {
           status_bongkar: "",

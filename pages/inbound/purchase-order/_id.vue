@@ -353,7 +353,7 @@
                   <th class="w-60 border border-gray-300">Item Gudang</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-40 border border-gray-300">Quantity</th>
-                  <th class="w-40 border border-gray-300">Serial Number</th>
+                  <!-- <th class="w-40 border border-gray-300">Serial Number</th> -->
                   <th class="w-40 border border-gray-300">Nomor Referensi</th>
                   <th class="w-40 border border-gray-300">Dimensi</th>
                   <!-- <th class="w-40 border border-gray-300">Lebar</th>
@@ -468,7 +468,7 @@
                       "
                     />
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     <input-form
                       label=""
                       type="text"
@@ -476,7 +476,7 @@
                       :required="false"
                       v-model="item.serial_number"
                     />
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300">
                     <input-form
                       label=""

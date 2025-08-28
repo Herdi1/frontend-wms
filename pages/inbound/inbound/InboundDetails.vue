@@ -472,33 +472,16 @@
             </td>
             <td class="border border-gray-300">
               <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_slot_penyimpanan"
                 :loading="isLoadingGetSlotBin"
                 :options="lookup_custom5.data"
                 :filterable="false"
-                @search="onGetSlotBin(index)"
+                @search="onGetSlotBin"
                 v-model="item.slot_penyimpanan_id_bin"
                 @input="(item) => onSelectBin(item, index)"
-                class="w-full"
               >
-                <template slot="option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
-                </template>
-                <template slot="selected-option" slot-scope="option">
-                  <div
-                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >
-                    {{
-                      option.nama_slot_penyimpanan +
-                      " - " +
-                      option.kode_slot_penyimpanan
-                    }}
-                  </div>
-                </template>
+                <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -507,7 +490,7 @@
                 >
                   <span
                     v-if="lookup_custom5.current_page > 1"
-                    @click="onGetSlotBin(index, search, false)"
+                    @click="onGetSlotBin(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
@@ -515,7 +498,7 @@
                     v-if="
                       lookup_custom5.last_page > lookup_custom5.current_page
                     "
-                    @click="onGetSlotBin(index, search, true)"
+                    @click="onGetSlotBin(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -838,8 +821,11 @@ export default {
         this.self.form.inbound_details[index].slot_penyimpanan_id_aisle = "";
         await this.onSearchSlotAisle(index);
       } else {
-        this.self.form.inbound_details[index].zona_gudang_id = "";
+        this.self.form.inbound_details[index].zona_gudang_id = null;
         this.self.form.inbound_details[index].slot_penyimpanan_id_aisle = "";
+
+        // Force update UI
+        this.$forceUpdate();
       }
     },
 
@@ -1072,6 +1058,7 @@ export default {
     async onSelectBin(item, index) {
       if (item) {
         this.self.form.inbound_details[index].slot_penyimpanan_id_bin = item;
+        console.log(item);
       } else {
         this.self.form.inbound_details[index].slot_penyimpanan_id_bin = "";
       }
@@ -1136,7 +1123,25 @@ export default {
           `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`
         );
         if (rekomendasiZona.data.length > 0) {
-          this.onSelectZona(rekomendasiZona.data[0], index);
+          const selectedZona = rekomendasiZona.data[0];
+
+          // PENTING: Pastikan item ada di options sebelum set
+          const existingIndex = this.lookup_custom1.data.findIndex(
+            (item) => item.zona_gudang_id === selectedZona.zona_gudang_id
+          );
+
+          if (existingIndex === -1) {
+            // Tambahkan ke options
+            this.lookup_custom1.data.unshift(selectedZona);
+          }
+
+          // Gunakan referensi yang sama dengan yang ada di options
+          const itemFromOptions =
+            existingIndex >= 0
+              ? this.lookup_custom1.data[existingIndex]
+              : this.lookup_custom1.data[0]; // yang baru saja ditambahkan
+
+          this.onSelectZona(itemFromOptions, index);
         }
       }
 

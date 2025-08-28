@@ -98,17 +98,18 @@
                   </v-select>
                 </div>
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2"><b>Status ASN</b></div>
+                  <div class="mb-3 w-1/2">
+                    <b>Status <Konfirmasi></Konfirmasi></b>
+                  </div>
 
                   <select
                     class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
                     name="status_selesai"
                     id="status_selesai"
-                    v-model="parameters.params.status_masuk_gudang"
+                    v-model="parameters.params.status_konfirmasi"
                   >
-                    <option value=""></option>
-                    <option value="0">Open</option>
-                    <option value="1">Close</option>
+                    <option value="1">Konfirmasi</option>
+                    <option value="0">Pending</option>
                   </select>
                 </div>
               </div>
@@ -415,7 +416,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          status_masuk_gudang: "",
+          status_konfirmasi: "",
         },
         form: {
           status_konfirmasi: "",

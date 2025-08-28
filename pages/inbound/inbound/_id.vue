@@ -868,7 +868,7 @@ export default {
           valuation_id: item.valuation_id ?? "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id ?? ""
+              ? item.item_gudang_id.item_gudang_id.item_gudang_id ?? ""
               : item.item_gudang_id ?? "",
           item_id:
             typeof item.item_id === "object"

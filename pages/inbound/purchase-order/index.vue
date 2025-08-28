@@ -198,7 +198,7 @@
                   <td class="text-center border border-gray-300">
                     <button
                       @click="onGenerate(item)"
-                      class="text-white p-1 rounded-md bg-orange-500 px-3"
+                      class="text-white p-1 rounded-md px-3"
                       :class="
                         item.status_selesai === '1'
                           ? 'bg-gray-200 cursor-not-allowed'
