@@ -83,27 +83,49 @@
                   :disabled="true"
                 />
               </div>
-              <div>
-                <input-horizontal
-                  label="Lokasi Asal"
-                  type="text"
-                  name="lokasi_asal"
-                  :isHorizontal="true"
-                  v-model="parameters.form.lokasi_asal.nama_lokasi"
-                  :required="false"
-                  :disabled="true"
-                />
+              <div class="flex w-full items-center mb-2">
+                <label class="w-1/2">Lokasi Asal</label>
+                <div
+                  class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                >
+                  {{
+                    parameters.form.lokasi_asal
+                      ? parameters.form.lokasi_asal.nama_lokasi
+                      : "-"
+                  }}
+                  ({{
+                    parameters.form.lokasi_asal
+                      ? parameters.form.lokasi_asal.latitude
+                      : "-"
+                  }},
+                  {{
+                    parameters.form.lokasi_asal
+                      ? parameters.form.lokasi_asal.longitude
+                      : "-"
+                  }})
+                </div>
               </div>
-              <div>
-                <input-horizontal
-                  label="Lokasi Tujuan"
-                  type="text"
-                  name="lokasi_tujuan"
-                  :isHorizontal="true"
-                  v-model="parameters.form.lokasi_tujuan.nama_lokasi"
-                  :required="false"
-                  :disabled="true"
-                />
+              <div class="flex w-full items-center mb-2">
+                <label class="w-1/2">Lokasi Tujuan</label>
+                <div
+                  class="border border-gray-300 bg-gray-50 rounded-md p-1 w-1/2"
+                >
+                  {{
+                    parameters.form.lokasi_tujuan
+                      ? parameters.form.lokasi_tujuan.nama_lokasi
+                      : "-"
+                  }}
+                  ({{
+                    parameters.form.lokasi_tujuan
+                      ? parameters.form.lokasi_tujuan.latitude
+                      : "-"
+                  }},
+                  {{
+                    parameters.form.lokasi_tujuan
+                      ? parameters.form.lokasi_tujuan.longitude
+                      : "-"
+                  }})
+                </div>
               </div>
             </div>
             <div class="table-responsive my-2" v-if="lookup_custom6.length > 0">

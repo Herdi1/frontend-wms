@@ -122,6 +122,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :required="true"
                 />
               </div>
               <!-- <ValidationProvider name="vendor">

@@ -37,6 +37,7 @@
           >
             <thead>
               <tr class="uppercase">
+                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Detail</th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th
@@ -72,19 +73,159 @@
                     </div>
                   </div>
                 </th>
-                <!-- <th class="w-40 border border-gray-300">Vendor</th> -->
-                <th class="w-40 border border-gray-300">Status</th>
+                <th class="w-40 border border-gray-300">Pelanggan</th>
+                <th
+                  class="w-48 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'status',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Status</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'status' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'status' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th class="w-40 border border-gray-300">PIC Kontrak</th>
-                <th class="w-40 border border-gray-300">Tanggal Kontrak</th>
-                <th class="w-40 border border-gray-300">Tanggal Aktif</th>
-                <th class="w-40 border border-gray-300">Tanggal Expired</th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_berlaku',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Berlaku</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="w-56 border border-gray-300 cursor-pointer"
+                  @click="
+                    onSort(
+                      'tanggal_berhenti',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                >
+                  <div
+                    class="flex justify-between items-baseline cursor-pointer"
+                  >
+                    <div>Tanggal Berhenti</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <th class="w-40 border border-gray-300">Keterangan</th>
-                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td
+                  class="text-center place-items-center border border-gray-300"
+                >
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td
                   class="text-center place-items-center border border-gray-300"
                 >
@@ -112,21 +253,21 @@
                     <i>Dibuat oleh: Sistem</i>
                   </p>
                 </td>
-                <!-- <td class="border border-gray-300">
-                  {{ item.vendor ? item.vendor.nama_vendor : "-" }}
-                </td> -->
+                <td class="border border-gray-300">
+                  {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
+                </td>
                 <td class="border border-gray-300">
                   <span
                     v-if="item.status === 'PENDING'"
                     class="p-1 rounded-md text-white bg-orange-400"
                   >
-                    Menunggu
+                    {{ item.status }}
                   </span>
                   <span
                     v-if="item.status === 'APPROVE'"
                     class="p-1 rounded-md text-white bg-green-400"
                   >
-                    Disetujui
+                    {{ item.status }}
                   </span>
                 </td>
                 <td class="border border-gray-300">
@@ -147,11 +288,7 @@
                 </td>
 
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
-                <td
-                  class="text-center place-items-center border border-gray-300"
-                >
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td
                   class="text-center place-items-center border border-gray-300"
                 >

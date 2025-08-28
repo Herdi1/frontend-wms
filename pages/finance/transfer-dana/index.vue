@@ -24,10 +24,188 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="w-full mt-3 mb-7">
-            <div
-              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
-            ></div>
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              ref="formContainer"
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+            >
+              <thead>
+                <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_transfer_dana',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Kode Transfer Dana</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_transfer_dana' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_transfer_dana' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Coa</th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Total Transfer</th>
+                  <th class="w-48 border border-gray-300">No Referensi</th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-20 text-center border border-gray-300">Hapus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
+                  <td class="border border-gray-300 text-center">
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_transfer_dana }}
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: {{ item.user_input.nama_lengkap }}</i>
+                    </p>
+                    <p
+                      v-else
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.coa ? item.coa.kode_coa : "-" }} -
+                    {{ item.coa ? item.coa.nama_coa : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.tanggal }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.status_approve }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.total_transfer | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button @click="onTrashed(item)" />
+                  </td>
+                </tr>
+              </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
+            </table>
+          </div>
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>

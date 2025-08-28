@@ -37,6 +37,8 @@
           >
             <thead>
               <tr class="uppercase">
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+
                 <th class="w-20 text-center border border-gray-300">Detail</th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th
@@ -73,22 +75,22 @@
                   </div>
                 </th>
                 <th class="w-48 border border-gray-300">Pelanggan</th>
-                <!-- <th
+                <th
                   @click="
                     onSort(
-                      'status_kontrak',
+                      'status',
                       parameters.params.sort == 'asc' ? 'desc' : 'asc'
                     )
                   "
                   class="cursor-pointer w-48 border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Status Kontrak</div>
+                    <div>Status</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
                         :class="
-                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.order == 'status' &&
                           parameters.params.sort == 'asc'
                             ? ''
                             : 'light-gray'
@@ -97,7 +99,7 @@
                       <i
                         class="fas fa-caret-down"
                         :class="
-                          parameters.params.order == 'status_kontrak' &&
+                          parameters.params.order == 'status' &&
                           parameters.params.sort == 'desc'
                             ? ''
                             : 'light-gray'
@@ -105,19 +107,117 @@
                       ></i>
                     </div>
                   </div>
-                </th> -->
-                <th class="w-48 border border-gray-300">Tanggal Kontrak</th>
-                <th class="w-48 border border-gray-300">Tanggal Berlaku</th>
-                <th class="w-48 border border-gray-300">Tanggal Berhenti</th>
+                </th>
+                <th
+                  @click="
+                    onSort(
+                      'tanggal_kontrak',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer w-48 border border-gray-300"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Tanggal Kontrak</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_kontrak' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  @click="
+                    onSort(
+                      'tanggal_berlaku',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer w-48 border border-gray-300"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Tanggal Berlaku</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berlaku' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  @click="
+                    onSort(
+                      'tanggal_berhenti',
+                      parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                    )
+                  "
+                  class="cursor-pointer w-48 border border-gray-300"
+                >
+                  <div class="flex justify-between align-baseline">
+                    <div>Tanggal Berhenti</div>
+                    <div>
+                      <i
+                        class="fas fa-caret-up"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'asc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-caret-down"
+                        :class="
+                          parameters.params.order == 'tanggal_berhenti' &&
+                          parameters.params.sort == 'desc'
+                            ? ''
+                            : 'light-gray'
+                        "
+                      ></i>
+                    </div>
+                  </div>
+                </th>
                 <!-- <th class="w-48 border border-gray-300">Jenis Kontrak</th> -->
                 <th class="w-48 border border-gray-300">No Referensi</th>
                 <th class="w-48 border border-gray-300">Keterangan</th>
-                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="place-items-center border border-gray-300">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td
                   class="text-center border border-gray-300 place-items-center"
                 >
@@ -148,24 +248,24 @@
                 <td class="border border-gray-300">
                   {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
                 </td>
-                <!-- <td class="border border-gray-300">
+                <td class="border border-gray-300">
                   <div>
-                    <span v-if="item.status_kontrak === 'FISIK'">
+                    <span v-if="item.status === 'PENDING'">
+                      <p
+                        class="bg-orange-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                      >
+                        {{ item.status }}
+                      </p>
+                    </span>
+                    <span v-if="item.status_kontrak === 'APPROVE'">
                       <p
                         class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
                       >
-                        {{ item.status_kontrak }}
-                      </p>
-                    </span>
-                    <span v-if="item.status_kontrak === 'VIRTUAL'">
-                      <p
-                        class="bg-blue-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                      >
-                        {{ item.status_kontrak }}
+                        {{ item.status }}
                       </p>
                     </span>
                   </div>
-                </td> -->
+                </td>
                 <td class="border border-gray-300">
                   {{ formatDate(item.tanggal_kontrak) }}
                 </td>
@@ -178,9 +278,7 @@
                 <!-- <td class="border border-gray-300">{{ item.jenis_kontrak }}</td> -->
                 <td class="border border-gray-300">{{ item.no_referensi }}</td>
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
-                <td class="place-items-center border border-gray-300">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="place-items-center border border-gray-300">
                   <small-delete-button @click="onTrashed(item)" />
                 </td>

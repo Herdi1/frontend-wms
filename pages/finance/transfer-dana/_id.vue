@@ -296,28 +296,28 @@
                   <div
                     class="w-full grid grid-cols-2 my-7 min-h-[200px] items-start"
                   >
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="keterangan"> Keterangan </label>
                       <textarea
                         name="keterangan"
-                        v-model="form.keterangan"
+                        v-model="item.keterangan"
                         class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                       ></textarea>
+                    </div> -->
+                    <div class="w-full mt-2">
+                      <p class="w-[100px] mb-1">Total Nominal</p>
+                      <div class="w-60 border border-gray-300 p-1 rounded-md">
+                        {{ totalNominal | formatPrice }}
+                      </div>
                     </div>
-                    <!-- <div class="w-full mt-2">
-                        <div class="ml-10">
-                          <p class="w-[100px] mb-1">Balance</p>
-                          <div
-                            class="w-[150px] border border-gray-300 p-1 rounded-md"
-                          >
-                            {{ balance }}
-                          </div>
-                        </div>
-                      </div> -->
                   </div>
                 </div>
               </div>
             </div>
+            <modal-footer-section
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
           </form>
         </ValidationObserver>
       </div>
@@ -343,8 +343,8 @@ export default {
     return {
       id,
 
-      isEditable: Number.isInteger(this.$route.params.id) ? true : false,
-      isLoadingPage: Number.isInteger(this.$route.params.id) ? true : false,
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
       title: "Transfer Dana",
 
@@ -381,14 +381,14 @@ export default {
   },
 
   async created() {
-    try {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
 
-      const formattedDate = `${year}-${month}-${day}`;
-      this.form.tanggal = formattedDate;
+    const formattedDate = `${year}-${month}-${day}`;
+    this.form.tanggal = formattedDate;
+    try {
       if (this.isEditable) {
         let response = await this.$axios.get(
           "finance/transfer-dana/" + this.id
@@ -400,17 +400,20 @@ export default {
           }
         });
 
+        this.form.coa_id = response.data.coa;
+
         this.form.transfer_dana_details =
           response.data.transfer_dana_details.map((item) => {
             return {
               ...item,
+              coa_id: item.coa ?? "",
             };
           });
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log(error);
-      // this.$router.back()
+      // console.log(error);
+      this.$router.back();
     }
   },
 
@@ -428,6 +431,13 @@ export default {
       "lookup_custom2",
       "lookup_custom3",
     ]),
+
+    totalNominal() {
+      return this.form.transfer_dana_details.reduce((total, item) => {
+        const nominal = parseFloat(item.nominal) || 0;
+        return total + nominal;
+      }, 0);
+    },
   },
 
   methods: {
@@ -458,7 +468,7 @@ export default {
         this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "finance/coa/get-coa",
+          url: "finance/jurnal/get-coa",
           lookup: "custom1",
           query:
             "?search=" +
@@ -472,11 +482,19 @@ export default {
       }
     },
 
-    onSelectCoaHead(item) {
+    resetCoaSearch() {
+      this.coa_search = "";
+      this.lookup_custom1.current_page = 1; // Reset ke halaman pertama
+    },
+
+    async onSelectCoaHead(item) {
       if (item) {
         this.form.coa_id = item;
+        this.resetCoaSearch();
+        await this.onSearchCoa();
       } else {
         this.form.coa_id = "";
+        this.resetCoaSearch();
       }
     },
 
@@ -581,6 +599,72 @@ export default {
       this.form.transfer_dana_details = this.form.transfer_dana_details.filter(
         (_, itemIndex) => index != itemIndex
       );
+    },
+
+    onSubmit(isInvalid) {
+      if (isInvalid || this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+
+      let url = "finance/transfer-dana";
+
+      let formData = {
+        ...this.form,
+        coa_id:
+          typeof this.form.coa_id === "object"
+            ? this.form.coa_id.coa_id ?? ""
+            : this.form.coa_id ?? "",
+      };
+
+      formData.transfer_dana_details = this.form.transfer_dana_details.map(
+        (item) => {
+          return {
+            ...item,
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
+          };
+        }
+      );
+
+      if (this.isEditable) {
+        url += "/" + this.id;
+      }
+
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "put" : "post",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              " Transfer Dana"
+          );
+
+          if (!this.isEditable) {
+            this.form = {
+              ...this.default_form,
+              transfer_dana_details: [],
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+    },
+
+    formReset() {
+      this.isLoadingForm = false;
+      this.form = this.default_form;
+      this.form.transfer_dana_details = [];
     },
   },
 };

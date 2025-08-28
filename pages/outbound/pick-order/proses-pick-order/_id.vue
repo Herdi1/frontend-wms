@@ -122,7 +122,7 @@
                   :disabled="true"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <select-button
                   :self="{
                     label: 'Peralatan',
@@ -138,7 +138,7 @@
                   :required="true"
                   :disabled="true"
                 />
-              </div>
+              </div> -->
               <div class="flex px-1">
                 <label for="keterangan" class="block mb-2 w-1/2"
                   >Keterangan</label
@@ -241,9 +241,11 @@
                       Kode Pick Request
                     </th>
                     <th class="w-60 border border-gray-300">Tanggal</th> -->
-                    <th class="w-60 border border-gray-300">Kode Item</th>
-                    <th class="w-60 border border-gray-300">Nama Item</th>
-                    <th class="w-40 border border-gray-300">Jenis Transaksi</th>
+                    <th class="w-40 border border-gray-300">Kode Item</th>
+                    <th class="w-40 border border-gray-300">Nama Item</th>
+                    <th class="w-40 border border-gray-300">Jenis</th>
+                    <th class="w-60 border border-gray-300">Peralatan</th>
+                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
                     <th class="w-60 border border-gray-300">Zona Asal</th>
                     <th class="w-60 border border-gray-300">
@@ -292,6 +294,20 @@
                         class="p-1 text-white rounded-md bg-green-500"
                         >Stok Transfer</span
                       >
+                    </td>
+                    <td class="border border-gray-300">
+                      {{
+                        item.peralatan_id
+                          ? item.peralatan_id?.nama_peralatan ?? ""
+                          : "-"
+                      }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{
+                        item.jenis_biaya_id
+                          ? item.jenis_biaya_id?.nama_jenis_biaya ?? ""
+                          : "-"
+                      }}
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -779,6 +795,8 @@ export default {
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
+              peralatan_id: item.peralatan ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
             };
           });
         this.isLoadingPage = false;
@@ -896,10 +914,10 @@ export default {
           typeof this.parameters.form.staff_id_pic == "object"
             ? this.parameters.form.staff_id_pic.staff_id
             : this.parameters.form.staff_id_pic,
-        peralatan_id:
-          typeof this.parameters.form.peralatan_id == "object"
-            ? this.parameters.form.peralatan_id.peralatan_id
-            : this.parameters.form.peralatan_id,
+        // peralatan_id:
+        //   typeof this.parameters.form.peralatan_id == "object"
+        //     ? this.parameters.form.peralatan_id.peralatan_id
+        //     : this.parameters.form.peralatan_id,
       };
 
       formData.pick_order_details = formData.pick_order_details.map((item) => {
@@ -942,6 +960,14 @@ export default {
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
               : item.slot_penyimpanan_id_bin,
+          peralatan_id:
+            typeof item.peralatan_id == "object"
+              ? item.peralatan_id.peralatan_id
+              : item.peralatan_id,
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id == "object"
+              ? item.jenis_biaya_id.jenis_biaya_id
+              : item.jenis_biaya_id,
         };
       });
 
@@ -987,6 +1013,8 @@ export default {
         slot_penyimpanan_id_bin: "",
         zona_gudang_id_tujuan: "",
         keterangan: "",
+        peralatan_id: "",
+        jenis_biaya_id: "",
         // pick_order_details: "",
       });
     },
