@@ -1070,6 +1070,7 @@ export default {
       }
     } catch (error) {
       this.$router.back();
+      // console.log(error);
     }
   },
 

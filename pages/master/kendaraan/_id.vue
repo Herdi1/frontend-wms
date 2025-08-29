@@ -952,6 +952,8 @@ export default {
             "?search=" +
             this.driver_search +
             "&jenis_user=pengemudi" +
+            "&gudang_id=" +
+            this.form.gudang_id +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",

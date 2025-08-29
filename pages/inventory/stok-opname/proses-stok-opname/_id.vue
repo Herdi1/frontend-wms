@@ -245,6 +245,14 @@
                         v-model="item.item_gudang_id"
                         @input="(item) => onSelectItemGudang(item, i)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_item }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -281,6 +289,14 @@
                         v-model="item.zona_gudang_id"
                         @input="(item) => onSelectZona(item, i)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_zona_gudang }}
+                          </div>
+                               </template
+                        >
                         <!-- :reduce="(item) => item.zona_gudang_id" -->
                         <li
                           slot-scope="{ search }"
@@ -355,6 +371,18 @@
                           v-model="item.slot_penyimpanan_id_aisle"
                           @input="(item) => onSelectAisle(item, i)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.kode_slot_penyimpanan +
+                                " - " +
+                                option.nama_slot_penyimpanan
+                              }}
+                            </div>
+                                 </template
+                          >
                           <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
@@ -392,6 +420,18 @@
                           v-model="item.slot_penyimpanan_id_rack"
                           @input="(item) => onSelectRack(item, i)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.kode_slot_penyimpanan +
+                                " - " +
+                                option.nama_slot_penyimpanan
+                              }}
+                            </div>
+                                 </template
+                          >
                           <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
@@ -429,6 +469,18 @@
                           v-model="item.slot_penyimpanan_id_level"
                           @input="(item) => onSelectLevel(item, i)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.kode_slot_penyimpanan +
+                                " - " +
+                                option.nama_slot_penyimpanan
+                              }}
+                            </div>
+                                 </template
+                          >
                           <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"
@@ -466,6 +518,18 @@
                           v-model="item.slot_penyimpanan_id_bin"
                           @input="(item) => onSelectBin(item, i)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{
+                                option.kode_slot_penyimpanan +
+                                " - " +
+                                option.nama_slot_penyimpanan
+                              }}
+                            </div>
+                                 </template
+                          >
                           <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
                           <li
                             slot-scope="{ search }"

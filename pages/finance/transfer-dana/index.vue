@@ -185,7 +185,7 @@
                   <td class="border border-gray-300">
                     {{ item.status_approve }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="border border-gray-300 text-right">
                     {{ item.total_transfer | formatPrice }}
                   </td>
                   <td class="border border-gray-300">
