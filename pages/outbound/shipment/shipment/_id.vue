@@ -1207,6 +1207,7 @@ export default {
                       term_pembayaran_id: data.term_pembayaran,
                       vendor_id: data.vendor,
                       dasar_perhitungan: data.dasar_perhitungan,
+                      lokasi_id_asal: item.lokasi_id_tujuan_asal,
                       lokasi_id: item.lokasi_id_tujuan,
                       jenis_routing: item.jenis_routing,
                       jumlah: data.jenis == 2 ? item.jarak : 1,
