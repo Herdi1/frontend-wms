@@ -1407,7 +1407,7 @@ export default {
         this.parameters.form.user_id_pic = res.data.user_pic;
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id_pic = res.data.staff_pic;
-        this.parameters.form.peralatan_id = res.data.peralatan;
+        this.parameters.form.peralatan_id = res.data.peralatan ?? "";
         this.parameters.form.pick_order_details =
           res.data.pick_order_details.map((item) => {
             return {
@@ -1545,6 +1545,7 @@ export default {
       }
     } catch (error) {
       this.$router.back();
+      // console.log(error);
     }
   },
 

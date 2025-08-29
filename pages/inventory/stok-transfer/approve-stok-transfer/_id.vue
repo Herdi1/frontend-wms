@@ -216,14 +216,7 @@
                       </p>
                     </td>
                     <td class="border border-gray-300">
-                      <money
-                        disabled
-                        v-model="item.quantity"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        @keydown.native="
-                          $event.key === '-' ? $event.preventDefault() : null
-                        "
-                      />
+                      <p>{{ item.quantity ?? "" }}</p>
                       <p>
                         Valuation:
                         <span class="text-base font-bold">{{
@@ -240,12 +233,7 @@
                       />
                     </td> -->
                     <td class="border border-gray-300">
-                      <textarea
-                        disabled
-                        placeholder="Keterangan"
-                        class="w-full pl-2 py-1 border rounded focus:outline-none"
-                        v-model="item.keterangan"
-                      ></textarea>
+                      <p>{{ item.keterangan }}</p>
                     </td>
                     <!-- <td class="border border-gray-300 text-center">
                       <i

@@ -111,14 +111,14 @@
                   </select>
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-2 mb-1">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full my-2">
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Approve</div>
+                  <div class="mb-3 w-full">Status Approve</div>
                   <select
                     name=""
                     id=""
                     v-model="parameters.params.status_approve"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                    class="w-full p-1 rounded-sm border border-gray-300 outline-none"
                   >
                     <option value="0">Menunggu</option>
                     <option value="1">Approved</option>

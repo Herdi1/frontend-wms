@@ -82,6 +82,18 @@
                   {{ form.tanggal ? form.tanggal : "Tanggal tidak ditemukan" }}
                 </div>
               </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Jenis Transaksi</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.jenis_transaksi === "0"
+                      ? "Inbound"
+                      : form.jenis_transaksi === "1"
+                      ? "Cross Docking"
+                      : "Retur"
+                  }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
