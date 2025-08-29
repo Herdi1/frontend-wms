@@ -190,11 +190,11 @@ export default {
 
     pwa: {
         meta: {
-            title: "Safari",
+            title: "Flows",
             author: "Dexza",
         },
         manifest: {
-            name: "Safari",
+            name: "Flows",
             short_name: "",
             lang: "en",
         },
