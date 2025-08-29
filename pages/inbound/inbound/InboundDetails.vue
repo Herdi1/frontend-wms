@@ -146,6 +146,42 @@
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                   />
                 </div>
+                <p>Jenis Biaya:</p>
+                <div class="w-full">
+                  <v-select
+                    label="nama_jenis_biaya"
+                    :loading="isLoadingGetJenisBiaya"
+                    :options="lookup_custom7.data"
+                    :filterable="false"
+                    @search="onGetJenisBiaya"
+                    v-model="item.jenis_biaya_id"
+                    @input="(item) => onSelectJenisBiaya(item, index)"
+                    class="w-full"
+                    :disabled="self.isEditable"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom7.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom7.current_page > 1"
+                        @click="onGetJenisBiaya(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom7.last_page > lookup_custom7.current_page
+                        "
+                        @click="onGetJenisBiaya(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
                 <!-- <p>
                                 Nomor Referensi:
                                 <div >
@@ -681,6 +717,10 @@ export default {
       isLoadingGetPeralatan: false,
       peralatan_search: "",
 
+      isStopSearchJenisBiaya: false,
+      isLoadingGetJenisBiaya: false,
+      jenis_biaya_search: "",
+
       items: [],
     };
   },
@@ -692,6 +732,7 @@ export default {
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
+    await this.onSearchJenisBiaya();
     await this.onSearchAlasan();
     // await this.onSearchItemGudang();
   },
@@ -709,6 +750,7 @@ export default {
       "lookup_products",
       "lookup_grade",
       "lookup_mesin",
+      "lookup_custom7",
     ]),
 
     lookupItem() {
@@ -1140,19 +1182,20 @@ export default {
     },
 
     async onSelectItemDetail(item, index) {
-      this.self.form.inbound_details[index] = { ...item };
-      this.self.form.inbound_details[index].quantity_terima =
-        item.quantity_request;
-      this.self.form.inbound_details[index].quantity_request =
-        item.quantity_request;
-      this.self.form.inbound_details[index].item_gudang_id = {
-        item_gudang_id:
-          typeof item.item_gudang_id.item_gudang_id === "object"
-            ? item.item_gudang_id.item_gudang_id
-            : item.item_gudang_id,
-        item_id: item.item_id,
-        nama_item: item.nama_item,
-      };
+      if (this.self.form.sumber_data !== "NON") {
+        this.self.form.inbound_details[index] = { ...item };
+        this.self.form.inbound_details[index].quantity_terima =
+          item.quantity_request;
+        this.self.form.inbound_details[index].quantity_request =
+          item.quantity_request;
+        this.self.form.inbound_details[index].item_gudang_id = {
+          item_gudang_id: item.item_gudang_id.item_gudang_id,
+          item_id: item.item_id,
+          nama_item: item.nama_item,
+        };
+      } else {
+        this.self.form.inbound_details[index].item_gudang_id = item;
+      }
       await this.onSearchZonaPlan();
       await this.generateBiayaTagihan(index);
 
@@ -1290,6 +1333,54 @@ export default {
       }
     },
 
+    // get jenis biaya
+    onGetJenisBiaya(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchJenisBiaya);
+
+      this.isStopSearchJenisBiaya = setTimeout(() => {
+        this.jenis_biaya_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
+        } else {
+          this.lookup_custom7.current_page = 1;
+        }
+
+        this.onSearchJenisBiaya();
+      }, 600);
+    },
+
+    async onSearchJenisBiaya() {
+      if (!this.isLoadingGetJenisBiaya) {
+        this.isLoadingGetJenisBiaya = true;
+
+        await this.lookUp({
+          url: "master/jenis-biaya/get-jenis-biaya",
+          lookup: "custom7",
+          query:
+            "?search=" +
+            this.jenis_biaya_search +
+            "&page=" +
+            this.lookup_custom7.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetJenisBiaya = false;
+      }
+    },
+    async onSelectJenisBiaya(item, index) {
+      if (item) {
+        this.self.form.inbound_details[index].jenis_biaya_id = item;
+        await this.generateBiayaTagihan(index);
+      } else {
+        this.self.form.inbound_details[index].jenis_biaya_id = "";
+      }
+    },
+
     async generateBiayaTagihan(index) {
       let itemNumber = index;
 
@@ -1300,16 +1391,25 @@ export default {
         {
           params: {
             item_gudang_id:
-              this.self.form.inbound_details[index].item_gudang_id
-                .item_gudang_id ?? "",
+              typeof this.self.form.inbound_details[index].item_gudang_id ===
+              "object"
+                ? this.self.form.inbound_details[index].item_gudang_id
+                    .item_gudang_id
+                : "",
             peralatan_id:
               typeof this.self.form.inbound_details[index].peralatan_id ===
               "object"
                 ? this.self.form.inbound_details[index].peralatan_id
                     .peralatan_id
                 : "",
-            vendor_id: this.self.form.vendor_id_transporter.vendor_id,
-            gudang_id: this.self.form.gudang_id.gudang_id,
+            vendor_id: this.self.form.vendor_id_transporter.vendor_id ?? "",
+            gudang_id: this.self.form.gudang_id.gudang_id ?? "",
+            jenis_biaya_id:
+              typeof this.self.form.inbound_details[index].jenis_biaya_id ===
+              "object"
+                ? this.self.form.inbound_details[index].jenis_biaya_id
+                    .jenis_biaya_id
+                : "",
             jenis: "inbound",
           },
         }
@@ -1320,13 +1420,16 @@ export default {
       //   {
       //     params: {
       //       item_gudang_id:
-      //         this.self.form.inbound_details[index].item_gudang_id
-      //           .item_gudang_id ?? "",
-      //       peralatan_id:
-      //         typeof this.self.form.inbound_details[index].peralatan_id ===
+      //         typeof this.self.form.inbound_details[index].item_gudang_id ===
       //         "object"
-      //           ? this.self.form.inbound_details[index].peralatan_id
-      //               .peralatan_id
+      //           ? this.self.form.inbound_details[index].item_gudang_id
+      //               .item_gudang_id
+      //           : "",
+      //       jenis_biaya_id:
+      //         typeof this.self.form.inbound_details[index].jenis_biaya_id ===
+      //         "object"
+      //           ? this.self.form.inbound_details[index].jenis_biaya_id
+      //               .jenis_biaya_id
       //           : "",
       //       gudang_id: this.self.form.gudang_id.gudang_id,
       //       jenis: "inbound",

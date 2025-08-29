@@ -134,7 +134,7 @@
                   >
                     <div slot-scope="{ errors, valid }">
                       <label for="vendor_id"
-                        >Vendor<span class="text-danger">*</span></label
+                        >Pemilik<span class="text-danger">*</span></label
                       >
                       <v-select
                         label="nama_vendor"

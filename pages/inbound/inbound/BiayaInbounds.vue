@@ -23,7 +23,7 @@
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Vendor</th>
             <th class="w-[200px] border border-gray-300">Divisi</th>
-            <th class="w-[200px] border border-gray-300">COA</th>
+            <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Dasar Perhitungan</th>
             <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
@@ -115,7 +115,7 @@
                 </li>
               </v-select>
             </td>
-            <td class="border border-gray-300">
+            <!-- <td class="border border-gray-300">
               <v-select
                 label="nama_coa"
                 :loading="isLoadingGetCoa"
@@ -148,7 +148,7 @@
                   >
                 </li>
               </v-select>
-            </td>
+            </td> -->
 
             <td class="border border-gray-300">
               <v-select
@@ -337,6 +337,21 @@ export default {
 
       "lookup_suppliers",
     ]),
+
+    calculateTotal(item) {
+      let total;
+      if (item.dasar_perhitungan === "QTY") {
+        total = item.jumlah * item.nilai_kontrak;
+      } else if (item.dasar_perhitungan === "BERAT") {
+        total = item.jumlah * item.nilai_kontrak * item.berat;
+      } else if (item.dasar_perhitungan === "VOLUME") {
+        total = item.jumlah * item.nilai_kontrak * item.volume;
+      } else {
+        total = 0;
+      }
+
+      return total;
+    },
   },
 
   methods: {

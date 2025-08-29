@@ -23,7 +23,8 @@
             <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[150px] border border-gray-300">Jenis Routing</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
-            <th class="w-[200px] border border-gray-300">Lokasi</th>
+            <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
+            <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <th class="w-[200px] border border-gray-300">
@@ -110,38 +111,11 @@
               </div>
             </td>
             <td class="border border-gray-300">
-              <!-- <v-select
-                disabled
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_lokasi"
-                :loading="isLoadingGetLokasi"
-                :options="lookup_location.data"
-                :filterable="false"
-                @search="onGetLokasi"
-                v-model="item.lokasi_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_location.data.length || search"
-                >
-                  <span
-                    v-if="lookup_location.current_page > 1"
-                    @click="onGetLokasi(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_location.last_page > lookup_location.current_page
-                    "
-                    @click="onGetLokasi(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select> -->
+              <p>
+                {{ item.lokasi_id_asal ? item.lokasi_id_asal.nama_lokasi : "" }}
+              </p>
+            </td>
+            <td class="border border-gray-300">
               <p>{{ item.lokasi_id.nama_lokasi }}</p>
             </td>
             <td class="border border-gray-300">

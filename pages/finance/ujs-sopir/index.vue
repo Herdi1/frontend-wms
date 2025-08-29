@@ -116,7 +116,7 @@
             >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-20 border border-gray-300">Edit</th>
+                  <!-- <th class="w-20 border border-gray-300">Edit</th> -->
                   <th class="w-20 border border-gray-300">Detail</th>
                   <th class="w-20 border border-gray-300">No</th>
                   <th
@@ -186,24 +186,26 @@
                     </div>
                   </th>
                   <th class="w-48 border border-gray-300">Gudang</th>
-                  <th class="w-48 border border-gray-300">Pelanggan</th>
-                  <th class="w-48 border border-gray-300">Total</th>
-                  <th class="w-48 border border-gray-300">Pajak</th>
-                  <th class="w-48 border border-gray-300">Tipe Pajak</th>
-                  <th class="w-48 border border-gray-300">Grand Total</th>
+                  <th class="w-48 border border-gray-300">Chart Of Account</th>
+                  <!-- <th class="w-48 border border-gray-300">Total</th> -->
+                  <th class="w-48 border border-gray-300">Total Retribusi</th>
+                  <th class="w-48 border border-gray-300">Total BBM</th>
+                  <th class="w-48 border border-gray-300">
+                    Total Bongkar Toko
+                  </th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
-                  <th class="w-28 border border-gray-300">Print</th>
+                  <!-- <th class="w-28 border border-gray-300">Print</th> -->
 
-                  <th class="w-20 border border-gray-300">Delete</th>
+                  <!-- <th class="w-20 border border-gray-300">Delete</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td
+                  <!-- <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <small-edit-button @click="onEdit(item)" />
-                  </td>
+                  </td> -->
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -220,13 +222,13 @@
                   <td class="border border-gray-300">
                     <div>
                       <div>
-                        {{ item.kode_ujs }}
+                        {{ item.kode_posting }}
                       </div>
-                      <span class="text-blue-500"
+                      <!-- <span class="text-blue-500"
                         ><i
                           >Dibuat oleh: {{ item.user_input.nama_lengkap }}</i
                         ></span
-                      >
+                      > -->
                     </div>
                   </td>
                   <td class="border border-gray-300">
@@ -238,28 +240,31 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{
-                      item.pelanggan
-                        ? item.pelanggan.nama_pelanggan
-                        : "Tidak Ditemukan"
-                    }}
+                    <p>
+                      {{ item.coa ? item.coa.nama_coa : "" }} -
+                      {{ item.coa ? item.coa.kode_coa : "" }}
+                    </p>
+                    <p>
+                      {{ item.coa_biaya ? item.coa_biaya.nama_coa : "" }} -
+                      {{ item.coa_biaya ? item.coa_biaya.kode_coa : "" }}
+                    </p>
                   </td>
                   <td class="border border-gray-300 text-right">
-                    Rp {{ item.total ?? "" | formatPrice }}
+                    Rp {{ item.total_biaya_retribusi ?? "" | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    Rp {{ item.tax | formatPrice }}
+                    Rp {{ item.total_bbm | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    {{ item.tipe_ppn ? item.tipe_ppn.nama_tipe_pajak : "" }}
+                    Rp {{ item.total_bongkar_toko | formatPrice }}
                   </td>
-                  <td class="border border-gray-300 text-right">
+                  <!-- <td class="border border-gray-300 text-right">
                     Rp {{ item.grand_total | formatPrice }}
-                  </td>
+                  </td> -->
                   <td class="text-center border border-gray-300">
                     {{ item.keterangan }}
                   </td>
-                  <td
+                  <!-- <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <button
@@ -270,16 +275,16 @@
                     >
                       <i class="fas fa-print text-primary"></i>
                     </button>
-                  </td>
+                  </td> -->
 
-                  <td
+                  <!-- <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                     />
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

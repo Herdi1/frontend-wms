@@ -236,12 +236,11 @@
                   <div class=" ">
                     <!-- v-if="self.form.sumber_data === 'NON'" -->
                     <button
-                      v-if="!isEditable"
                       type="button"
                       @click="addDetailUjs"
-                      class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                      class="bg-[#4fc47a] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                     >
-                      <i class="fas fa-plus"></i>
+                      <i class="fas fa-retweet"></i>
                       <p class="text-xs font-medium">Tambah Detail</p>
                     </button>
                   </div>
@@ -257,6 +256,9 @@
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
                         <th class="w-[200px] border border-gray-300">
+                          Kode UJS
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
                           Kode Shipment
                         </th>
                         <th class="w-[200px] border border-gray-300">
@@ -268,28 +270,37 @@
                         <th class="w-[200px] border border-gray-300">
                           Jenis Routing
                         </th>
-                        <th class="w-[200px] border border-gray-300">
+                        <!-- <th class="w-[200px] border border-gray-300">
                           Jenis Kiriman
-                        </th>
+                        </th> -->
                         <th class="w-[200px] border border-gray-300">
                           Tanggal Berangkat
                         </th>
-                        <th class="w-[200px] border border-gray-300">Status</th>
+                        <!-- <th class="w-[200px] border border-gray-300">Status</th> -->
                         <!-- <th class="w-[200px] border border-gray-300">Pajak</th>
                         <th class="w-[200px] border border-gray-300">DPP</th>
                         <th class="w-[200px] border border-gray-300">
                           Harga Setelah Pajak
                         </th> -->
                         <th class="w-[200px] border border-gray-300">Jarak</th>
-                        <th class="w-[200px] border border-gray-300">
-                          Biaya BBM
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
+                        <!-- <th class="w-[200px] border border-gray-300">
                           Waktu Sampai Tujuan
+                        </th> -->
+                        <th class="w-[200px] border border-gray-300">
+                          Total Biaya BBM
                         </th>
                         <th class="w-[200px] border border-gray-300">
-                          Bukti Selesai Kirim
+                          Total Biaya Bongkar Toko
                         </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Biaya Retribusi
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Biaya Insentif Jarak
+                        </th>
+                        <!-- <th class="w-[200px] border border-gray-300">
+                          Detail UJS
+                        </th> -->
                       </tr>
                     </thead>
                     <tbody>
@@ -299,6 +310,11 @@
                         style="border-top: 0.5px solid lightgray"
                         class="align-top mx-0"
                       >
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ item.shipment ? item.shipment.kode_ujs : "-" }}
+                          </p>
+                        </td>
                         <td class="border border-gray-300">
                           <p>
                             {{
@@ -327,27 +343,46 @@
                         <td class="border border-gray-300">
                           {{ item.jenis_routing }}
                         </td>
-                        <td class="border border-gray-300">
-                          {{ item.jenis_kiriman }}
-                        </td>
+                        <!-- <td class="border border-gray-300">
+                          <p v-if="item.jenis_kiriman == 1">Stok Transfer</p>
+                          <p v-if="item.jenis_kiriman == 0">Penjualan</p>
+                        </td> -->
                         <td class="border border-gray-300">
                           {{ item.tanggal_berangkat }}
                         </td>
-                        <td class="border border-gray-300">
+                        <!-- <td class="border border-gray-300">
                           {{ item.status }}
-                        </td>
+                        </td> -->
                         <td class="border border-gray-300">
                           {{ item.jarak }}
                         </td>
-                        <td class="border border-gray-300">
-                          {{ item.biaya_bbm }}
-                        </td>
-                        <td class="border border-gray-300">
+                        <!-- <td class="border border-gray-300">
                           {{ item.realisasi_waktu_sampai_tujuan }}
+                        </td> -->
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_bbm ?? 0 | formatPrice }}
                         </td>
-                        <td class="border border-gray-300">
-                          {{ item.file_bukti_selesai }}
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_bongkar_toko ?? 0 | formatPrice }}
                         </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_retribusi ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_insentif_jarak ?? 0 | formatPrice }}
+                        </td>
+                        <!-- <td class="border border-gray-300">
+                          <button
+                            v-if="item.file_bukti_selesai"
+                            @click="onShowPicture(item)"
+                            type="button"
+                            class="flex p-2 my-1 max-w-full rounded-md bg-blue-500 text-white hover:bg-blue-400 items-center"
+                          >
+                            <i class="fa fa-file mx-2"></i>
+                            <span class="font-bold text-ellipsis">File</span>
+                          </button>
+                          <p v-else>File Tidak Ditemukan</p>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
@@ -364,6 +399,7 @@
       </div>
     </div>
     <ModalRuteBiayaLastmile :self="this" ref="modalRuteLastmile" />
+    <ShowPictureModal ref="pictureModal" />
   </section>
 </template>
 
@@ -371,12 +407,14 @@
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
 import ModalRuteBiayaLastmile from "./ModalRuteBiayaLastmile.vue";
+import ShowPictureModal from "../../../components/transaksional/ShowPictureModal.vue";
 
 export default {
   middleware: ["checkRoleUserDetail"],
 
   components: {
     ModalRuteBiayaLastmile,
+    ShowPictureModal,
   },
 
   head() {
@@ -817,6 +855,13 @@ export default {
       //   this.$refs.modalRuteLastmile.show();
       //   await this.$refs.modalRuteLastmile.onLoad();
       // }
+    },
+
+    onShowPicture(item) {
+      this.$refs.pictureModal.title = "Bukti Kiriman";
+      this.$refs.pictureModal.src =
+        "file_bukti_kiriman/" + item.file_bukti_selesai;
+      this.$refs.pictureModal.show();
     },
   },
 };

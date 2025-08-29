@@ -277,232 +277,63 @@
                           }}
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                            label="nama_valuation"
-                            :loading="isLoadingGetValuation"
-                            :options="lookup_custom2.data"
-                            :filterable="false"
-                            @search="onGetValuation"
-                            v-model="item.valuation_id"
-                            :reduce="(item) => item.valuation_id"
-                            disabled
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom2.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom2.current_page > 1"
-                                @click="onGetValuation(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom2.last_page >
-                                  lookup_custom2.current_page
-                                "
-                                @click="onGetValuation(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          {{
+                            item.valuation ? item.valuation.nama_valuation : "-"
+                          }}
                         </td>
 
                         <td class="border border-gray-300">
-                          <v-select
-                            class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                            label="nama_zona_gudang"
-                            :loading="isLoadingGetZonaGudang"
-                            :options="lookup_custom3.data"
-                            :filterable="false"
-                            @search="onGetZonaGudang"
-                            v-model="item.zona_gudang_id"
-                            @input="(item) => onSelectZona(item, i)"
-                            disabled
-                          >
-                            <!-- :reduce="(item) => item.zona_gudang_id" -->
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom3.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom3.current_page > 1"
-                                @click="onGetZonaGudang(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom3.last_page >
-                                  lookup_custom3.current_page
-                                "
-                                @click="onGetZonaGudang(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          {{
+                            item.zona_gudang
+                              ? item.zona_gudang.nama_zona_gudang ?? ""
+                              : ""
+                          }}
                         </td>
 
                         <td class="border border-gray-300">
                           <div>
                             <label for="">Lokasi Aisle</label>
-                            <v-select
-                              class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                              label="nama_slot_penyimpanan"
-                              :loading="isLoadingGetSlotAisle"
-                              :options="lookup_custom8.data"
-                              :filterable="false"
-                              @search="onGetSlotAisle"
-                              v-model="item.slot_penyimpanan_id_aisle"
-                              @input="(item) => onSelectAisle(item, i)"
-                              disabled
-                            >
-                              <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_custom8.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_custom8.current_page > 1"
-                                  @click="onGetSlotAisle(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_custom8.last_page >
-                                    lookup_custom8.current_page
-                                  "
-                                  @click="onGetSlotAisle(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select>
+                            <p>
+                              {{
+                                item.slot_penyimpanan_aisle
+                                  ? item.slot_penyimpanan_aisle
+                                      .nama_slot_penyimpanan
+                                  : "-"
+                              }}
+                            </p>
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Rack</label>
-                            <v-select
-                              class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                              label="nama_slot_penyimpanan"
-                              :loading="isLoadingGetSlotRack"
-                              :options="lookup_custom9.data"
-                              :filterable="false"
-                              @search="onGetSlotRack"
-                              v-model="item.slot_penyimpanan_id_rack"
-                              @input="(item) => onSelectRack(item, i)"
-                              disabled
-                            >
-                              <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_custom9.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_custom9.current_page > 1"
-                                  @click="onGetSlotRack(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_custom9.last_page >
-                                    lookup_custom9.current_page
-                                  "
-                                  @click="onGetSlotRack(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select>
+                            <p>
+                              {{
+                                item.slot_penyimpanan_rack
+                                  ? item.slot_penyimpanan_rack
+                                      .nama_slot_penyimpanan
+                                  : "-"
+                              }}
+                            </p>
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Level</label>
-                            <v-select
-                              class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                              label="nama_slot_penyimpanan"
-                              :loading="isLoadingGetSlotLevel"
-                              :options="lookup_custom10.data"
-                              :filterable="false"
-                              @search="onGetSlotLevel"
-                              v-model="item.slot_penyimpanan_id_level"
-                              @input="(item) => onSelectLevel(item, i)"
-                              disabled
-                            >
-                              <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_custom10.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_custom10.current_page > 1"
-                                  @click="onGetSlotLevel(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_custom10.last_page >
-                                    lookup_custom10.current_page
-                                  "
-                                  @click="onGetSlotLevel(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select>
+                            <p>
+                              {{
+                                item.slot_penyimpanan_level
+                                  ? item.slot_penyimpanan_level
+                                      .nama_slot_penyimpanan
+                                  : "-"
+                              }}
+                            </p>
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Bin</label>
-                            <v-select
-                              class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                              label="nama_slot_penyimpanan"
-                              :loading="isLoadingGetSlotBin"
-                              :options="lookup_roles.data"
-                              :filterable="false"
-                              @search="onGetSlotBin"
-                              v-model="item.slot_penyimpanan_id_bin"
-                              @input="(item) => onSelectBin(item, i)"
-                              disabled
-                            >
-                              <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_roles.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_roles.current_page > 1"
-                                  @click="onGetSlotBin(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_roles.last_page >
-                                    lookup_roles.current_page
-                                  "
-                                  @click="onGetSlotBin(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select>
+                            <p>
+                              {{
+                                item.slot_penyimpanan_bin
+                                  ? item.slot_penyimpanan_bin
+                                      .nama_slot_penyimpanan
+                                  : "-"
+                              }}
+                            </p>
                           </div>
                         </td>
                         <td class="border border-gray-300">
@@ -535,41 +366,9 @@
                           />
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                            label="nama_zona_gudang"
-                            :loading="isLoadingGetZonaGudang"
-                            :options="lookup_custom3.data"
-                            :filterable="false"
-                            @search="onGetZonaGudang"
-                            v-model="item.zona_gudang_id_tujuan"
-                            :reduce="(item) => item.zona_gudang_id"
-                            disabled
-                          >
-                            <!-- @input="onSelectItem(i)" -->
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom3.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom3.current_page > 1"
-                                @click="onGetZonaGudang(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom3.last_page >
-                                  lookup_custom3.current_page
-                                "
-                                @click="onGetZonaGudang(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>
+                            {{ item.zona_gudang_tujuan.nama_zona_gudang ?? "" }}
+                          </p>
                         </td>
 
                         <td class="border border-gray-300">
@@ -631,7 +430,6 @@
                         <th class="w-[200px] border border-gray-300">Berat</th>
                         <th class="w-[200px] border border-gray-300">Volume</th>
                         <th class="w-[200px] border border-gray-300">Total</th>
-                        <th class="w-[200px] border border-gray-300">COA</th>
                         <th class="w-[200px] border border-gray-300">Divisi</th>
                         <th class="w-[200px] border border-gray-300">Vendor</th>
                         <th class="w-[300px] border border-gray-300">
@@ -650,39 +448,7 @@
                           {{ item.item_gudang.kode_item }}
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_jenis_biaya"
-                            :loading="isLoadingGetJenisBiaya"
-                            :options="lookup_grade.data"
-                            :filterable="false"
-                            @search="onGetJenisBiaya"
-                            v-model="item.jenis_biaya_id"
-                            :reduce="(item) => item.jenis_biaya_id"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_grade.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_grade.current_page > 1"
-                                @click="onGetJenisBiaya(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_grade.last_page >
-                                  lookup_grade.current_page
-                                "
-                                @click="onGetJenisBiaya(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.jenis_biaya.nama_jenis_biaya ?? "" }}</p>
                         </td>
                         <td class="border border-gray-300">
                           {{ item.dasar_perhitungan }}
@@ -749,119 +515,10 @@
                           />
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_coa"
-                            :loading="isLoadingGetCoa"
-                            :options="lookup_beam.data"
-                            :filterable="false"
-                            @search="onGetCoa"
-                            v-model="item.coa_id"
-                            :reduce="(item) => item.coa_id"
-                            class="w-full"
-                          >
-                            <template slot="option" slot-scope="option">
-                              {{ option.kode_coa + " - " + option.nama_coa }}
-                            </template>
-                            <template
-                              slot="selected-option"
-                              slot-scope="option"
-                            >
-                              {{ option.kode_coa + " - " + option.nama_coa }}
-                            </template>
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_beam.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_beam.current_page > 1"
-                                @click="onGetCoa(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_beam.last_page >
-                                  lookup_beam.current_page
-                                "
-                                @click="onGetCoa(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.divisi.nama_divisi ?? "" }}</p>
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_divisi"
-                            :loading="isLoadingGetDivisi"
-                            :options="lookup_mesin.data"
-                            :filterable="false"
-                            @search="onGetDivisi"
-                            v-model="item.divisi_id"
-                            :reduce="(item) => item.divisi_id"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_mesin.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_mesin.current_page > 1"
-                                @click="onGetDivisi(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_mesin.last_page >
-                                  lookup_mesin.current_page
-                                "
-                                @click="onGetDivisi(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_vendor"
-                            :loading="isLoadingGetVendor"
-                            :options="lookup_regus.data"
-                            :filterable="false"
-                            @search="onGetVendor"
-                            v-model="item.vendor_id"
-                            class="w-full"
-                            disabled
-                          >
-                            <!-- :reduce="(item) => item.vendor_id" -->
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_regus.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_regus.current_page > 1"
-                                @click="onGetVendor(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_regus.last_page >
-                                  lookup_regus.current_page
-                                "
-                                @click="onGetVendor(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.nama_vendor }}</p>
                         </td>
                         <td class="border border-gray-300">
                           <textarea
@@ -925,7 +582,6 @@
                         <th class="w-[200px] border border-gray-300">Berat</th>
                         <th class="w-[200px] border border-gray-300">Volume</th>
                         <th class="w-[200px] border border-gray-300">Total</th>
-                        <th class="w-[200px] border border-gray-300">COA</th>
                         <th class="w-[200px] border border-gray-300">Divisi</th>
                         <th class="w-[200px] border border-gray-300">
                           Pelanggan
@@ -949,39 +605,7 @@
                           {{ item.item_gudang.kode_item }}
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_jenis_biaya"
-                            :loading="isLoadingGetJenisBiaya"
-                            :options="lookup_custom7.data"
-                            :filterable="false"
-                            @search="onGetJenisBiaya"
-                            v-model="item.jenis_biaya_id"
-                            @input="(item) => onSelectJenisBiaya(item, index)"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom7.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom7.current_page > 1"
-                                @click="onGetJenisBiaya(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom7.last_page >
-                                  lookup_custom7.current_page
-                                "
-                                @click="onGetJenisBiaya(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.jenis_biaya.nama_jenis_biaya ?? "" }}</p>
                         </td>
                         <td class="border border-gray-300">
                           {{ item.dasar_perhitungan }}
@@ -1048,109 +672,10 @@
                           />
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_coa"
-                            :loading="isLoadingGetCoa"
-                            :options="lookup_beam.data"
-                            :filterable="false"
-                            @search="onGetCoa"
-                            v-model="item.coa_id"
-                            @input="(item) => onSelectCoa(item, index)"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_beam.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_beam.current_page > 1"
-                                @click="onGetCoa(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_beam.last_page >
-                                  lookup_beam.current_page
-                                "
-                                @click="onGetCoa(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.divisi.nama_divisi ?? "" }}</p>
                         </td>
                         <td class="border border-gray-300">
-                          <v-select
-                            label="nama_divisi"
-                            :loading="isLoadingGetDivisi"
-                            :options="lookup_custom9.data"
-                            :filterable="false"
-                            @search="onGetDivisi"
-                            v-model="item.divisi_id"
-                            @input="(item) => onSelectDivisi(item, index)"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom9.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom9.current_page > 1"
-                                @click="onGetDivisi(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom9.last_page >
-                                  lookup_custom9.current_page
-                                "
-                                @click="onGetDivisi(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_pelanggan"
-                            :loading="isLoadingGetPelanggan"
-                            :options="lookup_sellers.data"
-                            :filterable="false"
-                            @search="onGetPelanggan"
-                            v-model="item.pelanggan_id"
-                            @input="(item) => onSelectPelanggan(item, index)"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_sellers.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_sellers.current_page > 1"
-                                @click="onGetPelanggan(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_sellers.last_page >
-                                  lookup_sellers.current_page
-                                "
-                                @click="onGetPelanggan(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
+                          <p>{{ item.pelanggan.nama_pelanggan ?? "" }}</p>
                         </td>
                         <td class="border border-gray-300">
                           <textarea
@@ -1159,13 +684,6 @@
                             v-model="item.keterangan"
                           ></textarea>
                         </td>
-                        <!-- <td class="text-center text-gray-600 border border-gray-300">
-              <i
-                class="fas fa-trash mx-auto"
-                style="cursor: pointer"
-                @click="onDeleteItem(index)"
-              ></i>
-            </td> -->
                       </tr>
                       <tr
                         v-if="!parameters.form.tagihan_pick_orders.length > 0"
@@ -1407,7 +925,7 @@ export default {
         this.parameters.form.user_id_pic = res.data.user_pic;
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id_pic = res.data.staff_pic;
-        this.parameters.form.peralatan_id = res.data.peralatan;
+        this.parameters.form.peralatan_id = res.data.peralatan ?? "";
         this.parameters.form.pick_order_details =
           res.data.pick_order_details.map((item) => {
             return {
@@ -1424,8 +942,8 @@ export default {
                 : item.nama_item,
               quantity: item.quantity_request,
               sisa_quantity: item.quantity,
-              zona_gudang_id: item.zona_gudang,
-              zona_gudang_id_tujuan: item.zona_gudang_tujuan,
+              zona_gudang_id: item.zona_gudang ?? "",
+              zona_gudang_id_tujuan: item.zona_gudang_tujuan ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
@@ -1442,7 +960,13 @@ export default {
                   params: {
                     item_gudang_id: item.item_gudang_id.item_gudang_id,
                     peralatan_id:
-                      this.parameters.form.peralatan_id.peralatan_id ?? "",
+                      typeof item.peralatan_id === "object"
+                        ? item.peralatan_id.peralatan_id ?? ""
+                        : item.peralatan_id ?? "",
+                    jenis_biaya_id:
+                      typeof item.jenis_biaya_id === "object"
+                        ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                        : item.jenis_biaya_id ?? "",
                     vendor_id:
                       this.parameters.form.staff_id_pic.vendor_id_operator ??
                       "",
@@ -1467,7 +991,8 @@ export default {
                       jumlah: data.jumlah,
                       total: 0,
                       divisi_id: data.divisi_id,
-                      vendor_id: data.vendor,
+                      vendor_id: data.vendor_id,
+                      nama_vendor: data.nama_vendor,
                       coa_id: "",
                       dasar_perhitungan: data.dasar_perhitungan,
                     });

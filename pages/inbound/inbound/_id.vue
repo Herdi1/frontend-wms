@@ -301,9 +301,9 @@
                 <template #BiayaInbound>
                   <BiayaInbounds :self="{ form, isEditable }" />
                 </template>
-                <template #TagihanInbound>
+                <!-- <template #TagihanInbound>
                   <TagihanInbounds :self="{ form }" />
-                </template>
+                </template> -->
               </tab-component>
             </div>
             <modal-footer-section
@@ -363,8 +363,8 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
-        { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
       ],
+      // { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
 
       id,
 
@@ -910,6 +910,10 @@ export default {
             typeof item.slot_penyimpanan_id_bin === "object" &&
             item.slot_penyimpanan_bin
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id ?? ""
+              : "",
+          jenis_biaya_id:
+            typeof item.jenis_biaya_id === "object"
+              ? item.jenis_biaya_id.jenis_biaya_id ?? ""
               : "",
           peralatan_id:
             typeof item.peralatan_id === "object"
