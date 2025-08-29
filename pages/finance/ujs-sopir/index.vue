@@ -129,7 +129,7 @@
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode UJS</div>
+                      <div>Kode Posting</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -193,6 +193,10 @@
                   <th class="w-48 border border-gray-300">
                     Total Bongkar Toko
                   </th>
+                  <th class="w-48 border border-gray-300">
+                    Total Insentif Jarak
+                  </th>
+                  <th class="w-48 border border-gray-300">Total UJS</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
                   <!-- <th class="w-28 border border-gray-300">Print</th> -->
 
@@ -250,13 +254,25 @@
                     </p>
                   </td>
                   <td class="border border-gray-300 text-right">
-                    Rp {{ item.total_biaya_retribusi ?? "" | formatPrice }}
+                    Rp {{ item.total_biaya_retribusi ?? 0 | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    Rp {{ item.total_bbm | formatPrice }}
+                    Rp {{ item.total_bbm ?? 0 | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    Rp {{ item.total_bongkar_toko | formatPrice }}
+                    Rp {{ item.total_bongkar_toko ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    Rp {{ item.total_insentif_jarak ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    Rp
+                    {{
+                      parseFloat(item.total_bongkar_toko) +
+                        parseFloat(item.total_biaya_retribusi) +
+                        parseFloat(item.total_bbm) +
+                        parseFloat(item.total_insentif_jarak) ?? 0 | formatPrice
+                    }}
                   </td>
                   <!-- <td class="border border-gray-300 text-right">
                     Rp {{ item.grand_total | formatPrice }}
