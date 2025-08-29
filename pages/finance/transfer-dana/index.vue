@@ -24,6 +24,92 @@
             <list-option-section :self="this" ref="form-option" />
           </div>
 
+          <div class="w-full mt-3 mb-7">
+            <div
+              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
+            >
+              <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Awal"
+                      type="date"
+                      name="kode_sap"
+                      :isHorizontal="true"
+                      v-model="parameters.params.start_date"
+                      :required="false"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-5 w-full">
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Akhir"
+                      type="date"
+                      name="periode_akhir"
+                      :isHorizontal="true"
+                      v-model="parameters.params.end_date"
+                      :required="false"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 mb-1">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Gudang</div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_custom1.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
+                  >
+                    <!-- @input="onSelectGudang" -->
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="d-flex justify-content-between"
+                      v-if="lookup_custom1.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom1.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom1.last_page > lookup_custom1.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <button
+                  @click="onLoad"
+                  class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
+                >
+                  <i class="fa fa-filter text-white font-bold mr-2"></i>
+                  <div>Filter</div>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="table-responsive w-full relative overflow-y-auto">
             <table
               ref="formContainer"
