@@ -193,9 +193,9 @@
                   <th class="w-48 border border-gray-300">
                     Total Bongkar Toko
                   </th>
-                  <th class="w-48 border border-gray-300">
+                  <!-- <th class="w-48 border border-gray-300">
                     Total Insentif Jarak
-                  </th>
+                  </th> -->
                   <th class="w-48 border border-gray-300">Total UJS</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
                   <!-- <th class="w-28 border border-gray-300">Print</th> -->
@@ -262,16 +262,16 @@
                   <td class="border border-gray-300 text-right">
                     Rp {{ item.total_bongkar_toko ?? 0 | formatPrice }}
                   </td>
-                  <td class="border border-gray-300 text-right">
+                  <!-- <td class="border border-gray-300 text-right">
                     Rp {{ item.total_insentif_jarak ?? 0 | formatPrice }}
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300 text-right">
                     Rp
                     {{
-                      parseFloat(item.total_bongkar_toko) +
+                      (parseFloat(item.total_bongkar_toko) +
                         parseFloat(item.total_biaya_retribusi) +
-                        parseFloat(item.total_bbm) +
-                        parseFloat(item.total_insentif_jarak) ?? 0 | formatPrice
+                        parseFloat(item.total_bbm))
+                        | formatPrice
                     }}
                   </td>
                   <!-- <td class="border border-gray-300 text-right">
