@@ -872,37 +872,37 @@ export default {
   watch: {
     "parameters.form.biaya_pick_orders": {
       handler(newVal) {
-        if (!this.isLoadingPage) {
-          newVal.forEach((item) => {
-            if (item.dasar_perhitungan === "QTY") {
-              item.total = item.jumlah * item.nilai_kontrak;
-            } else if (item.dasar_perhitungan === "BERAT") {
-              item.total = item.jumlah * item.nilai_kontrak * item.berat;
-            } else if (item.dasar_perhitungan === "VOLUME") {
-              item.total = item.jumlah * item.nilai_kontrak * item.volume;
-            } else {
-              item.total = 0;
-            }
-          });
-        }
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nominal_satuan;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nominal_satuan * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nominal_satuan * item.volume;
+          } else {
+            item.total = 0;
+          }
+        });
+        // if (!this.isLoadingPage) {
+        // }
       },
       deep: true,
     },
     "parameters.form.tagihan_pick_orders": {
       handler(newVal) {
-        if (!this.isLoadingPage) {
-          newVal.forEach((item) => {
-            if (item.dasar_perhitungan === "QTY") {
-              item.total = item.jumlah * item.nilai_kontrak;
-            } else if (item.dasar_perhitungan === "BERAT") {
-              item.total = item.jumlah * item.nilai_kontrak * item.berat;
-            } else if (item.dasar_perhitungan === "VOLUME") {
-              item.total = item.jumlah * item.nilai_kontrak * item.volume;
-            } else {
-              item.total = 0;
-            }
-          });
-        }
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nominal_satuan;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nominal_satuan * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nominal_satuan * item.volume;
+          } else {
+            item.total = 0;
+          }
+        });
+        // if (!this.isLoadingPage) {
+        // }
       },
       deep: true,
     },
@@ -985,11 +985,13 @@ export default {
                       item_gudang_id: data.item_gudang_id,
                       biaya_inbound_id: "",
                       jenis_biaya_id: data.jenis_biaya,
-                      nominal_satuan: data.nilai_kontrak,
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
-                      jumlah: data.jumlah,
-                      total: 0,
+                      nominal_satuan: parseFloat(data.nilai_kontrak) ?? 0,
+                      jumlah: parseFloat(data.jumlah) ?? 0,
+                      berat: parseFloat(data.berat) ?? 0,
+                      volume: parseFloat(data.volume) ?? 0,
+                      total: parseFloat(data.total) ?? 0,
                       divisi_id: data.divisi_id,
                       vendor_id: data.vendor_id,
                       nama_vendor: data.nama_vendor,
@@ -1007,6 +1009,11 @@ export default {
                 ...JSON.parse(JSON.stringify(item)),
                 coa: item.coa ?? "",
                 jenis_biaya_id: item.jenis_biaya ?? "",
+                nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+                jumlah: parseFloat(item.jumlah) ?? 0,
+                berat: parseFloat(item.berat) ?? 0,
+                volume: parseFloat(item.volume) ?? 0,
+                total: parseFloat(item.total) ?? 0,
               };
             });
         }
@@ -1033,12 +1040,14 @@ export default {
                       item_gudang_id: data.item_gudang_id,
                       tagihan_pick_order_id: "",
                       jenis_biaya_id: data.jenis_biaya,
-                      nominal_satuan: data.nilai_kontrak,
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
-                      jumlah: 0,
+                      nominal_satuan: parseFloat(data.nilai_kontrak) ?? 0,
+                      jumlah: parseFloat(data.jumlah) ?? 0,
+                      berat: parseFloat(data.berat) ?? 0,
+                      volume: parseFloat(data.volume) ?? 0,
+                      total: parseFloat(data.total) ?? 0,
                       jenis: 0,
-                      total: parseFloat(item.total),
                       divisi_id: data.divisi,
                       pelanggan_id: data.pelanggan,
                       coa_id: "",
@@ -1054,7 +1063,6 @@ export default {
               return {
                 ...item,
                 tagihan_pick_order_id: item,
-                total: 0,
                 tagihan_inbound_id: item,
                 nama_item: item.item_gudang.nama_item,
                 kode_item: item.item_gudang.kode_item,
@@ -1063,6 +1071,11 @@ export default {
                 pelanggan_id: item.pelanggan,
                 divisi_id: item.divisi,
                 vendor_id: item.vendor,
+                nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+                jumlah: parseFloat(item.jumlah) ?? 0,
+                berat: parseFloat(item.berat) ?? 0,
+                volume: parseFloat(item.volume) ?? 0,
+                total: parseFloat(item.total) ?? 0,
               };
             });
         }

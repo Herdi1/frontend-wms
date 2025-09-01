@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="w-full flex justify-between items-center">
-      <h1 class="text-xl font-bold">Biaya Lastmile</h1>
+      <h1 class="text-xl font-bold">Tagihan Lastmile</h1>
       <div class=" ">
         <!-- <button
           type="button"
@@ -193,11 +193,7 @@
             <td class="border border-gray-300">
               <money
                 disabled
-                :value="
-                  item.jenis_routing === 'MUAT'
-                    ? item.biaya_perkm_muat
-                    : item.biaya_perkm_kosong
-                "
+                :value="item.nominal_satuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
               />
             </td>

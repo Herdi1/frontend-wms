@@ -27,9 +27,7 @@
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
-            <th class="w-[200px] border border-gray-300">
-              Biaya Per Kilometer
-            </th>
+            <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
             <!-- <th class="w-[200px] border border-gray-300">Payable To</th> -->
             <th class="w-[200px] border border-gray-300">Total</th>
             <!-- <th class="w-[200px] border border-gray-300">COA</th> -->

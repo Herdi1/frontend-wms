@@ -176,7 +176,7 @@
                   v-model="parameters.form.jenis_kiriman"
                   class="w-1/2 outline-none p-1 rounded-sm border border-gray-300"
                 >
-                  <option value="0">Fracco</option>
+                  <option value="0">Franco</option>
                   <option value="1">Locco</option>
                 </select>
               </div>
