@@ -273,7 +273,10 @@
                 v-model="item.tanggal_expired"
               />
             </td>
-            <td class="border border-gray-300">
+            <td
+              class="border border-gray-300"
+              v-if="self.form.sumber_data === 'ASN'"
+            >
               <!-- <div>
                 <p v-if="item.panjang">Panjang: {{ item.panjang }}</p>
                 <p v-if="item.lebar">Lebar: {{ item.lebar }}</p>
@@ -772,6 +775,7 @@ export default {
       this.self.form.inbound_details.push({
         detail_inbound_id: "",
         item_id: "",
+        item_gudang_id: "",
         serial_number: "",
         quantity: "",
         peralatan_id: "",
@@ -1189,10 +1193,11 @@ export default {
           this.self.form.inbound_details[index].quantity_request =
             item.quantity_request;
           this.self.form.inbound_details[index].item_gudang_id = {
-            item_gudang_id: item.item_gudang_id.item_gudang_id,
+            item_gudang_id: item.item_gudang_id,
             item_id: item.item_id,
             nama_item: item.nama_item,
           };
+          console.log(this.self.form.inbound_details[index].item_gudang_id);
           this.self.form.inbound_details[index].status_terima = "FULL";
         } else {
           this.self.form.inbound_details[index].item_gudang_id = item;

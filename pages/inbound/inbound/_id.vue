@@ -880,8 +880,8 @@ export default {
           valuation_id: item.valuation_id ?? "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
-              ? item.item_gudang_id.item_gudang_id ?? ""
-              : item.item_gudang_id ?? "",
+              ? item.item_gudang_id.item_gudang_id
+              : item.item_gudang_id,
           item_id:
             typeof item.item_id === "object"
               ? item.item_id.item_id ?? ""
@@ -1032,6 +1032,7 @@ export default {
       this.form.inbound_details.push({
         detail_inbound_id: "",
         item_id: "",
+        item_gudang_id: "",
         serial_number: "",
         quantity: "",
         valuation_id: "",
