@@ -93,7 +93,6 @@
                 input: onSelectSupplier,
               }"
               width="w-[60%]"
-              :required="true"
             />
             <div class="form-group">
               <input-horizontal
@@ -215,7 +214,7 @@
         </button> -->
                     <button
                       type="button"
-                      @click="addBarangKeluarDetail"
+                      @click="onOpenModal"
                       class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
                     >
                       <i class="fas fa-plus"></i>
@@ -242,11 +241,14 @@
                         <th class="w-[200px] border border-gray-300">
                           Tanggal Expired
                         </th>
-                        <th class="w-[200px] border border-gray-300">Zona</th>
+                        <th class="w-[200px] border border-gray-300">
+                          Lokasi Penyimpanan Terkahir
+                        </th>
+                        <!-- <th class="w-[200px] border border-gray-300">Zona</th>
                         <th class="w-[200px] border border-gray-300">Aisle</th>
                         <th class="w-[200px] border border-gray-300">Rack</th>
                         <th class="w-[200px] border border-gray-300">Level</th>
-                        <th class="w-[200px] border border-gray-300">Bin</th>
+                        <th class="w-[200px] border border-gray-300">Bin</th> -->
                         <th class="w-[300px] border border-gray-300">
                           Keterangan
                         </th>
@@ -323,12 +325,12 @@
                                 : null
                             "
                           />
-                          <p class="mb-2">
+                          <!-- <p class="mb-2">
                             Quantity Tersedia :
                             <span class="text-primary">{{
                               item.quantity_sisa
                             }}</span>
-                          </p>
+                          </p> -->
                           <p class="mb-2">
                             Valuation :
                             <!-- <span class="text-primary">{{
@@ -390,10 +392,10 @@
                             v-model="item.tanggal_expired"
                           />
                         </td>
-                        <!-- <td class="border border-gray-300">
-                          {{ item.lokasi_penyimpanan }}
-                        </td> -->
                         <td class="border border-gray-300">
+                          {{ item.kode_slot_penyimpanan_terakhir }}
+                        </td>
+                        <!-- <td class="border border-gray-300">
                           <v-select
                             label="nama_zona_gudang"
                             :loading="isLoadingGetZonaPlan"
@@ -634,7 +636,7 @@
                               >
                             </li>
                           </v-select>
-                        </td>
+                        </td> -->
                         <td class="border border-gray-300">
                           <textarea
                             placeholder="Keterangan"
@@ -719,17 +721,22 @@
         </form>
       </ValidationObserver>
     </div>
-    <!-- <ModalKartuStok :self="this" ref="modalKartuStok" />
-    <ModalStokGudang :self="this" ref="modalStokGudang" /> -->
+    <ModalKartuStok :self="this" ref="modalKartuStok" />
+    <!-- <ModalStokGudang :self="this" ref="modalStokGudang" /> -->
   </section>
 </template>
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
+import ModalKartuStok from "../../../components/transaksional/ModalKartuStok.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    ModalKartuStok,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -1566,8 +1573,8 @@ export default {
       if (item) {
         this.parameters.form.gudang_id = item;
         this.parameters.form.barang_keluar_details = [];
-        await this.onSearchZonaPlan();
-        await this.onSearchItemGudang();
+        // await this.onSearchZonaPlan();
+        // await this.onSearchItemGudang();
       } else {
         this.parameters.form.gudang_id = "";
       }
@@ -1871,23 +1878,17 @@ export default {
     addItem(item) {
       if (
         !this.parameters.form.barang_keluar_details.find(
-          (data) => data.stok_gudang_id === item.stok_gudang_id
+          (data) => data.kartu_stok_id === item.kartu_stok_id
         )
       ) {
         let detailItem = {
           ...item,
-          nama_item: item.item_gudang
-            ? item.item_gudang.nama_item
-            : item.nama_item,
-          kode_item: item.item_gudang
-            ? item.item_gudang.kode_item
-            : item.kode_item,
-          quantity_sisa: item.quantity_sisa
-            ? item.quantity_sisa
-            : item.quantity,
-          lokasi_penyimpanan: item.kode_slot_penyimpanan_terakhir
-            ? item.kode_slot_penyimpanan_terakhir
-            : `${item.zona_gudang.nama_zona_gudang} - ${item.zona_gudang.kode_zona_gudang}`,
+          item_gudang_id: item.item_gudang,
+          zona_gudang_id: item.zona_gudang,
+          slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+          slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+          slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+          slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
         };
         this.parameters.form.barang_keluar_details.push(detailItem);
       } else {
