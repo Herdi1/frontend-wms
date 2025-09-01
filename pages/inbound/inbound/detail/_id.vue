@@ -94,6 +94,106 @@
                   }}
                 </div>
               </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Tipe Dokumen External</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.doc_type_sap
+                      ? form.doc_type_sap
+                      : "Dokumen External tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Surat Jalan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.surat_jalan
+                      ? form.surat_jalan
+                      : "Surat Jalan tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">No Referensi</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.no_referensi_1
+                      ? form.no_referensi_1
+                      : "No Referensi tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">No Referensi 2</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.no_referensi_2
+                      ? form.no_referensi_2
+                      : "No Referensi tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">No Referensi 3</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.no_referensi_3
+                      ? form.no_referensi_3
+                      : "No Referensi tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Supplier</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.supplier
+                      ? form.supplier.nama_supplier
+                      : "Supplier tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Pelanggan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.pelanggan
+                      ? form.pelanggan.nama_pelanggan
+                      : "Pelanggan tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Operator</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.staff
+                      ? form.staff.nama_lengkap
+                      : "Operator tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Vendor Operator</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.vendor_transporter
+                      ? form.vendor_transporter.nama_vendor
+                      : "Vendor Operator tidak ditemukan"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold">Keterangan</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    form.keterangan
+                      ? form.keterangan
+                      : "Keterangan tidak ditemukan"
+                  }}
+                </div>
+              </div>
             </div>
           </div>
         </div>

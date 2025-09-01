@@ -57,7 +57,7 @@
               </div>
 
               <div class="grid grid-cols-2 gap-2 mb-1">
-                <div class="form-group w-full flex">
+                <!-- <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2">Gudang</div>
 
                   <v-select
@@ -70,7 +70,6 @@
                     v-model="parameters.params.gudang_id"
                     :reduce="(item) => item.gudang_id"
                   >
-                    <!-- @input="onSelectGudang" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -95,7 +94,7 @@
                       >
                     </li>
                   </v-select>
-                </div>
+                </div> -->
               </div>
 
               <div class="flex gap-3">

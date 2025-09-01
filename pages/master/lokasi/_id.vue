@@ -20,7 +20,7 @@
         autocomplete="off"
       >
         <div class="bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm">
-          <div class="grid grid-cols-2 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
             <div class="form-group w-full items-center mb-5">
               <label for="">Lokasi Shipto Induk</label>
               <v-select
@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <ValidationProvider name="kode_referensi" rules="required">
               <div class="form-group">
                 <input-form
@@ -108,7 +108,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Nomor Telepon"
@@ -137,7 +137,7 @@
               />
             </div>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <ValidationProvider name="id_negara" rules="required">
               <div class="form-group w-full items-center mb-5">
                 <label for="" class="w-4/12"
@@ -267,7 +267,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <ValidationProvider name="id_kecamatan" rules="required">
               <div
                 class="form-group w-full items-center mb-5"
@@ -381,7 +381,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-2 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Nilai Plafon"
@@ -400,9 +400,21 @@
                 v-model="parameters.form.no_npwp"
               />
             </div>
+            <div>
+              <label for="status_bongkar_toko">Status Bongkar Toko</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.form.status_bongkar_toko"
+                class="w-full p-1 rounded-md border border-gray-300 outline-none"
+              >
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+              </select>
+            </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Longitude"
@@ -438,7 +450,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Longitude 2"
@@ -471,7 +483,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Longitude 3"
@@ -504,7 +516,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-2 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
             <div class="form-group">
               <label for="alamat">Alamat</label>
               <textarea
@@ -532,7 +544,7 @@
           </h1>
         </div>
         <div class="bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm">
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
                 label="Nama Pemilik"
@@ -561,7 +573,7 @@
               />
             </div>
           </div>
-          <div class="grid grid-cols-3 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <ValidationProvider name="id_negara_pemilik">
               <div class="form-group w-full items-center mb-5">
                 <label for="" class="w-4/12">Negara Pemilik</label>
@@ -678,7 +690,7 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-2 gap-2 w-full">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
             <ValidationProvider name="id_kecamatan_pemilik">
               <div class="form-group w-full items-center mb-5">
                 <label for="" class="w-4/12">Kecamatan Pemilik</label>
@@ -874,6 +886,7 @@ export default {
           kecamatan_id_pemilik: "",
           kelurahan_id_pemilik: "",
           alamat_pemilik: "",
+          status_bongkar_toko: "",
         },
       },
     };
@@ -1023,6 +1036,7 @@ export default {
           kecamatan_id_pemilik: "",
           kelurahan_id_pemilik: "",
           alamat_pemilik: "",
+          status_bongkar_toko: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -1627,6 +1641,7 @@ export default {
         kecamatan_id_pemilik: "",
         kelurahan_id_pemilik: "",
         alamat_pemilik: "",
+        status_bongkar_toko: "",
       };
     },
   },

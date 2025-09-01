@@ -1106,6 +1106,7 @@ export default {
         this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
         this.generateRuteShipment();
+        this.$toaster.success("Data Berhasil Ditambahkan");
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }

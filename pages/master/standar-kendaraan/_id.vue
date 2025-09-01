@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-  >
+  <section class="section min-h-screen">
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
@@ -17,13 +15,11 @@
       </div>
       <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
         <form @submit.prevent="validate().then(() => onSubmit(invalid))">
-          <div class="modal-body mt-4">
-            <div class="flex gap-2">
-              <ValidationProvider
-                name="jenis_kendaraan"
-                rules="required"
-                class="w-1/2"
-              >
+          <div
+            class="modal-body mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <ValidationProvider name="jenis_kendaraan" rules="required">
                 <div
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
@@ -70,7 +66,7 @@
                 </div>
               </ValidationProvider>
 
-              <ValidationProvider name="gudang" rules="required" class="w-1/2">
+              <ValidationProvider name="gudang" rules="required">
                 <div
                   class="form-group w-full items-center mb-5"
                   slot-scope="{ errors, valid }"
@@ -118,7 +114,7 @@
               </ValidationProvider>
             </div>
 
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
               <!-- Kode Standara Jenis Kendaraan -->
               <div class="form-group">
                 <input-form
@@ -160,11 +156,11 @@
               </div>
             </div>
 
-            <div class="flex gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
               <!-- Standar Muat -->
-              <div class="form-group col-12 w-1/3">
+              <div class="form-group col-12">
                 <label for="standar_muat"
-                  >Standar Muat <span class="text-danger">*</span></label
+                  >Standar Waktu Muat <span class="text-danger">*</span></label
                 >
                 <money
                   v-model="parameters.form.standar_muat"
@@ -177,9 +173,10 @@
               </div>
 
               <!-- Standar Bongkar -->
-              <div class="form-group col-12 w-1/3">
+              <div class="form-group col-12">
                 <label for="standar_bongkar"
-                  >Standar Bongkar <span class="text-danger">*</span></label
+                  >Standar Waktu Bongkar
+                  <span class="text-danger">*</span></label
                 >
                 <money
                   v-model="parameters.form.standar_bongkar"
@@ -192,7 +189,7 @@
               </div>
 
               <!-- Standar Istirahat -->
-              <div class="form-group col-12 w-1/3">
+              <div class="form-group col-12">
                 <label for="standar_istirahat"
                   >Standar Istirahat <span class="text-danger">*</span></label
                 >
@@ -207,9 +204,9 @@
               </div>
             </div>
 
-            <div class="flex gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
               <!-- Minimal Muat -->
-              <div class="form-group col-12 w-1/2">
+              <div class="form-group col-12">
                 <label for="minimal_muat"
                   >Minimal Muat <span class="text-danger">*</span></label
                 >
@@ -224,7 +221,7 @@
               </div>
 
               <!-- Maksimal Muat -->
-              <div class="form-group col-12 w-1/2">
+              <div class="form-group col-12">
                 <label for="maksimal_muat"
                   >Maksimal Muat <span class="text-danger">*</span></label
                 >
@@ -238,7 +235,7 @@
                 <div class="text-muted text-sm pl-1 pt-1">* kg</div>
               </div>
               <!-- Konsumsi BBM -->
-              <div class="form-group col-12 w-1/2">
+              <div class="form-group col-12">
                 <label for="konsumsi_bbm"
                   >Konsumsi BBM <span class="text-danger">*</span></label
                 >
@@ -252,20 +249,132 @@
                 <div class="text-muted text-sm pl-1 pt-1">* km/liter</div>
               </div>
             </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <div class="form-group col-12 w-full">
-              <label for="konsumsi_bbm"
-                >Standar Ritase Harian <span class="text-danger">*</span></label
-              >
-              <money
-                v-model="parameters.form.standar_ritase_harian"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-                @keydown.native="
-                  $event.key === '-' ? $event.preventDefault() : null
-                "
-              />
-              <!-- <div class="text-muted text-sm pl-1 pt-1">* km/liter</div> -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <div class="form-group col-12 w-full">
+                <label for="konsumsi_bbm"
+                  >Standar Ritase Harian
+                  <span class="text-danger">*</span></label
+                >
+                <money
+                  v-model="parameters.form.standar_ritase_harian"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+              </div>
+              <div class="form-group col-12 w-full">
+                <label for="konsumsi_bbm">Maksimal Panjang</label>
+                <money
+                  v-model="parameters.form.maksimal_panjang"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+              </div>
+              <div class="form-group col-12 w-full">
+                <label for="konsumsi_bbm">Maksimal Lebar</label>
+                <money
+                  v-model="parameters.form.maksimal_lebar"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div class="form-group col-12 w-full">
+                <label for="konsumsi_bbm">Maksimal Tinggi</label>
+                <money
+                  v-model="parameters.form.maksimal_tinggi"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+              </div>
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="">Satuan Dimensi</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_satuan"
+                  :loading="isLoadingGetDimensi"
+                  :options="lookup_custom3.data"
+                  :filterable="false"
+                  @search="onGetDimensi"
+                  :reduce="(item) => item.satuan_id"
+                  v-model="parameters.form.satuan_id_dimensi"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom3.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom3.current_page > 1"
+                      @click="onGetDimensi(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom3.last_page > lookup_custom3.current_page
+                      "
+                      @click="onGetDimensi(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group col-12 w-full">
+                <label for="konsumsi_bbm">Maksimal Volume</label>
+                <money
+                  v-model="parameters.form.maksimal_volume"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+              </div>
+              <div class="form-group w-full items-center mb-5">
+                <label for="" class="">Satuan Volume</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_satuan"
+                  :loading="isLoadingGetVolume"
+                  :options="lookup_custom4.data"
+                  :filterable="false"
+                  @search="onGetVolume"
+                  :reduce="(item) => item.satuan_id"
+                  v-model="parameters.form.satuan_id_volume"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom4.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom4.current_page > 1"
+                      @click="onGetVolume(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom4.last_page > lookup_custom4.current_page
+                      "
+                      @click="onGetVolume(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
             </div>
           </div>
           <modal-footer-section
@@ -298,6 +407,14 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
+      isStopSearchDimensi: false,
+      isLoadingGetDimensi: false,
+      dimensi_search: "",
+
+      isStopSearchVolume: false,
+      isLoadingGetVolume: false,
+      volume_search: "",
+
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
@@ -308,7 +425,7 @@ export default {
           kode_standar_jenis_kendaraan: "",
           jenis_kendaraan_id: "",
           gudang_id: "",
-          kecapatan_isi: "",
+          kecepatan_isi: "",
           kecepatan_kosong: "",
           standar_muat: "",
           standar_bongkar: "",
@@ -317,6 +434,12 @@ export default {
           minimal_muat: "",
           maksimal_muat: "",
           konsumsi_bbm: "",
+          maksimal_panjang: "",
+          maksimal_lebar: "",
+          maksimal_tinggi: "",
+          satuan_id_dimensi: "",
+          maksimal_volume: "",
+          satuan_id_volume: "",
         },
       },
     };
@@ -325,6 +448,8 @@ export default {
   async mounted() {
     await this.onSearchJenisKendaraan();
     await this.onSearchGudang();
+    await this.onSearchDimensi();
+    await this.onSearchVolume();
   },
 
   async created() {
@@ -334,6 +459,22 @@ export default {
           `master/standar-jenis-kendaraan/${this.id}`
         );
         this.parameters.form = res.data;
+        this.parameters.form.kecepatan_isi = res.data.kecepatan_isi ?? 0;
+        this.parameters.form.kecepatan_kosong = res.data.kecepatan_kosong ?? 0;
+        this.parameters.form.standar_muat = res.data.standar_muat ?? 0;
+        this.parameters.form.standar_bongkar = res.data.standar_bongkar ?? 0;
+        this.parameters.form.standar_istirahat =
+          res.data.standar_istirahat ?? 0;
+        this.parameters.form.minimal_muat = res.data.minimal_muat ?? 0;
+        this.parameters.form.maksimal_muat = res.data.maksimal_muat ?? 0;
+        this.parameters.form.konsumsi_bbm = res.data.konsumsi_bbm ?? 0;
+        this.parameters.form.standar_ritase_harian =
+          res.data.standar_ritase_harian ?? 0;
+        this.parameters.form.maksimal_panjang = res.data.maksimal_panjang ?? 0;
+        this.parameters.form.maksimal_lebar = res.data.maksimal_lebar ?? 0;
+        this.parameters.form.maksimal_tinggi = res.data.maksimal_tinggi ?? 0;
+        this.parameters.form.maksimal_volume = res.data.maksimal_volume ?? 0;
+
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -347,6 +488,8 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
+      "lookup_custom3",
+      "lookup_custom4",
     ]),
   },
 
@@ -391,6 +534,12 @@ export default {
           minimal_muat: "",
           maksimal_muat: "",
           konsumsi_bbm: "",
+          maksimal_panjang: "",
+          maksimal_lebar: "",
+          maksimal_tinggi: "",
+          satuan_id_dimensi: "",
+          maksimal_volume: "",
+          satuan_id_volume: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -476,6 +625,82 @@ export default {
       }
     },
 
+    onGetDimensi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchDimensi);
+
+      this.isStopSearchDimensi = setTimeout(() => {
+        this.dimensi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+        this.onSearchDimensi();
+      }, 600);
+    },
+
+    async onSearchDimensi() {
+      if (!this.isLoadingGetDimensi) {
+        this.isLoadingGetDimensi = true;
+
+        await this.lookUp({
+          url: "master/satuan/get-satuan",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.dimensi_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetDimensi = false;
+      }
+    },
+
+    onGetVolume(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVolume);
+
+      this.isStopSearchVolume = setTimeout(() => {
+        this.volume_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+        this.onSearchVolume();
+      }, 600);
+    },
+
+    async onSearchVolume() {
+      if (!this.isLoadingGetVolume) {
+        this.isLoadingGetVolume = true;
+
+        await this.lookUp({
+          url: "master/satuan/get-satuan",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.volume_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVolume = false;
+      }
+    },
+
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
@@ -490,6 +715,12 @@ export default {
         minimal_muat: "",
         maksimal_muat: "",
         konsumsi_bbm: "",
+        maksimal_panjang: "",
+        maksimal_lebar: "",
+        maksimal_tinggi: "",
+        satuan_id_dimensi: "",
+        maksimal_volume: "",
+        satuan_id_volume: "",
       };
     },
   },

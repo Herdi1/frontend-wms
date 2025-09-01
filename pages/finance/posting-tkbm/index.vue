@@ -116,6 +116,10 @@
               </thead>
             </table>
           </div>
+
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
+          </div>
         </div>
       </div>
     </div>
