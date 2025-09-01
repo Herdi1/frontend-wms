@@ -189,10 +189,10 @@
               >
                 <thead>
                   <tr class="text-sm uppercase">
-                    <!-- <th class="w-60 border border-gray-300">
+                    <th class="w-60 border border-gray-300">
                       Kode Pick Request
                     </th>
-                    <th class="w-60 border border-gray-300">Tanggal</th> -->
+                    <!-- <th class="w-60 border border-gray-300">Tanggal</th> -->
                     <th class="w-40 border border-gray-300">Kode Item</th>
                     <th class="w-40 border border-gray-300">Nama Item</th>
                     <th class="w-40 border border-gray-300">Jenis</th>
@@ -223,10 +223,10 @@
                     :key="i"
                     class="border-t border-gray-400 align-top"
                   >
-                    <!-- <td class="border border-gray-300">
+                    <td class="border border-gray-300">
                       {{ item.kode_pick_request }}
                     </td>
-                    <td class="border border-gray-300">
+                    <!-- <td class="border border-gray-300">
                       {{ item.tanggal }}
                     </td> -->
                     <td class="border border-gray-300">
@@ -1844,6 +1844,7 @@ export default {
           });
         });
       }
+      this.$toaster.success("Data Berhasil Ditambahkan");
     },
 
     formReset() {

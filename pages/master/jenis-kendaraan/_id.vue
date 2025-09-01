@@ -62,8 +62,15 @@
               name="standar_ritase_hari"
               rules="required"
             >
-              <div class="form-group" slot-scope="{ errors, valid }">
-                <input-form
+              <div class="form-group">
+                <label for="">Standar Ritase Harian</label>
+                <input
+                  type="number"
+                  min="0"
+                  v-model="parameters.form.standar_ritase_hari"
+                  class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                />
+                <!-- <input-form
                   label="Standar Ritase Harian"
                   type="number"
                   name="standar_ritase_hari"
@@ -72,7 +79,7 @@
                   :inputClass="
                     errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                   "
-                />
+                /> -->
               </div>
             </ValidationProvider>
             <!-- <div>

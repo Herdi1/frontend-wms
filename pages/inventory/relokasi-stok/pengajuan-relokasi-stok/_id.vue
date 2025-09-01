@@ -1824,6 +1824,7 @@ export default {
           kode_slot_penyimpanan_terakhir: "",
         };
         this.parameters.form.mutasi_stok_details.push(detailItem);
+        this.$toaster.success("Data Berhasil Ditambahkan");
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }

@@ -43,12 +43,13 @@
                         :filterable="false"
                         @search="onGetJenisKendaraan"
                         v-model="form.jenis_kendaraan_id"
-                        :reduce="(item) => item.jenis_kendaraan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
+                        @input="(item) => onSelectJenis(item)"
                       >
+                        <!-- :reduce="(item) => item.jenis_kendaraan_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -93,12 +94,13 @@
                         :filterable="false"
                         @search="onGetGudang"
                         v-model="form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
                         class="w-full bg-white"
+                        @input="(item) => onSelectGudang(item)"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <!-- :reduce="(item) => item.gudang_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -204,12 +206,13 @@
                         :filterable="false"
                         @search="onGetVendorOperator"
                         v-model="form.vendor_id_operator"
-                        :reduce="(item) => item.vendor_id"
                         class="w-full bg-white"
+                        @input="(item) => onSelecetVendor(item)"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <!-- :reduce="(item) => item.vendor_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -312,6 +315,7 @@
                       type="text"
                       name="plat_nomor"
                       v-model="form.plat_nomor"
+                      :required="true"
                     />
                   </div>
 
@@ -321,26 +325,27 @@
                       type="text"
                       name="cc"
                       v-model="form.cc"
+                      :required="false"
                     />
                   </div>
 
+                  <div v-if="isEditable">
+                    <input-form
+                      label="Kode Kendaraan"
+                      type="text"
+                      name="kode_kendaraan"
+                      :required="true"
+                      v-model="form.kode_kendaraan"
+                      :disabled="true"
+                    />
+                  </div>
                   <div>
                     <input-form
                       label="Nomor Mesin"
                       type="text"
                       name="nomor_mesin"
                       v-model="form.nomor_mesin"
-                    />
-                  </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
-                  <div>
-                    <input-form
-                      label="Nomor Pintu"
-                      type="text"
-                      name="kode_kendaraan"
-                      :required="true"
-                      v-model="form.kode_kendaraan"
+                      :required="false"
                     />
                   </div>
                   <div>
@@ -349,6 +354,7 @@
                       type="text"
                       name="tahun_buat"
                       v-model="form.tahun_buat"
+                      :required="false"
                     />
                   </div>
 
@@ -358,28 +364,9 @@
                       type="text"
                       name="nomor_sasis"
                       v-model="form.nomor_sasis"
+                      :required="false"
                     />
                   </div>
-
-                  <div>
-                    <input-form
-                      label="Nomor STNK"
-                      type="text"
-                      name="stnk"
-                      v-model="form.stnk"
-                    />
-                  </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
-                  <div>
-                    <input-form
-                      label="Nomor KIR"
-                      type="text"
-                      name="kir"
-                      v-model="form.kir"
-                    />
-                  </div>
-
                   <div class="form-group">
                     <label for="status_digunakan"
                       >Status Digunakan
@@ -427,6 +414,110 @@
                       <option value="dedicated">Dedicated</option>
                       <option value="shared">Share</option>
                     </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full mt-2">
+                  <div>
+                    <input-form
+                      label="Tanggal Pajak"
+                      type="date"
+                      name="tanggal_pajak"
+                      v-model="form.tanggal_pajak"
+                      :required="false"
+                    />
+                  </div>
+                  <div>
+                    <label for="tipe_plat_id"
+                      >Tipe Plat <span class="text-danger">*</span></label
+                    >
+                    <v-select
+                      label="nama_tipe_plat"
+                      :loading="isLoadingGetTipePlat"
+                      :options="lookup_custom4.data"
+                      :filterable="false"
+                      @search="onGetTipePlat"
+                      v-model="form.tipe_plat_id"
+                      :reduce="(item) => item.tipe_plat_id"
+                      class="w-full bg-white"
+                    >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom4.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom4.current_page > 1"
+                          @click="onGetTipePlat(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom4.last_page >
+                            lookup_custom4.current_page
+                          "
+                          @click="onGetTipePlat(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+                  <div>
+                    <input-form
+                      label="Tanggal Beli"
+                      type="date"
+                      name="tanggal_beli"
+                      v-model="form.tanggal_beli"
+                      :required="false"
+                    />
+                  </div>
+                  <div class="w-full">
+                    <label class="" for="umur_kendaraan">Umur Kendaraan</label>
+                    <div
+                      class="border border-gray-300 bg-gray-50 rounded-md p-1"
+                    >
+                      {{ formatAge(vehicleAge) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full">
+                  <div>
+                    <input-form
+                      label="Nomor STNK"
+                      type="text"
+                      name="stnk"
+                      v-model="form.stnk"
+                      :required="false"
+                    />
+                  </div>
+                  <div>
+                    <input-form
+                      label="Tanggal Expired STNK"
+                      type="date"
+                      name="tanggal_expired_stnk"
+                      v-model="form.tanggal_stnk"
+                      :required="false"
+                    />
+                  </div>
+                  <div>
+                    <input-form
+                      label="Nomor KIR"
+                      type="text"
+                      name="kir"
+                      v-model="form.kir"
+                      :required="false"
+                    />
+                  </div>
+                  <div>
+                    <input-form
+                      label="Tanggal Expired KIR"
+                      type="date"
+                      name="tanggal_expired_kir"
+                      v-model="form.tanggal_kir"
+                      :required="false"
+                    />
                   </div>
                 </div>
 
@@ -614,6 +705,10 @@ export default {
       isLoadingGetDriver: false,
       driver_search: "",
 
+      isStopSearchTipePlat: false,
+      isLoadingGetTipePlat: false,
+      tipe_plat_search: "",
+
       title: "Kendaraan",
 
       url: "master/kendaraan",
@@ -638,6 +733,14 @@ export default {
         status_normal: "",
         status_driver: "",
         pengemudi_kendaraans: [],
+
+        tanggal_beli: "",
+        tanggal_stnk: "",
+        tanggal_kir: "",
+        tanggal_pajak: "",
+        umur_kendaraan: "",
+        tipe_plat_id: "",
+        tanggal: "",
       },
 
       default_form: {
@@ -660,11 +763,26 @@ export default {
         status_digunakan: "",
         status_normal: "",
         pengemudi_kendaraans: [],
+
+        tanggal_beli: "",
+        tanggal_pajak: "",
+        // umur_kendaraan: "",
+        tipe_plat_id: "",
+        tanggal_stnk: "",
+        tanggal_kir: "",
+        // tanggal: "",
       },
     };
   },
 
   async created() {
+    // const today = new Date();
+    // const year = today.getFullYear();
+    // const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    // const day = today.getDate().toString().padStart(2, "0");
+
+    // const formattedDate = `${year}-${month}-${day}`;
+    // this.form.tanggal = formattedDate;
     try {
       if (this.isEditable) {
         let response = await this.$axios.get("master/kendaraan/" + this.id);
@@ -675,17 +793,22 @@ export default {
           }
         });
 
+        this.form.gudang_id = response.data.gudang;
+        this.form.vendor_id_operator = response.data.vendor_operator;
+        this.form.jenis_kendaraan_id = response.data.jenis_kendaraan;
+
         this.form.pengemudi_kendaraans = response.data.pengemudi_kendaraan.map(
           (item) => {
             return {
               ...item,
               pengemudi_kendaraan_id: item || null,
+              staff_id: item.staff,
             };
           }
         );
 
         this.isLoadingPage = false;
-        console.log(this.form.pengemudi_kendaraans);
+        // console.log(this.form.pengemudi_kendaraans);
       }
     } catch (error) {
       this.$router.push("/master/kendaraan");
@@ -697,8 +820,9 @@ export default {
     await this.onSearchJenisKendaraan();
     await this.onSearchVendor();
     await this.onSearchVendorOperator();
-    await this.onSearchStandarJenis();
-    await this.onSearchDriver();
+    // await this.onSearchStandarJenis();
+    await this.onSearchTipePlat();
+    // await this.onSearchDriver();
   },
 
   computed: {
@@ -712,11 +836,48 @@ export default {
       "lookup_custom3",
       "lookup_suppliers",
       "lookup_resellers",
+      "lookup_custom4",
     ]),
+
+    vehicleAge() {
+      if (!this.form.tanggal_beli) return null;
+
+      const today = new Date();
+      const purchase = new Date(this.form.tanggal_beli);
+
+      let years = today.getFullYear() - purchase.getFullYear();
+      let months = today.getMonth() - purchase.getMonth();
+      // let days = today.getDate() - purchase.getDate();
+
+      // if (days < 0) {
+      //   months--;
+      //   const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      //   days += lastMonth.getDate();
+      // }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      return { years, months };
+    },
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    formatAge(age) {
+      if (!age) return "-";
+
+      const parts = [];
+      if (age.years > 0) parts.push(`${age.years} tahun`);
+      if (age.months > 0) parts.push(`${age.months} bulan`);
+      // if (age.days > 0) parts.push(`${age.days} hari`);
+
+      return parts.join(", ") || "0 hari";
+    },
+
     //jenis kendaraan
     onGetJenisKendaraan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -757,6 +918,15 @@ export default {
       }
     },
 
+    async onSelectJenis(item) {
+      if (item) {
+        this.form.jenis_kendaraan_id = item;
+        await this.onSearchStandarJenis();
+      } else {
+        this.form.jenis_kendaraan_id = "";
+      }
+    },
+
     //gudang
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -794,6 +964,17 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    async onSelectGudang(item) {
+      if (item) {
+        this.form.gudang_id = item;
+        this.form.pengemudi_kendaraans = [];
+        await this.onSearchDriver();
+        await this.onSearchStandarJenis();
+      } else {
+        this.form.gudang_id = "";
       }
     },
 
@@ -879,6 +1060,15 @@ export default {
       }
     },
 
+    async onSelecetVendor(item) {
+      if (item) {
+        this.form.vendor_id_operator = item;
+        await this.onSearchDriver();
+      } else {
+        this.form.vendor_id_operator = "";
+      }
+    },
+
     //vendor
     onGetStandarJenis(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -910,6 +1100,10 @@ export default {
           query:
             "?search=" +
             this.standar_jenis_search +
+            "&jenis_kendaraan_id=" +
+            this.form.jenis_kendaraan_id.jenis_kendaraan_id +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -954,12 +1148,53 @@ export default {
             "&jenis_user=pengemudi" +
             "&gudang_id=" +
             this.form.gudang_id +
+            "&vendor_id_operator=" +
+            this.form.vendor_id_operator +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetDriver = false;
+      }
+    },
+
+    onGetTipePlat(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchTipePlat);
+
+      this.isStopSearchTipePlat = setTimeout(() => {
+        this.tipe_plat_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchTipePlat();
+      }, 600);
+    },
+
+    async onSearchTipePlat() {
+      if (!this.isLoadingGetTipePlat) {
+        this.isLoadingGetTipePlat = true;
+
+        await this.lookUp({
+          url: "master/tipe-plat/get-tipe-plat",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.tipe_plat_search +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetTipePlat = false;
       }
     },
 
@@ -977,6 +1212,18 @@ export default {
 
       let formData = {
         ...this.form,
+        gudang_id:
+          typeof this.form.gudang_id == "object"
+            ? this.form.gudang_id.gudang_id
+            : this.form.gudang_id,
+        vendor_id_operator:
+          typeof this.form.vendor_id_operator === "object"
+            ? this.form.vendor_id_operator.vendor_id
+            : this.form.vendor_id_operator,
+        jenis_kendaraan_id:
+          typeof this.form.jenis_kendaraan_id === "object"
+            ? this.form.jenis_kendaraan_id.jenis_kendaraan_id
+            : this.form.jenis_kendaraan_id,
       };
 
       formData.pengemudi_kendaraans = formData.pengemudi_kendaraans.map(
@@ -987,6 +1234,10 @@ export default {
               typeof item.pengemudi_kendaraan_id == "object"
                 ? item.pengemudi_kendaraan_id.pengemudi_kendaraan_id
                 : "",
+            staff_id:
+              typeof item.staff_id === "object"
+                ? item.staff_id.staff_id
+                : item.staff_id,
           };
         }
       );

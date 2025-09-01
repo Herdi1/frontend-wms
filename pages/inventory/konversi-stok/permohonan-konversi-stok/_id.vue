@@ -967,6 +967,7 @@ export default {
             : `${item.zona_gudang.nama_zona_gudang} - ${item.zona_gudang.kode_zona_gudang}`,
         };
         this.parameters.form.konversi_stok_detail_bahan.push(detailItem);
+        this.$toaster.success("Data Berhasil Ditambahkan");
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
