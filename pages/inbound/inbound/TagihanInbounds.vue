@@ -15,10 +15,10 @@
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
-        class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-        :class="self.form.tagihan_inbounds.length ? 'mb-[300px]' : ''"
+        class="table mt-5 h-full overflow-auto table-fixed"
+        :class="self.form.tagihan_inbounds.length ? 'mb-[200px]' : ''"
       >
-        <thead>
+        <thead class="border-collapse border border-gray-300">
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Divisi</th>
@@ -35,7 +35,7 @@
             <!-- <th class="w-20 border border-gray-300 text-center">Delete</th> -->
           </tr>
         </thead>
-        <tbody>
+        <tbody class="border-collapse border border-gray-300">
           <tr
             v-for="(item, index) in self.form.tagihan_inbounds"
             :key="index"
@@ -262,6 +262,14 @@
             </td>
           </tr>
         </tbody>
+        <div class="flex w-[300px] mt-20 items-center">
+          <label for="" class="w-[100px]">Total</label>
+          <div
+            class="w-[150px] p-1 border border-gray-300 bg-gray-200 rounded-md text-right"
+          >
+            {{ calculateTotal | formatPrice }}
+          </div>
+        </div>
       </table>
     </div>
   </div>
@@ -334,6 +342,17 @@ export default {
       "lookup_sellers",
       "lookup_suppliers",
     ]),
+
+    calculateTotal() {
+      let total = 0;
+      this.self.form.tagihan_inbounds.forEach((item) => {
+        total += item.total;
+      });
+      // if (this.self.form.biaya_inbounds.length > 0) {
+      // }
+
+      return total;
+    },
   },
 
   methods: {
