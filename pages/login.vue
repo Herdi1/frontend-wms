@@ -61,15 +61,15 @@
             <div class="mb-10 text-center">
               <div class="flex justify-center gap-3 items-center mb-2 w-full">
                 <img
-                  :src="publicUrl + 'images/icon/' + settingItem('icon')"
+                  :src="publicUrl + 'images/icon/' + settingItem('logo_login')"
                   alt="logo"
-                  class="w-14"
+                  class="h-28"
                 />
-                <p
+                <!-- <p
                   class="text-3xl font-extrabold uppercase !leading-snug text-blue-700 md:text-4xl"
                 >
                   {{ settingItem("app_name") }}
-                </p>
+                </p> -->
               </div>
               <p class="text-base font-bold leading-normal text-white-dark">
                 Enter your username and password to login
