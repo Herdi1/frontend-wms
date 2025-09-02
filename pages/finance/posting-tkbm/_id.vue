@@ -622,6 +622,17 @@ export default {
     },
 
     async addDetailTKBM() {
+      if (
+        !this.form.periode_awal ||
+        !this.form.periode_akhir ||
+        !this.form.jenis ||
+        !this.form.gudang_id
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Jenis, Gudang, Periode Awal dan Akhir Terlebih Dahulu!"
+        );
+        return;
+      }
       let daftarDetail = await this.$axios.get(
         "finance/posting-tkbm/get-daftar-detail-tkbm",
         {
@@ -633,8 +644,6 @@ export default {
           },
         }
       );
-
-      console.log(daftarDetail.data);
     },
 
     onSubmit(isInvalid) {

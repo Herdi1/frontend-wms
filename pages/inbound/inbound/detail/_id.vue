@@ -196,6 +196,24 @@
               </div>
             </div>
           </div>
+          <div
+            class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+          >
+            <tab-component :tabs="tabs">
+              <template #DetailInbound>
+                <DetailInbound :self="{ form, items }" />
+              </template>
+              <template #DetailBiaya>
+                <DetailBiaya :self="{ form, items }" />
+              </template>
+              <template #DetailTagihan>
+                <DetailTagihan :self="{ form, items }" />
+              </template>
+              <template #DetailHistoris>
+                <DetailHistoris :self="{ form, items }" />
+              </template>
+            </tab-component>
+          </div>
         </div>
       </div>
     </div>
@@ -203,11 +221,28 @@
 </template>
 
 <script>
+import DetailInbound from "./DetailInbound.vue";
+import DetailBiaya from "./DetailBiaya.vue";
+import DetailTagihan from "./DetailTagihan.vue";
+import DetailHistoris from "./DetailHistoris.vue";
 export default {
+  components: {
+    DetailInbound,
+    DetailBiaya,
+    DetailTagihan,
+    DetailHistoris,
+  },
+
   data() {
     let id = parseInt(this.$route.params.id);
 
     return {
+      tabs: [
+        { name: "DETAIL INBOUND", slotName: "DetailInbound" },
+        { name: "BIAYA INBOUND", slotName: "DetailBiaya" },
+        { name: "PENDAPATAN INBOUND", slotName: "DetailTagihan" },
+        { name: "HISTORIS INBOUND", slotName: "DetailHistoris" },
+      ],
       id,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -264,7 +299,8 @@ export default {
           this.form[item] = res.data[item];
         }
       });
-      console.log(this.form);
+      this.form.inbound_details = res.data.inbound_details;
+      console.log(this.form.inbound_details);
       this.isLoadingPage = false;
     } catch (error) {
       console.log(error);

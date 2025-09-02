@@ -1035,6 +1035,20 @@
                       "
                     />
                   </div>
+                  <div class="form-group">
+                    <label for="status_satpam"
+                      >Status Gudang <span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      name="status_gudang"
+                      id="status_gudang"
+                      v-model="form.status_gudang"
+                    >
+                      <option value="0">Fisik</option>
+                      <option value="1">Virtual</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div
@@ -1496,6 +1510,7 @@ export default {
         min_stok: "",
         max_stok: "",
         standar_waktu_kerja: 8.0,
+        status_gudang: "",
         item_gudang: [],
         status_transaksis: [],
       },
@@ -1546,6 +1561,7 @@ export default {
         min_stok: "",
         max_stok: "",
         standar_waktu_kerja: 8.0,
+        status_gudang: "",
         item_gudang: [],
         status_transaksis: [],
       },
