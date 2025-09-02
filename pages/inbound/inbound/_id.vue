@@ -299,7 +299,10 @@
                   <InboundDetails :self="{ form, items }" />
                 </template>
                 <template #BiayaInbound>
-                  <BiayaInbounds :self="{ form, isEditable }" />
+                  <BiayaInbounds
+                    :self="{ form, isEditable }"
+                    @update-quantity="updateQuantity"
+                  />
                 </template>
                 <template #TagihanInbound>
                   <TagihanInbounds :self="{ form }" />
@@ -1670,6 +1673,10 @@ export default {
 
         this.isLoadingGetZonaPlan = false;
       }
+    },
+
+    updateQuantity({ index, value }) {
+      this.form.biaya_inbounds[index].jumlah = Number(value);
     },
   },
 };

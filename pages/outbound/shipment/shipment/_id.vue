@@ -96,32 +96,7 @@
                   class="mb-5"
                 />
               </ValidationProvider>
-              <div class="form-group">
-                <select-button
-                  :self="{
-                    label: 'Pengemudi',
-                    optionLabel: 'nama_lengkap',
-                    lookup: lookup_beam,
-                    value: parameters.form.staff_id,
-                    onGet: onGetStaff,
-                    isLoadingL: isLoadingGetStaff,
-                    input: onSelectStaff,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                  :required="true"
-                />
-              </div>
-              <div v-if="parameters.form.vendor_id" class="form-group">
-                <input-horizontal
-                  label="Vendor"
-                  type="text"
-                  name="vendor_id"
-                  :isHorizontal="true"
-                  v-model="parameters.form.vendor_id.nama_vendor"
-                  :disabled="true"
-                />
-              </div>
+
               <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
@@ -168,6 +143,32 @@
                   :disabled="true"
                 />
               </ValidationProvider>
+              <div class="form-group">
+                <select-button
+                  :self="{
+                    label: 'Pengemudi',
+                    optionLabel: 'nama_lengkap',
+                    lookup: lookup_beam,
+                    value: parameters.form.staff_id,
+                    onGet: onGetStaff,
+                    isLoadingL: isLoadingGetStaff,
+                    input: onSelectStaff,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                  :required="true"
+                />
+              </div>
+              <div v-if="parameters.form.vendor_id" class="form-group">
+                <input-horizontal
+                  label="Vendor"
+                  type="text"
+                  name="vendor_id"
+                  :isHorizontal="true"
+                  v-model="parameters.form.vendor_id.nama_vendor"
+                  :disabled="true"
+                />
+              </div>
               <div class="flex px-1 items-center">
                 <label for="jenis_kiriman" class="w-1/2">Jenis Kiriman</label>
                 <select
@@ -327,6 +328,7 @@ export default {
           shipment_details: [],
           rute_shipments: [],
           biaya_lastmiles: [],
+          tagihan_lastmiles: [],
 
           //Tracking
           user_agent: "",
@@ -430,11 +432,11 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
-    await this.onSearchPengemudi();
-    await this.onSearchKendaraan();
+    // await this.onSearchPengemudi();
+    // await this.onSearchKendaraan();
     // await this.onSearchJenisKendaraan();
     await this.onSearchUser();
-    await this.onSearchStaff();
+    // await this.onSearchStaff();
 
     // await this.onSearchPickOrder();
 
@@ -779,11 +781,23 @@ export default {
       }
     },
 
-    onSelectGudang(item) {
-      this.parameters.form.gudang_id = item || "";
-      this.parameters.form.shipment_details = [];
-      this.parameters.form.rute_shipments = [];
-      this.parameters.form.biaya_lastmiles = [];
+    async onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+        this.parameters.form.shipment_details = [];
+        this.parameters.form.rute_shipments = [];
+        this.parameters.form.biaya_lastmiles = [];
+        await this.onSearchKendaraan();
+      } else {
+        this.parameters.form.gudang_id = "";
+        this.parameters.form.kendaraan_id = "";
+        this.parameters.form.jenis_kendaraan_id = "";
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
+        this.parameters.form.shipment_details = [];
+        this.parameters.form.rute_shipments = [];
+        this.parameters.form.biaya_lastmiles = [];
+      }
     },
 
     onGetPengemudi(search, isNext) {
@@ -852,6 +866,8 @@ export default {
           query:
             "?search=" +
             this.kendaraan_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -944,13 +960,18 @@ export default {
       }
     },
 
-    onSelectKendaraan(item) {
+    async onSelectKendaraan(item) {
       if (item) {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.jenis_kendaraan_id = item.jenis_kendaraan;
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
+        await this.onSearchStaff();
       } else {
         this.parameters.form.kendaraan_id = "";
         this.parameters.form.jenis_kendaraan_id = "";
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
       }
     },
 
@@ -1035,11 +1056,11 @@ export default {
           lookup: "beam",
           query:
             "?search=" +
-            this.staff_search +
-            "&jenis_user=pengemudi" +
-            "&page=" +
-            this.lookup_beam.current_page +
-            "&per_page=10",
+              this.staff_search +
+              "&jenis_user=pengemudi" +
+              "&kendaran_id=" +
+              this.parameters.form.kendaraan_id.kendaraan_id ??
+            "" + "&page=" + this.lookup_beam.current_page + "&per_page=10",
         });
         this.isLoadingGetStaff = false;
       }

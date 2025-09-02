@@ -32,7 +32,25 @@
                       name="tanggal"
                       :required="true"
                       v-model="form.tanggal"
-                      :disabled="isEditable"
+                      :disabled="true"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Awal"
+                      type="date"
+                      name="periode_awal"
+                      :required="true"
+                      v-model="form.periode_awal"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Akhir"
+                      type="date"
+                      name="periode_akhir"
+                      :required="true"
+                      v-model="form.periode_akhir"
                     />
                   </div>
                   <ValidationProvider name="gudang_id" class="w-full mt-1 mb-2">
@@ -210,6 +228,53 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
+                  <ValidationProvider
+                    name="pelanggan_id"
+                    class="w-full mt-1 mb-2"
+                  >
+                    <div
+                      slot-scope="{ errors, valid }"
+                      class="flex items-center"
+                    >
+                      <label for="pelanggan_id" class="w-1/2"
+                        >Pelanggan <span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        :disabled="isEditable"
+                        label="nama_pelanggan"
+                        :loading="isLoadingGetPelanggan"
+                        :options="lookup_custom6.data"
+                        :filterable="false"
+                        @search="onGetPelanggan"
+                        v-model="form.pelanggan_id"
+                        class="w-1/2"
+                        @input="onSelectPelanggan"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom6.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom6.current_page > 1"
+                            @click="onGetPelanggan(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom6.last_page >
+                              lookup_custom6.current_page
+                            "
+                            @click="onGetPelanggan(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
                   <div class="form-group">
                     <input-horizontal
                       label="Kode Referensi"
@@ -270,9 +335,9 @@
                         <th class="w-[200px] border border-gray-300">
                           Jenis Routing
                         </th>
-                        <!-- <th class="w-[200px] border border-gray-300">
+                        <th class="w-[200px] border border-gray-300">
                           Jenis Kiriman
-                        </th> -->
+                        </th>
                         <th class="w-[200px] border border-gray-300">
                           Tanggal Berangkat
                         </th>
@@ -298,9 +363,7 @@
                         <th class="w-[200px] border border-gray-300">
                           Total Biaya Insentif Jarak
                         </th>
-                        <!-- <th class="w-[200px] border border-gray-300">
-                          Detail UJS
-                        </th> -->
+                        <th class="w-[75px] border border-gray-300">Hapus</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -343,10 +406,10 @@
                         <td class="border border-gray-300">
                           {{ item.jenis_routing }}
                         </td>
-                        <!-- <td class="border border-gray-300">
+                        <td class="border border-gray-300">
                           <p v-if="item.jenis_kiriman == 1">Stok Transfer</p>
                           <p v-if="item.jenis_kiriman == 0">Penjualan</p>
-                        </td> -->
+                        </td>
                         <td class="border border-gray-300">
                           {{ item.tanggal_berangkat }}
                         </td>
@@ -371,6 +434,15 @@
                         <td class="border border-gray-300 text-right">
                           {{ item.total_insentif_jarak ?? 0 | formatPrice }}
                         </td>
+                        <td
+                          class="text-center text-gray-600 border border-gray-300"
+                        >
+                          <i
+                            class="fas fa-trash mx-auto"
+                            style="cursor: pointer"
+                            @click="onDeleteItem(index)"
+                          ></i>
+                        </td>
                         <!-- <td class="border border-gray-300">
                           <button
                             v-if="item.file_bukti_selesai"
@@ -385,6 +457,17 @@
                         </td> -->
                       </tr>
                     </tbody>
+                    <tr v-if="!form.ujs_sopir_details.length > 0">
+                      <td colspan="100" class="text-center">
+                        <span class="flex justify-center">
+                          <img
+                            src="/img/data-not-found.svg"
+                            style="height: 250px; object-fit: cover"
+                          />
+                        </span>
+                        <div class="mt-3">Data Tidak Ditemukan</div>
+                      </td>
+                    </tr>
                   </table>
                 </div>
 
@@ -438,9 +521,12 @@ export default {
       form: {
         ujs_sopir_id: "",
         tanggal: "",
+        periode_awal: "",
+        periode_akhir: "",
         gudang_id: "",
         coa_id: "",
         coa_id_biaya: "",
+        pelanggan_id: "",
         divisi_id: "",
         keterangan: "",
         ujs_sopir_details: [],
@@ -451,6 +537,7 @@ export default {
         gudang_id: "",
         coa_id: "",
         coa_id_biaya: "",
+        pelanggan_id: "",
         divisi_id: "",
         keterangan: "",
         ujs_sopir_details: [],
@@ -467,6 +554,10 @@ export default {
       isStopSearchDivisi: false,
       isLoadingGetDivisi: false,
       divisi_search: "",
+
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
 
       user: this.$auth.user,
     };
@@ -490,10 +581,11 @@ export default {
           }
         });
 
-        this.form.gudang_id = response.data.gudang;
-        this.form.coa_id = response.data.coa;
-        this.form.coa_id_biaya = response.data.coa_biaya;
-        this.form.divisi_id = response.data.divisi;
+        this.form.gudang_id = response.data.gudang ?? "";
+        this.form.coa_id = response.data.coa ?? "";
+        this.form.coa_id_biaya = response.data.coa_biaya ?? "";
+        this.form.divisi_id = response.data.divisi ?? "";
+        this.form.pelanggan_id = response.data.pelanggan ?? "";
 
         this.form.ujs_sopir_details = response.data.ujs_sopir_details.map(
           (item) => {
@@ -515,6 +607,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchCoa();
     await this.onSearchDivisi();
+    await this.onSearchPelanggan();
   },
 
   computed: {
@@ -526,6 +619,7 @@ export default {
       "lookup_custom3",
       "lookup_custom4",
       "lookup_custom5",
+      "lookup_custom6",
     ]),
   },
 
@@ -557,6 +651,10 @@ export default {
           typeof this.form.divisi_id === "object"
             ? this.form.divisi_id.divisi_id
             : this.form.divisi_id,
+        pelanggan_id:
+          typeof this.form.pelanggan_id === "object"
+            ? this.form.pelanggan_id.pelanggan_id
+            : this.form.pelanggan_id,
       };
 
       formData.ujs_sopir_details = formData.ujs_sopir_details.map((item) => {
@@ -822,6 +920,50 @@ export default {
       this.form.mata_uang_id = item || "";
     },
 
+    //mPelanggan
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPelanggan);
+
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchPelanggan();
+      }, 600);
+    },
+
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
+
+        await this.lookUp({
+          url: "master/pelanggan/get-pelanggan",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPelanggan = false;
+      }
+    },
+
+    onSelectPelanggan(item) {
+      this.form.pelanggan_id = item || "";
+    },
+
     async addDetailUjs() {
       const daftarRute = await this.$axios.get(
         "/finance/ujs-sopir/get-daftar-rute-lastmile",
@@ -829,6 +971,8 @@ export default {
           params: {
             gudang_id: this.form.gudang_id.gudang_id,
             tanggal: this.form.tanggal,
+            periode_awal: this.form.periode_awal,
+            periode_akhir: this.form.periode_akhir,
           },
         }
       );
@@ -862,6 +1006,12 @@ export default {
       this.$refs.pictureModal.src =
         "file_bukti_kiriman/" + item.file_bukti_selesai;
       this.$refs.pictureModal.show();
+    },
+
+    onDeleteItem(index) {
+      this.form.ujs_sopir_details = this.form.ujs_sopir_details.filter(
+        (_, itemIndex) => index != itemIndex
+      );
     },
   },
 };

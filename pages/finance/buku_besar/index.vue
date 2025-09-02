@@ -211,6 +211,7 @@
                     <th class="border border-gray-300">Kode</th>
                     <th class="border border-gray-300">Nama</th>
                     <th class="border border-gray-300">Kode Transaksi</th>
+                    <th class="border border-gray-300">Kode Referensi</th>
                     <th class="border border-gray-300">Keterangan</th>
                     <!-- <th class="text-info">Saldo Awal</th> -->
                     <th class="text-primary border border-gray-300">Debit</th>
@@ -270,6 +271,9 @@
                     </td>
                     <td class="border border-gray-300">
                       {{ item.kode_referensi }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.kode_referensi_2 }}
                     </td>
                     <td class="border border-gray-300">
                       {{ item.keterangan }}

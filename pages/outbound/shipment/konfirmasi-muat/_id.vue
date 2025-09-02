@@ -196,6 +196,9 @@
             <template #BiayaLastmile>
               <BiayaLastmiles :self="{ parameters }" />
             </template>
+            <template #TagihanLastmile>
+              <TagihanLastmiles :self="{ parameters }" />
+            </template>
           </tab-component>
 
           <div class="w-full flex justify-start items-center">
@@ -218,6 +221,7 @@ import { mapActions, mapState } from "vuex";
 import ShipmentDetails from "./ShipmentDetails.vue";
 import RuteShipments from "./RuteShipments.vue";
 import BiayaLastmiles from "./BiayaLastmiles.vue";
+import TagihanLastmiles from "./TagihanLastmiles.vue";
 import ModalPickOrder from "../../../../components/transaksional/ModalPickOrder.vue";
 export default {
   props: ["self"],
@@ -228,6 +232,7 @@ export default {
     RuteShipments,
     BiayaLastmiles,
     ModalPickOrder,
+    TagihanLastmiles,
   },
 
   data() {
@@ -246,6 +251,10 @@ export default {
         {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
+        },
+        {
+          name: "Tagihan Lastmile",
+          slotName: "TagihanLastmile",
         },
       ],
       id,
@@ -297,6 +306,7 @@ export default {
           shipment_details: [],
           rute_shipments: [],
           biaya_lastmiles: [],
+          tagihan_lastmiles: [],
 
           //Tracking
           user_agent: "",
@@ -320,6 +330,7 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.staff_id = res.data.staff;
 
+        this.parameters.form.shipment_details = [];
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
             return {
@@ -337,6 +348,7 @@ export default {
           }
         );
 
+        this.parameters.form.rute_shipments = [];
         if (res.data.rute_shipments) {
           this.parameters.form.rute_shipments = res.data.rute_shipments.map(
             (item) => {
@@ -350,6 +362,7 @@ export default {
           );
         }
 
+        this.parameters.form.biaya_lastmiles = [];
         if (res.data.biaya_lastmiles) {
           this.parameters.form.biaya_lastmiles = res.data.biaya_lastmiles.map(
             (item) => {
@@ -365,6 +378,23 @@ export default {
               };
             }
           );
+        }
+
+        this.parameters.form.tagihan_lastmiles = [];
+        if (res.data.tagihan_lastmiles) {
+          this.parameters.form.tagihan_lastmiles =
+            res.data.tagihan_lastmiles.map((item) => {
+              return {
+                ...item,
+                tagihan_lastmile_id: item,
+                lokasi_id: item.lokasi ?? "",
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                term_pembayaran_id: item.term_pembayaran ?? "",
+                coa_id: item.coa ?? "",
+                divisi_id: item.divisi ?? "",
+                pelanggan_id: item.pelanggan ?? "",
+              };
+            });
         }
         this.isLoadingPage = false;
       }

@@ -473,6 +473,7 @@ export default {
           query:
             "?search=" +
             this.coa_search +
+            "&jenis_coa=PUSAT" +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",

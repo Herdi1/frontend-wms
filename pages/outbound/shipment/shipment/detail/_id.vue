@@ -118,6 +118,9 @@
           <template #BiayaLastmile>
             <BiayaLastmile :self="{ detail_shipment }" />
           </template>
+          <template #TagihanLastmile>
+            <TagihanLastmiles :self="{ detail_shipment }" />
+          </template>
         </tab-component>
       </div>
     </div>
@@ -128,6 +131,7 @@
 import ShipmentDetails from "./ShipmentDetails.vue";
 import RuteShipment from "./RuteShipments.vue";
 import BiayaLastmile from "./BiayaLastmiles.vue";
+import TagihanLastmiles from "./TagihanLastmiles.vue";
 export default {
   props: ["self"],
 
@@ -135,6 +139,7 @@ export default {
     ShipmentDetails,
     RuteShipment,
     BiayaLastmile,
+    TagihanLastmiles,
   },
 
   data() {
@@ -153,6 +158,10 @@ export default {
         {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
+        },
+        {
+          name: "Tagihan Lastmile",
+          slotName: "TagihanLastmile",
         },
       ],
 
@@ -176,6 +185,7 @@ export default {
         shipment_details: [],
         rute_shipments: [],
         biaya_lastmiles: [],
+        tagihan_lastmiles: [],
 
         staff: {},
         gudang: {},

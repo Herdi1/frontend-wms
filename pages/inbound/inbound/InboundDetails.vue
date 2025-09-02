@@ -210,7 +210,7 @@
                 Quantity Terima:
                 <money
                   v-model="item.quantity_terima"
-                  @change="sumQuantity(item)"
+                  @change="handleQuantityChange(index)"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
@@ -810,6 +810,13 @@ export default {
           (data) => item.item_gudang.item_gudang_id !== data.item_gudang_id
         );
       }
+
+      if (!notAllDeleted) {
+        this.self.form.tagihan_inbounds =
+          this.self.form.tagihan_inbounds.filter(
+            (data) => item.item_gudang.item_gudang_id !== data.item_gudang_id
+          );
+      }
     },
 
     // Get zona plan
@@ -1197,7 +1204,6 @@ export default {
             item_id: item.item_id,
             nama_item: item.nama_item,
           };
-          console.log(this.self.form.inbound_details[index].item_gudang_id);
           this.self.form.inbound_details[index].status_terima = "FULL";
         } else {
           this.self.form.inbound_details[index].item_gudang_id = item;
@@ -1299,7 +1305,7 @@ export default {
           data.item_gudang_id.item_gudang_id ==
           item.item_gudang_id.item_gudang_id
         ) {
-          quantity = quantity + data.quantity;
+          quantity = quantity + data.quantity_terima;
         }
       });
       const index = this.self.form.biaya_inbounds.findIndex(
@@ -1401,7 +1407,14 @@ export default {
       if (item) {
         this.self.form.inbound_details[index].jenis_biaya_id = item;
         await this.generateBiayaTagihan(index);
-        await this.generateBiayaTagihan(index);
+        if (item.jenis_biaya_id == 13) {
+          this.self.form.inbound_details[index].zonas_gudang_id = {
+            zona_gudang_id: 6,
+            nama_zona_gudang: "Zona Cross Docking",
+            kode_zona_gudang: "ZCD",
+          };
+          await this.onSearchSlotAisle(index);
+        }
       } else {
         this.self.form.inbound_details[index].jenis_biaya_id = "";
       }
@@ -1420,7 +1433,7 @@ export default {
               typeof this.self.form.inbound_details[index].item_gudang_id ===
               "object"
                 ? this.self.form.inbound_details[index].item_gudang_id
-                    .item_gudang_id
+                    .item_gudang_id.item_gudang_id
                 : "",
             peralatan_id:
               typeof this.self.form.inbound_details[index].peralatan_id ===
@@ -1449,7 +1462,7 @@ export default {
               typeof this.self.form.inbound_details[index].item_gudang_id ===
               "object"
                 ? this.self.form.inbound_details[index].item_gudang_id
-                    .item_gudang_id
+                    .item_gudang_id.item_gudang_id
                 : "",
             jenis_biaya_id:
               typeof this.self.form.inbound_details[index].jenis_biaya_id ===
@@ -1502,6 +1515,7 @@ export default {
             ? this.self.form.inbound_details[index].peralatan_id.peralatan_id
             : "",
           urutan: itemNumber,
+          index: index,
         });
       });
 
@@ -1535,9 +1549,26 @@ export default {
           jenis: 0,
           coa_id: "",
           pelanggan_id: data.pelanggan ?? "",
+          index: index,
         });
       });
+
+      console.log("biaya inbound", this.self.form.biaya_inbounds);
+      console.log("tagihan inbound", this.self.form.tagihan_inbounds);
       // await Promise.all(this.self.form.inbound_details.forEach((item) => {}));
+    },
+
+    handleQuantityChange(index) {
+      this.self.form.biaya_inbounds.forEach((item) => {
+        if (item.index == index) {
+          item.jumlah = this.self.form.inbound_details[index].quantity_terima;
+        }
+      });
+      this.self.form.tagihan_inbounds.forEach((item) => {
+        if (item.index == index) {
+          item.jumlah = this.self.form.inbound_details[index].quantity_terima;
+        }
+      });
     },
   },
 };

@@ -203,6 +203,7 @@
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
+                @input="onQuantityChange(item.jumlah, index)"
               />
             </td>
             <td class="border border-gray-300">
@@ -565,6 +566,10 @@ export default {
       }
 
       return total;
+    },
+
+    onQuantityChange(value, index) {
+      this.$emit("update-quantity", { index, value });
     },
   },
 };
