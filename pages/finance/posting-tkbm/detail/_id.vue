@@ -177,7 +177,19 @@
                   </td>
                   <td class="border border-gray-300">
                     <p class="text-right">
-                      {{ item.total_tkbm ? item.total_tkbm : "0.00" }}
+                      {{ item.total_tkbm ?? 0 | formatPrice }}
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-300"></td>
+                  <td class="border-b border-gray-300"></td>
+                  <td class="border-b border-gray-300"></td>
+                  <td class="border-b border-gray-300"></td>
+                  <td class="border border-gray-300">Grand Total</td>
+                  <td class="border border-gray-300">
+                    <p class="text-right">
+                      {{ totalNominal | formatPrice }}
                     </p>
                   </td>
                 </tr>
@@ -240,6 +252,15 @@ export default {
       console.log(error);
       this.$router.back();
     }
+  },
+
+  computed: {
+    totalNominal() {
+      return this.form.posting_tkbm_details.reduce((total, item) => {
+        const nominal = parseFloat(item.total_tkbm) || 0;
+        return total + nominal;
+      }, 0);
+    },
   },
 
   methods: {
