@@ -347,7 +347,7 @@
                         <th class="w-[200px] border border-gray-300">
                           Harga Setelah Pajak
                         </th> -->
-                        <th class="w-[200px] border border-gray-300">Jarak</th>
+                        <th class="w-20 border border-gray-300">Jarak</th>
                         <!-- <th class="w-[200px] border border-gray-300">
                           Waktu Sampai Tujuan
                         </th> -->
@@ -362,6 +362,21 @@
                         </th>
                         <th class="w-[200px] border border-gray-300">
                           Total Biaya Insentif Jarak
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Locco
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Switch
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Lain
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Sub Total
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Keterangan
                         </th>
                         <th class="w-[75px] border border-gray-300">Hapus</th>
                       </tr>
@@ -434,6 +449,31 @@
                         <td class="border border-gray-300 text-right">
                           {{ item.total_insentif_jarak ?? 0 | formatPrice }}
                         </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_locco ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_switch ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          <money
+                            name="total_locco"
+                            v-model="item.total_lain"
+                            @change="calculateSubTotal(item)"
+                            class="w-full outline-none p-1 rounded-md border border-gray-300"
+                          />
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ calculateSubTotal(item) ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          <textarea
+                            name="keterangan"
+                            id="keterangan"
+                            v-model="item.keterangan"
+                            class="w-full outline-none p-1 rounded-md border border-gray-300"
+                          ></textarea>
+                        </td>
                         <td
                           class="text-center text-gray-600 border border-gray-300"
                         >
@@ -455,6 +495,17 @@
                           </button>
                           <p v-else>File Tidak Ditemukan</p>
                         </td> -->
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="15"
+                          class="border border-gray-300 text-right"
+                        >
+                          Grand Total
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ calculateGrandTotal ?? 0 | formatPrice }}
+                        </td>
                       </tr>
                     </tbody>
                     <tr v-if="!form.ujs_sopir_details.length > 0">
@@ -621,6 +672,14 @@ export default {
       "lookup_custom5",
       "lookup_custom6",
     ]),
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.form.ujs_sopir_details.forEach((item) => {
+        grandTotal += parseFloat(this.calculateSubTotal(item));
+      });
+      return grandTotal;
+    },
   },
 
   methods: {
@@ -980,6 +1039,16 @@ export default {
       this.form.ujs_sopir_details = daftarRute.data.map((item) => {
         return {
           ...item,
+          total_bbm: item.total_bbm ?? 0,
+          total_bongkar_toko: item.total_bongkar_toko ?? 0,
+          total_retribusi: item.total_retribusi ?? 0,
+          // sub_total:
+          //   parseFloat(item.total_bbm ?? 0) +
+          //   parseFloat(item.total_bongkar_toko ?? 0) +
+          //   parseFloat(item.total_retribusi ?? 0) +
+          //   parseFloat(item.total_locco) +
+          //   parseFloat(item.total_switch) +
+          //   parseFloat(item.total_lain),
           // referensi_id:
           //   this.form.jenis === "inbound"
           //     ? item.tagihan_inbound_id
@@ -1012,6 +1081,18 @@ export default {
       this.form.ujs_sopir_details = this.form.ujs_sopir_details.filter(
         (_, itemIndex) => index != itemIndex
       );
+    },
+
+    calculateSubTotal(item) {
+      let subTotal = 0;
+      subTotal =
+        parseFloat(item.total_bbm ?? 0) +
+        parseFloat(item.total_bongkar_toko ?? 0) +
+        parseFloat(item.total_retribusi ?? 0) +
+        parseFloat(item.total_locco) +
+        parseFloat(item.total_switch) +
+        parseFloat(item.total_lain);
+      return subTotal;
     },
   },
 };

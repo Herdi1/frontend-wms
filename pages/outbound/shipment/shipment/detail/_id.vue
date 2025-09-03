@@ -121,6 +121,87 @@
           <template #TagihanLastmile>
             <TagihanLastmiles :self="{ detail_shipment }" />
           </template>
+          <template #RiwayatShipment>
+            <div>
+              <table
+                class="mb-5 table-fixed border border-collapse border-gray-300"
+              >
+                <thead>
+                  <tr class="text-sm uppercase">
+                    <th class="border border-gray-300">Status</th>
+                    <th class="border border-gray-300">Tanggal</th>
+                    <th class="border border-gray-300">User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="border-t border-gray-400 align-top"
+                    v-if="detail_shipment.user_input"
+                  >
+                    <td class="border border-gray-300">
+                      <p>Dibuat</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ detail_shipment.tanggal }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>
+                        {{ detail_shipment.user_input.nama_lengkap }}
+                      </p>
+                    </td>
+                  </tr>
+                  <tr
+                    class="border-t border-gray-400 align-top"
+                    v-if="detail_shipment.user_muat"
+                  >
+                    <td class="border border-gray-300">
+                      <p>Muat</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ detail_shipment.tanggal_muat }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>
+                        {{ detail_shipment.user_muat.nama_lengkap }}
+                      </p>
+                    </td>
+                  </tr>
+                  <tr
+                    class="border-t border-gray-400 align-top"
+                    v-if="detail_shipment.user_inspeksi"
+                  >
+                    <td class="border border-gray-300">
+                      <p>Inspeksi</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ detail_shipment.tanggal_inspeksi }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>
+                        {{ detail_shipment.user_inspeksi.nama_lengkap }}
+                      </p>
+                    </td>
+                  </tr>
+                  <tr
+                    class="border-t border-gray-400 align-top"
+                    v-if="detail_shipment.user_kiriman"
+                  >
+                    <td class="border border-gray-300">
+                      <p>Dikirim</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ detail_shipment.tanggal_kiriman }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>
+                        {{ detail_shipment.user_kiriman.nama_lengkap }}
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </template>
         </tab-component>
       </div>
     </div>
@@ -163,6 +244,10 @@ export default {
           name: "Tagihan Lastmile",
           slotName: "TagihanLastmile",
         },
+        {
+          name: "Riwayat Shipment",
+          slotName: "RiwayatShipment",
+        },
       ],
 
       id,
@@ -173,6 +258,9 @@ export default {
         staff_id: "",
         gudang_id: "",
         tanggal: "",
+        tanggal_muat: "",
+        tanggal_inspeksi: "",
+        tanggal_kiriman: "",
         kendaraan_id: "",
         jenis_kendaraan_id: "",
         pengemudi_id: "",
@@ -181,6 +269,10 @@ export default {
         status_muat: "",
         catatan_muat: "",
         user_id_pic: "",
+        user_input: "",
+        user_muat: "",
+        user_inspeksi: "",
+        user_kiriman: "",
 
         shipment_details: [],
         rute_shipments: [],

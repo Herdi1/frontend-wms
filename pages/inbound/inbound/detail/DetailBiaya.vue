@@ -57,6 +57,17 @@
             {{ item.keterangan ? item.keterangan : "-" }}
           </td>
         </tr>
+        <tr v-if="self.form.biaya_inbounds.length > 0">
+          <td colspan="9" class="border border-gray-300 text-right">
+            Grand Total
+          </td>
+          <td class="border border-gray-300 text-right">
+            <p>
+              {{ calculateGrandTotal | formatPrice }}
+            </p>
+          </td>
+          <td colspan="1" class="border border-gray-300 text-right"></td>
+        </tr>
         <tr v-if="!self.form.biaya_inbounds.length > 0">
           <td colspan="100" class="text-center">
             <span class="flex justify-center">
@@ -76,5 +87,15 @@
 <script>
 export default {
   props: ["self"],
+
+  computed: {
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.self.form.biaya_inbounds.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
+    },
+  },
 };
 </script>

@@ -210,7 +210,70 @@
                 <DetailTagihan :self="{ form, items }" />
               </template>
               <template #DetailHistoris>
-                <DetailHistoris :self="{ form, items }" />
+                <!-- <DetailHistoris :self="{ form, items }" /> -->
+                <div>
+                  <table
+                    class="mb-5 table-fixed border border-collapse border-gray-300"
+                  >
+                    <thead>
+                      <tr class="text-sm uppercase">
+                        <th class="border border-gray-300">Status</th>
+                        <th class="border border-gray-300">Tanggal</th>
+                        <th class="border border-gray-300">User</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="form.user_input"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Dibuat</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ form.tanggal }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ form.user_input.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="form.user_approve"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Approve</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ form.tanggal_approve }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ form.user_approve.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="form.user_put_away"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Put Away</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ form.tanggal_put_away }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ form.user_put_away.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </template>
             </tab-component>
           </div>
@@ -265,11 +328,16 @@ export default {
         no_referensi_3: "",
         supplier_id: "",
         tanggal: "",
+        tanggal_approve: "",
+        tanggal_put_away: "",
         jenis_transaksi: "",
         pelanggan_id: "",
         staff_id: "",
         vendor_id_transporter: "",
         peralatan_id: "",
+        user_input: "",
+        user_approve: "",
+        user_put_away: "",
 
         tanggal_approve: "",
         gudang_id: "",
@@ -300,7 +368,6 @@ export default {
         }
       });
       this.form.inbound_details = res.data.inbound_details;
-      console.log(this.form.inbound_details);
       this.isLoadingPage = false;
     } catch (error) {
       console.log(error);

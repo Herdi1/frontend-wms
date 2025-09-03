@@ -250,6 +250,17 @@
               ></i>
             </td> -->
           </tr>
+          <tr v-if="self.form.tagihan_inbounds.length > 0">
+            <td colspan="9" class="border border-gray-300 text-right">
+              Grand Total
+            </td>
+            <td class="border border-gray-300 text-right">
+              <p>
+                {{ calculateGrandTotalTagihans | formatPrice }}
+              </p>
+            </td>
+            <td colspan="1" class="border border-gray-300 text-right"></td>
+          </tr>
           <tr v-if="!self.form.tagihan_inbounds.length > 0">
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
@@ -262,14 +273,6 @@
             </td>
           </tr>
         </tbody>
-        <div class="flex w-[300px] mt-20 items-center">
-          <label for="" class="w-[100px]">Total</label>
-          <div
-            class="w-[150px] p-1 border border-gray-300 bg-gray-200 rounded-md text-right"
-          >
-            {{ calculateTotal | formatPrice }}
-          </div>
-        </div>
       </table>
     </div>
   </div>
@@ -352,6 +355,14 @@ export default {
       // }
 
       return total;
+    },
+
+    calculateGrandTotalTagihans() {
+      let grandTotal = 0;
+      this.self.form.tagihan_inbounds.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
     },
   },
 

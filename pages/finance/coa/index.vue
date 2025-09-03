@@ -116,6 +116,7 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[3%] border border-gray-300">Edit</th>
                   <th class="w-[2%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -156,12 +157,16 @@
                   <th class="border border-gray-300">Tipe</th>
                   <th class="border border-gray-300">Status</th>
                   <th class="border border-gray-300">Jenis COA</th>
-                  <th class="w-[3%] border border-gray-300">Edit</th>
                   <th class="w-[3%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -207,11 +212,7 @@
                       {{ item.gudang ? item.gudang.nama_gudang : "" }}</span
                     >
                   </td>
-                  <td
-                    class="text-center place-items-center border border-gray-300"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td
                     class="text-center place-items-center border border-gray-300"
                   >

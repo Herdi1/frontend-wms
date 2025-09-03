@@ -198,6 +198,9 @@
             <template #BiayaLastmile>
               <BiayaLastmiles :self="{ parameters }" />
             </template>
+            <template #TagihanLastmile>
+              <TagihanLastmiles :self="{ parameters }" />
+            </template>
           </tab-component>
 
           <div class="w-full flex justify-start items-center">
@@ -221,6 +224,7 @@ import ShipmentDetails from "./ShipmentDetails.vue";
 import RuteShipments from "./RuteShipments.vue";
 import BiayaLastmiles from "./BiayaLastmiles.vue";
 import ModalPickOrder from "../../../../components/transaksional/ModalPickOrder.vue";
+import TagihanLastmiles from "./TagihanLastmiles.vue";
 export default {
   props: ["self"],
   middleware: ["checkRoleUserDetail"],
@@ -230,6 +234,7 @@ export default {
     RuteShipments,
     BiayaLastmiles,
     ModalPickOrder,
+    TagihanLastmiles,
   },
 
   data() {
@@ -248,6 +253,10 @@ export default {
         {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
+        },
+        {
+          name: "Tagihan Lastmile",
+          slotName: "TagihanLastmile",
         },
       ],
       id,

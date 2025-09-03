@@ -177,9 +177,32 @@
                   v-model="parameters.form.jenis_kiriman"
                   class="w-1/2 outline-none p-1 rounded-sm border border-gray-300"
                 >
-                  <option value="0">Franco</option>
-                  <option value="1">Locco</option>
+                  <option value="FRC">Franco</option>
+                  <option value="LCO">Locco</option>
+                  <option value="SWC">Switch</option>
                 </select>
+              </div>
+              <div
+                v-if="parameters.form.jenis_kiriman == 1"
+                class="form-group flex px-1 items-center"
+              >
+                <label for="total_locco" class="w-1/2">Biaya Locco</label>
+                <money
+                  name="total_locco"
+                  v-model="parameters.form.total_locco"
+                  class="w-1/2 outline-none p-1 rounded-md border border-gray-300"
+                />
+              </div>
+              <div
+                v-if="parameters.form.jenis_kiriman == 2"
+                class="form-group flex px-1 items-center"
+              >
+                <label for="total_switch" class="w-1/2">Biaya Switch</label>
+                <money
+                  name="total_switch"
+                  v-model="parameters.form.total_switch"
+                  class="w-1/2 outline-none p-1 rounded-md border border-gray-300"
+                />
               </div>
               <div class="col-span-2 w-full px-1 mb-3">
                 <label for="keterangan">Keterangan</label>
@@ -323,7 +346,9 @@ export default {
           status_muat: "",
           catatan_muat: "",
           user_id_pic: "",
-          jenis_kiriman: "0",
+          jenis_kiriman: "FRC",
+          total_switch: 0,
+          total_locco: 0,
 
           shipment_details: [],
           rute_shipments: [],
@@ -1096,7 +1121,7 @@ export default {
         keterangan: "",
         no_referensi_2: "",
         no_referensi_3: "",
-        jenis_kiriman: "0",
+        jenis_kiriman: "FRC",
         shipment_details: [],
       };
     },

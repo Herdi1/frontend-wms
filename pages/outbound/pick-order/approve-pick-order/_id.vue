@@ -429,7 +429,9 @@
                         <th class="w-[200px] border border-gray-300">Jumlah</th>
                         <th class="w-[200px] border border-gray-300">Berat</th>
                         <th class="w-[200px] border border-gray-300">Volume</th>
-                        <th class="w-[200px] border border-gray-300">Total</th>
+                        <th class="w-[200px] border border-gray-300">
+                          Sub Total
+                        </th>
                         <th class="w-[200px] border border-gray-300">Divisi</th>
                         <th class="w-[200px] border border-gray-300">Vendor</th>
                         <th class="w-[300px] border border-gray-300">
@@ -528,6 +530,23 @@
                           ></textarea>
                         </td>
                       </tr>
+                      <tr v-if="parameters.form.biaya_pick_orders.length > 0">
+                        <td
+                          colspan="7"
+                          class="border border-gray-300 text-right"
+                        >
+                          Grand Total
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          <p>
+                            {{ calculateGrandTotalBiayas | formatPrice }}
+                          </p>
+                        </td>
+                        <td
+                          colspan="3"
+                          class="border border-gray-300 text-right"
+                        ></td>
+                      </tr>
                       <tr v-if="!parameters.form.biaya_pick_orders.length > 0">
                         <td colspan="100" class="text-center">
                           <span class="flex justify-center">
@@ -581,7 +600,9 @@
                         <th class="w-[200px] border border-gray-300">Jumlah</th>
                         <th class="w-[200px] border border-gray-300">Berat</th>
                         <th class="w-[200px] border border-gray-300">Volume</th>
-                        <th class="w-[200px] border border-gray-300">Total</th>
+                        <th class="w-[200px] border border-gray-300">
+                          Sub Total
+                        </th>
                         <th class="w-[200px] border border-gray-300">Divisi</th>
                         <th class="w-[200px] border border-gray-300">
                           Pelanggan
@@ -684,6 +705,23 @@
                             v-model="item.keterangan"
                           ></textarea>
                         </td>
+                      </tr>
+                      <tr v-if="parameters.form.tagihan_pick_orders.length > 0">
+                        <td
+                          colspan="7"
+                          class="border border-gray-300 text-right"
+                        >
+                          Grand Total
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          <p>
+                            {{ calculateGrandTotalTagihans | formatPrice }}
+                          </p>
+                        </td>
+                        <td
+                          colspan="3"
+                          class="border border-gray-300 text-right"
+                        ></td>
                       </tr>
                       <tr
                         v-if="!parameters.form.tagihan_pick_orders.length > 0"
@@ -988,7 +1026,7 @@ export default {
                       berat: data.item_gudang.berat_kotor,
                       volume: data.item_gudang.volume,
                       nominal_satuan: parseFloat(data.nilai_kontrak) ?? 0,
-                      jumlah: parseFloat(data.jumlah) ?? 0,
+                      jumlah: parseFloat(item.quantity) ?? 0,
                       berat: parseFloat(data.item_gudang.berat_kotor) ?? 0,
                       volume: parseFloat(data.item_gudang.volume) ?? 0,
                       total: parseFloat(data.total) ?? 0,
@@ -1144,6 +1182,22 @@ export default {
         total = 0;
       }
       return total;
+    },
+
+    calculateGrandTotalBiayas() {
+      let grandTotal = 0;
+      this.parameters.form.biaya_pick_orders.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
+    },
+
+    calculateGrandTotalTagihans() {
+      let grandTotal = 0;
+      this.parameters.form.tagihan_pick_orders.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
     },
   },
 

@@ -114,6 +114,7 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -154,12 +155,16 @@
                   <th class="border border-gray-300">Debit</th>
                   <th class="border border-gray-300">Kredit</th>
                   <th class="w-[5%] border border-gray-300">Print</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -213,11 +218,7 @@
                       <i class="fas fa-print text-primary"></i>
                     </button>
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >

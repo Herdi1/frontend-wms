@@ -143,7 +143,9 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Proses
+                  </th>
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>

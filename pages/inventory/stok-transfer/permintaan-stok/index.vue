@@ -121,6 +121,9 @@
               <thead>
                 <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%] text-center border border-gray-300">
+                    Edit
+                  </th>
+                  <th class="w-[5%] text-center border border-gray-300">
                     Detail
                   </th>
                   <th class="w-[5%] text-center border border-gray-300">No</th>
@@ -225,9 +228,7 @@
                   </th>
                   <th class="border border-gray-300">Gudang Penerima</th>
                   <th class="border border-gray-300">Gudang Pengirim</th>
-                  <th class="w-[5%] text-center border border-gray-300">
-                    Edit
-                  </th>
+
                   <th class="w-[5%] text-center border border-gray-300">
                     Delete
                   </th>
@@ -235,6 +236,14 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_approve == 1"
+                    />
+                  </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
@@ -287,14 +296,7 @@
                         : "-"
                     }}
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button
-                      @click="onEdit(item)"
-                      :disabled="item.status_approve == 1"
-                    />
-                  </td>
+
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >

@@ -25,20 +25,19 @@
             <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[150px] border border-gray-300">Jenis Routing</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
+            <th class="w-[200px] border border-gray-300">Divisi</th>
+            <!-- <th class="w-[200px] border border-gray-300">Vendor</th> -->
+            <th class="w-[200px] border border-gray-300">Pelanggan</th>
             <th class="w-[200px] border border-gray-300">Lokasi</th>
-            <th class="w-[200px] border border-gray-300">Term Pembayaran</th>
+            <!-- <th class="w-[200px] border border-gray-300">Term Pembayaran</th> -->
             <th class="w-[200px] border border-gray-300">Jumlah</th>
             <th class="w-[200px] border border-gray-300">
               Biaya Per Kilometer
             </th>
             <!-- <th class="w-[200px] border border-gray-300">Payable To</th> -->
-            <th class="w-[200px] border border-gray-300">Total</th>
+            <th class="w-[200px] border border-gray-300">Sub Total</th>
             <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
-            <th class="w-[200px] border border-gray-300">Divisi</th>
-            <!-- <th class="w-[200px] border border-gray-300">Vendor</th> -->
-            <th class="w-[200px] border border-gray-300">Pelanggan</th>
             <th class="w-[200px] border border-gray-300">Keterangan</th>
-            <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
           </tr>
         </thead>
         <tbody>
@@ -112,143 +111,6 @@
                 <p>{{ item.jenis_biaya_id.nama_jenis_biaya }}</p>
               </div>
             </td>
-            <td class="border border-gray-300">
-              <!-- <v-select
-                disabled
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_lokasi"
-                :loading="isLoadingGetLokasi"
-                :options="lookup_location.data"
-                :filterable="false"
-                @search="onGetLokasi"
-                v-model="item.lokasi_id"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_location.data.length || search"
-                >
-                  <span
-                    v-if="lookup_location.current_page > 1"
-                    @click="onGetLokasi(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_location.last_page > lookup_location.current_page
-                    "
-                    @click="onGetLokasi(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select> -->
-              <p>{{ item.lokasi_id.nama_lokasi }}</p>
-            </td>
-            <td class="border border-gray-300">
-              <div class="w-full">
-                <!-- <v-select
-                  disabled
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300 mb-1"
-                  label="nama_term_pembayaran"
-                  :loading="isLoadingGetTermPembayaran"
-                  :options="lookup_custom10.data || []"
-                  :filterable="false"
-                  @search="onGetTermPembayaran"
-                  v-model="item.term_pembayaran_id"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom10.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom10.current_page > 1"
-                      @click="onGetTermPembayaran(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom10.last_page > lookup_custom10.current_page
-                      "
-                      @click="onGetTermPembayaran(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select> -->
-                <p>{{ item.term_pembayaran_id.nama_term_pembayaran }}</p>
-              </div>
-            </td>
-            <td class="border border-gray-300">
-              <money
-                v-model="item.jumlah"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-              />
-            </td>
-            <td class="border border-gray-300">
-              <money
-                disabled
-                :value="item.nominal_satuan"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-              />
-            </td>
-            <!-- <td class="border border-gray-300">
-              <select
-                name="payable_to"
-                id="payable_to"
-                v-model="item.payable_to"
-                class="p-1 w-full border border-gray-300 outline-none rounded-sm"
-              >
-                <option value="DRIVER">Driver</option>
-                <option value="VENDOR">Vendor</option>
-              </select>
-            </td> -->
-            <td class="border border-gray-300">
-              <money
-                disabled
-                :value="item.total"
-                class="w-full pl-2 py-1 border rounded focus:outline-none"
-              />
-            </td>
-            <!-- <td class="border border-gray-300">
-              <v-select
-                label="nama_coa"
-                :loading="isLoadingGetCoa"
-                :options="lookup_custom7.data"
-                :filterable="false"
-                @search="onGetCoa"
-                v-model="item.coa_id"
-                :reduce="(item) => item.coa_id"
-                class="w-full"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom7.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom7.current_page > 1"
-                    @click="onGetCoa(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom7.last_page > lookup_custom7.current_page
-                    "
-                    @click="onGetCoa(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td> -->
             <td class="border border-gray-300">
               <!-- <v-select
                 disabled
@@ -354,19 +216,131 @@
               <p>{{ item.pelanggan_id.nama_pelanggan }}</p>
             </td>
             <td class="border border-gray-300">
+              <!-- <v-select
+                disabled
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_lokasi"
+                :loading="isLoadingGetLokasi"
+                :options="lookup_location.data"
+                :filterable="false"
+                @search="onGetLokasi"
+                v-model="item.lokasi_id"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_location.data.length || search"
+                >
+                  <span
+                    v-if="lookup_location.current_page > 1"
+                    @click="onGetLokasi(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_location.last_page > lookup_location.current_page
+                    "
+                    @click="onGetLokasi(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select> -->
+              <p>{{ item.lokasi_id.nama_lokasi }}</p>
+            </td>
+            <!-- <td class="border border-gray-300">
+              <div class="w-full">
+                <p>{{ item.term_pembayaran_id.nama_term_pembayaran }}</p>
+              </div>
+            </td> -->
+            <td class="border border-gray-300">
+              <money
+                disabled
+                v-model="item.jumlah"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+              />
+            </td>
+            <td class="border border-gray-300">
+              <money
+                disabled
+                :value="item.nominal_satuan"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+              />
+            </td>
+            <!-- <td class="border border-gray-300">
+              <select
+                name="payable_to"
+                id="payable_to"
+                v-model="item.payable_to"
+                class="p-1 w-full border border-gray-300 outline-none rounded-sm"
+              >
+                <option value="DRIVER">Driver</option>
+                <option value="VENDOR">Vendor</option>
+              </select>
+            </td> -->
+            <td class="border border-gray-300">
+              <money
+                disabled
+                :value="item.total"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+              />
+            </td>
+            <!-- <td class="border border-gray-300">
+              <v-select
+                label="nama_coa"
+                :loading="isLoadingGetCoa"
+                :options="lookup_custom7.data"
+                :filterable="false"
+                @search="onGetCoa"
+                v-model="item.coa_id"
+                :reduce="(item) => item.coa_id"
+                class="w-full"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom7.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom7.current_page > 1"
+                    @click="onGetCoa(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom7.last_page > lookup_custom7.current_page
+                    "
+                    @click="onGetCoa(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </td> -->
+
+            <td class="border border-gray-300">
               <textarea
+                disabled
                 placeholder="Keterangan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="item.keterangan"
               ></textarea>
             </td>
-            <td class="text-center text-gray-600 border border-gray-300">
-              <i
-                class="fas fa-trash mx-auto"
-                style="cursor: pointer"
-                @click="onDeleteDetailBiaya(i)"
-              ></i>
+          </tr>
+          <tr v-if="self.parameters.form.tagihan_lastmiles.length > 0">
+            <td colspan="8" class="border border-gray-300 text-right">
+              Grand Total
             </td>
+            <td class="border border-gray-300 text-right">
+              <p>
+                {{ calculateGrandTotal | formatPrice }}
+              </p>
+            </td>
+            <td colspan="1" class="border border-gray-300 text-right"></td>
           </tr>
           <tr v-if="!self.parameters.form.tagihan_lastmiles.length > 0">
             <td colspan="100" class="text-center">
@@ -446,6 +420,14 @@ export default {
       "lookup_location",
       "lookup_customers",
     ]),
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.self.parameters.form.tagihan_lastmiles.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
+    },
   },
 
   methods: {

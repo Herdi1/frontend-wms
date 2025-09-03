@@ -30,6 +30,7 @@
             <th class="w-[200px] border border-gray-300">
               Waktu Sampai Tujuan (menit)
             </th>
+            <th class="w-[200px] border border-gray-300">Biaya Lain-lain</th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
             <th class="w-[150px] border border-gray-300">Jenis Kiriman</th>
             <th class="w-[100px] border border-gray-300 text-center">Hapus</th>
@@ -154,6 +155,15 @@
               />
             </td>
             <td class="border border-gray-300">
+              <money
+                v-model="item.total_lain"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
+                  $event.key === '-' ? $event.preventDefault() : null
+                "
+              />
+            </td>
+            <td class="border border-gray-300">
               <select
                 name="jenis_routing"
                 id="jenis_routing"
@@ -183,6 +193,17 @@
                 @click="onDeleteDetailRute(i)"
               ></i>
             </td>
+          </tr>
+          <tr v-if="self.parameters.form.rute_shipments.length > 0">
+            <td colspan="5" class="border border-gray-300 text-right">
+              Grand Total
+            </td>
+            <td class="border border-gray-300 text-right">
+              <p>
+                {{ calculateGrandTotal | formatPrice }}
+              </p>
+            </td>
+            <td colspan="3" class="border border-gray-300 text-right"></td>
           </tr>
           <tr v-if="!self.parameters.form.rute_shipments.length > 0">
             <td colspan="100" class="text-center">
@@ -221,6 +242,14 @@ export default {
 
   computed: {
     ...mapState("moduleApi", ["data", "error", "result", "lookup_location"]),
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.self.parameters.form.rute_shipments.forEach((item) => {
+        grandTotal += parseFloat(item.total_lain);
+      });
+      return grandTotal;
+    },
   },
 
   methods: {

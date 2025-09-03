@@ -26,6 +26,7 @@
           <table ref="formContainer">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Detail
                 </th>
@@ -70,12 +71,16 @@
                 <th class="min-w-40 border border-gray-300">Tanggal Expired</th>
                 <th class="min-w-32 border border-gray-300">Status</th>
                 <th class="min-w-32 border border-gray-300">Keterangan</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">Hapus</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td
+                  class="text-center border border-gray-300 place-items-center"
+                >
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td
                   class="text-center border border-gray-300 place-items-center"
                 >
@@ -133,11 +138,7 @@
                 </td>
 
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
-                <td
-                  class="text-center border border-gray-300 place-items-center"
-                >
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td
                   class="text-center border border-gray-300 place-items-center"
                 >

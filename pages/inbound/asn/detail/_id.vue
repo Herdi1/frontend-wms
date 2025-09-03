@@ -206,86 +206,181 @@
               </div>
             </div>
           </div>
-          <div>
-            <span class="mb-3 mt-7 text-xl font-bold uppercase w-full">
-              <h1>ASN Detail</h1>
-            </span>
-            <div
-              class="mt-4 overflow-auto w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-            >
-              <table
-                class="table border-collapse border border-gray-300 mt-5 table-fixed"
-              >
-                <thead>
-                  <tr class="text-sm uppercase">
-                    <th class="w-40 border border-gray-300">Item Gudang</th>
-                    <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
-                    <th class="w-40 border border-gray-300">Quantity</th>
-                    <th class="w-40 border border-gray-300">Serial Number</th>
-                    <th class="w-40 border border-gray-300">Nomor Referensi</th>
-                    <th class="w-40 border border-gray-300">Dimensi</th>
-                    <th class="w-40 border border-gray-300">Note</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(item, i) in parameters.form.asn_details"
-                    :key="i"
-                    class="border-t border-gray-400 align-top"
+
+          <tab-component :tabs="tabs">
+            <template #DetailAsn>
+              <div>
+                <span class="text-xl font-bold uppercase w-full">
+                  <h1>ASN Detail</h1>
+                </span>
+                <div class="mt-4 overflow-auto w-full rounded-md px-4 py-2">
+                  <table
+                    class="table border-collapse border border-gray-300 mt-5 table-fixed"
                   >
-                    <td class="border border-gray-300">
-                      {{ item.item ? item.item.nama_item : "Tidak Ditemukan" }}
-                    </td>
-                    <!-- <td class="border border-gray-300">
-                      {{
-                        item.zona_gudang_plan
-                          ? item.zona_gudang_plan.nama_zona_gudang
-                          : "Tidak Ditemukan"
-                      }}
-                    </td> -->
-                    <td class="border border-gray-300">
-                      {{ item.quantity ? item.quantity : "Tidak Ditemukan" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.serial_number
-                          ? item.serial_number
-                          : "Tidak Ditemukan"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.no_referensi
-                          ? item.no_referensi
-                          : "Tidak Ditemukan"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      <div>
-                        <p>Panjang</p>
-                        <span>{{ item.panjang }}</span>
-                      </div>
-                      <div>
-                        <p>Lebar</p>
-                        <span>{{ item.lebar }}</span>
-                      </div>
-                      <div>
-                        <p>Tinggi</p>
-                        <span>{{ item.tinggi }}</span>
-                      </div>
-                      <div>
-                        <p>Berat</p>
-                        <span>{{ item.berat }}</span>
-                      </div>
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.note ? item.note : "Tidak Ditemukan" }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                    <thead>
+                      <tr class="text-sm uppercase">
+                        <th class="w-40 border border-gray-300">Item Gudang</th>
+                        <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
+                        <th class="w-40 border border-gray-300">Quantity</th>
+                        <th class="w-40 border border-gray-300">
+                          Serial Number
+                        </th>
+                        <th class="w-40 border border-gray-300">
+                          Nomor Referensi
+                        </th>
+                        <th class="w-40 border border-gray-300">Dimensi</th>
+                        <th class="w-40 border border-gray-300">Note</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item, i) in parameters.form.asn_details"
+                        :key="i"
+                        class="border-t border-gray-400 align-top"
+                      >
+                        <td class="border border-gray-300">
+                          {{
+                            item.item ? item.item.nama_item : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <!-- <td class="border border-gray-300">
+                          {{
+                            item.zona_gudang_plan
+                              ? item.zona_gudang_plan.nama_zona_gudang
+                              : "Tidak Ditemukan"
+                          }}
+                        </td> -->
+                        <td class="border border-gray-300">
+                          {{
+                            item.quantity ? item.quantity : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.serial_number
+                              ? item.serial_number
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.no_referensi
+                              ? item.no_referensi
+                              : "Tidak Ditemukan"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          <div>
+                            <p>Panjang</p>
+                            <span>{{ item.panjang }}</span>
+                          </div>
+                          <div>
+                            <p>Lebar</p>
+                            <span>{{ item.lebar }}</span>
+                          </div>
+                          <div>
+                            <p>Tinggi</p>
+                            <span>{{ item.tinggi }}</span>
+                          </div>
+                          <div>
+                            <p>Berat</p>
+                            <span>{{ item.berat }}</span>
+                          </div>
+                        </td>
+                        <td class="border border-gray-300">
+                          {{ item.note ? item.note : "Tidak Ditemukan" }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </template>
+            <template #RiwayatAsn>
+              <div>
+                <span class="text-xl font-bold uppercase w-full">
+                  <h1>Riwayat ASN</h1>
+                </span>
+                <div class="mt-4 overflow-auto w-full rounded-md px-4 py-2">
+                  <table
+                    class="table border-collapse border border-gray-300 mt-5 table-fixed"
+                  >
+                    <thead>
+                      <tr class="text-sm uppercase">
+                        <th class="border border-gray-300">Status</th>
+                        <th class="border border-gray-300">Tanggal</th>
+                        <th class="border border-gray-300">User</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="parameters.form.user_id_input"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Dibuat</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ parameters.form.tanggal }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ parameters.form.user_id_input.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="parameters.form.user_konfirmasi"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Dikonfirmasi</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ parameters.form.tanggal_konfirmasi }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ parameters.form.user_konfirmasi.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="parameters.form.user_inspeksi"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Diinspeksi</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ parameters.form.tanggal_inspeksi }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>
+                            {{ parameters.form.user_inspeksi.nama_lengkap }}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr
+                        class="border-t border-gray-400 align-top"
+                        v-if="parameters.form.user_bongkar"
+                      >
+                        <td class="border border-gray-300">
+                          <p>Dibongkar</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ parameters.form.tanggal_bongkar }}</p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p>{{ parameters.form.user_bongkar.nama_lengkap }}</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </template>
+          </tab-component>
         </div>
         <!-- <table-data-loading-section :self="this" /> -->
       </div>
@@ -302,6 +397,11 @@ export default {
   data() {
     let id = parseInt(this.$route.params.id);
     return {
+      tabs: [
+        { name: "Detail ASN", slotName: "DetailAsn" },
+        { name: "Riwayat ASN", slotName: "RiwayatAsn" },
+      ],
+
       id,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -315,6 +415,10 @@ export default {
           kode_sap: "",
           doc_type_sap: "",
           tanggal: "",
+          tanggal_bongkar: "",
+          tanggal_delete: "",
+          tanggal_inspeksi: "",
+          tanggal_konfirmasi: "",
           lokasi_id_asal_muat: "",
           asal_muat: "",
           vendor_id_transporter: "",
@@ -332,6 +436,10 @@ export default {
           handling_instruction: "",
           catatan: "",
           pelanggan_id: "",
+          user_id_input: "",
+          user_konfirmasi: "",
+          user_inspeksi: "",
+          user_bongkar: "",
 
           //Tracking
           user_agent: "",

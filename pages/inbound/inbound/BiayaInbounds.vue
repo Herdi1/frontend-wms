@@ -27,7 +27,7 @@
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th class="w-[200px] border border-gray-300">Dasar Perhitungan</th>
             <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
-            <th class="w-[200px] border border-gray-300">Jumlah</th>
+            <th class="w-[200px] border border-gray-300">Quantity</th>
             <th class="w-[200px] border border-gray-300">Berat</th>
             <th class="w-[200px] border border-gray-300">Volume</th>
             <th class="w-[200px] border border-gray-300">Total</th>
@@ -203,7 +203,7 @@
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-                @input="onQuantityChange(item.jumlah, index)"
+                @input="totalValue(item, index)"
               />
             </td>
             <td class="border border-gray-300">
@@ -229,7 +229,6 @@
             <td class="border border-gray-300">
               <!-- :value="this.totalValue(item, index)" -->
               <money
-                type="text"
                 disabled
                 v-model="item.total"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -254,6 +253,17 @@
               ></i>
             </td>
           </tr>
+          <tr v-if="self.form.biaya_inbounds.length > 0">
+            <td colspan="9" class="border border-gray-300 text-right">
+              Grand Total
+            </td>
+            <td class="border border-gray-300 text-right">
+              <p>
+                {{ calculateGrandTotal | formatPrice }}
+              </p>
+            </td>
+            <td colspan="2" class="border border-gray-300 text-right"></td>
+          </tr>
           <tr v-if="!self.form.biaya_inbounds.length > 0">
             <td colspan="100" class="text-center">
               <span class="flex justify-center">
@@ -266,14 +276,6 @@
             </td>
           </tr>
         </tbody>
-        <div class="flex w-[300px] mt-20 items-center">
-          <label for="" class="w-[100px]">Total</label>
-          <div
-            class="w-[150px] p-1 border border-gray-300 bg-gray-200 rounded-md text-right"
-          >
-            {{ calculateTotal | formatPrice }}
-          </div>
-        </div>
       </table>
     </div>
   </div>
@@ -305,24 +307,24 @@ export default {
     };
   },
 
-  watch: {
-    "self.form.biaya_inbounds": {
-      handler(newVal) {
-        newVal.forEach((item) => {
-          if (item.dasar_perhitungan === "QTY") {
-            item.total = item.jumlah * item.nilai_kontrak;
-          } else if (item.dasar_perhitungan === "BERAT") {
-            item.total = item.jumlah * item.nilai_kontrak * item.berat;
-          } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total = item.jumlah * item.nilai_kontrak * item.volume;
-          } else {
-            item.total = 0;
-          }
-        });
-      },
-      deep: true,
-    },
-  },
+  // watch: {
+  //   "self.form.biaya_inbounds": {
+  //     handler(newVal) {
+  //       newVal.forEach((item) => {
+  //         if (item.dasar_perhitungan === "QTY") {
+  //           item.total = item.jumlah * item.nilai_kontrak;
+  //         } else if (item.dasar_perhitungan === "BERAT") {
+  //           item.total = item.jumlah * item.nilai_kontrak * item.berat;
+  //         } else if (item.dasar_perhitungan === "VOLUME") {
+  //           item.total = item.jumlah * item.nilai_kontrak * item.volume;
+  //         } else {
+  //           item.total = item.total;
+  //         }
+  //       });
+  //     },
+  //     deep: true,
+  //   },
+  // },
 
   async mounted() {
     await this.onSearchJenisBiaya();
@@ -356,6 +358,14 @@ export default {
       // }
 
       return total;
+    },
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.self.form.biaya_inbounds.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
     },
   },
 
@@ -554,7 +564,7 @@ export default {
       this.self.form.biaya_inbounds[index].vendor_id = item || "";
     },
 
-    totalValue(item) {
+    totalValue(item, index) {
       let total = 0;
 
       if (item.dasar_perhitungan === "QTY") {
@@ -565,12 +575,14 @@ export default {
         total = item.jumlah * item.nilai_kontrak * item.volume;
       }
 
+      this.self.form.biaya_inbounds[index].total = total;
+
       return total;
     },
 
-    onQuantityChange(value, index) {
-      this.$emit("update-quantity", { index, value });
-    },
+    // onQuantityChange(item) {
+    //   item.total =
+    // },
   },
 };
 </script>

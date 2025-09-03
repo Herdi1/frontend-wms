@@ -119,80 +119,181 @@
           </div>
         </div>
       </div>
-      <div class="mt-4">
+      <tab-component :tabs="tabs">
+        <template #DetailPickOrder>
+          <div class="w-full relative overflow-x-auto">
+            <table
+              class="mb-5 table-fixed border border-collapse border-gray-300"
+            >
+              <thead>
+                <tr class="uppercase">
+                  <th class="w-60 border border-gray-300">Kode Item</th>
+                  <th class="w-60 border border-gray-300">Nama Item</th>
+                  <th class="w-60 border border-gray-300">Valuation</th>
+                  <th class="w-60 border border-gray-300">Quantity Request</th>
+                  <th class="w-60 border border-gray-300">Quantity</th>
+                  <th class="w-60 border border-gray-300">Zona Asal</th>
+                  <th class="w-60 border border-gray-300">
+                    Lokasi Penyimpanan Asal
+                  </th>
+                  <th class="w-60 border border-gray-300">Zona Tujuan</th>
+                  <th class="w-60 border border-gray-300">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item, i) in detail_pick_order.pick_order_details"
+                  :key="i"
+                  class="border-t"
+                >
+                  <td class="border border-gray-300">
+                    {{ item.item_gudang.kode_item }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.item_gudang.nama_item }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.valuation.nama_valuation }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.quantity_request }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.quantity }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.zona_gudang.nama_zona_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <span v-if="item.slot_penyimpanan_aisle"
+                      >{{ item.slot_penyimpanan_aisle.nama_slot_penyimpanan }} -
+                    </span>
+                    <span v-if="item.slot_penyimpanan_rack"
+                      >{{ item.slot_penyimpanan_rack.nama_slot_penyimpanan }} -
+                    </span>
+                    <span v-if="item.slot_penyimpanan_level"
+                      >{{ item.slot_penyimpanan_level.nama_slot_penyimpanan }} -
+                    </span>
+                    <span v-if="item.slot_penyimpanan_bin">{{
+                      item.slot_penyimpanan_bin.nama_slot_penyimpanan
+                    }}</span>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.zona_gudang_tujuan.nama_zona_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+        <template #RiwayatPickOrder>
+          <div>
+            <table
+              class="mb-5 table-fixed border border-collapse border-gray-300"
+            >
+              <thead>
+                <tr class="text-sm uppercase">
+                  <th class="border border-gray-300">Status</th>
+                  <th class="border border-gray-300">Tanggal</th>
+                  <th class="border border-gray-300">User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="border-t border-gray-400 align-top"
+                  v-if="detail_pick_order.user_input"
+                >
+                  <td class="border border-gray-300">
+                    <p>Dibuat</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>{{ detail_pick_order.tanggal }}</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ detail_pick_order.user_input.nama_lengkap }}
+                    </p>
+                  </td>
+                </tr>
+                <tr
+                  class="border-t border-gray-400 align-top"
+                  v-if="detail_pick_order.user_proses"
+                >
+                  <td class="border border-gray-300">
+                    <p>Proses</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>{{ detail_pick_order.tanggal_proses }}</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ detail_pick_order.user_proses.nama_lengkap }}
+                    </p>
+                  </td>
+                </tr>
+                <tr
+                  class="border-t border-gray-400 align-top"
+                  v-if="detail_pick_order.user_selesai"
+                >
+                  <td class="border border-gray-300">
+                    <p>Selesai</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>{{ detail_pick_order.tanggal_selesai }}</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ detail_pick_order.user_selesai.nama_lengkap }}
+                    </p>
+                  </td>
+                </tr>
+                <tr
+                  class="border-t border-gray-400 align-top"
+                  v-if="detail_pick_order.user_batal"
+                >
+                  <td class="border border-gray-300">
+                    <p>Batal</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>{{ detail_pick_order.tanggal_batal }}</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ detail_pick_order.user_batal.nama_lengkap }}
+                    </p>
+                  </td>
+                </tr>
+                <tr
+                  class="border-t border-gray-400 align-top"
+                  v-if="detail_pick_order.user_approve"
+                >
+                  <td class="border border-gray-300">
+                    <p>Approve</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>{{ detail_pick_order.tanggal_approve }}</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ detail_pick_order.user_approve.nama_lengkap }}
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+      </tab-component>
+      <!-- <div class="mt-4">
         <h1 class="text-xl font-bold mb-2 uppercase">Detail Pick Order</h1>
       </div>
       <div
         class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
       >
-        <div class="w-full relative overflow-x-auto">
-          <table
-            class="mb-5 table-fixed border border-collapse border-gray-300"
-          >
-            <thead>
-              <tr class="uppercase">
-                <th class="w-60 border border-gray-300">Kode Item</th>
-                <th class="w-60 border border-gray-300">Nama Item</th>
-                <th class="w-60 border border-gray-300">Valuation</th>
-                <th class="w-60 border border-gray-300">Quantity Request</th>
-                <th class="w-60 border border-gray-300">Quantity</th>
-                <th class="w-60 border border-gray-300">Zona Asal</th>
-                <th class="w-60 border border-gray-300">
-                  Lokasi Penyimpanan Asal
-                </th>
-                <th class="w-60 border border-gray-300">Zona Tujuan</th>
-                <th class="w-60 border border-gray-300">Keterangan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(item, i) in detail_pick_order.pick_order_details"
-                :key="i"
-                class="border-t"
-              >
-                <td class="border border-gray-300">
-                  {{ item.item_gudang.kode_item }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.item_gudang.nama_item }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.valuation.nama_valuation }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.quantity_request }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.quantity }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.zona_gudang.nama_zona_gudang }}
-                </td>
-                <td class="border border-gray-300">
-                  <span v-if="item.slot_penyimpanan_aisle"
-                    >{{ item.slot_penyimpanan_aisle.nama_slot_penyimpanan }} -
-                  </span>
-                  <span v-if="item.slot_penyimpanan_rack"
-                    >{{ item.slot_penyimpanan_rack.nama_slot_penyimpanan }} -
-                  </span>
-                  <span v-if="item.slot_penyimpanan_level"
-                    >{{ item.slot_penyimpanan_level.nama_slot_penyimpanan }} -
-                  </span>
-                  <span v-if="item.slot_penyimpanan_bin">{{
-                    item.slot_penyimpanan_bin.nama_slot_penyimpanan
-                  }}</span>
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.zona_gudang_tujuan.nama_zona_gudang }}
-                </td>
-                <td class="border border-gray-300">
-                  {{ item.keterangan }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -205,6 +306,11 @@ export default {
     let id = parseInt(this.$route.params.id);
 
     return {
+      tabs: [
+        { name: "Detail Pick Order", slotName: "DetailPickOrder" },
+        { name: "Riwayat Pick Order", slotName: "RiwayatPickOrder" },
+      ],
+
       id,
 
       isLoadingPage: Number.isInteger(id) ? true : false,
@@ -212,6 +318,10 @@ export default {
       detail_pick_order: {
         kode_pick_order: "",
         tanggal: "",
+        tanggal_proses: "",
+        tanggal_selesai: "",
+        tanggal_approve: "",
+        tanggal_batal: "",
         no_referensi_1: "",
         no_referensi_2: "",
         no_referensi_3: "",
@@ -220,6 +330,11 @@ export default {
         staff_id_pic: "",
         peralatan_id: "",
         keterangan: "",
+        user_input: "",
+        user_proses: "",
+        user_selesai: "",
+        user_approve: "",
+        user_batal: "",
         pick_order_details: [],
       },
     };

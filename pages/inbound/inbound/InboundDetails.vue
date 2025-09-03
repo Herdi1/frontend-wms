@@ -129,6 +129,7 @@
                   >
                 </li>
               </v-select>
+              <!-- <p>{{ item.index }}</p> -->
               <!-- {{ item.nama_item ? item.nama_item : "-" }} -->
             </td>
             <td class="border border-gray-300">
@@ -792,6 +793,7 @@ export default {
         slot_penyimpanan_id_bin: "",
         keterangan: "",
         alasan_beda_plan_id: "",
+        index: this.self.form.inbound_details.length,
       });
     },
 
@@ -802,19 +804,24 @@ export default {
 
       const notAllDeleted = this.self.form.inbound_details.some(
         (data) =>
-          data.item_gudang.item_gudang_id === item.item_gudang.item_gudang_id
+          data.item_gudang_id.item_gudang_id ===
+          item.item_gudang_id.item_gudang_id
       );
 
       if (!notAllDeleted) {
         this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
-          (data) => item.item_gudang.item_gudang_id !== data.item_gudang_id
+          (data) =>
+            item.item_gudang_id.item_gudang_id !==
+            data.item_gudang_id.item_gudang_id
         );
       }
 
       if (!notAllDeleted) {
         this.self.form.tagihan_inbounds =
           this.self.form.tagihan_inbounds.filter(
-            (data) => item.item_gudang.item_gudang_id !== data.item_gudang_id
+            (data) =>
+              item.item_gudang_id.item_gudang_id !==
+              data.item_gudang_id.item_gudang_id
           );
       }
     },
@@ -1205,6 +1212,7 @@ export default {
             nama_item: item.nama_item,
           };
           this.self.form.inbound_details[index].status_terima = "FULL";
+          this.self.form.inbound_details[index].index = index;
         } else {
           this.self.form.inbound_details[index].item_gudang_id = item;
         }
@@ -1433,7 +1441,7 @@ export default {
               typeof this.self.form.inbound_details[index].item_gudang_id ===
               "object"
                 ? this.self.form.inbound_details[index].item_gudang_id
-                    .item_gudang_id.item_gudang_id
+                    .item_gudang_id
                 : "",
             peralatan_id:
               typeof this.self.form.inbound_details[index].peralatan_id ===
@@ -1462,7 +1470,7 @@ export default {
               typeof this.self.form.inbound_details[index].item_gudang_id ===
               "object"
                 ? this.self.form.inbound_details[index].item_gudang_id
-                    .item_gudang_id.item_gudang_id
+                    .item_gudang_id
                 : "",
             jenis_biaya_id:
               typeof this.self.form.inbound_details[index].jenis_biaya_id ===

@@ -315,6 +315,21 @@
                         <th class="w-[200px] border border-gray-300">
                           Total Biaya Insentif Jarak
                         </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Locco
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Switch
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Total Lain
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Sub Total
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Keterangan
+                        </th>
                         <th class="w-[75px] border border-gray-300">Detail</th>
                       </tr>
                     </thead>
@@ -386,6 +401,21 @@
                         <td class="border border-gray-300 text-right">
                           {{ item.total_insentif_jarak ?? 0 | formatPrice }}
                         </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_locco ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_switch ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_lain ?? 0 | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ parseFloat(item.sub_total) | formatPrice }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.keterangan }}
+                        </td>
                         <td
                           class="text-center text-gray-600 border border-gray-300"
                         >
@@ -394,6 +424,17 @@
                             style="cursor: pointer"
                             @click="onDetail(index)"
                           ></i>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="15"
+                          class="border border-gray-300 text-right"
+                        >
+                          Grand Total
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ calculateGrandTotal ?? 0 | formatPrice }}
                         </td>
                       </tr>
                     </tbody>
@@ -526,9 +567,18 @@ export default {
             return {
               ...item,
               ujs_sopir_detail_id: item || "",
+              sub_total:
+                parseFloat(item.total_bbm) +
+                parseFloat(item.total_bongkar_toko) +
+                parseFloat(item.total_retribusi) +
+                parseFloat(item.total_locco) +
+                parseFloat(item.total_switch) +
+                parseFloat(item.total_lain),
             };
           }
         );
+
+        console.log(this.form.ujs_sopir_details);
 
         this.isLoadingPage = false;
       }
@@ -553,6 +603,14 @@ export default {
       "lookup_custom4",
       "lookup_custom5",
     ]),
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.form.ujs_sopir_details.forEach((item) => {
+        grandTotal += parseFloat(item.sub_total);
+      });
+      return grandTotal;
+    },
   },
 
   methods: {

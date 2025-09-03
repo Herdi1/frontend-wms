@@ -26,11 +26,12 @@
             <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <th class="w-[200px] border border-gray-300">Jarak</th>
-            <th class="w-[200px] border border-gray-300">Biaya BBM</th>
             <th class="w-[200px] border border-gray-300">
               Waktu Sampai Tujuan (menit)
             </th>
+            <th class="w-[200px] border border-gray-300">Biaya Lain-lain</th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>
+            <th class="w-[150px] border border-gray-300">Jenis Kiriman</th>
             <!-- <th class="w-[100px] border border-gray-300 text-center">Hapus</th> -->
           </tr>
         </thead>
@@ -157,15 +158,16 @@
               </p>
             </td>
             <td class="border border-gray-300">
-              <!-- <money
-              v-model="item.biaya_bbm"
-              class="w-full pl-2 py-1 border rounded focus:outline-none"
-              @keydown.native="
+              <!-- <input
+                type="number"
+                v-model="item.waktu_sampai_tujuan"
+                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
-                  "
+                "
               /> -->
               <p>
-                {{ item.biaya_bbm }}
+                {{ item.waktu_sampai_tujuan }}
               </p>
             </td>
             <td class="border border-gray-300">
@@ -178,7 +180,7 @@
                 "
               /> -->
               <p>
-                {{ item.waktu_sampai_tujuan }}
+                {{ item.total_lain }}
               </p>
             </td>
             <td class="border border-gray-300">
@@ -193,13 +195,29 @@
                 <option value="KOSONG">Kosong</option>
               </select>
             </td>
-            <!-- <td class="text-center text-gray-600 border border-gray-300">
-              <i
-                class="fas fa-trash mx-auto"
-                style="cursor: pointer"
-                @click="onDeleteDetailRute(i)"
-              ></i>
-            </td> -->
+            <td class="border border-gray-300 text-center">
+              <span
+                v-if="item.jenis_kiriman == 0"
+                class="p-1 text-white rounded-md bg-orange-500"
+                >Kembali</span
+              >
+              <span
+                v-if="item.jenis_kiriman == 1"
+                class="p-1 text-white rounded-md bg-green-500"
+                >Berangkat</span
+              >
+            </td>
+          </tr>
+          <tr v-if="self.parameters.form.rute_shipments.length > 0">
+            <td colspan="5" class="border border-gray-300 text-right">
+              Grand Total
+            </td>
+            <td class="border border-gray-300 text-right">
+              <p>
+                {{ calculateGrandTotal | formatPrice }}
+              </p>
+            </td>
+            <td colspan="2" class="border border-gray-300 text-right"></td>
           </tr>
           <tr v-if="!self.parameters.form.rute_shipments.length > 0">
             <td colspan="100" class="text-center">
@@ -238,6 +256,14 @@ export default {
 
   computed: {
     ...mapState("moduleApi", ["data", "error", "result", "lookup_location"]),
+
+    calculateGrandTotal() {
+      let grandTotal = 0;
+      this.self.parameters.form.rute_shipments.forEach((item) => {
+        grandTotal += parseFloat(item.total_lain);
+      });
+      return grandTotal;
+    },
   },
 
   methods: {

@@ -299,10 +299,7 @@
                   <InboundDetails :self="{ form, items }" />
                 </template>
                 <template #BiayaInbound>
-                  <BiayaInbounds
-                    :self="{ form, isEditable }"
-                    @update-quantity="updateQuantity"
-                  />
+                  <BiayaInbounds :self="{ form, isEditable }" />
                 </template>
                 <template #TagihanInbound>
                   <TagihanInbounds :self="{ form }" />
@@ -554,6 +551,7 @@ export default {
               coa_id: item.coa ?? "",
               divisi_id: item.divisi,
               vendor_id: item.vendor,
+              total: item.total ?? 999,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -1229,7 +1227,7 @@ export default {
           this.items = item.asn_details.map((data) => {
             return {
               ...data,
-              item_gudang_id: data.item_gudang,
+              item_gudang_id: data.item_gudang_id,
               item_id: data.item,
               nama_item: data.item.nama_item,
               asn_detail_id: data.asn_detail_id,
@@ -1673,10 +1671,6 @@ export default {
 
         this.isLoadingGetZonaPlan = false;
       }
-    },
-
-    updateQuantity({ index, value }) {
-      this.form.biaya_inbounds[index].jumlah = Number(value);
     },
   },
 };
