@@ -29,6 +29,7 @@
           >
             <thead>
               <tr class="uppercase">
+                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th class="w-40 border border-gray-300">Kode Standar Jenis</th>
                 <th class="w-40 border border-gray-300">Jenis Kendaraan</th>
@@ -41,12 +42,14 @@
                 <th class="w-40 border border-gray-300">Minimal Muat</th>
                 <th class="w-40 border border-gray-300">Maksimal Muat</th>
                 <th class="w-40 border border-gray-300">Konsumsi BBM</th>
-                <th class="w-20 text-center border border-gray-300">Edit</th>
                 <th class="w-20 text-center border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -87,9 +90,7 @@
                 <td class="border border-gray-300">
                   {{ item.konsumsi_bbm }} km/liter
                 </td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

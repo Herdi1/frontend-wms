@@ -28,6 +28,8 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-[5%] border border-gray-300">Edit</th>
+
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th class="border border-gray-300">Kode Cost Center</th>
                   <th
@@ -64,12 +66,16 @@
                     </div>
                   </th>
                   <th class="border border-gray-300">Cost Center</th>
-                  <th class="w-[5%] border border-gray-300">Edit</th>
                   <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -91,11 +97,7 @@
                   <td class="border border-gray-300">
                     {{ item.nama_cost_center }}
                   </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >

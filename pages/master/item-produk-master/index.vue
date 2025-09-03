@@ -247,6 +247,8 @@
             >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="w-20 border border-gray-300 text-center">
                     Detail
                   </th>
@@ -364,7 +366,6 @@
                   <th class="w-40 border border-gray-300">Kapasitas Palet</th>
                   <th class="w-40 border border-gray-300">Maksimal Tumpukan</th>
                   <th class="w-40 border border-gray-300">Supplier</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -372,6 +373,9 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="border border-gray-300 place-items-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -518,9 +522,6 @@
                     }}
                   </td>
 
-                  <td class="border border-gray-300 place-items-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td class="border border-gray-300 place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"

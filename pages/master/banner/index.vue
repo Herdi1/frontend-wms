@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Kelurahan</span>
+        <span>{{ this.title }}</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -15,41 +15,39 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex sm:flex-col md:flex-row gap-5">
+    <div class="flex gap-5">
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
-        <div class="card-body overflow-x-auto">
+        <div class="card-body">
           <div class="card-title">
             <list-option-section :self="this" ref="form-option" />
           </div>
 
-          <div class="table-responsive w-full relative overflow-y-auto">
-            <table
-              class="mb-5 overflow-auto table-fixed border border-gray-300"
-              ref="formContainer"
-            >
+          <div class="table-responsive">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
-                <tr class="text-base uppercase text-nowrap">
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
-
-                  <th class="w-20 text-center border border-gray-300">No</th>
+                <tr class="text-base uppercase">
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Edit
+                  </th>
+                  <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
-                        'nama_kelurahan',
+                        'judul_banner',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pointer border border-gray-300 w-40"
+                    class="cursor-pointer border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Nama Kelurahan</div>
+                      <div>Judul Banner</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'nama_kelurahan' &&
+                            parameters.params.order == 'judul_banner' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -58,7 +56,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'nama_kelurahan' &&
+                            parameters.params.order == 'judul_banner' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -67,14 +65,11 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-40 border border-e-gray-300">Kode Kelurahan</th>
-                  <th class="w-40 border border-e-gray-300">Longitude</th>
-                  <th class="w-40 border border-e-gray-300">Latitude</th>
-                  <th class="w-40 border border-e-gray-300">Kecamatan</th>
-                  <th class="w-40 border border-e-gray-300">Kota</th>
-                  <th class="w-40 border border-e-gray-300">Provinsi</th>
-                  <th class="w-40 border border-e-gray-300">Negara</th>
-                  <th class="w-20 text-center border border-gray-300">
+                  <th class="border border-gray-300">Keterangan</th>
+                  <th class="w-[5%] text-center border border-gray-300">
+                    File
+                  </th>
+                  <th class="w-[5%] text-center border border-gray-300">
                     Delete
                   </th>
                 </tr>
@@ -93,36 +88,25 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.nama_kelurahan }}
+                    {{ item.judul_banner }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kode_kelurahan }}
+                    {{ item.keterangan }}
                   </td>
-                  <td class="border border-gray-300">{{ item.longitude }}</td>
-                  <td class="border border-gray-300">{{ item.latitude }}</td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.kecamatan
-                        ? item.kecamatan.nama_kecamatan
-                        : "Tidak Ditemukan"
-                    }}
+                  <td
+                    class="border border-gray-300 text-center place-items-center"
+                  >
+                    <button
+                      v-if="item.file_name"
+                      @click="onShowPicture(item)"
+                      type="button"
+                      class="flex p-2 my-1 max-w-full rounded-md bg-blue-500 text-white hover:bg-blue-400 items-center"
+                    >
+                      <i class="fa fa-image mx-2"></i>
+                      <!-- <span class="font-bold text-ellipsis">File</span> -->
+                    </button>
+                    <p v-else>-</p>
                   </td>
-                  <td class="border border-gray-300">
-                    {{ item.kota ? item.kota.nama_kota : "Tidak Ditemukan" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.provinsi
-                        ? item.provinsi.nama_provinsi
-                        : "Tidak Ditemukan"
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{
-                      item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
-                    }}
-                  </td>
-
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
@@ -136,26 +120,30 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
-
           <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
     </div>
+    <ShowPictureModal ref="pictureModal" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
+import ShowPictureModal from "../../../components/transaksional/ShowPictureModal.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
+  components: {
+    ShowPictureModal,
+  },
+
   head() {
     return {
-      title: "Kelurahan",
+      title: "Fungsi Zona",
     };
   },
 
@@ -164,15 +152,11 @@ export default {
     this.onLoad();
   },
 
-  components: {
-    FormInput,
-  },
-
   mounted() {
-    // this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isMaintenancePage = true;
-    // this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = false;
 
     if (
       this.getRoles.destroy ||
@@ -188,10 +172,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -201,16 +185,37 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
   },
 
   data() {
     return {
-      title: "Kelurahan",
-      isLoading: false,
+      title: "Banner",
+      isLoadingData: false,
       isPaginate: true,
-      user: this.$auth.user,
+      parameters: {
+        url: "master/banner",
+        type: "pdf",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "banner_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+        },
+        form: {
+          judul_banner: "",
+          keterangan: "",
+          file_name: "",
+        },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
+      },
       default_roles: {
         store: true,
         update: true,
@@ -225,33 +230,7 @@ export default {
         restore_all: true,
         import: true,
       },
-      parameters: {
-        url: "master/kelurahan",
-        type: "pdf",
-        params: {
-          soft_deleted: "",
-          search: "",
-          order: "kelurahan_id",
-          sort: "desc",
-          all: "",
-          per_page: 10,
-          page: 1,
-        },
-        form: {
-          negara_id: "",
-          provinsi_id: "",
-          kota_id: "",
-          kecamatan_id: "",
-          longitude: "",
-          latitude: "",
-          nama_kelurahan: "",
-          kode_kelurahan: "",
-        },
-        loadings: {
-          isDelete: false,
-          isRestore: false,
-        },
-      },
+      user: this.$auth.user,
     };
   },
 
@@ -263,7 +242,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "kelurahan"
+          (item) => item.rute == "banner"
         );
 
         let roles = {};
@@ -293,37 +272,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$router.push("/master/kelurahan/add");
-      // this.$refs.formInput.parameters.form = {
-      //   negara_id: "",
-      //   provinsi_id: "",
-      //   kota_id: "",
-      //   kecamatan_id: "",
-      //   longitude: "",
-      //   latitude: "",
-      //   nama_kelurahan: "",
-      //   kode_kelurahan: "",
-      // };
-      // this.$refs.formInput.isEditable = false;
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
+      this.$router.push("/master/banner/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/kelurahan/" + item.kelurahan_id);
-      // this.$refs.formInput.isEditable = true;
-      // this.$refs.formInput.parameters.form = {
-      //   ...item,
-      //   kelurahan_id: item.kelurahan,
-      //   kecamatan_id: item.kecamatan,
-      //   kota_id: item.kota,
-      //   provinsi_id: item.provinsi,
-      //   negara_id: item.negara,
-      // };
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
+      this.$router.push("/master/banner/" + item.banner_id);
     },
 
     onTrashed(item) {
@@ -342,7 +295,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.kelurahan_id,
+              id: item.banner_id,
               params: this.parameters.params,
             });
 
@@ -393,6 +346,12 @@ export default {
       }
 
       this.isLoadingData = false;
+    },
+
+    onShowPicture(item) {
+      this.$refs.pictureModal.title = "Banner";
+      this.$refs.pictureModal.src = "banners/" + item.file_name;
+      this.$refs.pictureModal.show();
     },
 
     onSort(column, sort = "asc") {

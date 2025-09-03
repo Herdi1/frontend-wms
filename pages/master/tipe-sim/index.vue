@@ -24,6 +24,8 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th
                   @click="
@@ -92,7 +94,6 @@
                   </div>
                 </th>
                 <th class="border border-gray-300">Keterangan</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -100,6 +101,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -110,9 +114,6 @@
                 <td class="border border-gray-300">{{ item.nama_tipe_sim }}</td>
                 <td class="border border-gray-300">{{ item.kode_tipe_sim }}</td>
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

@@ -85,6 +85,8 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase text-nowrap">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+
                 <th class="w-[5%] text-center border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Slot Penyimpanan</th>
                 <th class="border border-gray-300">Nama Slot Penyimpanan</th>
@@ -127,7 +129,6 @@
                 <th class="border border-gray-300">Level</th>
                 <th class="border border-gray-300">Slot Penyimpanan</th>
                 <th class="border border-gray-300">Kapasitas</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -135,6 +136,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -177,9 +181,7 @@
                   }}
                 </td>
                 <td class="border border-gray-300">{{ item.kapasitas }}</td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
