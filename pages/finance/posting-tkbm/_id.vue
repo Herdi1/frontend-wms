@@ -442,7 +442,7 @@
                         </td>
                         <td class="border border-gray-300">
                           <p class="text-right">
-                            {{ item.total_tkbm ? item.total_tkbm : "0.00" }}
+                            {{ item.total_tkbm ?? 0 | formatPrice }}
                           </p>
                         </td>
 
@@ -457,6 +457,20 @@
                             ></i>
                           </div>
                         </td>
+                      </tr>
+                      <tr>
+                        <td class="border-b border-gray-300"></td>
+                        <td class="border-b border-gray-300"></td>
+                        <td class="border-b border-gray-300"></td>
+                        <td class="border-b border-gray-300"></td>
+                        <td class="border-b border-gray-300"></td>
+                        <td class="border border-gray-300">Grand Total</td>
+                        <td class="border border-gray-300">
+                          <p class="text-right">
+                            {{ totalNominal | formatPrice }}
+                          </p>
+                        </td>
+                        <td class="border border-gray-300"></td>
                       </tr>
                       <tr v-if="!form.posting_tkbm_details.length > 0">
                         <td colspan="100" class="text-center">
@@ -612,6 +626,13 @@ export default {
       "lookup_custom4",
       "lookup_custom5",
     ]),
+
+    totalNominal() {
+      return this.form.posting_tkbm_details.reduce((total, item) => {
+        const nominal = parseFloat(item.total_tkbm) || 0;
+        return total + nominal;
+      }, 0);
+    },
   },
 
   methods: {
