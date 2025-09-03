@@ -9,7 +9,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Inventory</a
+          Lastmile</a
         >
       </li>
       <li
@@ -43,95 +43,6 @@
                 <option value="pdf">PDF</option>
                 <option value="excel">Excel</option>
               </select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2"
-                >Type <span class="text-danger">*</span></label
-              >
-              <select
-                name=""
-                id=""
-                v-model="parameters.params.type"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="perbarang">Perbarang</option>
-                <option value="percabang">Percabang</option>
-              </select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="provinsi"
-                >Provinsi <span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_provinsi"
-                :loading="isLoadingGetProvinsi"
-                :options="lookup_custom3.data"
-                :filterable="false"
-                @search="onGetProvinsi"
-                v-model="parameters.form.provinsi_id"
-                @input="(item) => onSetProvinsi(item)"
-                class="w-[50%] bg-white"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom3.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom3.current_page > 1"
-                    @click="onGetProvinsi(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom3.last_page > lookup_custom3.current_page
-                    "
-                    @click="onGetProvinsi(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="region"
-                >Region <span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_wilayah"
-                :loading="isLoadingGetWilayah"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onGetWilayah"
-                v-model="parameters.form.wilayah_id"
-                @input="onSetWilayah"
-                class="w-[50%] bg-white"
-                disabled
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetWilayah(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetWilayah(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
             </div>
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="group_item_id_1"
@@ -170,6 +81,7 @@
                 </li>
               </v-select>
             </div>
+
             <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
@@ -180,17 +92,15 @@
                 :required="true"
               />
             </div>
-            <div class="flex w-full m-1 pr-1">
-              <label for="" class="w-1/2">Urutan</label>
-              <select
-                name=""
-                id=""
-                v-model="parameters.params.urutan"
-                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-              >
-                <option value="asc">ASC</option>
-                <option value="desc">DESC</option>
-              </select>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="true"
+              />
             </div>
           </div>
 
@@ -224,31 +134,28 @@ export default {
 
   head() {
     return {
-      title: "Laporan Persediaan",
+      title: "Laporan Pengiriman",
     };
   },
 
   async mounted() {
-    await this.onSearchProvinsi();
+    await this.onSearchGudang();
   },
 
   data() {
     return {
-      title: "Laporan Average Inventory Periode",
+      title: "Laporan Ketidak Sesuaian Bongkar",
       isLoadingData: false,
 
       parameters: {
-        url: "report/inventory-periode/export",
+        url: "report/ketidak-sesuaian-bongkar/export",
         params: {
           download: "pdf",
           start_date: "",
-          urutan: "",
-          type: "",
+          end_date: "",
         },
         form: {
           gudang_id: "",
-          provinsi_id: "",
-          wilayah_id: "",
         },
       },
 
@@ -257,33 +164,18 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
-
-      isStopSearchWilayah: false,
-      isLoadingGetWilayah: false,
-      wilayah_search: "",
-
-      isStopSearchProvinsi: false,
-      isLoadingGetProvinsi: false,
-      provinsi_search: "",
     };
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data",
-      "error",
-      "result",
-      "lookup_custom1",
-      "lookup_custom2",
-      "lookup_custom3",
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "average-inventory-periode"
+          (item) => item.rute == "ketidak-sesuaian-bongkar"
         );
 
         let roles = {};
@@ -305,12 +197,6 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     ...mapMutations("moduleApi", ["set_data"]),
-
-    formatDate(dateString) {
-      if (!dateString) return "";
-      const [year, month, day] = dateString.split("-");
-      return `${year}`;
-    },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -342,8 +228,6 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
-            "&provinsi_id=" +
-            this.parameters.form.provinsi_id.provinsi_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -357,109 +241,14 @@ export default {
       this.parameters.form.gudang_id = item || "";
     },
 
-    onGetWilayah(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchWilayah);
-
-      this.isStopSearchWilayah = setTimeout(() => {
-        this.wilayah_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
-
-        this.onSearchWilayah();
-      }, 600);
-    },
-
-    async onSearchWilayah() {
-      if (!this.isLoadingGetWilayah) {
-        this.isLoadingGetWilayah = true;
-
-        await this.lookUp({
-          url: "master/wilayah/get-wilayah",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.wilayah_search +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetWilayah = false;
-      }
-    },
-
-    onSetWilayah(item) {
-      this.parameters.form.wilayah_id = item || "";
-    },
-
-    onGetProvinsi(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchProvinsi);
-
-      this.isStopSearchProvinsi = setTimeout(() => {
-        this.provinsi_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom3.current_page = isNext
-            ? this.lookup_custom3.current_page + 1
-            : this.lookup_custom3.current_page - 1;
-        } else {
-          this.lookup_custom3.current_page = 1;
-        }
-
-        this.onSearchProvinsi();
-      }, 600);
-    },
-
-    async onSearchProvinsi() {
-      if (!this.isLoadingGetProvinsi) {
-        this.isLoadingGetProvinsi = true;
-
-        await this.lookUp({
-          url: "master/provinsi/get-provinsi",
-          lookup: "custom3",
-          query:
-            "?search=" +
-            this.provinsi_search +
-            "&page=" +
-            this.lookup_custom3.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetProvinsi = false;
-      }
-    },
-
-    async onSetProvinsi(item) {
-      if (item) {
-        this.parameters.form.provinsi_id = item;
-        this.parameters.form.wilayah_id = item.wilayah;
-        await this.onSearchGudang();
-        await this.onSearchWilayah();
-      } else {
-        this.parameters.form.provinsi_id = "";
-        this.parameters.form.wilayah_id = "";
-      }
-    },
-
     onPreview() {
       if (
-        !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
-        !this.parameters.params.type
+        !this.parameters.params.end_date ||
+        !this.parameters.form.gudang_id
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Type Terlebih Dahulu"
+          "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -469,43 +258,35 @@ export default {
         return;
       }
 
-      let start_date = this.formatDate(this.parameters.params.start_date);
-
       let url =
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
-        "&type=" +
-        this.parameters.params.type +
         "&gudang_id=" +
         this.parameters.form.gudang_id.gudang_id +
-        "&provinsi_id=" +
-        this.parameters.form.provinsi_id.provinsi_id +
-        "&wilayah_id=" +
-        this.parameters.form.wilayah_id.wilayah_id +
         "&start_date=" +
-        start_date +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");
       this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
     },
 
     async onExport() {
       if (
-        !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
-        !this.parameters.params.type
+        !this.parameters.params.end_date ||
+        !this.parameters.form.gudang_id
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Type Terlebih Dahulu"
+          "Mohon Pilih Gudang, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
-
-      let start_date = this.formatDate(this.parameters.params.start_date);
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
@@ -514,16 +295,12 @@ export default {
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          "&type=" +
-          this.parameters.params.type +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
-          "&provinsi_id=" +
-          this.parameters.form.provinsi_id.provinsi_id +
-          "&wilayah_id=" +
-          this.parameters.form.wilayah_id.wilayah_id +
           "&start_date=" +
-          start_date +
+          this.parameters.params.start_date +
+          "&end_date=" +
+          this.parameters.params.end_date +
           "&token=" +
           token;
 
@@ -540,8 +317,8 @@ export default {
             link.href = window.URL.createObjectURL(blob);
 
             const disposition = res.headers["content-disposition"];
-            let filename = "laporan_average_inventory_periode";
-            if (disposition && disposition.indexOf("filename=") !== 0) {
+            let filename = "laporan_ketidak_sesuaian_bongkar";
+            if (disposition && disposition.indexOf("filename=") !== -1) {
               filename = disposition
                 .split("filename=")[1]
                 .replace(/"/g, "")
@@ -556,6 +333,7 @@ export default {
             this.parameters.params.end_date = "";
           })
           .catch((err) => {
+            console.log(err);
             this.$globalErrorToaster(this.$toaster, err);
           });
       } catch (error) {

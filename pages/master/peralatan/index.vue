@@ -24,6 +24,8 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Peralatan</th>
                 <th
@@ -63,7 +65,6 @@
                 <th class="border border-gray-300">Jenis Peralatan</th>
                 <th class="border border-gray-300">Vendor</th>
                 <th class="border border-gray-300">Gudang</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -71,6 +72,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="place-items-center border border-gray-300">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -104,9 +108,7 @@
                     item.gudang ? item.gudang.nama_gudang : "Tidak Ditemukan"
                   }}
                 </td>
-                <td class="place-items-center border border-gray-300">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="place-items-center border border-gray-300">
                   <small-delete-button
                     @click="onTrashed(item)"

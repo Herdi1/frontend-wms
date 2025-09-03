@@ -29,6 +29,8 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Palet</th>
                 <th
@@ -66,7 +68,6 @@
                 </th>
                 <th class="border border-gray-300">RFID</th>
                 <th class="border border-gray-300">Status Palet</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -74,6 +75,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 text-center">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -87,9 +91,7 @@
                 <td class="border border-gray-300">
                   {{ formatStatusPalet(item.status_palet) }}
                 </td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

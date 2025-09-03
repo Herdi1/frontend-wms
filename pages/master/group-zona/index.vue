@@ -28,6 +28,9 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Edit
+                  </th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th class="border border-gray-300">Kode Group Zona</th>
                   <th
@@ -63,9 +66,7 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[5%] text-center border border-gray-300">
-                    Edit
-                  </th>
+
                   <th class="w-[5%] text-center border border-gray-300">
                     Delete
                   </th>
@@ -73,6 +74,9 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -87,9 +91,7 @@
                   <td class="border border-gray-300">
                     {{ item.nama_group_zona }}
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

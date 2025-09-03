@@ -112,8 +112,162 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="text-base uppercase text-nowrap"></tr>
+                <tr class="text-base uppercase text-nowrap">
+                  <!-- <th class="w-20 border border-gray-300">Edit</th> -->
+                  <th class="w-20 border border-gray-300">Detail</th>
+                  <th class="w-20 border border-gray-300">No</th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_posting',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Posting</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_posting' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_posting' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="w-48 border border-gray-300 cursor-pointer"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Jenis</th>
+                  <th class="w-48 border border-gray-300">Gudang</th>
+                  <th class="w-48 border border-gray-300">Divisi</th>
+                  <th class="w-48 border border-gray-300">Pelanggan</th>
+                  <th class="w-48 border border-gray-300">Chart Of Account</th>
+                  <th class="w-48 border border-gray-300">
+                    Chart Of Account Biaya
+                  </th>
+                  <th class="w-48 border border-gray-300">Total</th>
+                  <th class="w-48 border border-gray-300">Kode Referensi</th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-20 border border-gray-300">Delete</th>
+                </tr>
               </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <!-- <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.tanggal !== getTodaysDate"
+                    />
+                  </td> -->
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
+                  <td class="border border-gray-300 text-center">
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_posting }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis ? item.jenis : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.divisi ? item.divisi.nama_divisi : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.coa ? item.coa.nama_coa : "" }} -
+                    {{ item.coa ? item.coa.kode_coa : "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.coa_biaya ? item.coa_biaya.nama_coa : "" }} -
+                    {{ item.coa_biaya ? item.coa_biaya.kode_coa : "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.total | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_referensi ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan ?? "-" }}
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                      :disabled="item.tanggal !== getTodaysDate"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
             </table>
           </div>
 
@@ -251,6 +405,17 @@ export default {
         return roles;
       }
     },
+
+    getTodaysDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+
+      return formattedDate;
+    },
   },
 
   methods: {
@@ -275,9 +440,9 @@ export default {
       this.$router.push("/finance/posting-tkbm/add");
     },
 
-    onEdit(item) {
-      this.$router.push("/finance/posting-tkbm/" + item.posting_tkbm_id);
-    },
+    // onEdit(item) {
+    //   this.$router.push("/finance/posting-tkbm/" + item.posting_tkbm_id);
+    // },
 
     onDetail(item) {
       this.$router.push(`/finance/posting-tkbm/detail/${item.posting_tkbm_id}`);

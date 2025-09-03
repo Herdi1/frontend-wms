@@ -71,6 +71,7 @@
                       name=""
                       id=""
                       v-model="form.jenis"
+                      @change="onSelectJenis"
                       class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                     >
                       <option value="INBOUND">Inbound</option>
@@ -120,7 +121,9 @@
                   </ValidationProvider>
                   <ValidationProvider name="coa_id" class="w-full mt-1 mb-2">
                     <div class="flex items-center">
-                      <label for="coa_id" class="w-1/2">Akun Master </label>
+                      <label for="coa_id" class="w-1/2"
+                        >Akun Master <span class="text-danger">*</span></label
+                      >
                       <v-select
                         :disabled="isEditable"
                         label="nama_coa"
@@ -159,7 +162,9 @@
                   </ValidationProvider>
                   <ValidationProvider name="coa_id" class="w-full mt-1 mb-2">
                     <div class="flex items-center">
-                      <label for="coa_id" class="w-1/2">Akun Biaya </label>
+                      <label for="coa_id" class="w-1/2"
+                        >Akun Biaya <span class="text-danger">*</span></label
+                      >
                       <v-select
                         :disabled="isEditable"
                         label="nama_coa"
@@ -289,24 +294,176 @@
                     ></textarea>
                   </div>
                 </div>
-              </div>
-              <div class="w-full flex justify-between items-center mt-5">
-                <h1 class="text-lg font-bold uppercase">Detail Posting TKBM</h1>
-                <div class=" ">
-                  <button
-                    type="button"
-                    @click="addDetailTKBM"
-                    class="bg-[#4fc47a]/90 hover:bg-[#4fc47a] shadow-md hover:shadow-none text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                <div class="w-full flex justify-between items-center mt-10">
+                  <h1 class="text-lg font-bold uppercase">
+                    Detail Posting TKBM
+                  </h1>
+                  <div class=" ">
+                    <button
+                      type="button"
+                      @click="addDetailTKBM"
+                      class="bg-[#4fc47a]/90 hover:bg-[#4fc47a] shadow-md hover:shadow-none text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    >
+                      <i class="fas fa-retweet"></i>
+                      <p class="text-xs font-medium">Tambah Detail</p>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="table-responsive mb-7 max-h-72 scroll-smooth">
+                  <table
+                    class="table border-collapse border border-gray-300 scroll-smooth my-5 h-full overflow-auto table-fixed"
+                    v-if="form.posting_tkbm_details.length > 0"
                   >
-                    <i class="fas fa-retweet"></i>
-                    <p class="text-xs font-medium">Tambah Detail</p>
-                  </button>
+                    <thead>
+                      <tr class="text-sm uppercase">
+                        <th class="w-20 border border-gray-300 text-center">
+                          Detail
+                        </th>
+
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          Kode Inbound
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        >
+                          Kode Pick Order
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        >
+                          Lokasi
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          Supplier
+                        </th>
+                        <th class="w-48 border border-gray-300">Nama Item</th>
+
+                        <th class="w-48 border border-gray-300">Valuation</th>
+                        <th class="w-48 border border-gray-300">Quantity</th>
+                        <th class="w-48 border border-gray-300">Total TKBM</th>
+                        <th class="w-20 border text-center border-gray-300">
+                          Hapus
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item, i) in form.posting_tkbm_details"
+                        :key="i"
+                      >
+                        <td
+                          class="border border-gray-300 place-items-center text-center"
+                        >
+                          <div
+                            class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
+                            @click="showList(item)"
+                          >
+                            <i
+                              class="fas fa-info-circle text-white mx-auto"
+                            ></i>
+                          </div>
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          {{ item.inbound ? item.inbound.kode_inbound : "-" }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        >
+                          {{
+                            item.pick_order
+                              ? item.pick_order.kode_pick_order
+                              : "-"
+                          }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        >
+                          {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          {{
+                            item.supplier ? item.supplier.nama_supplier : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.item_gudang ? item.item_gudang.kode_item : "-"
+                          }}
+                          -
+                          {{
+                            item.item_gudang ? item.item_gudang.nama_item : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.valuation ? item.valuation.kode_valuation : "-"
+                          }}
+                          -
+                          {{
+                            item.valuation ? item.valuation.nama_valuation : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          <p class="text-right">
+                            {{ item.quantity ? item.quantity : "-" }}
+                          </p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <p class="text-right">
+                            {{ item.total_tkbm ? item.total_tkbm : "0.00" }}
+                          </p>
+                        </td>
+
+                        <td
+                          class="border border-gray-300 place-items-center text-center"
+                        >
+                          <div class="bg-red-500 p-1 rounded-lg w-1/2">
+                            <i
+                              class="fas fa-trash text-white mx-auto"
+                              style="cursor: pointer"
+                              @click="onDeleteDetails(i, item)"
+                            ></i>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr v-if="!form.posting_tkbm_details.length > 0">
+                        <td colspan="100" class="text-center">
+                          <span class="flex justify-center">
+                            <img
+                              src="/img/data-not-found.svg"
+                              style="height: 250px; object-fit: cover"
+                            />
+                          </span>
+                          <div class="mt-3">Data Tidak Ditemukan</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div
-                class="my-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
-              ></div>
             </div>
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
           </form>
         </ValidationObserver>
       </div>
@@ -444,6 +601,10 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    onSelectJenis() {
+      this.form.posting_tkbm_details = [];
+    },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -644,6 +805,32 @@ export default {
           },
         }
       );
+
+      this.form.posting_tkbm_details = daftarDetail.data.map((item) => {
+        return {
+          ...item,
+        };
+      });
+    },
+
+    onDeleteDetails(index, item) {
+      this.form.posting_tkbm_details = this.form.posting_tkbm_details.filter(
+        (_, itemIndex) => index !== itemIndex
+      );
+    },
+
+    async showList(item) {
+      let listDetail = await this.$axios.get(
+        "finance/posting-tkbm/get-daftar-list-tkbm",
+        {
+          params: {
+            jenis: this.form.jenis,
+            inbound_detail_id: item.inbound_detail_id ?? "",
+            pick_order_detail_id: item.pick_order_detail_id ?? "",
+          },
+        }
+      );
+      console.log(listDetail.data);
     },
 
     onSubmit(isInvalid) {
@@ -680,7 +867,16 @@ export default {
       formData.posting_tkbm_details = this.form.posting_tkbm_details.map(
         (item) => {
           return {
-            ...item,
+            total_tkbm: item.total_tkbm ?? 0,
+            inbound_detail_id: item.inbound_detail_id ?? "",
+            pick_order_detail_id: item.pick_order_detail_id ?? "",
+            lokasi_id: item.lokasi_id ?? "",
+            supplier_id: item.supplier_id ?? "",
+            item_id: item.item_id ?? "",
+            item_gudang_id: item.item_gudang_id ?? "",
+            item_pelanggan_id: item.item_pelanggan_id ?? "",
+            valuation_id: item.valuation_id ?? "",
+            quantity: item.quantity ?? 0,
           };
         }
       );
@@ -696,7 +892,9 @@ export default {
       })
         .then((res) => {
           this.$toaster.success(
-            "Berhasil " + (this.isEditable ? "Update" : "Tambah") + " UJS Sopir"
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              " Posting TKBM"
           );
 
           if (!this.isEditable) {

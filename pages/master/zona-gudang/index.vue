@@ -89,6 +89,8 @@
             >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="border border-gray-300 w-20 text-center">
                     Detail
                   </th>
@@ -180,7 +182,6 @@
                   <th class="w-40 border border-gray-300">Last Audit</th>
                   <th class="w-40 border border-gray-300">Last In</th>
                   <th class="w-40 border border-gray-300">Last Out</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -188,6 +189,9 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -275,9 +279,6 @@
                   <td class="border border-gray-300">{{ item.last_in }}</td>
                   <td class="border border-gray-300">{{ item.last_out }}</td>
 
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

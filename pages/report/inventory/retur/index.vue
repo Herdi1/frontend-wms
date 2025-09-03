@@ -54,8 +54,9 @@
                 v-model="parameters.params.type"
                 class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
               >
-                <option value="perbarang">Perbarang</option>
-                <option value="percabang">Percabang</option>
+                <option value="supplier">Supplier</option>
+                <option value="outbound">Outbound</option>
+                <option value="tujuan_kirim">Tujuan Kirim</option>
               </select>
             </div>
             <div class="flex w-full m-1 pr-1">
@@ -180,6 +181,16 @@
                 :required="true"
               />
             </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="true"
+              />
+            </div>
             <div class="flex w-full m-1 pr-1">
               <label for="" class="w-1/2">Urutan</label>
               <select
@@ -234,14 +245,15 @@ export default {
 
   data() {
     return {
-      title: "Laporan Average Inventory Periode",
+      title: "Laporan Retur",
       isLoadingData: false,
 
       parameters: {
-        url: "report/inventory-periode/export",
+        url: "report/retur/export",
         params: {
           download: "pdf",
           start_date: "",
+          end_date: "",
           urutan: "",
           type: "",
         },
@@ -283,7 +295,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "average-inventory-periode"
+          (item) => item.rute == "retur"
         );
 
         let roles = {};
@@ -305,12 +317,6 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     ...mapMutations("moduleApi", ["set_data"]),
-
-    formatDate(dateString) {
-      if (!dateString) return "";
-      const [year, month, day] = dateString.split("-");
-      return `${year}`;
-    },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -456,10 +462,11 @@ export default {
         !this.parameters.form.gudang_id ||
         !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
+        !this.parameters.params.end_date ||
         !this.parameters.params.type
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Type Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi, Type, Periode Awal dan Akhir  Terlebih Dahulu"
         );
         return;
       }
@@ -468,8 +475,6 @@ export default {
         this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
         return;
       }
-
-      let start_date = this.formatDate(this.parameters.params.start_date);
 
       let url =
         this.parameters.url +
@@ -484,12 +489,15 @@ export default {
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
         "&start_date=" +
-        start_date +
+        this.parameters.params.start_date +
+        "&end_date=" +
+        this.parameters.params.end_date +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       window.open(process.env.API_URL + url + "&token=" + token, "_blank");
       this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
     },
 
     async onExport() {
@@ -497,21 +505,19 @@ export default {
         !this.parameters.form.gudang_id ||
         !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
+        !this.parameters.params.end_date ||
         !this.parameters.params.type
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Type Terlebih Dahulu"
+          "Mohon Pilih Gudang, Provinsi, Type, Periode Awal dan Akhir  Terlebih Dahulu"
         );
         return;
       }
 
-      let start_date = this.formatDate(this.parameters.params.start_date);
-
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
-        let url =
-          this.parameters.url +
+        this.parameters.url +
           "?download=" +
           this.parameters.params.download +
           "&type=" +
@@ -523,7 +529,9 @@ export default {
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
           "&start_date=" +
-          start_date +
+          this.parameters.params.start_date +
+          "&end_date=" +
+          this.parameters.params.end_date +
           "&token=" +
           token;
 
@@ -540,7 +548,7 @@ export default {
             link.href = window.URL.createObjectURL(blob);
 
             const disposition = res.headers["content-disposition"];
-            let filename = "laporan_average_inventory_periode";
+            let filename = "laporan_retur";
             if (disposition && disposition.indexOf("filename=") !== 0) {
               filename = disposition
                 .split("filename=")[1]

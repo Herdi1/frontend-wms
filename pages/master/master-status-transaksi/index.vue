@@ -26,12 +26,12 @@
           <table ref="formContainer" class="border border-gray-300">
             <thead>
               <tr class="uppercase">
+                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">No</th>
                 <th class="border border-gray-300">Proses</th>
                 <th class="border border-gray-300">Modul</th>
                 <th class="border border-gray-300">Kode Transaksi</th>
                 <th class="border border-gray-300">Keterangan Transaksi</th>
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
                 <th class="w-[5%] text-center border border-gray-300">
                   Delete
                 </th>
@@ -39,6 +39,9 @@
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="text-center border border-gray-300">
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -63,9 +66,7 @@
                     item.keterangan_transaksi ? item.keterangan_transaksi : ""
                   }}
                 </td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

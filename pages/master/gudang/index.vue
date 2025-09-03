@@ -31,6 +31,8 @@
             >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
@@ -133,7 +135,6 @@
                   <th>Status Satpam</th> -->
                   <!-- <th>Luas Gudang</th>
                   <th>Satuan Luas</th> -->
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -141,6 +142,9 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -282,9 +286,6 @@
                   <td>{{ item.luas_gudang }}</td>
                   <td>{{ item.satuan_luas.nama_satuan }}</td> -->
 
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

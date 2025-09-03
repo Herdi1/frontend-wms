@@ -29,6 +29,8 @@
           >
             <thead>
               <tr class="uppercase">
+                <th class="w-20 border border-gray-300 text-center">Edit</th>
+
                 <th class="w-20 text-center border border-gray-300">Details</th>
 
                 <th class="w-20 text-center border border-gray-300">No</th>
@@ -74,12 +76,14 @@
                 <th class="w-40 border border-gray-300">Longitude</th>
                 <th class="w-40 border border-gray-300">Latitude</th>
                 <th class="w-40 border border-gray-300">Radius</th>
-                <th class="w-20 border border-gray-300 text-center">Edit</th>
                 <th class="w-20 border border-gray-300 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -111,9 +115,7 @@
                 <td class="border border-gray-300">{{ item.longitude }}</td>
                 <td class="border border-gray-300">{{ item.latitude }}</td>
                 <td class="border border-gray-300">{{ item.radius }}</td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

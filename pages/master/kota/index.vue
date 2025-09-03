@@ -31,6 +31,8 @@
             >
               <thead>
                 <tr class="text-base uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
                   <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     @click="
@@ -70,7 +72,6 @@
                   <th class="border border-gray-300 w-40">Latitude</th>
                   <th class="border border-gray-300 w-40">Provinsi</th>
                   <th class="border border-gray-300 w-40">Negara</th>
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -78,6 +79,9 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
@@ -104,9 +108,7 @@
                       item.negara ? item.negara.nama_negara : "Tidak Ditemukan"
                     }}
                   </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"

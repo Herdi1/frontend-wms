@@ -29,6 +29,8 @@
           >
             <thead>
               <tr class="uppercase">
+                <th class="w-20 border border-gray-300 text-center">Edit</th>
+
                 <th class="w-20 text-center border border-gray-300">Details</th>
 
                 <th class="w-20 border text-center border-gray-300">No</th>
@@ -78,12 +80,14 @@
                 <th class="w-40 border border-gray-300">Latitude</th>
                 <th class="w-40 border border-gray-300">Radius (Meter)</th>
                 <th class="w-40 border border-gray-300">Tipe Lokasi</th>
-                <th class="w-20 border border-gray-300 text-center">Edit</th>
                 <th class="w-20 border border-gray-300 text-center">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -131,9 +135,7 @@
                       : ""
                   }}
                 </td>
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
+
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"

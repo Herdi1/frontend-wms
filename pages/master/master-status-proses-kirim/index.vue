@@ -153,7 +153,7 @@ export default {
 
   data() {
     return {
-      title: "Tipe Alasan",
+      title: "Status Proses Kirim",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,

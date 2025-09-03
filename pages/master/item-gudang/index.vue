@@ -287,6 +287,8 @@
           >
             <thead>
               <tr class="uppercase text-nowrap">
+                <th class="w-[75px] border border-gray-300">Edit</th>
+
                 <th class="w-[75px] border border-gray-300">Details</th>
                 <th class="w-[50px] text-center border border-gray-300">No</th>
                 <th class="w-[200px] border border-gray-300">Item</th>
@@ -329,12 +331,14 @@
                 <th class="w-[200px] border border-gray-300">Batas item</th>
                 <!-- <th class="w-[200px] border border-gray-300">Kode External</th> -->
                 <th class="w-[200px] border border-gray-300">Kategori</th>
-                <th class="w-[75px] border border-gray-300">Edit</th>
                 <th class="w-[75px] border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
+                <td class="border border-gray-300 place-items-center">
+                  <small-edit-button @click="onEdit(item)" />
+                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -445,9 +449,6 @@
                   </div>
                 </td>
 
-                <td class="border border-gray-300 place-items-center">
-                  <small-edit-button @click="onEdit(item)" />
-                </td>
                 <td class="border border-gray-300 place-items-center">
                   <small-delete-button
                     @click="onTrashed(item)"
