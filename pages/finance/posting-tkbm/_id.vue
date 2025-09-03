@@ -333,6 +333,7 @@
                         >
                           Kode Pick Order
                         </th>
+                        <th class="w-48 border border-gray-300">Kode TKBM</th>
                         <th
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'OUTBOUND'"
@@ -380,12 +381,26 @@
                         </td>
                         <td
                           class="border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          {{ item.inbound ? item.inbound.kode_tkbm : "-" }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
                           v-if="form.jenis === 'OUTBOUND'"
                         >
                           {{
                             item.pick_order
                               ? item.pick_order.kode_pick_order
                               : "-"
+                          }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        >
+                          {{
+                            item.pick_order ? item.pick_order.kode_tkbm : "-"
                           }}
                         </td>
                         <td

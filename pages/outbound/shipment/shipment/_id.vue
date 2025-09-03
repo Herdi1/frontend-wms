@@ -175,6 +175,7 @@
                   name="jenis_kiriman"
                   id="jenis_kiriman"
                   v-model="parameters.form.jenis_kiriman"
+                  @change="onJenisKirimanChange"
                   class="w-1/2 outline-none p-1 rounded-sm border border-gray-300"
                 >
                   <option value="FRC">Franco</option>
@@ -183,7 +184,7 @@
                 </select>
               </div>
               <div
-                v-if="parameters.form.jenis_kiriman == 1"
+                v-if="parameters.form.jenis_kiriman == 'LCO'"
                 class="form-group flex px-1 items-center"
               >
                 <label for="total_locco" class="w-1/2">Biaya Locco</label>
@@ -194,7 +195,7 @@
                 />
               </div>
               <div
-                v-if="parameters.form.jenis_kiriman == 2"
+                v-if="parameters.form.jenis_kiriman == 'SWC'"
                 class="form-group flex px-1 items-center"
               >
                 <label for="total_switch" class="w-1/2">Biaya Switch</label>
@@ -1351,6 +1352,11 @@ export default {
       } else {
         this.$toaster.error("Detail Shipment Masih Kosong");
       }
+    },
+
+    onJenisKirimanChange() {
+      this.parameters.form.total_locco = 0;
+      this.parameters.form.total_switch = 0;
     },
   },
 };
