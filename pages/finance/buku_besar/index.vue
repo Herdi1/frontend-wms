@@ -235,6 +235,7 @@
                       {{ coa_id ? coa_id.nama_coa : "-" }}
                     </td>
                     <td></td>
+                    <td></td>
                     <td>
                       <!-- {{
                       raw_data.first_balance
@@ -322,6 +323,7 @@
                     <td class="border border-gray-300">
                       {{ coa_id ? coa_id.nama_coa : "-" }}
                     </td>
+                    <td class="border-b border-gray-300"></td>
                     <td class="border-b border-gray-300"></td>
                     <td class="text-info border-b border-gray-300"></td>
                     <td class="text-success border-b border-gray-300"></td>

@@ -139,10 +139,14 @@
                       <thead>
                         <tr class="text-sm uppercase text-nowrap">
                           <th class="w-[100px] border border-gray-300">Kode</th>
-                          <th class="w-[200px] border border-gray-300">COA</th>
-                          <th class="w-[100px] border border-gray-300">Tipe</th>
                           <th class="w-[200px] border border-gray-300">
-                            Jumlah
+                            COA <span class="text-danger">*</span>
+                          </th>
+                          <th class="w-[100px] border border-gray-300">
+                            Tipe <span class="text-danger">*</span>
+                          </th>
+                          <th class="w-[200px] border border-gray-300">
+                            Jumlah <span class="text-danger">*</span>
                           </th>
                           <th class="w-[200px] border border-gray-300">
                             Divisi
@@ -151,7 +155,7 @@
                             Kendaraan
                           </th>
                           <th class="w-[200px] border border-gray-300">
-                            Jenis Biaya
+                            Jenis Biaya <span class="text-danger">*</span>
                           </th>
                           <th class="w-[200px] border border-gray-300">
                             Peralatan
@@ -713,12 +717,12 @@ export default {
         this.form.jurnal_details = response.data.jurnal_details.map((item) => {
           return {
             ...item,
-            jurnal_details_id: item || "",
-            coa_id: item.coa || "",
-            jenis_biaya_id: item.jenis_biaya || "",
-            divisi_id: item.divisi || "",
-            kendaraan_id: item.kendaraan || "",
-            peralatan_id: item.peralatan || "",
+            jurnal_details_id: item ?? "",
+            coa_id: item.coa ?? "",
+            jenis_biaya_id: item.jenis_biaya ?? "",
+            divisi_id: item.divisi ?? "",
+            kendaraan_id: item.kendaraan ?? "",
+            peralatan_id: item.peralatan ?? "",
           };
         });
 
@@ -811,18 +815,11 @@ export default {
             typeof item.jenis_biaya_id == "object"
               ? item.jenis_biaya_id.jenis_biaya_id ?? ""
               : item.jenis_biaya_id ?? "",
-          divisi_id:
-            typeof item.divisi_id == "object"
-              ? item.divisi_id.divisi_id ?? ""
-              : item.divisi_id ?? "",
-          kendaraan_id:
-            typeof item.kendaraan_id == "object"
-              ? item.kendaraan_id.kendaraan_id ?? ""
-              : item.kendaraan_id ?? "",
-          peralatan_id:
-            typeof item.peralatan_id == "object"
-              ? item.peralatan_id.peralatan_id ?? ""
-              : item.peralatan_id ?? "",
+          divisi_id: item.divisi_id ? item.divisi_id.divisi_id ?? "" : "",
+          kendaraan_id: item.kendaraan_id ? item.kendaraan_id.kendaraan_id : "",
+          peralatan_id: item.peralatan_id
+            ? item.peralatan_id.divisi_id ?? ""
+            : "",
           // profit_center_id: item.profit_center_id || "",
           // cost_center_id: item.cost_center_id || "",
         };

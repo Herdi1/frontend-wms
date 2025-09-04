@@ -101,7 +101,7 @@
                 label="Estimasi Lama Pengerjaan"
                 type="text"
                 name="lama_pengerjaan"
-                v-model="parameters.form.lama_pengerjaan"
+                v-model="parameters.form.lama_pengerjaan_string"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
                 disabled
@@ -230,6 +230,7 @@ export default {
           tanggal_mulai: "",
           tanggal_selesai: "",
           lama_pengerjaan: "",
+          lama_pengerjaan_string: "",
           gudang_id: "",
           status_transaksi_id: "",
           keterangan: "",
@@ -318,6 +319,9 @@ export default {
         });
 
         this.parameters.form.gudang_id = res.data.gudang;
+        let hari = Math.floor(this.parameters.form.lama_pengerjaan / 24) ?? 0;
+        let jam = this.parameters.form.lama_pengerjaan % 24 ?? 0;
+        this.parameters.form.lama_pengerjaan_string = `${hari} hari ${jam} jam`;
 
         this.parameters.form.konversi_stok_detail_bahan =
           res.data.konversi_stok_detail_bahans.map((item) => {
@@ -443,6 +447,10 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : "",
+        tanggal_mulai: this.formatTanggal(this.parameters.form.tanggal_mulai),
+        tanggal_selesai: this.formatTanggal(
+          this.parameters.form.tanggal_selesai
+        ),
         // ...this.parameters.form,
         // form: {
         // },
@@ -995,7 +1003,9 @@ export default {
 
       const minutes = Math.floor(remainingOfHour / msInMinute) ?? 0;
 
-      this.parameters.form.lama_pengerjaan = `${days} hari, ${hours} jam, ${minutes} menit`;
+      this.parameters.form.lama_pengerjaan =
+        Math.floor(diffMils / msInHour) ?? 0;
+      this.parameters.form.lama_pengerjaan_string = `${days} hari ${hours} jam`;
     },
 
     getEstimasiSelesai() {
@@ -1024,6 +1034,24 @@ export default {
       } else {
         return;
       }
+    },
+
+    formatTanggal(dateString) {
+      const date = new Date(dateString);
+      const formatted =
+        date.getFullYear() +
+        "-" +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(date.getDate()).padStart(2, "0") +
+        " " +
+        String(date.getHours()).padStart(2, "0") +
+        ":" +
+        String(date.getMinutes()).padStart(2, "0") +
+        ":" +
+        String(date.getSeconds()).padStart(2, "0");
+
+      return formatted;
     },
   },
 };

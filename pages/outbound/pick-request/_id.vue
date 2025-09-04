@@ -200,6 +200,19 @@
                   class="w-1/2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 />
               </div>
+              <div class="flex px-1 items-center">
+                <label for="jenis_kiriman" class="w-1/2">Jenis Kiriman</label>
+                <select
+                  name="jenis_kiriman"
+                  id="jenis_kiriman"
+                  v-model="parameters.form.jenis_kiriman"
+                  class="w-1/2 outline-none p-1 rounded-sm border border-gray-300"
+                >
+                  <option value="FRC">Franco</option>
+                  <option value="LCO">Locco</option>
+                  <option value="SWC">Switch</option>
+                </select>
+              </div>
 
               <!-- <div class="form-group">
                 <input-horiontal
@@ -307,6 +320,7 @@ export default {
           lokasi_id: "",
           gudang_id: "",
           status_approve: "0",
+          jenis_kiriman: "FRC",
           keterangan: "",
 
           //Tracking

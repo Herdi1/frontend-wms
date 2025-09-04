@@ -1201,7 +1201,7 @@ export default {
     async onSelectItemDetail(item, index) {
       if (item) {
         if (this.self.form.sumber_data !== "NON") {
-          this.self.form.inbound_details[index] = { ...item };
+          // this.self.form.inbound_details[index] = { ...item };
           this.self.form.inbound_details[index].quantity_terima =
             item.quantity_request;
           this.self.form.inbound_details[index].quantity_request =
@@ -1211,8 +1211,8 @@ export default {
             item_id: item.item_id,
             nama_item: item.nama_item,
           };
-          this.self.form.inbound_details[index].status_terima = "FULL";
-          this.self.form.inbound_details[index].index = index;
+          // this.self.form.inbound_details[index].status_terima = "FULL";
+          // this.self.form.inbound_details[index].index = index;
         } else {
           this.self.form.inbound_details[index].item_gudang_id = item;
         }
@@ -1413,11 +1413,38 @@ export default {
         this.self.form.inbound_details[index].jenis_biaya_id = item;
         await this.generateBiayaTagihan(index);
         if (item.jenis_biaya_id == 13) {
-          this.self.form.inbound_details[index].zonas_gudang_id = {
-            zona_gudang_id: 6,
-            nama_zona_gudang: "Zona Cross Docking",
-            kode_zona_gudang: "ZCD",
-          };
+          const rekomendasiZona = await this.$axios.get(
+            `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`,
+            {
+              params: {
+                status_zona: "c",
+                status_jenis_biaya_id:
+                  this.self.form.inbound_details[index].jenis_biaya_id
+                    .status_jenis_biaya_id,
+              },
+            }
+          );
+          if (rekomendasiZona.data.length > 0) {
+            const selectedZona = rekomendasiZona.data[0];
+
+            // PENTING: Pastikan item ada di options sebelum set
+            const existingIndex = this.lookup_custom1.data.findIndex(
+              (item) => item.zona_gudang_id === selectedZona.zona_gudang_id
+            );
+
+            if (existingIndex === -1) {
+              // Tambahkan ke options
+              this.lookup_custom1.data.unshift(selectedZona);
+            }
+
+            // Gunakan referensi yang sama dengan yang ada di options
+            const itemFromOptions =
+              existingIndex >= 0
+                ? this.lookup_custom1.data[existingIndex]
+                : this.lookup_custom1.data[0]; // yang baru saja ditambahkan
+
+            this.onSelectZona(itemFromOptions, index);
+          }
           await this.onSearchSlotAisle(index);
         }
       } else {
