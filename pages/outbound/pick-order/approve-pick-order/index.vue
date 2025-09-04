@@ -62,25 +62,23 @@
                     v-model="parameters.params.gudang_id"
                     :reduce="(item) => item.gudang_id"
                   >
-                    <!-- @input="onSelectGudang" -->
-                    <!-- <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_gudang }}
                       </div>
-                    </template> -->
-
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom1.data.length || search"
                     >
                       <span
                         v-if="lookup_custom1.current_page > 1"
                         @click="onGetGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Sebelumnya</span
                       >
@@ -89,7 +87,7 @@
                           lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Selanjutnya</span
                       >
@@ -253,43 +251,6 @@
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'status_approve',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Status</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'status_approve' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'status_approve' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-
-                  <th class="w-52 border border-gray-300">No Referensi 1</th>
-                  <th class="w-52 border border-gray-300">No Referensi 2</th>
-                  <th class="w-52 border border-gray-300">No Referensi 3</th>
-                  <th
-                    class="w-52 border border-gray-300 cursor-pointer"
-                    @click="
-                      onSort(
                         'status_pick_order',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
@@ -311,6 +272,44 @@
                           class="fas fa-caret-down"
                           :class="
                             parameters.params.order == 'status_pick_order' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">No Referensi 1</th>
+                  <th class="w-52 border border-gray-300">No Referensi 2</th>
+                  <th class="w-52 border border-gray-300">No Referensi 3</th>
+
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -365,29 +364,6 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    <div
-                      v-if="item.status_approve === '0'"
-                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
-                    >
-                      <p>MENUNGGU</p>
-                    </div>
-                    <div
-                      v-if="item.status_approve === '1'"
-                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                    >
-                      <p>APPROVE</p>
-                    </div>
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_1 }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_2 }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.no_referensi_3 }}
-                  </td>
-                  <td class="border border-gray-300">
                     <div>
                       <span v-if="item.status_pick_order === 'MENUNGGU'">
                         <p
@@ -417,6 +393,30 @@
                           {{ item.status_pick_order }}
                         </p>
                       </span>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_1 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_2 }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi_3 }}
+                  </td>
+
+                  <td class="border border-gray-300">
+                    <div
+                      v-if="item.status_approve === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_approve === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>APPROVE</p>
                     </div>
                   </td>
                   <td class="place-items-center border border-gray-300">

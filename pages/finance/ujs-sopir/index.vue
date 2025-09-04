@@ -198,7 +198,7 @@
                   </th> -->
                   <th class="w-48 border border-gray-300">Total UJS</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
-                  <!-- <th class="w-28 border border-gray-300">Print</th> -->
+                  <th class="w-28 border border-gray-300">Print</th>
 
                   <!-- <th class="w-20 border border-gray-300">Delete</th> -->
                 </tr>
@@ -280,7 +280,7 @@
                   <td class="text-center border border-gray-300">
                     {{ item.keterangan }}
                   </td>
-                  <!-- <td
+                  <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <button
@@ -291,7 +291,7 @@
                     >
                       <i class="fas fa-print text-primary"></i>
                     </button>
-                  </td> -->
+                  </td>
 
                   <!-- <td
                     class="text-center border border-gray-300 place-items-center"
@@ -550,15 +550,17 @@ export default {
     },
 
     onPrintDetail(item) {
-      // var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      // window.open(
-      //   process.env.API_URL +
-      //     "finance/billing-tkbm/get-print-detail/" +
-      //     item.billing_tkbm_id +
-      //     "?token=" +
-      //     token,
-      //   "_blank"
-      // );
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "finance/ujs-sopir/get-print-detail/" +
+          item.ujs_sopir_id +
+          "?token=" +
+          token +
+          "&type=pdf",
+        "_blank"
+      );
+      // console.log(token);
     },
 
     onGetGudang(search, isNext) {

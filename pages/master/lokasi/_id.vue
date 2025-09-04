@@ -576,7 +576,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <ValidationProvider name="id_negara_pemilik">
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Negara Pemilik</label>
+                <label for="">Negara Pemilik</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_negara"
@@ -614,7 +614,7 @@
             </ValidationProvider>
             <ValidationProvider name="id_provinsi_pemilik">
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Provinsi Pemilik</label>
+                <label for="">Provinsi Pemilik</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_provinsi"
@@ -652,7 +652,7 @@
             </ValidationProvider>
             <ValidationProvider name="id_kota_pemilik">
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Kota Pemilik</label>
+                <label for="">Kota Pemilik</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_kota"
@@ -693,7 +693,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
             <ValidationProvider name="id_kecamatan_pemilik">
               <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12">Kecamatan Pemilik</label>
+                <label for="">Kecamatan Pemilik</label>
                 <v-select
                   class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_kecamatan"
@@ -730,7 +730,7 @@
               </div>
             </ValidationProvider>
             <div class="form-group w-full items-center mb-5">
-              <label for="" class="w-4/12">Kelurahan Pemilik</label>
+              <label for="">Kelurahan Pemilik</label>
               <v-select
                 class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                 label="nama_kelurahan"
@@ -905,6 +905,8 @@ export default {
           provinsi_id_pemilik: res.data.provinsi_pemilik,
           kota_id: res.data.kota,
           kota_id_pemilik: res.data.kota_pemilik,
+          kecamatan_id: res.data.kecamatan,
+          kecamatan_id_pemilik: res.data.kecamatan_pemilik,
         };
         this.isLoadingPage = false;
       }

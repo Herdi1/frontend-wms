@@ -38,14 +38,14 @@
                   :reduce="(item) => item.gudang_id"
                   class="w-[60%] bg-white"
                 >
-                  <!-- <template #search="{ attributes, events }">
-                              <input
-                                class="w-full outline-none active:outline-none"
-                                :required="!form.vendor_id"
-                                v-bind="attributes"
-                                v-on="events"
-                              />
-                            </template> -->
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_gudang }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -84,14 +84,14 @@
                   class="w-[60%] bg-white"
                   @input="onSearchGroupItem2"
                 >
-                  <!-- <template #search="{ attributes, events }">
-                              <input
-                                class="w-full outline-none active:outline-none"
-                                :required="!form.vendor_id"
-                                v-bind="attributes"
-                                v-on="events"
-                              />
-                            </template> -->
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -129,6 +129,14 @@
                   class="w-[60%] bg-white"
                   @input="onSearchGroupItem3"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -166,6 +174,14 @@
                   class="w-[60%] bg-white"
                   @input="onSearchGroupItem4"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -205,6 +221,14 @@
                   class="w-[60%] bg-white"
                   @input="onSearchGroupItem5"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -232,6 +256,14 @@
               <div class="flex justify-between">
                 <label class="w-[40%]" for="group_item_id_5"
                   >Group Item Level 5</label
+                >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
                 >
                 <v-select
                   label="nama_group_item"

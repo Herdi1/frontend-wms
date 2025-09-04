@@ -422,7 +422,7 @@
                           <i
                             class="fas fa-info mx-auto"
                             style="cursor: pointer"
-                            @click="onDetail(index)"
+                            @click="onDetail(item)"
                           ></i>
                         </td>
                       </tr>
@@ -939,6 +939,18 @@ export default {
       //   this.$refs.modalRuteLastmile.show();
       //   await this.$refs.modalRuteLastmile.onLoad();
       // }
+    },
+
+    async onDetail(item) {
+      let listDetail = await this.$axios.get(
+        "finance/ujs-sopir/get-daftar-list-lastmile",
+        {
+          params: {
+            ujs_sopir_detail_id: item.ujs_sopir_detail_id.ujs_sopir_detail_id,
+          },
+        }
+      );
+      console.log(listDetail.data);
     },
 
     onShowPicture(item) {

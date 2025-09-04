@@ -67,35 +67,23 @@
                     @input="onSetChartOfAccount"
                     v-model="parameters.params.gudang_id"
                   >
-                    <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
-                        <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                        {{ option.kode_coa }}
-                      </div> -->
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_gudang }}
                       </div>
                     </template>
-                    <!-- <template #search="{ attributes, events }">
-                    <input
-                      class="vs__search"
-                      :required="!coa_id"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template> -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_chart_of_accounts.data.length || search"
                     >
                       <span
                         v-if="lookup_chart_of_accounts.current_page > 1"
                         @click="onGetChartOfAccount(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -104,8 +92,7 @@
                           lookup_chart_of_accounts.current_page
                         "
                         @click="onGetChartOfAccount(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -124,35 +111,23 @@
                     @search="onGetItemGudang"
                     v-model="parameters.params.item_gudang_id"
                   >
-                    <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_item }}
-                        </div>
-                        <!-- <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                        {{ option.kode_coa }}
-                      </div> -->
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_item }}
                       </div>
                     </template>
-                    <!-- <template #search="{ attributes, events }">
-                    <input
-                      class="vs__search"
-                      :required="!coa_id"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template> -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom1.data.length || search"
                     >
                       <span
                         v-if="lookup_custom1.current_page > 1"
                         @click="onGetItemGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -160,8 +135,7 @@
                           lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetItemGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -184,14 +158,13 @@
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom2.data.length || search"
                     >
                       <span
                         v-if="lookup_custom2.current_page > 1"
                         @click="onGetValuation(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -199,8 +172,7 @@
                           lookup_custom2.last_page > lookup_custom2.current_page
                         "
                         @click="onGetValuation(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -219,17 +191,23 @@
                     v-model="parameters.params.zona_gudang_id"
                     @input="onSetZona"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_zona_gudang }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom3.data.length || search"
                     >
                       <span
                         v-if="lookup_custom3.current_page > 1"
                         @click="onGetZonaGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -237,8 +215,7 @@
                           lookup_custom3.last_page > lookup_custom3.current_page
                         "
                         @click="onGetZonaGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -260,17 +237,23 @@
                     v-model="parameters.params.slot_penyimpanan_id_aisle"
                     @input="onSetAisle"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_slot_penyimpanan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom4.data.length || search"
                     >
                       <span
                         v-if="lookup_custom4.current_page > 1"
                         @click="onGetSlotAisle(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -278,8 +261,7 @@
                           lookup_custom4.last_page > lookup_custom4.current_page
                         "
                         @click="onGetSlotAisle(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -299,17 +281,23 @@
                     v-model="parameters.params.slot_penyimpanan_id_rack"
                     @input="onSetRack"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_slot_penyimpanan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom5.data.length || search"
                     >
                       <span
                         v-if="lookup_custom5.current_page > 1"
                         @click="onGetSlotRack(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -317,8 +305,7 @@
                           lookup_custom5.last_page > lookup_custom5.current_page
                         "
                         @click="onGetSlotRack(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -340,17 +327,23 @@
                     v-model="parameters.params.slot_penyimpanan_id_level"
                     @input="onSetLevel"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_slot_penyimpanan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom6.data.length || search"
                     >
                       <span
                         v-if="lookup_custom6.current_page > 1"
                         @click="onGetSlotLevel(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -358,8 +351,7 @@
                           lookup_custom6.last_page > lookup_custom6.current_page
                         "
                         @click="onGetSlotLevel(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -377,17 +369,23 @@
                     @search="onGetSlotBin"
                     v-model="parameters.params.slot_penyimpanan_id_bin"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_slot_penyimpanan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom7.data.length || search"
                     >
                       <span
                         v-if="lookup_custom7.current_page > 1"
                         @click="onGetSlotBin(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -395,8 +393,7 @@
                           lookup_custom7.last_page > lookup_custom7.current_page
                         "
                         @click="onGetSlotBin(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>

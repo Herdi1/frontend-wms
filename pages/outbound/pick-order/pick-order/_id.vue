@@ -31,6 +31,22 @@
                   :disabled="true"
                 />
               </div>
+              <div>
+                <select-button
+                  :self="{
+                    label: 'Gudang',
+                    optionLabel: 'nama_gudang',
+                    lookup: lookup_custom7,
+                    value: parameters.form.gudang_id,
+                    onGet: onGetGudang,
+                    isLoadingL: isLoadingGetGudang,
+                    input: onSelectGudang,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                  :required="true"
+                />
+              </div>
               <div class="form-group">
                 <input-horiontal
                   label="Tanggal"
@@ -69,22 +85,7 @@
                   :required="false"
                 />
               </div>
-              <div>
-                <select-button
-                  :self="{
-                    label: 'Gudang',
-                    optionLabel: 'nama_gudang',
-                    lookup: lookup_custom7,
-                    value: parameters.form.gudang_id,
-                    onGet: onGetGudang,
-                    isLoadingL: isLoadingGetGudang,
-                    input: onSelectGudang,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                  :required="true"
-                />
-              </div>
+
               <ValidationProvider name="user_pic">
                 <select-button
                   :self="{
@@ -104,7 +105,7 @@
               <div class="form-group">
                 <select-button
                   :self="{
-                    label: 'Staff',
+                    label: 'Operator',
                     optionLabel: 'nama_lengkap',
                     lookup: lookup_custom5,
                     value: parameters.form.staff_id_pic,
@@ -334,6 +335,7 @@
                         :filterable="false"
                         @search="onGetValuation"
                         v-model="item.valuation_id"
+                        @input="(item) => onSelectValuation(item, i)"
                       >
                         <!-- @input="onSelectItem(i)" -->
                         <li
@@ -1193,6 +1195,15 @@ export default {
       }
     },
 
+    async onSelectValuation(item, index) {
+      if (item) {
+        this.parameters.form.pick_order_details[index].valuation_id = item;
+        this.onGetSystemStok(index);
+      } else {
+        this.parameters.form.pick_order_details[index].valuation_id = "";
+      }
+    },
+
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return;
 
@@ -1869,9 +1880,9 @@ export default {
       let item_gudang_id =
         this.parameters.form.pick_order_details[index].item_gudang_id;
       let zona_gudang_id =
-        this.parameters.form.pick_order_details[index].zona_gudang_id;
-      let valuation_id =
-        this.parameters.form.pick_order_details[index].valuation_id;
+        this.parameters.form.pick_order_details[index].zona_gudang_id ?? "";
+      let valuationId =
+        this.parameters.form.pick_order_details[index].valuation_id ?? "";
       let aisle =
         this.parameters.form.pick_order_details[index]
           .slot_penyimpanan_id_aisle;
@@ -1892,9 +1903,18 @@ export default {
           level && level.slot_penyimpanan_id ? level.slot_penyimpanan_id : "";
         const binParam =
           bin && bin.slot_penyimpanan_id ? bin.slot_penyimpanan_id : "";
+        const valuationParam =
+          valuationId && valuationId.valuation_id
+            ? valuationId.valuation_id
+            : "";
+        const zonaParam =
+          zona_gudang_id && zona_gudang_id.zona_gudang_id
+            ? zona_gudang_id.zona_gudang_id
+            : "";
+
         this.$axios
           .get(
-            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id}/${zona_gudang_id.zona_gudang_id}/${valuation_id.valuation_id}?slot_penyimpanan_id_aisle=${aisleParam}&slot_penyimpanan_id_bin=${binParam}&slot_penyimpanan_id_level=${levelParam}&slot_penyimpanan_id_rack=${rackParam}`
+            `/inventory/stok_opname/get-stock/${this.parameters.form.gudang_id.gudang_id}/${item_gudang_id}/${zonaParam}/${valuationParam}?slot_penyimpanan_id_aisle=${aisleParam}&slot_penyimpanan_id_bin=${binParam}&slot_penyimpanan_id_level=${levelParam}&slot_penyimpanan_id_rack=${rackParam}`
           )
           .then((res) => {
             this.parameters.form.pick_order_details[index].stok =

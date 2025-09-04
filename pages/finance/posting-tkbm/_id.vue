@@ -341,15 +341,16 @@
                         >
                           Lokasi
                         </th>
-                        <th
+                        <!-- <th
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'INBOUND'"
                         >
                           Supplier
-                        </th>
+                        </th> -->
                         <th class="w-48 border border-gray-300">Nama Item</th>
 
                         <th class="w-48 border border-gray-300">Valuation</th>
+                        <th class="w-48 border border-gray-300">Jenis Biaya</th>
                         <th class="w-48 border border-gray-300">Quantity</th>
                         <th class="w-48 border border-gray-300">Total TKBM</th>
                         <th class="w-20 border text-center border-gray-300">
@@ -382,12 +383,6 @@
                         </td>
                         <td
                           class="border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
-                        >
-                          {{ item.inbound ? item.inbound.kode_tkbm : "-" }}
-                        </td>
-                        <td
-                          class="border border-gray-300"
                           v-if="form.jenis === 'OUTBOUND'"
                         >
                           {{
@@ -395,6 +390,12 @@
                               ? item.pick_order.kode_pick_order
                               : "-"
                           }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'INBOUND'"
+                        >
+                          {{ item.inbound ? item.inbound.kode_tkbm : "-" }}
                         </td>
                         <td
                           class="border border-gray-300"
@@ -410,14 +411,14 @@
                         >
                           {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
                         </td>
-                        <td
+                        <!-- <td
                           class="border border-gray-300"
                           v-if="form.jenis === 'INBOUND'"
                         >
                           {{
                             item.supplier ? item.supplier.nama_supplier : "-"
                           }}
-                        </td>
+                        </td> -->
                         <td class="border border-gray-300">
                           {{
                             item.item_gudang ? item.item_gudang.kode_item : "-"
@@ -434,6 +435,13 @@
                           -
                           {{
                             item.valuation ? item.valuation.nama_valuation : "-"
+                          }}
+                        </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.jenis_biaya
+                              ? item.jenis_biaya.nama_jenis_biaya
+                              : "-"
                           }}
                         </td>
                         <td class="border border-gray-300">
@@ -466,6 +474,10 @@
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'OUTBOUND'"
+                        ></td>
                         <td class="border border-gray-300">Grand Total</td>
                         <td class="border border-gray-300">
                           <p class="text-right">
@@ -872,7 +884,7 @@ export default {
           },
         }
       );
-      console.log(listDetail.data);
+      // console.log(listDetail.data);
     },
 
     onSubmit(isInvalid) {

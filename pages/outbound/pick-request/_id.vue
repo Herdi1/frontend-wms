@@ -19,7 +19,7 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-flow-col grid-rows-6 gap-3 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
               <div class="form-group" v-if="isEditable">
                 <input-horizontal
                   label="Kode Pick Request"
@@ -99,6 +99,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :required="true"
                 />
               </ValidationProvider>
 
@@ -360,6 +361,7 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
+        this.parameters.form.jenis_kiriman = res.data.jenis_kiriman.trim();
 
         this.parameters.form.gudang_id = res.data.gudang || "";
         this.parameters.form.lokasi_id = res.data.lokasi || "";
