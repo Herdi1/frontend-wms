@@ -1226,21 +1226,18 @@ export default {
           if (rekomendasiZona.data.length > 0) {
             const selectedZona = rekomendasiZona.data[0];
 
-            // PENTING: Pastikan item ada di options sebelum set
             const existingIndex = this.lookup_custom1.data.findIndex(
               (item) => item.zona_gudang_id === selectedZona.zona_gudang_id
             );
 
             if (existingIndex === -1) {
-              // Tambahkan ke options
               this.lookup_custom1.data.unshift(selectedZona);
             }
 
-            // Gunakan referensi yang sama dengan yang ada di options
             const itemFromOptions =
               existingIndex >= 0
                 ? this.lookup_custom1.data[existingIndex]
-                : this.lookup_custom1.data[0]; // yang baru saja ditambahkan
+                : this.lookup_custom1.data[0];
 
             this.onSelectZona(itemFromOptions, index);
           }
