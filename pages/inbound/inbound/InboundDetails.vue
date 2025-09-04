@@ -211,7 +211,7 @@
                 Quantity Terima:
                 <money
                   v-model="item.quantity_terima"
-                  @change="handleQuantityChange(index)"
+                  @input="handleQuantityChange(item)"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
@@ -798,32 +798,27 @@ export default {
     },
 
     onDeleteDetails(index, item) {
+      // const notAllDeleted = this.self.form.inbound_details.some(
+      //   (data) =>
+      //     data.item_gudang_id.item_gudang_id ===
+      //     item.item_gudang_id.item_gudang_id
+      // );
+
+      // if (!notAllDeleted) {
+      // }
+      this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
+        (data) => index !== data.index
+      );
+
+      // if (!notAllDeleted) {
+      // }
+      this.self.form.tagihan_inbounds = this.self.form.tagihan_inbounds.filter(
+        (data) => index !== data.index
+      );
+
       this.self.form.inbound_details = this.self.form.inbound_details.filter(
         (_, itemIndex) => index !== itemIndex
       );
-
-      const notAllDeleted = this.self.form.inbound_details.some(
-        (data) =>
-          data.item_gudang_id.item_gudang_id ===
-          item.item_gudang_id.item_gudang_id
-      );
-
-      if (!notAllDeleted) {
-        this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
-          (data) =>
-            item.item_gudang_id.item_gudang_id !==
-            data.item_gudang_id.item_gudang_id
-        );
-      }
-
-      if (!notAllDeleted) {
-        this.self.form.tagihan_inbounds =
-          this.self.form.tagihan_inbounds.filter(
-            (data) =>
-              item.item_gudang_id.item_gudang_id !==
-              data.item_gudang_id.item_gudang_id
-          );
-      }
     },
 
     // Get zona plan
@@ -1206,6 +1201,7 @@ export default {
             item.quantity_request;
           this.self.form.inbound_details[index].quantity_request =
             item.quantity_request;
+          this.self.form.inbound_details[index].item_id = item.item_id;
           this.self.form.inbound_details[index].item_gudang_id = {
             item_gudang_id: item.item_gudang_id,
             item_id: item.item_id,
@@ -1593,15 +1589,23 @@ export default {
       // await Promise.all(this.self.form.inbound_details.forEach((item) => {}));
     },
 
-    handleQuantityChange(index) {
-      this.self.form.biaya_inbounds.forEach((item) => {
-        if (item.index == index) {
-          item.jumlah = this.self.form.inbound_details[index].quantity_terima;
+    handleQuantityChange(detail) {
+      this.self.form.biaya_inbounds.forEach((item, i) => {
+        if (item.index == detail.index) {
+          this.$set(
+            this.self.form.biaya_inbounds[i],
+            "jumlah",
+            detail.quantity_terima
+          );
         }
       });
-      this.self.form.tagihan_inbounds.forEach((item) => {
-        if (item.index == index) {
-          item.jumlah = this.self.form.inbound_details[index].quantity_terima;
+      this.self.form.tagihan_inbounds.forEach((item, i) => {
+        if (item.index == detail.index) {
+          this.$set(
+            this.self.form.biaya_inbounds[i],
+            "jumlah",
+            detail.quantity_terima
+          );
         }
       });
     },

@@ -288,7 +288,7 @@ export default {
 
   head() {
     return {
-      title: "Posting Premi",
+      title: "Posting Periodik",
     };
   },
 
@@ -336,7 +336,7 @@ export default {
 
   data() {
     return {
-      title: "Posting Premi",
+      title: "Posting Periodik",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

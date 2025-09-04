@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Posting TKBM
+          {{ isEditable ? "Edit" : "Tambah" }} Posting Periodik
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -336,7 +336,7 @@
                 </div>
                 <div class="w-full flex justify-between items-center mt-10">
                   <h1 class="text-lg font-bold uppercase">
-                    Detail Posting TKBM
+                    Detail Posting Periodik
                   </h1>
                   <div class=" ">
                     <button
@@ -414,13 +414,7 @@
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'PREMI'"
                         >
-                          Kode Delivery Order
-                        </th>
-                        <th
-                          class="w-48 border border-gray-300"
-                          v-if="form.jenis === 'PREMI'"
-                        >
-                          Kode Shipment
+                          Staff
                         </th>
                         <th
                           class="w-48 border border-gray-300"
@@ -434,6 +428,7 @@
                         >
                           Quantity
                         </th>
+                        <th class="w-48 border border-gray-300">Total Biaya</th>
                         <th class="w-20 border text-center border-gray-300">
                           Hapus
                         </th>
@@ -509,15 +504,7 @@
                           class="border border-gray-300 text-right"
                           v-if="form.jenis === 'PREMI'"
                         >
-                          {{ item.kode_delivery_order }}
-                        </td>
-                        <td
-                          class="border border-gray-300 text-right"
-                          v-if="form.jenis === 'PREMI'"
-                        >
-                          {{
-                            item.shipment ? item.shipment.kode_shipment : "-"
-                          }}
+                          {{ item.nama_lengkap }}
                         </td>
                         <td
                           class="border border-gray-300 text-right"
@@ -535,7 +522,10 @@
                           class="border border-gray-300 text-right"
                           v-if="form.jenis === 'PREMI'"
                         >
-                          {{ item.quantity }}
+                          {{ item.total_qty }}
+                        </td>
+                        <td class="border border-gray-300 text-right">
+                          {{ item.total_biaya }}
                         </td>
 
                         <td
@@ -550,11 +540,27 @@
                           </div>
                         </td>
                       </tr>
-                      <tr v-if="form.jenis === 'RITASE'">
-                        <td class="border-b border-gray-300"></td>
-                        <td class="border-b border-gray-300"></td>
-                        <td class="border-b border-gray-300"></td>
-                        <td class="border-b border-gray-300"></td>
+                      <tr>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
@@ -730,7 +736,7 @@ export default {
 
     totalNominal() {
       return this.form.posting_premi_details.reduce((total, item) => {
-        const nominal = parseFloat(item.nilai_insentif_ritase) || 0;
+        const nominal = item.total_biaya || 0;
         return total + nominal;
       }, 0);
     },
@@ -825,12 +831,16 @@ export default {
       }
     },
 
-    onSelectCoa(item) {
+    async onSelectCoa(item) {
       this.form.coa_id = item;
+      this.coa_search = "";
+      await this.onSearchCoa();
     },
 
-    onSelectCoaBiaya(item) {
+    async onSelectCoaBiaya(item) {
       this.form.coa_id_biaya = item;
+      this.coa_search = "";
+      await this.onSearchCoa();
     },
 
     onGetDivisi(search, isNext) {
@@ -967,7 +977,8 @@ export default {
         !this.form.periode_awal ||
         !this.form.periode_akhir ||
         !this.form.jenis ||
-        !this.form.gudang_id
+        !this.form.gudang_id ||
+        !this.form.staff_id
       ) {
         this.$toaster.error(
           "Mohon Pilih Jenis, Gudang, Periode Awal dan Akhir Terlebih Dahulu!"
@@ -990,6 +1001,12 @@ export default {
       this.form.posting_premi_details = daftarDetail.data.map((item) => {
         return {
           ...item,
+          staff_id:
+            typeof this.form.staff_id === "object"
+              ? this.form.staff_id.staff_id
+              : this.form.staff_id,
+          quantity:
+            this.form.jenis === "RITASE" ? item.jumlah_ritase : item.total_qty,
         };
       });
     },
@@ -1052,16 +1069,7 @@ export default {
       formData.posting_premi_details = this.form.posting_premi_details.map(
         (item) => {
           return {
-            total_tkbm: item.total_tkbm ?? 0,
-            inbound_detail_id: item.inbound_detail_id ?? "",
-            pick_order_detail_id: item.pick_order_detail_id ?? "",
-            lokasi_id: item.lokasi_id ?? "",
-            supplier_id: item.supplier_id ?? "",
-            item_id: item.item_id ?? "",
-            item_gudang_id: item.item_gudang_id ?? "",
-            item_pelanggan_id: item.item_pelanggan_id ?? "",
-            valuation_id: item.valuation_id ?? "",
-            quantity: item.quantity ?? 0,
+            ...item,
           };
         }
       );
@@ -1079,7 +1087,7 @@ export default {
           this.$toaster.success(
             "Berhasil " +
               (this.isEditable ? "Update" : "Tambah") +
-              " Posting TKBM"
+              " Posting Periodik"
           );
 
           if (!this.isEditable) {

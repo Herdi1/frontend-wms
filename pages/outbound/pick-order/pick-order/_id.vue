@@ -196,6 +196,7 @@
                     <th class="w-40 border border-gray-300">Kode Item</th>
                     <th class="w-40 border border-gray-300">Nama Item</th>
                     <th class="w-40 border border-gray-300">Jenis</th>
+                    <th class="w-40 border border-gray-300">Jenis Kiriman</th>
                     <th class="w-60 border border-gray-300">Peralatan</th>
                     <th class="w-60 border border-gray-300">Jenis Biaya</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
@@ -246,6 +247,14 @@
                         class="p-1 text-white rounded-md bg-green-500"
                         >Stok Transfer</span
                       >
+                    </td>
+                    <td class="border border-gray-300">
+                      <div v-if="item.jenis_kiriman">
+                        <p v-if="item.jenis_kiriman.trim() === 'FRC'">Franco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'LCO'">Locco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'SWC'">Switch</p>
+                      </div>
+                      <div v-else>-</div>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -1015,19 +1024,23 @@ export default {
               ? item.valuation_id.valuation_id
               : item.valuation_id,
           slot_penyimpanan_id_aisle:
-            typeof item.slot_penyimpanan_id_aisle == "object"
+            typeof item.slot_penyimpanan_id_aisle == "object" &&
+            item.slot_penyimpanan_id_aisle
               ? item.slot_penyimpanan_id_aisle?.slot_penyimpanan_id ?? ""
               : item.slot_penyimpanan_id_aisle ?? "",
           slot_penyimpanan_id_rack:
-            typeof item.slot_penyimpanan_id_rack == "object"
+            typeof item.slot_penyimpanan_id_rack == "object" &&
+            item.slot_penyimpanan_id_rack
               ? item.slot_penyimpanan_id_rack?.slot_penyimpanan_id ?? ""
               : item.slot_penyimpanan_id_rack ?? "",
           slot_penyimpanan_id_level:
-            typeof item.slot_penyimpanan_id_level == "object"
+            typeof item.slot_penyimpanan_id_level == "object" &&
+            item.slot_penyimpanan_id_level
               ? item.slot_penyimpanan_id_level?.slot_penyimpanan_id ?? ""
               : item.slot_penyimpanan_id_level ?? "",
           slot_penyimpanan_id_bin:
-            typeof item.slot_penyimpanan_id_bin == "object"
+            typeof item.slot_penyimpanan_id_bin == "object" &&
+            item.slot_penyimpanan_id_bin
               ? item.slot_penyimpanan_id_bin?.slot_penyimpanan_id ?? ""
               : item.slot_penyimpanan_id_bin ?? "",
           slot_penyimpanan_id_aisle_tujuan: "",
@@ -1036,11 +1049,11 @@ export default {
           slot_penyimpanan_id_bin_tujuan: "",
           stok_transfer_detail_id: item.stok_transfer_detail_id,
           peralatan_id:
-            typeof item.peralatan_id == "object"
+            typeof item.peralatan_id == "object" && item.peralatan_id
               ? item.peralatan_id.peralatan_id
               : item.peralatan_id,
           jenis_biaya_id:
-            typeof item.jenis_biaya_id == "object"
+            typeof item.jenis_biaya_id == "object" && item.jenis_biaya_id
               ? item.jenis_biaya_id.jenis_biaya_id
               : item.jenis_biaya_id,
         };

@@ -924,6 +924,7 @@ export default {
         // if (!this.isLoadingPage) {
         // }
       },
+      immediate: true,
       deep: true,
     },
     "parameters.form.tagihan_pick_orders": {
@@ -942,6 +943,7 @@ export default {
         // if (!this.isLoadingPage) {
         // }
       },
+      immediate: true,
       deep: true,
     },
   },

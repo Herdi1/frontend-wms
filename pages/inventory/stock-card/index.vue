@@ -1526,7 +1526,6 @@ export default {
     },
 
     formatDateTime(dateTime) {
-      console.log(dateTime);
       const dateObject = new Date(dateTime);
 
       const year = dateObject.getFullYear();

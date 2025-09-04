@@ -68,6 +68,7 @@
                     <th class="border border-gray-300 w-36">
                       Kode Stok Transfer
                     </th>
+                    <th class="border border-gray-300 w-36">Jenis Kiriman</th>
                     <th
                       @click="
                         onSort(
@@ -204,6 +205,14 @@
                               .kode_stok_transfer
                           : "-"
                       }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <div v-if="item.jenis_kiriman">
+                        <p v-if="item.jenis_kiriman.trim() === 'FRC'">Franco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'LCO'">Locco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'SWC'">Switch</p>
+                      </div>
+                      <div v-else>-</div>
                     </td>
                     <td class="border border-gray-300">{{ item.tanggal }}</td>
                     <td class="border border-gray-300">

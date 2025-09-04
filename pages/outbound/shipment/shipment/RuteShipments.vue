@@ -129,6 +129,7 @@
             <td class="border border-gray-300">
               <money
                 v-model="item.jarak"
+                @input="onChangeJarak(item)"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
@@ -320,6 +321,30 @@ export default {
       this.self.parameters.form.rute_shipments[index].lokasi_id_tujuan =
         item || "";
       console.log(this.self.parameters.form.rute_shipments);
+    },
+
+    onChangeJarak(item) {
+      this.self.parameters.form.biaya_lastmiles.forEach((data, i) => {
+        if (
+          data.lokasi_id.lokasi_id == item.lokasi_id_tujuan.lokasi_id &&
+          data.jenis_biaya_id.jenis_biaya_id == 4
+        ) {
+          this.$set(
+            this.self.parameters.form.biaya_lastmiles[i],
+            "jumlah",
+            item.jarak
+          );
+        }
+      });
+      // this.self.parameters.form.tagihan_lastmiles.forEach((data, i) => {
+      //   if (data.lokasi_id.lokasi_id == item.lokasi_id_tujuan.lokasi_id && data.jenis_biaya_id.jenis_biaya_id == 4) {
+      //     this.$set(
+      //       this.self.parameters.form.biaya_lastmiles[i],
+      //       "jumlah",
+      //       item.jarak
+      //     );
+      //   }
+      // });
     },
   },
 };

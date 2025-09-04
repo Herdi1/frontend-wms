@@ -726,12 +726,16 @@ export default {
       }
     },
 
-    onSelectCoa(item) {
+    async onSelectCoa(item) {
       this.form.coa_id = item;
+      this.coa_search = "";
+      await this.onSearchCoa();
     },
 
-    onSelectCoaBiaya(item) {
+    async onSelectCoaBiaya(item) {
       this.form.coa_id_biaya = item;
+      this.coa_search = "";
+      await this.onSearchCoa();
     },
 
     onGetDivisi(search, isNext) {

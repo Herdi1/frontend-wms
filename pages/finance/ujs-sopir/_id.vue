@@ -160,6 +160,7 @@
                         @search="onGetCoa"
                         v-model="form.coa_id_biaya"
                         class="w-1/2"
+                        @input="onSelectCoaBiaya"
                       >
                         <li
                           slot-scope="{ search }"
@@ -843,8 +844,16 @@ export default {
       }
     },
 
-    onSelectCoa(item) {
+    async onSelectCoa(item) {
       this.form.coa_id = item || "";
+      this.coa_search = "";
+      await this.onSearchCoa();
+    },
+
+    async onSelectCoaBiaya(item) {
+      this.form.coa_id_biaya = item || "";
+      this.coa_search = "";
+      await this.onSearchCoa();
     },
 
     //tipe ppn
