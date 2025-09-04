@@ -15,12 +15,9 @@
       :reduce="reduce"
       :disabled="disabled"
     >
-      <!-- <template slot="option" slot-scope="option">
-                      {{ option.kode_asn + " - " + option.tanggal }}
-                    </template>
-                    <template slot="selected-option" slot-scope="option">
-                      {{ option.kode_asn + " - " + option.tanggal }}
-                    </template> -->
+      <!-- <template slot="selected-option" slot-scope="option">
+        {{ option.self.optionLabel + " - " + option.tanggal }}
+      </template> -->
       <!-- <template #search="{ attributes, events }">
         <input class="vs__search w-10/12" v-bind="attributes" v-on="events" />
         <button

@@ -41,6 +41,14 @@
                 class="w-1/2 bg-white"
                 @input="onSelectGroupItem1"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
+                >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -79,6 +87,14 @@
                 class="w-1/2 bg-white"
                 @input="onSelectGroupItem2"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
+                >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -115,6 +131,14 @@
                 class="w-1/2 bg-white"
                 @input="onSelectGroupItem3"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
+                >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -153,6 +177,14 @@
                 class="w-1/2 bg-white"
                 @input="onSelectGroupItem4"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
+                >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -191,6 +223,14 @@
                 class="w-1/2 bg-white"
                 @input="onSelectGroupItem5"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_group_item }}
+                  </div>
+                       </template
+                >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"

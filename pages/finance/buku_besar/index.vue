@@ -87,7 +87,7 @@
                     @input="onSetChartOfAccount"
                     v-model="coa_id"
                   >
-                    <template v-slot:option="option">
+                    <!-- <template v-slot:option="option">
                       <div class="flex">
                         <div class="col-md-5 p-1 m-0 w-8/12">
                           {{ option.nama_coa }}
@@ -96,26 +96,24 @@
                           {{ option.kode_coa }}
                         </div>
                       </div>
-                    </template>
-                    <template #search="{ attributes, events }">
-                      <input
-                        class="vs__search"
-                        :required="!coa_id"
-                        v-bind="attributes"
-                        v-on="events"
-                      />
+                    </template> -->
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.kode_coa }} - {{ option.nama_coa }}
+                      </div>
                     </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_chart_of_accounts.data.length || search"
                     >
                       <span
                         v-if="lookup_chart_of_accounts.current_page > 1"
                         @click="onGetChartOfAccount(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Sebelumnya</span
                       >
                       <span
@@ -124,8 +122,7 @@
                           lookup_chart_of_accounts.current_page
                         "
                         @click="onGetChartOfAccount(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
-                        style="cursor: pointer"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         >Selanjutnya</span
                       >
                     </li>
@@ -141,37 +138,26 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    @input="onSetGudang"
-                    v-model="gudang_id"
+                    v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
                   >
-                    <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
-                        <div class="col-md-7 p-1 m-0 text-right w-4/12">
-                          {{ option.kode_gudang }}
-                        </div>
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_gudang }}
                       </div>
-                    </template>
-                    <template #search="{ attributes, events }">
-                      <input
-                        class="vs__search"
-                        :required="!gudang_id"
-                        v-bind="attributes"
-                        v-on="events"
-                      />
                     </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom1.data.length || search"
                     >
                       <span
                         v-if="lookup_custom1.current_page > 1"
                         @click="onGetGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Sebelumnya</span
                       >
@@ -180,7 +166,7 @@
                           lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Selanjutnya</span
                       >
@@ -663,8 +649,10 @@ export default {
         this.parameters.url +
         "?page=" +
         this.parameters.params.page +
-        "&chart_of_account_id=" +
-        this.parameters.params.chart_of_account_id +
+        "&coa_id=" +
+        this.parameters.params.coa_id +
+        "&gudang_id=" +
+        this.parameters.params.gudang_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -680,25 +668,29 @@ export default {
           );
 
           let newMapData = newData.map((item) => {
-            if (this.chart_of_account_id && this.chart_of_account_id.parent) {
-              if (
-                this.passiva_types.includes(
-                  this.chart_of_account_id.parent.type
-                )
-              ) {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.credit) -
-                  parseFloat(item.debit);
-              } else {
-                newLastBalance =
-                  parseFloat(newLastBalance) +
-                  parseFloat(item.debit) -
-                  parseFloat(item.credit);
-              }
-            } else {
-              newLastBalance = 0;
-            }
+            // if (this.chart_of_account_id && this.chart_of_account_id.parent) {
+            //   if (
+            //     this.passiva_types.includes(
+            //       this.chart_of_account_id.parent.type
+            //     )
+            //   ) {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.credit) -
+            //       parseFloat(item.debit);
+            //   } else {
+            //     newLastBalance =
+            //       parseFloat(newLastBalance) +
+            //       parseFloat(item.debit) -
+            //       parseFloat(item.credit);
+            //   }
+            // } else {
+            //   newLastBalance = 0;
+            // }
+            newLastBalance =
+              parseFloat(newLastBalance) +
+              parseFloat(item.debit ?? 0) -
+              parseFloat(item.credit ?? 0);
 
             return {
               ...item,

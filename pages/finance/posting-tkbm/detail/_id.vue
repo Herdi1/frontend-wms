@@ -113,21 +113,17 @@
                   >
                     Kode Pick Order
                   </th>
+                  <th class="w-48 border border-gray-300">Kode TKBM</th>
                   <th
                     class="w-48 border border-gray-300"
                     v-if="this.form.jenis === 'OUTBOUND'"
                   >
                     Lokasi
                   </th>
-                  <th
-                    class="w-48 border border-gray-300"
-                    v-if="this.form.jenis === 'INBOUND'"
-                  >
-                    Supplier
-                  </th>
                   <th class="w-48 border border-gray-300">Nama Item</th>
 
                   <th class="w-48 border border-gray-300">Valuation</th>
+                  <th class="w-48 border border-gray-300">Jenis Biaya</th>
                   <th class="w-48 border border-gray-300">Quantity</th>
                   <th class="w-48 border border-gray-300">Total TKBM</th>
                 </tr>
@@ -138,14 +134,40 @@
                     class="border border-gray-300"
                     v-if="form.jenis === 'INBOUND'"
                   >
-                    {{ item.inbound ? item.inbound.kode_inbound : "-" }}
+                    {{
+                      item.inbound_detail
+                        ? item.inbound_detail.inbound.kode_inbound
+                        : "-"
+                    }}
                   </td>
                   <td
                     class="border border-gray-300"
                     v-if="form.jenis === 'OUTBOUND'"
                   >
                     {{
-                      item.pick_order ? item.pick_order.kode_pick_order : "-"
+                      item.pick_order_detail
+                        ? item.pick_order_detail.pick_order.kode_pick_order
+                        : "-"
+                    }}
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'OUTBOUND'"
+                  >
+                    {{
+                      item.pick_order_detail
+                        ? item.pick_order_detail.pick_order.kode_tkbm
+                        : "-"
+                    }}
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'INBOUND'"
+                  >
+                    {{
+                      item.inbound_detail
+                        ? item.inbound_detail.inbound.kode_tkbm
+                        : "-"
                     }}
                   </td>
                   <td
@@ -153,12 +175,6 @@
                     v-if="form.jenis === 'OUTBOUND'"
                   >
                     {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
-                  </td>
-                  <td
-                    class="border border-gray-300"
-                    v-if="form.jenis === 'INBOUND'"
-                  >
-                    {{ item.supplier ? item.supplier.nama_supplier : "-" }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.item_gudang ? item.item_gudang.kode_item : "-" }}
@@ -169,6 +185,13 @@
                     {{ item.valuation ? item.valuation.kode_valuation : "-" }}
                     -
                     {{ item.valuation ? item.valuation.nama_valuation : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{
+                      item.jenis_biaya_id
+                        ? item.jenis_biaya_id.nama_jenis_biaya
+                        : "-"
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     <p class="text-right">
@@ -186,6 +209,11 @@
                   <td class="border-b border-gray-300"></td>
                   <td class="border-b border-gray-300"></td>
                   <td class="border-b border-gray-300"></td>
+                  <td class="border-b border-gray-300"></td>
+                  <td
+                    class="border-b border-gray-300"
+                    v-if="form.jenis === 'OUTBOUND'"
+                  ></td>
                   <td class="border border-gray-300">Grand Total</td>
                   <td class="border border-gray-300">
                     <p class="text-right">
@@ -246,7 +274,18 @@ export default {
         }
       });
       this.form.jenis = res.data.jenis.trim();
-      this.form.posting_tkbm_details = res.data.posting_tkbm_details;
+      this.form.posting_tkbm_details = res.data.posting_tkbm_details.map(
+        (item) => {
+          return {
+            ...item,
+            jenis_biaya_id: item.jenis_biaya
+              ? item.jenis_biaya
+              : item.pick_order_detail
+              ? item.pick_order_detail.jenis_biaya
+              : item.inbound_detail.jenis_biaya,
+          };
+        }
+      );
       this.isLoadingPage = false;
     } catch (error) {
       console.log(error);

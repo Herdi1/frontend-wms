@@ -97,13 +97,13 @@
             /> -->
             <select-button
               :self="{
-                label: 'Pelanggan',
-                optionLabel: 'nama_pelanggan',
-                isLoading: isLoadingGetPelanggan,
-                lookup: lookup_customers,
-                onGet: onGetPelanggan,
-                value: parameters.form.pelanggan_id,
-                input: onSelectPelanggan,
+                label: 'Asal Barang',
+                optionLabel: 'nama_lokasi',
+                isLoading: isLoadingGetLokasi,
+                lookup: lookup_roles,
+                onGet: onGetLokasi,
+                value: parameters.form.lokasi_id,
+                input: onSelectLokasi,
               }"
               width="w-[60%]"
               :required="true"
@@ -111,7 +111,7 @@
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
-                label="Lokasi"
+                label="Nama Asal Barang"
                 type="text"
                 name="nama_lokasi"
                 :required="true"
@@ -120,6 +120,7 @@
                 labelWidth="w-[40%]"
               />
             </div>
+
             <select-button
               :self="{
                 label: 'Pengemudi',
@@ -143,6 +144,7 @@
                 labelWidth="w-[40%]"
               />
             </div>
+
             <select-button
               :self="{
                 label: 'Kendaraan',
@@ -166,9 +168,22 @@
                 labelWidth="w-[40%]"
               />
             </div>
-            <div
-              class="form-group col-span-2 flex w-full justify-between items-start"
-            >
+
+            <select-button
+              :self="{
+                label: 'Pelanggan',
+                optionLabel: 'nama_pelanggan',
+                isLoading: isLoadingGetPelanggan,
+                lookup: lookup_customers,
+                onGet: onGetPelanggan,
+                value: parameters.form.pelanggan_id,
+                input: onSelectPelanggan,
+              }"
+              width="w-[60%]"
+              :required="true"
+            />
+
+            <div class="form-group flex w-full justify-between items-start">
               <label for="">Keterangan</label>
               <textarea
                 name="keterangan"
@@ -240,7 +255,7 @@
                           Keterangan
                         </th>
                         <th class="w-[200px] border border-gray-300">
-                          Alasan Beda Plan
+                          Alasan Retur
                         </th>
                         <th class="w-[100px] border border-gray-300">Delete</th>
                       </tr>
@@ -312,12 +327,12 @@
                                 : null
                             "
                           />
-                          <p class="mb-2">
+                          <!-- <p class="mb-2">
                             Quantity Tersedia :
                             <span class="text-primary">{{
                               item.quantity_sisa
                             }}</span>
-                          </p>
+                          </p> -->
                           <p class="mb-2">
                             Valuation :
                             <!-- <span class="text-primary">{{
@@ -814,6 +829,10 @@ export default {
       isLoadingGetKendaraan: false,
       kendaraan_search: "",
 
+      isStopSearchLokasi: false,
+      isLoadingGetLokasi: false,
+      lokasi_search: "",
+
       isStopSearchAlasanBedaPlan: false,
       isLoadingGetAlasanBedaPlan: false,
       alasan_beda_plan_search: "",
@@ -828,6 +847,7 @@ export default {
     await this.onSearchKendaraan();
     await this.onSearchValuation();
     await this.onSearchAlasanBedaPlan();
+    await this.onSearchLokasi();
     // await this.onSearchItemGudang();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
@@ -907,6 +927,7 @@ export default {
       "lookup_grade", //staff
       "lookup_beam", //kendaraan
       "lookup_customers", //pelanggan
+      "lookup_roles", //lokasi
     ]),
   },
 
@@ -1146,6 +1167,55 @@ export default {
       } else {
         this.parameters.form.barang_masuk_details[index].valuation_id = "";
         this.parameters.form.barang_masuk_details[index].kode_valuation = "";
+      }
+    },
+
+    onGetLokasi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchLokasi);
+
+      this.isStopSearchLokasi = setTimeout(() => {
+        this.lokasi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_roles.current_page = isNext
+            ? this.lookup_roles.current_page + 1
+            : this.lookup_roles.current_page - 1;
+        } else {
+          this.lookup_roles.current_page = 1;
+        }
+
+        this.onSearchLokasi();
+      }, 600);
+    },
+
+    async onSearchLokasi() {
+      if (!this.isLoadingGetLokasi) {
+        this.isLoadingGetLokasi = true;
+
+        await this.lookUp({
+          url: "master/lokasi/get-lokasi",
+          lookup: "roles",
+          query:
+            "?search=" +
+            this.lokasi_search +
+            "&page=" +
+            this.lookup_roles.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetLokasi = false;
+      }
+    },
+
+    onSelectLokasi(item) {
+      if (item) {
+        this.parameters.form.lokasi_id = item;
+        this.parameters.form.nama_lokasi = item.nama_lokasi;
+      } else {
+        this.parameters.form.lokasi_id = "";
+        this.parameters.form.nama_lokasi = "";
       }
     },
 
@@ -1651,14 +1721,14 @@ export default {
     onSelectPelanggan(item) {
       if (item) {
         this.parameters.form.pelanggan_id = item;
-        this.parameters.form.lokasi_id = item.lokasi ?? item.lokasi_id;
-        this.parameters.form.nama_lokasi = item.lokasi
-          ? item.lokasi.nama_lokasi
-          : "";
+        // this.parameters.form.lokasi_id = item.lokasi ?? item.lokasi_id;
+        // this.parameters.form.nama_lokasi = item.lokasi
+        //   ? item.lokasi.nama_lokasi
+        //   : "";
       } else {
         this.parameters.form.pelanggan_id = "";
-        this.parameters.form.lokasi_id = "";
-        this.parameters.form.nama_lokasi = "";
+        // this.parameters.form.lokasi_id = "";
+        // this.parameters.form.nama_lokasi = "";
       }
     },
 

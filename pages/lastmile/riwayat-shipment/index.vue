@@ -69,27 +69,26 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
                   >
-                    <!-- <template v-slot:option="option">
-                      <div class="flex">
-                        <div class="col-md-5 p-1 m-0 w-8/12">
-                          {{ option.nama_gudang }}
-                        </div>
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_gudang }}
                       </div>
-                    </template> -->
-
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
-                      class="d-flex justify-content-between"
+                      class="p-1 border-t flex justify-between"
                       v-if="lookup_custom1.data.length || search"
                     >
                       <span
                         v-if="lookup_custom1.current_page > 1"
                         @click="onGetGudang(search, false)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Sebelumnya</span
                       >
@@ -98,7 +97,7 @@
                           lookup_custom1.last_page > lookup_custom1.current_page
                         "
                         @click="onGetGudang(search, true)"
-                        class="flex-fill bg-primary text-white text-center"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                         style="cursor: pointer"
                         >Selanjutnya</span
                       >

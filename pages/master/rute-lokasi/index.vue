@@ -20,6 +20,178 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
+
+        <div class="w-full mt-3 mb-7">
+          <div
+            class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Gudang</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom1.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="parameters.params.gudang_id"
+                  :reduce="(item) => item.gudang_id"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_gudang }}
+                    </div>
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom1.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom1.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom1.last_page > lookup_custom1.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Status Rute</div>
+                <select
+                  name=""
+                  id=""
+                  v-model="parameters.params.status_approve"
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                >
+                  <option value="a">Approve</option>
+                  <option value="p">Pending</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Lokasi Awal</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_lokasi"
+                  :loading="isLoadingGetLokasi"
+                  :options="lookup_custom2.data"
+                  :filterable="false"
+                  @search="onGetLokasi"
+                  v-model="parameters.params.lokasi_id_awal"
+                  :reduce="(item) => item.lokasi_id"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_lokasi }}
+                    </div>
+                         </template
+                  >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom2.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom2.current_page > 1"
+                      @click="onGetLokasi(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom2.last_page > lookup_custom2.current_page
+                      "
+                      @click="onGetLokasi(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Lokasi Awal</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_lokasi"
+                  :loading="isLoadingGetLokasiAkhirhir"
+                  :options="lookup_custom3.data"
+                  :filterable="false"
+                  @search="onGetLokasiAkhir"
+                  v-model="parameters.params.lokasi_id_tujuan"
+                  :reduce="(item) => item.lokasi_id"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_lokasi }}
+                    </div>
+                         </template
+                  >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom3.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom3.current_page > 1"
+                      @click="onGetLokasiAkhir(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom3.last_page > lookup_custom3.current_page
+                      "
+                      @click="onGetLokasiAkhir(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <button
+                @click="onLoad"
+                class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
+              >
+                <i class="fa fa-filter text-white font-bold mr-2"></i>
+                <div>Filter</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div>
           <table ref="formContainer" class="border border-gray-300">
             <thead>
@@ -124,7 +296,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -158,10 +330,21 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
+
+    await this.onSearchGudang();
+    await this.onSearchLokasi();
+    await this.onSearchLokasiAkhir();
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", [
+      "data",
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+      "lookup_custom3",
+    ]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -188,6 +371,18 @@ export default {
 
   data() {
     return {
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      isStopSearchLokasi: false,
+      isLoadingGetLokasi: false,
+      lokasi_search: "",
+
+      isStopSearchLokasiAkhir: false,
+      isLoadingGetLokasiAkhir: false,
+      akhir_search: "",
+
       title: "Master Rute Lokasi",
       isLoadingData: false,
       isPaginate: true,
@@ -217,14 +412,18 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            kode_rute_lokasi: "",
-            gudang_id: "",
-            lokasi_awal_id: "",
-            lokasi_tujuan_id: "",
-            jarak: "",
-            status_approve: "",
-          },
+          gudang_id: "",
+          lokasi_id_awal: "",
+          lokasi_id_tujuan: "",
+          status_approve: "",
+        },
+        form: {
+          kode_rute_lokasi: "",
+          gudang_id: "",
+          lokasi_awal_id: "",
+          lokasi_tujuan_id: "",
+          jarak: "",
+          status_approve: "",
         },
         loadings: {
           isDelete: false,
@@ -241,6 +440,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
 
@@ -324,6 +524,123 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onGetLokasi(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchLokasi);
+
+      this.isStopSearchLokasi = setTimeout(() => {
+        this.lokasi_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchLokasi();
+      }, 600);
+    },
+
+    async onSearchLokasi() {
+      if (!this.isLoadingGetLokasi) {
+        this.isLoadingGetLokasi = true;
+
+        await this.lookUp({
+          url: "master/lokasi/get-lokasi",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.lokasi_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetLokasi = false;
+      }
+    },
+
+    onGetLokasiAkhir(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchLokasiAkhir);
+
+      this.isStopSearchLokasiAkhir = setTimeout(() => {
+        this.akhir_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchLokasiAkhir();
+      }, 600);
+    },
+
+    async onSearchLokasiAkhir() {
+      if (!this.isLoadingGetLokasiAkhir) {
+        this.isLoadingGetLokasiAkhir = true;
+
+        await this.lookUp({
+          url: "master/lokasi/get-lokasi",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.akhir_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetLokasiAkhir = false;
+      }
     },
   },
 };

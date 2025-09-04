@@ -40,35 +40,31 @@
           <div
             class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
           >
-            <div class="grid grid-cols-2 gap-2">
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Awal"
-                    type="date"
-                    name="kode_sap"
-                    :isHorizontal="true"
-                    v-model="parameters.params.start_date"
-                    :required="false"
-                  />
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div class="form-group">
+                <input-horizontal
+                  label="Periode Awal"
+                  type="date"
+                  name="kode_sap"
+                  :isHorizontal="true"
+                  v-model="parameters.params.start_date"
+                  :required="false"
+                />
               </div>
 
-              <div class="grid grid-cols-1 gap-5 w-full">
-                <div class="form-group">
-                  <input-horizontal
-                    label="Periode Akhir"
-                    type="date"
-                    name="periode_akhir"
-                    :isHorizontal="true"
-                    v-model="parameters.params.end_date"
-                    :required="false"
-                  />
-                </div>
+              <div class="form-group">
+                <input-horizontal
+                  label="Periode Akhir"
+                  type="date"
+                  name="periode_akhir"
+                  :isHorizontal="true"
+                  v-model="parameters.params.end_date"
+                  :required="false"
+                />
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 mb-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
               <div class="w-full flex justify-between items-center px-1">
                 <label for="">Status Konversi</label>
                 <select
@@ -97,7 +93,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 mb-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
               <div class="form-group w-full flex">
                 <div class="mb-3 w-1/2">Gudang</div>
 
@@ -111,17 +107,25 @@
                   v-model="parameters.params.gudang_id"
                   :reduce="(item) => item.gudang_id"
                 >
-                  <!-- @input="onSelectGudang" -->
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_gudang }}
+                    </div>
+                         </template
+                  >
+
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
-                    class="d-flex justify-content-between"
+                    class="p-1 border-t flex justify-between"
                     v-if="lookup_custom1.data.length || search"
                   >
                     <span
                       v-if="lookup_custom1.current_page > 1"
                       @click="onGetGudang(search, false)"
-                      class="flex-fill bg-primary text-white text-center"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       style="cursor: pointer"
                       >Sebelumnya</span
                     >
@@ -130,7 +134,7 @@
                         lookup_custom1.last_page > lookup_custom1.current_page
                       "
                       @click="onGetGudang(search, true)"
-                      class="flex-fill bg-primary text-white text-center"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       style="cursor: pointer"
                       >Selanjutnya</span
                     >
