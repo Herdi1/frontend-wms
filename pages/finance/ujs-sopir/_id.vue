@@ -25,34 +25,6 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-1 items-top w-full"
                 >
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Tanggal"
-                      type="date"
-                      name="tanggal"
-                      :required="true"
-                      v-model="form.tanggal"
-                      :disabled="true"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Awal"
-                      type="date"
-                      name="periode_awal"
-                      :required="true"
-                      v-model="form.periode_awal"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Akhir"
-                      type="date"
-                      name="periode_akhir"
-                      :required="true"
-                      v-model="form.periode_akhir"
-                    />
-                  </div>
                   <ValidationProvider name="gudang_id" class="w-full mt-1 mb-2">
                     <div
                       slot-scope="{ errors, valid }"
@@ -97,6 +69,36 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Tanggal"
+                      type="date"
+                      name="tanggal"
+                      :required="true"
+                      v-model="form.tanggal"
+                      :disabled="true"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Awal"
+                      type="date"
+                      name="periode_awal"
+                      :required="true"
+                      v-model="form.periode_awal"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Periode Akhir"
+                      type="date"
+                      name="periode_akhir"
+                      :required="true"
+                      v-model="form.periode_akhir"
+                    />
+                  </div>
+
                   <ValidationProvider name="coa_id" class="w-full mt-1 mb-2">
                     <div
                       slot-scope="{ errors, valid }"

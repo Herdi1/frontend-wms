@@ -115,8 +115,8 @@
                       @change="onSelectJenis"
                       class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                     >
-                      <option value="INBOUND">Inbound</option>
-                      <option value="OUTBOUND">Outbound</option>
+                      <option value="RITASE">Ritase</option>
+                      <option value="PREMI">Premi</option>
                     </select>
                   </div>
 
@@ -283,6 +283,45 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
+                  <ValidationProvider name="staff_id" class="w-full mt-1 mb-2">
+                    <div class="flex items-center">
+                      <label for="staff_id" class="w-1/2">Staff </label>
+                      <v-select
+                        :disabled="isEditable"
+                        label="nama_lengkap"
+                        :loading="isLoadingGetStaff"
+                        :options="lookup_custom6.data"
+                        :filterable="false"
+                        @search="onGetStaff"
+                        v-model="form.staff_id"
+                        class="w-1/2"
+                        @input="(item) => onSelectStaff(item)"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom6.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom6.current_page > 1"
+                            @click="onGetStaff(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom6.last_page >
+                              lookup_custom6.current_page
+                            "
+                            @click="onGetStaff(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </ValidationProvider>
                   <div class="form-group flex justify-between">
                     <label for="keterangan" class="w-1/2">Keterangan</label>
                     <textarea
@@ -314,44 +353,87 @@
                 <div class="table-responsive mb-7 max-h-72 scroll-smooth">
                   <table
                     class="table border-collapse border border-gray-300 scroll-smooth my-5 h-full overflow-auto table-fixed"
-                    v-if="form.posting_tkbm_details.length > 0"
+                    v-if="form.posting_premi_details.length > 0"
                   >
                     <thead>
                       <tr class="text-sm uppercase">
                         <th class="w-20 border border-gray-300 text-center">
                           Detail
                         </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Tanggal
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Waktu Pengiriman Awal
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Waktu Pengiriman Akhir
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Standar Waktu Kerja
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Jumlah Ritase
+                        </th>
 
                         <th
                           class="w-48 border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
+                          v-if="form.jenis === 'RITASE'"
                         >
-                          Kode Inbound
+                          Total Standar Waktu
                         </th>
                         <th
                           class="w-48 border border-gray-300"
-                          v-if="form.jenis === 'OUTBOUND'"
+                          v-if="form.jenis === 'RITASE'"
                         >
-                          Kode Pick Order
-                        </th>
-                        <th class="w-48 border border-gray-300">Kode TKBM</th>
-                        <th
-                          class="w-48 border border-gray-300"
-                          v-if="form.jenis === 'OUTBOUND'"
-                        >
-                          Lokasi
+                          Total Realisasi
                         </th>
                         <th
                           class="w-48 border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
+                          v-if="form.jenis === 'RITASE'"
                         >
-                          Supplier
+                          Insentif Ritase
                         </th>
-                        <th class="w-48 border border-gray-300">Nama Item</th>
 
-                        <th class="w-48 border border-gray-300">Valuation</th>
-                        <th class="w-48 border border-gray-300">Quantity</th>
-                        <th class="w-48 border border-gray-300">Total TKBM</th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Kode Delivery Order
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Kode Shipment
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Item
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Quantity
+                        </th>
                         <th class="w-20 border text-center border-gray-300">
                           Hapus
                         </th>
@@ -359,7 +441,7 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(item, i) in form.posting_tkbm_details"
+                        v-for="(item, i) in form.posting_premi_details"
                         :key="i"
                       >
                         <td
@@ -376,75 +458,84 @@
                         </td>
                         <td
                           class="border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
+                          v-if="form.jenis === 'RITASE'"
                         >
-                          {{ item.inbound ? item.inbound.kode_inbound : "-" }}
+                          {{ item.tanggal }}
                         </td>
                         <td
                           class="border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
+                          v-if="form.jenis === 'RITASE'"
                         >
-                          {{ item.inbound ? item.inbound.kode_tkbm : "-" }}
+                          {{ item.jam_pengiriman_awal ?? "-" }}
                         </td>
                         <td
                           class="border border-gray-300"
-                          v-if="form.jenis === 'OUTBOUND'"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.jam_pengiriman_akhir ?? "-" }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.standar_waktu_kerja }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.jumlah_ritase }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.total_standar_waktu }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.total_realisasi }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          {{ item.nilai_insentif_ritase }}
+                        </td>
+
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          {{ item.kode_delivery_order }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'PREMI'"
                         >
                           {{
-                            item.pick_order
-                              ? item.pick_order.kode_pick_order
+                            item.shipment ? item.shipment.kode_shipment : "-"
+                          }}
+                        </td>
+                        <td
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          {{
+                            item.item_gudang
+                              ? item.item_gudang.nama_item +
+                                " - " +
+                                item.item_gudang.kode_item
                               : "-"
                           }}
                         </td>
                         <td
-                          class="border border-gray-300"
-                          v-if="form.jenis === 'OUTBOUND'"
+                          class="border border-gray-300 text-right"
+                          v-if="form.jenis === 'PREMI'"
                         >
-                          {{
-                            item.pick_order ? item.pick_order.kode_tkbm : "-"
-                          }}
-                        </td>
-                        <td
-                          class="border border-gray-300"
-                          v-if="form.jenis === 'OUTBOUND'"
-                        >
-                          {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
-                        </td>
-                        <td
-                          class="border border-gray-300"
-                          v-if="form.jenis === 'INBOUND'"
-                        >
-                          {{
-                            item.supplier ? item.supplier.nama_supplier : "-"
-                          }}
-                        </td>
-                        <td class="border border-gray-300">
-                          {{
-                            item.item_gudang ? item.item_gudang.kode_item : "-"
-                          }}
-                          -
-                          {{
-                            item.item_gudang ? item.item_gudang.nama_item : "-"
-                          }}
-                        </td>
-                        <td class="border border-gray-300">
-                          {{
-                            item.valuation ? item.valuation.kode_valuation : "-"
-                          }}
-                          -
-                          {{
-                            item.valuation ? item.valuation.nama_valuation : "-"
-                          }}
-                        </td>
-                        <td class="border border-gray-300">
-                          <p class="text-right">
-                            {{ item.quantity ? item.quantity : "-" }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300">
-                          <p class="text-right">
-                            {{ item.total_tkbm ?? 0 | formatPrice }}
-                          </p>
+                          {{ item.quantity }}
                         </td>
 
                         <td
@@ -459,7 +550,8 @@
                           </div>
                         </td>
                       </tr>
-                      <tr>
+                      <tr v-if="form.jenis === 'RITASE'">
+                        <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
@@ -474,7 +566,7 @@
                         </td>
                         <td class="border border-gray-300"></td>
                       </tr>
-                      <tr v-if="!form.posting_tkbm_details.length > 0">
+                      <tr v-if="!form.posting_premi_details.length > 0">
                         <td colspan="100" class="text-center">
                           <span class="flex justify-center">
                             <img
@@ -510,7 +602,7 @@ export default {
 
   head() {
     return {
-      title: "Posting TKBM",
+      title: "Posting Premi",
     };
   },
 
@@ -522,9 +614,9 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Posting TKBM",
+      title: "Posting Premi",
 
-      url: "finance/posting-tkbm",
+      url: "finance/posting-premi",
       form: {
         tanggal: "",
         periode_awal: "",
@@ -537,7 +629,7 @@ export default {
         divisi_id: "",
         pelanggan_id: "",
         keterangan: "",
-        posting_tkbm_details: [],
+        posting_premi_details: [],
       },
       default_form: {
         tanggal: "",
@@ -551,7 +643,7 @@ export default {
         divisi_id: "",
         pelanggan_id: "",
         keterangan: "",
-        posting_tkbm_details: [],
+        posting_premi_details: [],
       },
 
       isStopSearchGudang: false,
@@ -570,6 +662,10 @@ export default {
       isLoadingGetPelanggan: false,
       pelanggan_search: "",
 
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
+
       user: this.$auth.user,
     };
   },
@@ -586,7 +682,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.url}/${this.id}`);
         Object.keys(this.form).forEach((item) => {
-          if (item != "posting_tkbm_details") {
+          if (item != "posting_premi_details") {
             this.form[item] = res.data[item];
           }
         });
@@ -595,8 +691,9 @@ export default {
         this.form.coa_id_biaya = res.data.coa_biaya;
         this.form.divisi_id = res.data.divisi;
         this.form.pelanggan_id = res.data.pelanggan;
+        this.form.staff_id = res.data.staff;
 
-        this.form.posting_tkbm_details = res.data.posting_tkbm_details.map(
+        this.form.posting_premi_details = res.data.posting_premi_details.map(
           (item) => {
             return {
               ...item,
@@ -616,6 +713,7 @@ export default {
     await this.onSearchCoa();
     await this.onSearchDivisi();
     await this.onSearchPelanggan();
+    await this.onSearchStaff();
   },
 
   computed: {
@@ -627,11 +725,12 @@ export default {
       "lookup_custom3",
       "lookup_custom4",
       "lookup_custom5",
+      "lookup_custom6",
     ]),
 
     totalNominal() {
-      return this.form.posting_tkbm_details.reduce((total, item) => {
-        const nominal = parseFloat(item.total_tkbm) || 0;
+      return this.form.posting_premi_details.reduce((total, item) => {
+        const nominal = parseFloat(item.nilai_insentif_ritase) || 0;
         return total + nominal;
       }, 0);
     },
@@ -641,7 +740,7 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     onSelectJenis() {
-      this.form.posting_tkbm_details = [];
+      this.form.posting_premi_details = [];
     },
 
     onGetGudang(search, isNext) {
@@ -820,6 +919,49 @@ export default {
       this.form.pelanggan_id = item || "";
     },
 
+    onGetStaff(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetStaff = false;
+      }
+    },
+
+    onSelectStaff(item) {
+      this.form.staff_id = item || "";
+    },
+
     async addDetailTKBM() {
       if (
         !this.form.periode_awal ||
@@ -833,10 +975,11 @@ export default {
         return;
       }
       let daftarDetail = await this.$axios.get(
-        "finance/posting-tkbm/get-daftar-detail-tkbm",
+        "finance/posting-premi/get-daftar-detail-tkbm",
         {
           params: {
             gudang_id: this.form.gudang_id.gudang_id,
+            staff_id: this.form.staff_id.staff_id,
             periode_awal: this.form.periode_awal,
             periode_akhir: this.form.periode_akhir,
             jenis: this.form.jenis,
@@ -844,7 +987,7 @@ export default {
         }
       );
 
-      this.form.posting_tkbm_details = daftarDetail.data.map((item) => {
+      this.form.posting_premi_details = daftarDetail.data.map((item) => {
         return {
           ...item,
         };
@@ -852,14 +995,14 @@ export default {
     },
 
     onDeleteDetails(index, item) {
-      this.form.posting_tkbm_details = this.form.posting_tkbm_details.filter(
+      this.form.posting_premi_details = this.form.posting_premi_details.filter(
         (_, itemIndex) => index !== itemIndex
       );
     },
 
     async showList(item) {
       let listDetail = await this.$axios.get(
-        "finance/posting-tkbm/get-daftar-list-tkbm",
+        "finance/posting-premi/get-daftar-list-tkbm",
         {
           params: {
             jenis: this.form.jenis,
@@ -876,7 +1019,7 @@ export default {
 
       this.isLoadingForm = true;
 
-      let url = "finance/posting-tkbm";
+      let url = "finance/posting-premi";
 
       let formData = {
         ...this.form,
@@ -900,9 +1043,13 @@ export default {
           typeof this.form.pelanggan_id === "object"
             ? this.form.pelanggan_id.pelanggan_id
             : this.form.pelanggan_id,
+        staff_id:
+          typeof this.form.staff_id === "object"
+            ? this.form.staff_id.staff_id
+            : this.form.staff_id,
       };
 
-      formData.posting_tkbm_details = this.form.posting_tkbm_details.map(
+      formData.posting_premi_details = this.form.posting_premi_details.map(
         (item) => {
           return {
             total_tkbm: item.total_tkbm ?? 0,

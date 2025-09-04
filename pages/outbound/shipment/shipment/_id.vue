@@ -183,7 +183,7 @@
                   <option value="SWC">Switch</option>
                 </select>
               </div>
-              <div
+              <!-- <div
                 v-if="parameters.form.jenis_kiriman == 'LCO'"
                 class="form-group flex px-1 items-center"
               >
@@ -193,7 +193,7 @@
                   v-model="parameters.form.total_locco"
                   class="w-1/2 outline-none p-1 rounded-md border border-gray-300"
                 />
-              </div>
+              </div> -->
               <div
                 v-if="parameters.form.jenis_kiriman == 'SWC'"
                 class="form-group flex px-1 items-center"
