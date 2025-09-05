@@ -31,9 +31,7 @@
             <th class="w-[200px] border border-gray-300">Lokasi</th>
             <!-- <th class="w-[200px] border border-gray-300">Term Pembayaran</th> -->
             <th class="w-[200px] border border-gray-300">Jumlah</th>
-            <th class="w-[200px] border border-gray-300">
-              Biaya Per Kilometer
-            </th>
+            <th class="w-[200px] border border-gray-300">Nominal Satuan</th>
             <!-- <th class="w-[200px] border border-gray-300">Payable To</th> -->
             <th class="w-[200px] border border-gray-300">Sub Total</th>
             <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
@@ -401,6 +399,22 @@ export default {
       isLoadingGetPelanggan: false,
       pelanggan_search: "",
     };
+  },
+
+  watch: {
+    "self.parameters.form.tagihan_lastmiles": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.jumlah > 0) {
+            item.total = item.jumlah * item.nominal_satuan;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
   },
 
   async created() {

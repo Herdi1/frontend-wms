@@ -525,7 +525,7 @@
                           {{ item.total_qty }}
                         </td>
                         <td class="border border-gray-300 text-right">
-                          {{ item.total_biaya }}
+                          {{ parseFloat(item.total_biaya) | formatPrice }}
                         </td>
 
                         <td
@@ -736,7 +736,7 @@ export default {
 
     totalNominal() {
       return this.form.posting_premi_details.reduce((total, item) => {
-        const nominal = item.total_biaya || 0;
+        const nominal = parseFloat(item.total_biaya) || 0;
         return total + nominal;
       }, 0);
     },

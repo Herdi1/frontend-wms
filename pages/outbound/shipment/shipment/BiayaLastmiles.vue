@@ -304,6 +304,22 @@ export default {
     };
   },
 
+  watch: {
+    "self.parameters.form.biaya_lastmiles": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.jumlah > 0) {
+            item.total = item.jumlah * item.nominal_satuan;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+
   async created() {
     // await this.onSearchJenisBiaya();
     // await this.onSearchCoa();
