@@ -250,9 +250,9 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchNegara();
-    await this.onSearchProvinsi();
-    await this.onSearchKota();
+    // await this.onSearchNegara();
+    // await this.onSearchProvinsi();
+    // await this.onSearchKota();
     await this.onSearchKecamatan();
   },
 
@@ -464,8 +464,6 @@ export default {
           query:
             "?search=" +
             this.kota_search +
-            "&provinsi_id=" +
-            this.parameters.form.provinsi_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",

@@ -61,6 +61,7 @@
                 <table class="">
                   <thead class="text-base">
                     <tr class="">
+                      <th class="w-[3%] text-center">Edit</th>
                       <!-- <th class="w-[5%]">
                         <input
                           type="checkbox"
@@ -137,12 +138,14 @@
                       </th>
                       <!-- <th class="w-[5%] ">Icon</th> -->
 
-                      <th class="w-[3%] text-center">Edit</th>
                       <th class="w-[3%] text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i">
+                      <td class="text-center">
+                        <small-edit-button @click="onEdit(item)" />
+                      </td>
                       <!-- <td>
                         <input
                           type="checkbox"
@@ -165,9 +168,7 @@
                       <!-- <td class="text-center">
                         <small-detail-button @click="onDetail(item)" />
                       </td> -->
-                      <td class="text-center">
-                        <small-edit-button @click="onEdit(item)" />
-                      </td>
+
                       <td class="text-center">
                         <small-delete-button
                           @click="onTrashed(item)"

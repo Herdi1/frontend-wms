@@ -95,6 +95,19 @@
               width="w-[60%]"
               :disabled="true"
             />
+            <select-button
+              :self="{
+                label: 'Alasan Konversi',
+                optionLabel: 'nama_alasan_beda_plan',
+                isLoading: isLoadingGetAlasan,
+                lookup: lookup_customers,
+                onGet: onGetAlasan,
+                value: parameters.form.alasan_beda_plan_id,
+                input: onSelectAlasan,
+              }"
+              width="w-[60%]"
+              :disabled="true"
+            />
             <div class="form-group">
               <input-horizontal
                 :disabled="true"
@@ -285,6 +298,7 @@ export default {
           tanggal_selesai: "",
           lama_pengerjaan: "",
           gudang_id: "",
+          alasan_beda_plan_id: "",
           staff_id: "",
           vendor_id: "",
           status_transaksi_id: "",
@@ -327,6 +341,10 @@ export default {
       isStopSearchItemGudang: false,
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
 
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
@@ -378,6 +396,7 @@ export default {
         });
 
         this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.alasan_beda_plan_id = res.data.alasan_beda_plan;
         this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.vendor_id = res.data.vendor ?? "";
         await this.onSearchItemGudang();
@@ -434,6 +453,7 @@ export default {
       "lookup_custom8",
       "lookup_custom9",
       "lookup_custom10",
+      "lookup_customers",
     ]),
   },
 
@@ -494,6 +514,10 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id ?? ""
+            : "",
+        alasan_beda_plan_id:
+          typeof this.parameters.form.alasan_beda_plan_id === "object"
+            ? this.parameters.form.alasan_beda_plan_id.alasan_beda_plan_id ?? ""
             : "",
         staff_id:
           typeof this.parameters.form.staff_id === "object"

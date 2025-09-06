@@ -109,7 +109,6 @@
               <!-- @input="getEstimasiSelesai" -->
             </div>
             <select-button
-              v-if="!user.gudang_id"
               :self="{
                 label: 'Gudang',
                 optionLabel: 'nama_gudang',
@@ -120,6 +119,33 @@
                 input: onSelectGudang,
               }"
               width="w-[60%]"
+              :required="true"
+            />
+            <select-button
+              :self="{
+                label: 'Staff',
+                optionLabel: 'nama_lengkap',
+                isLoading: isLoadingGetStaff,
+                lookup: lookup_grade,
+                onGet: onGetStaff,
+                value: parameters.form.staff_id,
+                input: onSelectStaff,
+              }"
+              width="w-[60%]"
+              :required="true"
+            />
+            <select-button
+              :self="{
+                label: 'Alasan Konversi',
+                optionLabel: 'nama_alasan_beda_plan',
+                isLoading: isLoadingGetAlasan,
+                lookup: lookup_customers,
+                onGet: onGetAlasan,
+                value: parameters.form.alasan_beda_plan_id,
+                input: onSelectAlasan,
+              }"
+              width="w-[60%]"
+              :required="true"
             />
             <div class="form-group">
               <input-horizontal
@@ -127,7 +153,6 @@
                 label="Keterangan"
                 type="text"
                 name="keterangan"
-                :required="true"
                 v-model="parameters.form.keterangan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
@@ -232,6 +257,7 @@ export default {
           lama_pengerjaan: "",
           lama_pengerjaan_string: "",
           gudang_id: "",
+          alasan_beda_plan_id: "",
           status_transaksi_id: "",
           keterangan: "",
           konversi_stok_detail_bahan: [],
@@ -276,6 +302,14 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+
+      isStopSearchAlasan: false,
+      isLoadingGetAlasan: false,
+      alasan_search: "",
+
+      isStopSearchStaff: false,
+      isLoadingGetStaff: false,
+      staff_search: "",
     };
   },
 
@@ -288,6 +322,8 @@ export default {
     await this.onSearchGudang();
     await this.onSearchItemGudang();
     await this.onSearchValuation();
+    await this.onSearchAlasan();
+    await this.onSearchStaff();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -318,7 +354,11 @@ export default {
           }
         });
 
-        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.alasan_beda_plan_id =
+          res.data.alasan_beda_plan ?? "";
+        this.parameters.form.staff_id = res.data.staff ?? "";
+
         let hari = Math.floor(this.parameters.form.lama_pengerjaan / 24) ?? 0;
         let jam = this.parameters.form.lama_pengerjaan % 24 ?? 0;
         this.parameters.form.lama_pengerjaan_string = `${hari} hari ${jam} jam`;
@@ -357,12 +397,12 @@ export default {
               ...item,
               konversi_stok_detail_jadi_id: item.konversi_stok_detail_jadi_id,
               item_id: item.item_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           });
 
@@ -387,6 +427,8 @@ export default {
       "lookup_custom8",
       "lookup_custom9",
       "lookup_custom10",
+      "lookup_customers",
+      "lookup_grade",
     ]),
   },
 
@@ -446,6 +488,14 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
+            : "",
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
+            : "",
+        alasan_beda_plan_id:
+          typeof this.parameters.form.alasan_beda_plan_id === "object"
+            ? this.parameters.form.alasan_beda_plan_id.alasan_beda_plan_id
             : "",
         tanggal_mulai: this.formatTanggal(this.parameters.form.tanggal_mulai),
         tanggal_selesai: this.formatTanggal(
@@ -924,15 +974,114 @@ export default {
     },
 
     async onSelectGudang(item) {
-      this.parameters.form.gudang_id = item;
-      await this.onSearchZonaPlan();
-      this.parameters.form.konversi_stok_detail_bahan = [];
-      this.parameters.form.konversi_stok_detail_jadi = [];
-      this.parameters.form.biaya_konversi = [];
-      // await this.onSearchSlotAisle();
-      // await this.onSearchSlotRack();
-      // await this.onSearchSlotLevel();
-      // await this.onSearchSlotBin();
+      if (item) {
+        this.parameters.form.gudang_id = item;
+        await this.onSearchZonaPlan();
+        this.parameters.form.konversi_stok_detail_bahan = [];
+        this.parameters.form.konversi_stok_detail_jadi = [];
+        this.parameters.form.biaya_konversi = [];
+      } else {
+        this.parameters.form.gudang_id = "";
+        await this.onSearchZonaPlan();
+        this.parameters.form.konversi_stok_detail_bahan = [];
+        this.parameters.form.konversi_stok_detail_jadi = [];
+        this.parameters.form.biaya_konversi = [];
+      }
+    },
+
+    // get  alasan
+    onGetAlasan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchAlasan);
+
+      this.isStopSearchAlasan = setTimeout(() => {
+        this.alasan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_customers.current_page = isNext
+            ? this.lookup_customers.current_page + 1
+            : this.lookup_customers.current_page - 1;
+        } else {
+          this.lookup_customers.current_page = 1;
+        }
+
+        this.onSearchAlasan();
+      }, 600);
+    },
+
+    async onSearchAlasan() {
+      if (!this.isLoadingGetAlasan) {
+        this.isLoadingGetAlasan = true;
+
+        await this.lookUp({
+          url: "master/alasan-beda-plan/get-alasan-beda-plan",
+          lookup: "customers",
+          query:
+            "?search=" +
+            this.alasan_search +
+            "&tipe_alasan_id=5" +
+            "&page=" +
+            this.lookup_customers.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetAlasan = false;
+      }
+    },
+
+    async onSelectAlasan(item) {
+      this.parameters.form.alasan_beda_plan_id = item || "";
+    },
+
+    // get  Staff
+    onGetStaff(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchStaff);
+
+      this.isStopSearchStaff = setTimeout(() => {
+        this.staff_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_grade.current_page = isNext
+            ? this.lookup_grade.current_page + 1
+            : this.lookup_grade.current_page - 1;
+        } else {
+          this.lookup_grade.current_page = 1;
+        }
+
+        this.onSearchStaff();
+      }, 600);
+    },
+
+    async onSearchStaff() {
+      if (!this.isLoadingGetStaff) {
+        this.isLoadingGetStaff = true;
+
+        await this.lookUp({
+          url: "master/staff/get-staff",
+          lookup: "grade",
+          query:
+            "?search=" +
+            this.staff_search +
+            "&page=" +
+            this.lookup_grade.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetStaff = false;
+      }
+    },
+
+    async onSelectStaff(item) {
+      if (item) {
+        this.parameters.form.staff_id = item;
+        this.parameters.form.vendor_id = item.vendor_id_operator;
+      } else {
+        this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
+      }
     },
 
     async onOpenModal() {

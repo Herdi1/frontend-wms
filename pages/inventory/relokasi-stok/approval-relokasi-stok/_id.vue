@@ -126,6 +126,32 @@
                   <option value="1">Disesuaikan</option>
                 </select>
               </div>
+              <select-button
+                :self="{
+                  label: 'Coa',
+                  optionLabel: 'nama_coa',
+                  isLoading: isLoadingGetCoa,
+                  lookup: lookup_custom4,
+                  onGet: onGetCoa,
+                  value: parameters.form.coa_id,
+                  input: onSelectCoa,
+                }"
+                width="w-[50%]"
+                :required="true"
+              />
+              <select-button
+                :self="{
+                  label: 'Divisi',
+                  optionLabel: 'nama_divisi',
+                  isLoading: isLoadingGetDivisi,
+                  lookup: lookup_custom5,
+                  onGet: onGetDivisi,
+                  value: parameters.form.divisi_id,
+                  input: onSelectDivisi,
+                }"
+                width="w-[50%]"
+                :required="true"
+              />
               <div
                 class="form-group flex items-start"
                 v-if="parameters.form.status_adjustment === '1'"
@@ -332,224 +358,7 @@
                 </div>
               </template>
               <template #Biaya>
-                <div class="w-full flex justify-between items-center mt-3">
-                  <h1 class="text-xl font-bold">Biaya</h1>
-
-                  <div>
-                    <!-- <button
-                      type="button"
-                      @click="addBiayaItem"
-                      class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                    >
-                      <i class="fas fa-plus"></i>
-                      <p class="text-xs font-medium">Tambah Biaya</p>
-                    </button> -->
-                  </div>
-                </div>
-                <div class="table-responsive overflow-y-hidden mb-7">
-                  <table
-                    class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                    :class="parameters.form.biaya.length ? 'mb-[300px]' : ''"
-                  >
-                    <thead>
-                      <tr class="text-sm uppercase">
-                        <th class="w-[200px] border border-gray-300">
-                          Jenis Biaya
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Nominal Satuan
-                        </th>
-                        <th class="w-[200px] border border-gray-300">Jumlah</th>
-                        <th class="w-[200px] border border-gray-300">Total</th>
-                        <th class="w-[200px] border border-gray-300">COA</th>
-                        <th class="w-[200px] border border-gray-300">Vendor</th>
-                        <th class="w-[300px] border border-gray-300">
-                          Keterangan
-                        </th>
-                        <th
-                          class="w-[100px] border border-gray-300 text-center"
-                        >
-                          Hapus
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(item, i) in parameters.form.biaya"
-                        :key="i"
-                        class="align-top border-t"
-                      >
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_jenis_biaya"
-                            :loading="isLoadingGetJenisBiaya"
-                            :options="lookup_custom8.data"
-                            :filterable="false"
-                            @search="onGetJenisBiaya"
-                            v-model="item.jenis_biaya_id"
-                            :reduce="(item) => item.jenis_biaya_id"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom8.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom8.current_page > 1"
-                                @click="onGetJenisBiaya(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom8.last_page >
-                                  lookup_custom8.current_page
-                                "
-                                @click="onGetJenisBiaya(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.nominal_satuan"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.jumlah"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.total"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_coa"
-                            :loading="isLoadingGetCoa"
-                            :options="lookup_custom9.data"
-                            :filterable="false"
-                            @search="onGetCoa"
-                            v-model="item.coa_id"
-                            :reduce="(item) => item.coa_id"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom9.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom9.current_page > 1"
-                                @click="onGetCoa(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom9.last_page >
-                                  lookup_custom9.current_page
-                                "
-                                @click="onGetCoa(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_vendor"
-                            :loading="isLoadingGetVendor"
-                            :options="lookup_custom10.data"
-                            :filterable="false"
-                            @search="onGetVendor"
-                            v-model="item.vendor_id"
-                            :reduce="(item) => item.vendor_id"
-                            class="w-full"
-                          >
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom10.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom10.current_page > 1"
-                                @click="onGetVendor(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom10.last_page >
-                                  lookup_custom10.current_page
-                                "
-                                @click="onGetVendor(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td>
-                        <td class="border border-gray-300">
-                          <textarea
-                            placeholder="Keterangan"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            v-model="item.keterangan"
-                          ></textarea>
-                        </td>
-                        <td
-                          class="text-center text-gray-600 border border-gray-300"
-                        >
-                          <span class="flex justify-center">
-                            <i
-                              class="fas fa-trash mx-auto"
-                              style="cursor: pointer"
-                              @click="onDeleteBiaya(i)"
-                            ></i>
-                          </span>
-                        </td>
-                      </tr>
-                      <tr v-if="!parameters.form.biaya.length > 0">
-                        <td colspan="100" class="text-center">
-                          <span class="flex justify-center">
-                            <img
-                              src="/img/data-not-found.svg"
-                              style="height: 250px; object-fit: cover"
-                            />
-                          </span>
-                          <div class="mt-3">Data Tidak Ditemukan</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                <BiayaRelokasi :self="{ parameters }" />
               </template>
             </TabComponent>
           </div>
@@ -570,12 +379,14 @@ import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 import TabComponent from "./tabComponent.vue";
 import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
+import BiayaRelokasi from "./BiayaRelokasi.vue";
 export default {
   props: ["self"],
 
   components: {
     TabComponent,
     ModalStokGudang,
+    BiayaRelokasi,
   },
 
   data() {
@@ -588,7 +399,7 @@ export default {
           slotName: "DetailItem",
         },
         {
-          name: "Biaya",
+          name: "Detail Biaya Relokasi",
           slotName: "Biaya",
         },
       ],
@@ -631,6 +442,10 @@ export default {
       isLoadingGetCoa: false,
       coa_search: "",
 
+      isStopSearchDivisi: false,
+      isLoadingGetDivisi: false,
+      divisi_search: "",
+
       isStopSearchVendor: false,
       isLoadingGetVendor: false,
       vendor_search: "",
@@ -654,7 +469,7 @@ export default {
           keterangan: "",
           keterangan_approve: "",
           mutasi_stok_details: [],
-          biaya: [],
+          biaya_mutasi_stok_details: [],
 
           //Tracking
           user_agent: "",
@@ -672,7 +487,9 @@ export default {
           `inventory/approve-mutasi-stok/${this.id}`
         );
         this.parameters.form = res.data;
-        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.coa_id = res.data.coa ?? "";
+        this.parameters.form.divisi_id = res.data.divisi ?? "";
         this.parameters.form.mutasi_stok_details =
           res.data.mutasi_stok_details.map((item) => {
             return {
@@ -691,18 +508,18 @@ export default {
             };
           });
 
-        if (res.data.biaya) {
-          this.parameters.form.biaya = res.data.biaya.map((item) => {
-            return {
-              ...item,
-              biaya_id: item,
-              jenis_biaya_id: item.jenis_biaya ?? item.jenis_biaya_id,
-              coa_id: item.coa ?? item.coa_id,
-              vendor_id: item.vendor ?? item.vendor_id,
-            };
-          });
+        if (res.data.biaya_mutasi_stok_details) {
+          this.parameters.form.biaya_mutasi_stok_details =
+            res.data.biaya_mutasi_stok_details.map((item) => {
+              return {
+                ...item,
+                biaya_mutasi_stok_detail_id: item,
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                coa_id: item.coa ?? "",
+              };
+            });
         } else {
-          this.parameters.form.biaya = [];
+          this.parameters.form.biaya_mutasi_stok_details = [];
         }
       }
     } catch (error) {
@@ -723,7 +540,8 @@ export default {
     // await this.onSearchSlotBin();
 
     // await this.onSearchJenisBiaya();
-    // await this.onSearchCoa();
+    await this.onSearchCoa();
+    await this.onSearchDivisi();
     // await this.onSearchVendor();
 
     this.getUserAgent();
@@ -790,7 +608,18 @@ export default {
       let url = "inventory/approve-mutasi-stok";
       let formData = {
         ...this.parameters.form,
-        gudang_id: this.parameters.form.gudang_id.gudang_id,
+        gudang_id:
+          typeof this.parameters.form.gudang_id === "object"
+            ? this.parameters.form.gudang_id.gudang_id
+            : this.parameters.form.gudang_id,
+        coa_id:
+          typeof this.parameters.form.coa_id === "object"
+            ? this.parameters.form.coa_id.coa_id
+            : this.parameters.form.coa_id,
+        divisi_id:
+          typeof this.parameters.form.divisi_id === "object"
+            ? this.parameters.form.divisi_id.divisi_id
+            : this.parameters.form.divisi_id,
         mutasi_stok_details: this.parameters.form.mutasi_stok_details.map(
           (item) => {
             return {
@@ -824,27 +653,29 @@ export default {
             };
           }
         ),
-        biaya: this.parameters.form.biaya.map((item) => {
-          return {
-            ...item,
-            biaya_id:
-              typeof item.biaya_id === "object"
-                ? item.biaya_id.biaya_id ?? ""
-                : "",
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
-                : item.jenis_biaya_id ?? "",
-            coa_id:
-              typeof item.coa_id === "object"
-                ? item.coa_id.coa_id ?? ""
-                : item.coa_id ?? "",
-            vendor_id:
-              typeof item.vendor_id === "object"
-                ? item.vendor_id.vendor_id ?? ""
-                : item.vendor_id ?? "",
-          };
-        }),
+        biaya_mutasi_stok_details:
+          this.parameters.form.biaya_mutasi_stok_details.map((item) => {
+            return {
+              ...item,
+              biaya_mutasi_stok_detail_id:
+                typeof item.biaya_mutasi_stok_detail_id === "object"
+                  ? item.biaya_mutasi_stok_detail_id
+                      .biaya_mutasi_stok_detail_id ?? ""
+                  : "",
+              jenis_biaya_id:
+                typeof item.jenis_biaya_id === "object"
+                  ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                  : item.jenis_biaya_id ?? "",
+              coa_id:
+                typeof item.coa_id === "object"
+                  ? item.coa_id.coa_id ?? ""
+                  : item.coa_id ?? "",
+              divisi_id:
+                typeof item.divisi_id === "object"
+                  ? item.divisi_id.divisi_id ?? ""
+                  : item.divisi_id ?? "",
+            };
+          }),
       };
 
       const today = new Date();
@@ -876,7 +707,7 @@ export default {
               no_transaksi: "",
               tanggal: "",
               mutasi_stok_details: [],
-              biaya: [],
+              biaya_mutasi_stok_details: [],
 
               //Tracking
               user_agent: "",
@@ -1047,13 +878,14 @@ export default {
       }
     },
 
-    onGetSlotAisle(search, isNext) {
+    // Get Coa
+    onGetCoa(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchSlotAisle);
+      clearTimeout(this.isStopSearchCoa);
 
-      this.isStopSearchSlotAisle = setTimeout(() => {
-        this.slot_aisle_search = search;
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom4.current_page = isNext
@@ -1063,37 +895,42 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotAisle();
+        this.onSearchCoa();
       }, 600);
     },
 
-    async onSearchSlotAisle() {
-      if (!this.isLoadingGetSlotAisle) {
-        this.isLoadingGetSlotAisle = true;
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          url: "finance/coa/get-coa",
           lookup: "custom4",
           query:
             "?search=" +
-            this.slot_aisle_search +
-            "&level=1" +
+            this.coa_search +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetSlotAisle = false;
+        this.isLoadingGetCoa = false;
       }
     },
 
-    onGetSlotRack(search, isNext) {
+    onSelectCoa(item) {
+      this.parameters.form.coa_id = item || "";
+    },
+
+    // Get divisi
+    onGetDivisi(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchSlotRack);
+      clearTimeout(this.isStopSearchDivisi);
 
-      this.isStopSearchSlotRack = setTimeout(() => {
-        this.slot_rack_search = search;
+      this.isStopSearchDivisi = setTimeout(() => {
+        this.divisi_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom5.current_page = isNext
@@ -1103,28 +940,31 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotRack();
+        this.onSearchDivisi();
       }, 600);
     },
 
-    async onSearchSlotRack() {
-      if (!this.isLoadingGetSlotRack) {
-        this.isLoadingGetSlotRack = true;
+    async onSearchDivisi() {
+      if (!this.isLoadingGetDivisi) {
+        this.isLoadingGetDivisi = true;
 
         await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          url: "master/divisi/get-divisi",
           lookup: "custom5",
           query:
             "?search=" +
-            this.slot_rack_search +
-            "&level=2" +
+            this.divisi_search +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetSlotRack = false;
+        this.isLoadingGetDivisi = false;
       }
+    },
+
+    onSelectDivisi(item) {
+      this.parameters.form.divisi_id = item || "";
     },
 
     onGetSlotLevel(search, isNext) {
@@ -1246,44 +1086,44 @@ export default {
       }
     },
 
-    onGetCoa(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // onGetCoa(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchCoa);
+    //   clearTimeout(this.isStopSearchCoa);
 
-      this.isStopSearchCoa = setTimeout(() => {
-        this.coa_search = search;
+    //   this.isStopSearchCoa = setTimeout(() => {
+    //     this.coa_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom9.current_page = isNext
-            ? this.lookup_custom9.current_page + 1
-            : this.lookup_custom9.current_page - 1;
-        } else {
-          this.lookup_custom9.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom9.current_page = isNext
+    //         ? this.lookup_custom9.current_page + 1
+    //         : this.lookup_custom9.current_page - 1;
+    //     } else {
+    //       this.lookup_custom9.current_page = 1;
+    //     }
 
-        this.onSearchCoa();
-      }, 600);
-    },
+    //     this.onSearchCoa();
+    //   }, 600);
+    // },
 
-    async onSearchCoa() {
-      if (!this.isLoadingGetCoa) {
-        this.isLoadingGetCoa = true;
+    // async onSearchCoa() {
+    //   if (!this.isLoadingGetCoa) {
+    //     this.isLoadingGetCoa = true;
 
-        await this.lookUp({
-          url: "finance/coa/get-coa",
-          lookup: "custom9",
-          query:
-            "?search=" +
-            this.coa_search +
-            "&page=" +
-            this.lookup_custom9.current_page +
-            "&per_page=10",
-        });
+    //     await this.lookUp({
+    //       url: "finance/coa/get-coa",
+    //       lookup: "custom9",
+    //       query:
+    //         "?search=" +
+    //         this.coa_search +
+    //         "&page=" +
+    //         this.lookup_custom9.current_page +
+    //         "&per_page=10",
+    //     });
 
-        this.isLoadingGetCoa = false;
-      }
-    },
+    //     this.isLoadingGetCoa = false;
+    //   }
+    // },
 
     onGetVendor(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;

@@ -54,6 +54,7 @@
                 <table>
                   <thead class="text-base">
                     <tr class="uppercase">
+                      <th class="w-[5%]">Edit</th>
                       <th class="w-[5%]">Detail</th>
 
                       <th class="w-[5%]">No</th>
@@ -128,12 +129,14 @@
                       <th class="w-[10%]">File Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
-                      <th class="w-[5%]">Edit</th>
                       <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i">
+                      <td class="text-center">
+                        <small-edit-button @click="onEdit(item)" />
+                      </td>
                       <td class="text-center">
                         <small-detail-button @click="onDetail(item)" />
                       </td>
@@ -180,9 +183,6 @@
                         </span>
                       </td>
 
-                      <td class="text-center">
-                        <small-edit-button @click="onEdit(item)" />
-                      </td>
                       <td class="text-center">
                         <small-delete-button
                           @click="onTrashed(item)"

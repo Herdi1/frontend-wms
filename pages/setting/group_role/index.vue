@@ -56,6 +56,7 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="text-center w-[5%]">Edit</th>
                   <th class="text-center w-[5%]">Detail</th>
 
                   <th class="w-[5%]">No</th>
@@ -92,12 +93,16 @@
                       </div>
                     </div>
                   </th>
-                  <th class="text-center w-[5%]">Edit</th>
                   <th class="text-center w-[5%]">Hapus</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
+                  <td>
+                    <span class="flex items-center justify-center">
+                      <small-edit-button @click="onEdit(item)" />
+                    </span>
+                  </td>
                   <td>
                     <span class="flex items-center justify-center">
                       <small-detail-button @click="onDetail(item)" />
@@ -113,11 +118,6 @@
                   </td>
                   <td>{{ item.nama_role }}</td>
 
-                  <td>
-                    <span class="flex items-center justify-center">
-                      <small-edit-button @click="onEdit(item)" />
-                    </span>
-                  </td>
                   <td>
                     <span class="flex items-center justify-center">
                       <small-delete-button @click="onTrashed(item)" />

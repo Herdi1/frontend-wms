@@ -107,7 +107,6 @@
                 :options="lookup_roles.data"
                 :filterable="false"
                 @search="onGetRole"
-                :reduce="(item) => item.menu_id"
                 v-model="parameters.form.menu_id_induk"
                 @input="onSearchRole2"
               >
@@ -160,7 +159,6 @@
                 :options="lookup_custom1.data"
                 :filterable="false"
                 @search="onGetRole2"
-                :reduce="(item) => item.menu_id"
                 v-model="parameters.form.menu_id_induk_2"
               >
                 <li
@@ -304,6 +302,8 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.menu_id_induk = res.data.parent ?? "";
+        this.parameters.form.menu_id_induk_2 = res.data.parent_2 ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -343,10 +343,27 @@ export default {
       let formData = new FormData();
 
       Object.entries(this.parameters.form).forEach(([key, value]) => {
-        if (key !== "file_icon") {
+        if (
+          key !== "file_icon" &&
+          key !== "menu_id_induk" &&
+          key !== "menu_id_induk_2"
+        ) {
           formData.append(key, value || "");
         }
       });
+
+      formData.append(
+        "menu_id_induk",
+        typeof this.parameters.form.menu_id_induk === "object"
+          ? this.parameters.form.menu_id_induk.menu_id
+          : this.parameters.form.menu_id_induk
+      );
+      formData.append(
+        "menu_id_induk_2",
+        typeof this.parameters.form.menu_id_induk_2 === "object"
+          ? this.parameters.form.menu_id_induk_2.menu_id
+          : this.parameters.form.menu_id_induk_2
+      );
 
       if (this.parameters.form.urutan == 0) {
         formData.append("urutan", 0);

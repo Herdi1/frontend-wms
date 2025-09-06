@@ -153,7 +153,6 @@
                 :options="lookup_custom1.data"
                 :filterable="false"
                 @search="onGetGroupRole"
-                :reduce="(item) => item.role_id"
                 v-model="parameters.form.role_id"
               >
                 <li
@@ -188,7 +187,6 @@
                 :filterable="false"
                 @search="onGetPelanggan"
                 v-model="parameters.form.pelanggan_id"
-                :reduce="(item) => item.pelanggan_id"
                 class="w-full"
                 :aria-disabled="parameters.form.status_user == 2"
               >
@@ -225,7 +223,6 @@
                 :filterable="false"
                 @search="onGetGudang"
                 v-model="parameters.form.gudang_id"
-                :reduce="(item) => item.gudang_id"
                 class="w-full"
               >
                 <li
@@ -261,7 +258,6 @@
                 :filterable="false"
                 @search="onGetJabatan"
                 v-model="parameters.form.jabatan_id"
-                :reduce="(item) => item.jabatan_id"
                 class="w-full"
               >
                 <li
@@ -297,7 +293,6 @@
                 :filterable="false"
                 @search="onGetStaff"
                 v-model="parameters.form.staff_id"
-                :reduce="(item) => item.staff_id"
                 class="w-full"
               >
                 <li
@@ -365,7 +360,6 @@
                         :filterable="false"
                         @search="onGetGudang"
                         v-model="item.gudang_id"
-                        :reduce="(item) => item.gudang_id"
                         class="w-full"
                       >
                         <li
@@ -492,11 +486,11 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         this.parameters.form = res.data;
-        this.parameters.form.role_id = res.data.role_id;
-        this.parameters.form.pelanggan_id = res.data.pelanggan_id;
-        this.parameters.form.jabatan_id = res.data.jabatan_id;
-        this.parameters.form.gudang_id = res.data.gudang_id;
-        this.parameters.form.staff_id = res.data.staff_id;
+        this.parameters.form.role_id = res.data.role ?? "";
+        this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
+        this.parameters.form.jabatan_id = res.data.jabatan ?? "";
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.user_gudangs = res.data.user_gudangs;
         this.isLoadingPage = false;
       }
@@ -536,6 +530,26 @@ export default {
       let formData = {
         ...this.parameters.form,
         id: this.parameters.form.user_id ? this.parameters.form.user_id : "",
+        gudang_id:
+          typeof this.parameters.form.gudang_id === "object"
+            ? this.parameters.form.gudang_id.gudang_id
+            : this.parameters.form.gudang_id,
+        role_id:
+          typeof this.parameters.form.role_id === "object"
+            ? this.parameters.form.role_id.role_id
+            : this.parameters.form.role_id,
+        jabatan_id:
+          typeof this.parameters.form.jabatan_id === "object"
+            ? this.parameters.form.jabatan_id.jabatan_id
+            : this.parameters.form.jabatan_id,
+        pelanggan_id:
+          typeof this.parameters.form.pelanggan_id === "object"
+            ? this.parameters.form.pelanggan_id.pelanggan_id
+            : this.parameters.form.pelanggan_id,
+        staff_id:
+          typeof this.parameters.form.staff_id === "object"
+            ? this.parameters.form.staff_id.staff_id
+            : this.parameters.form.staff_id,
       };
       formData.user_gudangs = this.parameters.form.user_gudangs;
 

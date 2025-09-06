@@ -864,6 +864,12 @@ export default {
       let formData = {
         ...this.parameters.form,
         gudang_id: this.parameters.form.gudang_id.gudang_id,
+        staff_id: typeof this.parameters.form.staff_id
+          ? this.parameters.form.staff_id.staff_id
+          : this.parameters.form.staff_id,
+        vendor_id: typeof this.parameters.form.vendor_id
+          ? this.parameters.form.vendor_id.vendor_id
+          : this.parameters.form.vendor_id,
         mutasi_stok_details: this.parameters.form.mutasi_stok_details.map(
           (item) => {
             return {

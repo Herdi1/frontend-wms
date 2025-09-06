@@ -50,7 +50,6 @@
               :filterable="false"
               @search="onGetGudang"
               v-model="parameters.form.gudang_id"
-              :reduce="(item) => item.gudang_id"
               class="w-full mb-2 bg-white"
             >
               <li
@@ -122,6 +121,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/jalur-lokasi/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -152,6 +152,10 @@ export default {
           id: this.parameters.form.jalur_lokasi_id
             ? this.parameters.form.jalur_lokasi_id
             : "",
+          gudang_id:
+            typeof this.parameters.form.gudang_id === "object"
+              ? this.parameters.form.gudang_id.gudang_id
+              : this.parameters.form.gudang_id,
         },
       };
 

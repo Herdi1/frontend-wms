@@ -30,7 +30,6 @@
                   :filterable="false"
                   @search="onGetPelangganInduk"
                   label="nama_pelanggan"
-                  :reduce="(item) => item.pelanggan_id"
                   :options="lookup_regus.data"
                 >
                   <li
@@ -69,7 +68,6 @@
                     :options="lookup_department.data"
                     :filterable="false"
                     @search="onGetTBH"
-                    :reduce="(item) => item.tipe_badan_hukum_id"
                     v-model="form.tipe_badan_hukum_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -110,7 +108,6 @@
                   :options="lookup_users.data"
                   :filterable="false"
                   @search="onGetUserPIC"
-                  :reduce="(item) => item.user_id"
                   v-model="form.user_id_sales"
                 >
                   <li
@@ -229,7 +226,6 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetNegara"
-                    :reduce="(item) => item.negara_id"
                     v-model="form.negara_id"
                     @input="onSelectNegara"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
@@ -276,7 +272,6 @@
                     :options="lookup_custom2.data"
                     :filterable="false"
                     @search="onGetProvinsi"
-                    :reduce="(item) => item.provinsi_id"
                     v-model="form.provinsi_id"
                     @input="onSelectProvinsi"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
@@ -321,7 +316,6 @@
                     :options="lookup_custom3.data"
                     :filterable="false"
                     @search="onGetKota"
-                    :reduce="(item) => item.kota_id"
                     v-model="form.kota_id"
                     @input="onSelectKota"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
@@ -370,7 +364,6 @@
                     :options="lookup_beam.data"
                     :filterable="false"
                     @search="onGetKecamatan"
-                    :reduce="(item) => item.kecamatan_id"
                     v-model="form.kecamatan_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                     @input="onSelectKecamatan"
@@ -409,7 +402,6 @@
                   :options="lookup_grade.data"
                   :filterable="false"
                   @search="onGetKelurahan"
-                  :reduce="(item) => item.kelurahan_id"
                   v-model="form.kelurahan_id"
                 >
                   <li
@@ -442,7 +434,6 @@
                   :options="lookup_roles.data"
                   :filterable="false"
                   @search="onGetKodePos"
-                  :reduce="(item) => item.kode_pos_id"
                   v-model="form.kode_pos_id"
                 >
                   <li
@@ -643,7 +634,6 @@
                     :options="lookup_mesin.data"
                     :filterable="false"
                     @search="onGetNegaraPemilik"
-                    :reduce="(item) => item.negara_id"
                     v-model="form.negara_id_pemilik"
                     @input="onSelectNegaraPemilik"
                   >
@@ -681,7 +671,6 @@
                     :options="lookup_sellings.data"
                     :filterable="false"
                     @search="onGetProvinsiPemilik"
-                    :reduce="(item) => item.provinsi_id"
                     v-model="form.provinsi_id_pemilik"
                     @input="onSelectProvinsiPemilik"
                   >
@@ -720,7 +709,6 @@
                     :options="lookup_resellers.data"
                     :filterable="false"
                     @search="onGetKotaPemilik"
-                    :reduce="(item) => item.kota_id"
                     v-model="form.kota_id_pemilik"
                     @input="onSelectKotaPemilik"
                   >
@@ -761,7 +749,6 @@
                     :options="lookup_pengawas.data"
                     :filterable="false"
                     @search="onGetKecamatanPemilik"
-                    :reduce="(item) => item.kecamatan_id"
                     v-model="form.kecamatan_id_pemilik"
                     @input="onSelectKecamatanPemilik"
                   >
@@ -799,7 +786,6 @@
                   :options="lookup_operator.data"
                   :filterable="false"
                   @search="onGetKelurahanPemilik"
-                  :reduce="(item) => item.kelurahan_id"
                   v-model="form.kelurahan_id_pemilik"
                 >
                   <li
@@ -873,7 +859,7 @@ export default {
 
   head() {
     return {
-      title: "Item Pelanggan",
+      title: "Pelanggan",
     };
   },
 
@@ -1011,10 +997,25 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
-        this.form.provinsi_id = res.data.provinsi;
-        this.form.provinsi_id_pemilik = res.data.provinsi_pemilik;
-        this.form.kota_id = res.data.kota;
-        this.form.kota_id_pemilik = res.data.kota_pemilik;
+
+        this.form.negara_id = res.data.negara ?? "";
+        this.form.provinsi_id = res.data.provinsi ?? "";
+        this.form.kota_id = res.data.kota ?? "";
+        this.form.kecamatan_id = res.data.kecamatan ?? "";
+        this.form.kelurahan_id = res.data.kelurahan ?? "";
+        this.form.tipe_badan_hukum_id = res.data.tipebadanhukum ?? "";
+        this.form.lokasi_id = res.data.lokasi ?? "";
+        this.form.user_id_sales = res.data.user_sales ?? "";
+        this.form.pelanggan_id_induk = res.data.pelanggan_induk ?? "";
+        this.form.kode_pos_id = res.data.kode_pos ?? "";
+        this.form.kode_pos_id = res.data.kode_pos ?? "";
+
+        this.form.negara_id_pemilik = res.data.negara_pemilik ?? "";
+        this.form.provinsi_id_pemilik = res.data.provinsi_pemilik ?? "";
+        this.form.kota_id_pemilik = res.data.kota_pemilik ?? "";
+        this.form.kecamatan_id_pemilik = res.data.kecamatan_pemilik ?? "";
+        this.form.kelurahan_id_pemilik = res.data.kelurahan_pemilik ?? "";
+        this.form.kode_pos_id_pemilik = res.data.kode_pos_pemilik ?? "";
 
         this.isLoadingPage = false;
       }
@@ -1088,22 +1089,71 @@ export default {
 
       let formData = {
         ...this.form,
+        negara_id:
+          typeof this.form.negara_id === "object"
+            ? this.form.negara_id.negara_id
+            : this.form.negara_id,
         provinsi_id:
           typeof this.form.provinsi_id === "object"
             ? this.form.provinsi_id.provinsi_id
             : this.form.provinsi_id,
-        provinsi_id_pemilik:
-          typeof this.form.provinsi_id_pemilik === "object"
-            ? this.form.provinsi_id_pemilik.provinsi_id
-            : this.form.provinsi_id_pemilik,
         kota_id:
           typeof this.form.kota_id === "object"
             ? this.form.kota_id.kota_id
             : this.form.kota_id,
+        kecamatan_id:
+          typeof this.form.kecamatan_id === "object"
+            ? this.form.kecamatan_id.kecamatan_id
+            : this.form.kecamatan_id,
+        kelurahan_id:
+          typeof this.form.kelurahan_id === "object"
+            ? this.form.kelurahan_id.kelurahan_id
+            : this.form.kelurahan_id,
+        kode_pos_id:
+          typeof this.form.kode_pos_id === "object"
+            ? this.form.kode_pos_id.kode_pos_id
+            : this.form.kode_pos_id,
+        tipe_badan_hukum_id:
+          typeof this.form.tipe_badan_hukum_id === "object"
+            ? this.form.tipe_badan_hukum_id.tipe_badan_hukum_id
+            : this.form.tipe_badan_hukum_id,
+        lokasi_id:
+          typeof this.form.lokasi_id === "object"
+            ? this.form.lokasi_id.lokasi_id
+            : this.form.lokasi_id,
+        user_id_sales:
+          typeof this.form.user_id_sales === "object"
+            ? this.form.user_id_sales.user_id
+            : this.form.user_id_sales,
+        pelanggan_id_induk:
+          typeof this.form.pelanggan_id_induk === "object"
+            ? this.form.pelanggan_id_induk.pelanggan_id
+            : this.form.pelanggan_id_induk,
+
+        negara_id_pemilik:
+          typeof this.form.negara_id_pemilik === "object"
+            ? this.form.negara_id_pemilik.negara_id
+            : this.form.negara_id_pemilik,
+        provinsi_id_pemilik:
+          typeof this.form.provinsi_id_pemilik === "object"
+            ? this.form.provinsi_id_pemilik.provinsi_id
+            : this.form.provinsi_id_pemilik,
         kota_id_pemilik:
           typeof this.form.kota_id_pemilik === "object"
             ? this.form.kota_id_pemilik.kota_id
             : this.form.kota_id_pemilik,
+        kecamatan_id_pemilik:
+          typeof this.form.kecamatan_id_pemilik === "object"
+            ? this.form.kecamatan_id_pemilik.kecamatan_id
+            : this.form.kecamatan_id_pemilik,
+        kelurahan_id_pemilik:
+          typeof this.form.kelurahan_id_pemilik === "object"
+            ? this.form.kelurahan_id_pemilik.kelurahan_id
+            : this.form.kelurahan_id_pemilik,
+        kode_pos_id_pemilik:
+          typeof this.form.kode_pos_id_pemilik === "object"
+            ? this.form.kode_pos_id_pemilik.kode_pos_id
+            : this.form.kode_pos_id_pemilik,
       };
 
       formData.item_pelanggans = formData.item_pelanggans.map((item) => {
@@ -1262,7 +1312,7 @@ export default {
             "?search=" +
             this.provinsi_search +
             "&negara_id=" +
-            this.form.negara_id +
+            this.form.negara_id.negara_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1305,7 +1355,7 @@ export default {
             "?search=" +
             this.kota_search +
             "&provinsi_id=" +
-            this.form.provinsi_id +
+            this.form.provinsi_id.provinsi_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -1348,7 +1398,7 @@ export default {
             "?search=" +
             this.kecamatan_search +
             "&kota_id=" +
-            this.form.kota_id +
+            this.form.kota_id.kota_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
@@ -1390,7 +1440,7 @@ export default {
             "?search=" +
             this.kelurahan_search +
             "&kecamatan_id=" +
-            this.form.kecamatan_id +
+            this.form.kecamatan_id.kecamatan_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
@@ -1700,7 +1750,7 @@ export default {
             "?search=" +
             this.provinsiPemilik_search +
             "&negara_id=" +
-            this.form.negara_id_pemilik +
+            this.form.negara_id_pemilik.negara_id +
             "&page=" +
             this.lookup_sellings.current_page +
             "&per_page=10",
@@ -1743,7 +1793,7 @@ export default {
             "?search=" +
             this.kotaPemilik_search +
             "&provinsi_id=" +
-            this.form.provinsi_id_pemilik +
+            this.form.provinsi_id_pemilik.provinsi_id +
             "&page=" +
             this.lookup_resellers.current_page +
             "&per_page=10",
@@ -1786,7 +1836,7 @@ export default {
             "?search=" +
             this.kecamatanPemilik_search +
             "&kota_id=" +
-            this.form.kota_id_pemilik +
+            this.form.kota_id_pemilik.kota_id +
             "&page=" +
             this.lookup_pengawas.current_page +
             "&per_page=10",
@@ -1828,7 +1878,7 @@ export default {
             "?search=" +
             this.kelurahanPemilik_search +
             "&kecamatan_id=" +
-            this.form.kecamatan_id_pemilik +
+            this.form.kecamatan_id_pemilik.kecamatan_id +
             "&page=" +
             this.lookup_operator.current_page +
             "&per_page=10",

@@ -95,6 +95,19 @@
               width="w-[60%]"
               :disabled="true"
             />
+            <select-button
+              :self="{
+                label: 'Alasan Konversi',
+                optionLabel: 'nama_alasan_beda_plan',
+                isLoading: isLoadingGetAlasan,
+                lookup: lookup_customers,
+                onGet: onGetAlasan,
+                value: parameters.form.alasan_beda_plan_id,
+                input: onSelectAlasan,
+              }"
+              width="w-[60%]"
+              :disabled="true"
+            />
             <div class="form-group">
               <input-horizontal
                 :disabled="true"
@@ -126,6 +139,32 @@
                 </select>
               </div>
             </div>
+            <select-button
+              :self="{
+                label: 'Coa',
+                optionLabel: 'nama_coa',
+                isLoading: isLoadingGetCoa,
+                lookup: lookup_custom4,
+                onGet: onGetCoa,
+                value: parameters.form.coa_id,
+                input: onSelectCoa,
+              }"
+              width="w-[60%]"
+              :required="true"
+            />
+            <select-button
+              :self="{
+                label: 'Divisi',
+                optionLabel: 'nama_divisi',
+                isLoading: isLoadingGetDivisi,
+                lookup: lookup_custom5,
+                onGet: onGetDivisi,
+                value: parameters.form.divisi_id,
+                input: onSelectDivisi,
+              }"
+              width="w-[60%]"
+              :required="true"
+            />
             <!-- <div class="form-group">
               <input-horizontal
                 :required="true"
@@ -159,12 +198,10 @@
               />
             </template>
             <template #DetailProdukJadi>
-              <!-- <DetailItemJadi
-                :self="{
-                  parameters,
-                }"
-              /> -->
               <DetailItemJadi :self="{ parameters }" />
+            </template>
+            <template #BiayaKonversi>
+              <BiayaKonversi :self="{ parameters }" />
             </template>
           </tab-component>
 
@@ -184,6 +221,7 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 import DetailItemBahan from "./DetailItemBahan.vue";
 import DetailItemJadi from "./DetailItemJadi.vue";
+import BiayaKonversi from "./BiayaKonversi.vue";
 
 export default {
   props: ["self"],
@@ -191,6 +229,7 @@ export default {
   components: {
     DetailItemBahan,
     DetailItemJadi,
+    BiayaKonversi,
   },
 
   data() {
@@ -200,7 +239,7 @@ export default {
       tabs: [
         { name: "DETAIL PRODUK BAHAN", slotName: "DetailProdukBahan" },
         { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
-        // { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
+        { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
       ],
       id,
 
@@ -219,6 +258,8 @@ export default {
           status_approve: "0",
           tanggal_konversi: "",
           catatan_konversi: "",
+          coa_id: "",
+          divisi_id: "",
 
           kode_konversi_stok: "",
           tanggal: "",
@@ -226,11 +267,12 @@ export default {
           tanggal_selesai: "",
           lama_pengerjaan: "",
           gudang_id: "",
+          alasan_beda_plan_id: "",
           status_transaksi_id: "",
           keterangan: "",
           konversi_stok_detail_bahan: [],
           konversi_stok_detail_jadi: [],
-          biaya_konversi: [],
+          biaya_konversi_details: [],
 
           user_agent: "",
           device: "",
@@ -270,6 +312,14 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+
+      isStopSearchCoa: false,
+      isLoadingGetCoa: false,
+      coa_search: "",
+
+      isStopSearchDivisi: false,
+      isLoadingGetDivisi: false,
+      divisi_search: "",
     };
   },
 
@@ -279,13 +329,15 @@ export default {
     //   lookup: "custom1",
     //   query: "?q=jenis_kontrak",
     // });
-    await this.onSearchItemGudang();
-    await this.onSearchValuation();
-    await this.onSearchZonaPlan();
+    // await this.onSearchItemGudang();
+    // await this.onSearchValuation();
+    // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
+    await this.onSearchCoa();
+    await this.onSearchDivisi();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -312,6 +364,9 @@ export default {
         });
 
         this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.alasan_beda_plan_id = res.data.alasan_beda_plan;
+        this.parameters.form.coa_id = res.data.coa ?? "";
+        this.parameters.form.divisi_id = res.data.divisi ?? "";
 
         this.parameters.form.konversi_stok_detail_bahan =
           res.data.konversi_stok_detail_bahans.map((item) => {
@@ -343,7 +398,17 @@ export default {
             };
           });
 
-        console.log(this.parameters.form);
+        this.parameters.form.biaya_konversi_details =
+          res.data.biaya_konversi_details.map((item) => {
+            return {
+              ...item,
+              biaya_konversi_detail_id: item ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
+              coa_id: item.coa ?? "",
+              divisi_id: item.divisi ?? "",
+            };
+          });
+
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -355,6 +420,7 @@ export default {
     ...mapState("moduleApi", [
       "error",
       "result",
+      "lookup_custom8",
       "lookup_custom1",
       "lookup_custom2",
       "lookup_custom3",
@@ -362,9 +428,9 @@ export default {
       "lookup_custom5",
       "lookup_custom6",
       "lookup_custom7",
-      "lookup_custom8",
       "lookup_custom9",
       "lookup_custom10",
+      "lookup_customers",
     ]),
   },
 
@@ -424,6 +490,18 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
+            : "",
+        alasan_beda_plan_id:
+          typeof this.parameters.form.alasan_beda_plan_id === "object"
+            ? this.parameters.form.alasan_beda_plan_id.alasan_beda_plan_id
+            : "",
+        coa_id:
+          typeof this.parameters.form.coa_id === "object"
+            ? this.parameters.form.coa_id.coa_id
+            : "",
+        divisi_id:
+          typeof this.parameters.form.divisi_id === "object"
+            ? this.parameters.form.divisi_id.divisi_id
             : "",
         // ...this.parameters.form,
         // form: {
@@ -499,6 +577,29 @@ export default {
               typeof item.slot_penyimpanan_id_bin === "object"
                 ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
                 : "",
+          };
+        });
+
+      formData.biaya_konversi_details =
+        this.parameters.form.biaya_konversi_details.map((item) => {
+          return {
+            ...item,
+            biaya_konversi_detail_id:
+              typeof item.biaya_konversi_detail_id === "object"
+                ? item.biaya_konversi_detail_id.biaya_konversi_detail_id
+                : "",
+            jenis_biaya_id:
+              typeof item.jenis_biaya_id === "object"
+                ? item.jenis_biaya_id.jenis_biaya_id
+                : item.jenis_biaya_id,
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id
+                : item.coa_id,
+            divisi_id:
+              typeof item.divisi_id === "object"
+                ? item.divisi_id.divisi_id
+                : item.divisi_id,
           };
         });
 
@@ -600,141 +701,141 @@ export default {
     },
 
     // Get zona plan
-    onGetZonaPlan(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // onGetZonaPlan(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchZonaPlan);
+    //   clearTimeout(this.isStopSearchZonaPlan);
 
-      this.isStopSearchZonaPlan = setTimeout(() => {
-        this.zona_plan_search = search;
+    //   this.isStopSearchZonaPlan = setTimeout(() => {
+    //     this.zona_plan_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
-        } else {
-          this.lookup_custom1.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom1.current_page = isNext
+    //         ? this.lookup_custom1.current_page + 1
+    //         : this.lookup_custom1.current_page - 1;
+    //     } else {
+    //       this.lookup_custom1.current_page = 1;
+    //     }
 
-        this.onSearchZonaPlan();
-      }, 600);
-    },
+    //     this.onSearchZonaPlan();
+    //   }, 600);
+    // },
 
-    async onSearchZonaPlan() {
-      if (!this.isLoadingGetZonaPlan) {
-        this.isLoadingGetZonaPlan = true;
+    // async onSearchZonaPlan() {
+    //   if (!this.isLoadingGetZonaPlan) {
+    //     this.isLoadingGetZonaPlan = true;
 
-        await this.lookUp({
-          url: "master/zona-gudang/get-zona-gudang",
-          lookup: "custom1",
-          query:
-            "?search=" +
-            this.zona_plan_search +
-            "&gudang_id=" +
-            this.parameters.form.gudang_id.gudang_id +
-            "&page=" +
-            this.lookup_custom1.current_page +
-            "&per_page=10",
-        });
+    //     await this.lookUp({
+    //       url: "master/zona-gudang/get-zona-gudang",
+    //       lookup: "custom1",
+    //       query:
+    //         "?search=" +
+    //         this.zona_plan_search +
+    //         "&gudang_id=" +
+    //         this.parameters.form.gudang_id.gudang_id +
+    //         "&page=" +
+    //         this.lookup_custom1.current_page +
+    //         "&per_page=10",
+    //     });
 
-        this.isLoadingGetZonaPlan = false;
-      }
-    },
+    //     this.isLoadingGetZonaPlan = false;
+    //   }
+    // },
 
     // Get slot aisle
-    onGetSlotAisle(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // onGetSlotAisle(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchSlotAisle);
+    //   clearTimeout(this.isStopSearchSlotAisle);
 
-      this.isStopSearchSlotAisle = setTimeout(() => {
-        this.slot_aisle_search = search;
+    //   this.isStopSearchSlotAisle = setTimeout(() => {
+    //     this.slot_aisle_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom2.current_page = isNext
-            ? this.lookup_custom2.current_page + 1
-            : this.lookup_custom2.current_page - 1;
-        } else {
-          this.lookup_custom2.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom2.current_page = isNext
+    //         ? this.lookup_custom2.current_page + 1
+    //         : this.lookup_custom2.current_page - 1;
+    //     } else {
+    //       this.lookup_custom2.current_page = 1;
+    //     }
 
-        this.onSearchSlotAisle();
-      }, 600);
-    },
+    //     this.onSearchSlotAisle();
+    //   }, 600);
+    // },
 
-    async onSearchSlotAisle() {
-      if (!this.isLoadingGetSlotAisle) {
-        this.isLoadingGetSlotAisle = true;
+    // async onSearchSlotAisle() {
+    //   if (!this.isLoadingGetSlotAisle) {
+    //     this.isLoadingGetSlotAisle = true;
 
-        await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
-          lookup: "custom2",
-          query:
-            "?search=" +
-            this.slot_aisle_search +
-            "&level=1" +
-            "&gudang_id=" +
-            this.parameters.form.gudang_id.gudang_id +
-            "&page=" +
-            this.lookup_custom2.current_page +
-            "&per_page=10",
-        });
+    //     await this.lookUp({
+    //       url: "master/slot-penyimpanan/get-slot-penyimpanan",
+    //       lookup: "custom2",
+    //       query:
+    //         "?search=" +
+    //         this.slot_aisle_search +
+    //         "&level=1" +
+    //         "&gudang_id=" +
+    //         this.parameters.form.gudang_id.gudang_id +
+    //         "&page=" +
+    //         this.lookup_custom2.current_page +
+    //         "&per_page=10",
+    //     });
 
-        this.isLoadingGetSlotAisle = false;
-      }
-    },
+    //     this.isLoadingGetSlotAisle = false;
+    //   }
+    // },
 
     // Get slot rack
-    onGetSlotRack(search, isNext) {
+    // onGetSlotRack(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
+
+    //   clearTimeout(this.isStopSearchSlotRack);
+
+    //   this.isStopSearchSlotRack = setTimeout(() => {
+    //     this.slot_rack_search = search;
+
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom3.current_page = isNext
+    //         ? this.lookup_custom3.current_page + 1
+    //         : this.lookup_custom3.current_page - 1;
+    //     } else {
+    //       this.lookup_custom3.current_page = 1;
+    //     }
+
+    //     this.onSearchSlotRack();
+    //   }, 600);
+    // },
+
+    // async onSearchSlotRack() {
+    //   if (!this.isLoadingGetSlotRack) {
+    //     this.isLoadingGetSlotRack = true;
+
+    //     await this.lookUp({
+    //       url: "master/slot-penyimpanan/get-slot-penyimpanan",
+    //       lookup: "custom3",
+    //       query:
+    //         "?search=" +
+    //         this.slot_rack_search +
+    //         "&level=2" +
+    //         "&gudang_id=" +
+    //         this.parameters.form.gudang_id +
+    //         "&page=" +
+    //         this.lookup_custom3.current_page +
+    //         "&per_page=10",
+    //     });
+
+    //     this.isLoadingGetSlotRack = false;
+    //   }
+    // },
+
+    // Get Coa
+    onGetCoa(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchSlotRack);
+      clearTimeout(this.isStopSearchCoa);
 
-      this.isStopSearchSlotRack = setTimeout(() => {
-        this.slot_rack_search = search;
-
-        if (typeof isNext !== "function") {
-          this.lookup_custom3.current_page = isNext
-            ? this.lookup_custom3.current_page + 1
-            : this.lookup_custom3.current_page - 1;
-        } else {
-          this.lookup_custom3.current_page = 1;
-        }
-
-        this.onSearchSlotRack();
-      }, 600);
-    },
-
-    async onSearchSlotRack() {
-      if (!this.isLoadingGetSlotRack) {
-        this.isLoadingGetSlotRack = true;
-
-        await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
-          lookup: "custom3",
-          query:
-            "?search=" +
-            this.slot_rack_search +
-            "&level=2" +
-            "&gudang_id=" +
-            this.parameters.form.gudang_id +
-            "&page=" +
-            this.lookup_custom3.current_page +
-            "&per_page=10",
-        });
-
-        this.isLoadingGetSlotRack = false;
-      }
-    },
-
-    // Get slot level
-    onGetSlotLevel(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
-
-      clearTimeout(this.isStopSearchSlotLevel);
-
-      this.isStopSearchSlotLevel = setTimeout(() => {
-        this.slot_level_search = search;
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom4.current_page = isNext
@@ -744,40 +845,42 @@ export default {
           this.lookup_custom4.current_page = 1;
         }
 
-        this.onSearchSlotLevel();
+        this.onSearchCoa();
       }, 600);
     },
 
-    async onSearchSlotLevel() {
-      if (!this.isLoadingGetSlotLevel) {
-        this.isLoadingGetSlotLevel = true;
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          url: "finance/coa/get-coa",
           lookup: "custom4",
           query:
             "?search=" +
-            this.slot_rack_search +
-            "&level=3" +
-            "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.coa_search +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetSlotLevel = false;
+        this.isLoadingGetCoa = false;
       }
     },
 
-    // Get slot level
-    onGetSlotBin(search, isNext) {
+    onSelectCoa(item) {
+      this.parameters.form.coa_id = item || "";
+    },
+
+    // Get divisi
+    onGetDivisi(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchSlotBin);
+      clearTimeout(this.isStopSearchDivisi);
 
-      this.isStopSearchSlotBin = setTimeout(() => {
-        this.slot_bin_search = search;
+      this.isStopSearchDivisi = setTimeout(() => {
+        this.divisi_search = search;
 
         if (typeof isNext !== "function") {
           this.lookup_custom5.current_page = isNext
@@ -787,30 +890,31 @@ export default {
           this.lookup_custom5.current_page = 1;
         }
 
-        this.onSearchSlotBin();
+        this.onSearchDivisi();
       }, 600);
     },
 
-    async onSearchSlotBin() {
-      if (!this.isLoadingGetSlotBin) {
-        this.isLoadingGetSlotBin = true;
+    async onSearchDivisi() {
+      if (!this.isLoadingGetDivisi) {
+        this.isLoadingGetDivisi = true;
 
         await this.lookUp({
-          url: "master/slot-penyimpanan/get-slot-penyimpanan",
+          url: "master/divisi/get-divisi",
           lookup: "custom5",
           query:
             "?search=" +
-            this.slot_bin_search +
-            "&level=4" +
-            "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.divisi_search +
             "&page=" +
             this.lookup_custom5.current_page +
             "&per_page=10",
         });
 
-        this.isLoadingGetSlotBin = false;
+        this.isLoadingGetDivisi = false;
       }
+    },
+
+    onSelectDivisi(item) {
+      this.parameters.form.divisi_id = item || "";
     },
 
     // get item gudang

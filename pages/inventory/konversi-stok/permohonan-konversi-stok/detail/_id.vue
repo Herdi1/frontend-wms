@@ -60,6 +60,19 @@
               </div>
 
               <div class="flex w-full items-center">
+                <label class="w-[40%] font-bold" for="fullname"
+                  >Alasan Konversi</label
+                >
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_item.alasan_beda_plan
+                      ? this.detail_item.alasan_beda_plan.nama_alasan_beda_plan
+                      : "-"
+                  }}
+                </div>
+              </div>
+
+              <div class="flex w-full items-center">
                 <label class="w-[40%] font-bold" for="fullname">Staff</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
@@ -95,7 +108,7 @@
                   >Keterangan</label
                 >
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{ this.detail_item.keterangan }}
+                  {{ this.detail_item.keterangan || "-" }}
                 </div>
               </div>
             </div>
@@ -143,6 +156,7 @@ export default {
         tanggal_selesai: "",
         lama_pengerjaan: "",
         gudang: {},
+        alasan_beda_plan: {},
         status_approve: "",
         keterangan: "",
         konversi_stok_detail_bahan: [],

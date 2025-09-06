@@ -132,7 +132,6 @@
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                     @input="onSelectProvinsi"
                   >
-                    <!-- :reduce="(item) => item.provinsi_id" -->
                     <template slot="option" slot-scope="option">
                       {{
                         option.nama_provinsi + ", " + option.negara.nama_negara

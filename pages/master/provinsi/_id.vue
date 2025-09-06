@@ -129,7 +129,6 @@
                   :options="lookup_custom1.data"
                   :filterable="false"
                   @search="onGetNegara"
-                  :reduce="(item) => item.negara_id"
                   v-model="parameters.form.negara_id"
                 >
                   <li
@@ -172,7 +171,6 @@
                   :options="lookup_custom2.data"
                   :filterable="false"
                   @search="onGetWilayah"
-                  :reduce="(item) => item.wilayah_id"
                   v-model="parameters.form.wilayah_id"
                 >
                   <li
@@ -259,6 +257,8 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/provinsi/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.negara_id = res.data.negara ?? "";
+        this.parameters.form.wilayah_id = res.data.wilayah ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -290,6 +290,14 @@ export default {
           id: this.parameters.form.provinsi_id
             ? this.parameters.form.provinsi_id
             : "",
+          negara_id:
+            typeof this.parameters.form.negara_id === "object"
+              ? this.parameters.form.negara_id.negara_id
+              : this.parameters.form.negara_id,
+          wilayah_id:
+            typeof this.parameters.form.wilayah_id === "object"
+              ? this.parameters.form.wilayah_id.wilayah_id
+              : this.parameters.form.wilayah_id,
         },
       };
 

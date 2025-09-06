@@ -85,7 +85,7 @@
                         <tr>
                           <td style="width: 400px">Hak Akses</td>
                           <td style="width: 400px">Operator</td>
-                          <td>Opsi</td>
+                          <td class="w-[5%]">Opsi</td>
                         </tr>
                         <tr
                           v-for="(item, index) in grantsList"
@@ -390,11 +390,13 @@
                             </div>
                           </td>
                           <td>
-                            <i
-                              class="fas fa-trash"
-                              style="cursor: pointer"
-                              @click="onDeleteGrant(index)"
-                            ></i>
+                            <div class="p-1 rounded-md bg-danger text-center">
+                              <i
+                                class="fas fa-trash text-white"
+                                style="cursor: pointer"
+                                @click="onDeleteGrant(index)"
+                              ></i>
+                            </div>
                           </td>
                         </tr>
                         <tr v-if="!parameters.form.grants.length">
