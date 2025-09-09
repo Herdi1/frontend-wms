@@ -41,7 +41,6 @@
                         :filterable="false"
                         @search="onGetGudang"
                         v-model="form.gudang_id"
-                        :reduce="(item) => item.gudang_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -109,7 +108,6 @@
                         :filterable="false"
                         @search="onGetVendorPemilik"
                         v-model="form.vendor_id"
-                        :reduce="(item) => item.vendor_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -159,7 +157,6 @@
                         :filterable="false"
                         @search="onGetPelanggan"
                         v-model="form.pelanggan_id"
-                        :reduce="(item) => item.pelanggan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -211,7 +208,6 @@
                         :filterable="false"
                         @search="onGetJenisZonaGudang"
                         v-model="form.jenis_zona_gudang_id"
-                        :reduce="(item) => item.jenis_zona_gudang_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -263,7 +259,6 @@
                         :filterable="false"
                         @search="onGetSatuanStoklevel"
                         v-model="form.satuan_id_stoklevel"
-                        :reduce="(item) => item.satuan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -313,7 +308,6 @@
                         :filterable="false"
                         @search="onGetSatuanSuhu"
                         v-model="form.satuan_id_suhu"
-                        :reduce="(item) => item.satuan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -358,9 +352,9 @@
                       id="status_zona"
                       v-model="form.status_zona"
                     >
-                      <option value="f ">Fisik</option>
-                      <option value="v ">Virtual</option>
-                      <option value="c ">Crossdocking</option>
+                      <option value="f">Fisik</option>
+                      <option value="v">Virtual</option>
+                      <option value="c">Crossdocking</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -414,7 +408,6 @@
                         :filterable="false"
                         @search="onGetMetodePengambilan"
                         v-model="form.metode_pengambilan_id"
-                        :reduce="(item) => item.metode_pengambilan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -465,7 +458,6 @@
                         :filterable="false"
                         @search="onGetFungsiZona"
                         v-model="form.fungsi_zona_id"
-                        :reduce="(item) => item.fungsi_zona_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -515,7 +507,6 @@
                         :filterable="false"
                         @search="onGetGroupZona"
                         v-model="form.group_zona_id"
-                        :reduce="(item) => item.group_zona_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -567,7 +558,6 @@
                         :filterable="false"
                         @search="onGetMetodePenyimpanan"
                         v-model="form.metode_penyimpanan_id"
-                        :reduce="(item) => item.metode_penyimpanan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -750,6 +740,18 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = response.data[item];
         });
+        this.form.kapasitas = response.data.kapasitas ?? "";
+        this.form.status_zona = response.data.status_zona.trim();
+        this.form.gudang_id = response.data.gudang;
+        this.form.vendor_id = response.data.vendor;
+        this.form.pelanggan_id = response.data.pelanggan;
+        this.form.jenis_zona_gudang_id = response.data.jenis_zona_gudang;
+        this.form.satuan_id_stoklevel = response.data.satuan_stoklevel;
+        this.form.satuan_id_suhu = response.data.satuan_suhu;
+        this.form.metode_pengambilan_id = response.data.metode_pengambilan;
+        this.form.fungsi_zona_id = response.data.fungsi_zona;
+        this.form.group_zona_id = response.data.group_zona;
+        this.form.metode_penyimpanan_id = response.data.metode_penyimpanan;
 
         this.isLoadingPage = false;
       }
@@ -803,6 +805,46 @@ export default {
 
       let formData = {
         ...this.form,
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id
+            : this.form.gudang_id,
+        vendor_id:
+          typeof this.form.vendor_id === "object"
+            ? this.form.vendor_id.vendor_id
+            : this.form.vendor_id,
+        pelanggan_id:
+          typeof this.form.pelanggan_id === "object"
+            ? this.form.pelanggan_id.pelanggan_id
+            : this.form.pelanggan_id,
+        jenis_zona_gudang_id:
+          typeof this.form.jenis_zona_gudang_id === "object"
+            ? this.form.jenis_zona_gudang_id.jenis_zona_gudang_id
+            : this.form.jenis_zona_gudang_id,
+        satuan_id_stoklevel:
+          typeof this.form.satuan_id_stoklevel === "object"
+            ? this.form.satuan_id_stoklevel.satuan_id
+            : this.form.satuan_id_stoklevel,
+        satuan_id_suhu:
+          typeof this.form.satuan_id_suhu === "object"
+            ? this.form.satuan_id_suhu.satuan_id
+            : this.form.satuan_id_suhu,
+        metode_pengambilan_id:
+          typeof this.form.metode_pengambilan_id === "object"
+            ? this.form.metode_pengambilan_id.metode_pengambilan_id
+            : this.form.metode_pengambilan_id,
+        fungsi_zona_id:
+          typeof this.form.fungsi_zona_id === "object"
+            ? this.form.fungsi_zona_id.fungsi_zona_id
+            : this.form.fungsi_zona_id,
+        group_zona_id:
+          typeof this.form.group_zona_id === "object"
+            ? this.form.group_zona_id.group_zona_id
+            : this.form.group_zona_id,
+        metode_penyimpanan_id:
+          typeof this.form.metode_penyimpanan_id === "object"
+            ? this.form.metode_penyimpanan_id.metode_penyimpanan_id
+            : this.form.metode_penyimpanan_id,
       };
 
       if (this.isEditable) {

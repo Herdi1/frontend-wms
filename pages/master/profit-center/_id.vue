@@ -1,6 +1,6 @@
 <template>
   <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm min-h-screen"
   >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
@@ -54,7 +54,6 @@
                 :options="lookup_custom3.data"
                 :filterable="false"
                 @search="onGetWilayah"
-                :reduce="(item) => item.wilayah_id"
                 v-model="parameters.form.wilayah_id"
               >
                 <li
@@ -128,6 +127,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/profit-center/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.wilayah_id = res.data.wilayah ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -158,6 +158,10 @@ export default {
           id: this.parameters.form.profit_center_id
             ? this.parameters.form.profit_center_id
             : "",
+          wilayah_id:
+            typeof this.parameters.form.wilayah_id === "object"
+              ? this.parameters.form.wilayah_id.wilayah_id
+              : this.parameters.form.wilayah_id,
         },
       };
 

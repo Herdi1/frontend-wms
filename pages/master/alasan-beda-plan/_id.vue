@@ -31,7 +31,6 @@
               :options="lookup_custom1.data"
               :filterable="false"
               @search="onGetTipeAlasan"
-              :reduce="(item) => item.tipe_alasan_id"
               v-model="parameters.form.tipe_alasan_id"
             >
               <li
@@ -65,8 +64,11 @@
             />
           </div>
           <div class="form-group">
-            <label for="nama_alasan_beda_plan">Nama Alasan Beda Plan</label>
+            <label for="nama_alasan_beda_plan"
+              >Nama Alasan Beda Plan <span class="text-danger">*</span></label
+            >
             <textarea
+              required
               placeholder="Nama Alasan Beda Plan"
               class="w-full pl-2 py-1 border rounded focus:outline-none"
               v-model="parameters.form.nama_alasan_beda_plan"
@@ -119,6 +121,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/alasan-beda-plan/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.tipe_alasan_id = res.data.tipe_alasan;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -188,6 +191,10 @@ export default {
           id: this.parameters.form.alasan_beda_plan_id
             ? this.parameters.form.alasan_beda_plan_id
             : "",
+          tipe_alasan_id:
+            typeof this.parameters.form.tipe_alasan_id === "object"
+              ? this.parameters.form.tipe_alasan_id.tipe_alasan_id
+              : this.parameters.form.tipe_alasan_id,
         },
       };
 

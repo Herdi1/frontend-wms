@@ -27,7 +27,7 @@
               type="text"
               name="kode_master_rute_lokasi"
               v-model="parameters.form.kode_master_rute_lokasi"
-              :required="false"
+              :required="true"
             />
           </div>
           <ValidationProvider rules="required">
@@ -42,7 +42,6 @@
                 :filterable="false"
                 @search="onGetGudang"
                 v-model="parameters.form.gudang_id"
-                :reduce="(item) => item.gudang_id"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -86,7 +85,6 @@
                 :filterable="false"
                 @search="onGetLokasiAwal"
                 v-model="parameters.form.lokasi_id_awal"
-                :reduce="(item) => item.lokasi_id"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -130,7 +128,6 @@
                 :filterable="false"
                 @search="onGetLokasiTujuan"
                 v-model="parameters.form.lokasi_id_tujuan"
-                :reduce="(item) => item.lokasi_id"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -266,6 +263,10 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/rute-lokasi/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.lokasi_id_awal = res.data.lokasi_awal ?? "";
+        this.parameters.form.lokasi_id_tujuan = res.data.lokasi_tujuan ?? "";
+        this.parameters.form.jarak = res.data.jarak ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -304,6 +305,18 @@ export default {
           id: this.parameters.form.master_rute_lokasi_id
             ? this.parameters.form.master_rute_lokasi_id
             : "",
+          gudang_id:
+            typeof this.parameters.form.gudang_id === "object"
+              ? this.parameters.form.gudang_id.gudang_id
+              : this.parameters.form.gudang_id,
+          lokasi_id_awal:
+            typeof this.parameters.form.lokasi_id_awal === "object"
+              ? this.parameters.form.lokasi_id_awal.lokasi_id
+              : this.parameters.form.lokasi_id_awal,
+          lokasi_id_tujuan:
+            typeof this.parameters.form.lokasi_id_tujuan === "object"
+              ? this.parameters.form.lokasi_id_tujuan.lokasi_id
+              : this.parameters.form.lokasi_id_tujuan,
         },
       };
 

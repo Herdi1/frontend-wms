@@ -1,6 +1,6 @@
 <template>
   <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm min-h-screen"
   >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">

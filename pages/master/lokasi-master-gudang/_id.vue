@@ -26,7 +26,7 @@
                   type="text"
                   name="nama_slot_penyimpanan"
                   v-model="parameters.form.nama_slot_penyimpanan"
-                  :required="false"
+                  :required="true"
                 />
               </div>
               <div class="form-group">
@@ -35,11 +35,10 @@
                   type="text"
                   name="kode_slot_penyimpanan"
                   v-model="parameters.form.kode_slot_penyimpanan"
-                  :required="false"
+                  :required="true"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <ValidationProvider name="gudang" v-if="!user.gudang_id">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12"
@@ -52,7 +51,6 @@
                     :options="lookup_custom2.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.form.gudang_id"
                     @input="onSelectGudang"
                   >
@@ -92,7 +90,6 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetZonaGudang"
-                    :reduce="(item) => item.zona_gudang_id"
                     v-model="parameters.form.zona_gudang_id"
                     @input="onSelectZonaGudang"
                   >
@@ -120,11 +117,11 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <div class="form-group">
-                <label for="">Level</label>
+                <label for="">Level <span class="text-danger">*</span></label>
                 <select
+                  required
                   name=""
                   id=""
                   v-model="parameters.form.level"
@@ -147,7 +144,6 @@
                     :options="lookup_custom3.data"
                     :filterable="false"
                     @search="onGetSlotInduk"
-                    :reduce="(item) => item.slot_penyimpanan_id"
                     v-model="parameters.form.slot_penyimpanan_id_induk"
                   >
                     <li
@@ -183,8 +179,7 @@
                   :required="false"
                 />
               </div> -->
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <div class="form-group col-12">
                 <label for="kapasitas">Kapasitas</label>
                 <money
@@ -266,10 +261,15 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/slot-penyimpanan/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.kapasitas = res.data.kapasitas ?? "";
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.zona_gudang_id = res.data.zona_gudang;
+        this.parameters.form.slot_penyimpanan_id_induk =
+          res.data.slot_penyimpanan_induk;
         this.isLoadingPage = false;
       }
       if (this.user.gudang_id) {
-        this.parameters.form.gudang = this.user.gudang_id;
+        this.parameters.form.gudang = this.user.gudang;
       }
     } catch (error) {
       // console.log("error", error);
@@ -308,6 +308,19 @@ export default {
           id: this.parameters.form.slot_penyimpanan_id
             ? this.parameters.form.slot_penyimpanan_id
             : "",
+          gudang_id:
+            typeof this.parameters.form.gudang_id === "object"
+              ? this.parameters.form.gudang_id.gudang_id
+              : this.parameters.form.gudang_id,
+          zona_gudang_id:
+            typeof this.parameters.form.zona_gudang_id === "object"
+              ? this.parameters.form.zona_gudang_id.zona_gudang_id
+              : this.parameters.form.zona_gudang_id,
+          slot_penyimpanan_id_induk:
+            typeof this.parameters.form.slot_penyimpanan_id_induk === "object"
+              ? this.parameters.form.slot_penyimpanan_id_induk
+                  .slot_penyimpanan_id
+              : this.parameters.form.slot_penyimpanan_id_induk,
         },
       };
 
@@ -374,7 +387,7 @@ export default {
             "?search=" +
             this.zona_gudang_search +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -454,11 +467,11 @@ export default {
             "?search=" +
             this.slot_induk_search +
             "&gudang_id=" +
-            this.parameters.form.gudang_id +
+            this.parameters.form.gudang_id.gudang_id +
             "&zona_gudang_id=" +
-            this.parameters.form.zona_gudang_id +
+            this.parameters.form.zona_gudang_id.zona_gudang_id +
             "&level=" +
-            (this.parameters.form.level - 1) +
+            this.parameters.form.level +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",

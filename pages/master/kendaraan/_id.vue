@@ -49,6 +49,14 @@
                         "
                         @input="(item) => onSelectJenis(item)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_jenis_kendaraan }}
+                          </div>
+                               </template
+                        >
                         <!-- :reduce="(item) => item.jenis_kendaraan_id" -->
                         <li
                           slot-scope="{ search }"
@@ -100,6 +108,14 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_gudang }}
+                          </div>
+                               </template
+                        >
                         <!-- :reduce="(item) => item.gudang_id" -->
                         <li
                           slot-scope="{ search }"
@@ -145,12 +161,19 @@
                         :filterable="false"
                         @search="onGetVendor"
                         v-model="form.vendor_id"
-                        :reduce="(item) => item.vendor_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_vendor }}
+                          </div>
+                               </template
+                        >
                         <!-- <template #search="{ attributes, events }">
                           <input
                             class="w-full outline-none active:outline-none"
@@ -212,6 +235,14 @@
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_vendor }}
+                          </div>
+                               </template
+                        >
                         <!-- :reduce="(item) => item.vendor_id" -->
                         <li
                           slot-scope="{ search }"
@@ -259,12 +290,19 @@
                         :filterable="false"
                         @search="onGetStandarJenis"
                         v-model="form.standar_jenis_kendaraan_id"
-                        :reduce="(item) => item.standar_jenis_kendaraan_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.kode_standar_jenis_kendaraan }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -437,7 +475,6 @@
                       :filterable="false"
                       @search="onGetTipePlat"
                       v-model="form.tipe_plat_id"
-                      :reduce="(item) => item.tipe_plat_id"
                       class="w-full bg-white"
                     >
                       <li
@@ -536,7 +573,7 @@
                 />
               </div>
               <div
-                class="p-4 w-full md:w-4/12 dark:bg-slate-800 rounded-md border border-gray-300"
+                class="p-4 w-full md:w-4/12 dark:bg-slate-800 bg-white rounded-md border border-gray-300"
               >
                 <div class="w-full flex justify-between items-center">
                   <h1 class="text-xl font-bold">Pengemudi</h1>
@@ -594,7 +631,6 @@
                             :filterable="false"
                             @search="onGetDriver"
                             v-model="item.staff_id"
-                            :reduce="(item) => item.staff_id"
                             class="w-full bg-white"
                           >
                             <li
@@ -796,6 +832,10 @@ export default {
         this.form.gudang_id = response.data.gudang;
         this.form.vendor_id_operator = response.data.vendor_operator;
         this.form.jenis_kendaraan_id = response.data.jenis_kendaraan;
+        this.form.vendor_id = response.data.vendor;
+        this.form.standar_jenis_kendaraan_id =
+          response.data.standar_jenis_kendaraan;
+        this.form.tipe_plat_id = response.data.tipe_plat;
 
         this.form.pengemudi_kendaraans = response.data.pengemudi_kendaraan.map(
           (item) => {
@@ -1224,6 +1264,18 @@ export default {
           typeof this.form.jenis_kendaraan_id === "object"
             ? this.form.jenis_kendaraan_id.jenis_kendaraan_id
             : this.form.jenis_kendaraan_id,
+        vendor_id:
+          typeof this.form.vendor_id === "object"
+            ? this.form.vendor_id.vendor_id
+            : this.form.vendor_id,
+        standar_jenis_kendaraan_id:
+          typeof this.form.standar_jenis_kendaraan_id === "object"
+            ? this.form.standar_jenis_kendaraan_id.standar_jenis_kendaraan_id
+            : this.form.standar_jenis_kendaraan_id,
+        tipe_plat_id:
+          typeof this.form.tipe_plat_id === "object"
+            ? this.form.tipe_plat_id.tipe_plat_id
+            : this.form.tipe_plat_id,
       };
 
       formData.pengemudi_kendaraans = formData.pengemudi_kendaraans.map(

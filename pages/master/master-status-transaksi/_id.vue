@@ -53,6 +53,7 @@
               name="jenis_proses_transaksi_id"
               rules="required"
               ref="ruteProvider"
+              v-if="parameters.form.modul"
             >
               <div class="form-group" slot-scope="{ errors, valid }">
                 <label for="jenis_proses_transaksi_id"
@@ -63,7 +64,6 @@
                   name="jenis_proses_transaksi_id"
                   id="jenis_proses_transaksi_id"
                   v-model="parameters.form.jenis_proses_transaksi_id"
-                  :disabled="!parameters.form.modul"
                   :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 >
                   <option value="">Pilih</option>

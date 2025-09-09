@@ -21,7 +21,7 @@
           <div
             class="modal-body mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Kode Vendor -->
               <ValidationProvider
                 name="kode_vendor"
@@ -73,7 +73,7 @@
               </ValidationProvider>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Alias -->
               <div class="form-group">
                 <input-form
@@ -166,7 +166,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Email Vendor -->
               <div class="form-group">
                 <input-form
@@ -199,7 +199,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- User PIC -->
               <div class="form-group w-full items-center mb-5">
                 <label for="" class="w-4/12">User PIC</label>
@@ -255,7 +255,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
               <!-- Tipe Vendor -->
               <ValidationProvider name="status" rules="required">
                 <div
@@ -299,7 +299,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Negara -->
               <ValidationProvider name="id_negara" rules="required">
                 <div
@@ -445,7 +445,7 @@
               </ValidationProvider>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Kecamatan -->
               <ValidationProvider name="id_kecamatan" rules="required">
                 <div
@@ -559,7 +559,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Longitude -->
               <ValidationProvider
                 name="longitude"
@@ -616,7 +616,7 @@
               </ValidationProvider>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Nama Contact Person -->
               <div class="form-group">
                 <input-form
@@ -672,7 +672,7 @@
           <div
             class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <!-- Nama Pemilik -->
               <div class="form-group">
                 <input-form
@@ -706,7 +706,7 @@
                 />
               </div>
             </div>
-            <div class="grid grid-cols-3 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
               <ValidationProvider name="id_negara_pemilik">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12">Negara Pemilik</label>
@@ -822,7 +822,7 @@
                 </div>
               </ValidationProvider>
             </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
               <ValidationProvider name="id_kecamatan_pemilik">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12">Kecamatan Pemilik</label>
@@ -1051,6 +1051,7 @@ export default {
         this.parameters.form.user_id_pic = response.data.user_pic ?? "";
         this.parameters.form.tipe_vendor_id = response.data.tipe_vendor ?? "";
         this.parameters.form.kode_pos_id = response.data.kode_pos ?? "";
+        this.parameters.form.radius = response.data.radius ?? "";
 
         this.parameters.form.negara_id_pemilik =
           response.data.negara_pemilik ?? "";

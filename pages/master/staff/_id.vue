@@ -48,7 +48,6 @@
                 :filterable="false"
                 @search="onGetGudang"
                 v-model="parameters.form.gudang_id"
-                :reduce="(item) => item.gudang_id"
                 class="w-full"
               >
                 <!-- :aria-disabled="parameters.form.status_user == 2" -->
@@ -263,7 +262,6 @@
                   :options="lookup_custom1.data"
                   :filterable="false"
                   @search="onGetJabatan"
-                  :reduce="(item) => item.jabatan_id"
                   v-model="parameters.form.jabatan_id"
                   :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 >
@@ -303,7 +301,6 @@
                 :filterable="false"
                 @search="onGetPelanggan"
                 v-model="parameters.form.pelanggan_id"
-                :reduce="(item) => item.pelanggan_id"
                 class="w-full"
               >
                 <!-- :aria-disabled="parameters.form.status_user == 2" -->
@@ -339,7 +336,6 @@
                 :filterable="false"
                 @search="onGetTipeSIM"
                 v-model="parameters.form.tipe_sim_id"
-                :reduce="(item) => item.tipe_sim_id"
                 class="w-full"
               >
                 <!-- :aria-disabled="parameters.form.status_user == 2" -->
@@ -383,7 +379,6 @@
                   :filterable="false"
                   @search="onGetVendor"
                   v-model="parameters.form.vendor_id_operator"
-                  :reduce="(item) => item.vendor_id"
                   class="w-full"
                   :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                 >
@@ -488,7 +483,6 @@
                         :options="lookup_custom5.data"
                         :filterable="false"
                         @search="onGetBank"
-                        :reduce="(item) => item.bank_id"
                         v-model="item.bank_id"
                       >
                         <li
@@ -683,11 +677,17 @@ export default {
             this.parameters.form[item] = res.data[item];
           }
         });
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.jabatan_id = res.data.jabatan;
+        this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
+        this.parameters.form.tipe_sim_id = res.data.tipe_sim ?? "";
+        this.parameters.form.vendor_id_operator = res.data.vendor_operator;
         this.parameters.form.rekening_staffs = res.data.rekening_staff.map(
           (item) => {
             return {
               ...item,
               rekening_staffs_id: item,
+              bank_id: item.bank,
             };
           }
         );
@@ -723,12 +723,36 @@ export default {
 
       let formData = {
         ...this.parameters.form,
+        gudang_id:
+          typeof this.parameters.form.gudang_id === "object"
+            ? this.parameters.form.gudang_id.gudang_id
+            : this.parameters.form.gudang_id,
+        jabatan_id:
+          typeof this.parameters.form.jabatan_id === "object"
+            ? this.parameters.form.jabatan_id.jabatan_id
+            : this.parameters.form.jabatan_id,
+        pelanggan_id:
+          typeof this.parameters.form.pelanggan_id === "object"
+            ? this.parameters.form.pelanggan_id.pelanggan_id
+            : this.parameters.form.pelanggan_id,
+        tipe_sim_id:
+          typeof this.parameters.form.tipe_sim_id === "object"
+            ? this.parameters.form.tipe_sim_id.tipe_sim_id
+            : this.parameters.form.tipe_sim_id,
+        vendor_id_operator:
+          typeof this.parameters.form.vendor_id_operator === "object"
+            ? this.parameters.form.vendor_id_operator.vendor_id
+            : this.parameters.form.vendor_id_operator,
         rekening_staffs: this.parameters.form.rekening_staffs.map((item) => {
           return {
             ...item,
             rekening_staffs: item.rekening_staff_id
               ? item.rekening_staff_id
               : "",
+            bank_id:
+              typeof item.bank_id === "object"
+                ? item.bank_id.bank_id
+                : item.bank_id,
           };
         }),
       };

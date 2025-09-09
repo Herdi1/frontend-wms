@@ -1,6 +1,6 @@
 <template>
   <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm min-h-screen"
   >
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
@@ -26,7 +26,7 @@
               type="text"
               name="kode_peralatan"
               v-model="parameters.form.kode_peralatan"
-              :required="false"
+              :required="true"
             />
           </div>
           <div class="form-group">
@@ -63,6 +63,49 @@
 
           <ValidationProvider rules="required">
             <div slot-scope="{ errors, valid }">
+              <label for="gudang_id"
+                >Gudang<span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_gudang"
+                :loading="isLoadingGetGudang"
+                :options="lookup_location.data"
+                :filterable="false"
+                @search="onGetGudang"
+                v-model="parameters.form.gudang_id"
+                class="w-full mb-2 bg-white"
+                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_location.data.length || search"
+                >
+                  <span
+                    v-if="lookup_location.current_page > 1"
+                    @click="onGetGudang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_location.last_page > lookup_location.current_page
+                    "
+                    @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                errors[0]
+              }}</span>
+            </div>
+          </ValidationProvider>
+
+          <ValidationProvider rules="required">
+            <div slot-scope="{ errors, valid }">
               <label for="jenis_peralatan_id"
                 >Jenis Peralatan<span class="text-danger">*</span></label
               >
@@ -73,7 +116,6 @@
                 :filterable="false"
                 @search="onGetJenisPeralatan"
                 v-model="parameters.form.jenis_peralatan_id"
-                :reduce="(item) => item.jenis_peralatan_id"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -117,7 +159,6 @@
                 :filterable="false"
                 @search="onGetVendorPemilik"
                 v-model="parameters.form.vendor_id"
-                :reduce="(item) => item.vendor_id"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -138,50 +179,6 @@
                       lookup_defects.last_page > lookup_defects.current_page
                     "
                     @click="onGetVendorPemilik(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-              <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                errors[0]
-              }}</span>
-            </div>
-          </ValidationProvider>
-
-          <ValidationProvider rules="required">
-            <div slot-scope="{ errors, valid }">
-              <label for="gudang_id"
-                >Gudang<span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_gudang"
-                :loading="isLoadingGetGudang"
-                :options="lookup_location.data"
-                :filterable="false"
-                @search="onGetGudang"
-                v-model="parameters.form.gudang_id"
-                :reduce="(item) => item.gudang_id"
-                class="w-full mb-2 bg-white"
-                :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_location.data.length || search"
-                >
-                  <span
-                    v-if="lookup_location.current_page > 1"
-                    @click="onGetGudang(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_location.last_page > lookup_location.current_page
-                    "
-                    @click="onGetGudang(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -248,6 +245,9 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/peralatan/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.jenis_peralatan_id = res.data.jenis_peralatan;
+        this.parameters.form.vendor_id = res.data.vendor;
+        this.parameters.form.gudang_id = res.data.gudang;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -286,6 +286,18 @@ export default {
           id: this.parameters.form.peralatan_id
             ? this.parameters.form.peralatan_id
             : "",
+          gudang_id:
+            typeof this.parameters.form.gudang_id === "object"
+              ? this.parameters.form.gudang_id.gudang_id
+              : this.parameters.form.gudang_id,
+          jenis_peralatan_id:
+            typeof this.parameters.form.jenis_peralatan_id === "object"
+              ? this.parameters.form.jenis_peralatan_id.jenis_peralatan_id
+              : this.parameters.form.jenis_peralatan_id,
+          vendor_id:
+            typeof this.parameters.form.vendor_id === "object"
+              ? this.parameters.form.vendor_id.vendor_id
+              : this.parameters.form.vendor_id,
         },
       };
 

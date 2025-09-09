@@ -34,7 +34,6 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetJenisKendaraan"
-                    :reduce="(item) => item.jenis_kendaraan_id"
                     v-model="parameters.form.jenis_kendaraan_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -81,7 +80,6 @@
                     :options="lookup_custom2.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.form.gudang_id"
                     :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
                   >
@@ -304,7 +302,6 @@
                   :options="lookup_custom3.data"
                   :filterable="false"
                   @search="onGetDimensi"
-                  :reduce="(item) => item.satuan_id"
                   v-model="parameters.form.satuan_id_dimensi"
                 >
                   <li
@@ -349,7 +346,6 @@
                   :options="lookup_custom4.data"
                   :filterable="false"
                   @search="onGetVolume"
-                  :reduce="(item) => item.satuan_id"
                   v-model="parameters.form.satuan_id_volume"
                 >
                   <li
@@ -474,6 +470,11 @@ export default {
         this.parameters.form.maksimal_lebar = res.data.maksimal_lebar ?? 0;
         this.parameters.form.maksimal_tinggi = res.data.maksimal_tinggi ?? 0;
         this.parameters.form.maksimal_volume = res.data.maksimal_volume ?? 0;
+        this.parameters.form.jenis_kendaraan_id =
+          res.data.jenis_kendaraan ?? "";
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.satuan_id_dimensi = res.data.satuan_dimensi ?? "";
+        this.parameters.form.satuan_id_volume = res.data.satuan_volume ?? "";
 
         this.isLoadingPage = false;
       }
@@ -508,6 +509,22 @@ export default {
           id: this.parameters.form.standar_jenis_kendaraan_id
             ? this.parameters.form.standar_jenis_kendaraan_id
             : "",
+          jenis_kendaraan_id:
+            typeof this.parameters.form.jenis_kendaraan_id === "object"
+              ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+              : this.parameters.form.jenis_kendaraan_id,
+          gudang_id:
+            typeof this.parameters.form.gudang_id === "object"
+              ? this.parameters.form.gudang_id.gudang_id
+              : this.parameters.form.gudang_id,
+          satuan_id_dimensi:
+            typeof this.parameters.form.satuan_id_dimensi === "object"
+              ? this.parameters.form.satuan_id_dimensi.satuan_id
+              : this.parameters.form.satuan_id_dimensi,
+          satuan_id_volume:
+            typeof this.parameters.form.satuan_id_volume === "object"
+              ? this.parameters.form.satuan_id_volume.satuan_id
+              : this.parameters.form.satuan_id_volume,
         },
       };
 

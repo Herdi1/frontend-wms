@@ -32,7 +32,6 @@
                 :options="lookup_custom1.data"
                 :filterable="false"
                 @search="onGetVendor"
-                :reduce="(item) => item.vendor_id"
                 v-model="parameters.form.vendor_id_operator"
               >
                 <li
@@ -104,8 +103,11 @@
             </div>
 
             <div class="form-group">
-              <label for="alamat">Alamat Pengemudi</label>
+              <label for="alamat"
+                >Alamat Pengemudi <span class="text-danger">*</span></label
+              >
               <textarea
+                required
                 placeholder="Alamat Pengemudi"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="parameters.form.alamat"
@@ -168,6 +170,8 @@ export default {
         this.parameters.form = res.data;
         this.parameters.form.status_pengemudi =
           res.data.status_pengemudi.trim();
+        this.parameters.form.vendor_id_operator =
+          res.data.vendor_operator ?? "";
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -194,6 +198,10 @@ export default {
           id: this.parameters.form.pengemudi_id
             ? this.parameters.form.pengemudi_id
             : "",
+          vendor_id_operator:
+            typeof this.parameters.form.vendor_id_operator === "object"
+              ? this.parameters.form.vendor_id_operator.vendor_id
+              : this.parameters.form.vendor_id_operator,
         },
       };
 

@@ -19,18 +19,17 @@
           autocomplete="off"
         >
           <div class="modal-body mt-4">
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
               <div class="form-group">
                 <input-form
                   label="Kode Lokasi Gudang"
                   type="text"
                   name="kode_lokasi_gudang"
                   v-model="parameters.form.kode_lokasi_gudang"
-                  :required="false"
+                  :required="true"
                 />
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <ValidationProvider name="gudang" v-if="!user.gudang_id">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12"
@@ -43,9 +42,9 @@
                     :options="lookup_custom2.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    :reduce="(item) => item.gudang_id"
                     v-model="parameters.form.gudang_id"
                   >
+                    <!-- :reduce="(item) => item.gudang_id" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -82,9 +81,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetLokasi"
-                    :reduce="(item) => item.lokasi_id"
                     v-model="parameters.form.lokasi_id"
                   >
+                    <!-- :reduce="(item) => item.lokasi_id" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -109,8 +108,7 @@
                   </v-select>
                 </div>
               </ValidationProvider>
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <ValidationProvider name="gudang">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12">Jalur Lokasi</label>
@@ -121,9 +119,9 @@
                     :options="lookup_custom3.data"
                     :filterable="false"
                     @search="onGetJalurLokasi"
-                    :reduce="(item) => item.jalur_lokasi_id"
                     v-model="parameters.form.jalur_lokasi_id"
                   >
+                    <!-- :reduce="(item) => item.jalur_lokasi_id" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -149,8 +147,11 @@
                 </div>
               </ValidationProvider>
               <div class="form-group">
-                <label for="">Status Plant</label>
+                <label for=""
+                  >Status Plant <span class="text-danger">*</span></label
+                >
                 <select
+                  required
                   name=""
                   id=""
                   v-model="parameters.form.is_plant"
@@ -160,11 +161,13 @@
                   <option value="1">Plant</option>
                 </select>
               </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
               <div class="form-group">
-                <label for="">Status Shipto</label>
+                <label for=""
+                  >Status Shipto <span class="text-danger">*</span></label
+                >
                 <select
+                  required
                   name=""
                   id=""
                   v-model="parameters.form.is_shipto"
@@ -175,8 +178,11 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="">Status Warehouse</label>
+                <label for=""
+                  >Status Warehouse <span class="text-danger">*</span></label
+                >
                 <select
+                  required
                   name=""
                   id=""
                   v-model="parameters.form.is_warehouse"
@@ -186,15 +192,15 @@
                   <option value="1">Warehouse</option>
                 </select>
               </div>
-            </div>
-            <div class="grid grid-cols-1 w-full">
-              <label for="keterangan" class="mb-2">Keterangan</label>
-              <textarea
-                class="p-1 rounded-md border border-gray-300 outline-none w-full"
-                name="keterangan"
-                id="keterangan"
-                v-model="parameters.form.keterangan"
-              ></textarea>
+              <div>
+                <label for="keterangan" class="mb-2">Keterangan</label>
+                <textarea
+                  class="p-1 rounded-md border border-gray-300 outline-none w-full"
+                  name="keterangan"
+                  id="keterangan"
+                  v-model="parameters.form.keterangan"
+                ></textarea>
+              </div>
             </div>
           </div>
           <modal-footer-section
@@ -265,6 +271,9 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`master/lokasi-gudang/${this.id}`);
         this.parameters.form = res.data;
+        this.parameters.form.gudang_id = res.data.gudang;
+        this.parameters.form.lokasi_id = res.data.lokasi;
+        this.parameters.form.jalur_lokasi_id = res.data.jalur_lokasi;
         this.isLoadingPage = false;
       }
       if (this.user.gudang_id) {
@@ -300,46 +309,60 @@ export default {
 
       this.isLoadingForm = true;
 
-      let parameters = {
-        ...this.parameters,
-        form: {
-          ...this.parameters.form,
-          id: this.parameters.form.lokasi_gudang_id
-            ? this.parameters.form.lokasi_gudang_id
-            : "",
-        },
+      let url = this.parameters.url;
+
+      let formData = {
+        ...this.parameters.form,
+        gudang_id:
+          typeof this.parameters.form.gudang_id === "object"
+            ? this.parameters.form.gudang_id.gudang_id
+            : this.parameters.form.gudang_id,
+        lokasi_id:
+          typeof this.parameters.form.lokasi_id === "object"
+            ? this.parameters.form.lokasi_id.lokasi_id
+            : this.parameters.form.lokasi_id,
+        jalur_lokasi_id:
+          typeof this.parameters.form.jalur_lokasi_id === "object"
+            ? this.parameters.form.jalur_lokasi_id.jalur_lokasi_id
+            : this.parameters.form.jalur_lokasi_id,
       };
 
       if (this.isEditable) {
-        await this.updateData(parameters);
-      } else {
-        await this.addData(parameters);
+        url += "/" + this.id;
       }
 
-      if (this.result == true) {
-        this.$toaster.success(
-          "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
-        );
-
-        this.isEditable = false;
-        this.parameters.form = {
-          kode_lokasi_gudang: "",
-          gudang_id: "",
-          lokasi_id: "",
-          jalur_lokasi_id: "",
-          is_plant: "",
-          is_shipto: "",
-          is_warehouse: "",
-          keterangan: "",
-        };
-        this.$refs.formValidate.reset();
-        // this.$refs.ruteProvider.reset();
-        this.$router.back();
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-      }
-
-      this.isLoadingForm = false;
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "PUT" : "POST",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Data berhasil di " +
+              (this.isEditable == true ? "Diedit" : "Tambah")
+          );
+          if (!this.isEditable) {
+            this.parameters.form = {
+              kode_lokasi_gudang: "",
+              gudang_id: "",
+              lokasi_id: "",
+              jalur_lokasi_id: "",
+              is_plant: "",
+              is_shipto: "",
+              is_warehouse: "",
+              keterangan: "",
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+          // this.$refs.ruteProvider.reset();
+        });
     },
 
     onGetLokasi(search, isNext) {

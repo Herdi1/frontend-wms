@@ -327,7 +327,7 @@ export default {
 
   components: {},
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     // this.$refs["form-option"].isMaintenancePage = true;
@@ -364,7 +364,8 @@ export default {
     }
 
     this.user_agent = navigator.userAgent;
-    console.log(this.user_agent);
+    // console.log(this.user_agent);
+    await this.onSearchGudang();
   },
 
   data() {
