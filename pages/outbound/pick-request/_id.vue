@@ -288,6 +288,10 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
+      isStopSearchItemGudang: false,
+      isLoadingGetItemGudang: false,
+      item_gudang_search: "",
+
       isStopSearchPelanggan: false,
       isLoadingGetPelanggan: false,
       pelanggan_search: "",
@@ -780,7 +784,7 @@ export default {
           query:
             "?search=" +
             this.item_gudang_search +
-            "&gudang_id" +
+            "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_defects.current_page +

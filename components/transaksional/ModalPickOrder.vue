@@ -6,7 +6,7 @@
       aria-hidden="true"
       id="modal-detail"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog mb-5">
         <div class="modal-content">
           <div class="modal-header flex justify-between text-xl font-bold mb-3">
             <button
@@ -20,14 +20,14 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body max-h-[600px] mb-5">
             <div class="card-title">
               <list-option-section :self="this" ref="form-option" />
             </div>
             <div class="table-responsive">
               <table class="mb-5 border border-gray-300" ref="formContainer">
                 <thead>
-                  <tr class="uppercase">
+                  <tr class="uppercase text-nowrap">
                     <th
                       class="w-[30%] cursor-pointer"
                       @click="
@@ -167,7 +167,7 @@
                     <th class="w-[5%]">Options</th>
                   </tr>
                 </thead>
-                <tbody class="min-h-[500px]">
+                <tbody class="max-h-[500px] overflow-auto">
                   <tr v-for="(item, i) in data" :key="i">
                     <td class="border border-gray-300">
                       <div>
@@ -233,6 +233,7 @@ export default {
         url: "",
         type: "pdf",
         params: {
+          gudang_id: "",
           soft_deleted: "",
           search: "",
           order: "pick_order_id",

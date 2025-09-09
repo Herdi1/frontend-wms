@@ -202,7 +202,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="3" class="border border-gray-300 text-right">
+            <td colspan="4" class="border border-gray-300 text-right">
               Grand Total
             </td>
             <td class="border border-gray-300 text-right">

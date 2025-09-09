@@ -1129,6 +1129,8 @@ export default {
 
     async onOpenModal() {
       if (this.parameters.form.gudang_id) {
+        this.$refs.modalPickOrder.parameters.params.gudang_id =
+          this.parameters.form.gudang_id.gudang_id;
         this.$refs.modalPickOrder.show();
         await this.$refs.modalPickOrder.onLoad();
       } else {

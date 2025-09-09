@@ -20,7 +20,7 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body max-h-[600px] mb-5">
             <div class="card-title">
               <list-option-section :self="this" ref="form-option" />
             </div>

@@ -1,9 +1,9 @@
 <template>
   <div
-    :class="`absolute left-5 top-5 mt-2 bg-white border border-gray-200 rounded shadow-lg z-50 p-3 dark:bg-slate-700 dark:border-none`"
-    :style="{ top: room.y + 'px', left: room.x + 'px' }"
+    :class="`w-full  p-3 dark:bg-slate-700 dark:border-none`"
     v-if="visible && !isLoading"
   >
+    <!-- :style="{ top: room.y + 'px', left: room.x + 'px' }" -->
     <div class="w-full">
       <div class="flex justify-between items-center gap-3">
         <p>Nama Zona</p>
@@ -15,11 +15,21 @@
       </div>
       <div class="flex justify-between items-center gap-3">
         <p>Kapasitas</p>
-        <p class="font-bold">{{ room.zona_gudang.kapasitas }}</p>
+        <p class="font-bold">{{ room.zona_gudang.kapasitas | formatPrice }}</p>
       </div>
       <div class="flex justify-between items-center gap-3">
         <p>Kapasitas Terisi</p>
-        <p class="font-bold">{{ room.total_quantity }}</p>
+        <p
+          class="font-bold"
+          :class="
+            parseFloat(room.total_quantity) >
+            parseFloat(room.zona_gudang.kapasitas)
+              ? `text-danger`
+              : ''
+          "
+        >
+          {{ room.total_quantity | formatPrice }}
+        </p>
       </div>
       <!-- <div class="flex justify-between items-center gap-3">
         <p>Gudang</p>
@@ -42,7 +52,8 @@
               {{ stok.item_gudang.kode_item }}
             </td>
             <td class="border border-gray-300">
-              {{ stok.quantity }} {{ stok.valuation.kode_valuation }}
+              {{ stok.quantity }}
+              {{ stok.valuation ? stok.valuation.nama_valuation : "" }}
             </td>
             <td class="border border-gray-300">
               {{ stok.harga }}

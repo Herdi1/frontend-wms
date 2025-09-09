@@ -31,7 +31,7 @@
         </div>
 
         <div class="flex gap-3 w-full">
-          <div class="">
+          <div class="max-w-[400px]">
             <ValidationProvider name="gudang_id">
               <select-button
                 :self="{
@@ -43,8 +43,8 @@
                   isLoadingL: isLoadingGetGudang,
                   input: onSelectGudang,
                 }"
-                width="w-[50%]"
-                class="mb-5 w-[500px]"
+                width="w-[70%]"
+                class="mb-5 w-[350px]"
               />
             </ValidationProvider>
 
@@ -87,7 +87,7 @@
             </div>
             <div class="mb-3 max-h-[500px] overflow-auto w-full">
               <h2 class="font-bold text-base mb-1">Zona</h2>
-              <ul class="w-[500px] pl-2">
+              <ul class="w-full pl-2">
                 <li
                   v-for="(room, i) in rooms"
                   :key="i"
@@ -528,6 +528,7 @@ export default {
                 .filter(
                   (zona) =>
                     zona.status_zona.trim() !== "v" &&
+                    zona.status_zona.trim() !== "c" &&
                     !this.rooms.some(
                       (data) => data.zona_gudang_id === zona.zona_gudang_id
                     )
@@ -554,7 +555,11 @@ export default {
               this.rooms = [];
               this.zona_gudangs = [];
               this.zona_gudangs = res.data.data
-                .filter((data) => data.status_zona.trim() !== "v")
+                .filter(
+                  (data) =>
+                    data.status_zona.trim() !== "v" &&
+                    zona.status_zona.trim() !== "c"
+                )
                 .map((item) => {
                   return {
                     zona_gudang_id: item.zona_gudang_id,

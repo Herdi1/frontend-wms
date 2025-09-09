@@ -169,10 +169,10 @@
                       <v-select
                         :disabled="isEditable"
                         label="nama_coa"
-                        :loading="isLoadingGetCoa"
-                        :options="lookup_custom2.data"
+                        :loading="isLoadingGetCoaBiaya"
+                        :options="lookup_custom7.data"
                         :filterable="false"
-                        @search="onGetCoa"
+                        @search="onGetCoaBiaya"
                         v-model="form.coa_id_biaya"
                         class="w-1/2"
                         @input="(item) => onSelectCoaBiaya(item)"
@@ -181,20 +181,20 @@
                           slot-scope="{ search }"
                           slot="list-footer"
                           class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom2.data.length || search"
+                          v-if="lookup_custom7.data.length || search"
                         >
                           <span
-                            v-if="lookup_custom2.current_page > 1"
-                            @click="onGetCoa(search, false)"
+                            v-if="lookup_custom7.current_page > 1"
+                            @click="onGetCoaBiaya(search, false)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Sebelumnya</span
                           >
                           <span
                             v-if="
-                              lookup_custom2.last_page >
-                              lookup_custom2.current_page
+                              lookup_custom7.last_page >
+                              lookup_custom7.current_page
                             "
-                            @click="onGetCoa(search, true)"
+                            @click="Biaya(search, true)"
                             class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                             >Selanjutnya</span
                           >
@@ -660,6 +660,10 @@ export default {
       isLoadingGetCoa: false,
       coa_search: "",
 
+      isStopSearchCoaBiaya: false,
+      isLoadingGetCoaBiaya: false,
+      coa_biaya_search: "",
+
       isStopSearchDivisi: false,
       isLoadingGetDivisi: false,
       divisi_search: "",
@@ -717,6 +721,7 @@ export default {
   async mounted() {
     await this.onSearchGudang();
     await this.onSearchCoa();
+    await this.onSearchCoaBiaya();
     await this.onSearchDivisi();
     await this.onSearchPelanggan();
     await this.onSearchStaff();
@@ -732,6 +737,7 @@ export default {
       "lookup_custom4",
       "lookup_custom5",
       "lookup_custom6",
+      "lookup_custom7",
     ]),
 
     totalNominal() {
@@ -817,11 +823,12 @@ export default {
         this.isLoadingGetCoa = true;
 
         await this.lookUp({
-          url: "finance/jurnal/get-coa",
+          url: "finance/coa/get-coa",
           lookup: "custom2",
           query:
             "?search=" +
             this.coa_search +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -834,13 +841,51 @@ export default {
     async onSelectCoa(item) {
       this.form.coa_id = item;
       this.coa_search = "";
-      await this.onSearchCoa();
+    },
+
+    onGetCoaBiaya(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCoaBiaya);
+
+      this.isStopSearchCoaBiaya = setTimeout(() => {
+        this.coa_biaya_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom7.current_page = isNext
+            ? this.lookup_custom7.current_page + 1
+            : this.lookup_custom7.current_page - 1;
+        } else {
+          this.lookup_custom7.current_page = 1;
+        }
+
+        this.onSearchCoaBiaya();
+      }, 600);
+    },
+
+    async onSearchCoaBiaya() {
+      if (!this.isLoadingGetCoaBiaya) {
+        this.isLoadingGetCoaBiaya = true;
+
+        await this.lookUp({
+          url: "finance/jurnal/get-coa",
+          lookup: "custom7",
+          query:
+            "?search=" +
+            this.coa_biaya_search +
+            "&tipe=BIAYA" +
+            "&page=" +
+            this.lookup_custom7.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCoaBiaya = false;
+      }
     },
 
     async onSelectCoaBiaya(item) {
       this.form.coa_id_biaya = item;
       this.coa_search = "";
-      await this.onSearchCoa();
     },
 
     onGetDivisi(search, isNext) {

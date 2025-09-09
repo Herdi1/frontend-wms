@@ -48,31 +48,34 @@
               />
             </ValidationProvider>
           </div>
-          <div class="min-w-[800px] w-[800px] h-[800px] relative bg-gray-300">
-            <VueDraggableResizable
-              v-for="room in rooms"
-              :key="index"
-              :x="room.x"
-              :y="room.y"
-              :w="room.width"
-              :h="room.height"
-              :parent="true"
-              :draggable="false"
-              :resizable="false"
-              @dragging="(x, y) => onDragStop(room, x, y)"
-              style="border: 1px solid black"
-              @resizing="
-                (x, y, width, height) => onReziseStop(room, x, y, width, height)
-              "
-            >
-              <div
-                :style="`background-color: ${room.color}`"
-                :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center cursor-pointer`"
-                @click="zonaClick(room, $event)"
+          <div class="flex gap-2">
+            <div class="min-w-[800px] w-[800px] h-[800px] bg-gray-300">
+              <VueDraggableResizable
+                v-for="room in rooms"
+                :key="index"
+                :x="room.x"
+                :y="room.y"
+                :w="room.width"
+                :h="room.height"
+                :parent="true"
+                :draggable="false"
+                :resizable="false"
+                @dragging="(x, y) => onDragStop(room, x, y)"
+                style="border: 1px solid black"
+                @resizing="
+                  (x, y, width, height) =>
+                    onReziseStop(room, x, y, width, height)
+                "
               >
-                {{ room.nama_zona_gudang }}
-              </div>
-            </VueDraggableResizable>
+                <div
+                  :style="`background-color: ${room.color}`"
+                  :class="`bg-[${room.color}] border border-gray-300 h-[100%] z-20 w-[100%] text-center cursor-pointer`"
+                  @click="zonaClick(room, $event)"
+                >
+                  {{ room.nama_zona_gudang }}
+                </div>
+              </VueDraggableResizable>
+            </div>
             <ZonaDetail ref="zonaDetail" />
           </div>
         </div>
