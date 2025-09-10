@@ -182,7 +182,7 @@ export default {
     this.set_data([]);
   },
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -216,6 +216,8 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {

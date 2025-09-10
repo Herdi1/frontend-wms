@@ -260,7 +260,7 @@
                         </span>
                       </td>
                       <td class="text-right">
-                        {{ item.credit | formatPrice }}
+                        {{ item.debit | formatPrice }}
                       </td>
                     </tr>
                     <tr class="bg-gray-50">
@@ -510,7 +510,7 @@ export default {
 
       return this.form.pengajuan_dropping_biaya_details.reduce(
         (total, item) => {
-          return total + parseFloat(item.credit) || 0;
+          return total + parseFloat(item.debit) || 0;
         },
         0
       );
