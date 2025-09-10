@@ -283,7 +283,7 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider name="staff_id" class="w-full mt-1 mb-2">
+                  <!-- <ValidationProvider name="staff_id" class="w-full mt-1 mb-2">
                     <div class="flex items-center">
                       <label for="staff_id" class="w-1/2">Staff </label>
                       <v-select
@@ -321,7 +321,7 @@
                         </li>
                       </v-select>
                     </div>
-                  </ValidationProvider>
+                  </ValidationProvider> -->
                   <div class="form-group flex justify-between">
                     <label for="keterangan" class="w-1/2">Keterangan</label>
                     <textarea
@@ -359,6 +359,12 @@
                       <tr class="text-sm uppercase">
                         <th class="w-20 border border-gray-300 text-center">
                           Detail
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
+                          Pengemudi
                         </th>
                         <th
                           class="w-48 border border-gray-300"
@@ -455,6 +461,12 @@
                           class="border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         >
+                          {{ item.staff ? item.staff.nama_lengkap : "-" }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        >
                           {{ item.tanggal }}
                         </td>
                         <td
@@ -541,6 +553,10 @@
                         </td>
                       </tr>
                       <tr>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'RITASE'"
+                        ></td>
                         <td
                           class="border-b border-gray-300"
                           v-if="form.jenis === 'RITASE'"
@@ -1022,8 +1038,8 @@ export default {
         !this.form.periode_awal ||
         !this.form.periode_akhir ||
         !this.form.jenis ||
-        !this.form.gudang_id ||
-        !this.form.staff_id
+        !this.form.gudang_id
+        // !this.form.staff_id
       ) {
         this.$toaster.error(
           "Mohon Pilih Jenis, Gudang, Periode Awal dan Akhir Terlebih Dahulu!"
@@ -1035,7 +1051,7 @@ export default {
         {
           params: {
             gudang_id: this.form.gudang_id.gudang_id,
-            staff_id: this.form.staff_id.staff_id,
+            // staff_id: this.form.staff_id.staff_id,
             periode_awal: this.form.periode_awal,
             periode_akhir: this.form.periode_akhir,
             jenis: this.form.jenis,
