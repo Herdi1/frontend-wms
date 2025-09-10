@@ -22,26 +22,6 @@
               class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
             >
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
-                <div>
-                  <input-horizontal
-                    label="No Referensi"
-                    type="text"
-                    name="no_referensi"
-                    :isHorizontal="true"
-                    v-model="form.no_referensi"
-                    :required="false"
-                  />
-                </div>
-                <div>
-                  <input-horizontal
-                    label="Tanggal"
-                    type="date"
-                    name="tanggal"
-                    :isHorizontal="true"
-                    v-model="form.tanggal"
-                    :required="true"
-                  />
-                </div>
                 <div class="form-group">
                   <select-button
                     :self="{
@@ -55,6 +35,16 @@
                     }"
                     width="w-[50%]"
                     class="mb-5"
+                    :required="true"
+                  />
+                </div>
+                <div>
+                  <input-horizontal
+                    label="Tanggal"
+                    type="date"
+                    name="tanggal"
+                    :isHorizontal="true"
+                    v-model="form.tanggal"
                     :required="true"
                   />
                 </div>
@@ -77,7 +67,16 @@
                     :required="true"
                   />
                 </div>
-
+                <div>
+                  <input-horizontal
+                    label="No Referensi"
+                    type="text"
+                    name="no_referensi"
+                    :isHorizontal="true"
+                    v-model="form.no_referensi"
+                    :required="false"
+                  />
+                </div>
                 <div class="flex justify-between">
                   <label class="w-1/2 pt-1">Keterangan</label>
                   <textarea

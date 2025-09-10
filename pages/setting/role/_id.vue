@@ -214,6 +214,7 @@
                 id="small_size"
                 type="file"
                 @change="handleFileChange"
+                accept=".png, .jpg, .jpeg, .svg"
               />
               <button
                 v-if="parameters.form.file_icon && isEditable"
@@ -234,14 +235,6 @@
                 min="0"
                 class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
               />
-              <!-- <input-form
-                label="Urutan"
-                type="number"
-                name="urutan"
-                v-model="parameters.form.urutan"
-                :required="false"
-                :min="'0'"
-              /> -->
             </div>
           </div>
 

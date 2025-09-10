@@ -40,6 +40,14 @@
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_item }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -73,6 +81,33 @@
                   </div>
                 </div>
               </ValidationProvider>
+              <div class="form-group">
+                <input-horizontal
+                  label="Nama Item"
+                  type="text"
+                  name="nama_item"
+                  :required="true"
+                  v-model="parameters.form.nama_item"
+                />
+              </div>
+              <div class="form-group">
+                <input-horizontal
+                  label="Kode Item Pelanggan"
+                  type="text"
+                  name="kode_item_pelanggan"
+                  :required="true"
+                  v-model="parameters.form.kode_item_pelanggan"
+                />
+              </div>
+              <div class="form-group">
+                <input-horizontal
+                  label="Referensi External"
+                  type="text"
+                  name="kode_sap"
+                  :required="true"
+                  v-model="parameters.form.kode_sap"
+                />
+              </div>
               <ValidationProvider name="vendor_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -86,12 +121,19 @@
                       :filterable="false"
                       @search="onGetVendor"
                       v-model="parameters.form.vendor_id"
-                      :reduce="(item) => item.vendor_id"
                       class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_vendor }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -125,6 +167,7 @@
                   </div>
                 </div>
               </ValidationProvider>
+
               <ValidationProvider name="pelanggan_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -138,12 +181,19 @@
                       :filterable="false"
                       @search="onGetPelanggan"
                       v-model="parameters.form.pelanggan_id"
-                      :reduce="(item) => item.pelanggan_id"
                       class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_pelanggan }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -178,34 +228,6 @@
                 </div>
               </ValidationProvider>
 
-              <div class="form-group">
-                <input-horizontal
-                  label="Nama Item"
-                  type="text"
-                  name="nama_item"
-                  :required="true"
-                  v-model="parameters.form.nama_item"
-                />
-              </div>
-              <div class="form-group">
-                <input-horizontal
-                  label="Kode Item Pelanggan"
-                  type="text"
-                  name="kode_item_pelanggan"
-                  :required="true"
-                  v-model="parameters.form.kode_item_pelanggan"
-                />
-              </div>
-              <div class="form-group">
-                <input-horizontal
-                  label="Referensi External"
-                  type="text"
-                  name="kode_sap"
-                  :required="true"
-                  v-model="parameters.form.kode_sap"
-                />
-              </div>
-
               <ValidationProvider name="group1_id" rules="required">
                 <div slot-scope="{ errors, valid }">
                   <div class="flex items-center justify-between w-full">
@@ -219,13 +241,20 @@
                       :filterable="false"
                       @search="onGetGroup1"
                       v-model="parameters.form.group_item_id_1"
-                      :reduce="(item) => item.group_item_id"
                       class="w-1/2 bg-white"
                       @input="onSelectGroup1"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_group_item }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -268,10 +297,17 @@
                   :filterable="false"
                   @search="onGetGroup2"
                   v-model="parameters.form.group_item_id_2"
-                  :reduce="(item) => item.group_item_id"
                   class="w-1/2 bg-white"
                   @input="onSelectGroup2"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -304,10 +340,17 @@
                   :filterable="false"
                   @search="onGetGroup3"
                   v-model="parameters.form.group_item_id_3"
-                  :reduce="(item) => item.group_item_id"
                   class="w-1/2 bg-white"
                   @input="onSelectGroup3"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -341,10 +384,17 @@
                   :filterable="false"
                   @search="onGetGroup4"
                   v-model="parameters.form.group_item_id_4"
-                  :reduce="(item) => item.group_item_id"
                   class="w-1/2 bg-white"
                   @input="onSelectGroup4"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -377,9 +427,16 @@
                   :filterable="false"
                   @search="onGetGroup5"
                   v-model="parameters.form.group_item_id_5"
-                  :reduce="(item) => item.group_item_id"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_group_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -417,13 +474,20 @@
                       :filterable="false"
                       @search="onGetKategori1"
                       v-model="parameters.form.kategori_id_1"
-                      :reduce="(item) => item.kategori_item_id"
                       class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                       @input="onSearchKategori2"
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_kategori_item }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -466,10 +530,17 @@
                   :filterable="false"
                   @search="onGetKategori2"
                   v-model="parameters.form.kategori_id_2"
-                  :reduce="(item) => item.kategori_item_id"
                   class="w-1/2 bg-white"
                   @input="onSearchKategori3"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_kategori_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -500,10 +571,17 @@
                   :filterable="false"
                   @search="onGetKategori3"
                   v-model="parameters.form.kategori_id_3"
-                  :reduce="(item) => item.kategori_item_id"
                   @input="onSearchKategori4"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_kategori_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -535,10 +613,17 @@
                   :filterable="false"
                   @search="onGetKategori4"
                   v-model="parameters.form.kategori_id_4"
-                  :reduce="(item) => item.kategori_item_id"
                   @input="onSearchKategori5"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_kategori_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -569,9 +654,16 @@
                   :filterable="false"
                   @search="onGetKategori4"
                   v-model="parameters.form.kategori_id_5"
-                  :reduce="(item) => item.kategori_item_id"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_kategori_item }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -681,12 +773,19 @@
                       :filterable="false"
                       @search="onGetSuppliers"
                       v-model="parameters.form.supplier_id"
-                      :reduce="(item) => item.supplier_id"
                       class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_supplier }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -742,12 +841,19 @@
                       :filterable="false"
                       @search="onGetSatuan"
                       v-model="parameters.form.satuan_id"
-                      :reduce="(item) => item.satuan_id"
                       class="w-1/2 bg-white"
                       :class="
                         errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                       "
                     >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_satuan }}
+                        </div>
+                             </template
+                      >
                       <li
                         slot-scope="{ search }"
                         slot="list-footer"
@@ -810,9 +916,16 @@
                   :filterable="false"
                   @search="onGetSatuanBerat"
                   v-model="parameters.form.satuan_id_berat"
-                  :reduce="(item) => item.satuan_id"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_satuan }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -887,9 +1000,16 @@
                   :filterable="false"
                   @search="onGetSatuanVolume"
                   v-model="parameters.form.satuan_id_volume"
-                  :reduce="(item) => item.satuan_id"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_satuan }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -923,13 +1043,14 @@
                 />
               </div>
 
-              <div class="form-group">
-                <input-horizontal
-                  label="Stocklevel"
-                  type="text"
-                  name="value_stocklevel"
-                  :required="false"
+              <div class="form-group flex justify-between items-center">
+                <label for="value_stocklevel" class="w-1/2">Stocklevel</label>
+                <money
                   v-model="parameters.form.value_stocklevel"
+                  class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
                 />
               </div>
               <div class="flex justify-between w-full">
@@ -943,9 +1064,16 @@
                   :filterable="false"
                   @search="onGetSatuanStockLevel"
                   v-model="parameters.form.satuan_id_stocklevel"
-                  :reduce="(item) => item.satuan_id"
                   class="w-1/2 bg-white"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_satuan }}
+                    </div>
+                         </template
+                  >
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -969,12 +1097,16 @@
                   </li>
                 </v-select>
               </div>
-              <div class="form-group flex justify-between">
-                <label for="keterangan" class="w-1/2 pt-1">Keterangan</label>
+              <div
+                class="form-group flex justify-between col-span-1 md:col-span-2 lg:col-span-3"
+              >
+                <label for="keterangan" class="w-1/2 md:w-1/4 lg:w-[16%] pt-1"
+                  >Keterangan</label
+                >
                 <textarea
                   name="keterangan"
                   v-model="parameters.form.keterangan"
-                  class="w-1/2 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                  class="w-1/2 md:w-3/4 lg:w-[84%] border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                 ></textarea>
               </div>
             </div>
@@ -1140,6 +1272,28 @@ export default {
         this.parameters.form.kategori_id_3 = res.data.kategori_3;
         this.parameters.form.kategori_id_4 = res.data.kategori_4;
         this.parameters.form.kategori_id_5 = res.data.kategori_5 ?? "";
+        this.parameters.form.vendor_id = res.data.vendor ?? "";
+        this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
+        this.parameters.form.supplier_id = res.data.supplier ?? "";
+        this.parameters.form.satuan_id = res.data.satuan ?? "";
+        this.parameters.form.satuan_id_berat = res.data.satuan_berat ?? "";
+        this.parameters.form.satuan_id_volume = res.data.satuan_volume ?? "";
+        this.parameters.form.satuan_id_stocklevel =
+          res.data.satuan_stocklevel ?? "";
+        this.parameters.form.jumlah_palet = res.data.jumlah_palet ?? 0;
+        this.parameters.form.kapasitas_palet = res.data.kapasitas_palet ?? 0;
+        this.parameters.form.kebutuhan_palet = res.data.kebutuhan_palet ?? 0;
+        this.parameters.form.batas_atas = res.data.batas_atas ?? 0;
+        this.parameters.form.batas_bawah = res.data.batas_bawah ?? 0;
+        this.parameters.form.maksimal_tumpukan =
+          res.data.maksimal_tumpukan ?? 0;
+        this.parameters.form.berat_bersih = res.data.berat_bersih ?? 0;
+        this.parameters.form.berat_kotor = res.data.berat_kotor ?? 0;
+        this.parameters.form.panjang = res.data.panjang ?? 0;
+        this.parameters.form.lebar = res.data.lebar ?? 0;
+        this.parameters.form.tebal = res.data.tebal ?? 0;
+        this.parameters.form.volume = res.data.volume ?? 0;
+        this.parameters.form.value_stocklevel = res.data.value_stocklevel ?? 0;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -1247,6 +1401,34 @@ export default {
           typeof this.parameters.form.kategori_id_5 === "object"
             ? this.parameters.form.kategori_id_5.kategori_item_id
             : this.parameters.form.kategori_id_5,
+        vendor_id:
+          typeof this.parameters.form.vendor_id === "object"
+            ? this.parameters.form.vendor_id.vendor_id
+            : this.parameters.form.vendor_id,
+        pelanggan_id:
+          typeof this.parameters.form.pelanggan_id === "object"
+            ? this.parameters.form.pelanggan_id.pelanggan_id
+            : this.parameters.form.pelanggan_id,
+        supplier_id:
+          typeof this.parameters.form.supplier_id === "object"
+            ? this.parameters.form.supplier_id.supplier_id
+            : this.parameters.form.supplier_id,
+        satuan_id:
+          typeof this.parameters.form.satuan_id === "object"
+            ? this.parameters.form.satuan_id.satuan_id
+            : this.parameters.form.satuan_id,
+        satuan_id_berat:
+          typeof this.parameters.form.satuan_id_berat === "object"
+            ? this.parameters.form.satuan_id_berat.satuan_id
+            : this.parameters.form.satuan_id_berat,
+        satuan_id_volume:
+          typeof this.parameters.form.satuan_id_volume === "object"
+            ? this.parameters.form.satuan_id_volume.satuan_id
+            : this.parameters.form.satuan_id_volume,
+        satuan_id_stocklevel:
+          typeof this.parameters.form.satuan_id_stocklevel === "object"
+            ? this.parameters.form.satuan_id_stocklevel.satuan_id
+            : this.parameters.form.satuan_id_stocklevel,
       };
 
       if (this.isEditable) {
@@ -1321,65 +1503,68 @@ export default {
     onSelectItem(item) {
       if (item) {
         this.parameters.form.nama_item = item.nama_item;
-        this.parameters.form.supplier_id = item.supplier_id;
-        this.parameters.form.supplier_code = item.supplier_code;
-        this.parameters.form.batas_atas = item.batas_atas;
-        this.parameters.form.batas_bawah = item.batas_bawah;
-        this.parameters.form.jumlah_palet = item.jumlah_palet;
-        this.parameters.form.kapasitas_palet = item.kapasitas_palet;
-        this.parameters.form.kebutuhan_palet = item.kebutuhan_palet;
-        this.parameters.form.maksimal_tumpukan = item.maksimal_tumpukan;
-        this.parameters.form.volume = item.volume;
-        this.parameters.form.group_item_id_1 = item.group_item_1;
-        this.parameters.form.group_item_id_2 = item.group_item_2;
-        this.parameters.form.group_item_id_3 = item.group_item_3;
-        this.parameters.form.group_item_id_4 = item.group_item_4;
-        this.parameters.form.group_item_id_5 = item.group_item_5;
-        this.parameters.form.kategori_id_1 = item.kategori_1;
-        this.parameters.form.kategori_id_2 = item.kategori_2;
-        this.parameters.form.kategori_id_3 = item.kategori_3;
-        this.parameters.form.kategori_id_4 = item.kategori_4;
-        this.parameters.form.kategori_id_5 = item.kategori_5;
-        this.parameters.form.satuan_id = item.satuan_id;
-        this.parameters.form.satuan_id_berat = item.satuan_id_berat;
+        this.parameters.form.supplier_id = item.supplier ?? "";
+        this.parameters.form.supplier_code = item.supplier_code ?? "";
+        this.parameters.form.batas_atas = item.batas_atas ?? 0;
+        this.parameters.form.batas_bawah = item.batas_bawah ?? 0;
+        this.parameters.form.jumlah_palet = item.jumlah_palet ?? 0;
+        this.parameters.form.kapasitas_palet = item.kapasitas_palet ?? 0;
+        this.parameters.form.kebutuhan_palet = item.kebutuhan_palet ?? 0;
+        this.parameters.form.maksimal_tumpukan = item.maksimal_tumpukan ?? 0;
+        this.parameters.form.volume = item.volume ?? 0;
+        this.parameters.form.group_item_id_1 = item.group_item_1 ?? "";
+        this.parameters.form.group_item_id_2 = item.group_item_2 ?? "";
+        this.parameters.form.group_item_id_3 = item.group_item_3 ?? "";
+        this.parameters.form.group_item_id_4 = item.group_item_4 ?? "";
+        this.parameters.form.group_item_id_5 = item.group_item_5 ?? "";
+        this.parameters.form.kategori_id_1 = item.kategori_1 ?? "";
+        this.parameters.form.kategori_id_2 = item.kategori_2 ?? "";
+        this.parameters.form.kategori_id_3 = item.kategori_3 ?? "";
+        this.parameters.form.kategori_id_4 = item.kategori_4 ?? "";
+        this.parameters.form.kategori_id_5 = item.kategori_5 ?? "";
+        this.parameters.form.satuan_id = item.satuan ?? "";
+        this.parameters.form.satuan_id_berat = item.satuan_berat ?? "";
         //   this.parameters.form.berat_bersih = item.berat_bersih;
         //   this.parameters.form.berat_kotor = item.berat_kotor;
-        this.parameters.form.satuan_id_volume = item.satuan_id_volume;
+        this.parameters.form.satuan_id_volume = item.satuan_volume ?? "";
         //   this.parameters.form.volume = item.volume;
-        this.parameters.form.satuan_id_stocklevel = item.satuan_id_stocklevel;
-        this.parameters.form.value_stocklevel = item.value_stocklevel;
-        this.parameters.form.keterangan = item.keterangan;
-      } else {
-        this.parameters.form.nama_item = "";
-        this.parameters.form.supplier_id = "";
-        this.parameters.form.supplier_code = "";
-        this.parameters.form.batas_atas = "";
-        this.parameters.form.batas_bawah = "";
-        this.parameters.form.jumlah_palet = "";
-        this.parameters.form.kapasitas_palet = "";
-        this.parameters.form.kebutuhan_palet = "";
-        this.parameters.form.maksimal_tumpukan = "";
-        this.parameters.form.volume = "";
-        this.parameters.form.group_item_id_1 = "";
-        this.parameters.form.group_item_id_2 = "";
-        this.parameters.form.group_item_id_3 = "";
-        this.parameters.form.group_item_id_4 = "";
-        this.parameters.form.group_item_id_5 = "";
-        this.parameters.form.kategori_id_1 = "";
-        this.parameters.form.kategori_id_2 = "";
-        this.parameters.form.kategori_id_3 = "";
-        this.parameters.form.kategori_id_4 = "";
-        this.parameters.form.kategori_id_5 = "";
-        this.parameters.form.satuan_id = "";
-        this.parameters.form.satuan_id_berat = "";
-        this.parameters.form.berat_bersih = "";
-        this.parameters.form.berat_kotor = "";
-        this.parameters.form.satuan_id_volume = "";
-        this.parameters.form.volume = "";
-        this.parameters.form.satuan_id_stocklevel = "";
-        this.parameters.form.value_stocklevel = "";
-        this.parameters.form.keterangan = "";
+        this.parameters.form.satuan_id_stocklevel =
+          item.satuan_stocklevel ?? "";
+        this.parameters.form.value_stocklevel = item.value_stocklevel ?? 0;
+        this.parameters.form.keterangan = item.keterangan ?? "";
       }
+      // else {
+      //   this.parameters.form.nama_item = "";
+      //   this.parameters.form.supplier_id = "";
+      //   this.parameters.form.supplier_code = "";
+      //   this.parameters.form.batas_atas = "";
+      //   this.parameters.form.batas_bawah = "";
+      //   this.parameters.form.jumlah_palet = "";
+      //   this.parameters.form.kapasitas_palet = "";
+      //   this.parameters.form.kebutuhan_palet = "";
+      //   this.parameters.form.maksimal_tumpukan = "";
+      //   this.parameters.form.volume = "";
+      //   this.parameters.form.group_item_id_1 = "";
+      //   this.parameters.form.group_item_id_2 = "";
+      //   this.parameters.form.group_item_id_3 = "";
+      //   this.parameters.form.group_item_id_4 = "";
+      //   this.parameters.form.group_item_id_5 = "";
+      //   this.parameters.form.kategori_id_1 = "";
+      //   this.parameters.form.kategori_id_2 = "";
+      //   this.parameters.form.kategori_id_3 = "";
+      //   this.parameters.form.kategori_id_4 = "";
+      //   this.parameters.form.kategori_id_5 = "";
+      //   this.parameters.form.satuan_id = "";
+      //   this.parameters.form.satuan_id_berat = "";
+      //   this.parameters.form.berat_bersih = "";
+      //   this.parameters.form.berat_kotor = "";
+      //   this.parameters.form.satuan_id_volume = "";
+      //   this.parameters.form.volume = "";
+      //   this.parameters.form.satuan_id_stocklevel = "";
+      //   this.parameters.form.value_stocklevel = "";
+      //   this.parameters.form.keterangan = "";
+      // }
+      console.log(item);
     },
 
     onGetItem(search, isNext) {

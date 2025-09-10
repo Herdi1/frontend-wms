@@ -117,179 +117,9 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">
-                    Detail
-                  </th>
-                  <th class="w-20 text-center border border-gray-300">No</th>
-                  <th
-                    class="w-48 border border-gray-300 cursor-pointer"
-                    @click="
-                      onSort(
-                        'kode_pengajuan',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Kode Pengajuan</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'kode_pengajuan' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'kode_pengajuan' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th
-                    class="w-48 border border-gray-300 cursor-pointer"
-                    @click="
-                      onSort(
-                        'tanggal',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Tanggal</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'tanggal' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'tanggal' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="w-48 border border-gray-300">Gudang</th>
-                  <th
-                    class="w-48 border border-gray-300 cursor-pointer"
-                    @click="
-                      onSort(
-                        'status_pengajuan',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Status Pengajuan</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'status_pengajuan' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'status_pengajuan' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="w-48 border border-gray-300">Periode Awal</th>
-                  <th class="w-48 border border-gray-300">Periode Akhir</th>
-                  <th class="w-20 border text-center border-gray-300">Print</th>
-
-                  <th class="w-20 text-center border border-gray-300">
-                    Delete
-                  </th>
-                </tr>
+                <tr class="uppercase"></tr>
               </thead>
-              <tbody>
-                <tr v-for="(item, i) in data" :key="i">
-                  <td
-                    class="text-center place-items-center border border-gray-300"
-                  >
-                    <small-detail-button @click="onDetail(item)" />
-                  </td>
-                  <td class="border border-gray-300 text-center">
-                    {{
-                      (parameters.params.page - 1) *
-                        parameters.params.per_page +
-                      i +
-                      1
-                    }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.kode_pengajuan }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.tanggal) }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.status_pengajuan }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.periode_awal) }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.periode_akhir) }}
-                  </td>
-                  <td class="place-items-center border border-gray-300">
-                    <!-- v-if="!item.deleted_at" -->
-                    <button
-                      type="button"
-                      class="btn btn-sm"
-                      @click="onPrintDetail(item)"
-                      title="Print Pengajuan Dropping"
-                    >
-                      <i class="fas fa-print text-primary"></i>
-                    </button>
-                  </td>
-                  <td class="place-items-center border border-gray-300">
-                    <small-delete-button
-                      @click="onTrashed(item)"
-                      v-if="!item.deleted_at"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -305,7 +135,7 @@ export default {
 
   head() {
     return {
-      title: "Pengajuan Dropping",
+      title: "Pengajuan Dropping Khusus",
     };
   },
 
@@ -359,16 +189,16 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Pengajuan Dropping",
+      title: "Pengajuan Dropping Khusus",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/pengajuan-dropping",
+        url: "finance/pengajuan-dropping-khusus",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "pengajuan_dropping_id",
+          order: "pengajuan_dropping_khusus_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -377,15 +207,7 @@ export default {
           end_date: "",
           gudang_id: "",
         },
-        form: {
-          no_ajuan: "",
-          tanggal: "",
-          gudang_id: "",
-          periode_awal: "",
-          periode_akhir: "",
-          status: "",
-          detail_pengajuan_dropping: [],
-        },
+        form: {},
         loadings: {
           isDelete: false,
           isRestore: false,
@@ -408,7 +230,6 @@ export default {
       user: this.$auth.user,
     };
   },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
@@ -417,7 +238,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "pengajuan-dropping"
+          (item) => item.rute == "pengajuan-dropping-khusus"
         );
 
         let roles = {};
@@ -454,30 +275,12 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/finance/pengajuan-dropping/add");
-    },
-
-    onEdit(item) {
-      this.$router.push(
-        "/finance/pengajuan-dropping/" + item.pengajuan_dropping_id
-      );
+      this.$router.push(`/finance/pengajuan-dropping-khusus/add`);
     },
 
     onDetail(item) {
       this.$router.push(
-        "/finance/pengajuan-dropping/detail/" + item.pengajuan_dropping_id
-      );
-    },
-
-    onPrintDetail(item) {
-      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
-          "finance/pengajuan-dropping/get-print-detail/" +
-          item.pengajuan_dropping_id +
-          "?token=" +
-          token,
-        "_blank"
+        `/finance/pengajuan-dropping-khusus/detail/${item.pengajuan_dropping_khusus_id}`
       );
     },
 
@@ -497,7 +300,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.pengajuan_dropping_id,
+              id: item.pengajuan_dropping_khusus_id,
               params: this.parameters.params,
             });
 

@@ -25,7 +25,7 @@
                 <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-top w-full"
                 >
-                  <div class="w-full">
+                  <div class="w-full" v-if="isEditable">
                     <input-form
                       label="Kode Item"
                       type="text"
@@ -80,7 +80,6 @@
                           :filterable="false"
                           @search="onGetSatuan"
                           v-model="form.satuan_id"
-                          :reduce="(item) => item.satuan_id"
                           class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -116,23 +115,33 @@
                         >
                       </div>
                     </ValidationProvider>
-                    <input-form
-                      label="Berat Bersih"
-                      type="text"
-                      name="berat_bersih"
-                      :required="true"
-                      v-model="form.berat_bersih"
-                    />
+                    <div class="form-group">
+                      <label for="berat_bersih"
+                        >Berat Bersih <span class="text-danger">*</span></label
+                      >
+                      <money
+                        v-model="form.berat_bersih"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
                   </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
-                    <input-form
-                      label="Berat Kotor"
-                      type="text"
-                      name="berat_kotor"
-                      :required="true"
-                      v-model="form.berat_kotor"
-                    />
+                    <div class="form-group">
+                      <label for="berat_kotor"
+                        >Berat Kotor <span class="text-danger">*</span></label
+                      >
+                      <money
+                        v-model="form.berat_kotor"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
                     <ValidationProvider
                       name="satuan_id_berat"
                       rules="required"
@@ -149,7 +158,6 @@
                           :filterable="false"
                           @search="onGetSatuanBerat"
                           v-model="form.satuan_id_berat"
-                          :reduce="(item) => item.satuan_id"
                           class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -188,13 +196,18 @@
                   </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
-                    <input-form
-                      label="Volume"
-                      type="text"
-                      name="volume"
-                      :required="true"
-                      v-model="form.volume"
-                    />
+                    <div class="form-group">
+                      <label for="volume"
+                        >Volume <span class="text-danger">*</span></label
+                      >
+                      <money
+                        v-model="form.volume"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
                     <ValidationProvider
                       name="satuan_id_volume"
                       rules="required"
@@ -213,7 +226,6 @@
                           :filterable="false"
                           @search="onGetSatuanVolume"
                           v-model="form.satuan_id_volume"
-                          :reduce="(item) => item.satuan_id"
                           class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -252,13 +264,18 @@
                   </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
-                    <input-form
-                      label="Stocklevel"
-                      type="text"
-                      name="value_stocklevel"
-                      :required="true"
-                      v-model="form.value_stocklevel"
-                    />
+                    <div class="form-group">
+                      <label for="stocklevel"
+                        >Stocklevel <span class="text-danger">*</span></label
+                      >
+                      <money
+                        v-model="form.value_stocklevel"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
                     <ValidationProvider
                       name="satuan_id_stocklevel"
                       rules="required"
@@ -277,7 +294,6 @@
                           :filterable="false"
                           @search="onGetSatuanStockLevel"
                           v-model="form.satuan_id_stocklevel"
-                          :reduce="(item) => item.satuan_id"
                           class="w-full bg-white"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -331,7 +347,6 @@
                         :filterable="false"
                         @search="onGetVendor"
                         v-model="form.supplier_id"
-                        :reduce="(item) => item.supplier_id"
                         class="w-full bg-white"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -373,6 +388,7 @@
                       }}</span>
                     </div>
                   </ValidationProvider>
+                  <div v-if="!isEditable"></div>
 
                   <ValidationProvider
                     name="group_item_id_1"
@@ -392,21 +408,20 @@
                         :filterable="false"
                         @search="onGetGroupItem1"
                         v-model="form.group_item_id_1"
-                        :reduce="(item) => item.group_item_id"
                         class="w-full bg-white"
-                        @input="onSearchGroupItem2"
+                        @input="(item) => onSelectGroup1(item)"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                         "
                       >
-                        <!-- <template #search="{ attributes, events }">
-                          <input
-                            class="w-full outline-none active:outline-none"
-                            :required="!form.vendor_id"
-                            v-bind="attributes"
-                            v-on="events"
-                          />
-                        </template> -->
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_group_item }}
+                          </div>
+                               </template
+                        >
                         <li
                           :required="!form.group_item_id_1"
                           slot-scope="{ search }"
@@ -451,13 +466,20 @@
                           :filterable="false"
                           @search="onGetGroupItem2"
                           v-model="form.group_item_id_2"
-                          :reduce="(item) => item.group_item_id"
                           class="w-full bg-white"
-                          @input="onSearchGroupItem3"
+                          @input="(item) => onSelectGroup2(item)"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_group_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -501,13 +523,20 @@
                           :filterable="false"
                           @search="onGetGroupItem3"
                           v-model="form.group_item_id_3"
-                          :reduce="(item) => item.group_item_id"
                           class="w-full bg-white"
-                          @input="onSearchGroupItem4"
+                          @input="(item) => onSelectGroup3(item)"
                           :class="
                             errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                           "
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_group_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -551,10 +580,17 @@
                           :filterable="false"
                           @search="onGetGroupItem4"
                           v-model="form.group_item_id_4"
-                          :reduce="(item) => item.group_item_id"
                           class="w-full bg-white"
-                          @input="onSearchGroupItem5"
+                          @input="(item) => onSelectGroup4(item)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_group_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -590,9 +626,17 @@
                           :filterable="false"
                           @search="onGetGroupItem5"
                           v-model="form.group_item_id_5"
-                          :reduce="(item) => item.group_item_id"
                           class="w-full bg-white"
+                          @input="(item) => onSelectGroup5(item)"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_group_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -626,7 +670,10 @@
                     class="w-full"
                   >
                     <div>
-                      <label for="kategori_id_1">Kategori Item Level 1</label>
+                      <label for="kategori_id_1"
+                        >Kategori Item Level 1
+                        <span class="text-danger">*</span></label
+                      >
                       <v-select
                         label="nama_kategori_item"
                         :loading="isLoadingGetKategoriItem1"
@@ -634,10 +681,17 @@
                         :filterable="false"
                         @search="onGetKategoriItem1"
                         v-model="form.kategori_id_1"
-                        :reduce="(item) => item.kategori_item_id"
                         class="w-full bg-white"
                         @input="onSearchKategoriItem2"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_kategori_item }}
+                          </div>
+                               </template
+                        >
                         <li
                           :required="!form.kategori_id_1"
                           slot-scope="{ search }"
@@ -675,10 +729,17 @@
                           :filterable="false"
                           @search="onGetKategoriItem2"
                           v-model="form.kategori_id_2"
-                          :reduce="(item) => item.kategori_item_id"
                           class="w-full bg-white"
                           @input="onSearchKategoriItem3"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_kategori_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -714,10 +775,17 @@
                           :filterable="false"
                           @search="onGetKategoriItem3"
                           v-model="form.kategori_id_3"
-                          :reduce="(item) => item.kategori_item_id"
                           class="w-full bg-white"
                           @input="onSearchKategoriItem4"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_kategori_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -756,10 +824,17 @@
                           :filterable="false"
                           @search="onGetKategoriItem4"
                           v-model="form.kategori_id_4"
-                          :reduce="(item) => item.kategori_item_id"
                           class="w-full bg-white"
                           @input="onSearchKategoriItem5"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_kategori_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -795,9 +870,16 @@
                           :filterable="false"
                           @search="onGetKategoriItem5"
                           v-model="form.kategori_id_5"
-                          :reduce="(item) => item.kategori_item_id"
                           class="w-full bg-white"
                         >
+                          <template slot="selected-option" slot-scope="option">
+                            <div
+                              class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                            >
+                              {{ option.nama_kategori_item }}
+                            </div>
+                                 </template
+                          >
                           <li
                             slot-scope="{ search }"
                             slot="list-footer"
@@ -826,22 +908,28 @@
                   </div>
 
                   <div class="form-group">
-                    <input-form
-                      label="Batas Atas"
-                      type="text"
-                      name="batas_atas"
-                      :required="true"
-                      v-model="form.batas_atas"
+                    <label for="batas_bawah"
+                      >Batas Bawah <span class="text-danger">*</span></label
+                    >
+                    <money
+                      v-model="form.batas_bawah"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
                     />
                   </div>
 
                   <div class="form-group">
-                    <input-form
-                      label="Batas Bawah"
-                      type="text"
-                      name="batas_bawah"
-                      :required="true"
-                      v-model="form.batas_bawah"
+                    <label for="batas_atas"
+                      >Batas Atas <span class="text-danger">*</span></label
+                    >
+                    <money
+                      v-model="form.batas_atas"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
                     />
                   </div>
 
@@ -854,13 +942,6 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                    <!-- <input-form
-                      label="Jumlah Palet"
-                      type="text"
-                      name="jumlah_palet"
-                      :required="true"
-                      v-model="form.jumlah_palet"
-                    /> -->
                   </div>
 
                   <div class="form-group">
@@ -900,12 +981,16 @@
                   </div>
 
                   <div class="form-group">
-                    <input-form
-                      label="Maksimal Tumpukan"
-                      type="text"
-                      name="maksimal_tumpukan"
-                      :required="true"
+                    <label for="maksimal_tumpukan"
+                      >Maksimal Tumpukan
+                      <span class="text-danger">*</span></label
+                    >
+                    <money
                       v-model="form.maksimal_tumpukan"
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      @keydown.native="
+                        $event.key === '-' ? $event.preventDefault() : null
+                      "
                     />
                   </div>
 
@@ -1216,6 +1301,26 @@ export default {
         this.form.kategori_id_3 = response.data.kategori_3 ?? "";
         this.form.kategori_id_4 = response.data.kategori_4 ?? "";
         this.form.kategori_id_5 = response.data.kategori_5 ?? "";
+        this.form.group_item_id_1 = response.data.group_item_1 ?? "";
+        this.form.group_item_id_2 = response.data.group_item_2 ?? "";
+        this.form.group_item_id_3 = response.data.group_item_3 ?? "";
+        this.form.group_item_id_4 = response.data.group_item_4 ?? "";
+        this.form.group_item_id_5 = response.data.group_item_5 ?? "";
+        this.form.berat_bersih = response.data.berat_bersih ?? "";
+        this.form.berat_kotor = response.data.berat_kotor ?? "";
+        this.form.volume = response.data.volume ?? "";
+        this.form.value_stocklevel = response.data.value_stocklevel ?? "";
+        this.form.batas_atas = response.data.batas_atas ?? "";
+        this.form.batas_bawah = response.data.batas_bawah ?? "";
+        this.form.jumlah_palet = response.data.jumlah_palet ?? "";
+        this.form.kapasitas_palet = response.data.kapasitas_palet ?? "";
+        this.form.kebutuhan_palet = response.data.kebutuhan_palet ?? "";
+        this.form.maksimal_tumpukan = response.data.maksimal_tumpukan ?? "";
+        this.form.satuan_id = response.data.satuan ?? "";
+        this.form.satuan_id_berat = response.data.satuan_berat ?? "";
+        this.form.satuan_id_volume = response.data.satuan_volume ?? "";
+        this.form.satuan_id_stocklevel = response.data.satuan_stocklevel ?? "";
+        this.form.supplier_id = response.data.supplier ?? "";
 
         this.isLoadingPage = false;
       }
@@ -1230,10 +1335,10 @@ export default {
     await this.onSearchSatuan();
     await this.onSearchSatuanStocklevel();
     await this.onSearchGroupItem1();
-    await this.onSearchGroupItem2();
-    await this.onSearchGroupItem3();
-    await this.onSearchGroupItem4();
-    await this.onSearchGroupItem5();
+    // await this.onSearchGroupItem2();
+    // await this.onSearchGroupItem3();
+    // await this.onSearchGroupItem4();
+    // await this.onSearchGroupItem5();
     await this.onSearchKategoriItem1();
     await this.onSearchKategoriItem2();
     await this.onSearchKategoriItem3();
@@ -1435,6 +1540,15 @@ export default {
       }
     },
 
+    async onSelectGroup1(item) {
+      if (item) {
+        this.form.group_item_id_1 = item;
+        await this.onSearchGroupItem2();
+      } else {
+        this.form.group_item_id_1 = "";
+      }
+    },
+
     onGetGroupItem2(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -1467,13 +1581,22 @@ export default {
             this.group_item_2_search +
             "&status=2" +
             "&group_item_id_induk=" +
-            this.form.group_item_id_1 +
+            this.form.group_item_id_1.group_item_id +
             "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetGroupItem2 = false;
+      }
+    },
+
+    async onSelectGroup2(item) {
+      if (item) {
+        this.form.group_item_id_2 = item;
+        await this.onSearchGroupItem3();
+      } else {
+        this.form.group_item_id_2 = "";
       }
     },
 
@@ -1509,13 +1632,22 @@ export default {
             this.group_item_3_search +
             "&status=3" +
             "&group_item_id_induk=" +
-            this.form.group_item_id_2 +
+            this.form.group_item_id_2.group_item_id +
             "&page=" +
             this.lookup_packing.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetGroupItem3 = false;
+      }
+    },
+
+    async onSelectGroup3(item) {
+      if (item) {
+        this.form.group_item_id_3 = item;
+        await this.onSearchGroupItem4();
+      } else {
+        this.form.group_item_id_3 = "";
       }
     },
 
@@ -1551,13 +1683,22 @@ export default {
             this.group_item_4_search +
             "&status=4" +
             "&group_item_id_induk=" +
-            this.form.group_item_id_3 +
+            this.form.group_item_id_3.group_item_id +
             "&page=" +
             this.lookup_defects.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetGroupItem4 = false;
+      }
+    },
+
+    async onSelectGroup4(item) {
+      if (item) {
+        this.form.group_item_id_4 = item;
+        await this.onSearchGroupItem5();
+      } else {
+        this.form.group_item_id_4 = "";
       }
     },
 
@@ -1593,13 +1734,21 @@ export default {
             this.group_item_5_search +
             "&status=5" +
             "&group_item_id_induk=" +
-            this.form.group_item_id_4 +
+            this.form.group_item_id_4.group_item_id +
             "&page=" +
             this.lookup_department.current_page +
             "&per_page=10",
         });
 
         this.isLoadingGetGroupItem5 = false;
+      }
+    },
+
+    onSelectGroup5(item) {
+      if (item) {
+        this.form.group_item_id_5 = item;
+      } else {
+        this.form.group_item_id_5 = "";
       }
     },
 
@@ -1994,6 +2143,46 @@ export default {
           typeof this.form.kategori_id_5 === "object"
             ? this.form.kategori_id_5.kategori_item_id
             : this.form.kategori_id_5,
+        group_item_id_1:
+          typeof this.form.group_item_id_1 === "object"
+            ? this.form.group_item_id_1.group_item_id
+            : this.form.group_item_id_1,
+        group_item_id_2:
+          typeof this.form.group_item_id_2 === "object"
+            ? this.form.group_item_id_2.group_item_id
+            : this.form.group_item_id_2,
+        group_item_id_3:
+          typeof this.form.group_item_id_3 === "object"
+            ? this.form.group_item_id_3.group_item_id
+            : this.form.group_item_id_3,
+        group_item_id_4:
+          typeof this.form.group_item_id_4 === "object"
+            ? this.form.group_item_id_4.group_item_id
+            : this.form.group_item_id_4,
+        group_item_id_5:
+          typeof this.form.group_item_id_5 === "object"
+            ? this.form.group_item_id_5.group_item_id
+            : this.form.group_item_id_5,
+        satuan_id:
+          typeof this.form.satuan_id === "object"
+            ? this.form.satuan_id.satuan_id
+            : this.form.satuan_id,
+        satuan_id_berat:
+          typeof this.form.satuan_id_berat === "object"
+            ? this.form.satuan_id_berat.satuan_id
+            : this.form.satuan_id_berat,
+        satuan_id_volume:
+          typeof this.form.satuan_id_volume === "object"
+            ? this.form.satuan_id_volume.satuan_id
+            : this.form.satuan_id_volume,
+        satuan_id_stocklevel:
+          typeof this.form.satuan_id_stocklevel === "object"
+            ? this.form.satuan_id_stocklevel.satuan_id
+            : this.form.satuan_id_stocklevel,
+        supplier_id:
+          typeof this.form.supplier_id === "object"
+            ? this.form.supplier_id.supplier_id
+            : this.form.supplier_id,
       };
 
       if (this.isEditable) {
