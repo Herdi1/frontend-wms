@@ -127,6 +127,7 @@ export default {
         "~/plugins/global-filters",
         "~/plugins/vue-error-handler",
         "~/plugins/vue-config",
+        { src: '~/plugins/apexcharts.js', mode: 'client' }
         // "~/plugins/init-theme",
         // '~/plugins/date-picker',
         // '~/plugins/pagination',
@@ -180,11 +181,14 @@ export default {
     // build: {},
 
     build: {
+        transpile: ['vue-apexcharts', 'apexcharts'],
         extend(config, ctx) {
             if (ctx.isDev) {
                 config.devtool = ctx.isClient ? "source-map" : "inline-source-map";
             }
+            config.resolve.alias['apexcharts/dist/apexcharts.min'] = 'apexcharts/dist/apexcharts.js'
         },
+
         // terser: { compress: { drop_console: true } }
     },
 
