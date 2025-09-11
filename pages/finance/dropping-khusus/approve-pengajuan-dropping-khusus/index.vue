@@ -2,7 +2,9 @@
   <section>
     <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
       <li>
-        <a href="javascript:;" class="text-primary hover:underline">Finance</a>
+        <a href="javascript:;" class="text-primary hover:underline"
+          >Cash Management</a
+        >
       </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
@@ -25,10 +27,8 @@
           </div>
 
           <div class="w-full mt-3 mb-7">
-            <div
-              class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
-            >
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 <div class="form-group">
                   <input-horizontal
                     label="Periode Awal"
@@ -51,10 +51,9 @@
                   />
                 </div>
               </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Gudang</div>
+                  <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
                   <v-select
                     class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
@@ -98,12 +97,26 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Status Pengajuan</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_pengajuan"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SETUJU">Setuju</option>
+                    <option value="BATAL">Batal</option>
+                  </select>
+                </div>
               </div>
 
-              <div class="flex gap-3">
+              <div class="flex gap-3 mt-5">
                 <button
                   @click="onLoad"
-                  class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
+                  class="bg-blue-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
@@ -118,26 +131,28 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="text-base uppercase text-nowrap">
-                  <!-- <th class="w-20 border border-gray-300">Edit</th> -->
-                  <th class="w-20 border border-gray-300">Detail</th>
-                  <th class="w-20 border border-gray-300">No</th>
+                <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     class="w-48 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'kode_posting',
+                        'kode_pengajuan',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Posting</div>
+                      <div>Kode Pengajuan</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_posting' &&
+                            parameters.params.order == 'kode_pengajuan' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -146,7 +161,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_posting' &&
+                            parameters.params.order == 'kode_pengajuan' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -156,13 +171,13 @@
                     </div>
                   </th>
                   <th
+                    class="w-48 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
                         'tanggal',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="w-48 border border-gray-300 cursor-pointer"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Tanggal</div>
@@ -188,32 +203,66 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-48 border border-gray-300">Jenis</th>
                   <th class="w-48 border border-gray-300">Gudang</th>
-                  <th class="w-48 border border-gray-300">Divisi</th>
-                  <th class="w-48 border border-gray-300">Pelanggan</th>
-                  <th class="w-48 border border-gray-300">Chart Of Account</th>
-                  <th class="w-48 border border-gray-300">
-                    Chart Of Account Biaya
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_pengajuan',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Pengajuan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
                   </th>
-                  <th class="w-48 border border-gray-300">Total</th>
-                  <th class="w-48 border border-gray-300">Kode Referensi</th>
-                  <th class="w-48 border border-gray-300">Keterangan</th>
-                  <th class="w-20 border border-gray-300">Delete</th>
+                  <th class="w-48 border border-gray-300">
+                    Permintaan Dropping
+                  </th>
+                  <th class="w-48 border border-gray-300">No Referensi</th>
+                  <th class="w-48 border border-gray-300">Catatan</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <!-- <td
+                  <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.tanggal !== getTodaysDate"
+                      :disabled="
+                        item.status_pengajuan === 'PROSES' ||
+                        item.status_pengajuan === 'SETUJU' ||
+                        item.status_pengajuan === 'BATAL'
+                      "
                     />
-                  </td> -->
+                  </td>
                   <td
-                    class="text-center border border-gray-300 place-items-center"
+                    class="text-center place-items-center border border-gray-300"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -226,59 +275,71 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kode_posting }}
+                    {{ item.kode_pengajuan }}
                   </td>
                   <td class="border border-gray-300">
                     {{ formatDate(item.tanggal) }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.jenis ? item.jenis : "-" }}
-                  </td>
-                  <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.divisi ? item.divisi.nama_divisi : "-" }}
+                    <div>
+                      <span v-if="item.status_pengajuan === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'SETUJU'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
+                    <p class="text-right">
+                      {{ item.permintaan_dropping | formatPrice }}
+                    </p>
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.coa ? item.coa.nama_coa : "" }} -
-                    {{ item.coa ? item.coa.kode_coa : "" }}
+                    {{ item.no_referensi ? item.no_referensi : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.coa_biaya ? item.coa_biaya.nama_coa : "" }} -
-                    {{ item.coa_biaya ? item.coa_biaya.kode_coa : "" }}
+                    {{ item.catatan ? item.catatan : "-" }}
                   </td>
-                  <td class="border border-gray-300">
-                    {{ item.total | formatPrice }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.kode_referensi ?? "-" }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.keterangan ?? "-" }}
-                  </td>
-                  <td
-                    class="text-center border border-gray-300 place-items-center"
-                  >
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
-                      :disabled="item.tanggal !== getTodaysDate"
+                      :disabled="
+                        item.status_pengajuan === 'PROSES' ||
+                        item.status_pengajuan === 'SETUJU' ||
+                        item.status_pengajuan === 'BATAL'
+                      "
                     />
                   </td>
                 </tr>
               </tbody>
-              <table-data-loading-section :self="this" />
-
-              <table-data-not-found-section :self="this" />
             </table>
-          </div>
-
-          <div class="mx-3 mt-2 mb-4">
-            <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
@@ -294,16 +355,16 @@ export default {
 
   head() {
     return {
-      title: "Posting TKBM",
+      title: "Approve Pengajuan Dropping Khusus",
     };
   },
 
-  async created() {
+  created() {
     this.set_data([]);
-    await this.onLoad();
+    this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -319,7 +380,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isAddData = false;
     }
 
     if (this.getRoles.export) {
@@ -338,28 +399,36 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {
     return {
-      title: "Posting TKBM",
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      title: "Approve Pengajuan Dropping Khusus",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/posting-tkbm",
+        url: "finance/approve-pengajuan-dropping-khusus",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "posting_tkbm_id",
+          order: "pengajuan_dropping_khusus_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
-          gudang_id: "",
           start_date: "",
           end_date: "",
+          gudang_id: "",
+          status_pengajuan: "",
         },
+        form: {},
         loadings: {
           isDelete: false,
           isRestore: false,
@@ -380,10 +449,6 @@ export default {
         import: true,
       },
       user: this.$auth.user,
-
-      isStopSearchGudang: false,
-      isLoadingGetGudang: false,
-      gudang_search: "",
     };
   },
 
@@ -395,7 +460,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "posting-tkbm"
+          (item) => item.rute == "approve-pengajuan-dropping-khusus"
         );
 
         let roles = {};
@@ -410,17 +475,6 @@ export default {
 
         return roles;
       }
-    },
-
-    getTodaysDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
-
-      const formattedDate = `${year}-${month}-${day}`;
-
-      return formattedDate;
     },
   },
 
@@ -442,17 +496,15 @@ export default {
       return `${day}-${month}-${year}`;
     },
 
-    onFormShow() {
-      this.$router.push("/finance/posting-tkbm/add");
+    onEdit(item) {
+      this.$router.push(
+        `/finance/dropping-khusus/approve-pengajuan-dropping-khusus/${item.pengajuan_dropping_khusus_id}`
+      );
     },
-
-    // onEdit(item) {
-    //   this.$router.push("/finance/posting-tkbm/" + item.posting_tkbm_id);
-    // },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/posting-tkbm/details/${item.posting_tkbm_id}`
+        `/finance/dropping-khusus/approve-pengajuan-dropping-khusus/detail/${item.pengajuan_dropping_khusus_id}`
       );
     },
 
@@ -472,7 +524,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.posting_tkbm_id,
+              id: item.pengajuan_dropping_khusus_id,
               params: this.parameters.params,
             });
 
@@ -497,10 +549,10 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = parseInt(page) || 1;
 
-      // this.parameters.form.checkboxs = [];
-      // if (document.getElementById("checkAll")) {
-      //   document.getElementById("checkAll").checked = false;
-      // }
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -556,7 +608,7 @@ export default {
     },
 
     async onSearchGudang() {
-      if (!this.isLoadingGetGudangGudang) {
+      if (!this.isLoadingGetGudang) {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({

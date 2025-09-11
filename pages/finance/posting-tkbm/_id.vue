@@ -335,6 +335,7 @@
                           Kode Pick Order
                         </th>
                         <th class="w-48 border border-gray-300">Kode TKBM</th>
+                        <th class="w-48 border border-gray-300">Nama Item</th>
                         <th
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'OUTBOUND'"
@@ -347,7 +348,6 @@
                         >
                           Supplier
                         </th> -->
-                        <th class="w-48 border border-gray-300">Nama Item</th>
 
                         <th class="w-48 border border-gray-300">Valuation</th>
                         <th class="w-48 border border-gray-300">Jenis Biaya</th>
@@ -405,6 +405,15 @@
                             item.pick_order ? item.pick_order.kode_tkbm : "-"
                           }}
                         </td>
+                        <td class="border border-gray-300">
+                          {{
+                            item.item_gudang ? item.item_gudang.kode_item : "-"
+                          }}
+                          -
+                          {{
+                            item.item_gudang ? item.item_gudang.nama_item : "-"
+                          }}
+                        </td>
                         <td
                           class="border border-gray-300"
                           v-if="form.jenis === 'OUTBOUND'"
@@ -419,15 +428,7 @@
                             item.supplier ? item.supplier.nama_supplier : "-"
                           }}
                         </td> -->
-                        <td class="border border-gray-300">
-                          {{
-                            item.item_gudang ? item.item_gudang.kode_item : "-"
-                          }}
-                          -
-                          {{
-                            item.item_gudang ? item.item_gudang.nama_item : "-"
-                          }}
-                        </td>
+
                         <td class="border border-gray-300">
                           {{
                             item.valuation ? item.valuation.kode_valuation : "-"
@@ -511,14 +512,21 @@
         </ValidationObserver>
       </div>
     </div>
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
+import ModalDetail from "./detail";
+
 export default {
   middleware: ["checkRoleUserDetail"],
+
+  components: {
+    ModalDetail,
+  },
 
   head() {
     return {
@@ -550,6 +558,7 @@ export default {
         pelanggan_id: "",
         keterangan: "",
         posting_tkbm_details: [],
+        list_tkbm: {},
       },
       default_form: {
         tanggal: "",
@@ -905,6 +914,11 @@ export default {
         }
       );
 
+      if (daftarDetail.data.length === 0) {
+        this.$toaster.error("Tidak ada detail TKBM pada periode tersebut");
+        return;
+      }
+
       this.form.posting_tkbm_details = daftarDetail.data.map((item) => {
         return {
           ...item,
@@ -929,6 +943,15 @@ export default {
           },
         }
       );
+      if (listDetail.data.length === 0) {
+        this.$toaster.error("Detail tidak ditemukan");
+        return;
+      }
+      this.form.list_tkbm = listDetail.data[0];
+      // this.$refs.modalDetail.form = {
+      //   ...listDetail,
+      // };
+      this.$refs.modalDetail.show();
       // console.log(listDetail.data);
     },
 

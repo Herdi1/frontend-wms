@@ -107,6 +107,21 @@
                       v-model="form.kode_referensi_3"
                     />
                   </div>
+                  <div class="flex w-full m-1 pr-1">
+                    <label for="" class="w-1/2"
+                      >Jenis Jurnal<span class="text-danger">*</span></label
+                    >
+                    <select
+                      required
+                      name=""
+                      id=""
+                      v-model="form.jenis_jurnal"
+                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                    >
+                      <option value="UMUM">Umum</option>
+                      <option value="BANK">Bank</option>
+                    </select>
+                  </div>
                 </div>
                 <!-- <div
                   class="grid grid-flow-row grid-cols-1 md:grid-cols-3 gap-3 items-top w-full mb-5"
@@ -643,6 +658,7 @@ export default {
         kode_referensi_2: "",
         kode_referensi_3: "",
         gudang_id: "",
+        jenis_jurnal: "",
         jurnal_details: [],
       },
       default_form: {
@@ -655,6 +671,7 @@ export default {
         kode_referensi_2: "",
         kode_referensi_3: "",
         gudang_id: "",
+        jenis_jurnal: "",
         jurnal_details: [],
       },
 
@@ -711,6 +728,8 @@ export default {
             this.form[item] = response.data[item];
           }
         });
+
+        this.form.jenis_jurnal = response.data.jenis_jurnal.trim() ?? "";
 
         this.form.gudang_id = response.data.gudang ?? "";
 
@@ -829,8 +848,8 @@ export default {
         url += "/" + this.id;
       }
 
-      console.log(formData);
-      console.log("sampe sini");
+      // console.log(formData);
+      // console.log("sampe sini");
       this.$axios({
         url: url,
         method: this.isEditable ? "put" : "post",

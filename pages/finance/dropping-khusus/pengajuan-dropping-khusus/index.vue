@@ -97,6 +97,20 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="flex w-full m-1 pr-1">
+                  <label for="" class="w-1/2">Status Pengajuan</label>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_pengajuan"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SETUJU">Setuju</option>
+                    <option value="BATAL">Batal</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3 mt-5">
@@ -117,8 +131,201 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="uppercase"></tr>
+                <tr class="uppercase">
+                  <th class="w-20 text-center border border-gray-300">
+                    Detail
+                  </th>
+                  <th class="w-20 text-center border border-gray-300">No</th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'kode_pengajuan',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Pengajuan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_pengajuan' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">Gudang</th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_pengajuan',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Pengajuan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-48 border border-gray-300">
+                    Permintaan Dropping
+                  </th>
+                  <th class="w-48 border border-gray-300">No Referensi</th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
+                </tr>
               </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
+                  <td class="border border-gray-300 text-center">
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_pengajuan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_pengajuan === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'SETUJU'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p class="text-right">
+                      {{ item.permintaan_dropping | formatPrice }}
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.no_referensi ? item.no_referensi : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan ? item.keterangan : "-" }}
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                      :disabled="
+                        item.status_pengajuan === 'PROSES' ||
+                        item.status_pengajuan === 'SETUJU' ||
+                        item.status_pengajuan === 'BATAL'
+                      "
+                    />
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -128,7 +335,6 @@
 </template>
 
 <script>
-import { data } from "autoprefixer";
 import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   middleware: ["checkRoleUser"],
@@ -206,6 +412,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          status_pengajuan: "",
         },
         form: {},
         loadings: {
@@ -275,12 +482,14 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push(`/finance/pengajuan-dropping-khusus/add`);
+      this.$router.push(
+        `/finance/dropping-khusus/pengajuan-dropping-khusus/add`
+      );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/pengajuan-dropping-khusus/detail/${item.pengajuan_dropping_khusus_id}`
+        `/finance/dropping-khusus/pengajuan-dropping-khusus/detail/${item.pengajuan_dropping_khusus_id}`
       );
     },
 

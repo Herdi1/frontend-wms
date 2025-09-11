@@ -467,7 +467,7 @@
                           class="border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         >
-                          {{ item.tanggal }}
+                          {{ formatDate(item.tanggal) }}
                         </td>
                         <td
                           class="border border-gray-300"
@@ -513,13 +513,13 @@
                         </td>
 
                         <td
-                          class="border border-gray-300 text-right"
+                          class="border border-gray-300"
                           v-if="form.jenis === 'PREMI'"
                         >
                           {{ item.nama_lengkap }}
                         </td>
                         <td
-                          class="border border-gray-300 text-right"
+                          class="border border-gray-300"
                           v-if="form.jenis === 'PREMI'"
                         >
                           {{
@@ -537,7 +537,7 @@
                           {{ item.total_qty }}
                         </td>
                         <td class="border border-gray-300 text-right">
-                          {{ item.total_biaya }}
+                          {{ item.total_biaya | formatPrice }}
                         </td>
 
                         <td
@@ -766,6 +766,12 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onSelectJenis() {
       this.form.posting_premi_details = [];

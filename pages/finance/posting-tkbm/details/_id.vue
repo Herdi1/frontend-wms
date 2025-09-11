@@ -101,6 +101,9 @@
             >
               <thead>
                 <tr class="uppercase">
+                  <th class="w-20 border border-gray-300 text-center">
+                    Detail
+                  </th>
                   <th
                     class="w-48 border border-gray-300"
                     v-if="this.form.jenis === 'INBOUND'"
@@ -130,6 +133,16 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in form.posting_tkbm_details" :key="i">
+                  <td
+                    class="border border-gray-300 place-items-center text-center"
+                  >
+                    <div
+                      class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
+                      @click="showList(item)"
+                    >
+                      <i class="fas fa-info-circle text-white mx-auto"></i>
+                    </div>
+                  </td>
                   <td
                     class="border border-gray-300"
                     v-if="form.jenis === 'INBOUND'"
@@ -210,6 +223,7 @@
                   <td class="border-b border-gray-300"></td>
                   <td class="border-b border-gray-300"></td>
                   <td class="border-b border-gray-300"></td>
+                  <td class="border-b border-gray-300"></td>
                   <td
                     class="border-b border-gray-300"
                     v-if="form.jenis === 'OUTBOUND'"
@@ -220,6 +234,7 @@
                       {{ totalNominal | formatPrice }}
                     </p>
                   </td>
+                  <td class="border border-gray-300"></td>
                 </tr>
               </tbody>
             </table>
@@ -227,12 +242,18 @@
         </div>
       </div>
     </div>
+    <ModalDetail :self="this" ref="modalDetail" />
   </section>
 </template>
 
 <script>
+import ModalDetail from "../detail.vue";
 export default {
   props: ["self"],
+
+  components: {
+    ModalDetail,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -307,6 +328,28 @@ export default {
       if (!dateString) return "";
       const [year, month, day] = dateString.split("-");
       return `${day}-${month}-${year}`;
+    },
+
+    async showList(item) {
+      let listDetail = await this.$axios.get(
+        "finance/posting-tkbm/get-daftar-list-tkbm",
+        {
+          params: {
+            jenis: this.form.jenis,
+            inbound_detail_id: item.inbound_detail_id ?? "",
+            pick_order_detail_id: item.pick_order_detail_id ?? "",
+          },
+        }
+      );
+      if (listDetail.data.length === 0) {
+        this.$toaster.error("Detail tidak ditemukan");
+        return;
+      }
+      this.form.list_tkbm = listDetail.data[0];
+      // this.$refs.modalDetail.form = {
+      //   ...listDetail,
+      // };
+      this.$refs.modalDetail.show();
     },
   },
 };

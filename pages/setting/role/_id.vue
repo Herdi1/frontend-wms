@@ -471,7 +471,7 @@ export default {
             "?search=" +
             this.custom_search +
             "&menu_id_induk=" +
-            this.parameters.form.menu_id_induk +
+            this.parameters.form.menu_id_induk.menu_id +
             "&status_menu=2" +
             "&page=" +
             this.lookup_custom1.current_page +

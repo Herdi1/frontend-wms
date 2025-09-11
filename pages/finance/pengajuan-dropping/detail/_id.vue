@@ -383,9 +383,19 @@ export default {
       });
       this.form.gudang = res.data.gudang;
       this.form.pengajuan_dropping_details =
-        res.data.pengajuan_dropping_details;
+        res.data.pengajuan_dropping_details.map((item) => {
+          return {
+            ...item,
+            coa: item.coa ? item.coa : "",
+          };
+        });
       this.form.pengajuan_dropping_biaya_details =
-        res.data.pengajuan_dropping_biaya_details;
+        res.data.pengajuan_dropping_biaya_details.map((item) => {
+          return {
+            ...item,
+            coa: item.coa ? item.coa : "",
+          };
+        });
       this.isLoadingPage = false;
     } catch (error) {
       this.$router.back();

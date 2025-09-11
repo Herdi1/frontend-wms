@@ -143,7 +143,7 @@ export default {
 
   head() {
     return {
-      title: "Fungsi Zona",
+      title: "Banner",
     };
   },
 

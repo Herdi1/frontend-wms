@@ -19,7 +19,7 @@
             autocomplete="off"
           >
             <div
-              class="mt-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+              class="my-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
             >
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
                 <div class="form-group">
@@ -65,19 +65,25 @@
                     class="w-1/2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Lampiran
                   </label>
-                  <input
-                    class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="lampiran"
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                  />
+                  <span class="w-1/2">
+                    <input
+                      class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      id="lampiran"
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      @change="handleFileChange"
+                    />
+                    <p class="italic text-sm text-slate-600">
+                      .png, .jpg, .jpeg
+                    </p>
+                  </span>
                 </div>
                 <div class="form-group flex justify-between items-start">
-                  <label for="nominal_dropping_khusus" class="w-1/2"
+                  <label for="permintaan_dropping" class="w-1/2"
                     >Nominal Dropping Khusus
                   </label>
                   <money
-                    v-model="form.nominal_dropping_khusus"
+                    v-model="form.permintaan_dropping"
                     class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
@@ -91,7 +97,7 @@
                     name="no_referensi"
                     :isHorizontal="true"
                     v-model="form.no_referensi"
-                    :required="true"
+                    :required="false"
                   />
                 </div>
 
@@ -105,6 +111,10 @@
                 </div>
               </div>
             </div>
+            <modal-footer-section
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
           </form>
         </ValidationObserver>
       </div>
@@ -146,15 +156,11 @@ export default {
         plafon_dropping: "",
         permintaan_dropping: "",
         no_referensi: "",
-      },
-      default_form: {
-        gudang_id: "",
-        keterangan: "",
-        file_name_lampiran: "",
-        tanggal: "",
-        plafon_dropping: "",
-        permintaan_dropping: "",
-        no_referensi: "",
+
+        user_agent: "",
+        device: "",
+        longitude: "",
+        latitude: "",
       },
     };
   },
@@ -267,6 +273,11 @@ export default {
       }
     },
 
+    handleFileChange(event) {
+      this.form.file_name_lampiran = event.target.files[0];
+      console.log(this.form.file_name_lampiran);
+    },
+
     async onSubmit(invalid) {
       if (invalid || this.isLoadingForm) return;
 
@@ -322,6 +333,19 @@ export default {
           this.isLoadingForm = false;
           this.$refs.formValidate.reset();
         });
+    },
+
+    formReset() {
+      this.isEditable = false;
+      this.form = {
+        gudang_id: "",
+        keterangan: "",
+        file_name_lampiran: "",
+        tanggal: "",
+        plafon_dropping: "",
+        permintaan_dropping: "",
+        no_referensi: "",
+      };
     },
   },
 };

@@ -1080,6 +1080,17 @@ export default {
     },
 
     async addDetailUjs() {
+      if (
+        !this.form.periode_awal ||
+        !this.form.periode_akhir ||
+        !this.form.tanggal ||
+        !this.form.gudang_id
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Tanggal, Gudang, Periode Awal dan Akhir Terlebih Dahulu!"
+        );
+        return;
+      }
       const daftarRute = await this.$axios.get(
         "/finance/ujs-sopir/get-daftar-rute-lastmile",
         {
@@ -1091,6 +1102,11 @@ export default {
           },
         }
       );
+
+      if (!daftarRute.data.length) {
+        this.$toaster.error("Tidak ada rute lastmile pada periode tersebut");
+        return;
+      }
 
       this.form.ujs_sopir_details = daftarRute.data.map((item) => {
         return {
