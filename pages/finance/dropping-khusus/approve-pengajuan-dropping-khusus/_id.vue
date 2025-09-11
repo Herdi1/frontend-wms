@@ -176,7 +176,6 @@ export default {
       });
       this.form.gudang_id = res.data.gudang;
       this.isLoadingPage = false;
-      console.log(this.form);
     } catch (error) {
       this.$router.back();
     }

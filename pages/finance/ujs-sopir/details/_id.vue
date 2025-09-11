@@ -21,7 +21,7 @@
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
                 <div
-                  class="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-1 items-top w-full"
+                  class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full"
                 >
                   <div class="form-group">
                     <input-horizontal
@@ -235,7 +235,7 @@
                       v-model="form.kode_referensi"
                     />
                   </div>
-                  <div class="form-group col-span-2">
+                  <div class="form-group md:col-span-2">
                     <label for="keterangan" class="w-1/2">Keterangan</label>
                     <textarea
                       :disabled="true"
@@ -272,6 +272,8 @@
                     " -->
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
+                        <th class="w-[75px] border border-gray-300">Detail</th>
+
                         <th class="w-[200px] border border-gray-300">
                           Kode UJS
                         </th>
@@ -330,7 +332,6 @@
                         <th class="w-[200px] border border-gray-300">
                           Keterangan
                         </th>
-                        <th class="w-[75px] border border-gray-300">Detail</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -340,6 +341,18 @@
                         style="border-top: 0.5px solid lightgray"
                         class="align-top mx-0"
                       >
+                        <td
+                          class="border border-gray-300 place-items-center text-center"
+                        >
+                          <div
+                            class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
+                            @click="onDetail(item)"
+                          >
+                            <i
+                              class="fas fa-info-circle text-white mx-auto"
+                            ></i>
+                          </div>
+                        </td>
                         <td class="border border-gray-300">
                           <p>
                             {{ item.shipment ? item.shipment.kode_ujs : "-" }}
@@ -415,15 +428,6 @@
                         </td>
                         <td class="border border-gray-300 text-right">
                           {{ item.keterangan }}
-                        </td>
-                        <td
-                          class="text-center text-gray-600 border border-gray-300"
-                        >
-                          <i
-                            class="fas fa-info mx-auto"
-                            style="cursor: pointer"
-                            @click="onDetail(item)"
-                          ></i>
                         </td>
                       </tr>
                       <tr>
@@ -950,7 +954,11 @@ export default {
           },
         }
       );
-      console.log(listDetail.data);
+
+      this.$refs.modalRuteLastmile.form = {
+        ...listDetail.data[0],
+      };
+      this.$refs.modalRuteLastmile.show();
     },
 
     onShowPicture(item) {

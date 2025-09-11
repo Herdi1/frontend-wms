@@ -83,6 +83,7 @@
                       name="periode_awal"
                       :required="true"
                       v-model="form.periode_awal"
+                      :disabled="true"
                     />
                   </div>
                   <div class="form-group">
@@ -91,6 +92,7 @@
                       type="date"
                       name="periode_akhir"
                       :required="true"
+                      :disabled="true"
                       v-model="form.periode_akhir"
                     />
                   </div>
@@ -100,6 +102,7 @@
                       type="text"
                       name="kode_referensi"
                       :required="false"
+                      :disabled="true"
                       v-model="form.kode_referensi"
                     />
                   </div>
@@ -108,6 +111,7 @@
                       >Jenis <span class="text-danger">*</span></label
                     >
                     <select
+                      disabled
                       required
                       name=""
                       id=""

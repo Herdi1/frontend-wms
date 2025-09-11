@@ -467,7 +467,7 @@ export default {
     },
 
     onDetail(item) {
-      this.$router.push(`/finance/ujs-sopir/detail/${item.ujs_sopir_id}`);
+      this.$router.push(`/finance/ujs-sopir/details/${item.ujs_sopir_id}`);
     },
 
     onTrashed(item) {

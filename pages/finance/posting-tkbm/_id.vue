@@ -631,8 +631,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log(error);
-      // this.$router.back()
+      // console.log(error);
+      this.$router.back();
     }
   },
 
@@ -947,10 +947,10 @@ export default {
         this.$toaster.error("Detail tidak ditemukan");
         return;
       }
-      this.form.list_tkbm = listDetail.data[0];
       // this.$refs.modalDetail.form = {
       //   ...listDetail,
       // };
+      this.form.list_tkbm = listDetail.data[0];
       this.$refs.modalDetail.show();
       // console.log(listDetail.data);
     },

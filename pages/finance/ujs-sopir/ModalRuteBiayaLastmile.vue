@@ -1,14 +1,16 @@
 <template>
   <portal v-if="visible" to="modal-detail">
-    <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
-      class="modal fade fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
+      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-[500px] max-h-[80vh] overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
       id="modal-detail"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header flex justify-between text-xl font-bold mb-3">
+      <div class="modal-dialog relative w-full">
+        <div class="modal-content overflow-y-auto">
+          <div class="flex justify-between text-xl font-bold mb-3">
+            <h5 class="modal-title">Detail UJS Supir</h5>
+
             <button
               type="button"
               class="close"
@@ -21,220 +23,75 @@
           </div>
 
           <div class="modal-body">
-            <div class="card-title">
-              <list-option-section :self="this" ref="form-option" />
-            </div>
-            <div class="table-responsive">
-              <table
-                class="mb-5 border border-gray-300 table-fixed"
-                ref="formContainer"
-              >
-                <thead>
-                  <tr class="uppercase">
-                    <th
-                      class="w-48 cursor-pointer border border-gray-300"
-                      @click="
-                        onSort(
-                          'kode_pick_request',
-                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                        )
-                      "
-                    >
-                      <div class="flex justify-between align-baseline">
-                        <div>Kode Pick Request</div>
-                        <div>
-                          <i
-                            class="fas fa-caret-up"
-                            :class="
-                              parameters.params.order == 'kode_pick_request' &&
-                              parameters.params.sort == 'asc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                          <i
-                            class="fas fa-caret-down"
-                            :class="
-                              parameters.params.order == 'kode_pick_request' &&
-                              parameters.params.sort == 'desc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                        </div>
-                      </div>
-                    </th>
-                    <th class="border border-gray-300 w-36">Jenis Transaksi</th>
-                    <th class="border border-gray-300 w-36">
-                      Kode Stok Transfer
-                    </th>
-                    <th
-                      @click="
-                        onSort(
-                          'tanggal',
-                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                        )
-                      "
-                      class="cursor-pinter w-32 border border-gray-300"
-                    >
-                      <div class="flex justify-between items-baseline">
-                        <div>Tanggal</div>
-                        <div>
-                          <i
-                            class="fas fa-caret-up"
-                            :class="
-                              parameters.params.order == 'tanggal' &&
-                              parameters.params.sort == 'asc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                          <i
-                            class="fas fa-caret-down"
-                            :class="
-                              parameters.params.order == 'tanggal' &&
-                              parameters.params.sort == 'desc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      class="w-32 cursor-pointer border border-gray-300"
-                      @click="
-                        onSort(
-                          'kode_item',
-                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                        )
-                      "
-                    >
-                      <div class="flex justify-between align-baseline">
-                        <div>Kode Item</div>
-                        <div>
-                          <i
-                            class="fas fa-caret-up"
-                            :class="
-                              parameters.params.order == 'kode_item' &&
-                              parameters.params.sort == 'asc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                          <i
-                            class="fas fa-caret-down"
-                            :class="
-                              parameters.params.order == 'kode_item' &&
-                              parameters.params.sort == 'desc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                        </div>
-                      </div>
-                    </th>
-                    <th
-                      class="w-40 cursor-pointer"
-                      @click="
-                        onSort(
-                          'nama_item',
-                          parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                        )
-                      "
-                    >
-                      <div class="flex justify-between align-baseline">
-                        <div>Nama Item</div>
-                        <div>
-                          <i
-                            class="fas fa-caret-up"
-                            :class="
-                              parameters.params.order == 'nama_item' &&
-                              parameters.params.sort == 'asc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                          <i
-                            class="fas fa-caret-down"
-                            :class="
-                              parameters.params.order == 'nama_item' &&
-                              parameters.params.sort == 'desc'
-                                ? ''
-                                : 'light-gray'
-                            "
-                          ></i>
-                        </div>
-                      </div>
-                    </th>
-
-                    <th class="border border-gray-300 w-32">Quantity</th>
-                    <th class="w-20">Options</th>
-                  </tr>
-                </thead>
-                <tbody class="min-h-[500px]">
-                  <tr v-for="(item, i) in data" :key="i">
-                    <td class="border border-gray-300">
-                      <div>
-                        {{ item.kode_pick_request }}
-                        <p v-if="item.user_id_input" class="text-blue-500">
-                          <i>Dibuat oleh: {{ item.user_id_input.username }}</i>
-                        </p>
-                        <p v-else class="text-blue-500">
-                          <i>Dibuat oleh: Sistem</i>
-                        </p>
-                      </div>
-                    </td>
-                    <td class="border border-gray-300 text-center">
-                      <span
-                        v-if="item.jenis == 0"
-                        class="p-1 text-white rounded-md bg-orange-500"
-                        >Penjualan</span
-                      >
-                      <span
-                        v-if="item.jenis == 1"
-                        class="p-1 text-white rounded-md bg-green-500"
-                        >Stok Transfer</span
-                      >
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.stok_transfer_detail
-                          ? item.stok_transfer_detail.stok_transfer
-                              .kode_stok_transfer
-                          : "-"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">{{ item.tanggal }}</td>
-                    <td class="border border-gray-300">
-                      {{ item.kode_item ? item.kode_item : "-" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.nama_item ? item.nama_item : "-" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.jarak }} {{ item.status }}
-                      {{ item.tanggal_selesai }}
-                    </td>
-                    <td
-                      class="border border-gray-300 text-center place-items-center"
-                    >
-                      <button
-                        class="btn btn-sm btn-primary"
-                        @click="self.addItem(item)"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-                <!-- <table-data-loading-section :self="this" />
-
-                <table-data-not-found-section :self="this" /> -->
-              </table>
-            </div>
-            <div class="mx-3 mt-2 mb-4">
-              <pagination-section :self="this" ref="pagination" />
+            <div class="grid grid-cols-2 gap-3 mb-3 my-1">
+              <div>
+                <label class="font-semibold">Lokasi</label>
+                <span>{{
+                  this.form.lokasi
+                    ? this.form.lokasi.nama_lokasi
+                    : "Lokasi Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Vendor</label>
+                <span>{{
+                  this.form.vendor
+                    ? this.form.vendor.nama_vendor
+                    : "Vendor Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Divisi</label>
+                <span>{{
+                  this.form.divisi
+                    ? this.form.divisi.nama_divisi
+                    : "Divisi Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Jenis Biaya</label>
+                <span>{{
+                  this.form.jenis_biaya
+                    ? this.form.jenis_biaya.nama_jenis_biaya
+                    : "Jenis Biaya Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Term Pembayaran</label>
+                <span>{{
+                  this.form.term_pembayaran
+                    ? this.form.term_pembayaran.nama_term_pembayaran
+                    : "Term Pembayaran Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Jenis Routing</label>
+                <span>{{
+                  this.form.jenis_routing
+                    ? this.form.jenis_routing
+                    : "Jenis Routing Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Berat</label>
+                <span>{{
+                  this.form.berat ? this.form.berat : "Berat Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Quantity</label>
+                <span>{{
+                  this.form.jumlah ? this.form.jumlah : "Jumlah Tidak Ditemukan"
+                }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Nominal Satuan</label>
+                <span>{{ this.form.nominal_satuan | formatPrice }}</span>
+              </div>
+              <div>
+                <label class="font-semibold">Total</label>
+                <span>{{ this.form.total | formatPrice }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -256,111 +113,122 @@ export default {
       visible: false,
       isLoadingData: false,
       isPaginate: true,
-      parameters: {
-        url: "",
-        type: "pdf",
-        params: {
-          gudang_id: "",
-          tanggal: "",
-          soft_deleted: "",
-          search: "",
-          order: "rute_shipment_id",
-          sort: "desc",
-          all: "",
-          per_page: 10,
-          page: 1,
-          start_date: "",
-          end_data: "",
-        },
+      form: {
+        berat: "",
+        divisi: {},
+        jenis_biaya: {},
+        jenis_routing: "",
+        jumlah: "",
+        lokasi: {},
+        nominal_satuan: "",
+        term_pembayaran: {},
+        total: "",
+        vendor: {},
       },
+      // parameters: {
+      //   url: "",
+      //   type: "pdf",
+      //   params: {
+      //     gudang_id: "",
+      //     tanggal: "",
+      //     soft_deleted: "",
+      //     search: "",
+      //     order: "rute_shipment_id",
+      //     sort: "desc",
+      //     all: "",
+      //     per_page: 10,
+      //     page: 1,
+      //     start_date: "",
+      //     end_data: "",
+      //   },
+      // },
     };
   },
 
-  created() {
-    this.set_data([]);
-  },
+  // created() {
+  //   this.set_data([]);
+  // },
 
-  computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
-    onFormOptionReady() {
-      const formOption = this.$refs["form-option"];
-      if (formOption) {
-        formOption.isExport = false;
-        formOption.isFilter = false;
-        formOption.isMaintenancePage = true;
-        formOption.isAddData = false;
-      }
-    },
-  },
+  // computed: {
+  //   ...mapState("moduleApi", ["data", "error", "result"]),
+  //   onFormOptionReady() {
+  //     const formOption = this.$refs["form-option"];
+  //     if (formOption) {
+  //       formOption.isExport = false;
+  //       formOption.isFilter = false;
+  //       formOption.isMaintenancePage = true;
+  //       formOption.isAddData = false;
+  //     }
+  //   },
+  // },
 
   methods: {
-    ...mapActions("moduleApi", [
-      "getData",
-      "deleteData",
-      "restoreData",
-      "deleteAllData",
-      "restoreAllData",
-    ]),
-    ...mapMutations("moduleApi", ["set_data"]),
+    // ...mapActions("moduleApi", [
+    //   "getData",
+    //   "deleteData",
+    //   "restoreData",
+    //   "deleteAllData",
+    //   "restoreAllData",
+    // ]),
+    // ...mapMutations("moduleApi", ["set_data"]),
 
-    async onLoad(page = 1) {
-      if (this.isLoadingData) return;
+    // async onLoad(page = 1) {
+    //   if (this.isLoadingData) return;
 
-      this.isLoadingData = true;
-      this.parameters.params.page = page;
+    //   this.isLoadingData = true;
+    //   this.parameters.params.page = page;
 
-      this.parameters.url = `finance/ujs-sopir/get-daftar-rute-lastmile`;
+    //   this.parameters.url = `finance/ujs-sopir/get-daftar-rute-lastmile`;
 
-      let loader = this.$loading.show({
-        container: this.$refs.formContainer,
-        canCancel: true,
-        onCancel: this.onCancel,
-      });
+    //   let loader = this.$loading.show({
+    //     container: this.$refs.formContainer,
+    //     canCancel: true,
+    //     onCancel: this.onCancel,
+    //   });
 
-      await this.getData(this.parameters);
+    //   await this.getData(this.parameters);
 
-      if (this.result == true) {
-        loader.hide();
+    //   if (this.result == true) {
+    //     loader.hide();
 
-        if (page == 1) {
-          this.$refs["pagination"].generatePage();
-        }
+    //     if (page == 1) {
+    //       this.$refs["pagination"].generatePage();
+    //     }
 
-        this.$refs["pagination"].active_page = this.parameters.params.page;
-      } else {
-        this.$globalErrorToaster(this.$toaster, this.error);
-        // console.log(this.error);
-      }
+    //     this.$refs["pagination"].active_page = this.parameters.params.page;
+    //   } else {
+    //     this.$globalErrorToaster(this.$toaster, this.error);
+    //   }
 
-      this.isLoadingData = false;
-    },
+    //   this.isLoadingData = false;
+    // },
 
     show() {
       this.visible = true;
 
-      this.$nextTick(() => {
-        const formOption = this.$refs["form-option"];
-        if (formOption) {
-          formOption.isExport = false;
-          formOption.isFilter = false;
-          formOption.isMaintenancePage = true;
-          formOption.isAddData = false;
-        }
-      });
+      // this.$nextTick(() => {
+      //   const formOption = this.$refs["form-option"];
+      //   if (formOption) {
+      //     formOption.isExport = false;
+      //     formOption.isFilter = false;
+      //     formOption.isMaintenancePage = true;
+      //     formOption.isAddData = false;
+      //   }
+      // });
     },
     hide() {
       this.visible = false;
     },
 
-    onSort(column, sort = "asc") {
-      this.parameters.params = {
-        ...this.parameters.params,
-        order: column,
-        sort: sort,
-      };
+    // onSort(column, sort = "asc") {
+    //   this.parameters.params = {
+    //     ...this.parameters.params,
+    //     order: column,
+    //     sort: sort,
+    //   };
 
-      this.onLoad(this.parameters.params.page);
-    },
+    //   this.onLoad(this.parameters.params.page);
+    // },
   },
 };
 </script>

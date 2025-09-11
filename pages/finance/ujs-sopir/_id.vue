@@ -323,6 +323,8 @@
                     " -->
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
+                        <!-- <th class="w-[75px] border border-gray-300">Detail</th> -->
+
                         <th class="w-[200px] border border-gray-300">
                           Kode UJS
                         </th>
@@ -391,6 +393,18 @@
                         style="border-top: 0.5px solid lightgray"
                         class="align-top mx-0"
                       >
+                        <!-- <td
+                          class="border border-gray-300 place-items-center text-center"
+                        >
+                          <div
+                            class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
+                            @click="onDetail(item)"
+                          >
+                            <i
+                              class="fas fa-info-circle text-white mx-auto"
+                            ></i>
+                          </div>
+                        </td> -->
                         <td class="border border-gray-300">
                           <p>
                             {{ item.shipment ? item.shipment.kode_ujs : "-" }}
@@ -1153,6 +1167,22 @@ export default {
       this.form.ujs_sopir_details = this.form.ujs_sopir_details.filter(
         (_, itemIndex) => index != itemIndex
       );
+    },
+
+    async onDetail(item) {
+      let listDetail = await this.$axios.get(
+        "finance/ujs-sopir/get-daftar-list-lastmile",
+        {
+          params: {
+            ujs_sopir_detail_id: item.ujs_sopir_detail_id.ujs_sopir_detail_id,
+          },
+        }
+      );
+
+      this.$refs.modalRuteLastmile.form = {
+        ...listDetail.data[0],
+      };
+      this.$refs.modalRuteLastmile.show();
     },
 
     calculateSubTotal(item) {

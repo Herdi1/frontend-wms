@@ -237,11 +237,10 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-48 border border-gray-300">
-                    Permintaan Dropping
-                  </th>
-                  <th class="w-48 border border-gray-300">No Referensi</th>
-                  <th class="w-48 border border-gray-300">Catatan</th>
+                  <th class="w-48 border border-gray-300">Periode Awal</th>
+                  <th class="w-48 border border-gray-300">Periode Akhir</th>
+                  <th class="w-20 border text-center border-gray-300">Print</th>
+
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -283,57 +282,29 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    <div>
-                      <span v-if="item.status_pengajuan === 'MENUNGGU'">
-                        <p
-                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
-                        >
-                          {{ item.status_pengajuan }}
-                        </p>
-                      </span>
-                      <span v-if="item.status_pengajuan === 'PROSES'">
-                        <p
-                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                        >
-                          {{ item.status_pengajuan }}
-                        </p>
-                      </span>
-                      <span v-if="item.status_pengajuan === 'SETUJU'">
-                        <p
-                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                        >
-                          {{ item.status_pengajuan }}
-                        </p>
-                      </span>
-                      <span v-if="item.status_pengajuan === 'BATAL'">
-                        <p
-                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
-                        >
-                          {{ item.status_pengajuan }}
-                        </p>
-                      </span>
-                    </div>
+                    {{ item.status_pengajuan }}
                   </td>
                   <td class="border border-gray-300">
-                    <p class="text-right">
-                      {{ item.permintaan_dropping | formatPrice }}
-                    </p>
+                    {{ formatDate(item.periode_awal) }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.no_referensi ? item.no_referensi : "-" }}
+                    {{ formatDate(item.periode_akhir) }}
                   </td>
-                  <td class="border border-gray-300">
-                    {{ item.catatan ? item.catatan : "-" }}
+                  <td class="place-items-center border border-gray-300">
+                    <!-- v-if="!item.deleted_at" -->
+                    <button
+                      type="button"
+                      class="btn btn-sm"
+                      @click="onPrintDetail(item)"
+                      title="Print Pengajuan Dropping"
+                    >
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
                   </td>
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
-                      :disabled="
-                        item.status_pengajuan === 'PROSES' ||
-                        item.status_pengajuan === 'SETUJU' ||
-                        item.status_pengajuan === 'BATAL'
-                      "
                     />
                   </td>
                 </tr>
@@ -357,10 +328,9 @@ import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   middleware: ["checkRoleUser"],
-
   head() {
     return {
-      title: "Approve Pengajuan Dropping Khusus",
+      title: "Approve Pengajuan Dropping",
     };
   },
 
@@ -414,16 +384,16 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Approve Pengajuan Dropping Khusus",
+      title: "Pengajuan Dropping",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/approve-pengajuan-dropping-khusus",
+        url: "finance/approve-pengajuan-dropping",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "pengajuan_dropping_khusus_id",
+          order: "pengajuan_dropping_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -431,9 +401,16 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
-          status_pengajuan: "",
         },
-        form: {},
+        form: {
+          no_ajuan: "",
+          tanggal: "",
+          gudang_id: "",
+          periode_awal: "",
+          periode_akhir: "",
+          status: "",
+          detail_pengajuan_dropping: [],
+        },
         loadings: {
           isDelete: false,
           isRestore: false,
@@ -465,7 +442,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "approve-pengajuan-dropping-khusus"
+          (item) => item.rute == "approve-pengajuan-dropping"
         );
 
         let roles = {};
@@ -503,13 +480,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/finance/dropping-khusus/approve-pengajuan-dropping-khusus/${item.pengajuan_dropping_khusus_id}`
+        `/finance/dropping/approve-pengajuan-dropping/${item.pengajuan_dropping_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/dropping-khusus/approve-pengajuan-dropping-khusus/detail/${item.pengajuan_dropping_khusus_id}`
+        `/finance/dropping/approve-pengajuan-dropping/detail/${item.pengajuan_dropping_id}`
       );
     },
 
@@ -529,7 +506,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.pengajuan_dropping_khusus_id,
+              id: item.pengajuan_dropping_id,
               params: this.parameters.params,
             });
 
