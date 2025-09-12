@@ -453,18 +453,19 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/finance/pengajuan-dropping/add");
+      this.$router.push("/finance/dropping/pengajuan-dropping/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/finance/pengajuan-dropping/" + item.pengajuan_dropping_id
+        "/finance/dropping/pengajuan-dropping/" + item.pengajuan_dropping_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/finance/pengajuan-dropping/detail/" + item.pengajuan_dropping_id
+        "/finance/dropping/pengajuan-dropping/detail/" +
+          item.pengajuan_dropping_id
       );
     },
 
