@@ -640,7 +640,7 @@ export default {
 
     getIdle(item) {
       let idle = item.standar_waktu_kerja - item.total_realisasi;
-      return idle;
+      return parseFloat(idle).toFixed(2);
     },
 
     getPresentase(item) {

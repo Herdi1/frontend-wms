@@ -241,9 +241,9 @@
                   <th class="w-48 border border-gray-300">Periode Akhir</th>
                   <th class="w-20 border text-center border-gray-300">Print</th>
 
-                  <th class="w-20 text-center border border-gray-300">
+                  <!-- <th class="w-20 text-center border border-gray-300">
                     Delete
-                  </th>
+                  </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -301,12 +301,12 @@
                       <i class="fas fa-print text-primary"></i>
                     </button>
                   </td>
-                  <td class="place-items-center border border-gray-300">
+                  <!-- <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
                     />
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

@@ -1211,7 +1211,9 @@ export default {
           // this.self.form.inbound_details[index].index = index;
         } else {
           this.self.form.inbound_details[index].item_gudang_id = item;
+          this.self.form.inbound_details[index].item_id = item.item_id;
         }
+        console.log(this.self.form.inbound_details[index].item_id);
         await this.onSearchZonaPlan();
         await this.generateBiayaTagihan(index);
 
