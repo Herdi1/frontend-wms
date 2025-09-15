@@ -275,7 +275,6 @@ export default {
 
     handleFileChange(event) {
       this.form.file_name_lampiran = event.target.files[0];
-      console.log(this.form.file_name_lampiran);
     },
 
     async onSubmit(invalid) {

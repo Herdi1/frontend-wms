@@ -31,14 +31,23 @@
               />
             </div>
             <div class="form-group">
-              <input-form
-                label="File"
-                type="file"
-                name="File"
-                :required="true"
-                v-model="parameters.form.file_name"
-              />
-              <p class="text-danger italic">*jpeg, png, jpg, gif (maks 2MB)</p>
+              <label
+                for="lampiran"
+                class="w-1/2 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Lampiran
+              </label>
+              <span class="w-1/2">
+                <input
+                  class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  id="lampiran"
+                  type="file"
+                  accept=".png, .jpg, .jpeg, .gif"
+                  @change="handleFileChange"
+                />
+                <p class="italic text-sm text-slate-600">
+                  *jpeg, png, jpg, gif (maks 2MB)
+                </p>
+              </span>
             </div>
             <div class="form-group">
               <label for="keterangan"> Keterangan </label>
@@ -100,6 +109,10 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData"]),
+
+    handleFileChange(e) {
+      this.parameters.form.file_name = e.target.files[0];
+    },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;

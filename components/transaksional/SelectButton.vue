@@ -15,20 +15,11 @@
       :reduce="reduce"
       :disabled="disabled"
     >
-      <!-- <template slot="selected-option" slot-scope="option">
-        {{ option.self.optionLabel + " - " + option.tanggal }}
-      </template> -->
-      <!-- <template #search="{ attributes, events }">
-        <input class="vs__search w-10/12" v-bind="attributes" v-on="events" />
-        <button
-          type="button"
-          @click="self.onGet(events, false)"
-          class="bg-blue-500 p-1 rounded-md text-sm text-white"
-        >
-          <i class="fa fa-search"></i>
-        </button>
-      </template> -->
-
+      <template #selected-option="{ option }">
+        <div class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden">
+          {{ self.value?.[self.optionLabel] || "No data" }}
+        </div>
+      </template>
       <li
         slot-scope="{ search }"
         slot="list-footer"

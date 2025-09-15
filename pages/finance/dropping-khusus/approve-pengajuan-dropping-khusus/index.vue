@@ -242,9 +242,9 @@
                   </th>
                   <th class="w-48 border border-gray-300">No Referensi</th>
                   <th class="w-48 border border-gray-300">Catatan</th>
-                  <th class="w-20 text-center border border-gray-300">
+                  <!-- <th class="w-20 text-center border border-gray-300">
                     Delete
-                  </th>
+                  </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -325,7 +325,7 @@
                   <td class="border border-gray-300">
                     {{ item.catatan ? item.catatan : "-" }}
                   </td>
-                  <td class="place-items-center border border-gray-300">
+                  <!-- <td class="place-items-center border border-gray-300">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
@@ -335,7 +335,7 @@
                         item.status_pengajuan === 'BATAL'
                       "
                     />
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />

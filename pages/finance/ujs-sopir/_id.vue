@@ -44,6 +44,14 @@
                         class="w-1/2"
                         @input="onSelectGudang"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_gudang }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -118,6 +126,14 @@
                         class="w-1/2"
                         @input="onSelectCoa"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_coa }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -162,6 +178,14 @@
                         class="w-1/2"
                         @input="onSelectCoaBiaya"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_coa }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -206,6 +230,14 @@
                         class="w-1/2"
                         @input="onSelectDivisi"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_divisi }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -253,6 +285,14 @@
                         class="w-1/2"
                         @input="onSelectPelanggan"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_pelanggan }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
