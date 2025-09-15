@@ -1,0 +1,457 @@
+<template>
+  <section>
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Master</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>Kendaraan</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
+    <div class="gap-5">
+      <div
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <div class="card-body">
+          <div class="card-title">
+            <list-option-section :self="this" ref="form-option" />
+          </div>
+
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              ref="formContainer"
+            >
+              <thead>
+                <tr class="text-base uppercase">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
+                  <th class="w-20 border border-gray-300 text-center">
+                    Detail
+                  </th>
+                  <th class="w-20 border border-gray-300 text-center">No</th>
+                  <th
+                    @click="
+                      onSort(
+                        'jenis_kendaraan_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-40 border border-gray-300"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Jenis Kendaraan</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'jenis_kendaraan_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'jenis_kendaraan_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'gudang_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-40 border border-gray-300"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Gudang</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'gudang_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'gudang_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    @click="
+                      onSort(
+                        'vendor_id',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-40 border border-gray-300"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Vendor</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'vendor_id' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-40 border border-gray-300">Nama Kendaraan</th>
+                  <th class="w-40 border border-gray-300">Kode Kendaraan</th>
+                  <th class="w-40 border border-gray-300">Plat Nomor</th>
+                  <th class="w-20 text-center border border-gray-300">
+                    Delete
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in data" :key="i">
+                  <td class="place-items-center border border-gray-300">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="place-items-center border border-gray-300">
+                    <small-detail-button @click="onDetail(item)" />
+                  </td>
+                  <td class="text-center border border-gray-300">
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis_kendaraan.nama_jenis_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.vendor.nama_vendor }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.nama_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_kendaraan }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.plat_nomor }}</td>
+
+                  <td class="place-items-center border border-gray-300">
+                    <small-delete-button
+                      @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+              <table-data-loading-section :self="this" />
+
+              <table-data-not-found-section :self="this" />
+            </table>
+          </div>
+
+          <div class="mx-3 mt-2 mb-4">
+            <pagination-section :self="this" ref="pagination" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <ModalDetail :self="this" ref="modalDetail" />
+  </section>
+</template>
+
+<script>
+import { mapActions, mapState, mapMutations } from "vuex";
+import FormInput from "./form.vue";
+import ModalDetail from "./detail.vue";
+
+export default {
+  middleware: ["checkRoleUser"],
+
+  head() {
+    return {
+      title: "Kendaraan",
+    };
+  },
+
+  created() {
+    this.set_data([]);
+    this.onLoad();
+  },
+
+  components: {
+    FormInput,
+    ModalDetail,
+  },
+
+  mounted() {
+    this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isFilter = false;
+    this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = false;
+
+    if (
+      this.getRoles.destroy ||
+      this.getRoles.destroy_all ||
+      this.getRoles.restore ||
+      this.getRoles.restore_all
+    ) {
+      this.$refs["form-option"].isMaintenancePage = true;
+    }
+
+    if (this.getRoles.store) {
+      this.$refs["form-option"].isAddData = true;
+    }
+
+    if (this.getRoles.export) {
+      this.$refs["form-option"].isExportFile = false;
+
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
+
+      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+        this.$refs["form-option"].isExportFileExcel =
+          this.getRoles.export_excel;
+      }
+    }
+
+    if (this.getRoles.print) {
+      this.$refs["form-option"].isExportPrint = true;
+    }
+  },
+
+  data() {
+    return {
+      title: "Kendaraan",
+      isLoadingData: false,
+      isPaginate: true,
+      parameters: {
+        url: "master/kendaraan",
+        type: "pdf",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kendaraan_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+        },
+        form: {
+          kendaraan_id: "",
+          jenis_kendaraan_id: "",
+          gudang_id: "",
+          vendor_id: "",
+          vendor_id_operator: "",
+          standar_jenis_kendaraan_id: "",
+          nama_kendaraan: "",
+          kode_kendaraan: "",
+          keterangan_pindah_gudang: "",
+          plat_nomor: "",
+          cc: "",
+          nomor_mesin: "",
+          tahun_buat: "",
+          nomor_sasis: "",
+          stnk: "",
+          kir: "",
+          status_digunakan: "",
+          status_normal: "",
+        },
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
+      },
+      default_roles: {
+        store: true,
+        update: true,
+        destroy: true,
+        restore: true,
+        show: true,
+        export: true,
+        export_excel: true,
+        export_pdf: true,
+        print: true,
+        destroy_all: true,
+        restore_all: true,
+        import: true,
+      },
+      user: this.$auth.user,
+    };
+  },
+
+  computed: {
+    ...mapState("moduleApi", ["data", "error", "result"]),
+
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "kendaraan"
+        );
+
+        let roles = {};
+
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
+
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
+
+        return roles;
+      }
+    },
+  },
+
+  methods: {
+    ...mapActions("moduleApi", [
+      "getData",
+      "deleteData",
+      "restoreData",
+      "deleteAllData",
+      "restoreAllData",
+    ]),
+
+    ...mapMutations("moduleApi", ["set_data"]),
+
+    onFormShow() {
+      this.$router.push("/master/kendaraan/add");
+    },
+
+    onEdit(item) {
+      this.$router.push("/master/kendaraan/" + item.kendaraan_id);
+    },
+
+    onDetail(item) {
+      this.$refs.modalDetail.form = {
+        ...item,
+      };
+      this.$refs.modalDetail.show();
+    },
+
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
+
+      this.$confirm({
+        auth: false,
+        message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
+        button: {
+          no: "No",
+          yes: "Yes",
+        },
+        callback: async (confirm) => {
+          if (confirm) {
+            this.parameters.loadings.isDelete = true;
+
+            await this.deleteData({
+              url: this.parameters.url,
+              id: item.kendaraan_id,
+              params: this.parameters.params,
+            });
+
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
+            }
+
+            this.parameters.loadings.isDelete = false;
+          }
+        },
+      });
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = page;
+
+      this.parameters.form.checkboxs = [];
+      if (document.getElementById("checkAll")) {
+        document.getElementById("checkAll").checked = false;
+      }
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.getData(this.parameters);
+
+      if (this.result == true) {
+        loader.hide();
+
+        if (page == 1) {
+          this.$refs["pagination"].generatePage();
+        }
+
+        this.$refs["pagination"].active_page = this.parameters.params.page;
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
+      }
+
+      this.isLoadingData = false;
+    },
+
+    onSort(column, sort = "asc") {
+      this.parameters.params = {
+        ...this.parameters.params,
+        order: column,
+        sort: sort,
+      };
+
+      this.onLoad(this.parameters.params.page);
+    },
+  },
+};
+</script>

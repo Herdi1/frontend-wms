@@ -1,9 +1,26 @@
 <template>
-  <section class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md">
-    <div class="">
-      <div class="row">
-        <div class="col-12 col-md-12">
-          <div class="">
+  <section class="">
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>Menu</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
+    <div class="flex gap-5">
+      <div
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+      >
+        <div class="row">
+          <div class="col-12 col-md-12">
             <div class="card-body">
               <div class="card-title">
                 <list-option-section :self="this" ref="form-option" />
@@ -36,52 +53,15 @@
               <div class="table-responsive">
                 <table>
                   <thead class="text-base">
-                    <tr>
-                      <th class="w-[5%]">
-                        <input
-                          type="checkbox"
-                          id="checkAll"
-                          @click="onCheckAll"
-                        />
-                      </th>
+                    <tr class="uppercase">
+                      <th class="w-[5%]">Edit</th>
+                      <th class="w-[5%]">Detail</th>
+
                       <th class="w-[5%]">No</th>
                       <th
                         @click="
                           onSort(
-                            'name',
-                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                          )
-                        "
-                        class="cursor-pointer w-[20%]"
-                      >
-                        <div class="flex justify-between align-baseline">
-                          <div>Rute</div>
-                          <div>
-                            <i
-                              class="fas fa-caret-up"
-                              :class="
-                                parameters.params.order == 'rute' &&
-                                parameters.params.sort == 'asc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
-                            <i
-                              class="fas fa-caret-down"
-                              :class="
-                                parameters.params.order == 'name' &&
-                                parameters.params.sort == 'desc'
-                                  ? ''
-                                  : 'light-gray'
-                              "
-                            ></i>
-                          </div>
-                        </div>
-                      </th>
-                      <th
-                        @click="
-                          onSort(
-                            'title',
+                            'judul',
                             parameters.params.sort == 'asc' ? 'desc' : 'asc'
                           )
                         "
@@ -102,7 +82,7 @@
                             <i
                               class="fas fa-caret-down"
                               :class="
-                                parameters.params.order == 'title' &&
+                                parameters.params.order == 'judul' &&
                                 parameters.params.sort == 'desc'
                                   ? ''
                                   : 'light-gray'
@@ -111,21 +91,54 @@
                           </div>
                         </div>
                       </th>
+                      <th
+                        @click="
+                          onSort(
+                            'rute',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer w-[20%]"
+                      >
+                        <div class="flex justify-between align-baseline">
+                          <div>Rute</div>
+                          <div>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'rute' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'rute' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                          </div>
+                        </div>
+                      </th>
+
                       <th class="w-[5%]">Icon</th>
+                      <th class="w-[10%]">File Icon</th>
                       <th class="w-[15%]">Module</th>
                       <th class="w-[15%]">Aplikasi</th>
-                      <th class="w-[15%]">Detail | Edit | Delete</th>
+                      <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i">
-                      <td>
-                        <input
-                          type="checkbox"
-                          name="checkboxs[]"
-                          :value="item.menu_id"
-                          v-model="parameters.form.checkboxs"
-                        />
+                      <td class="text-center">
+                        <small-edit-button @click="onEdit(item)" />
+                      </td>
+                      <td class="text-center">
+                        <small-detail-button @click="onDetail(item)" />
                       </td>
                       <td>
                         {{
@@ -135,14 +148,25 @@
                           1
                         }}
                       </td>
-                      <td>{{ item.rute }}</td>
                       <td>{{ item.judul }}</td>
+                      <td>{{ item.rute }}</td>
                       <td><i :class="'fas fa-' + item.icon + ' fa-2x'"></i></td>
                       <td>
-                        <span v-if="item.menu_id_induk" class="dark:text-white">
-                          Tidak
+                        <span v-if="item.file_icon !== '/menu_icon/'">
+                          <img
+                            class="size-6 flex items-center justify-center rounded-full"
+                            :src="`${imageUrl}${item.file_icon}`"
+                            alt=""
+                        /></span>
+                        <!-- <span v-else>-</span> -->
+                      </td>
+                      <td>
+                        <span
+                          v-if="item.parent"
+                          class="dark:text-white font-bold"
+                        >
+                          {{ item.parent.judul }}
                         </span>
-                        <span class="dark:text-white" v-else> Ya </span>
                       </td>
                       <td>
                         <span
@@ -158,22 +182,12 @@
                           Android
                         </span>
                       </td>
-                      <td>
-                        <div class="flex gap-2">
-                          <small-detail-button @click="onDetail(item)" />
-                          <small-edit-button
-                            @click="onEdit(item)"
-                            v-if="!item.deleted_at"
-                          />
-                          <small-delete-button
-                            @click="onTrashed(item)"
-                            v-if="!item.deleted_at"
-                          />
-                          <small-restore-button
-                            v-if="item.deleted_at"
-                            @click="onRestored(item)"
-                          />
-                        </div>
+
+                      <td class="text-center">
+                        <small-delete-button
+                          @click="onTrashed(item)"
+                          v-if="!item.deleted_at"
+                        />
                       </td>
                     </tr>
                   </tbody>
@@ -195,28 +209,6 @@
     </div>
 
     <ModalDetail ref="modalDetail" />
-
-    <FormInput :self="this" ref="formInput" />
-
-    <!--
-    <filter-section
-      :self="this"
-      ref="form-filter">
-      <template>
-       <div class="col-md-12">
-          <div class="form-group">
-            <label for="role">By Role</label>
-            <select name="role" class="form-control"
-              v-model="parameters.params.role">
-              <option value="all" selected>Pilih</option>
-              <option value="0">SuperAdmin</option>
-              <option value="1">Manager Area</option>
-            </select>
-          </div>
-        </div>
-      </template>
-    </filter-section>
-    -->
   </section>
 </template>
 
@@ -230,7 +222,7 @@ export default {
 
   head() {
     return {
-      title: "Hak Akses",
+      title: "Menu",
     };
   },
 
@@ -243,11 +235,13 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
+    this.$refs["form-option"].isAddData = true;
   },
 
   data() {
     return {
-      title: "Hak Akses",
+      imageUrl: process.env.IMAGES_API_URL,
+      title: "Menu",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
@@ -296,35 +290,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        rute: "",
-        judul: "",
-        icon: "",
-        menu_id_induk: "",
-        menu_id_induk_2: "",
-        urutan: "",
-        status: "",
-        status_menu: "",
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
-      // this.$refs.formInput.$refs.formValidate.reset();
+      this.$router.push("/setting/role/add");
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-        menu_id: item.menu_id,
-        menu_id_induk: item.menu_id_induk,
-      };
-      this.$refs.formInput.show();
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/setting/role/" + item.menu_id);
     },
 
     onDetail(item) {

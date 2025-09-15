@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="relative">
+  <div id="app" class="relative min-h-screen">
     <div class="absolute inset-0">
       <img
         src="/img/auth/bg-gradient.png"
@@ -8,7 +8,7 @@
       />
     </div>
     <div
-      class="relative flex max-h-screen items-center justify-center bg-[url(/img/auth/map.png)] bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16"
+      class="relative flex min-h-screen items-center justify-center bg-[url(/img/auth/map.png)] bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16"
     >
       <img
         src="/img/auth/coming-soon-object1.png"
@@ -59,11 +59,18 @@
               Login
             </h1> -->
             <div class="mb-10 text-center">
-              <p
-                class="text-3xl font-extrabold uppercase !leading-snug text-blue-700 md:text-4xl"
-              >
-                {{ settingItem("app_name") }}
-              </p>
+              <div class="flex justify-center gap-3 items-center mb-2 w-full">
+                <img
+                  :src="publicUrl + 'images/icon/' + settingItem('logo_login')"
+                  alt="logo"
+                  class="h-28"
+                />
+                <!-- <p
+                  class="text-3xl font-extrabold uppercase !leading-snug text-blue-700 md:text-4xl"
+                >
+                  {{ settingItem("app_name") }}
+                </p> -->
+              </div>
               <p class="text-base font-bold leading-normal text-white-dark">
                 Enter your username and password to login
               </p>
@@ -114,7 +121,7 @@
                       >
                       <div class="relative text-white-dark">
                         <input
-                          type="password"
+                          :type="showPassword ? 'text' : 'password'"
                           class="form-input ps-10 placeholder:text-white-dark w-full py-2 rounded-md border text-md active:outline-blue-500"
                           name="password"
                           v-model="form.password"
@@ -129,6 +136,16 @@
                         />
                         <span class="absolute start-4 top-1/2 -translate-y-1/2">
                           <IconLockDots :fill="true" />
+                        </span>
+                        <span
+                          class="absolute end-4 top-1/2 -translate-y-1/2 text-base"
+                          @click="toggleShow"
+                        >
+                          <i
+                            :class="
+                              showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+                            "
+                          ></i>
                         </span>
                       </div>
                       <div class="float-right">
@@ -182,7 +199,7 @@
                   <!-- <button
                     type="submit"
                     class="btn btn-success btn-md"
-                    
+
                   >
                   </button> -->
                 </div>
@@ -192,7 +209,10 @@
           <!-- </div> -->
           <!-- </div> -->
           <!-- </div> -->
-          <div class="text-center dark:text-white mt-10">
+          <div class="text-center mt-5 text-blue-500 text-sm">
+            <nuxt-link to="/forgot-password">Lupa Password?</nuxt-link>
+          </div>
+          <div class="text-center dark:text-white mt-3">
             Copyright &copy; {{ settingItem("company_name") }} -
             {{ year }}.<br />
             Developed by <a href="http://dexza.com">Dexza</a>
@@ -219,6 +239,8 @@ export default {
 
   data() {
     return {
+      showPassword: false,
+      publicUrl: process.env.PUBLIC_URL,
       isLoadingForm: false,
       form: {
         username: null,
@@ -236,7 +258,7 @@ export default {
 
   computed: {
     logo_url() {
-      return (process.env.LOGO_URL || "/img/") + "default.jpeg";
+      return (process.env.PUBLIC_URL || "/images/icon/") + "default.jpeg";
     },
 
     year() {
@@ -291,14 +313,18 @@ export default {
           return this.$axios.get("/get-setting");
         })
         .then((res) => {
-          this.SET_SETTINGS(res.data);
+          // this.SET_SETTINGS(res.data);
           console.log(this.$auth);
-          this.$router.push("/");
+          this.$router.push("/home");
         })
         .catch((err) => {
           this.isLoadingForm = false;
           this.$globalErrorToaster(this.$toaster, err);
         });
+    },
+
+    toggleShow() {
+      this.showPassword = !this.showPassword;
     },
   },
 };

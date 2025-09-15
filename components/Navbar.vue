@@ -13,10 +13,13 @@
           class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 mx-2"
           :class="showSidebar ? '' : 'hidden'"
         >
-          <NuxtLink to="/" class="main-logo flex shrink-0 items-center">
+          <NuxtLink
+            to="/home"
+            class="main-logo flex gap-1 shrink-0 items-center"
+          >
             <img
               class="inline w-8 ltr:-ml-1 rtl:-mr-1"
-              src="/assets/images/logo.svg"
+              :src="apiUrl + 'images/icon/' + settingItem('icon')"
               alt=""
             />
             <span
@@ -121,7 +124,11 @@
               </button>
             </div>
             <div>
-              <button type="button" class="group relative block" @click="toggleProfilePopUp()">
+              <button
+                type="button"
+                class="group relative block"
+                @click="toggleProfilePopUp()"
+              >
                 <img
                   class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
                   src="/img/avatar/avatar-1.png"
@@ -174,10 +181,11 @@ export default {
     "app-notifications": Notifications,
     "app-user-options": UserOptions,
   },
-  data(){
-    return{
-      isProfileVisible: false
-    }
+  data() {
+    return {
+      isProfileVisible: false,
+      apiUrl: process.env.PUBLIC_URL,
+    };
   },
   computed: {
     showSidebar() {
@@ -197,7 +205,7 @@ export default {
       this.$store.dispatch("app/toggleSidebar");
     },
 
-    toggleProfilePopUp(){
+    toggleProfilePopUp() {
       this.isProfileVisible = !this.isProfileVisible;
     },
   },

@@ -1,0 +1,329 @@
+<template>
+  <section class="section">
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>Profil</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
+    <div class="section-body" v-if="isLoadingPage">
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="card d-flex align-items-center justify-content-center"
+            style="height: 300px"
+          >
+            <div class="text-center">
+              <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+              <br />
+              Loading
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-full bg-white dark:bg-slate-800 rounded-md p-2 px-4 border border-gray-300"
+      v-if="!isLoadingPage"
+    >
+      <div class="row mt-sm-4" v-if="!isLoadingPage">
+        <div class="mb-4 font-semibold text-lg">
+          <h4>Edit Aplikasi</h4>
+        </div>
+
+        <div class="col-12 col-lg-8">
+          <div class="">
+            <ValidationObserver
+              v-slot="{ invalid, validate }"
+              ref="form-validate"
+            >
+              <form
+                @submit.prevent="validate().then(onSubmit(invalid))"
+                autocomplete="off"
+              >
+                <div class="grid grid-cols-2">
+                  <ValidationProvider name="company_name" rules="required">
+                    <div class="form-group col" slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Nama Perusahaan"
+                        type="text"
+                        name="company_name"
+                        v-model="form.company_name"
+                        :required="true"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                    </div>
+                  </ValidationProvider>
+                  <ValidationProvider name="email" rules="required|email">
+                    <div class="form-group col" slot-scope="{ errors, valid }">
+                      <input-form
+                        label="Email"
+                        type="text"
+                        name="email"
+                        v-model="form.email"
+                        :required="true"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group col-span-2">
+                    <label for="address">Alamat</label>
+                    <textarea
+                      class="w-full pl-2 py-1 border rounded focus:outline-none"
+                      v-model="form.address"
+                    >
+                    </textarea>
+                  </div>
+                  <ValidationProvider name="phone" rules="required">
+                    <div
+                      class="form-group col-12"
+                      slot-scope="{ errors, valid }"
+                    >
+                      <input-form
+                        label="Phone"
+                        type="text"
+                        name="phone"
+                        v-model="form.phone"
+                        :required="true"
+                        :inputClass="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      />
+                    </div>
+                  </ValidationProvider>
+
+                  <div class="form-group col-12">
+                    <input-form
+                      label="Website"
+                      type="text"
+                      name="website"
+                      v-model="form.website"
+                    />
+                  </div>
+
+                  <div class="form-group col-12">
+                    <input-form
+                      label="Nama Aplikasi"
+                      type="text"
+                      name="app_name"
+                      v-model="form.app_name"
+                    />
+                  </div>
+                  <div class="grid grid-cols-2 justify-between mt-2">
+                    <div class="form-group col-12">
+                      <label for="tax">PPN</label>
+                      <money
+                        v-model="form.tax"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                      <div class="text-muted text-small">* Percent</div>
+                    </div>
+
+                    <div class="form-group col-12">
+                      <label for="is_min_stock"> Stok Bisa Minus </label>
+                      <select
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        v-model="form.is_min_stock"
+                      >
+                        <option value="1">Ya</option>
+                        <option value="0">Tidak</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="is_min_stock">Icon </label>
+                    <img
+                      class="mx-auto my-2 w-[50%] flex-none"
+                      :src="apiUrl + 'images/icon/' + form.icon"
+                      alt=""
+                    />
+                    <input
+                      class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      id="small_size"
+                      type="file"
+                      @change="handleFileChange"
+                    />
+                  </div>
+                  <!-- <div class="grid grid-cols-2 justify-between mt-2">
+                  </div> -->
+                </div>
+                <div class="card-footer text-right">
+                  <button class="btn btn-primary" :disabled="isLoadingForm">
+                    <span v-if="isLoadingForm">
+                      <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                    <span v-else> Kirim </span>
+                  </button>
+                </div>
+              </form>
+            </ValidationObserver>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapMutations } from "vuex";
+
+import { VueEditor } from "vue2-editor";
+import InputForm from "../../../components/InputForm/InputForm.vue";
+
+export default {
+  middleware: ["checkRoleSuperAdmin"],
+
+  components: {
+    VueEditor,
+    InputForm,
+  },
+
+  head() {
+    return {
+      title: "Aplikasi",
+    };
+  },
+
+  data() {
+    return {
+      apiUrl: process.env.PUBLIC_URL,
+      title: "Profil Aplikasi",
+      form: {
+        company_name: "",
+        address: "",
+        email: "",
+        phone: "",
+        website: "",
+        tax: "",
+        app_name: "",
+        is_min_stock: "0",
+        icon: "",
+      },
+
+      isLoadingForm: false,
+      isLoadingFormLogo: false,
+      isLoadingFormSignature: false,
+      isLoadingFormLogoPrint: false,
+      isLoadingPage: true,
+
+      logo: "",
+      logo_print: "",
+      signature: "",
+
+      customToolbar: [
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+      ],
+    };
+  },
+
+  created() {
+    this.$axios
+      .get("/setting")
+      .then((res) => {
+        res.data.forEach((item) => {
+          this.form[item.nama] = item.value;
+        });
+
+        this.isLoadingPage = false;
+      })
+      .catch((err) => {
+        this.$globalErrorToaster(this.$toaster, err);
+      });
+  },
+
+  methods: {
+    ...mapMutations("setting", ["SET_SETTINGS", "SET_APP_PROFILE"]),
+
+    onSubmit(isInvalid) {
+      if (isInvalid || this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+
+      let url = "setting";
+
+      let formData = new FormData();
+      formData.append("_method", "PUT");
+
+      Object.entries(this.form).forEach(([key, value]) => {
+        if (key !== "icon") {
+          formData.append(key, value || "");
+        }
+      });
+
+      // if (this.form.icon instanceof File) {
+      //   formData.append("icon", this.form.icon);
+      // }
+
+      // if (this.isEditable) {
+      //   url += "/" + this.parameters.form.menu_id;
+      // }
+
+      this.$axios({
+        url: url,
+        method: "POST",
+        data: formData,
+      })
+        .then(() => {
+          return this.$axios.get("/setting");
+        })
+        .then((res) => {
+          this.SET_SETTINGS(res.data);
+          this.SET_APP_PROFILE(res.data);
+          this.$toaster.success("Berhasil update data");
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+        });
+
+      let logoData = new FormData();
+
+      if (this.logo) {
+        logoData.append("_method", "put");
+        if (this.logo instanceof File) {
+          logoData.append("nama", "icon");
+          logoData.append("icon", this.logo);
+        }
+
+        this.$axios({
+          url: "setting/logo",
+          method: "POST",
+          data: logoData,
+        })
+          .then((res) => {
+            return this.$axios.get("/get-setting");
+          })
+          .catch((err) => {
+            this.$globalErrorToaster(this.$toaster, err);
+          });
+      }
+    },
+
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.logo = file;
+    },
+  },
+};
+</script>

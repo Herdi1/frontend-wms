@@ -1,9 +1,9 @@
 <template>
   <div class="flex items-center justify-between px-4 py-3">
-    <nuxt-link to="/" class="main-logo flex shrink-0 items-center">
+    <nuxt-link to="/home" class="main-logo flex shrink-0 items-center gap-2">
       <img
         class="ml-[5px] w-8 flex-none"
-        src="/assets/images/logo.svg"
+        :src="apiUrl + 'images/icon/' + settingItem('icon')"
         alt=""
       />
       <span
@@ -22,6 +22,11 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      apiUrl: process.env.PUBLIC_URL,
+    };
+  },
   computed: {
     logo_url() {
       return (process.env.LOGO_URL || "/img/") + "default.jpeg";

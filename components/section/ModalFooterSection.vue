@@ -15,7 +15,7 @@
       <span class="mr-2" v-if="isLoadingForm">
         <i class="fas fa-circle-notch fa-spin"></i>
       </span>
-      <span v-else><i class="fas fa-save"></i> Save </span>
+      <span v-else><i class="fas fa-save mr-1"> </i> Save </span>
     </button>
   </div>
 </template>

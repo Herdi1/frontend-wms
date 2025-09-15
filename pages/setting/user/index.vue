@@ -1,13 +1,28 @@
 <template>
   <section class="">
-    <div class="gap-5">
-      <div
-        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-3"
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Setting</a>
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <div class="w-full">
+        <span>Akun</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
+    <div class="gap-5">
+      <!-- <div
+        class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-3"
+      > -->
+      <!-- <div class="w-full">
           <FormIndex :self="this" ref="formIndex" />
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
 
       <div
         class="relative p-4 w-12/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
@@ -24,6 +39,8 @@
                 <table class="mb-5" ref="formContainer">
                   <thead>
                     <tr class="text-base uppercase">
+                      <th class="w-[5%]">Edit</th>
+                      <th class="w-[5%]">Detail</th>
                       <th class="w-[5%]">No</th>
                       <th
                         @click="
@@ -97,13 +114,17 @@
                       </th>
                       <th class="w-[15%]">Gudang</th>
                       <th class="w-[15%]">Jabatan</th>
-                      <th class="w-[5%]">Detail</th>
-                      <th class="w-[5%]">Edit</th>
                       <th class="w-[5%]">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, i) in data" :key="i" class="text-base">
+                      <td class="text-center">
+                        <small-edit-button @click="onEdit(item)" />
+                      </td>
+                      <td class="text-center">
+                        <small-detail-button @click="onDetail(item)" />
+                      </td>
                       <td>
                         {{
                           (parameters.params.page - 1) *
@@ -114,25 +135,11 @@
                       </td>
                       <td>{{ item.username }}</td>
                       <td>{{ item.email }}</td>
-                      <td>{{ item.gudang_id }}</td>
-                      <td>{{ item.jabatan_id }}</td>
-                      <td class="text-center">
-                        <small-detail-button @click="onDetail(item)" />
-                        <!-- <div class="flex gap-2">
-
-
-                          <button
-                          class="btn btn-sm btn-success"
-                          @click="onRestored(item)"
-                          v-if="item.deleted_at"
-                          >
-                          <i class="fas fa-redo"></i>
-                        </button>
-                      </div> -->
+                      <td>{{ item.gudang ? item.gudang.nama_gudang : "-" }}</td>
+                      <td>
+                        {{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}
                       </td>
-                      <td class="text-center">
-                        <small-edit-button @click="onEdit(item)" />
-                      </td>
+
                       <td class="text-center">
                         <small-delete-button
                           @click="onTrashed(item)"
@@ -162,16 +169,12 @@
     </div>
 
     <ModalDetail :self="this" ref="modalDetail" />
-
-    <!-- <FormInput :self="this" ref="formInput" /> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-import FormInput from "./form";
 import ModalDetail from "./detail";
-import FormIndex from "./formIndex";
 
 export default {
   middleware: ["checkRoleSuperAdmin"],
@@ -191,7 +194,7 @@ export default {
     this.$refs.formOption.isExport = false;
     this.$refs.formOption.isFilter = false;
     this.$refs.formOption.isMaintenancePage = false;
-    this.$refs.formOption.isAddData = false;
+    this.$refs.formOption.isAddData = true;
   },
 
   data() {
@@ -223,6 +226,7 @@ export default {
           pelanggan_id: "",
           role_id: "",
           gudang_id: "",
+          staff_id: "",
         },
         loadings: {
           isDelete: false,
@@ -233,9 +237,7 @@ export default {
   },
 
   components: {
-    FormInput,
     ModalDetail,
-    FormIndex,
   },
 
   computed: {
@@ -254,62 +256,11 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formIndex.parameters.form = {
-        nama_lengkap: "",
-        username: "",
-        password: "",
-        email: "",
-        group_role_id: "",
-        nik: "",
-        parent_id: "",
-        regu_id: "",
-      };
-      this.$refs.formIndex.isEditable = false;
-      // this.$refs.formIndex.show();
-      this.$nextTick(() => {
-        this.$refs.formIndex?.$refs?.formValidate?.reset();
-      });
-      // this.$refs.formInput.parameters.form = {
-      //   nama_lengkap: "",
-      //   username: "",
-      //   password: "",
-      //   email: "",
-      //   group_role_id: "",
-      //   nik: "",
-      //   parent_id: "",
-      //   regu_id: "",
-      // };
-      // this.$refs.formInput.isEditable = false;
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
+      this.$router.push("/setting/user/add");
     },
 
     onEdit(item) {
-      this.$refs.formIndex.isEditable = true;
-      this.$refs.formIndex.parameters.form = {
-        ...item,
-        // group_role_id: item.group_role ? item.group_role : {},
-        id: item.user_id,
-        // regu_id: item.regu ? item.regu : {},
-      };
-      console.log(item);
-      // this.$refs.formIndex.show();
-      this.$nextTick(() => {
-        this.$refs.formIndex?.$refs?.formValidate?.reset();
-      });
-      // this.$refs.formInput.isEditable = true;
-      // this.$refs.formInput.parameters.form = {
-      //   ...item,
-      //   group_role_id: item.group_role ? item.group_role : {},
-      //   id: item.user_id,
-      //   regu_id: item.regu ? item.regu : {},
-      // };
-      // this.$refs.formInput.show();
-      // this.$nextTick(() => {
-      //   this.$refs.formInput?.$refs?.formValidate?.reset();
-      // });
+      this.$router.push("/setting/user/" + item.user_id);
     },
 
     onDetail(item) {
@@ -360,11 +311,6 @@ export default {
 
       this.isLoadingData = true;
       this.parameters.params.page = page;
-
-      this.parameters.form.checkboxs = [];
-      if (document.getElementById("checkAll")) {
-        document.getElementById("checkAll").checked = false;
-      }
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

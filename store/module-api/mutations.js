@@ -152,4 +152,25 @@ export default {
     set_lookup_location: (state, payload) => {
         state.lookup_location = payload;
     },
+    set_lookup_custom4: (state, payload) => {
+        state.lookup_custom4 = payload;
+    },
+    set_lookup_custom5: (state, payload) => {
+        state.lookup_custom5 = payload;
+    },
+    set_lookup_custom6: (state, payload) => {
+        state.lookup_custom6 = payload;
+    },
+    set_lookup_custom7: (state, payload) => {
+        state.lookup_custom7 = payload;
+    },
+    set_lookup_custom8: (state, payload) => {
+        state.lookup_custom8 = payload;
+    },
+    set_lookup_custom9: (state, payload) => {
+        state.lookup_custom9 = payload;
+    },
+    set_lookup_custom10: (state, payload) => {
+        state.lookup_custom10 = payload;
+    },
 };

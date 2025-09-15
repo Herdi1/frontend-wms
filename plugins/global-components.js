@@ -9,8 +9,12 @@ import ListOptionSection from "~/components/section/ListOptionSection";
 import PaginationSection from "~/components/section/PaginationSection";
 import ModalHeaderSection from "~/components/section/ModalHeaderSection";
 import ModalFooterSection from "~/components/section/ModalFooterSection";
+import ModalFooterSectionWoReset from "~/components/section/ModalFooterSectionWoReset";
+
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import HeightCollapsible from "vue-height-collapsible";
+import VueApexCharts from 'vue-apexcharts';
+// import ApexCharts from 'apexcharts'
 
 import SmallEditButton from "../components/button/SmallEditButton.vue";
 import SmallDeleteButton from "../components/button/SmallDeleteButton.vue";
@@ -22,6 +26,13 @@ import ResetButton from "../components/forms/ResetButton.vue";
 import CloseButton from "../components/forms/CloseButton.vue";
 import TitleForm from "../components/forms/TitleForm.vue";
 import InputForm from "../components/InputForm/InputForm.vue";
+import SelectComponent from "../components/InputForm/SelectComponent.vue";
+import FilterData from "../components/section/FilterData.vue";
+import InputHoriontal from "../components/InputForm/InputHoriontal.vue";
+import TabComponent from "../pages/master/gudang/tabComponent.vue";
+import SuccessModal from "../components/SuccessModal.vue";
+import SelectButton from "../components/transaksional/SelectButton.vue";
+// import { ChromePicker } from 'vue-color'
 
 const icons = {
     //   ThemeCustomizer: require("~/components/ThemeCustomizer.vue").default,
@@ -121,6 +132,7 @@ Vue.component("list-option-section", ListOptionSection);
 Vue.component("pagination-section", PaginationSection);
 Vue.component("modal-header-section", ModalHeaderSection);
 Vue.component("modal-footer-section", ModalFooterSection);
+Vue.component("modal-footer-section-wo-reset", ModalFooterSectionWoReset);
 Vue.component("vue-perfect-scrollbar", VuePerfectScrollbar);
 Vue.component("vue-collapsible", HeightCollapsible);
 
@@ -134,3 +146,12 @@ Vue.component("reset-button", ResetButton);
 Vue.component("close-button", CloseButton);
 Vue.component("title-form", TitleForm);
 Vue.component("input-form", InputForm);
+Vue.component("select-component", SelectComponent);
+Vue.component("filter-data", FilterData);
+Vue.component("input-horizontal", InputHoriontal);
+Vue.component("tab-component", TabComponent);
+Vue.component("success-modal", SuccessModal);
+Vue.component("select-button", SelectButton);
+
+// Vue.use(VueApexCharts);
+// Vue.component('apexchart', VueApexCharts);

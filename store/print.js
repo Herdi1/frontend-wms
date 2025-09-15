@@ -1,34 +1,34 @@
 const actions = {
-  printFile({},payload) {    
-    var token = this.$auth.ctx.$cookiz.get(('auth._token.local')).replace('Bearer ','');
+    printFile({}, payload) {
+        var token = this.$auth.ctx.$cookiz.get(('auth._token.local')).replace('Bearer ', '');
 
-    let tokenParam = "?token="+token;
-    
-    let queryString = "";
+        let tokenParam = "?token=" + token;
 
-    queryString += Object.keys(payload.parameters.params).reduce((itemPrev,itemNext) => itemPrev += itemNext+"="+payload.parameters.params[itemNext]+"&","")
+        let queryString = "";
 
-    tokenParam += "&"+queryString+"all=true";
+        queryString += Object.keys(payload.parameters.params).reduce((itemPrev, itemNext) => itemPrev += itemNext + "=" + payload.parameters.params[itemNext] + "&", "")
 
-    window.open(process.env.API_URL+'/'+payload.parameters.url+'/print'+tokenParam,'_blank');
-  },
+        tokenParam += "&" + queryString + "all=true";
 
-  exportFile({},payload){
-    var token = this.$auth.ctx.$cookiz.get(('auth._token.local')).replace('Bearer ','');    
+        window.open(process.env.API_URL + '' + payload.parameters.url + '/print' + tokenParam, '_blank');
+    },
 
-    let tokenParam = '?token='+token; 
-     
-    let queryString = "";
+    exportFile({}, payload) {
+        var token = this.$auth.ctx.$cookiz.get(('auth._token.local')).replace('Bearer ', '');
 
-    queryString += Object.keys(payload.parameters.params).reduce((itemPrev,itemNext) => itemPrev += itemNext+"="+payload.parameters.params[itemNext]+"&","")
+        let tokenParam = '?token=' + token;
 
-    tokenParam += "&"+queryString+"all=true";
+        let queryString = "";
 
-    window.open(process.env.API_URL+'/'+payload.parameters.url+'/export/'+payload.type + tokenParam,'_blank');
-  }
+        queryString += Object.keys(payload.parameters.params).reduce((itemPrev, itemNext) => itemPrev += itemNext + "=" + payload.parameters.params[itemNext] + "&", "")
+
+        tokenParam += "&" + queryString + "all=true";
+
+        window.open(process.env.API_URL + '' + payload.parameters.url + '/export/' + payload.type + tokenParam, '_blank');
+    }
 }
 
 export default {
-  namespaced : true,
-  actions,
+    namespaced: true,
+    actions,
 }

@@ -147,9 +147,15 @@
             </nuxt-link>
           </li>
         </ul>
-       
+
       </li> -->
-      <template v-for="item in menus">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search menu..."
+        class="w-full px-2 py-1 mb-4 rounded text-gray-500 my-3 mr:3 border border-gray-300 outline-none"
+      />
+      <template v-for="item in filteredMenus">
         <li class="menu nav-item" :key="item.id" v-if="item.childs.length">
           <h2
             class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]"
@@ -174,9 +180,7 @@
                     : (activeDropdown = child.rute)
                 "
               >
-                <div
-                  class="flex items-center justify-between w-full"
-                >
+                <div class="flex items-center justify-between w-full">
                   <div class="flex">
                     <i
                       :class="[
@@ -200,7 +204,7 @@
               </button>
               <nuxt-link
                 v-else
-                :to="'/'+item.rute+'/'+child.rute"
+                :to="'/' + item.rute + '/' + child.rute"
                 class="nav-link group w-full"
                 :class="{ active: activeDropdown === child.rute }"
                 @click="
@@ -209,9 +213,7 @@
                     : (activeDropdown = child.rute)
                 "
               >
-                <div
-                  class=""
-                >
+                <div class="">
                   <i
                     :class="[
                       'mx-2 fas fa-' + child.icon,
@@ -234,8 +236,15 @@
                         'nav-link',
                         { 'nav-active': subActive === itemChild.id },
                       ]"
-                      :to="'/' + item.rute + '/' + itemChild.rute"
-                      @click.native="setActiveMenu(itemChild.id)"
+                      :to="
+                        '/' +
+                        item.rute +
+                        '/' +
+                        child.rute +
+                        '/' +
+                        itemChild.rute
+                      "
+                      @click.native="setActiveMenu(itemChild.menu_id)"
                     >
                       <i
                         :class="[
@@ -275,6 +284,7 @@ export default {
     return {
       activeDropdown: "dashboard",
       subActive: "",
+      searchQuery: "",
     };
   },
   computed: {
@@ -283,20 +293,53 @@ export default {
         (item) => item.nama == "roles"
       ).value;
 
-      if (this.$auth.user.parent_id) {
-        let roles_id = this.$auth.user.group_role.roles.reduce(
-          (ids, item) => [...ids, item.id],
+      menus = menus.filter((menu) => menu.status == 0);
+
+      menus.forEach((menu) => {
+        if (Array.isArray(menu.childs)) {
+          menu.childs = menu.childs.filter((child) => child.status == 0);
+        }
+      });
+
+      console.log("iki menu pie");
+
+      if (this.$auth.user.is_superadmin != 1) {
+        let roles_id = this.$auth.user.role.menus.reduce(
+          (ids, item) => [...ids, item.menu_id],
           []
         );
 
         menus.forEach((element) => {
           element.childs = element.childs.filter((item) =>
-            roles_id.includes(item.id)
+            roles_id.includes(item.menu_id)
           );
         });
       }
 
       return menus;
+    },
+    filteredMenus() {
+      const search = this.searchQuery.toLowerCase();
+      return this.menus
+        .map((parent) => {
+          let filteredChild = parent.childs.filter((child) =>
+            child.judul.toLowerCase().includes(search)
+          );
+
+          if (
+            parent.judul.toLowerCase().includes(search) ||
+            filteredChild.length > 0
+          ) {
+            return {
+              judul: parent.judul,
+              rute: parent.rute,
+              childs: filteredChild.length ? filteredChild : parent.childs,
+            };
+          }
+
+          return null;
+        })
+        .filter(Boolean);
     },
   },
   methods: {

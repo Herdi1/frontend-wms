@@ -70,7 +70,6 @@
                               name="date"
                               v-model="form.date"
                               @input="setCode()"
-
                               :class="
                                 errors[0]
                                   ? 'is-invalid'
@@ -135,11 +134,7 @@
                               <span
                                 v-if="lookup_po_customers.current_page > 1"
                                 @click="onGetPoCustomer(search, false)"
-                                class="
-                                  flex-fill
-                                  bg-primary
-                                  text-white text-center
-                                "
+                                class="flex-fill bg-primary text-white text-center"
                                 style="cursor: pointer"
                                 >Sebelumnya</span
                               >
@@ -149,11 +144,7 @@
                                   lookup_po_customers.current_page
                                 "
                                 @click="onGetPoCustomer(search, true)"
-                                class="
-                                  flex-fill
-                                  bg-primary
-                                  text-white text-center
-                                "
+                                class="flex-fill bg-primary text-white text-center"
                                 style="cursor: pointer"
                                 >Selanjutnya</span
                               >
@@ -168,7 +159,6 @@
 
               <div class="container">
                 <div class="d-flex flex-row">
-                  
                   <div class="col-sm-6">
                     <div class="form-group">
                       <div class="row">
@@ -191,7 +181,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>                
+                  </div>
 
                   <div class="col-sm-6">
                     <div class="form-group">
@@ -201,36 +191,37 @@
                         </div>
                         <div class="col-sm-9 align-self-center ml-0 pl-0">
                           <select
-                            class="form-control"                  
-                            v-model="form.department_id">
+                            class="form-control"
+                            v-model="form.department_id"
+                          >
                             <option value="7">Weaving</option>
-                            <option value="21">Finishing</option>                      
-                          </select>  
+                            <option value="21">Finishing</option>
+                          </select>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>                
+                </div>
               </div>
 
               <div class="container">
                 <div class="d-flex flex-row">
                   <div class="col-sm-6">
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-sm-2 align-self-center">
-                            <label for="due_date">Batas Waktu</label>
-                          </div>
-                          <div class="col-sm-10 align-self-center">
-                            <input
-                              type="date"
-                              class="form-control"
-                              name="due_date"
-                              v-model="form.due_date"                            
-                            />
-                          </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-2 align-self-center">
+                          <label for="due_date">Batas Waktu</label>
+                        </div>
+                        <div class="col-sm-10 align-self-center">
+                          <input
+                            type="date"
+                            class="form-control"
+                            name="due_date"
+                            v-model="form.due_date"
+                          />
                         </div>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -369,18 +360,18 @@
                       /> -->
 
                       <input
-                          type="number"
-                           v-model="item.quantity"
-                          class="form-control"
-                          @keydown.native="
-                            $event.key === '-' ? $event.preventDefault() : null
-                                                    "
-                        />
+                        type="number"
+                        v-model="item.quantity"
+                        class="form-control"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
                     </td>
                     <td class="text-center table-transaction-row">
                       <i
                         class="fas fa-trash text-danger"
-                        style="cursor: pointer;vertical-align:midle"
+                        style="cursor: pointer; vertical-align: midle"
                         @click="deleteDetail(index)"
                       ></i>
                     </td>
@@ -430,13 +421,7 @@
         <div class="col-12">
           <div class="card" style="min-height: 300px">
             <div
-              class="
-                card-body
-                d-flex
-                flex-column
-                justify-content-center
-                align-items-center
-              "
+              class="card-body d-flex flex-column justify-content-center align-items-center"
             >
               <div>Loading</div>
               <div><i class="fas fa-circle-notch fa-spin"></i></div>
@@ -466,38 +451,38 @@ export default {
     return {
       id,
 
-      isEditable                : Number.isInteger(id) ? true : false,
-      isLoadingPage             : Number.isInteger(id) ? true : false,
-      isLoadingForm             : false,
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
+      isLoadingForm: false,
 
-      isStopSearchProduct       : false,
-      isLoadingGetProduct       : false,
-      product_search            : "",
+      isStopSearchProduct: false,
+      isLoadingGetProduct: false,
+      product_search: "",
 
-      isStopSearchPoCustomer    : false,
-      isLoadingGetPoCustomer    : false,
-      po_customer_search        : "",
+      isStopSearchPoCustomer: false,
+      isLoadingGetPoCustomer: false,
+      po_customer_search: "",
 
       form: {
-        po_customer_id          : "",
-        code                    : "",
+        po_customer_id: "",
+        code: "",
         description: "",
         department_id: "",
-        date                    : moment().format("YYYY-MM-DD"),
-        departement             : "",
-        work_order_details      : [],
-        due_date                : moment().add(1, 'M').format('YYYY-MM-DD')
+        date: moment().format("YYYY-MM-DD"),
+        departement: "",
+        work_order_details: [],
+        due_date: moment().add(1, "M").format("YYYY-MM-DD"),
       },
 
       default_form: {
-        po_customer_id          : "",
-        code                    : "",
+        po_customer_id: "",
+        code: "",
         description: "",
         department_id: "",
-        date                    : moment().format("YYYY-MM-DD"),
-        departement             : "",
-        work_order_details      : [],
-        due_date                : moment().add(1, 'M').format('YYYY-MM-DD')
+        date: moment().format("YYYY-MM-DD"),
+        departement: "",
+        work_order_details: [],
+        due_date: moment().add(1, "M").format("YYYY-MM-DD"),
       },
     };
   },
@@ -660,7 +645,7 @@ export default {
 
       formData.work_order_details = formData.work_order_details.map((item) => {
         return {
-          quantity: item.quantity,       
+          quantity: item.quantity,
           product_id:
             typeof item.product_id == "object" ? item.product_id.id : "",
         };
@@ -732,7 +717,11 @@ export default {
 
       await this.getCode({
         url: "marketing/work_order",
-        query: "?po_customer_id="+this.form.po_customer_id + "&tanggal= " + tanggal,
+        query:
+          "?po_customer_id=" +
+          this.form.po_customer_id +
+          "&tanggal= " +
+          tanggal,
       });
 
       this.form.code = this.code;

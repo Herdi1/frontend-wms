@@ -18,14 +18,15 @@
 
               <ValidationObserver
                 v-slot="{ invalid, validate }"
-                ref="form-validate">
+                ref="form-validate"
+              >
                 <form
                   @submit.prevent="validate().then(onSubmit(invalid))"
-                  autocomplete="off">
+                  autocomplete="off"
+                >
                   <ValidationProvider name="code" rules="required">
                     <div class="form-group" slot-scope="{ errors, valid }">
-                      <label for="code">Kode                      
-                      </label>
+                      <label for="code">Kode </label>
                       <input
                         type="text"
                         class="form-control"
@@ -188,12 +189,14 @@
                     </v-select>
                   </div>
 
-                  <ValidationProvider 
-                    name="product_sepesification_id" 
-                    rules="required">
-                    <div class="form-group" 
-                      slot-scope="{ errors, valid }">
-                      <label for="product_sepesification_id">Produk Group</label>
+                  <ValidationProvider
+                    name="product_sepesification_id"
+                    rules="required"
+                  >
+                    <div class="form-group" slot-scope="{ errors, valid }">
+                      <label for="product_sepesification_id"
+                        >Produk Group</label
+                      >
                       <select
                         name="product_sepesification_id"
                         class="form-control"
@@ -201,14 +204,17 @@
                         v-model="form.product_spesification_id"
                         :class="
                           errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        " disabled>
+                        "
+                        disabled
+                      >
                         <option value="">Pilih</option>
-                        <option 
-                          v-for="(item,index) in lookup_product_groups"
-                          :value="item.id">
+                        <option
+                          v-for="(item, index) in lookup_product_groups"
+                          :value="item.id"
+                        >
                           {{ item.name }}
                         </option>
-                      </select>                    
+                      </select>
 
                       <div class="invalid-feedback" v-if="errors[0]">
                         {{ errors[0] }}
@@ -218,31 +224,41 @@
 
                   <template v-if="lookup_product_properties.length">
                     <div
-                      class="row" 
-                      v-for="i in Math.ceil(lookup_product_properties.length / 2)">
+                      class="row"
+                      v-for="i in Math.ceil(
+                        lookup_product_properties.length / 2
+                      )"
+                    >
                       <div
                         class="col-md-6"
-                        v-for="(itemcol, itemcolindex) in lookup_product_properties.slice((i - 1) * 2, i * 2)"
-                        :key="itemcolindex">                       
-                        <div class="form-group">                          
+                        v-for="(
+                          itemcol, itemcolindex
+                        ) in lookup_product_properties.slice(
+                          (i - 1) * 2,
+                          i * 2
+                        )"
+                        :key="itemcolindex"
+                      >
+                        <div class="form-group">
                           <label :for="itemcol.name">
                             {{ itemcol.name }}
                           </label>
-                          <select                            
-                            class="form-control"                                                   
+                          <select
+                            class="form-control"
                             :name="itemcol.name"
-                            :id="'properti-' + itemcol.id + '-option'" 
-                            @change="onChangeItem(itemcol)">
+                            :id="'properti-' + itemcol.id + '-option'"
+                            @change="onChangeItem(itemcol)"
+                          >
                             <option value="">Pilih</option>
                             <option
                               v-for="child in itemcol.childs"
                               :key="child.id"
-                              :value="child.id">
+                              :value="child.id"
+                            >
                               {{ child.name }}
                             </option>
-                          </select>                        
-                        </div>                      
-
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -311,7 +327,9 @@
                             v-model="form.minimum_stock"
                             class="form-control"
                             @keydown.native="
-                              $event.key === '-' ? $event.preventDefault() : null
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
                             "
                             :class="
                               errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -327,11 +345,13 @@
                       <ValidationProvider name="safe_stock" rules="required">
                         <div class="form-group" slot-scope="{ errors, valid }">
                           <label for="safe_stock">Aman Stok</label>
-                           <money
+                          <money
                             v-model="form.safe_stock"
                             class="form-control"
                             @keydown.native="
-                              $event.key === '-' ? $event.preventDefault() : null
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
                             "
                             :class="
                               errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
@@ -344,7 +364,7 @@
                       </ValidationProvider>
                     </div>
                   </div>
-                  
+
                   <div class="form-group">
                     <label for="purchase_price">Harga Beli</label>
                     <money
@@ -354,34 +374,27 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>            
-
-                  <div class="form-group">
-                    <label for="is_tax">
-                      Dengan PPN 
-                    </label>
-                    <select
-                      class="form-control"                  
-                      v-model="form.is_tax">
-                      <option value="1">Ya</option>
-                      <option value="0">Tidak</option>                      
-                    </select>                  
                   </div>
 
                   <div class="form-group">
-                    <label for="rack">
-                      Rak
-                    </label>
-                    <input type="text" 
+                    <label for="is_tax"> Dengan PPN </label>
+                    <select class="form-control" v-model="form.is_tax">
+                      <option value="1">Ya</option>
+                      <option value="0">Tidak</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rack"> Rak </label>
+                    <input
+                      type="text"
                       class="form-control"
-                      v-model="form.rack"/>                               
+                      v-model="form.rack"
+                    />
                   </div>
 
                   <div class="float-right mt-4">
-                    <button
-                      
-                      class="btn btn-primary"
-                    >
+                    <button class="btn btn-primary">
                       <span v-if="isLoadingForm">
                         <i class="fas fa-circle-notch fa-spin"></i>
                       </span>
@@ -437,7 +450,7 @@
                               <option
                                 v-for="itemCustomerGroup in lookup_customer_groups.data"
                                 :key="itemCustomerGroup.id"
-                                :value="itemCustomerGroup.name" 
+                                :value="itemCustomerGroup.name"
                               >
                                 {{ itemCustomerGroup.name }}
                               </option>
@@ -539,13 +552,7 @@
         <div class="col-12">
           <div class="card" style="min-height: 300px">
             <div
-              class="
-                card-body
-                d-flex
-                flex-column
-                justify-content-center
-                align-items-center
-              "
+              class="card-body d-flex flex-column justify-content-center align-items-center"
             >
               <div>Loading</div>
               <div><i class="fas fa-circle-notch fa-spin"></i></div>
@@ -581,13 +588,9 @@ export default {
     return {
       id,
 
-      isEditable: Number.isInteger(id) 
-        ? true 
-        : false,
-        
-      isLoadingPage: Number.isInteger(id) 
-        ? true 
-        : false,
+      isEditable: Number.isInteger(id) ? true : false,
+
+      isLoadingPage: Number.isInteger(id) ? true : false,
 
       isLoadingForm: false,
 
@@ -601,20 +604,20 @@ export default {
 
       form: {
         supplier_id: "",
-        customer_id:"",
+        customer_id: "",
         product_spesification_id: "11",
         code: "",
-        name: "",        
+        name: "",
         purchase_unit: "",
         selling_unit: "",
         purchase_price: 0.0,
         cost_of_products_sold: 0.0,
         name_marketplace: "",
         description: "",
-        safe_stock : 0,
-        minimum_stock : 0,
-        is_tax : 1,
-        rack  : ''
+        safe_stock: 0,
+        minimum_stock: 0,
+        is_tax: 1,
+        rack: "",
       },
 
       default_form: {
@@ -622,18 +625,18 @@ export default {
         customer_id: "",
         product_spesification_id: "11",
         code: "",
-        name: "",        
+        name: "",
         purchase_unit: "",
         selling_unit: "",
         purchase_price: 0.0,
         cost_of_products_sold: 0.0,
         name_marketplace: "",
         description: "",
-        safe_stock : 0,
-        minimum_stock : 0,
-        is_tax : 1,
-        rack  : ''
-      },      
+        safe_stock: 0,
+        minimum_stock: 0,
+        is_tax: 1,
+        rack: "",
+      },
       preview_images: [],
 
       indexPreviewImages: null,
@@ -644,12 +647,12 @@ export default {
     };
   },
 
-  async created() {          
-    this.set_lookup_product_properties([])
+  async created() {
+    this.set_lookup_product_properties([]);
 
-    this.set_lookup_product_groups([])
+    this.set_lookup_product_groups([]);
 
-    if (this.isEditable) {    
+    if (this.isEditable) {
       try {
         let response = await this.$axios.get("master/product/" + this.id);
 
@@ -659,40 +662,37 @@ export default {
           } else if (item === "supplier_id") {
             this.form.supplier_id = response.data.supplier;
           } else if (item === "product_spesification_id") {
-            this.form.product_spesification_id = response.data.product_group 
-              ? response.data.product_group.id 
+            this.form.product_spesification_id = response.data.product_group
+              ? response.data.product_group.id
               : "";
-          }else {
-            this.form[item] = response.data[item] === null 
-              ? "" 
-              : response.data[item];
+          } else {
+            this.form[item] =
+              response.data[item] === null ? "" : response.data[item];
           }
         });
 
-        
-         
-        response.data.images.forEach(item => {
+        response.data.images.forEach((item) => {
           this.preview_images.push(
             process.env.IMAGES_API_URL + "products/" + item
           );
         });
 
-        response.data.product_details.forEach((item) => {                  
-            this.value_ids.push({
-              id : item.value 
-                ? item.value.id 
-                : 0,
-              properti_id : item.value
-                ? (item.value.parent ? item.value.parent.id : 0)
-                : 0,              
-            });                        
-        })
-                
-        this.product_prices = response.data.product_prices;          
+        response.data.product_details.forEach((item) => {
+          this.value_ids.push({
+            id: item.value ? item.value.id : 0,
+            properti_id: item.value
+              ? item.value.parent
+                ? item.value.parent.id
+                : 0
+              : 0,
+          });
+        });
+
+        this.product_prices = response.data.product_prices;
 
         this.onGetPropertie();
-        
-        this.isLoadingPage = false;       
+
+        this.isLoadingPage = false;
       } catch (err) {
         this.$router.push("/master/product");
       }
@@ -707,11 +707,7 @@ export default {
     await this.lookUp({
       url: "master/product/get-product-spesification",
       lookup: "product_groups",
-      query: 
-        "?search=" + 
-        "&all=true" +
-        "&id=11" +
-        "&type=GROUP"       
+      query: "?search=" + "&all=true" + "&id=11" + "&type=GROUP",
     });
 
     await this.lookUp({
@@ -732,20 +728,22 @@ export default {
       query: "",
     });
 
-    if(!this.isEditable){
+    if (!this.isEditable) {
       this.setCode();
     }
 
     this.onGetPropertie();
 
-    this.value_ids.forEach(item => {     
-       document.getElementById("properti-" + item.properti_id + "-option").value = item.id;
-    })    
+    this.value_ids.forEach((item) => {
+      document.getElementById(
+        "properti-" + item.properti_id + "-option"
+      ).value = item.id;
+    });
   },
 
   computed: {
     ...mapState("moduleApi", [
-      'code',
+      "code",
       "lookup_suppliers",
       "lookup_units",
       "lookup_customer_groups",
@@ -756,14 +754,11 @@ export default {
   },
 
   methods: {
-    ...mapActions("moduleApi", [
-      'getCode',
-      "lookUp"
-    ]), 
+    ...mapActions("moduleApi", ["getCode", "lookUp"]),
 
     ...mapMutations("moduleApi", [
       "set_lookup_product_properties",
-      "set_lookup_product_groups"
+      "set_lookup_product_groups",
     ]),
 
     onGetSupplier(search, isNext) {
@@ -794,8 +789,10 @@ export default {
           url: "master/product/get-supplier",
           lookup: "suppliers",
           query:
-            "?search=" + this.supplier_search +
-            "&page=" + this.lookup_suppliers.current_page +
+            "?search=" +
+            this.supplier_search +
+            "&page=" +
+            this.lookup_suppliers.current_page +
             "&per_page=10",
         });
 
@@ -831,8 +828,10 @@ export default {
           url: "master/product/get-customer",
           lookup: "customers",
           query:
-            "?search=" + this.customer_search +
-            "&page=" + this.lookup_customers.current_page +
+            "?search=" +
+            this.customer_search +
+            "&page=" +
+            this.lookup_customers.current_page +
             "&per_page=10",
         });
 
@@ -840,17 +839,21 @@ export default {
       }
     },
 
-    async setCode(){      
+    async setCode() {
       await this.getCode({
-        url : "master/product"
+        url: "master/product",
       });
 
-      this.form.code = this.code;    
+      this.form.code = this.code;
     },
-  
+
     addProductPrice() {
-      if (this.product_prices.length >= this.lookup_customer_groups.data.length){
-        this.$toaster.warning("Harga Produk tidak boleh lebih dari pelanggan group");
+      if (
+        this.product_prices.length >= this.lookup_customer_groups.data.length
+      ) {
+        this.$toaster.warning(
+          "Harga Produk tidak boleh lebih dari pelanggan group"
+        );
         return;
       }
 
@@ -894,8 +897,10 @@ export default {
     },
 
     checkProductPrice(event) {
-      if (this.product_prices.filter((item) => item.name == event.target.value)
-          .length > 1) {
+      if (
+        this.product_prices.filter((item) => item.name == event.target.value)
+          .length > 1
+      ) {
         this.$toaster.warning("Harga ini telah ditetapkan sebelumnya");
       }
     },
@@ -913,7 +918,7 @@ export default {
         formData.append("_method", "PUT");
       }
 
-      Object.keys(this.form).forEach(item => {
+      Object.keys(this.form).forEach((item) => {
         if (item == "customer_id") {
           formData.append(
             item,
@@ -921,7 +926,7 @@ export default {
               ? this.form.customer_id.id
               : ""
           );
-        }else if(item == "supplier_id") {
+        } else if (item == "supplier_id") {
           formData.append(
             item,
             typeof this.form.supplier_id == "object"
@@ -929,7 +934,7 @@ export default {
               : ""
           );
         } else {
-          if(item === "description"){
+          if (item === "description") {
             console.log(this.form[item]);
           }
 
@@ -943,14 +948,19 @@ export default {
         formData.append("product_prices[" + index + "][price]", item.price);
       });
 
-      this.value_ids.forEach((item, index) => {            
-        formData.append("product_details[" + index + "][product_spesification_id]", item.id);
+      this.value_ids.forEach((item, index) => {
+        formData.append(
+          "product_details[" + index + "][product_spesification_id]",
+          item.id
+        );
       });
 
       this.$axios
         .post(url, formData)
-        .then(res => {
-          this.$toaster.success("Berhasil " + (this.isEditable ? "Update" : "Tambah") + " Produk");
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " + (this.isEditable ? "Update" : "Tambah") + " Produk"
+          );
 
           if (this.isEditable) {
             this.form.code = res.data.code;
@@ -966,64 +976,66 @@ export default {
 
             this.product_prices = [];
 
-            this.value_ids = [];          
-            this.set_lookup_product_properties([])
+            this.value_ids = [];
+            this.set_lookup_product_properties([]);
 
             document.getElementById("form-upload").reset();
 
             this.setCode();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
         })
-        .finally(() => {        
+        .finally(() => {
           this.isLoadingForm = false;
         });
     },
 
     async onProductGroupChange(event) {
-      this.set_lookup_product_properties([])
+      this.set_lookup_product_properties([]);
 
-      if(!event.target.value){
+      if (!event.target.value) {
         return;
       }
 
       this.value_ids = [];
-  
-      this.onGetPropertie()
+
+      this.onGetPropertie();
     },
 
-    onChangeItem(item){
-      let id = document.getElementById("properti-"+item.id+"-option").value;
+    onChangeItem(item) {
+      let id = document.getElementById("properti-" + item.id + "-option").value;
 
-      if(!this.value_ids.find(itemValue => itemValue.id == item.id)){
-        this.value_ids.push({   
-          id : id,   
-          properti_id : item.id
-        });    
-      }else{
-        let indexValue = this.value_ids.findIndex(itemValue => itemValue.id == item.id);
+      if (!this.value_ids.find((itemValue) => itemValue.id == item.id)) {
+        this.value_ids.push({
+          id: id,
+          properti_id: item.id,
+        });
+      } else {
+        let indexValue = this.value_ids.findIndex(
+          (itemValue) => itemValue.id == item.id
+        );
 
         this.value_ids[indexValue] = {
-          id : id,   
-          properti_id : item.id
-        }
+          id: id,
+          properti_id: item.id,
+        };
       }
     },
 
-    async onGetPropertie(){ 
-       await this.lookUp({
+    async onGetPropertie() {
+      await this.lookUp({
         url: "master/product/get-product-spesification",
         lookup: "product_properties",
-        query: 
-          "?search=" + 
+        query:
+          "?search=" +
           "&all=true" +
-          "&type=PROPERTIE" + 
-          "&parent_id=" + this.form.product_spesification_id,
+          "&type=PROPERTIE" +
+          "&parent_id=" +
+          this.form.product_spesification_id,
       });
-
-    }
+    },
   },
 };
 </script>
