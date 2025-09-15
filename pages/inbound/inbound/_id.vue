@@ -1007,7 +1007,6 @@ export default {
             this.form.inbound_id = res.data.id;
           }
 
-          console.log(this.form.inbound_id);
 
           this.$toaster.success(
             "Data berhasil di " +
