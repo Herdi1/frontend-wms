@@ -1,0 +1,75 @@
+<template>
+  <div class="container">
+    <h2>Login</h2>
+    <form @submit.prevent="handleSubmit">
+      <input type="text" v-model="username" placeholder="Username" required />
+      <input type="password" v-model="password" placeholder="Password" required />
+
+      <div class="captcha-box">
+        <label>Berapa {{ captcha.a }} + {{ captcha.b }}?</label>
+        <input v-model.number="captchaInput" type="number" placeholder="Jawaban" required />
+      </div>
+
+      <div v-if="error" class="error">{{ error }}</div>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+      captcha: {
+        a: 0,
+        b: 0
+      },
+      captchaInput: null,
+      error: ''
+    }
+  },
+  mounted() {
+    this.generateCaptcha()
+  },
+  methods: {
+    generateCaptcha() {
+      this.captcha.a = Math.floor(Math.random() * 10)
+      this.captcha.b = Math.floor(Math.random() * 10)
+      this.captchaInput = null
+      this.error = ''
+    },
+    handleSubmit() {
+      const correct = this.captcha.a + this.captcha.b
+      if (this.captchaInput !== correct) {
+        this.error = 'Jawaban CAPTCHA salah. Coba lagi.'
+        this.generateCaptcha()
+        return
+      }
+
+      this.error = ''
+      // Lanjutkan proses login / submit ke backend
+      alert('Login berhasil (CAPTCHA benar)')
+    }
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+.captcha-box {
+  margin: 15px 0;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+}
+</style>
