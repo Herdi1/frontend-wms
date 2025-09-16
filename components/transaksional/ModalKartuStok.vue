@@ -285,12 +285,10 @@ export default {
         Object.keys(this.detail_item).forEach((item) => {
           this.detail_item[item] = response.data[item];
         });
-        console.log(this.parameters.form);
       } catch (error) {
         // this.hide();
       } finally {
         this.isLoadingData = false;
-        console.log(this.detail_item);
       }
     },
 

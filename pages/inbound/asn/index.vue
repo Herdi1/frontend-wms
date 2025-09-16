@@ -119,7 +119,17 @@
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
                 </button>
+                <button
+                  @click="onOpenModalImport"
+                  class="bg-green-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
+                >
+                  <i class="fa fa-file-import text-white font-bold mr-2"></i>
+                  <div>Import ASN</div>
+                </button>
               </div>
+
+              <!-- <div class="flex gap-3 mt-5">
+              </div> -->
             </div>
           </div>
 
@@ -457,14 +467,20 @@
         </div>
       </div>
     </div>
+    <ModalImportFile :self="this" ref="modalImport" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import ModalImportFile from "../../../components/transaksional/ModalImportFile.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+
+  components: {
+    ModalImportFile,
+  },
 
   head() {
     return {
@@ -482,6 +498,7 @@ export default {
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
     this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isImport = true;
 
     if (
       this.getRoles.destroy ||
@@ -494,6 +511,7 @@ export default {
 
     if (this.getRoles.store) {
       this.$refs["form-option"].isAddData = true;
+      this.$refs["form-option"].isImport = true;
     }
 
     if (this.getRoles.export) {
@@ -589,6 +607,7 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+      publicUrl: process.env.PUBLIC_URL,
     };
   },
 
@@ -766,6 +785,16 @@ export default {
 
     onSelectGudang(item) {
       this.parameters.params.gudang_id = item ? item : "";
+    },
+
+    onOpenModalImport() {
+      this.$refs.modalImport.title = "Import ASN";
+      this.$refs.modalImport.parameters.url = "inbound/asn/import-excel";
+      this.$refs.modalImport.parameters.template_url =
+        this.publicUrl + "template/template_import_asn.xlsx";
+      this.$refs.modalImport.parameters.file_name = "template_import_asn";
+
+      this.$refs.modalImport.show();
     },
   },
 };

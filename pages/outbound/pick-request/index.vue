@@ -105,6 +105,13 @@
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
                   <div>Filter</div>
                 </button>
+                <button
+                  @click="onOpenModalImport"
+                  class="bg-green-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
+                >
+                  <i class="fa fa-file-import text-white font-bold mr-2"></i>
+                  <div>Import Pick Request</div>
+                </button>
               </div>
             </div>
           </div>
@@ -278,14 +285,20 @@
         </div>
       </div>
     </div>
+    <ModalImportFile :self="this" ref="modalImport" />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import ModalImportFile from "../../../components/transaksional/ModalImportFile.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+
+  components: {
+    ModalImportFile,
+  },
 
   head() {
     return {
@@ -407,6 +420,7 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+      publicUrl: process.env.PUBLIC_URL,
     };
   },
 
@@ -588,6 +602,17 @@ export default {
 
     onSelectGudang(item) {
       this.parameters.params.gudang_id = item ? item : "";
+    },
+
+    onOpenModalImport() {
+      this.$refs.modalImport.title = "Import Pick Request";
+      this.$refs.modalImport.parameters.url =
+        "outbound/pick-request/import-excel";
+      this.$refs.modalImport.parameters.template_url =
+        this.publicUrl + "template/template_import_pick_request.xlsx";
+      this.$refs.modalImport.parameters.file_name =
+        "template_import_pick_request";
+      this.$refs.modalImport.show();
     },
   },
 };

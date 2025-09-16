@@ -165,6 +165,16 @@
             >
               <i class="fas fa-plus mr-2"></i> Tambah Data
             </button>
+            <button
+              class="btn btn-sm bg-green-600 btn-block text-white"
+              data-toggle="tooltip"
+              data-placement="top"
+              v-if="isImport"
+              data-original-title="Import Data"
+              @click="self.onOpenModalImport()"
+            >
+              <i class="fas fa-file-import mr-2"></i> Import Data
+            </button>
           </div>
 
           <!-- SLOT FOR DOWNLOD DATA SCHOOL DAPODIK -->
@@ -231,6 +241,7 @@ export default {
       isExportFile: true,
       isExportPrint: true,
       isAddData: true,
+      isImport: false,
       isShowingPage: true,
       isExportFilePdf: true,
       isExportFileExcel: true,
