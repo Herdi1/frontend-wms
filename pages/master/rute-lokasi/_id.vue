@@ -85,6 +85,7 @@
                 :filterable="false"
                 @search="onGetLokasiAwal"
                 v-model="parameters.form.lokasi_id_awal"
+                @input="onSelectLokasiAwal"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
@@ -127,6 +128,7 @@
                 :options="lookup_defects.data"
                 :filterable="false"
                 @search="onGetLokasiTujuan"
+                @input="onSelectLokasiTujuan"
                 v-model="parameters.form.lokasi_id_tujuan"
                 class="w-full mb-2 bg-white"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
@@ -170,19 +172,25 @@
             <label for="min-stok">Jarak (km)</label>
             <money
               v-model="parameters.form.jarak"
+              min="0"
               class="w-full pl-2 py-1 border rounded focus:outline-none"
               @keydown.native="
                 $event.key === '-' ? $event.preventDefault() : null
               "
             />
+            <span v-show="show_rekomendasi" class="text-sm text-gray-500"
+              >*Jarak Rekomendasi Sistem: {{ jarak_rekomendasi }}</span
+            >
           </div>
           <div class="my-2">
             <label for="">Waktu Sampai Tujuan (Menit)</label>
-            <input
-              type="number"
+            <money
               min="0"
               v-model="parameters.form.waktu_sampai_tujuan"
               class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+              @keydown.native="
+                $event.key === '-' ? $event.preventDefault() : null
+              "
             />
           </div>
 
@@ -256,6 +264,8 @@ export default {
           waktu_sampai_tujuan: "",
         },
       },
+      jarak_rekomendasi: 0,
+      show_rekomendasi: false,
     };
   },
 
@@ -269,6 +279,8 @@ export default {
         this.parameters.form.lokasi_id_tujuan = res.data.lokasi_tujuan ?? "";
         this.parameters.form.jarak = res.data.jarak ?? "";
         this.isLoadingPage = false;
+
+        await this.getRekomendasiJarak();
       }
     } catch (error) {
       this.$router.back();
@@ -401,6 +413,16 @@ export default {
         this.isLoadingGeLokasiAwal = false;
       }
     },
+
+    async onSelectLokasiAwal(item) {
+      if (item) {
+        this.parameters.form.lokasi_id_awal = item;
+        await this.getRekomendasiJarak();
+      } else {
+        this.parameters.form.lokasi_id_awal = "";
+      }
+    },
+
     //gudang
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -477,6 +499,36 @@ export default {
         });
 
         this.isLoadingGetLokasiTujuan = false;
+      }
+    },
+
+    async onSelectLokasiTujuan(item) {
+      if (item) {
+        this.parameters.form.lokasi_id_tujuan = item;
+        await this.getRekomendasiJarak();
+      } else {
+        this.parameters.form.lokasi_id_tujuan = "";
+      }
+    },
+
+    async getRekomendasiJarak() {
+      if (
+        this.parameters.form.lokasi_id_awal &&
+        this.parameters.form.lokasi_id_tujuan
+      ) {
+        await this.$axios
+          .get(
+            `master/rute-lokasi/get-jarak-lokasi-awal-tujuan/${this.parameters.form.gudang_id.gudang_id}?lokasi_id_awal=${this.parameters.form.lokasi_id_awal.lokasi_id}&lokasi_id_tujuan=${this.parameters.form.lokasi_id_tujuan.lokasi_id}`
+          )
+          .then((res) => {
+            if (!this.isEditable) {
+              this.parameters.form.jarak = res.data.jarak ?? 0;
+              this.parameters.form.waktu_sampai_tujuan =
+                res.data.waktu_sampai_tujuan ?? 0;
+            }
+            this.jarak_rekomendasi = res.data.jarak ?? 0;
+            this.show_rekomendasi = true;
+          });
       }
     },
   },

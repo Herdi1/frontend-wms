@@ -301,8 +301,6 @@ export default {
         }
       });
 
-      console.log("iki menu pie");
-
       if (this.$auth.user.is_superadmin != 1) {
         let roles_id = this.$auth.user.role.menus.reduce(
           (ids, item) => [...ids, item.menu_id],

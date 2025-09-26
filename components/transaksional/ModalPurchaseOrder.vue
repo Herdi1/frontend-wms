@@ -315,7 +315,6 @@ export default {
         this.$refs["pagination"].active_page = this.parameters.params.page;
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
-        // console.log(this.error);
       }
 
       this.isLoadingData = false;
