@@ -167,7 +167,7 @@
               v-model="parameters.form.jarak"
               :required="false"
             /> -->
-            <label for="min-stok">Jarak</label>
+            <label for="min-stok">Jarak (km)</label>
             <money
               v-model="parameters.form.jarak"
               class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -198,8 +198,9 @@
                 v-model="parameters.form.status_approve"
                 :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
               >
-                <option value="a">Approve</option>
                 <option value="p">Pending</option>
+                <option value="a">Approve</option>
+                <option value="r">Reject</option>
               </select>
               <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
                 errors[0]
