@@ -81,6 +81,7 @@
                 >
                   <option value="a">Approve</option>
                   <option value="p">Pending</option>
+                  <option value="r">Reject</option>
                 </select>
               </div>
             </div>
@@ -256,6 +257,12 @@
                     class="bg-green-500 p-1 rounded-md font-semibold text-white text-center"
                   >
                     <p>APPROVE</p>
+                  </div>
+                  <div
+                    v-if="item.status_approve === 'r'"
+                    class="bg-red-500 p-1 rounded-md font-semibold text-white text-center"
+                  >
+                    <p>REJECT</p>
                   </div>
                 </td>
 

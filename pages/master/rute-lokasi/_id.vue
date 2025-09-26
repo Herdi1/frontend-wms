@@ -179,7 +179,7 @@
               "
             />
             <span v-show="show_rekomendasi" class="text-sm text-gray-500"
-              >*Jarak Rekomendasi Sistem: {{ jarak_rekomendasi }}</span
+              >*Jarak Rekomendasi Sistem: {{ jarak_rekomendasi }} KM</span
             >
           </div>
           <div class="my-2">
@@ -257,7 +257,7 @@ export default {
         form: {
           kode_master_rute_lokasi: "",
           jarak: "",
-          status_approve: "a",
+          status_approve: "p",
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
@@ -347,7 +347,7 @@ export default {
         this.parameters.form = {
           kode_master_rute_lokasi: "",
           jarak: "",
-          status_approve: "a",
+          status_approve: "p",
           lokasi_id_awal: "",
           lokasi_id_tujuan: "",
           gudang_id: "",
@@ -366,7 +366,7 @@ export default {
       this.parameters.form = {
         kode_master_rute_lokasi: "",
         jarak: "",
-        status_approve: "a",
+        status_approve: "p",
         lokasi_id_awal: "",
         lokasi_id_tujuan: "",
         gudang_id: "",
