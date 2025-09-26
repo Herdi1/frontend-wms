@@ -460,21 +460,6 @@
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
               <ValidationProvider
-                name="longitude"
-                rules="required"
-                ref="ruteProvider"
-              >
-                <div class="form-group">
-                  <input-form
-                    label="Longitude"
-                    type="text"
-                    name="longitude"
-                    :required="true"
-                    v-model="form.longitude"
-                  />
-                </div>
-              </ValidationProvider>
-              <ValidationProvider
                 name="latitude"
                 rules="required"
                 ref="ruteProvider"
@@ -486,6 +471,21 @@
                     name="latitude"
                     :required="true"
                     v-model="form.latitude"
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                name="longitude"
+                rules="required"
+                ref="ruteProvider"
+              >
+                <div class="form-group">
+                  <input-form
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    :required="true"
+                    v-model="form.longitude"
                   />
                 </div>
               </ValidationProvider>

@@ -577,7 +577,7 @@
                           class="border-b border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         ></td>
-                        <td class="border-b border-gray-300"></td>
+                        <!-- <td class="border-b border-gray-300"></td> -->
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
                         <td class="border border-gray-300">Grand Total</td>

@@ -361,9 +361,9 @@
                   >
                     <thead>
                       <tr class="text-sm uppercase">
-                        <th class="w-20 border border-gray-300 text-center">
+                        <!-- <th class="w-20 border border-gray-300 text-center">
                           Detail
-                        </th>
+                        </th> -->
                         <th
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
@@ -443,7 +443,7 @@
                         v-for="(item, i) in form.posting_premi_details"
                         :key="i"
                       >
-                        <td
+                        <!-- <td
                           class="border border-gray-300 place-items-center text-center"
                         >
                           <div
@@ -454,7 +454,7 @@
                               class="fas fa-info-circle text-white mx-auto"
                             ></i>
                           </div>
-                        </td>
+                        </td> -->
                         <td
                           class="border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
