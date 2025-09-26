@@ -32,6 +32,12 @@
   "AnavbarUserOptions": {
     "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -43,12 +49,6 @@
   },
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
-  },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
@@ -73,6 +73,42 @@
   },
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
+  },
+  "SectionFilterData": {
+    "description": "Auto imported from components/section/FilterData.vue"
+  },
+  "SectionFilterSection": {
+    "description": "Auto imported from components/section/FilterSection.vue"
+  },
+  "SectionHeaderSection": {
+    "description": "Auto imported from components/section/HeaderSection.vue"
+  },
+  "SectionListOptionSection": {
+    "description": "Auto imported from components/section/ListOptionSection.vue"
+  },
+  "SectionModalFooterSection": {
+    "description": "Auto imported from components/section/ModalFooterSection.vue"
+  },
+  "SectionModalFooterSectionWoReset": {
+    "description": "Auto imported from components/section/ModalFooterSectionWoReset.vue"
+  },
+  "SectionModalHeaderSection": {
+    "description": "Auto imported from components/section/ModalHeaderSection.vue"
+  },
+  "SectionPaginationSection": {
+    "description": "Auto imported from components/section/PaginationSection.vue"
+  },
+  "SectionReportSection": {
+    "description": "Auto imported from components/section/ReportSection.vue"
+  },
+  "SectionTableDataLoadingSection": {
+    "description": "Auto imported from components/section/TableDataLoadingSection.vue"
+  },
+  "SectionTableDataNotFoundSection": {
+    "description": "Auto imported from components/section/TableDataNotFoundSection.vue"
+  },
+  "SectionTableHeaderSection": {
+    "description": "Auto imported from components/section/TableHeaderSection.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
@@ -487,42 +523,6 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
-  },
-  "SectionFilterData": {
-    "description": "Auto imported from components/section/FilterData.vue"
-  },
-  "SectionFilterSection": {
-    "description": "Auto imported from components/section/FilterSection.vue"
-  },
-  "SectionHeaderSection": {
-    "description": "Auto imported from components/section/HeaderSection.vue"
-  },
-  "SectionListOptionSection": {
-    "description": "Auto imported from components/section/ListOptionSection.vue"
-  },
-  "SectionModalFooterSection": {
-    "description": "Auto imported from components/section/ModalFooterSection.vue"
-  },
-  "SectionModalFooterSectionWoReset": {
-    "description": "Auto imported from components/section/ModalFooterSectionWoReset.vue"
-  },
-  "SectionModalHeaderSection": {
-    "description": "Auto imported from components/section/ModalHeaderSection.vue"
-  },
-  "SectionPaginationSection": {
-    "description": "Auto imported from components/section/PaginationSection.vue"
-  },
-  "SectionReportSection": {
-    "description": "Auto imported from components/section/ReportSection.vue"
-  },
-  "SectionTableDataLoadingSection": {
-    "description": "Auto imported from components/section/TableDataLoadingSection.vue"
-  },
-  "SectionTableDataNotFoundSection": {
-    "description": "Auto imported from components/section/TableDataNotFoundSection.vue"
-  },
-  "SectionTableHeaderSection": {
-    "description": "Auto imported from components/section/TableHeaderSection.vue"
   },
   "TransaksionalModalImportFile": {
     "description": "Auto imported from components/transaksional/ModalImportFile.vue"
