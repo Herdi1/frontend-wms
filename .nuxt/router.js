@@ -782,6 +782,7 @@ const _e8cede60 = () => interopDefault(import('..\\pages\\master\\cost-center\\_
 const _86eed49e = () => interopDefault(import('..\\pages\\master\\divisi\\_id.vue' /* webpackChunkName: "pages/master/divisi/_id" */))
 const _f4b6749c = () => interopDefault(import('..\\pages\\master\\fungsi-gudang\\_id.vue' /* webpackChunkName: "pages/master/fungsi-gudang/_id" */))
 const _df48d724 = () => interopDefault(import('..\\pages\\master\\fungsi-zona\\_id.vue' /* webpackChunkName: "pages/master/fungsi-zona/_id" */))
+const _a300ca66 = () => interopDefault(import('..\\pages\\master\\group-gudang\\_id.vue' /* webpackChunkName: "pages/master/group-gudang/_id" */))
 const _7fbac53e = () => interopDefault(import('..\\pages\\master\\group-item\\_id.vue' /* webpackChunkName: "pages/master/group-item/_id" */))
 const _0ee2176e = () => interopDefault(import('..\\pages\\master\\group-zona\\_id.vue' /* webpackChunkName: "pages/master/group-zona/_id" */))
 const _e69b704a = () => interopDefault(import('..\\pages\\master\\gudang\\_id.vue' /* webpackChunkName: "pages/master/gudang/_id" */))
@@ -3981,6 +3982,10 @@ export const routerOptions = {
     path: "/master/fungsi-zona/:id?",
     component: _df48d724,
     name: "master-fungsi-zona-id"
+  }, {
+    path: "/master/group-gudang/:id?",
+    component: _a300ca66,
+    name: "master-group-gudang-id"
   }, {
     path: "/master/group-item/:id?",
     component: _7fbac53e,
