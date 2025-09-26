@@ -780,8 +780,10 @@ const _5cf421c8 = () => interopDefault(import('..\\pages\\master\\bank\\_id.vue'
 const _310a1aac = () => interopDefault(import('..\\pages\\master\\banner\\_id.vue' /* webpackChunkName: "pages/master/banner/_id" */))
 const _b25c6752 = () => interopDefault(import('..\\pages\\master\\cost-center\\_id.vue' /* webpackChunkName: "pages/master/cost-center/_id" */))
 const _6187fc6c = () => interopDefault(import('..\\pages\\master\\divisi\\_id.vue' /* webpackChunkName: "pages/master/divisi/_id" */))
+const _35a5e8d9 = () => interopDefault(import('..\\pages\\master\\fisik-gudang\\_id.vue' /* webpackChunkName: "pages/master/fisik-gudang/_id" */))
 const _9105890e = () => interopDefault(import('..\\pages\\master\\fungsi-gudang\\_id.vue' /* webpackChunkName: "pages/master/fungsi-gudang/_id" */))
 const _a8d66016 = () => interopDefault(import('..\\pages\\master\\fungsi-zona\\_id.vue' /* webpackChunkName: "pages/master/fungsi-zona/_id" */))
+const _0b245fb4 = () => interopDefault(import('..\\pages\\master\\group-gudang\\_id.vue' /* webpackChunkName: "pages/master/group-gudang/_id" */))
 const _178f0652 = () => interopDefault(import('..\\pages\\master\\group-item\\_id.vue' /* webpackChunkName: "pages/master/group-item/_id" */))
 const _6d0cabe2 = () => interopDefault(import('..\\pages\\master\\group-zona\\_id.vue' /* webpackChunkName: "pages/master/group-zona/_id" */))
 const _c1349818 = () => interopDefault(import('..\\pages\\master\\gudang\\_id.vue' /* webpackChunkName: "pages/master/gudang/_id" */))
@@ -3974,6 +3976,10 @@ export const routerOptions = {
     component: _6187fc6c,
     name: "master-divisi-id"
   }, {
+    path: "/master/fisik-gudang/:id?",
+    component: _35a5e8d9,
+    name: "master-fisik-gudang-id"
+  }, {
     path: "/master/fungsi-gudang/:id?",
     component: _9105890e,
     name: "master-fungsi-gudang-id"
@@ -3981,6 +3987,10 @@ export const routerOptions = {
     path: "/master/fungsi-zona/:id?",
     component: _a8d66016,
     name: "master-fungsi-zona-id"
+  }, {
+    path: "/master/group-gudang/:id?",
+    component: _0b245fb4,
+    name: "master-group-gudang-id"
   }, {
     path: "/master/group-item/:id?",
     component: _178f0652,

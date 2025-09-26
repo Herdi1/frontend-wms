@@ -5432,6 +5432,13 @@
     "_name": "_6187fc6c"
   },
   {
+    "name": "master-fisik-gudang-id",
+    "path": "/master/fisik-gudang/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\master\\\\fisik-gudang\\\\_id.vue",
+    "chunkName": "pages/master/fisik-gudang/_id",
+    "_name": "_35a5e8d9"
+  },
+  {
     "name": "master-fungsi-gudang-id",
     "path": "/master/fungsi-gudang/:id?",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\master\\\\fungsi-gudang\\\\_id.vue",
@@ -5444,6 +5451,13 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\master\\\\fungsi-zona\\\\_id.vue",
     "chunkName": "pages/master/fungsi-zona/_id",
     "_name": "_a8d66016"
+  },
+  {
+    "name": "master-group-gudang-id",
+    "path": "/master/group-gudang/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\master\\\\group-gudang\\\\_id.vue",
+    "chunkName": "pages/master/group-gudang/_id",
+    "_name": "_0b245fb4"
   },
   {
     "name": "master-group-item-id",

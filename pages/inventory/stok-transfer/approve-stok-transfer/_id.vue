@@ -77,8 +77,25 @@
                   :disabled="true"
                 />
               </div>
+              <div class="flex px-1 items-start">
+                <label for="jenis_kiriman" class="w-2/5 pt-2"
+                  >Jenis Kiriman <span class="text-danger">*</span></label
+                >
+                <select
+                  disabled
+                  required
+                  name="jenis_kiriman"
+                  id="jenis_kiriman"
+                  v-model="form.jenis_kiriman"
+                  class="w-3/5 outline-none p-1 rounded-sm border border-gray-300 bg-gray-50"
+                >
+                  <option value="FRC">Franco</option>
+                  <option value="LCO">Locco</option>
+                  <option value="SWC">Switch</option>
+                </select>
+              </div>
               <div class="form-group flex items-top">
-                <label for="" class="w-[40%]">Keterangan</label>
+                <label for="" class="w-[40%] pt-2">Keterangan</label>
                 <textarea
                   disabled
                   placeholder="Keterangan"
@@ -333,6 +350,7 @@ export default {
 
         gudang_penerima: { nama_gudang: "" },
         gudang_asal: { nama_gudang: "" },
+        jenis_kiriman: "FRC",
 
         user_agent: "",
         device: "",
@@ -347,6 +365,7 @@ export default {
         gudang_id_asal: "",
         keterangan: "",
         stok_transfer_details: [],
+        jenis_kiriman: "FRC",
 
         user_agent: "",
         device: "",
@@ -379,6 +398,7 @@ export default {
 
         this.form.gudang_id = res.data.gudang;
         this.form.gudang_id_pengirim = res.data.gudang_pengirim;
+        this.form.jenis_kiriman = res.data.jenis_kiriman.trim();
 
         this.form.stok_transfer_details = res.data.stok_transfer_details.map(
           (item) => {
