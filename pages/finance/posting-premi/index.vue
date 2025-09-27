@@ -199,6 +199,8 @@
                   <th class="w-48 border border-gray-300">Total</th>
                   <th class="w-48 border border-gray-300">Kode Referensi</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
+                  <th class="w-28 border border-gray-300">Print</th>
+
                   <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
@@ -259,6 +261,18 @@
                   </td>
                   <td class="border border-gray-300">
                     {{ item.keterangan ?? "-" }}
+                  </td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <button
+                      class="btn btn-sm"
+                      v-if="!item.deleted_at"
+                      @click="onPrintDetail(item)"
+                      title="Print Invoice Jurnal"
+                    >
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
@@ -572,6 +586,20 @@ export default {
 
         this.isLoadingGetGudang = false;
       }
+    },
+
+    onPrintDetail(item) {
+      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "finance/posting-premi/get-print-detail/" +
+          item.posting_premi_id +
+          "?token=" +
+          token +
+          "&type=pdf",
+        "_blank"
+      );
+      // console.log(token);
     },
   },
 };

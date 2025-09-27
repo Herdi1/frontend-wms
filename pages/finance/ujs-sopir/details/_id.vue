@@ -11,459 +11,243 @@
       </div>
 
       <div class="w-full">
-        <ValidationObserver v-slot="{ invalid, validate }" ref="formVaidate">
-          <form
-            @submit.prevent="validate().then(() => onSubmit(invalid))"
-            autocomplete="off"
-          >
-            <div class="w-full gap-3">
-              <div
-                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
-              >
-                <div
-                  class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full"
-                >
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Kode Posting"
-                      type="text"
-                      name="tanggal"
-                      v-model="form.kode_posting"
-                      :disabled="true"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Tanggal"
-                      type="date"
-                      name="tanggal"
-                      v-model="form.tanggal"
-                      :disabled="true"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <input-horizontal
-                      :disabled="true"
-                      label="Periode Awal"
-                      type="date"
-                      name="periode_awal"
-                      v-model="form.periode_awal"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <input-horizontal
-                      :disabled="true"
-                      label="Periode Akhir"
-                      type="date"
-                      name="periode_akhir"
-                      v-model="form.periode_akhir"
-                    />
-                  </div>
-                  <ValidationProvider name="gudang_id" class="w-full mt-1 mb-2">
-                    <div
-                      slot-scope="{ errors, valid }"
-                      class="flex items-center"
-                    >
-                      <label for="gudang_id" class="w-1/2">Gudang</label>
-                      <v-select
-                        :disabled="true"
-                        label="nama_gudang"
-                        :loading="isLoadingGetGudang"
-                        :options="lookup_custom1.data"
-                        :filterable="false"
-                        @search="onGetGudang"
-                        v-model="form.gudang_id"
-                        class="w-1/2"
-                        @input="onSelectGudang"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom1.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom1.current_page > 1"
-                            @click="onGetGudang(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom1.last_page >
-                              lookup_custom1.current_page
-                            "
-                            @click="onGetGudang(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
-                  <ValidationProvider name="coa_id" class="w-full mt-1 mb-2">
-                    <div
-                      slot-scope="{ errors, valid }"
-                      class="flex items-center"
-                    >
-                      <label for="coa_id" class="w-1/2">Akun Master</label>
-                      <v-select
-                        :disabled="true"
-                        label="nama_coa"
-                        :loading="isLoadingGetCoa"
-                        :options="lookup_custom2.data"
-                        :filterable="false"
-                        @search="onGetCoa"
-                        v-model="form.coa_id"
-                        class="w-1/2"
-                        @input="onSelectCoa"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom2.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom2.current_page > 1"
-                            @click="onGetCoa(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom2.last_page >
-                              lookup_custom2.current_page
-                            "
-                            @click="onGetCoa(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
-                  <ValidationProvider name="coa_id" class="w-full mt-1 mb-2">
-                    <div
-                      slot-scope="{ errors, valid }"
-                      class="flex items-center"
-                    >
-                      <label for="coa_id" class="w-1/2">Akun Biaya</label>
-                      <v-select
-                        :disabled="true"
-                        label="nama_coa"
-                        :loading="isLoadingGetCoa"
-                        :options="lookup_custom2.data"
-                        :filterable="false"
-                        @search="onGetCoa"
-                        v-model="form.coa_id_biaya"
-                        class="w-1/2"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom2.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom2.current_page > 1"
-                            @click="onGetCoa(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom2.last_page >
-                              lookup_custom2.current_page
-                            "
-                            @click="onGetCoa(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
-                  <ValidationProvider name="divisi_id" class="w-full mt-1 mb-2">
-                    <div
-                      slot-scope="{ errors, valid }"
-                      class="flex items-center"
-                    >
-                      <label for="divisi_id" class="w-1/2">Divisi </label>
-                      <v-select
-                        :disabled="true"
-                        label="nama_divisi"
-                        :loading="isLoadingGetDivisi"
-                        :options="lookup_custom3.data"
-                        :filterable="false"
-                        @search="onGetDivisi"
-                        v-model="form.divisi_id"
-                        class="w-1/2"
-                        @input="onSelectDivisi"
-                      >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom3.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_custom3.current_page > 1"
-                            @click="onGetDivisi(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom3.last_page >
-                              lookup_custom3.current_page
-                            "
-                            @click="onGetDivisi(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
-                  <div class="form-group">
-                    <input-horizontal
-                      :disabled="true"
-                      label="Kode Referensi"
-                      type="text"
-                      name="kode_referensi"
-                      v-model="form.kode_referensi"
-                    />
-                  </div>
-                  <div class="form-group md:col-span-2">
-                    <label for="keterangan" class="w-1/2">Keterangan</label>
-                    <textarea
-                      :disabled="true"
-                      name="keterangan"
-                      id="keterangan"
-                      v-model="form.keterangan"
-                      placeholder="Keterangan"
-                      class="w-full p-1 rounded-md outline-none border border-gray-300"
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div class="w-full flex justify-between items-center mt-5">
-                  <h1 class="text-lg font-bold">Detail UJS Sopir</h1>
-                  <div class=" ">
-                    <!-- v-if="self.form.sumber_data === 'NON'" -->
-                    <!-- <button
-                      type="button"
-                      @click="addDetailUjs"
-                      class="bg-[#4fc47a] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
-                    >
-                      <i class="fas fa-retweet"></i>
-                      <p class="text-xs font-medium">Tambah Detail</p>
-                    </button> -->
-                  </div>
-                </div>
-
-                <div class="table-responsive mb-5">
-                  <table
-                    class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                  >
-                    <!-- :class="
-                      form.ujs_sopir_details.length ? 'mb-[300px]' : ''
-                    " -->
-                    <thead>
-                      <tr class="text-sm uppercase text-nowrap">
-                        <th class="w-[75px] border border-gray-300">Detail</th>
-
-                        <th class="w-[200px] border border-gray-300">
-                          Kode UJS
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Kode Shipment
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Lokasi Asal
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Lokasi Tujuan
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Jenis Routing
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Jenis Kiriman
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Tanggal Berangkat
-                        </th>
-                        <!-- <th class="w-[200px] border border-gray-300">Status</th> -->
-                        <!-- <th class="w-[200px] border border-gray-300">Pajak</th>
-                        <th class="w-[200px] border border-gray-300">DPP</th>
-                        <th class="w-[200px] border border-gray-300">
-                          Harga Setelah Pajak
-                        </th> -->
-                        <th class="w-[200px] border border-gray-300">Jarak</th>
-                        <!-- <th class="w-[200px] border border-gray-300">
-                          Waktu Sampai Tujuan
-                        </th> -->
-                        <th class="w-[200px] border border-gray-300">
-                          Total Biaya BBM
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Biaya Bongkar Toko
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Biaya Retribusi
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Biaya Insentif Jarak
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Locco
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Switch
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Total Lain
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Sub Total
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Keterangan
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(item, index) in form.ujs_sopir_details"
-                        :key="index"
-                        style="border-top: 0.5px solid lightgray"
-                        class="align-top mx-0"
-                      >
-                        <td
-                          class="border border-gray-300 place-items-center text-center"
-                        >
-                          <div
-                            class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
-                            @click="onDetail(item)"
-                          >
-                            <i
-                              class="fas fa-info-circle text-white mx-auto"
-                            ></i>
-                          </div>
-                        </td>
-                        <td class="border border-gray-300">
-                          <p>
-                            {{ item.shipment ? item.shipment.kode_ujs : "-" }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300">
-                          <p>
-                            {{
-                              item.shipment ? item.shipment.kode_shipment : "-"
-                            }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300">
-                          <p>
-                            {{
-                              item.lokasi_asal
-                                ? item.lokasi_asal.nama_lokasi
-                                : "-"
-                            }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300">
-                          <p>
-                            {{
-                              item.lokasi_tujuan
-                                ? item.lokasi_tujuan.nama_lokasi
-                                : "-"
-                            }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300">
-                          {{ item.jenis_routing }}
-                        </td>
-                        <td class="border border-gray-300">
-                          <p v-if="item.jenis_kiriman == 1">Stok Transfer</p>
-                          <p v-if="item.jenis_kiriman == 0">Penjualan</p>
-                        </td>
-                        <td class="border border-gray-300">
-                          {{ item.tanggal_berangkat }}
-                        </td>
-                        <!-- <td class="border border-gray-300">
-                          {{ item.status }}
-                        </td> -->
-                        <td class="border border-gray-300">
-                          {{ item.jarak }}
-                        </td>
-                        <!-- <td class="border border-gray-300">
-                          {{ item.realisasi_waktu_sampai_tujuan }}
-                        </td> -->
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_bbm ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_bongkar_toko ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_retribusi ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_insentif_jarak ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_locco ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_switch ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.total_lain ?? 0 | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ parseFloat(item.sub_total) | formatPrice }}
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ item.keterangan }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          colspan="15"
-                          class="border border-gray-300 text-right"
-                        >
-                          Grand Total
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{ calculateGrandTotal ?? 0 | formatPrice }}
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tr v-if="!form.ujs_sopir_details.length > 0">
-                      <td colspan="100" class="text-center">
-                        <span class="flex justify-center">
-                          <img
-                            src="/img/data-not-found.svg"
-                            style="height: 250px; object-fit: cover"
-                          />
-                        </span>
-                        <div class="mt-3">Data Tidak Ditemukan</div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-
-                <modal-footer-section
-                  :isLoadingForm="isLoadingForm"
-                  @reset="formReset()"
-                />
+        <div
+          class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full">
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Kode Posting</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ this.form.kode_posting ? this.form.kode_posting : "-" }}
               </div>
             </div>
-          </form>
-        </ValidationObserver>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Gudang</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.form.gudang_id ? this.form.gudang_id.nama_gudang : "-"
+                }}
+              </div>
+            </div>
+
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Tanggal</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ formatDate(this.form.tanggal) }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Periode Awal</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ formatDate(this.form.periode_awal) }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Periode Akhir</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ formatDate(this.form.periode_akhir) }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Akun Master</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ this.form.coa_id ? this.form.coa_id.kode_coa : "-" }} -
+                {{ this.form.coa_id ? this.form.coa_id.nama_coa : "-" }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Akun Biaya</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.form.coa_id_biaya ? this.form.coa_id_biaya.kode_coa : "-"
+                }}
+                -
+                {{
+                  this.form.coa_id_biaya ? this.form.coa_id_biaya.nama_coa : "-"
+                }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Divisi</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{
+                  this.form.divisi_id ? this.form.divisi_id.nama_divisi : "-"
+                }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Kode Referensi</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ this.form.kode_referensi ? this.form.kode_referensi : "-" }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
+              <label class="w-[40%]">Keterangan</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ this.form.keterangan ? this.form.keterangan : "-" }}
+              </div>
+            </div>
+          </div>
+          <div class="w-full flex justify-between items-center mt-5">
+            <h1 class="text-lg font-bold">Detail UJS Sopir</h1>
+          </div>
+          <div class="table-responsive mb-7">
+            <table
+              class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
+            >
+              <thead>
+                <tr class="uppercase">
+                  <th class="w-[75px] border border-gray-300">Detail</th>
+
+                  <th class="w-[200px] border border-gray-300">Kode UJS</th>
+                  <th class="w-[200px] border border-gray-300">
+                    Kode Shipment
+                  </th>
+                  <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
+                  <th class="w-[200px] border border-gray-300">
+                    Lokasi Tujuan
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Jenis Routing
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Jenis Kiriman
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Tanggal Berangkat
+                  </th>
+
+                  <th class="w-[200px] border border-gray-300">Jarak</th>
+
+                  <th class="w-[200px] border border-gray-300">
+                    Total Biaya BBM
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Total Biaya Bongkar Toko
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Total Biaya Retribusi
+                  </th>
+                  <th class="w-[200px] border border-gray-300">
+                    Total Biaya Insentif Jarak
+                  </th>
+                  <th class="w-[200px] border border-gray-300">Total Locco</th>
+                  <th class="w-[200px] border border-gray-300">Total Switch</th>
+                  <th class="w-[200px] border border-gray-300">Total Lain</th>
+                  <th class="w-[200px] border border-gray-300">Sub Total</th>
+                  <th class="w-[200px] border border-gray-300">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item, index) in form.ujs_sopir_details"
+                  :key="index"
+                  style="border-top: 0.5px solid lightgray"
+                  class="align-top mx-0"
+                >
+                  <td
+                    class="border border-gray-300 place-items-center text-center"
+                  >
+                    <div
+                      class="bg-orange-500 p-1 rounded-lg w-1/2 cursor-pointer"
+                      @click="onDetail(item)"
+                    >
+                      <i class="fas fa-info-circle text-white mx-auto"></i>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ item.shipment ? item.shipment.kode_ujs : "-" }}
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{ item.shipment ? item.shipment.kode_shipment : "-" }}
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{
+                        item.lokasi_asal ? item.lokasi_asal.nama_lokasi : "-"
+                      }}
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    <p>
+                      {{
+                        item.lokasi_tujuan
+                          ? item.lokasi_tujuan.nama_lokasi
+                          : "-"
+                      }}
+                    </p>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis_routing }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <p v-if="item.jenis_kiriman == 1">Stok Transfer</p>
+                    <p v-if="item.jenis_kiriman == 0">Penjualan</p>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.tanggal_berangkat }}
+                  </td>
+
+                  <td class="border border-gray-300">
+                    {{ item.jarak }}
+                  </td>
+
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_bbm ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_bongkar_toko ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_retribusi ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_insentif_jarak ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_locco ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_switch ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total_lain ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ parseFloat(item.sub_total) | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.keterangan }}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="16" class="border border-gray-300 text-right">
+                    Grand Total
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ calculateGrandTotal ?? 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300"></td>
+                </tr>
+              </tbody>
+              <tr v-if="!form.ujs_sopir_details.length > 0">
+                <td colspan="100" class="text-center">
+                  <span class="flex justify-center">
+                    <img
+                      src="/img/data-not-found.svg"
+                      style="height: 250px; object-fit: cover"
+                    />
+                  </span>
+                  <div class="mt-3">Data Tidak Ditemukan</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <ModalRuteBiayaLastmile :self="this" ref="modalRuteLastmile" />
@@ -619,6 +403,12 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;

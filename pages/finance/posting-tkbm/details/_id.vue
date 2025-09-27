@@ -21,6 +21,12 @@
               </div>
             </div>
             <div class="flex w-full items-center">
+              <label class="w-[40%]">Gudang</label>
+              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                {{ this.form.gudang ? this.form.gudang.nama_gudang : "-" }}
+              </div>
+            </div>
+            <div class="flex w-full items-center">
               <label class="w-[40%]">Tanggal</label>
               <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                 {{ formatDate(this.form.tanggal) }}
@@ -51,12 +57,6 @@
               </div>
             </div>
 
-            <div class="flex w-full items-center">
-              <label class="w-[40%]">Gudang</label>
-              <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                {{ this.form.gudang ? this.form.gudang.nama_gudang : "-" }}
-              </div>
-            </div>
             <div class="flex w-full items-center">
               <label class="w-[40%]">Akun Master</label>
               <div class="border border-gray-300 rounded-md p-1 w-[60%]">
