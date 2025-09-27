@@ -78,24 +78,6 @@
               </ValidationProvider>
               <ValidationProvider
                 ref="inputProvider"
-                name="longitude"
-                rules="required"
-              >
-                <div class="form-group" slot-scope="{ errors, valid }">
-                  <input-form
-                    label="Longitude"
-                    type="text"
-                    name="longitude"
-                    :required="true"
-                    v-model="parameters.form.longitude"
-                    :inputClass="
-                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                    "
-                  />
-                </div>
-              </ValidationProvider>
-              <ValidationProvider
-                ref="inputProvider"
                 name="latitude"
                 rules="required"
               >
@@ -106,6 +88,24 @@
                     name="latitude"
                     :required="true"
                     v-model="parameters.form.latitude"
+                    :inputClass="
+                      errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                    "
+                  />
+                </div>
+              </ValidationProvider>
+              <ValidationProvider
+                ref="inputProvider"
+                name="longitude"
+                rules="required"
+              >
+                <div class="form-group" slot-scope="{ errors, valid }">
+                  <input-form
+                    label="Longitude"
+                    type="text"
+                    name="longitude"
+                    :required="true"
+                    v-model="parameters.form.longitude"
                     :inputClass="
                       errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
                     "

@@ -16,13 +16,13 @@
       </h5>
     </div>
     <div class="flex gap-5">
-      <div
+      <!-- <div
         class="relative p-4 w-4/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <FormInput :self="this" ref="formInput" />
-      </div>
+      </div> -->
       <div
-        class="relative p-4 w-8/12 bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+        class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
         <div class="card-body">
           <div class="card-title">
@@ -33,7 +33,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">No</th>
+                  <th class="w-[5%]">Edit</th>
+                  <th class="w-[5%] text-center">No</th>
                   <th
                     @click="
                       onSort(
@@ -100,13 +101,15 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[5%]">Edit</th>
                   <th class="w-[5%]">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td>
+                  <td class="text-center place-items-center">
+                    <small-edit-button @click="onEdit(item)" />
+                  </td>
+                  <td class="text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -118,10 +121,7 @@
                     {{ item.kode_fisik }}
                   </td>
                   <td>{{ item.nama_fisik }}</td>
-                  <td class="text-center">
-                    <small-edit-button @click="onEdit(item)" />
-                  </td>
-                  <td class="text-center">
+                  <td class="text-center place-items-center">
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
@@ -182,7 +182,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -286,25 +286,29 @@ export default {
     ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
-      this.$refs.formInput.parameters.form = {
-        kode_fisik_gudang: "",
-        nama_fisik_gudang: "",
-        status: 0,
-      };
-      this.$refs.formInput.isEditable = false;
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/fisik-gudang/add");
+
+      // this.$refs.formInput.parameters.form = {
+      //   kode_fisik_gudang: "",
+      //   nama_fisik_gudang: "",
+      //   status: 0,
+      // };
+      // this.$refs.formInput.isEditable = false;
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onEdit(item) {
-      this.$refs.formInput.isEditable = true;
-      this.$refs.formInput.parameters.form = {
-        ...item,
-      };
-      this.$nextTick(() => {
-        this.$refs.formInput?.$refs?.formValidate?.reset();
-      });
+      this.$router.push("/master/fisik-gudang/" + item.fisik_gudang_id);
+
+      // this.$refs.formInput.isEditable = true;
+      // this.$refs.formInput.parameters.form = {
+      //   ...item,
+      // };
+      // this.$nextTick(() => {
+      //   this.$refs.formInput?.$refs?.formValidate?.reset();
+      // });
     },
 
     onTrashed(item) {

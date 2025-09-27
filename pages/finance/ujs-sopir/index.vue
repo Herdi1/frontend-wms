@@ -200,7 +200,7 @@
                   <th class="w-48 border border-gray-300">Keterangan</th>
                   <th class="w-28 border border-gray-300">Print</th>
 
-                  <!-- <th class="w-20 border border-gray-300">Delete</th> -->
+                  <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -293,14 +293,15 @@
                     </button>
                   </td>
 
-                  <!-- <td
+                  <td
                     class="text-center border border-gray-300 place-items-center"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.tanggal !== getTodaysDate"
                     />
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -437,6 +438,17 @@ export default {
 
         return roles;
       }
+    },
+
+    getTodaysDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+
+      return formattedDate;
     },
   },
 

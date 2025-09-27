@@ -413,20 +413,20 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
-                label="Longitude"
-                type="text"
-                name="longitude"
-                :required="true"
-                v-model="parameters.form.longitude"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
                 label="Latitude"
                 type="text"
                 name="latitude"
                 :required="true"
                 v-model="parameters.form.latitude"
+              />
+            </div>
+            <div class="form-group">
+              <input-form
+                label="Longitude"
+                type="text"
+                name="longitude"
+                :required="true"
+                v-model="parameters.form.longitude"
               />
             </div>
             <ValidationProvider name="radius" rules="required">
@@ -449,20 +449,20 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
-                label="Longitude 2"
-                type="text"
-                name="longitude2"
-                :required="false"
-                v-model="parameters.form.longitude2"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
                 label="Latitude 2"
                 type="text"
                 name="latitude2"
                 :required="false"
                 v-model="parameters.form.latitude2"
+              />
+            </div>
+            <div class="form-group">
+              <input-form
+                label="Longitude 2"
+                type="text"
+                name="longitude2"
+                :required="false"
+                v-model="parameters.form.longitude2"
               />
             </div>
             <ValidationProvider name="radius2" rules="required">
@@ -482,20 +482,20 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2 w-full">
             <div class="form-group">
               <input-form
-                label="Longitude 3"
-                type="text"
-                name="longitude3"
-                :required="false"
-                v-model="parameters.form.longitude3"
-              />
-            </div>
-            <div class="form-group">
-              <input-form
                 label="Latitude 3"
                 type="text"
                 name="latitude3"
                 :required="false"
                 v-model="parameters.form.latitude3"
+              />
+            </div>
+            <div class="form-group">
+              <input-form
+                label="Longitude 3"
+                type="text"
+                name="longitude3"
+                :required="false"
+                v-model="parameters.form.longitude3"
               />
             </div>
             <ValidationProvider name="radius3" rules="required">

@@ -1073,20 +1073,20 @@
                   </div>
                   <div class="w-full form-group">
                     <input-form
-                      label="Longitude"
-                      type="text"
-                      name="longitude"
-                      :required="true"
-                      v-model="form.longitude"
-                    />
-                  </div>
-                  <div class="w-full form-group">
-                    <input-form
                       label="Latitude"
                       type="text"
                       name="latitude"
                       :required="true"
                       v-model="form.latitude"
+                    />
+                  </div>
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Longitude"
+                      type="text"
+                      name="longitude"
+                      :required="true"
+                      v-model="form.longitude"
                     />
                   </div>
 
