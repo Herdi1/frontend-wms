@@ -519,7 +519,7 @@ export default {
           query:
             "?search=" +
             this.coa_biaya_search +
-            "&tipe=BIAYA" +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
