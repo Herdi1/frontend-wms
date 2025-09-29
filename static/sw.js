@@ -1,19 +1,4 @@
-// THIS FILE SHOULD NOT BE VERSION CONTROLLED
-
-// https://github.com/NekR/self-destroying-sw
-
-self.addEventListener('install', function (e) {
-  self.skipWaiting()
-})
-
-self.addEventListener('activate', function (e) {
-  self.registration.unregister()
-    .then(function () {
-      return self.clients.matchAll()
-    })
-    .then(function (clients) {
-      clients.forEach(client => client.navigate(client.url))
-const options = {"workboxURL":"https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.4/workbox/workbox-sw.js","importScripts":[],"config":{"debug":false},"cacheOptions":{"cacheId":"client-prod","directoryIndex":"/","revision":"50z99RqHLUhd"},"clientsClaim":true,"skipWaiting":true,"cleanupOutdatedCaches":true,"offlineAnalytics":false,"preCaching":[{"revision":"50z99RqHLUhd","url":"/?standalone=true"}],"runtimeCaching":[{"urlPattern":"/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]}],"offlinePage":null,"pagesURLPattern":"/","offlineStrategy":"NetworkFirst"}
+const options = {"workboxURL":"https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.4/workbox/workbox-sw.js","importScripts":[],"config":{"debug":false},"cacheOptions":{"cacheId":"client-prod","directoryIndex":"/","revision":"p3v2EqCoFFEC"},"clientsClaim":true,"skipWaiting":true,"cleanupOutdatedCaches":true,"offlineAnalytics":false,"preCaching":[{"revision":"p3v2EqCoFFEC","url":"/?standalone=true"}],"runtimeCaching":[{"urlPattern":"/_nuxt/","handler":"CacheFirst","method":"GET","strategyPlugins":[]},{"urlPattern":"/","handler":"NetworkFirst","method":"GET","strategyPlugins":[]}],"offlinePage":null,"pagesURLPattern":"/","offlineStrategy":"NetworkFirst"}
 
 importScripts(...[options.workboxURL, ...options.importScripts])
 
@@ -113,4 +98,17 @@ function offlinePage(workbox, options) {
         .handle({ request, event })
         .catch(() => caches.match(options.offlinePage))
     })
-})
+  }
+}
+
+function workboxExtensions(workbox, options) {
+  
+}
+
+function cachingExtensions(workbox, options) {
+  
+}
+
+function routingExtensions(workbox, options) {
+  
+}
