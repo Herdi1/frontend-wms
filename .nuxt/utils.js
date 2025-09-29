@@ -199,7 +199,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"API_URL":"https://dev-flows.dexza-inc.com/api/public/api/v1/","PUBLIC_URL":"https://dev-flows.dexza-inc.com/api/public/","HOST":"localhost","PORT":"3000","DEBUG":"1","LOGO_URL":"http://127.0.0.1:8000/images/logos/","IMAGES_API_URL":"http://127.0.0.1:8000/images/"}
+      env: {"API_URL":"http://202.56.167.166:88/api/public/api/v1/","PUBLIC_URL":"http://202.56.167.166:88/api/public/","HOST":"localhost","PORT":"3000","DEBUG":"1","LOGO_URL":"http://127.0.0.1:8000/images/logos/","IMAGES_API_URL":"http://127.0.0.1:8000/images/"}
     }
     // Only set once
 
