@@ -183,12 +183,13 @@
                   "
                 />
                 <span v-show="show_rekomendasi" class="text-sm text-gray-500"
-                  >*Jarak Rekomendasi Sistem: {{ jarak_rekomendasi }} KM</span
+                  >*Jarak Rekomendasi Sistem:
+                  {{ jarak_rekomendasi | formatPrice }} KM</span
                 >
               </div>
               <div class="flex gap-x-2">
                 <div class="my-2 w-1/2">
-                  <label for="">Waktu Sampai Tujuan (Jam)</label>
+                  <label for="">Waktu Sampai Tujuan Muat (Jam)</label>
                   <money
                     min="0"
                     v-model="parameters.form.waktu_sampai_tujuan"
@@ -316,12 +317,16 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.parameters.form.lokasi_id_awal = res.data.lokasi_awal ?? "";
         this.parameters.form.lokasi_id_tujuan = res.data.lokasi_tujuan ?? "";
-        this.parameters.form.jarak = res.data.jarak ?? "";
+        this.parameters.form.jarak = res.data.jarak ?? 0;
+        this.parameters.form.waktu_sampai_tujuan =
+          res.data.waktu_sampai_tujuan ?? 0;
+        this.parameters.form.waktu_sampai_tujuan_kosong =
+          res.data.waktu_sampai_tujuan_kosong ?? 0;
         this.isLoadingPage = false;
-        this.lokasi1Lat = res.data.lokasi_awal.latitude;
-        this.lokasi1Lng = res.data.lokasi_awal.longitude;
-        this.lokasi2Lat = res.data.lokasi_tujuan.latitude;
-        this.lokasi2Lng = res.data.lokasi_tujuan.longitude;
+        this.lokasi1Lat = res.data.lokasi_awal.latitude ?? 0;
+        this.lokasi1Lng = res.data.lokasi_awal.longitude ?? 0;
+        this.lokasi2Lat = res.data.lokasi_tujuan.latitude ?? 0;
+        this.lokasi2Lng = res.data.lokasi_tujuan.longitude ?? 0;
 
         await this.getRekomendasiJarak();
         console.log("lokasi 1 latitude", this.lokasi1Lat);
@@ -330,6 +335,7 @@ export default {
         console.log("lokasi 2 longitude", this.lokasi2Lng);
       }
     } catch (error) {
+      console.log(error);
       this.$router.back();
     }
   },

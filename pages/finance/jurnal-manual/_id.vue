@@ -169,9 +169,9 @@
                           <th class="w-[200px] border border-gray-300">
                             Kendaraan
                           </th>
-                          <th class="w-[200px] border border-gray-300">
+                          <!-- <th class="w-[200px] border border-gray-300">
                             Jenis Biaya <span class="text-danger">*</span>
-                          </th>
+                          </th> -->
                           <th class="w-[200px] border border-gray-300">
                             Peralatan
                           </th>
@@ -356,7 +356,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <td class="border border-gray-300">
+                          <!-- <td class="border border-gray-300">
                             <v-select
                               label="nama_jenis_biaya"
                               :loading="isLoadingGetJenisBiaya"
@@ -399,7 +399,7 @@
                                 >
                               </li>
                             </v-select>
-                          </td>
+                          </td> -->
                           <td class="border border-gray-300">
                             <v-select
                               label="nama_peralatan"
@@ -757,7 +757,7 @@ export default {
     await this.onSearchCoa();
     await this.onSearchDivisi();
     await this.onSearchKendaraan();
-    await this.onSearchJenisBiaya();
+    // await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
     // await this.onSearchProfit();
     // await this.onSearchCost();
