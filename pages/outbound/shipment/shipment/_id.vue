@@ -235,9 +235,9 @@
             <template #BiayaLastmile>
               <BiayaLastmiles :self="{ parameters }" />
             </template>
-            <template #TagihanLastmile>
+            <!-- <template #TagihanLastmile>
               <TagihanLastmiles :self="{ parameters }" />
-            </template>
+            </template> -->
           </tab-component>
 
           <div class="w-full flex justify-start items-center">
@@ -291,10 +291,10 @@ export default {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
         },
-        {
-          name: "Tagihan Lastmile",
-          slotName: "TagihanLastmile",
-        },
+        // {
+        //   name: "Tagihan Lastmile",
+        //   slotName: "TagihanLastmile",
+        // },
       ],
       id,
 

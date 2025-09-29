@@ -48,15 +48,28 @@
                     :required="true"
                   />
                 </div>
-                <div>
-                  <input-horizontal
-                    label="Plafon Dropping"
-                    type="text"
-                    name="plafon_dropping"
-                    :isHorizontal="true"
+                <div class="form-group flex justify-between">
+                  <label for="" class="w-1/2">Plafon Dropping</label>
+                  <money
+                    disabled
                     v-model="form.plafon_dropping"
-                    :required="false"
-                    :disabled="true"
+                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
+                  />
+                </div>
+
+                <div class="form-group flex justify-between items-start">
+                  <label for="permintaan_dropping" class="w-1/2"
+                    >Nominal Dropping Khusus
+                  </label>
+                  <money
+                    v-model="form.permintaan_dropping"
+                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
+                    @keydown.native="
+                      $event.key === '-' ? $event.preventDefault() : null
+                    "
                   />
                 </div>
                 <div class="form-group flex justify-between">
@@ -77,18 +90,6 @@
                       .png, .jpg, .jpeg
                     </p>
                   </span>
-                </div>
-                <div class="form-group flex justify-between items-start">
-                  <label for="permintaan_dropping" class="w-1/2"
-                    >Nominal Dropping Khusus
-                  </label>
-                  <money
-                    v-model="form.permintaan_dropping"
-                    class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                  />
                 </div>
                 <div>
                   <input-horizontal

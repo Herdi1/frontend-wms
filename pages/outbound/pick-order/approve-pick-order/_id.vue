@@ -437,6 +437,9 @@
                         <th class="w-[300px] border border-gray-300">
                           Keterangan
                         </th>
+                        <th class="w-20 border border-gray-300 text-center">
+                          Delete
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -528,6 +531,13 @@
                             class="w-full pl-2 py-1 border rounded focus:outline-none"
                             v-model="item.keterangan"
                           ></textarea>
+                        </td>
+                        <td class="border border-gray-300 text-center">
+                          <i
+                            class="fas fa-trash mx-auto"
+                            style="cursor: pointer"
+                            @click="onDeleteItem(i)"
+                          ></i>
                         </td>
                       </tr>
                       <tr v-if="parameters.form.biaya_pick_orders.length > 0">
@@ -1449,10 +1459,10 @@ export default {
     },
 
     onDeleteItem(index) {
-      this.parameters.form.pick_order_details =
-        this.parameters.form.pick_order_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+      // this.parameters.form.pick_order_details =
+      //   this.parameters.form.pick_order_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
 
       this.parameters.form.biaya_pick_orders =
         this.parameters.form.biaya_pick_orders.filter(

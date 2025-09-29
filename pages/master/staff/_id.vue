@@ -738,7 +738,9 @@ export default {
         tipe_sim_id:
           typeof this.parameters.form.tipe_sim_id === "object"
             ? this.parameters.form.tipe_sim_id.tipe_sim_id
-            : this.parameters.form.tipe_sim_id,
+            : this.parameters.form.tipe_sim_id
+            ? this.parameters.form.tipe_sim_id
+            : "",
         vendor_id_operator:
           typeof this.parameters.form.vendor_id_operator === "object"
             ? this.parameters.form.vendor_id_operator.vendor_id

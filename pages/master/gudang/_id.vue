@@ -1295,12 +1295,12 @@
                         v-model="form.kode_pos_id"
                         class="w-full"
                       >
-                        <template slot="option" slot-scope="option">
+                        <!-- <template slot="option" slot-scope="option">
                           {{ option.nama_kode_pos + " " + option.kode_pos }}
                         </template>
                         <template slot="selected-option" slot-scope="option">
                           {{ option.nama_kode_pos + " " + option.kode_pos }}
-                        </template>
+                        </template> -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"

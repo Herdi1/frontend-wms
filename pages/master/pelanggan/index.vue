@@ -111,16 +111,16 @@
                   {{ item.nama_pelanggan }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kecamatan.nama_kecamatan }}
+                  {{ item.kecamatan?.nama_kecamatan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kota.nama_kota }}
+                  {{ item.kota?.nama_kota ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.provinsi?.nama_provinsi }}
+                  {{ item.provinsi?.nama_provinsi ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.negara.nama_negara }}
+                  {{ item.negara?.nama_negara ?? "" }}
                 </td>
                 <td class="border border-gray-300">{{ item.nama_pemilik }}</td>
                 <td class="border border-gray-300">

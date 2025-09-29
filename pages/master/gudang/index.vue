@@ -233,18 +233,20 @@
                   </td>
                   <td class="border border-gray-300">{{ item.longitude }}</td>
                   <td class="border border-gray-300">{{ item.latitude }}</td>
-                  <td class="border border-gray-300">{{ item.alamat }}</td>
                   <td class="border border-gray-300">
-                    {{ item.kecamatan.nama_kecamatan }}
+                    {{ item.alamat ?? "" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kota.nama_kota }}
+                    {{ item.kecamatan?.nama_kecamatan ?? "" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.provinsi.nama_provinsi }}
+                    {{ item.kota?.nama_kota ?? "" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.negara.nama_negara }}
+                    {{ item.provinsi?.nama_provinsi ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.negara?.nama_negara ?? "" }}
                   </td>
                   <!-- <td>{{ item.vendor_pemilik.nama_vendor }}</td> -->
                   <td class="border border-gray-300">

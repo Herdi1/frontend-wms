@@ -114,7 +114,7 @@
                 <td class="border border-gray-300">
                   {{
                     item.status_aktif === "1"
-                      ? "AKtif"
+                      ? "Aktif"
                       : item.status_aktif === "0"
                       ? "Tidak Aktif"
                       : "-"

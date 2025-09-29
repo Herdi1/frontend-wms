@@ -479,8 +479,8 @@
                           {{ item.jenis_routing }}
                         </td>
                         <td class="border border-gray-300">
-                          <p v-if="item.jenis_kiriman == 1">Stok Transfer</p>
-                          <p v-if="item.jenis_kiriman == 0">Penjualan</p>
+                          <p v-if="item.jenis_kiriman == 1">Pulang</p>
+                          <p v-if="item.jenis_kiriman == 0">Berangkat</p>
                         </td>
                         <td class="border border-gray-300">
                           {{ item.tanggal_berangkat }}
