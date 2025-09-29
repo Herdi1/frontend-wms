@@ -1,8 +1,9 @@
 <template>
-  <section
-    class="section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
-  >
-    <div class="section-body mb-4" v-if="!isLoadingPage">
+  <section class="section min-h-screen">
+    <div
+      class="section-body mb-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+      v-if="!isLoadingPage"
+    >
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
           Edit Data Kota

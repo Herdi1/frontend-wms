@@ -122,6 +122,22 @@
                   :required="false"
                 />
               </div>
+              <!-- <ValidationProvider name="lokasi">
+                <select-button
+                  :self="{
+                    label: 'Pelanggan',
+                    optionLabel: 'nama_pelanggan',
+                    lookup: lookup_custom1,
+                    value: parameters.form.pelanggan_id,
+                    onGet: onGetPelanggan,
+                    isLoadingL: isLoadingGetPelanggan,
+                    input: onSelectPelanggan,
+                  }"
+                  width="w-[50%]"
+                  class="mb-5"
+                  required="true"
+                />
+              </ValidationProvider> -->
               <div class="flex px-1 items-start">
                 <label for="jenis_kiriman" class="w-2/5 pt-2"
                   >Jenis Kiriman <span class="text-danger">*</span></label
@@ -372,6 +388,10 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
+      // isStopSearchPelanggan: false,
+      // isLoadingGetPelanggan: false,
+      // pelanggan_search: "",
+
       user: this.$auth.user,
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
@@ -402,6 +422,7 @@ export default {
         tanggal_request_kirim: "",
         no_referensi_1: "",
         gudang_id: "",
+
         gudang_id_pengirim: "",
         status_approve: "0",
         keterangan: "",
