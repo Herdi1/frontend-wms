@@ -97,6 +97,21 @@
                   :required="true"
                 />
               </div>
+              <div class="w-full mb-2">
+                <select-button
+                  :self="{
+                    label: 'Pelanggan',
+                    optionLabel: 'nama_pelanggan',
+                    isLoading: isLoadingGetPelanggan,
+                    lookup: lookup_custom2,
+                    onGet: onGetPelanggan,
+                    value: form.pelanggan_id,
+                    input: onSelectPelanggan,
+                  }"
+                  width="w-[60%]"
+                  :required="true"
+                />
+              </div>
 
               <!-- <div class="form-group flex items-center">
                 <label for="" class="w-[40%]">Status Approve</label>
@@ -388,9 +403,9 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
-      // isStopSearchPelanggan: false,
-      // isLoadingGetPelanggan: false,
-      // pelanggan_search: "",
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
 
       user: this.$auth.user,
       isEditable: Number.isInteger(id) ? true : false,
@@ -406,6 +421,7 @@ export default {
         no_referensi_1: "",
         gudang_id: "",
         gudang_id_pengirim: "",
+        pelanggan_id: "",
         status_approve: "0",
         keterangan: "",
         stok_transfer_details: [],
@@ -424,6 +440,7 @@ export default {
         gudang_id: "",
 
         gudang_id_pengirim: "",
+        pelanggan_id: "",
         status_approve: "0",
         keterangan: "",
         stok_transfer_details: [],
@@ -452,6 +469,7 @@ export default {
     try {
       this.form.tanggal = formattedDate;
       this.form.tanggal_request_kirim = formattedDateTime;
+      this.form.pelanggan_id = this.user.pelanggan ?? "";
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.url}/${this.id}`);
         Object.keys(this.form).forEach((item) => {
@@ -459,8 +477,9 @@ export default {
             this.form[item] = res.data[item];
           }
         });
-        this.form.gudang_id = res.data.gudang;
-        this.form.gudang_id_pengirim = res.data.gudang_pengirim;
+        this.form.gudang_id = res.data.gudang ?? "";
+        this.form.gudang_id_pengirim = res.data.gudang_pengirim ?? "";
+        this.form.pelanggan_id = res.data.pelanggan ?? "";
         this.form.jenis_kiriman = res.data.jenis_kiriman.trim();
 
         this.form.stok_transfer_details = res.data.stok_transfer_details.map(
@@ -476,7 +495,6 @@ export default {
           }
         );
         this.isLoadingPage = false;
-        console.log(res.data);
       }
     } catch (error) {
       // this.$router.push("/inventory/stok-transfer/permintaan-stok");
@@ -488,6 +506,7 @@ export default {
     await this.onSearchGudang();
     // await this.onSearchItemGudang();
     await this.onSearchValuation();
+    await this.onSearchPelanggan();
     this.getUserAgent();
     this.getGeoLocation();
   },
@@ -499,6 +518,7 @@ export default {
       "lookup_suppliers", //gudang
       "lookup_products", //item gudang
       "lookup_custom1", //valuation
+      "lookup_custom2", //pelanggan
     ]),
   },
 
@@ -579,6 +599,10 @@ export default {
         gudang_id_pengirim:
           typeof this.form.gudang_id_pengirim === "object"
             ? this.form.gudang_id_pengirim.gudang_id
+            : "",
+        pelanggan_id:
+          typeof this.form.pelanggan_id === "object"
+            ? this.form.pelanggan_id.pelanggan_id
             : "",
         tanggal_request_kirim: newTanggalKirim,
       };
@@ -791,6 +815,54 @@ export default {
         });
 
         this.isLoadingGetValuation = false;
+      }
+    },
+
+    //pelanggan
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPelanggan);
+
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchPelanggan();
+      }, 600);
+    },
+
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
+
+        await this.lookUp({
+          url: "master/pelanggan/get-pelanggan",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPelanggan = false;
+      }
+    },
+
+    onSelectPelanggan(item) {
+      if (item) {
+        this.form.pelanggan_id = item;
+      } else {
+        this.form.pelanggan_id = "";
       }
     },
   },

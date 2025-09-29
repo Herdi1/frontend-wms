@@ -77,6 +77,18 @@
                   :disabled="true"
                 />
               </div>
+              <div class="w-full mb-2">
+                <input-horizontal
+                  label="Pelanggan"
+                  type="text"
+                  name="pelanggan_id"
+                  labelWidth="w-[40%]"
+                  inputWidth="w-[60%]"
+                  :isHorizontal="true"
+                  v-model="form.pelanggan_id.nama_pelanggan"
+                  :disabled="true"
+                />
+              </div>
               <div class="flex px-1 items-start">
                 <label for="jenis_kiriman" class="w-2/5 pt-2"
                   >Jenis Kiriman <span class="text-danger">*</span></label
@@ -383,7 +395,7 @@ export default {
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
-
+    this.form.pelanggan_id = this.user.pelanggan ?? "";
     try {
       this.form.tanggal_approve = formattedDate;
       if (this.isEditable) {
@@ -396,8 +408,18 @@ export default {
           }
         });
 
-        this.form.gudang_id = res.data.gudang;
-        this.form.gudang_id_pengirim = res.data.gudang_pengirim;
+        this.form.gudang_id = res.data.gudang ?? {
+          nama_gudang: "",
+          gudang_id: "",
+        };
+        this.form.gudang_id_pengirim = res.data.gudang_pengirim ?? {
+          nama_gudang: "",
+          gudang_id: "",
+        };
+        this.form.pelanggan_id = res.data.pelanggan ?? {
+          nama_pelanggan: "",
+          pelanggan_id: "",
+        };
         this.form.jenis_kiriman = res.data.jenis_kiriman.trim();
 
         this.form.stok_transfer_details = res.data.stok_transfer_details.map(
@@ -484,12 +506,16 @@ export default {
       let formData = {
         ...this.form,
         gudang_id_asal:
-          typeof this.form.gudang_asal === "object"
-            ? this.form.gudang_asal.gudang_id
+          typeof this.form.gudang_id_asal === "object"
+            ? this.form.gudang_id_asal.gudang_id
             : "",
-        gudang_id_asal:
-          typeof this.form.gudang_penerima === "object"
-            ? this.form.gudang_penerima.gudang_id
+        gudang_id_penerima:
+          typeof this.form.gudang_id_penerima === "object"
+            ? this.form.gudang_id_penerima.gudang_id
+            : "",
+        pelanggan_id:
+          typeof this.form.pelanggan_id === "object"
+            ? this.form.pelanggan_id.gudang_id
             : "",
       };
 
