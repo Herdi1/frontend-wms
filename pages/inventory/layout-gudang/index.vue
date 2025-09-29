@@ -558,7 +558,7 @@ export default {
                 .filter(
                   (data) =>
                     data.status_zona.trim() !== "v" &&
-                    zona.status_zona.trim() !== "c"
+                    data.status_zona.trim() !== "c"
                 )
                 .map((item) => {
                   return {
