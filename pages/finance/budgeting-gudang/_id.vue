@@ -20,7 +20,7 @@
             class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 w-full section bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
             <div class="form-group flex justify-between">
-              <label for="" class="w-1/2">Budget</label>
+              <label for="" class="w-1/2">Plafon Dropping</label>
               <money
                 v-model="parameters.form.budget"
                 class="w-1/2 pl-2 py-1 border rounded focus:outline-none"
@@ -516,7 +516,7 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Budgeting Gudang",
+      title: "Plafon Dropping",
       parameters: {
         url: "finance/budgeting-gudang",
         form: {

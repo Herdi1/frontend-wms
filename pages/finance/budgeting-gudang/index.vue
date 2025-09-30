@@ -221,7 +221,7 @@ export default {
 
   head() {
     return {
-      title: "Budgeting Gudang",
+      title: "Plafon Dropping",
     };
   },
 
@@ -269,7 +269,7 @@ export default {
 
   data() {
     return {
-      title: "Budgeting Gudang",
+      title: "Plafon Dropping",
       isLoadingData: false,
       isPaginate: true,
       default_roles: {
