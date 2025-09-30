@@ -122,7 +122,7 @@ export default {
       }
 
       if (this.result == true) {
-        this.self.onLoad(this.self.parameters.params.page);
+        // this.self.onLoad(this.self.parameters.params.page);
         this.$toaster.success(
           "Data berhasil di " + (this.isEditable == true ? "Diedit" : "Tambah")
         );
@@ -134,6 +134,7 @@ export default {
         };
 
         this.$refs.formValidate.reset();
+        this.$router.back();
       } else {
         this.$globalErrorToaster(this.$toaster, this.error);
       }

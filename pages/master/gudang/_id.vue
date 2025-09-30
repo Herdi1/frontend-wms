@@ -482,7 +482,7 @@
                           :loading="isLoadingGetGroupGudang4"
                           :options="lookup_suppliers.data"
                           :filterable="false"
-                          @search="onGetGroupGudang2"
+                          @search="onGetGroupGudang4"
                           v-model="form.group_gudang_id_4"
                           class="w-full"
                           @input="onSelectGroup4"
@@ -1506,9 +1506,9 @@ export default {
         status_satpam: "",
         luas_gudang: "",
         satuan_id_luas: "",
-        radius: "",
-        min_stok: "",
-        max_stok: "",
+        radius: 0,
+        min_stok: 0,
+        max_stok: 0,
         standar_waktu_kerja: 8.0,
         status_gudang: "",
         item_gudang: [],
@@ -1556,10 +1556,10 @@ export default {
         status_satpam: "",
         luas_gudang: "",
         satuan_id_luas: "",
-        radius: "",
+        radius: 0,
         kode_pos_id: "",
-        min_stok: "",
-        max_stok: "",
+        min_stok: 0,
+        max_stok: 0,
         standar_waktu_kerja: 8.0,
         status_gudang: "",
         item_gudang: [],
@@ -1765,10 +1765,10 @@ export default {
     await this.onSearchLokasi();
     // await this.onSearchProfitCost();
     await this.onSearchGroupGudang1();
-    await this.onSearchGroupGudang2();
-    await this.onSearchGroupGudang3();
-    await this.onSearchGroupGudang4();
-    await this.onSearchGroupGudang5();
+    // await this.onSearchGroupGudang2();
+    // await this.onSearchGroupGudang3();
+    // await this.onSearchGroupGudang4();
+    // await this.onSearchGroupGudang5();
     await this.onSearchKecamatan();
     await this.onSearchKota();
     await this.onSearchProvinsi();
