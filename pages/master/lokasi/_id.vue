@@ -1097,7 +1097,7 @@ export default {
 
         this.onSearchNegara();
       }, 600);
-      this.onSearchProvinsi();
+      // this.onSearchProvinsi();
     },
 
     async onSearchNegara() {
@@ -1138,7 +1138,7 @@ export default {
 
         this.onSearchProvinsi();
       }, 600);
-      this.onSearchKota();
+      // this.onSearchKota();
     },
 
     async onSearchProvinsi() {
@@ -1181,7 +1181,7 @@ export default {
 
         this.onSearchKota();
       }, 600);
-      this.onSearchKecamatan();
+      // this.onSearchKecamatan();
     },
 
     async onSearchKota() {
@@ -1224,7 +1224,7 @@ export default {
 
         this.onSearchKecamatan();
       }, 600);
-      this.onSearchKelurahan();
+      // this.onSearchKelurahan();
     },
 
     async onSearchKecamatan() {
