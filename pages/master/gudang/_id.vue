@@ -1752,7 +1752,7 @@ export default {
         }
 
         this.isLoadingPage = false;
-        console.log(this.form);
+        // console.log(this.form);
       }
     } catch (error) {
       this.$router.back();
@@ -3249,7 +3249,7 @@ export default {
       this.checkboxs.forEach((item) => {
         this.form.item_gudang.push(item);
       });
-      console.log(this.form.item_gudang);
+      // console.log(this.form.item_gudang);
     },
   },
 };

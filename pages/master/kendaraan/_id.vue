@@ -770,6 +770,7 @@ export default {
         status_driver: "",
         pengemudi_kendaraans: [],
 
+        no_pintu: "",
         tanggal_beli: "",
         tanggal_stnk: "",
         tanggal_kir: "",
@@ -800,6 +801,7 @@ export default {
         status_normal: "",
         pengemudi_kendaraans: [],
 
+        no_pintu: "",
         tanggal_beli: "",
         tanggal_pajak: "",
         // umur_kendaraan: "",

@@ -524,6 +524,8 @@ export default {
         satuan_id_dimensi: "",
         group_item_id: "",
         item_gudang_id: "",
+        berat: "",
+        nilai_kontrak: "",
       });
     },
 
@@ -990,6 +992,9 @@ export default {
         this.self.parameters.form.kontrak_lastmile_premi_details[
           index
         ].item_id = item.item_id;
+        this.self.parameters.form.kontrak_lastmile_premi_details[index].berat =
+          item.berat_kotor ?? 0;
+        // console.log(item);
       } else {
         this.self.parameters.form.kontrak_lastmile_premi_details[
           index

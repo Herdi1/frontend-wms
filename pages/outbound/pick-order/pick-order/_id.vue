@@ -748,6 +748,10 @@ export default {
       isLoadingGetJenisBiaya: false,
       jenis_biaya_search: "",
 
+      // isStopSearchMe: false,
+      // isLoadingGetMe: false,
+      // me_search: "",
+
       user: this.$auth.user,
 
       isEditable: Number.isInteger(id) ? true : false,
@@ -812,6 +816,7 @@ export default {
     const formattedDate = `${year}-${month}-${day}`;
     try {
       this.parameters.form.tanggal = formattedDate;
+      this.parameters.form.user_id_pic = this.user;
       if (this.isEditable) {
         let res = await this.$axios.get(`outbound/pick-order/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
@@ -880,6 +885,7 @@ export default {
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
     await this.onSearchValuation();
+    // await this.onSearchMe();
     this.getGeoLocation();
     this.getUserAgent();
   },
@@ -901,6 +907,7 @@ export default {
       "lookup_custom2", //valuation
       "lookup_warehouses", //zona virtual
       "lookup_beam", //jenis biaya
+      "lookup_users", //me
     ]),
   },
 
@@ -1410,6 +1417,43 @@ export default {
         this.isLoadingGetPeralatan = false;
       }
     },
+
+    // onGetMe(search, isNext) {
+    //   if (!search?.length && typeof isNext === "function") return;
+
+    //   clearTimeout(this.isStopSearchMe);
+
+    //   this.isStopSearchMe = setTimeout(() => {
+    //     this.me_search = search;
+
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_users.current_page = isNext
+    //         ? this.lookup_users.current_page + 1
+    //         : this.lookup_users.current_page - 1;
+    //     } else {
+    //       this.lookup_users.current_page = 1;
+    //     }
+    //     this.onSearchMe();
+    //   }, 600);
+    // },
+
+    // async onSearchMe() {
+    //   if (!this.isLoadingGetMe) {
+    //     this.isLoadingGetMe = true;
+
+    //     await this.lookUp({
+    //       url: "me",
+    //       lookup: "users",
+    //       query:
+    //         "?search=" +
+    //         this.me_search +
+    //         "&page=" +
+    //         this.lookup_users.current_page +
+    //         "&per_page=10",
+    //     });
+    //     this.isLoadingGetMe = false;
+    //   }
+    // },
 
     onGetJenisBiaya(search, isNext) {
       if (!search?.length && typeof isNext === "function") return;

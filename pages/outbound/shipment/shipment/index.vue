@@ -309,7 +309,9 @@
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.status_inspeksi === '1'"
+                      :disabled="
+                        item.status_inspeksi === '1' || isExpired(item.tanggal)
+                      "
                     />
                   </td>
                   <td class="place-items-center border border-gray-300">
@@ -619,6 +621,14 @@ export default {
       if (!dateString) return "";
       const [year, month, day] = dateString.split("-");
       return `${day}-${month}-${year}`;
+    },
+
+    isExpired(tanggal) {
+      const created = new Date(tanggal);
+      const today = new Date();
+      const diffTime = today - created;
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      return diffDays > 2;
     },
 
     onFormShow() {

@@ -163,6 +163,7 @@
                       </div>
                     </th>
 
+                    <th class="border border-gray-300 w-[10%]">Lokasi</th>
                     <th class="border border-gray-300 w-[10%]">Quantity</th>
                     <th class="w-[5%]">Options</th>
                   </tr>
@@ -187,6 +188,9 @@
                     </td>
                     <td class="border border-gray-300">
                       {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.lokasi ? item.lokasi.nama_lokasi : "-" }}
                     </td>
                     <td class="border border-gray-300">
                       {{ item.quantity ? item.quantity : "-" }}
