@@ -385,7 +385,7 @@
                   <div>{{ item.nama_item }}</div>
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.vendor.nama_vendor }}
+                  {{ item.vendor?.nama_vendor ?? "" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.supplier.nama_supplier }}

@@ -428,20 +428,27 @@
                   </td>
                   <td class="border border-gray-300">
                     {{
-                      item.berat_bersih + " " + item.satuan_berat.nama_satuan
+                      item.berat_bersih +
+                        " " +
+                        item.satuan_berat?.nama_satuan ?? ""
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.berat_kotor + " " + item.satuan_berat.nama_satuan }}
+                    {{
+                      item.berat_kotor + " " + item.satuan_berat?.nama_satuan ??
+                      ""
+                    }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.volume + " " + item.satuan_volume.nama_satuan }}
+                    {{
+                      item.volume + " " + item.satuan_volume?.nama_satuan ?? ""
+                    }}
                   </td>
                   <td class="border border-gray-300">
                     {{
                       item.value_stocklevel +
-                      " " +
-                      item.satuan_stocklevel.nama_satuan
+                        " " +
+                        item.satuan_stocklevel?.nama_satuan ?? ""
                     }}
                   </td>
                   <td class="border border-gray-300">
