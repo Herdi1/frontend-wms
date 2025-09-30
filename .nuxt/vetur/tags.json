@@ -41,18 +41,6 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
-  "ButtonSmallDeleteButton": {
-    "description": "Auto imported from components/button/SmallDeleteButton.vue"
-  },
-  "ButtonSmallDetailButton": {
-    "description": "Auto imported from components/button/SmallDetailButton.vue"
-  },
-  "ButtonSmallEditButton": {
-    "description": "Auto imported from components/button/SmallEditButton.vue"
-  },
-  "ButtonSmallRestoreButton": {
-    "description": "Auto imported from components/button/SmallRestoreButton.vue"
-  },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
@@ -76,6 +64,18 @@
   },
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
+  },
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"

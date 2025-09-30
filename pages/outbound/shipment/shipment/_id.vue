@@ -1129,6 +1129,14 @@ export default {
     },
 
     async onOpenModal() {
+      if (
+        !this.parameters.form.gudang_id ||
+        !this.parameters.form.kendaraan_id ||
+        !this.parameters.form.staff_id
+      ) {
+        this.$toaster.error("Harap Pilih Gudang, Kendaraan, dan Pengemudi");
+        return;
+      }
       if (this.parameters.form.gudang_id) {
         this.$refs.modalPickOrder.parameters.params.gudang_id =
           this.parameters.form.gudang_id.gudang_id;
@@ -1227,6 +1235,12 @@ export default {
             })
           );
           this.parameters.form.biaya_lastmiles = [];
+          const sumJarak = this.parameters.form.rute_shipments.reduce(
+            (total, rute) => {
+              return total + parseFloat(rute.jarak);
+            },
+            0
+          );
           await Promise.all(
             this.parameters.form.rute_shipments.map((item) => {
               return this.$axios
@@ -1238,6 +1252,8 @@ export default {
                         .jenis_kendaraan_id,
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
+                    jenis_kiriman: item.jenis_kiriman,
+                    jarak: sumJarak,
                   },
                 })
                 .then((res) => {
