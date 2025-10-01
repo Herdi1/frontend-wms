@@ -83,7 +83,7 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider
+                  <!-- <ValidationProvider
                     name="vendor_id"
                     rules="required"
                     class="w-full mb-2"
@@ -133,7 +133,7 @@
                         </li>
                       </v-select>
                     </div>
-                  </ValidationProvider>
+                  </ValidationProvider> -->
                   <ValidationProvider
                     name="supplier_id"
                     rules="required"
@@ -188,7 +188,7 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <input-horizontal
                       label="Kode Supplier"
                       type="text"
@@ -196,7 +196,7 @@
                       :required="true"
                       v-model="form.supplier_code"
                     />
-                  </div>
+                  </div> -->
                   <ValidationProvider
                     name="gudang_id"
                     rules="required"
@@ -249,60 +249,50 @@
                       </v-select>
                     </div>
                   </ValidationProvider>
-                  <ValidationProvider
-                    name="zona_id"
-                    rules="required"
-                    class="w-full mb-2"
-                  >
-                    <div
-                      slot-scope="{ errors, valid }"
-                      class="flex items-center"
+
+                  <div class="flex items-center">
+                    <label for="zona_id" class="w-1/2">Zona Gudang</label>
+                    <v-select
+                      label="nama_zona_gudang"
+                      :loading="isLoadingGetZona"
+                      :options="lookup_custom5.data"
+                      :filterable="false"
+                      @search="onGetZona"
+                      v-model="form.zona_id"
+                      class="w-1/2 bg-white"
                     >
-                      <label for="zona_id" class="w-1/2"
-                        >Zona Gudang <span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_zona_gudang"
-                        :loading="isLoadingGetZona"
-                        :options="lookup_custom5.data"
-                        :filterable="false"
-                        @search="onGetZona"
-                        v-model="form.zona_id"
-                        class="w-1/2 bg-white"
-                      >
-                        <template slot="selected-option" slot-scope="option">
-                          <div
-                            class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
-                          >
-                            {{ option.nama_zona_gudang }}
-                          </div>
-                               </template
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
                         >
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_custom5.data.length || search"
+                          {{ option.nama_zona_gudang }}
+                        </div>
+                             </template
+                      >
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom5.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom5.current_page > 1"
+                          @click="onGetZona(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
                         >
-                          <span
-                            v-if="lookup_custom5.current_page > 1"
-                            @click="onGetZona(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_custom5.last_page >
-                              lookup_custom5.current_page
-                            "
-                            @click="onGetZona(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                    </div>
-                  </ValidationProvider>
+                        <span
+                          v-if="
+                            lookup_custom5.last_page >
+                            lookup_custom5.current_page
+                          "
+                          @click="onGetZona(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
 
                   <div class="form-group">
                     <input-horizontal
@@ -858,7 +848,7 @@
                     </v-select>
                   </div>
 
-                  <div class="form-group flex justify-between">
+                  <!-- <div class="form-group flex justify-between">
                     <label for="biaya_gaji_sopir" class="w-1/2"
                       >Biaya Gaji Sopir
                     </label>
@@ -869,8 +859,8 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>
-                  <div class="form-group flex justify-between">
+                  </div> -->
+                  <!-- <div class="form-group flex justify-between">
                     <label for="biaya_bongkartoko" class="w-1/2"
                       >Biaya Bongkar Toko
                     </label>
@@ -881,8 +871,8 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>
-                  <div class="form-group flex justify-between">
+                  </div> -->
+                  <!-- <div class="form-group flex justify-between">
                     <label for="biaya_bongkar" class="w-1/2"
                       >Biaya Bongkar
                     </label>
@@ -893,8 +883,8 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>
-                  <div class="form-group flex justify-between">
+                  </div> -->
+                  <!-- <div class="form-group flex justify-between">
                     <label for="biaya_muat" class="w-1/2">Biaya Muat </label>
                     <money
                       v-model="form.biaya_muat"
@@ -903,8 +893,8 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>
-                  <div class="form-group flex justify-between">
+                  </div> -->
+                  <!-- <div class="form-group flex justify-between">
                     <label for="biaya_pok" class="w-1/2">Biaya Pok </label>
                     <money
                       v-model="form.biaya_pok"
@@ -913,7 +903,7 @@
                         $event.key === '-' ? $event.preventDefault() : null
                       "
                     />
-                  </div>
+                  </div> -->
                   <div class="form-group flex justify-between">
                     <label for="jumlah_palet" class="w-1/2"
                       >Jumlah Palet

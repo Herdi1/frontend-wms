@@ -41,6 +41,21 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
+  "FormsCloseButton": {
+    "description": "Auto imported from components/forms/CloseButton.vue"
+  },
+  "FormsInputForm": {
+    "description": "Auto imported from components/forms/InputForm.vue"
+  },
+  "FormsResetButton": {
+    "description": "Auto imported from components/forms/ResetButton.vue"
+  },
+  "FormsSaveButton": {
+    "description": "Auto imported from components/forms/SaveButton.vue"
+  },
+  "FormsTitleForm": {
+    "description": "Auto imported from components/forms/TitleForm.vue"
+  },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -61,21 +76,6 @@
   },
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
-  "FormsCloseButton": {
-    "description": "Auto imported from components/forms/CloseButton.vue"
-  },
-  "FormsInputForm": {
-    "description": "Auto imported from components/forms/InputForm.vue"
-  },
-  "FormsResetButton": {
-    "description": "Auto imported from components/forms/ResetButton.vue"
-  },
-  "FormsSaveButton": {
-    "description": "Auto imported from components/forms/SaveButton.vue"
-  },
-  "FormsTitleForm": {
-    "description": "Auto imported from components/forms/TitleForm.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"

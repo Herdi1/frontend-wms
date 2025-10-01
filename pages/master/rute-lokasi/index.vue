@@ -134,7 +134,7 @@
               </div>
 
               <div class="form-group w-full flex">
-                <div class="mb-3 w-1/2">Lokasi Awal</div>
+                <div class="mb-3 w-1/2">Lokasi Tujuan</div>
 
                 <v-select
                   class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
@@ -341,6 +341,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchLokasi();
     await this.onSearchLokasiAkhir();
+    // this.parameters.form.gudang_id = this.user;
   },
 
   computed: {
@@ -455,7 +456,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
