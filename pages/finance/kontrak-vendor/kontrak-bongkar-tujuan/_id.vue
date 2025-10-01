@@ -39,6 +39,7 @@
                   isLoadingL: isLoadingGetVendor,
                   input: onSelectVendor,
                 }"
+                :required="true"
                 width="w-[50%]"
                 class="mb-5"
               />
@@ -54,6 +55,7 @@
                   isLoadingL: isLoadingGetGudang,
                   input: onSelectGudang,
                 }"
+                :required="true"
                 width="w-[50%]"
                 class="mb-5"
               />
@@ -73,7 +75,7 @@
                 type="date"
                 name="tanggal_berlaku"
                 v-model="parameters.form.tanggal_berlaku"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group">
@@ -82,7 +84,7 @@
                 type="date"
                 name="tanggal_berhenti"
                 v-model="parameters.form.tanggal_berhenti"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group">

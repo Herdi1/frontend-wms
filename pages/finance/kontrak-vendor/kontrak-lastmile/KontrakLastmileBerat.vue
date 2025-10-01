@@ -26,17 +26,35 @@
           >
             <thead>
               <tr class="uppercase">
-                <th class="w-60 border border-gray-300">Jenis Kontrak</th>
-                <th class="w-60 border border-gray-300">Divisi</th>
-                <th class="w-60 border border-gray-300">Jenis Biaya</th>
-                <th class="w-60 border border-gray-300">Gudang</th>
+                <th class="w-60 border border-gray-300">
+                  Jenis Kontrak <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Divisi <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Jenis Biaya <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Gudang <span class="text-danger">*</span>
+                </th>
                 <th class="w-60 border border-gray-300">Mata Uang</th>
                 <th class="w-60 border border-gray-300">Pembayaran</th>
-                <th class="w-60 border border-gray-300">Term Pembayaran</th>
-                <th class="w-60 border border-gray-300">Payable To</th>
-                <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
-                <th class="w-60 border border-gray-300">Biaya Muat /km</th>
-                <th class="w-60 border border-gray-300">Biaya Kosong /km</th>
+                <th class="w-60 border border-gray-300">
+                  Term Pembayaran <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Payable To <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Jenis Kendaraan <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Biaya Muat /km <span class="text-danger">*</span>
+                </th>
+                <th class="w-60 border border-gray-300">
+                  Biaya Kosong /km <span class="text-danger">*</span>
+                </th>
                 <th class="w-60 border border-gray-300">Standar Muat</th>
                 <th class="w-60 border border-gray-300">Minimal Muat</th>
                 <th class="w-60 border border-gray-300">Maksimal Muat</th>

@@ -39,6 +39,7 @@
                   isLoadingL: isLoadingGetVendor,
                   input: onSelectVendor,
                 }"
+                :required="true"
                 width="w-[50%]"
                 class="mb-5"
               />
@@ -84,7 +85,7 @@
                 type="date"
                 name="tanggal_berlaku"
                 v-model="parameters.form.tanggal_berlaku"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group">
@@ -93,7 +94,7 @@
                 type="date"
                 name="tanggal_berhenti"
                 v-model="parameters.form.tanggal_berhenti"
-                :required="false"
+                :required="true"
               />
             </div>
             <div class="form-group">
@@ -142,21 +143,37 @@
               >
                 <thead>
                   <tr class="text-sm uppercase">
-                    <th class="w-60 border border-gray-300">Jenis Kontrak</th>
-                    <th class="w-60 border border-gray-300">Divisi</th>
-                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
+                    <th class="w-60 border border-gray-300">
+                      Jenis Kontrak <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Divisi <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Jenis Biaya <span class="text-danger">*</span>
+                    </th>
                     <th class="w-60 border border-gray-300">Mata Uang</th>
                     <th class="w-60 border border-gray-300">Pembayaran</th>
-                    <th class="w-60 border border-gray-300">Term Pembayaran</th>
-                    <th class="w-60 border border-gray-300">Payable To</th>
-                    <th class="w-60 border border-gray-300">Gudang</th>
-                    <th class="w-60 border border-gray-300">Group Item</th>
-                    <th class="w-60 border border-gray-300">Nama Item</th>
                     <th class="w-60 border border-gray-300">
-                      Dasar Perhitungan
+                      Term Pembayaran <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Payable To <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Gudang <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">Group Item</th>
+                    <th class="w-60 border border-gray-300">
+                      Nama Item <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Dasar Perhitungan <span class="text-danger">*</span>
                     </th>
                     <!-- <th class="w-60 border border-gray-300">Satuan</th> -->
-                    <th class="w-60 border border-gray-300">Nilai Kontrak</th>
+                    <th class="w-60 border border-gray-300">
+                      Nilai Kontrak <span class="text-danger">*</span>
+                    </th>
                     <th class="w-20 border border-gray-300">Hapus</th>
                   </tr>
                 </thead>

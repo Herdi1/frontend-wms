@@ -24,18 +24,38 @@
       >
         <thead>
           <tr class="uppercase">
-            <th class="w-60 border border-gray-300">Jenis Kontrak</th>
-            <th class="w-60 border border-gray-300">Divisi</th>
-            <th class="w-60 border border-gray-300">Jenis Biaya</th>
-            <th class="w-60 border border-gray-300">Gudang</th>
+            <th class="w-60 border border-gray-300">
+              Jenis Kontrak <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Divisi <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Jenis Biaya <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Gudang <span class="text-danger">*</span>
+            </th>
             <th class="w-60 border border-gray-300">Mata Uang</th>
             <th class="w-60 border border-gray-300">Pembayaran</th>
-            <th class="w-60 border border-gray-300">Term Pembayaran</th>
-            <th class="w-60 border border-gray-300">Payable To</th>
-            <th class="w-60 border border-gray-300">Jenis Kendaraan</th>
-            <th class="w-60 border border-gray-300">Ritase Awal</th>
-            <th class="w-60 border border-gray-300">Ritase Akhir</th>
-            <th class="w-60 border border-gray-300">Nilai Kontrak</th>
+            <th class="w-60 border border-gray-300">
+              Term Pembayaran <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Payable To <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Jenis Kendaraan <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Ritase Awal <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Ritase Akhir <span class="text-danger">*</span>
+            </th>
+            <th class="w-60 border border-gray-300">
+              Nilai Kontrak <span class="text-danger">*</span>
+            </th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
