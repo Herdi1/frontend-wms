@@ -215,7 +215,8 @@
           <div class="text-center dark:text-white mt-3">
             Copyright &copy; {{ settingItem("company_name") }} -
             {{ year }}.<br />
-            Developed by <a href="http://dexza.com">Dexza</a>
+            Developed by {{ settingItem("company_name") }}
+            <!-- <a href="http://dexza.com">Dexza</a> -->
           </div>
         </div>
       </div>
