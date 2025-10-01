@@ -2,7 +2,7 @@
   <portal v-if="visible" to="modal-detail">
     <div class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
-      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100"
+      class="fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 w-full max-w-md dark:bg-slate-700 dark:text-gray-100 h-[700px] overflow-x-auto"
       aria-hidden="true"
       id="modal-detail"
     >
@@ -28,17 +28,19 @@
               <div>{{ parameters.form.nama_role }}</div>
             </div>
 
-            <div class="table table-responsive w-full">
+            <div class="table table-responsive w-full mt-5">
               <table class="table">
                 <tr>
-                  <td>Hak Akses</td>
-                  <td>Operator</td>
+                  <td class="font-semibold">Hak Akses</td>
+                  <td class="font-semibold">Aplikasi</td>
+                  <td class="font-semibold">Operator</td>
                 </tr>
                 <tr
                   v-for="item in parameters.form.menu_grants"
                   :key="item.menu_grant_id"
                 >
                   <td>{{ item.menu ? item.menu.judul : "-" }}</td>
+                  <td></td>
                   <td class="flex gap-2">
                     <span
                       v-for="(operator, index) in item.operators"

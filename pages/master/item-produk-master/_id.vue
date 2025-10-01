@@ -49,7 +49,7 @@
                       label="Kode Alternatif"
                       type="text"
                       name="kode_alternatif"
-                      :required="true"
+                      :required="false"
                       v-model="form.kode_alternatif"
                     />
                   </div>
@@ -59,7 +59,7 @@
                       label="Kode Alternatif 2"
                       type="text"
                       name="kode_alternatif_2"
-                      :required="true"
+                      :required="false"
                       v-model="form.kode_alternatif_2"
                     />
                   </div>
@@ -197,9 +197,8 @@
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
                     <div class="form-group">
-                      <label for="volume"
-                        >Volume <span class="text-danger">*</span></label
-                      >
+                      <label for="volume">Volume </label>
+                      <!-- <span class="text-danger">*</span> -->
                       <money
                         v-model="form.volume"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -208,59 +207,105 @@
                         "
                       />
                     </div>
-                    <ValidationProvider
-                      name="satuan_id_volume"
-                      rules="required"
-                      class="w-full"
-                    >
-                      <div slot-scope="{ errors, valid }">
-                        <label for="satuan_id_volume"
-                          >Satuan Volume<span class="text-danger"
-                            >*</span
-                          ></label
+
+                    <div>
+                      <label for="satuan_id_volume">Satuan Volume</label>
+                      <v-select
+                        label="nama_satuan"
+                        :loading="isLoadingGetSatuanVolume"
+                        :options="lookup_regus.data"
+                        :filterable="false"
+                        @search="onGetSatuanVolume"
+                        v-model="form.satuan_id_volume"
+                        class="w-full bg-white"
+                      >
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_regus.data.length || search"
                         >
-                        <v-select
-                          label="nama_satuan"
-                          :loading="isLoadingGetSatuanVolume"
-                          :options="lookup_regus.data"
-                          :filterable="false"
-                          @search="onGetSatuanVolume"
-                          v-model="form.satuan_id_volume"
-                          class="w-full bg-white"
-                          :class="
-                            errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                          "
-                        >
-                          <li
-                            slot-scope="{ search }"
-                            slot="list-footer"
-                            class="p-1 border-t flex justify-between"
-                            v-if="lookup_regus.data.length || search"
+                          <span
+                            v-if="lookup_regus.current_page > 1"
+                            @click="onGetSatuanVolume(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
                           >
-                            <span
-                              v-if="lookup_regus.current_page > 1"
-                              @click="onGetSatuanVolume(search, false)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Sebelumnya</span
-                            >
-                            <span
-                              v-if="
-                                lookup_regus.last_page >
-                                lookup_regus.current_page
-                              "
-                              @click="onGetSatuanVolume(search, true)"
-                              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                              >Selanjutnya</span
-                            >
-                          </li>
-                        </v-select>
-                        <span
-                          class="text-danger text-xs pl-1"
-                          v-if="errors[0]"
-                          >{{ errors[0] }}</span
-                        >
-                      </div>
-                    </ValidationProvider>
+                          <span
+                            v-if="
+                              lookup_regus.last_page > lookup_regus.current_page
+                            "
+                            @click="onGetSatuanVolume(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <div class="form-group">
+                      <label for="kapasitas_palet">Kapasitas Palet</label>
+                      <money
+                        v-model="form.kapasitas_palet"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                      <!-- <input-form
+                      label="kapasitas Palet"
+                      type="text"
+                      name="kapasitas_palet"
+                      :required="true"
+                      v-model="form.kapasitas_palet"
+                    /> -->
+                    </div>
+
+                    <div class="form-group">
+                      <label for="kebutuhan_palet">Kebutuhan Palet</label>
+                      <money
+                        v-model="form.kebutuhan_palet"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                      <!-- <input-form
+                      label="Kebutuhan Palet"
+                      type="text"
+                      name="kebutuhan_palet"
+                      :required="true"
+                      v-model="form.kebutuhan_palet"
+                    /> -->
+                    </div>
+                  </div>
+
+                  <div class="grid grid-flow-col grid-cols-2 gap-2">
+                    <div class="form-group">
+                      <label for="maksimal_tumpukan"
+                        >Maksimal Tumpukan
+                        <span class="text-danger">*</span></label
+                      >
+                      <money
+                        v-model="form.maksimal_tumpukan"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="jumlah_palet">Jumlah Palet</label>
+                      <money
+                        v-model="form.jumlah_palet"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        @keydown.native="
+                          $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      />
+                    </div>
                   </div>
 
                   <div class="grid grid-flow-col grid-cols-2 gap-2">
@@ -268,12 +313,19 @@
                       <label for="stocklevel"
                         >Stocklevel <span class="text-danger">*</span></label
                       >
-                      <money
+                      <!-- <money
+                        disabled
                         v-model="form.value_stocklevel"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
+                      /> -->
+                      <input
+                        type="number"
+                        v-model="calcStocklevel"
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        disabled
                       />
                     </div>
                     <ValidationProvider
@@ -330,65 +382,7 @@
                       </div>
                     </ValidationProvider>
                   </div>
-
-                  <ValidationProvider
-                    name="supplier_id"
-                    rules="required"
-                    class="w-full"
-                  >
-                    <div slot-scope="{ errors, valid }">
-                      <label for="supplier_id"
-                        >Supplier<span class="text-danger">*</span></label
-                      >
-                      <v-select
-                        label="nama_supplier"
-                        :loading="isLoadingGetVendor"
-                        :options="lookup_operator.data"
-                        :filterable="false"
-                        @search="onGetVendor"
-                        v-model="form.supplier_id"
-                        class="w-full bg-white"
-                        :class="
-                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
-                        "
-                      >
-                        <!-- <template #search="{ attributes, events }">
-                          <input
-                            class="w-full outline-none active:outline-none"
-                            :required="!form.vendor_id"
-                            v-bind="attributes"
-                            v-on="events"
-                          />
-                        </template> -->
-                        <li
-                          slot-scope="{ search }"
-                          slot="list-footer"
-                          class="p-1 border-t flex justify-between"
-                          v-if="lookup_operator.data.length || search"
-                        >
-                          <span
-                            v-if="lookup_operator.current_page > 1"
-                            @click="onGetVendor(search, false)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Sebelumnya</span
-                          >
-                          <span
-                            v-if="
-                              lookup_operator.last_page >
-                              lookup_operator.current_page
-                            "
-                            @click="onGetVendor(search, true)"
-                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                            >Selanjutnya</span
-                          >
-                        </li>
-                      </v-select>
-                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                        errors[0]
-                      }}</span>
-                    </div>
-                  </ValidationProvider>
-                  <div v-if="!isEditable"></div>
+                  <!-- <div v-if="!isEditable"></div> -->
 
                   <ValidationProvider
                     name="group_item_id_1"
@@ -907,6 +901,63 @@
                     </ValidationProvider>
                   </div>
 
+                  <ValidationProvider
+                    name="supplier_id"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div slot-scope="{ errors, valid }">
+                      <label for="supplier_id"
+                        >Supplier<span class="text-danger">*</span></label
+                      >
+                      <v-select
+                        label="nama_supplier"
+                        :loading="isLoadingGetVendor"
+                        :options="lookup_operator.data"
+                        :filterable="false"
+                        @search="onGetVendor"
+                        v-model="form.supplier_id"
+                        class="w-full bg-white"
+                        :class="
+                          errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''
+                        "
+                      >
+                        <!-- <template #search="{ attributes, events }">
+                          <input
+                            class="w-full outline-none active:outline-none"
+                            :required="!form.vendor_id"
+                            v-bind="attributes"
+                            v-on="events"
+                          />
+                        </template> -->
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_operator.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_operator.current_page > 1"
+                            @click="onGetVendor(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_operator.last_page >
+                              lookup_operator.current_page
+                            "
+                            @click="onGetVendor(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                      <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
+                        errors[0]
+                      }}</span>
+                    </div>
+                  </ValidationProvider>
                   <div class="form-group">
                     <label for="batas_bawah"
                       >Batas Bawah <span class="text-danger">*</span></label
@@ -926,67 +977,6 @@
                     >
                     <money
                       v-model="form.batas_atas"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="jumlah_palet">Jumlah Palet</label>
-                    <money
-                      v-model="form.jumlah_palet"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="kapasitas_palet">Kapasitas Palet</label>
-                    <money
-                      v-model="form.kapasitas_palet"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                    <!-- <input-form
-                      label="kapasitas Palet"
-                      type="text"
-                      name="kapasitas_palet"
-                      :required="true"
-                      v-model="form.kapasitas_palet"
-                    /> -->
-                  </div>
-
-                  <div class="form-group">
-                    <label for="kebutuhan_palet">Kebutuhan Palet</label>
-                    <money
-                      v-model="form.kebutuhan_palet"
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      @keydown.native="
-                        $event.key === '-' ? $event.preventDefault() : null
-                      "
-                    />
-                    <!-- <input-form
-                      label="Kebutuhan Palet"
-                      type="text"
-                      name="kebutuhan_palet"
-                      :required="true"
-                      v-model="form.kebutuhan_palet"
-                    /> -->
-                  </div>
-
-                  <div class="form-group">
-                    <label for="maksimal_tumpukan"
-                      >Maksimal Tumpukan
-                      <span class="text-danger">*</span></label
-                    >
-                    <money
-                      v-model="form.maksimal_tumpukan"
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       @keydown.native="
                         $event.key === '-' ? $event.preventDefault() : null
@@ -1374,6 +1364,13 @@ export default {
       "lookup_parents",
       "lookup_sellings",
     ]),
+
+    calcStocklevel() {
+      if (!this.form.kebutuhan_palet || !this.form.kapasitas_palet) return 0;
+      this.form.value_stocklevel =
+        this.form.kebutuhan_palet / this.form.kapasitas_palet;
+      return this.form.value_stocklevel;
+    },
   },
 
   methods: {
