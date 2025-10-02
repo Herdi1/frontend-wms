@@ -311,7 +311,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -346,6 +346,8 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {

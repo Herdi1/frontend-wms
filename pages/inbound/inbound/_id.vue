@@ -52,8 +52,43 @@
                     <option value="NON">Non ASN/Non PO</option>
                   </select>
                 </div>
-                <div class="form-group" v-if="!user.gudang_id">
-                  <select-button
+                <div class="form-group flex" v-if="!user.gudang_id">
+                  <label for="" class="w-[40%]">Gudang</label>
+                  <v-select
+                    label="nama_gudang"
+                    :loading="isLoadingGetGudang"
+                    :options="lookup_suppliers.data"
+                    :filterable="false"
+                    @search="onGetGudang"
+                    v-model="form.gudang_id"
+                    @input="onSelectGudang"
+                    class="w-[60%] bg-white"
+                    :disabled="isEditable"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_suppliers.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_suppliers.current_page > 1"
+                        @click="onGetGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_suppliers.last_page >
+                          lookup_suppliers.current_page
+                        "
+                        @click="onGetGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                  <!-- <select-button
                     :self="{
                       label: 'Gudang',
                       optionLabel: 'nama_gudang',
@@ -65,7 +100,7 @@
                     }"
                     :disabled="isEditable"
                     width="w-[60%]"
-                  />
+                  /> -->
                 </div>
                 <select-button
                   v-if="form.sumber_data === 'ASN'"
@@ -214,8 +249,43 @@
                   />
                 </div>
 
-                <div class="form-group">
-                  <select-button
+                <div class="form-group flex">
+                  <label for="supplier_id" class="w-[40%]">Supplier</label>
+                  <v-select
+                    label="nama_supplier"
+                    :loading="isLoadingGetSupplier"
+                    :options="lookup_customers.data"
+                    :filterable="false"
+                    @search="onGetSupplier"
+                    v-model="form.supplier_id"
+                    @input="onSelectSupplier"
+                    class="w-[60%] bg-white"
+                    :disabled="form.sumber_data !== 'NON'"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_customers.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_customers.current_page > 1"
+                        @click="onGetSupplier(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_customers.last_page >
+                          lookup_customers.current_page
+                        "
+                        @click="onGetSupplier(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                  <!-- <select-button
                     :self="{
                       label: 'Supplier',
                       optionLabel: 'nama_supplier',
@@ -227,10 +297,45 @@
                     }"
                     :disabled="form.sumber_data !== 'NON'"
                     width="w-[60%]"
-                  />
+                  /> -->
                 </div>
-                <div>
-                  <select-button
+                <div class="form-group flex">
+                  <label for="pelanggan" class="w-[40%]">Pelanggan</label>
+                  <v-select
+                    label="nama_pelanggan"
+                    :loading="isLoadingGetPelanggan"
+                    :options="lookup_department.data"
+                    :filterable="false"
+                    @search="onGetPelanggan"
+                    v-model="form.pelanggan_id"
+                    @input="onSelectPelanggan"
+                    class="w-[60%] bg-white"
+                    :disabled="form.sumber_data !== 'NON'"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_department.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_department.current_page > 1"
+                        @click="onGetPelanggan(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_department.last_page >
+                          lookup_department.current_page
+                        "
+                        @click="onGetPelanggan(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                  <!-- <select-button
                     :self="{
                       label: 'Pelanggan',
                       optionLabel: 'nama_pelanggan',
@@ -242,7 +347,7 @@
                     }"
                     width="w-[60%]"
                     :disabled="form.sumber_data !== 'NON'"
-                  />
+                  /> -->
                 </div>
                 <!-- <div class="form-group">
                   <input-horizontal
@@ -256,8 +361,79 @@
                     :required="false"
                   />
                 </div> -->
+                <div class="form-group flex">
+                  <label for="staff" class="w-[40%]">Operator</label>
+                  <v-select
+                    label="nama_lengkap"
+                    :loading="isLoadingGetStaff"
+                    :options="lookup_custom8.data"
+                    :filterable="false"
+                    @search="onGetStaff"
+                    v-model="form.staff_id"
+                    @input="onSelectStaff"
+                    class="w-[60%] bg-white"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom8.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom8.current_page > 1"
+                        @click="onGetStaff(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom8.last_page > lookup_custom8.current_page
+                        "
+                        @click="onGetStaff(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+                <div class="form-group flex">
+                  <label for="staff" class="w-[40%]">Vendor Operator</label>
+                  <v-select
+                    label="nama_vendor"
+                    :loading="isLoadingGetVendor"
+                    :options="lookup_custom9.data"
+                    :filterable="false"
+                    @search="onGetVendor"
+                    v-model="form.vendor_id_transporter"
+                    @input="onSelectVendor"
+                    class="w-[60%] bg-white"
+                    :disabled="form.sumber_data !== 'NON'"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom9.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom9.current_page > 1"
+                        @click="onGetVendor(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom9.last_page > lookup_custom9.current_page
+                        "
+                        @click="onGetVendor(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
 
-                <select-button
+                <!-- <select-button
                   :self="{
                     label: 'Operator',
                     optionLabel: 'nama_lengkap',
@@ -268,9 +444,9 @@
                     input: onSelectStaff,
                   }"
                   width="w-[60%]"
-                />
+                /> -->
                 <!-- :disabled="form.sumber_data !== 'NON'" -->
-                <select-button
+                <!-- <select-button
                   :self="{
                     label: 'Vendor Operator',
                     optionLabel: 'nama_vendor',
@@ -282,7 +458,7 @@
                   }"
                   width="w-[60%]"
                   :disabled="form.sumber_data !== 'NON'"
-                />
+                /> -->
                 <div class="m-1 flex justify-between md:col-span-2">
                   <label for="" class="w-[40%] md:w-[20%]">Keterangan</label>
                   <textarea
@@ -489,6 +665,7 @@ export default {
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
+
     try {
       this.form.tanggal = formattedDate;
       if (this.isEditable) {
@@ -771,6 +948,15 @@ export default {
       );
 
       return result;
+    },
+
+    gudang_id: {
+      get() {
+        return this.form.gudang_id;
+      },
+      set(value) {
+        this.form.gudang_id = value;
+      },
     },
   },
 

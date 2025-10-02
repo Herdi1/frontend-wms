@@ -224,6 +224,7 @@
                 @search="onGetGudang"
                 v-model="parameters.form.gudang_id"
                 class="w-full"
+                @input="(item) => onSelectGudang(item)"
               >
                 <li
                   slot-scope="{ search }"
@@ -533,9 +534,7 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id
-            ? this.parameters.form.gudang_id
-            : "",
+            : this.parameters.form.gudang_id,
         role_id:
           typeof this.parameters.form.role_id === "object"
             ? this.parameters.form.role_id.role_id
@@ -724,6 +723,14 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+      } else {
+        this.parameters.form.gudang_id = "";
       }
     },
 

@@ -69,9 +69,10 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
-                    :reduce="(item) => item.gudang_id"
+                    v-model="filter_params.gudang_id"
+                    @input="onSetGudang"
                   >
+                    <!-- :reduce="(item) => item.gudang_id" -->
                     <template slot="selected-option" slot-scope="option">
                       <div
                         class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
@@ -154,7 +155,7 @@
 
               <div class="flex gap-3">
                 <button
-                  @click="onLoad(1)"
+                  @click="onLoad"
                   class="bg-blue-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
                 >
                   <i class="fa fa-filter text-white font-bold mr-2"></i>
@@ -579,10 +580,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = true;
+      this.$refs["form-option"].isExportFile = false;
 
-      this.$refs["form-option"].isExportFilePdf = true;
-      this.$refs["form-option"].isExportFileExcel = true;
+      this.$refs["form-option"].isExportFilePdf = false;
+      this.$refs["form-option"].isExportFileExcel = false;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -592,14 +593,14 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = true;
+      this.$refs["form-option"].isExportPrint = false;
     }
 
-    this.$refs["form-option"].isSearching = false;
+    this.$refs["form-option"].isSearching = true;
     this.$refs["form-option"].isShowingPage = false;
 
     await this.onSearchGudang();
-    await this.onSearchZonaGudang();
+    // await this.onSearchZonaGudang();
 
     // this.$axios.get(this.parameters.url + "/get-spesification")
     // .then(res => {
@@ -770,7 +771,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       // this.parameters.params.warehouse_page = 1;
       // this.parameters.params.warehouse_is_last_page = false;
@@ -781,20 +782,20 @@ export default {
         onCancel: this.onCancel,
       });
 
-      let url =
-        this.parameters.url +
-        "?page=" +
-        this.parameters.params.page +
-        "&gudang_id=" +
-        this.parameters.params.gudang_id +
-        "&zona_gudang_id=" +
-        this.parameters.params.zona_gudang_id +
-        "&start_date=" +
-        this.parameters.params.start_date +
-        "&end_date=" +
-        this.parameters.params.end_date;
-      // "&item_gudang_id=" +
-      // this.parameters.params.item_gudang_id +
+      // let url =
+      //   this.parameters.url +
+      //   "?page=" +
+      //   this.parameters.params.page +
+      //   "&gudang_id=" +
+      //   this.parameters.params.gudang_id +
+      //   "&zona_gudang_id=" +
+      //   this.parameters.params.zona_gudang_id +
+      //   "&start_date=" +
+      //   this.parameters.params.start_date +
+      //   "&end_date=" +
+      //   this.parameters.params.end_date;
+      // // "&item_gudang_id=" +
+      // // this.parameters.params.item_gudang_id +
       this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
       this.parameters.params.zona_gudang_id = this.filter_params.zona_gudang_id;
 
