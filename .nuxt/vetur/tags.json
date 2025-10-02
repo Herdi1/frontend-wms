@@ -53,15 +53,6 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
@@ -76,6 +67,15 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+  "InputForm": {
+    "description": "Auto imported from components/InputForm/InputForm.vue"
+  },
+  "InputHoriontal": {
+    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
+  },
+  "InputFormSelectComponent": {
+    "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"

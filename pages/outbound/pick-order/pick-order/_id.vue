@@ -1368,7 +1368,7 @@ export default {
           query:
             "?search=" +
             this.staff_search +
-            "&jenis_user=pengemudi" +
+            // "&jenis_user=pengemudi" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
