@@ -709,7 +709,7 @@ export default {
     await this.onSearchPelanggan();
     // await this.onSearchPeralatan();
     await this.onSearchVendor();
-    await this.onSearchStaff();
+    // await this.onSearchStaff();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1006,7 +1006,6 @@ export default {
           if (res.data.id) {
             this.form.inbound_id = res.data.id;
           }
-
 
           this.$toaster.success(
             "Data berhasil di " +
@@ -1407,6 +1406,7 @@ export default {
         await this.onSearchItemGudang();
         await this.onSearchPurchaseOrder();
         await this.onSearchPeralatan();
+        await this.onSearchStaff();
       } else {
         this.form.gudang_id = "";
       }
@@ -1536,7 +1536,8 @@ export default {
           query:
             "?search=" +
             this.staff_search +
-            "&jenis_user=pengemudi" +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",

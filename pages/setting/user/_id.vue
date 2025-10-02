@@ -533,7 +533,9 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id,
+            : this.parameters.form.gudang_id
+            ? this.parameters.form.gudang_id
+            : "",
         role_id:
           typeof this.parameters.form.role_id === "object"
             ? this.parameters.form.role_id.role_id
