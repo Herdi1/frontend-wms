@@ -29,6 +29,7 @@
                 :filterable="false"
                 v-model="parameters.form.gudang_id"
                 @input="(item) => onSelectGudang(item)"
+                :disabled="isEditable || lookup_warehouses.data.length == 1"
               >
                 <!-- v-model="item.item_gudang_id" -->
                 <li
@@ -211,7 +212,15 @@
                             <option value="ASAL">Asal</option>
                             <option value="TUJUAN">Tujuan</option>
                           </select> -->
-                          <p>{{ item.kode_slot_penyimpanan_terakhir_asal }}</p>
+                          <p>
+                            {{
+                              item.zona_gudang
+                                ? item.zona_gudang.nama_zona_gudang +
+                                  " - " +
+                                  item.zona_gudang.kode_zona_gudang
+                                : "-"
+                            }}
+                          </p>
                         </td>
                         <td class="border border-gray-300">
                           <div class="w-full mb-2">
@@ -515,7 +524,7 @@
                               </li>
                             </v-select> -->
                             <div class="w-full">
-                              <label for="">Quantity Asal</label>
+                              <label for="">Saldo Stok</label>
                               <money
                                 type="text"
                                 disabled
@@ -699,6 +708,7 @@
                         <td class="border border-gray-300">
                           <money
                             v-model="item.total"
+                            disabled
                             class="w-full pl-2 py-1 border rounded focus:outline-none"
                             @keydown.native="
                               $event.key === '-'
@@ -938,6 +948,23 @@ export default {
       },
     };
   },
+
+  watch: {
+    "parameters.form.biaya": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.jumlah > 0) {
+            item.total = item.jumlah * item.nominal_satuan;
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+
   async created() {
     const today = new Date();
     const year = today.getFullYear();
@@ -993,7 +1020,7 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
-    if (!this.isEditable) {
+    if (!this.isEditable && this.lookup_warehouses.data[0]) {
       await this.onSelectGudang(this.lookup_warehouses.data[0]);
     }
     await this.onSearchItemGudang();
@@ -1194,9 +1221,9 @@ export default {
         jenis_biaya_id: "",
         coa_id: "",
         vendor_id: "",
-        nominal_satuan: "",
-        jumlah: "",
-        total: "",
+        nominal_satuan: 0,
+        jumlah: 0,
+        total: 0,
         keterangan: "",
       });
     },

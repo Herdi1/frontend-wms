@@ -492,7 +492,14 @@ export default {
         this.parameters.form.jabatan_id = res.data.jabatan ?? "";
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.parameters.form.staff_id = res.data.staff ?? "";
-        this.parameters.form.user_gudangs = res.data.user_gudangs;
+        this.parameters.form.jabatan_id = res.data.jabatan ?? "";
+        this.parameters.form.user_gudangs = res.data.user_gudangs.map(
+          (item) => {
+            return {
+              gudang_id: item.gudang ?? "",
+            };
+          }
+        );
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -552,7 +559,14 @@ export default {
             ? this.parameters.form.staff_id.staff_id
             : this.parameters.form.staff_id,
       };
-      formData.user_gudangs = this.parameters.form.user_gudangs;
+      formData.user_gudangs = this.parameters.form.user_gudangs.map((item) => {
+        return {
+          gudang_id:
+            typeof item.gudang_id === "object"
+              ? item.gudang_id.gudang_id
+              : item.gudang_id,
+        };
+      });
 
       // let parameters = {
       //   ...this.parameters,

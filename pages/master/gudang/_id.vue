@@ -2045,6 +2045,9 @@ export default {
         url: url,
         method: "post",
         data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
         .then((res) => {
           this.$toaster.success(

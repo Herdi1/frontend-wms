@@ -59,7 +59,7 @@
                 />
               </div>
 
-              <div v-if="!user.gudang_id" class="w-full">
+              <div class="w-full">
                 <select-button
                   :self="{
                     label: 'Gudang',
@@ -398,7 +398,7 @@ export default {
     // await this.onSearchKendaraan();
     // await this.onSearchPengemudi();
     // await this.onSearchSupplier();
-    await this.onSearchLokasi();
+    // await this.onSearchLokasi();
     await this.onSearchGudang();
     await this.onSearchPelanggan();
     await this.onSearchItemGudang();
@@ -660,6 +660,8 @@ export default {
           query:
             "?search=" +
             this.lokasi_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_location.current_page +
             "&per_page=10",
@@ -800,6 +802,7 @@ export default {
       if (item) {
         this.parameters.form.gudang_id = item;
         this.parameters.form.pick_request_details = [];
+        await this.onSearchLokasi();
         await this.$refs.detailPickRequest.onSearchItemGudang();
         await this.$refs.detailPickRequest.onSearchValuation();
       } else {

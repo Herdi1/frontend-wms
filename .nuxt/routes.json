@@ -5,6 +5,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\forgot-password.vue",
     "chunkName": "pages/forgot-password",
     "_name": "_5299df76"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\forgot-password.vue",
+    "chunkName": "pages/forgot-password",
+    "_name": "_7c88a0a8"
   },
   {
     "name": "home",
@@ -12,6 +15,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\home\\\\index.vue",
     "chunkName": "pages/home/index",
     "_name": "_55c4aad3"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\home\\\\index.vue",
+    "chunkName": "pages/home/index",
+    "_name": "_195b15ba"
   },
   {
     "name": "home2",
@@ -19,6 +25,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\home2.vue",
     "chunkName": "pages/home2",
     "_name": "_d74d5f1a"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\home2.vue",
+    "chunkName": "pages/home2",
+    "_name": "_3837b49a"
   },
   {
     "name": "login",
@@ -26,6 +35,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\login.vue",
     "chunkName": "pages/login",
     "_name": "_9bb2e4ae"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\login.vue",
+    "chunkName": "pages/login",
+    "_name": "_5604f1d0"
   },
   {
     "name": "logout",
@@ -33,6 +45,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\logout.vue",
     "chunkName": "pages/logout",
     "_name": "_4087a00c"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\logout.vue",
+    "chunkName": "pages/logout",
+    "_name": "_90ab5e9a"
   },
   {
     "name": "profil",
@@ -40,6 +55,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\profil.vue",
     "chunkName": "pages/profil",
     "_name": "_8894a0a8"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\profil.vue",
+    "chunkName": "pages/profil",
+    "_name": "_d8b85f36"
   },
   {
     "name": "reset-password",
@@ -47,6 +65,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\reset-password.vue",
     "chunkName": "pages/reset-password",
     "_name": "_359eec49"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\reset-password.vue",
+    "chunkName": "pages/reset-password",
+    "_name": "_1a3d77fc"
   },
   {
     "name": "verifikasi-otp",
@@ -54,6 +75,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\verifikasi-otp.vue",
     "chunkName": "pages/verifikasi-otp",
     "_name": "_662e0163"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\verifikasi-otp.vue",
+    "chunkName": "pages/verifikasi-otp",
+    "_name": "_2370591c"
   },
   {
     "name": "finance-balance",
@@ -61,6 +85,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\balance\\\\index.vue",
     "chunkName": "pages/finance/balance/index",
     "_name": "_4b4e0f10"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\balance\\\\index.vue",
+    "chunkName": "pages/finance/balance/index",
+    "_name": "_525f5112"
   },
   {
     "name": "finance-budgeting-gudang",
@@ -68,6 +95,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\budgeting-gudang\\\\index.vue",
     "chunkName": "pages/finance/budgeting-gudang/index",
     "_name": "_ca9b9418"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\budgeting-gudang\\\\index.vue",
+    "chunkName": "pages/finance/budgeting-gudang/index",
+    "_name": "_5a651d26"
   },
   {
     "name": "finance-buku_besar",
@@ -75,6 +105,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\buku_besar\\\\index.vue",
     "chunkName": "pages/finance/buku_besar/index",
     "_name": "_7031ca6e"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\buku_besar\\\\index.vue",
+    "chunkName": "pages/finance/buku_besar/index",
+    "_name": "_d3e2b5fc"
   },
   {
     "name": "finance-cash_in",
@@ -82,6 +115,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\cash_in\\\\index.vue",
     "chunkName": "pages/finance/cash_in/index",
     "_name": "_502f111b"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\cash_in\\\\index.vue",
+    "chunkName": "pages/finance/cash_in/index",
+    "_name": "_489d4cfc"
   },
   {
     "name": "finance-cash_mutation",
@@ -89,6 +125,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\cash_mutation\\\\index.vue",
     "chunkName": "pages/finance/cash_mutation/index",
     "_name": "_513e0097"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\cash_mutation\\\\index.vue",
+    "chunkName": "pages/finance/cash_mutation/index",
+    "_name": "_86e7c084"
   },
   {
     "name": "finance-cash_out",
@@ -96,6 +135,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\cash_out\\\\index.vue",
     "chunkName": "pages/finance/cash_out/index",
     "_name": "_a105cdb4"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\cash_out\\\\index.vue",
+    "chunkName": "pages/finance/cash_out/index",
+    "_name": "_d77844c2"
   },
   {
     "name": "finance-cash_out _backup",
@@ -103,6 +145,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\cash_out _backup\\\\index.vue",
     "chunkName": "pages/finance/cash_out _backup/index",
     "_name": "_7c37fbc5"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\cash_out _backup\\\\index.vue",
+    "chunkName": "pages/finance/cash_out _backup/index",
+    "_name": "_97599184"
   },
   {
     "name": "finance-chart_of_account",
@@ -110,6 +155,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\chart_of_account\\\\index.vue",
     "chunkName": "pages/finance/chart_of_account/index",
     "_name": "_adc4ebbc"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\chart_of_account\\\\index.vue",
+    "chunkName": "pages/finance/chart_of_account/index",
+    "_name": "_3d8e74ca"
   },
   {
     "name": "finance-chart_of_account_transaction",
@@ -117,6 +165,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\chart_of_account_transaction\\\\index.vue",
     "chunkName": "pages/finance/chart_of_account_transaction/index",
     "_name": "_0c17aba3"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\chart_of_account_transaction\\\\index.vue",
+    "chunkName": "pages/finance/chart_of_account_transaction/index",
+    "_name": "_3bbf0cc8"
   },
   {
     "name": "finance-coa",
@@ -124,6 +175,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\coa\\\\index.vue",
     "chunkName": "pages/finance/coa/index",
     "_name": "_4b1623d7"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\coa\\\\index.vue",
+    "chunkName": "pages/finance/coa/index",
+    "_name": "_3862b7be"
   },
   {
     "name": "finance-general_ledger",
@@ -131,6 +185,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\general_ledger\\\\index.vue",
     "chunkName": "pages/finance/general_ledger/index",
     "_name": "_9fc770f0"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\general_ledger\\\\index.vue",
+    "chunkName": "pages/finance/general_ledger/index",
+    "_name": "_a2dbe57e"
   },
   {
     "name": "finance-journal",
@@ -138,13 +195,16 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\journal\\\\index.vue",
     "chunkName": "pages/finance/journal/index",
     "_name": "_17af97d5"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\journal\\\\index.vue",
+    "chunkName": "pages/finance/journal/index",
+    "_name": "_b99c3f88"
   },
   {
-    "name": "finance-jurnal-manual",
-    "path": "/finance/jurnal-manual",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\jurnal-manual\\\\index.vue",
-    "chunkName": "pages/finance/jurnal-manual/index",
-    "_name": "_aa4e4eea"
+    "name": "finance-jurnal",
+    "path": "/finance/jurnal",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\jurnal\\\\index.vue",
+    "chunkName": "pages/finance/jurnal/index",
+    "_name": "_2fda57b6"
   },
   {
     "name": "finance-kontrak-customer",
@@ -152,6 +212,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\kontrak-customer\\\\index.vue",
     "chunkName": "pages/finance/kontrak-customer/index",
     "_name": "_0e8bed22"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\kontrak-customer\\\\index.vue",
+    "chunkName": "pages/finance/kontrak-customer/index",
+    "_name": "_30d544e8"
   },
   {
     "name": "finance-kontrak-sewa",
@@ -159,6 +222,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\kontrak-sewa\\\\index.vue",
     "chunkName": "pages/finance/kontrak-sewa/index",
     "_name": "_05447f71"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\kontrak-sewa\\\\index.vue",
+    "chunkName": "pages/finance/kontrak-sewa/index",
+    "_name": "_309b412c"
   },
   {
     "name": "finance-laba-rugi",
@@ -166,6 +232,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\laba-rugi\\\\index.vue",
     "chunkName": "pages/finance/laba-rugi/index",
     "_name": "_4d61cfe4"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\laba-rugi\\\\index.vue",
+    "chunkName": "pages/finance/laba-rugi/index",
+    "_name": "_e53e3a96"
   },
   {
     "name": "finance-posting-premi",
@@ -173,6 +242,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\posting-premi\\\\index.vue",
     "chunkName": "pages/finance/posting-premi/index",
     "_name": "_76f9b438"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\posting-premi\\\\index.vue",
+    "chunkName": "pages/finance/posting-premi/index",
+    "_name": "_3b705942"
   },
   {
     "name": "finance-posting-tkbm",
@@ -180,6 +252,9 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\posting-tkbm\\\\index.vue",
     "chunkName": "pages/finance/posting-tkbm/index",
     "_name": "_b4c18e4a"
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\finance\\\\posting-tkbm\\\\index.vue",
+    "chunkName": "pages/finance/posting-tkbm/index",
+    "_name": "_efe5ce58"
   },
   {
     "name": "finance-profit_and_lose",
@@ -1722,11 +1797,11 @@
     "_name": "_094faba1"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok",
-    "path": "/inventory/konversi-stok/approval-konversi-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/index",
-    "_name": "_9d65ae7c"
+    "name": "inventory-konversi-stok-approve-konversi-stok",
+    "path": "/inventory/konversi-stok/approve-konversi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/index",
+    "_name": "_a2bc2274"
   },
   {
     "name": "inventory-konversi-stok-konfirmasi-konversi-stok",
@@ -1764,25 +1839,25 @@
     "_name": "_a7097e96"
   },
   {
-    "name": "inventory-relokasi-stok-approval-relokasi-stok",
-    "path": "/inventory/relokasi-stok/approval-relokasi-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approval-relokasi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/relokasi-stok/approval-relokasi-stok/index",
-    "_name": "_8f69dfb0"
+    "name": "inventory-relokasi-stok-approve-mutasi-stok",
+    "path": "/inventory/relokasi-stok/approve-mutasi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/relokasi-stok/approve-mutasi-stok/index",
+    "_name": "_d5d0d522"
   },
   {
-    "name": "inventory-relokasi-stok-pengajuan-relokasi-stok",
-    "path": "/inventory/relokasi-stok/pengajuan-relokasi-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\pengajuan-relokasi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/relokasi-stok/pengajuan-relokasi-stok/index",
-    "_name": "_4debb888"
+    "name": "inventory-relokasi-stok-mutasi-stok",
+    "path": "/inventory/relokasi-stok/mutasi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/relokasi-stok/mutasi-stok/index",
+    "_name": "_771b12ef"
   },
   {
-    "name": "inventory-relokasi-stok-proses-relokasi-stok",
-    "path": "/inventory/relokasi-stok/proses-relokasi-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-relokasi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/relokasi-stok/proses-relokasi-stok/index",
-    "_name": "_a0fe5812"
+    "name": "inventory-relokasi-stok-proses-mutasi-stok",
+    "path": "/inventory/relokasi-stok/proses-mutasi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/relokasi-stok/proses-mutasi-stok/index",
+    "_name": "_d8d71780"
   },
   {
     "name": "inventory-retur_pemakaian_barang-detail",
@@ -1925,39 +2000,11 @@
     "_name": "_4f47ba74"
   },
   {
-    "name": "inventory-stok-transfer-inbound",
-    "path": "/inventory/stok-transfer/inbound",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\inbound\\\\index.vue",
-    "chunkName": "pages/inventory/stok-transfer/inbound/index",
-    "_name": "_25618a08"
-  },
-  {
-    "name": "inventory-stok-transfer-inspeksi-outbound",
-    "path": "/inventory/stok-transfer/inspeksi-outbound",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\inspeksi-outbound\\\\index.vue",
-    "chunkName": "pages/inventory/stok-transfer/inspeksi-outbound/index",
-    "_name": "_0e6b03e2"
-  },
-  {
-    "name": "inventory-stok-transfer-permintaan-stok",
-    "path": "/inventory/stok-transfer/permintaan-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\permintaan-stok\\\\index.vue",
-    "chunkName": "pages/inventory/stok-transfer/permintaan-stok/index",
-    "_name": "_2ad0b9b4"
-  },
-  {
-    "name": "inventory-stok-transfer-pick-order",
-    "path": "/inventory/stok-transfer/pick-order",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\pick-order\\\\index.vue",
-    "chunkName": "pages/inventory/stok-transfer/pick-order/index",
-    "_name": "_b57e491e"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment",
-    "path": "/inventory/stok-transfer/shipment",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\index.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/index",
-    "_name": "_7687b88e"
+    "name": "inventory-stok-transfer-stok-transfer",
+    "path": "/inventory/stok-transfer/stok-transfer",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\stok-transfer\\\\index.vue",
+    "chunkName": "pages/inventory/stok-transfer/stok-transfer/index",
+    "_name": "_31492346"
   },
   {
     "name": "lastmile-riwayat-shipment-ReturBarang",
@@ -3451,25 +3498,25 @@
     "_name": "_732e0524"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-BiayaKonversi",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/BiayaKonversi",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\BiayaKonversi.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/BiayaKonversi",
-    "_name": "_34b8303e"
+    "name": "inventory-konversi-stok-approve-konversi-stok-BiayaKonversi",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/BiayaKonversi",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\BiayaKonversi.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/BiayaKonversi",
+    "_name": "_e4372c36"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-DetailItemBahan",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/DetailItemBahan",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\DetailItemBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/DetailItemBahan",
-    "_name": "_351f01bc"
+    "name": "inventory-konversi-stok-approve-konversi-stok-DetailItemBahan",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/DetailItemBahan",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\DetailItemBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/DetailItemBahan",
+    "_name": "_7f989026"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-DetailItemJadi",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/DetailItemJadi",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\DetailItemJadi.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/DetailItemJadi",
-    "_name": "_043e2700"
+    "name": "inventory-konversi-stok-approve-konversi-stok-DetailItemJadi",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/DetailItemJadi",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\DetailItemJadi.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/DetailItemJadi",
+    "_name": "_5db0aafc"
   },
   {
     "name": "inventory-konversi-stok-konfirmasi-konversi-stok-DetailItemBahan",
@@ -3507,32 +3554,32 @@
     "_name": "_7b3fe57e"
   },
   {
-    "name": "inventory-relokasi-stok-approval-relokasi-stok-BiayaRelokasi",
-    "path": "/inventory/relokasi-stok/approval-relokasi-stok/BiayaRelokasi",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approval-relokasi-stok\\\\BiayaRelokasi.vue",
-    "chunkName": "pages/inventory/relokasi-stok/approval-relokasi-stok/BiayaRelokasi",
-    "_name": "_64f2740c"
+    "name": "inventory-relokasi-stok-approve-mutasi-stok-BiayaRelokasi",
+    "path": "/inventory/relokasi-stok/approve-mutasi-stok/BiayaRelokasi",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\BiayaRelokasi.vue",
+    "chunkName": "pages/inventory/relokasi-stok/approve-mutasi-stok/BiayaRelokasi",
+    "_name": "_6a0dd77e"
   },
   {
-    "name": "inventory-relokasi-stok-approval-relokasi-stok-tabComponent",
-    "path": "/inventory/relokasi-stok/approval-relokasi-stok/tabComponent",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approval-relokasi-stok\\\\tabComponent.vue",
-    "chunkName": "pages/inventory/relokasi-stok/approval-relokasi-stok/tabComponent",
-    "_name": "_421817fc"
+    "name": "inventory-relokasi-stok-approve-mutasi-stok-tabComponent",
+    "path": "/inventory/relokasi-stok/approve-mutasi-stok/tabComponent",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/relokasi-stok/approve-mutasi-stok/tabComponent",
+    "_name": "_106b40db"
   },
   {
-    "name": "inventory-relokasi-stok-pengajuan-relokasi-stok-tabComponent",
-    "path": "/inventory/relokasi-stok/pengajuan-relokasi-stok/tabComponent",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\pengajuan-relokasi-stok\\\\tabComponent.vue",
-    "chunkName": "pages/inventory/relokasi-stok/pengajuan-relokasi-stok/tabComponent",
-    "_name": "_6f371fa2"
+    "name": "inventory-relokasi-stok-mutasi-stok-tabComponent",
+    "path": "/inventory/relokasi-stok/mutasi-stok/tabComponent",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/relokasi-stok/mutasi-stok/tabComponent",
+    "_name": "_5887935b"
   },
   {
-    "name": "inventory-relokasi-stok-proses-relokasi-stok-tabComponent",
-    "path": "/inventory/relokasi-stok/proses-relokasi-stok/tabComponent",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-relokasi-stok\\\\tabComponent.vue",
-    "chunkName": "pages/inventory/relokasi-stok/proses-relokasi-stok/tabComponent",
-    "_name": "_533fcd5a"
+    "name": "inventory-relokasi-stok-proses-mutasi-stok-tabComponent",
+    "path": "/inventory/relokasi-stok/proses-mutasi-stok/tabComponent",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/relokasi-stok/proses-mutasi-stok/tabComponent",
+    "_name": "_222e44ea"
   },
   {
     "name": "inventory-stock_in-lain-detail",
@@ -3554,41 +3601,6 @@
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\adjustment-stok-opname\\\\BiayaPickOrder.vue",
     "chunkName": "pages/inventory/stok-opname/adjustment-stok-opname/BiayaPickOrder",
     "_name": "_b81e79d2"
-  },
-  {
-    "name": "inventory-stok-transfer-pick-order-BiayaPickOrder",
-    "path": "/inventory/stok-transfer/pick-order/BiayaPickOrder",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\pick-order\\\\BiayaPickOrder.vue",
-    "chunkName": "pages/inventory/stok-transfer/pick-order/BiayaPickOrder",
-    "_name": "_65f6d05c"
-  },
-  {
-    "name": "inventory-stok-transfer-pick-order-DetailPickOrder",
-    "path": "/inventory/stok-transfer/pick-order/DetailPickOrder",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\pick-order\\\\DetailPickOrder.vue",
-    "chunkName": "pages/inventory/stok-transfer/pick-order/DetailPickOrder",
-    "_name": "_51bb1f1b"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment-BiayaLastmiles",
-    "path": "/inventory/stok-transfer/shipment/BiayaLastmiles",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\BiayaLastmiles.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/BiayaLastmiles",
-    "_name": "_2af59a0f"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment-RuteShipments",
-    "path": "/inventory/stok-transfer/shipment/RuteShipments",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\RuteShipments.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/RuteShipments",
-    "_name": "_685666cc"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment-ShipmentDetails",
-    "path": "/inventory/stok-transfer/shipment/ShipmentDetails",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\ShipmentDetails.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/ShipmentDetails",
-    "_name": "_3e5e784f"
   },
   {
     "name": "manufactur-production_activity-cont_bleach-import",
@@ -4060,18 +4072,18 @@
     "_name": "_28e5df62"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-detail-DetailItemBahan",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/detail/DetailItemBahan",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\detail\\\\DetailItemBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/detail/DetailItemBahan",
-    "_name": "_0044dff1"
+    "name": "inventory-konversi-stok-approve-konversi-stok-detail-DetailItemBahan",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemBahan",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\detail\\\\DetailItemBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemBahan",
+    "_name": "_6244a616"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-detail-DetailItemJadi",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/detail/DetailItemJadi",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\detail\\\\DetailItemJadi.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/detail/DetailItemJadi",
-    "_name": "_c8b4945e"
+    "name": "inventory-konversi-stok-approve-konversi-stok-detail-DetailItemJadi",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemJadi",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\detail\\\\DetailItemJadi.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemJadi",
+    "_name": "_57fd384d"
   },
   {
     "name": "inventory-konversi-stok-konfirmasi-konversi-stok-detail-DetailItemBahan",
@@ -4424,11 +4436,11 @@
     "_name": "_55a9451f"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-detail-id",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/detail/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/detail/_id",
-    "_name": "_bb235a0e"
+    "name": "inventory-konversi-stok-approve-konversi-stok-detail-id",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/detail/_id",
+    "_name": "_362f85fd"
   },
   {
     "name": "inventory-konversi-stok-konfirmasi-konversi-stok-detail-id",
@@ -4466,25 +4478,11 @@
     "_name": "_3f9db59d"
   },
   {
-    "name": "inventory-stok-transfer-inbound-detail-id",
-    "path": "/inventory/stok-transfer/inbound/detail/:id",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\inbound\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/inbound/detail/_id",
-    "_name": "_6aea27bf"
-  },
-  {
-    "name": "inventory-stok-transfer-permintaan-stok-detail-id",
-    "path": "/inventory/stok-transfer/permintaan-stok/detail/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\permintaan-stok\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/permintaan-stok/detail/_id",
-    "_name": "_c3371b46"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment-detail-id",
-    "path": "/inventory/stok-transfer/shipment/detail/:id",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/detail/_id",
-    "_name": "_69460ea0"
+    "name": "inventory-stok-transfer-stok-transfer-detail-id",
+    "path": "/inventory/stok-transfer/stok-transfer/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\stok-transfer\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/stok-transfer/stok-transfer/detail/_id",
+    "_name": "_16bd5a7d"
   },
   {
     "name": "outbound-pick-order-approve-pick-order-detail-id",
@@ -4704,11 +4702,11 @@
     "_name": "_1bfc39ae"
   },
   {
-    "name": "inventory-konversi-stok-approval-konversi-stok-id",
-    "path": "/inventory/konversi-stok/approval-konversi-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approval-konversi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/approval-konversi-stok/_id",
-    "_name": "_779b18ac"
+    "name": "inventory-konversi-stok-approve-konversi-stok-id",
+    "path": "/inventory/konversi-stok/approve-konversi-stok/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\approve-konversi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/approve-konversi-stok/_id",
+    "_name": "_a56e2aa4"
   },
   {
     "name": "inventory-konversi-stok-konfirmasi-konversi-stok-id",
@@ -4739,25 +4737,25 @@
     "_name": "_03dbec5d"
   },
   {
-    "name": "inventory-relokasi-stok-approval-relokasi-stok-id",
-    "path": "/inventory/relokasi-stok/approval-relokasi-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approval-relokasi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/relokasi-stok/approval-relokasi-stok/_id",
-    "_name": "_4fa206e0"
+    "name": "inventory-relokasi-stok-approve-mutasi-stok-id",
+    "path": "/inventory/relokasi-stok/approve-mutasi-stok/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/approve-mutasi-stok/_id",
+    "_name": "_79cbb0d2"
   },
   {
-    "name": "inventory-relokasi-stok-pengajuan-relokasi-stok-id",
-    "path": "/inventory/relokasi-stok/pengajuan-relokasi-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\pengajuan-relokasi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/relokasi-stok/pengajuan-relokasi-stok/_id",
-    "_name": "_66c38620"
+    "name": "inventory-relokasi-stok-mutasi-stok-id",
+    "path": "/inventory/relokasi-stok/mutasi-stok/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/mutasi-stok/_id",
+    "_name": "_fa41f5d2"
   },
   {
-    "name": "inventory-relokasi-stok-proses-relokasi-stok-id",
-    "path": "/inventory/relokasi-stok/proses-relokasi-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-relokasi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/relokasi-stok/proses-relokasi-stok/_id",
-    "_name": "_635d2fc2"
+    "name": "inventory-relokasi-stok-proses-mutasi-stok-id",
+    "path": "/inventory/relokasi-stok/proses-mutasi-stok/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/proses-mutasi-stok/_id",
+    "_name": "_263286a8"
   },
   {
     "name": "inventory-stock_in-lain-id",
@@ -4802,39 +4800,11 @@
     "_name": "_afffc2a4"
   },
   {
-    "name": "inventory-stok-transfer-inbound-id",
-    "path": "/inventory/stok-transfer/inbound/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\inbound\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/inbound/_id",
-    "_name": "_225a6e70"
-  },
-  {
-    "name": "inventory-stok-transfer-inspeksi-outbound-id",
-    "path": "/inventory/stok-transfer/inspeksi-outbound/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\inspeksi-outbound\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/inspeksi-outbound/_id",
-    "_name": "_7f4c96ca"
-  },
-  {
-    "name": "inventory-stok-transfer-permintaan-stok-id",
-    "path": "/inventory/stok-transfer/permintaan-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\permintaan-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/permintaan-stok/_id",
-    "_name": "_9c3f91e4"
-  },
-  {
-    "name": "inventory-stok-transfer-pick-order-id",
-    "path": "/inventory/stok-transfer/pick-order/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\pick-order\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/pick-order/_id",
-    "_name": "_5cfdf3ce"
-  },
-  {
-    "name": "inventory-stok-transfer-shipment-id",
-    "path": "/inventory/stok-transfer/shipment/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\shipment\\\\_id.vue",
-    "chunkName": "pages/inventory/stok-transfer/shipment/_id",
-    "_name": "_1e41c061"
+    "name": "inventory-stok-transfer-stok-transfer-id",
+    "path": "/inventory/stok-transfer/stok-transfer/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-transfer\\\\stok-transfer\\\\_id.vue",
+    "chunkName": "pages/inventory/stok-transfer/stok-transfer/_id",
+    "_name": "_fd9981a4"
   },
   {
     "name": "lastmile-konfirmasi-selesai-kirim-detail-id",
@@ -5075,11 +5045,11 @@
     "_name": "_187b8b7d"
   },
   {
-    "name": "finance-jurnal-manual-id",
-    "path": "/finance/jurnal-manual/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\jurnal-manual\\\\_id.vue",
-    "chunkName": "pages/finance/jurnal-manual/_id",
-    "_name": "_274981b3"
+    "name": "finance-jurnal-id",
+    "path": "/finance/jurnal/:id",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\finance\\\\jurnal\\\\_id.vue",
+    "chunkName": "pages/finance/jurnal/_id",
+    "_name": "_033260c4"
   },
   {
     "name": "finance-kontrak-sewa-id",

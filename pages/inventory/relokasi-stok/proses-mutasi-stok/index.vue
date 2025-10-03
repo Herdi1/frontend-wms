@@ -160,7 +160,7 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="uppercase text-nowrap">
+                <tr class="uppercase">
                   <th class="w-[5%] text-center border border-gray-300">
                     Edit
                   </th>
@@ -235,8 +235,7 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Status Mutasi</th>
-                  <th class="border border-gray-300">Status Adjustment</th>
+                  <th class="border border-gray-300">Status Relokasi</th>
 
                   <!-- <th class="w-[5%] text-center">Delete</th> -->
                 </tr>
@@ -253,7 +252,7 @@
                     />
                   </td>
                   <td
-                    class="text-center place-items-center border border-gray-300"
+                    class="text-center place-content-center border border-gray-300"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -308,20 +307,6 @@
                       <p>Batal</p>
                     </div>
                   </td>
-                  <td class="border border-gray-300">
-                    <div
-                      v-if="item.status_adjustment == '0'"
-                      class="p-1 rounded-md bg-orange-500 text-white text-center"
-                    >
-                      <p>Belum Adjustment</p>
-                    </div>
-                    <div
-                      v-if="item.status_adjustment == '1'"
-                      class="p-1 rounded-md bg-green-500 text-white text-center"
-                    >
-                      <p>Telah Adjustment</p>
-                    </div>
-                  </td>
 
                   <!-- <td class="place-content-center">
                     <small-delete-button
@@ -331,9 +316,9 @@
                   </td> -->
                 </tr>
               </tbody>
-              <!-- <table-data-loading-section :self="this" />
+              <table-data-loading-section :self="this" />
 
-              <table-data-not-found-section :self="this" /> -->
+              <table-data-not-found-section :self="this" />
             </table>
           </div>
           <div
@@ -362,7 +347,7 @@ export default {
 
   head() {
     return {
-      title: "Approval Relokasi Stock",
+      title: "Proses Relokasi Stok",
     };
   },
 
@@ -414,11 +399,11 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Approval Relokasi Stock",
+      title: "Proses Relokasi Stok",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/approve-mutasi-stok",
+        url: "inventory/proses-mutasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -478,7 +463,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "approve-mutasi-stok"
+          (item) => item.rute == "proses-mutasi-stok"
         );
 
         let roles = {};
@@ -515,12 +500,12 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/approval-relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/proses-relokasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/approval-relokasi-stok/" + item.mutasi_stok_id
+        "/inventory/relokasi-stok/proses-relokasi-stok/" + item.mutasi_stok_id
       );
     },
 

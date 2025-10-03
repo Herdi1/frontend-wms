@@ -52,7 +52,7 @@
                     <option value="NON">Non ASN/Non PO</option>
                   </select>
                 </div>
-                <div class="form-group flex" v-if="!user.gudang_id">
+                <div class="form-group flex">
                   <label for="" class="w-[40%]">Gudang</label>
                   <v-select
                     label="nama_gudang"
@@ -63,7 +63,7 @@
                     v-model="form.gudang_id"
                     @input="onSelectGudang"
                     class="w-[60%] bg-white"
-                    :disabled="isEditable"
+                    :disabled="isEditable || lookup_suppliers.data.length == 1"
                   >
                     <li
                       slot-scope="{ search }"
@@ -882,6 +882,10 @@ export default {
     // await this.onSearchAsn();
 
     await this.onSearchGudang();
+    if (this.lookup_suppliers.data && !this.isEditable) {
+      // this.form.gudang_id = this.lookup_suppliers.data[0] ?? "";
+      this.onSelectGudang(this.lookup_suppliers.data[0] ?? "");
+    }
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
     // await this.onSearchPeralatan();
@@ -1585,6 +1589,7 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
+        this.form.staff_id = "";
         this.form.inbound_details = [];
         this.form.biaya_inbounds = [];
         this.form.tagihan_inbounds = [];
@@ -1595,6 +1600,7 @@ export default {
         await this.onSearchStaff();
       } else {
         this.form.gudang_id = "";
+        this.form.staff_id = "";
       }
     },
 
@@ -1724,6 +1730,7 @@ export default {
             this.staff_search +
             "&gudang_id=" +
             this.form.gudang_id.gudang_id +
+            "&jenis_user=operator" +
             "&page=" +
             this.lookup_custom8.current_page +
             "&per_page=10",
@@ -1739,6 +1746,7 @@ export default {
         this.form.vendor_id_transporter = item.vendor_operator;
       } else {
         this.form.staff_id = "";
+        this.form.vendor_id_transporter = "";
       }
     },
 

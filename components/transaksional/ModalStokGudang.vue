@@ -118,14 +118,14 @@
                       {{ item.nama_item || "-" }}
                     </td>
                     <td class="whitespace-nowrap">
-                      <!-- {{
+                      {{
                         item.zona_gudang
                           ? item.zona_gudang.nama_zona_gudang +
                             " - " +
                             item.zona_gudang.kode_zona_gudang
                           : "-"
-                      }} -->
-                      {{ item.kode_slot_penyimpanan_terakhir }}
+                      }}
+                      <!-- {{ item.kode_slot_penyimpanan_terakhir }} -->
                     </td>
                     <!-- <td class="whitespace-nowrap">
                       {{ item.kode_slot_penyimpanan_terakhir }}

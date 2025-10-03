@@ -120,8 +120,44 @@
               }"
               width="w-[60%]"
               :required="true"
+              :disabled="isEditable || lookup_custom8.data.length == 1"
             />
-            <select-button
+            <div class="form-group flex items-center justify-between">
+              <label for="staff_id"
+                >Staff<span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_lengkap"
+                :loading="isLoadingGetStaff"
+                :options="lookup_grade.data"
+                :filterable="false"
+                @search="onGetStaff"
+                @input="onSelectStaff"
+                v-model="parameters.form.staff_id"
+                class="w-[60%] mb-2 bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_grade.data.length || search"
+                >
+                  <span
+                    v-if="lookup_grade.current_page > 1"
+                    @click="onGetStaff(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="lookup_grade.last_page > lookup_grade.current_page"
+                    @click="onGetStaff(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <!-- <select-button
               :self="{
                 label: 'Staff',
                 optionLabel: 'nama_lengkap',
@@ -133,7 +169,7 @@
               }"
               width="w-[60%]"
               :required="true"
-            />
+            /> -->
             <select-button
               :self="{
                 label: 'Alasan Konversi',
@@ -320,10 +356,15 @@ export default {
     //   query: "?q=jenis_kontrak",
     // });
     await this.onSearchGudang();
+    if (this.lookup_custom8.data && !this.isEditable) {
+      // this.parameters.form.gudang_id = this.lookup_custom8.data[0] ?? "";
+      // await this.onSearchStaff();
+      this.onSelectGudang(this.lookup_custom8.data[0]);
+    }
     await this.onSearchItemGudang();
     await this.onSearchValuation();
     await this.onSearchAlasan();
-    await this.onSearchStaff();
+    // await this.onSearchStaff();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -976,13 +1017,17 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
+        this.parameters.form.staff_id = "";
         await this.onSearchZonaPlan();
+        await this.onSearchStaff();
         this.parameters.form.konversi_stok_detail_bahan = [];
         this.parameters.form.konversi_stok_detail_jadi = [];
         this.parameters.form.biaya_konversi = [];
       } else {
         this.parameters.form.gudang_id = "";
+        this.parameters.form.staff_id = "";
         await this.onSearchZonaPlan();
+        await this.onSearchStaff();
         this.parameters.form.konversi_stok_detail_bahan = [];
         this.parameters.form.konversi_stok_detail_jadi = [];
         this.parameters.form.biaya_konversi = [];
@@ -1030,7 +1075,7 @@ export default {
       }
     },
 
-    async onSelectAlasan(item) {
+    onSelectAlasan(item) {
       this.parameters.form.alasan_beda_plan_id = item || "";
     },
 
@@ -1065,6 +1110,8 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
@@ -1074,7 +1121,7 @@ export default {
       }
     },
 
-    async onSelectStaff(item) {
+    onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id = item;
         this.parameters.form.vendor_id = item.vendor_id_operator;
