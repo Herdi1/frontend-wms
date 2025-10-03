@@ -224,6 +224,7 @@
                 @search="onGetGudang"
                 v-model="parameters.form.gudang_id"
                 class="w-full"
+                @input="(item) => onSelectGudang(item)"
               >
                 <li
                   slot-scope="{ search }"
@@ -722,6 +723,14 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+      } else {
+        this.parameters.form.gudang_id = "";
       }
     },
 

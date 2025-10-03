@@ -84,6 +84,7 @@
                       >
                         <tr>
                           <td style="width: 400px">Hak Akses</td>
+                          <td style="width: 400px">Aplikasi</td>
                           <td style="width: 400px">Operator</td>
                           <td class="w-[5%]">Opsi</td>
                         </tr>
@@ -147,6 +148,18 @@
                                 >
                               </li>
                             </v-select>
+                          </td>
+                          <td class="px-2">
+                            <span v-if="item.menu_id">
+                              {{
+                                item.menu_id.status === "0"
+                                  ? "Website"
+                                  : item.menu_id.status === "1"
+                                  ? "Mobile"
+                                  : ""
+                              }}
+                            </span>
+                            <span v-else>-</span>
                           </td>
                           <td>
                             <div
@@ -580,6 +593,7 @@ export default {
     onAddGrant() {
       this.parameters.form.grants.push({
         menu_id: null,
+        aplikasi: "",
         operators: [],
       });
 

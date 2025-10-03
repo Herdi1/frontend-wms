@@ -31,8 +31,43 @@
                   :disabled="true"
                 />
               </div>
-              <div>
-                <select-button
+              <div class="flex">
+                <label for="" class="w-[50%]"
+                  >Gudang <span class="text-danger">*</span></label
+                >
+                <v-select
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom7.data"
+                  :filterable="false"
+                  @search="onGetGudang"
+                  v-model="parameters.form.gudang_id"
+                  @input="onSelectGudang"
+                  class="w-[50%] bg-white"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom7.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom7.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom7.last_page > lookup_custom7.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+                <!-- <select-button
                   :self="{
                     label: 'Gudang',
                     optionLabel: 'nama_gudang',
@@ -45,7 +80,7 @@
                   width="w-[50%]"
                   class="mb-5"
                   :required="true"
-                />
+                /> -->
               </div>
               <div class="form-group">
                 <input-horiontal
@@ -102,8 +137,43 @@
                   :required="true"
                 />
               </ValidationProvider>
-              <div class="form-group">
-                <select-button
+              <div class="form-group flex">
+                <label for="staff" class="w-[50%]"
+                  >Operator <span class="text-danger">*</span></label
+                >
+                <v-select
+                  label="nama_lengkap"
+                  :loading="isLoadingGetStaff"
+                  :options="lookup_custom5.data"
+                  :filterable="false"
+                  @search="onGetStaff"
+                  v-model="parameters.form.staff_id_pic"
+                  @input="onSelectStaff"
+                  class="w-[50%] bg-white"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom5.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom5.current_page > 1"
+                      @click="onGetStaff(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom5.last_page > lookup_custom5.current_page
+                      "
+                      @click="onGetStaff(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+                <!-- <select-button
                   :self="{
                     label: 'Operator',
                     optionLabel: 'nama_lengkap',
@@ -115,8 +185,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
-                  :required="true"
-                />
+                  :required="true" -->
               </div>
               <!-- <div class="form-group">
                 <select-button
@@ -1368,7 +1437,7 @@ export default {
           query:
             "?search=" +
             this.staff_search +
-            "&jenis_user=pengemudi" +
+            // "&jenis_user=pengemudi" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
