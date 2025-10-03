@@ -6,12 +6,24 @@ export { default as Sidebar } from '../..\\components\\Sidebar.vue'
 export { default as SuccessModal } from '../..\\components\\SuccessModal.vue'
 export { default as Tutorial } from '../..\\components\\Tutorial.vue'
 export { default as VuetifyLogo } from '../..\\components\\VuetifyLogo.vue'
+<<<<<<< HEAD
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+=======
+export { default as AnavbarMessages } from '../..\\components\\anavbar\\Messages.vue'
+export { default as AnavbarNotifications } from '../..\\components\\anavbar\\Notifications.vue'
+export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\SearchForm.vue'
+export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
+>>>>>>> 63db6eebacce527ed0286ae71fe26af2ceadfbd0
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
 export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
+<<<<<<< HEAD
+=======
+export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
+export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+>>>>>>> 63db6eebacce527ed0286ae71fe26af2ceadfbd0
 export { default as FormsCloseButton } from '../..\\components\\forms\\CloseButton.vue'
 export { default as FormsInputForm } from '../..\\components\\forms\\InputForm.vue'
 export { default as FormsResetButton } from '../..\\components\\forms\\ResetButton.vue'
@@ -158,10 +170,13 @@ export { default as IconWheel } from '../..\\components\\icon\\icon-wheel.vue'
 export { default as IconXCircle } from '../..\\components\\icon\\icon-x-circle.vue'
 export { default as IconX } from '../..\\components\\icon\\icon-x.vue'
 export { default as IconZipFile } from '../..\\components\\icon\\icon-zip-file.vue'
+<<<<<<< HEAD
 export { default as AnavbarMessages } from '../..\\components\\anavbar\\Messages.vue'
 export { default as AnavbarNotifications } from '../..\\components\\anavbar\\Notifications.vue'
 export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\SearchForm.vue'
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
+=======
+>>>>>>> 63db6eebacce527ed0286ae71fe26af2ceadfbd0
 export { default as SectionFilterData } from '../..\\components\\section\\FilterData.vue'
 export { default as SectionFilterSection } from '../..\\components\\section\\FilterSection.vue'
 export { default as SectionHeaderSection } from '../..\\components\\section\\HeaderSection.vue'
