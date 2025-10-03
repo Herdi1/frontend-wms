@@ -43,6 +43,7 @@
                     :filterable="false"
                     @search="onGetGudang"
                     v-model="parameters.form.gudang_id"
+                    @input="(item) => onSelectGudang(item)"
                   >
                     <!-- :reduce="(item) => item.gudang_id" -->
                     <li
@@ -257,9 +258,9 @@ export default {
           gudang_id: "",
           lokasi_id: "",
           jalur_lokasi_id: "",
-          is_plant: "",
-          is_shipto: "",
-          is_warehouse: "",
+          is_plant: "0",
+          is_shipto: "1",
+          is_warehouse: "0",
           keterangan: "",
         },
       },
@@ -288,7 +289,7 @@ export default {
   async mounted() {
     await this.onSearchLokasi();
     await this.onSearchGudang();
-    await this.onSearchJalurLokasi();
+    // await this.onSearchJalurLokasi();
   },
 
   computed: {
@@ -347,9 +348,9 @@ export default {
               gudang_id: "",
               lokasi_id: "",
               jalur_lokasi_id: "",
-              is_plant: "",
-              is_shipto: "",
-              is_warehouse: "",
+              is_plant: "0",
+              is_shipto: "1",
+              is_warehouse: "0",
               keterangan: "",
             };
           }
@@ -443,6 +444,17 @@ export default {
       }
     },
 
+    async onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+        this.parameters.form.jalur_lokasi_id = "";
+        await this.onSearchJalurLokasi();
+      } else {
+        this.parameters.form.gudang_id = "";
+        this.parameters.form.jalur_lokasi_id = "";
+      }
+    },
+
     onGetJalurLokasi(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -473,6 +485,8 @@ export default {
           query:
             "?search=" +
             this.jalur_lokasi_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
@@ -497,9 +511,9 @@ export default {
         gudang_id: "",
         lokasi_id: "",
         jalur_lokasi_id: "",
-        is_plant: "",
-        is_shipto: "",
-        is_warehouse: "",
+        is_plant: "0",
+        is_shipto: "1",
+        is_warehouse: "0",
         keterangan: "",
       };
       this.$refs.formValidate.reset();
