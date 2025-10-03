@@ -1035,20 +1035,23 @@
                       "
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="status_satpam"
-                      >Status Gudang <span class="text-danger">*</span></label
-                    >
-                    <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none"
-                      name="status_gudang"
-                      id="status_gudang"
-                      v-model="form.status_gudang"
-                    >
-                      <option value="0">Fisik</option>
-                      <option value="1">Virtual</option>
-                    </select>
-                  </div>
+                  <!--
+                    <div class="form-group">
+                      <label for="status_satpam"
+                        >Status Gudang <span class="text-danger">*</span></label
+                      >
+                      <select
+                        class="w-full pl-2 py-1 border rounded focus:outline-none"
+                        name="status_gudang"
+                        id="status_gudang"
+                        v-model="form.status_gudang"
+                      >
+                        <option value="0">Fisik</option>
+                        <option value="1">Virtual</option>
+                      </select>
+                    </div>
+
+                  -->
                 </div>
 
                 <div
@@ -1722,26 +1725,26 @@ export default {
         this.form.max_stok = response.data.max_stok ?? 0;
         this.form.standar_waktu_kerja = response.data.standar_waktu_kerja ?? 0;
         this.form.radius = response.data.radius ?? 0;
-        this.form.profit_center_id = response.data.profit_center;
-        this.form.cost_center_id = response.data.cost_center;
-        this.form.negara_id = response.data.negara;
-        this.form.wilayah_id = response.data.wilayah;
-        this.form.provinsi_id = response.data.provinsi;
-        this.form.kota_id = response.data.kota;
-        this.form.kecamatan_id = response.data.kecamatan;
+        this.form.profit_center_id = response.data.profit_center ?? "";
+        this.form.cost_center_id = response.data.cost_center ?? "";
+        this.form.negara_id = response.data.negara ?? "";
+        this.form.wilayah_id = response.data.wilayah ?? "";
+        this.form.provinsi_id = response.data.provinsi ?? "";
+        this.form.kota_id = response.data.kota ?? "";
+        this.form.kecamatan_id = response.data.kecamatan ?? "";
         // this.form.kelurahan_id = response.data.kelurahan;
-        this.form.kode_pos_id = response.data.kode_pos;
-        this.form.group_gudang_id_1 = response.data.group_gudang_1;
-        this.form.group_gudang_id_2 = response.data.group_gudang_2;
-        this.form.group_gudang_id_3 = response.data.group_gudang_3;
-        this.form.group_gudang_id_4 = response.data.group_gudang_4;
-        this.form.group_gudang_id_5 = response.data.group_gudang_5;
-        this.form.vendor_id_operator = response.data.vendor_operator;
-        this.form.vendor_id_pemilik = response.data.vendor_pemilik;
-        this.form.fungsi_gudang_id = response.data.fungsi_gudang;
-        this.form.fisik_gudang_id = response.data.fisik_gudang;
-        this.form.ukuran_gudang_id = response.data.ukuran_gudang;
-        this.form.satuan_id_luas = response.data.satuan_luas;
+        this.form.kode_pos_id = response.data.kode_pos ?? "";
+        this.form.group_gudang_id_1 = response.data.group_gudang_1 ?? "";
+        this.form.group_gudang_id_2 = response.data.group_gudang_2 ?? "";
+        this.form.group_gudang_id_3 = response.data.group_gudang_3 ?? "";
+        this.form.group_gudang_id_4 = response.data.group_gudang_4 ?? "";
+        this.form.group_gudang_id_5 = response.data.group_gudang_5 ?? "";
+        this.form.vendor_id_operator = response.data.vendor_operator ?? "";
+        this.form.vendor_id_pemilik = response.data.vendor_pemilik ?? "";
+        this.form.fungsi_gudang_id = response.data.fungsi_gudang ?? "";
+        this.form.fisik_gudang_id = response.data.fisik_gudang ?? "";
+        this.form.ukuran_gudang_id = response.data.ukuran_gudang ?? "";
+        this.form.satuan_id_luas = response.data.satuan_luas ?? "";
 
         if (Array.isArray(response.data.item_gudang)) {
           response.data.item_gudang.forEach((item) => {
@@ -1860,43 +1863,41 @@ export default {
         "profit_center_id",
         typeof this.form.profit_center_id === "object"
           ? this.form.profit_center_id.profit_center_id
-          : this.form.profit_center_id
+          : ""
       );
       formData.append(
         "cost_center_id",
         typeof this.form.cost_center_id === "object"
           ? this.form.cost_center_id.cost_center_id
-          : this.form.cost_center_id
+          : ""
       );
       formData.append(
         "negara_id",
         typeof this.form.negara_id === "object"
           ? this.form.negara_id.negara_id
-          : this.form.negara_id
+          : ""
       );
       formData.append(
         "wilayah_id",
         typeof this.form.wilayah_id === "object"
           ? this.form.wilayah_id.wilayah_id
-          : this.form.wilayah_id
+          : ""
       );
       formData.append(
         "provinsi_id",
         typeof this.form.provinsi_id === "object"
           ? this.form.provinsi_id.provinsi_id
-          : this.form.provinsi_id
+          : ""
       );
       formData.append(
         "kota_id",
-        typeof this.form.kota_id === "object"
-          ? this.form.kota_id.kota_id
-          : this.form.kota_id
+        typeof this.form.kota_id === "object" ? this.form.kota_id.kota_id : ""
       );
       formData.append(
         "kecamatan_id",
         typeof this.form.kecamatan_id === "object"
           ? this.form.kecamatan_id.kecamatan_id
-          : this.form.kecamatan_id
+          : ""
       );
       // formData.append(
       //   "kelurahan_id",
@@ -1908,73 +1909,73 @@ export default {
         "kode_pos_id",
         typeof this.form.kode_pos_id === "object"
           ? this.form.kode_pos_id.kode_pos_id
-          : this.form.kode_pos_id
+          : ""
       );
       formData.append(
         "group_gudang_id_1",
         typeof this.form.group_gudang_id_1 === "object"
           ? this.form.group_gudang_id_1.group_gudang_id
-          : this.form.group_gudang_id_1
+          : ""
       );
       formData.append(
         "group_gudang_id_2",
         typeof this.form.group_gudang_id_2 === "object"
           ? this.form.group_gudang_id_2.group_gudang_id
-          : this.form.group_gudang_id_2
+          : ""
       );
       formData.append(
         "group_gudang_id_3",
         typeof this.form.group_gudang_id_3 === "object"
           ? this.form.group_gudang_id_3.group_gudang_id
-          : this.form.group_gudang_id_3
+          : ""
       );
       formData.append(
         "group_gudang_id_4",
         typeof this.form.group_gudang_id_4 === "object"
           ? this.form.group_gudang_id_4.group_gudang_id
-          : this.form.group_gudang_id_4
+          : ""
       );
       formData.append(
         "group_gudang_id_5",
         typeof this.form.group_gudang_id_5 === "object"
           ? this.form.group_gudang_id_5.group_gudang_id
-          : this.form.group_gudang_id_5
+          : ""
       );
       formData.append(
         "vendor_id_pemilik",
         typeof this.form.vendor_id_pemilik === "object"
           ? this.form.vendor_id_pemilik.vendor_id
-          : this.form.vendor_id_pemilik
+          : ""
       );
       formData.append(
         "vendor_id_operator",
         typeof this.form.vendor_id_operator === "object"
           ? this.form.vendor_id_operator.vendor_id
-          : this.form.vendor_id_operator
+          : ""
       );
       formData.append(
         "fungsi_gudang_id",
         typeof this.form.fungsi_gudang_id === "object"
           ? this.form.fungsi_gudang_id.fungsi_gudang_id
-          : this.form.fungsi_gudang_id
+          : ""
       );
       formData.append(
         "fisik_gudang_id",
         typeof this.form.fisik_gudang_id === "object"
           ? this.form.fisik_gudang_id.fisik_gudang_id
-          : this.form.fisik_gudang_id
+          : ""
       );
       formData.append(
         "ukuran_gudang_id",
         typeof this.form.ukuran_gudang_id === "object"
           ? this.form.ukuran_gudang_id.ukuran_gudang_id
-          : this.form.ukuran_gudang_id
+          : ""
       );
       formData.append(
         "satuan_id_luas",
         typeof this.form.satuan_id_luas === "object"
           ? this.form.satuan_id_luas.satuan_id
-          : this.form.satuan_id_luas
+          : ""
       );
 
       this.form.item_gudang.forEach((item, index) => {
