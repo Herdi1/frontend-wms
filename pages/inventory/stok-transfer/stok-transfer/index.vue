@@ -11,7 +11,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Relokasi Stok</a
+          Stok Transfer</a
         >
       </li>
       <li
@@ -25,7 +25,7 @@
         {{ this.title }}
       </h5>
     </div>
-    <div class="flex gap-5">
+    <div>
       <div
         class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
       >
@@ -38,35 +38,31 @@
             <div
               class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
             >
-              <div class="grid grid-cols-2 gap-2">
-                <div class="grid grid-cols-1 gap-5 w-full">
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Awal"
-                      type="date"
-                      name="kode_sap"
-                      :isHorizontal="true"
-                      v-model="parameters.params.start_date"
-                      :required="false"
-                    />
-                  </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Awal"
+                    type="date"
+                    name="kode_sap"
+                    :isHorizontal="true"
+                    v-model="parameters.params.start_date"
+                    :required="false"
+                  />
                 </div>
 
-                <div class="grid grid-cols-1 gap-5 w-full">
-                  <div class="form-group">
-                    <input-horizontal
-                      label="Periode Akhir"
-                      type="date"
-                      name="periode_akhir"
-                      :isHorizontal="true"
-                      v-model="parameters.params.end_date"
-                      :required="false"
-                    />
-                  </div>
+                <div class="form-group">
+                  <input-horizontal
+                    label="Periode Akhir"
+                    type="date"
+                    name="periode_akhir"
+                    :isHorizontal="true"
+                    v-model="parameters.params.end_date"
+                    :required="false"
+                  />
                 </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-2 mb-1">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1 w-full">
                 <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2">Gudang</div>
 
@@ -112,34 +108,6 @@
                     </li>
                   </v-select>
                 </div>
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Mutasi</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_mutasi"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="MENUNGGU">Menunggu</option>
-                    <option value="PROSES">Proses</option>
-                    <option value="SELESAI">Selesai</option>
-                    <option value="BATAL">Batal</option>
-                  </select>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-2 mb-1">
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Adjustment</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_adjustment"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="0">Menunggu</option>
-                    <option value="1">Approved</option>
-                  </select>
-                </div>
               </div>
 
               <div class="flex gap-3">
@@ -154,13 +122,10 @@
             </div>
           </div>
 
-          <div class="table-responsive w-full relative">
-            <table
-              class="mb-5 overflow-auto border border-gray-300"
-              ref="formContainer"
-            >
+          <div class="table-responsive">
+            <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
-                <tr class="uppercase">
+                <tr class="text-base uppercase text-nowrap">
                   <th class="w-[5%] text-center border border-gray-300">
                     Edit
                   </th>
@@ -171,19 +136,19 @@
                   <th
                     @click="
                       onSort(
-                        'kode_mutasi_stok',
+                        'kode_stok_transfer',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
+                    class="cursor-pointer border border-gray-300"
                   >
-                    <div class="flex justify-between items-baseline">
-                      <div>Kode Mutasi Stok</div>
+                    <div class="flex justify-between align-baseline">
+                      <div>Kode Stok Transfer</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.order == 'kode_stok_transfer' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -192,7 +157,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.order == 'kode_stok_transfer' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -201,7 +166,6 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Gudang</th>
                   <th
                     @click="
                       onSort(
@@ -209,9 +173,9 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
+                    class="cursor-pointer border border-gray-300"
                   >
-                    <div class="flex justify-between items-baseline">
+                    <div class="flex justify-between align-baseline">
                       <div>Tanggal</div>
                       <div>
                         <i
@@ -235,7 +199,41 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Status Relokasi</th>
+                  <th
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="border border-gray-300">Gudang Penerima</th>
+                  <th class="border border-gray-300">Gudang Pengirim</th>
 
                   <th class="w-[5%] text-center border border-gray-300">
                     Delete
@@ -243,73 +241,74 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in data" :key="index">
-                  <td class="place-items-center border border-gray-300">
+                <tr v-for="(item, i) in data" :key="i">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="
-                        item.status_mutasi === 'BATAL' ||
-                        item.status_adjustment == 1
-                      "
+                      :disabled="item.status_approve == 1"
                     />
                   </td>
                   <td
-                    class="text-center place-content-center border border-gray-300"
+                    class="text-center border border-gray-300 place-items-center"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
+
                   <td class="border border-gray-300 text-center">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
-                      index +
+                      i +
                       1
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kode_mutasi_stok }}
-                  </td>
-                  <td class="border border-gray-300">
-                    {{ item.gudang ? item.gudang.nama_gudang : "" }}
+                    <div>
+                      {{ item.kode_stok_transfer }}
+                      <p v-if="item.user_input" class="text-blue-500">
+                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                      </p>
+                      <p v-else class="text-blue-500">
+                        <i>Dibuat oleh: Sistem</i>
+                      </p>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     {{ formatDate(item.tanggal) }}
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td class="border border-gray-300">
                     <div
-                      v-if="item.status_mutasi === 'MENUNGGU'"
-                      class="p-1 rounded-md bg-orange-500 text-white"
+                      v-if="item.status_approve === '0'"
+                      class="p-1 w-3/4 rounded-md bg-orange-500 font-semibold text-white text-center"
                     >
-                      <p>Menunggu</p>
+                      <p>MENUNGGU</p>
                     </div>
                     <div
-                      v-if="item.status_mutasi === 'PROSES'"
-                      class="p-1 rounded-md bg-blue-500 text-white"
+                      v-if="item.status_approve === '1'"
+                      class="bg-green-500 w-3/4 p-1 rounded-md font-semibold text-white text-center"
                     >
-                      <p>Proses</p>
-                    </div>
-                    <div
-                      v-if="item.status_mutasi === 'SELESAI'"
-                      class="p-1 rounded-md bg-green-500 text-white"
-                    >
-                      <p>Selesai</p>
-                    </div>
-                    <div
-                      v-if="item.status_mutasi === 'BATAL'"
-                      class="p-1 rounded-md bg-red-500 text-white"
-                    >
-                      <p>Batal</p>
+                      <p>APPROVE</p>
                     </div>
                   </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{
+                      item.gudang_pengirim
+                        ? item.gudang_pengirim.nama_gudang
+                        : "-"
+                    }}
+                  </td>
 
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-delete-button
-                      v-if="!item.deleted_at"
                       @click="onTrashed(item)"
-                      :disabled="
-                        item.status_mutasi === 'BATAL' ||
-                        item.status_adjustment == 1
-                      "
+                      :disabled="item.status_approve == 1"
                     />
                   </td>
                 </tr>
@@ -319,33 +318,24 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
-          <div
-            class="card-title border-top"
-            style="padding-bottom: -100px !important"
-          >
+          <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
     </div>
-    <!-- <ModalStokGudang :self="this" ref="modalStokGudang"/> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
-  components: {
-    // ModalStokGudang
-  },
-
   head() {
     return {
-      title: "Permohonan Relokasi Stock",
+      title: "Permintaan Stok Transfer",
     };
   },
 
@@ -393,38 +383,34 @@ export default {
 
   data() {
     return {
-      isStopSearchGudang: false,
-      isLoadingGetGudang: false,
-      gudang_search: "",
-
-      title: "Permohonan Relokasi Stock",
+      title: "Permintaan Stok Transfer",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/mutasi-stok",
+        url: "inventory/stok-transfer",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "mutasi_stok_id",
+          order: "stok_transfer_id",
           sort: "desc",
           all: "",
           per_page: 10,
           page: 1,
           start_date: "",
-          end_date: "",
+          end_data: "",
           gudang_id: "",
-          status_mutasi: "",
-          status_adjustment: "",
         },
         form: {
-          no_transaksi: "",
           tanggal: "",
+          tanggal_request_kirim: "",
+          no_referensi: "",
           gudang_id: "",
-          mutasi_stok_details: [],
-          biaya: [],
+          gudang_id_pengirim: "",
+          status_approve: "0",
+          keterangan: "",
+          stok_transfer_details: [],
 
-          //Tracking
           user_agent: "",
           device: "",
           longitude: "",
@@ -461,7 +447,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "mutasi-stok"
+          (item) => item.rute == "stok-transfer"
         );
 
         let roles = {};
@@ -498,20 +484,19 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/pengajuan-relokasi-stok/add");
+      this.$router.push("/inventory/stok-transfer/permintaan-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/pengajuan-relokasi-stok/" +
-          item.mutasi_stok_id
+        "/inventory/stok-transfer/permintaan-stok/" + item.stok_transfer_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail" +
-          item.mutasi_stock_id
+        "/inventory/stok-transfer/permintaan-stok/detail/" +
+          item.stok_transfer_id
       );
     },
 
@@ -531,7 +516,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.mutasi_stok_id,
+              id: item.stok_transfer_id,
               params: this.parameters.params,
             });
 

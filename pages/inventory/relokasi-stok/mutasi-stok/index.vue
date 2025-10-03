@@ -237,7 +237,9 @@
                   </th>
                   <th class="border border-gray-300">Status Relokasi</th>
 
-                  <!-- <th class="w-[5%] text-center">Delete</th> -->
+                  <th class="w-[5%] text-center border border-gray-300">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -265,15 +267,7 @@
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    <div>
-                      {{ item.kode_mutasi_stok }}
-                      <p v-if="item.user_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
-                      </p>
-                      <p v-else class="text-blue-500">
-                        <i>Dibuat oleh: Sistem</i>
-                      </p>
-                    </div>
+                    {{ item.kode_mutasi_stok }}
                   </td>
                   <td class="border border-gray-300">
                     {{ item.gudang ? item.gudang.nama_gudang : "" }}
@@ -281,39 +275,43 @@
                   <td class="border border-gray-300">
                     {{ formatDate(item.tanggal) }}
                   </td>
-                  <td class="border border-gray-300">
+                  <td class="text-center border border-gray-300">
                     <div
                       v-if="item.status_mutasi === 'MENUNGGU'"
-                      class="p-1 rounded-md bg-orange-500 text-white text-center"
+                      class="p-1 rounded-md bg-orange-500 text-white"
                     >
                       <p>Menunggu</p>
                     </div>
                     <div
                       v-if="item.status_mutasi === 'PROSES'"
-                      class="p-1 rounded-md bg-blue-500 text-white text-center"
+                      class="p-1 rounded-md bg-blue-500 text-white"
                     >
                       <p>Proses</p>
                     </div>
                     <div
                       v-if="item.status_mutasi === 'SELESAI'"
-                      class="p-1 rounded-md bg-green-500 text-white text-center"
+                      class="p-1 rounded-md bg-green-500 text-white"
                     >
                       <p>Selesai</p>
                     </div>
                     <div
                       v-if="item.status_mutasi === 'BATAL'"
-                      class="p-1 rounded-md bg-red-500 text-white text-center"
+                      class="p-1 rounded-md bg-red-500 text-white"
                     >
                       <p>Batal</p>
                     </div>
                   </td>
 
-                  <!-- <td class="place-content-center">
+                  <td class="place-items-center border border-gray-300">
                     <small-delete-button
-                      @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      @click="onTrashed(item)"
+                      :disabled="
+                        item.status_mutasi === 'BATAL' ||
+                        item.status_adjustment == 1
+                      "
                     />
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
               <table-data-loading-section :self="this" />
@@ -347,7 +345,7 @@ export default {
 
   head() {
     return {
-      title: "Proses Relokasi Stock",
+      title: "Permohonan Relokasi Stok",
     };
   },
 
@@ -360,7 +358,7 @@ export default {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
-    this.$refs["form-option"].isAddData = false;
+    this.$refs["form-option"].isAddData = true;
 
     if (
       this.getRoles.destroy ||
@@ -372,7 +370,7 @@ export default {
     }
 
     if (this.getRoles.store) {
-      this.$refs["form-option"].isAddData = false;
+      this.$refs["form-option"].isAddData = true;
     }
 
     if (this.getRoles.export) {
@@ -399,11 +397,11 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Proses Relokasi Stock",
+      title: "Permohonan Relokasi Stok",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/proses-mutasi-stok",
+        url: "inventory/mutasi-stok",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -463,7 +461,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "proses-mutasi-stok"
+          (item) => item.rute == "mutasi-stok"
         );
 
         let roles = {};
@@ -500,19 +498,20 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/proses-relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/pengajuan-relokasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/proses-relokasi-stok/" + item.mutasi_stok_id
+        "/inventory/relokasi-stok/pengajuan-relokasi-stok/" +
+          item.mutasi_stok_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail/" +
-          item.mutasi_stok_id
+        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail" +
+          item.mutasi_stock_id
       );
     },
 

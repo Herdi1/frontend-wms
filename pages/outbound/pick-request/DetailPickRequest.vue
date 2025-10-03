@@ -13,7 +13,7 @@
           class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
         >
           <i class="fas fa-plus"></i>
-          <p class="text-xs font-medium">Tambah Detail ASN</p>
+          <p class="text-xs font-medium">Tambah Detail Pick Request</p>
         </button>
       </div>
     </div>

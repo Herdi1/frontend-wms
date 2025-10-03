@@ -401,7 +401,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "approval-konversi-stok"
+          (item) => item.rute == "approve-konversi-stok"
         );
 
         let roles = {};
