@@ -1437,7 +1437,6 @@ export default {
           query:
             "?search=" +
             this.staff_search +
-            // "&jenis_user=pengemudi" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
@@ -1822,7 +1821,6 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id_pic = item;
-        // console.log(item);
       } else {
         this.parameters.form.staff_id_pic = "";
       }

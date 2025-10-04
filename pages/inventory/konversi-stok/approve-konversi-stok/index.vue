@@ -437,7 +437,7 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push(`/inventory/konversi-stok/approval-konversi-stok/add`);
+      this.$router.push(`/inventory/konversi-stok/approve-konversi-stok/add`);
       // this.$refs.formInput.parameters.form = {
       //   nama_jenis_kontrak: "",
       //   kode_jenis_kontrak: "",
@@ -452,13 +452,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/inventory/konversi-stok/approval-konversi-stok/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/approve-konversi-stok/${item.konversi_stok_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/detail/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/approve-konversi-stok/detail/${item.konversi_stok_id}`
       );
     },
 

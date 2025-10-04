@@ -105,6 +105,7 @@
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
                 disabled
+                :required="false"
               />
               <!-- @input="getEstimasiSelesai" -->
             </div>
@@ -129,27 +130,27 @@
               <v-select
                 label="nama_lengkap"
                 :loading="isLoadingGetStaff"
-                :options="lookup_grade.data"
+                :options="lookup_roles.data"
                 :filterable="false"
                 @search="onGetStaff"
-                @input="onSelectStaff"
                 v-model="parameters.form.staff_id"
-                class="w-[60%] mb-2 bg-white"
+                @input="onSelectStaff"
+                class="w-[60%] bg-white"
               >
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
                   class="p-1 border-t flex justify-between"
-                  v-if="lookup_grade.data.length || search"
+                  v-if="lookup_roles.data.length || search"
                 >
                   <span
-                    v-if="lookup_grade.current_page > 1"
+                    v-if="lookup_roles.current_page > 1"
                     @click="onGetStaff(search, false)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Sebelumnya</span
                   >
                   <span
-                    v-if="lookup_grade.last_page > lookup_grade.current_page"
+                    v-if="lookup_roles.last_page > lookup_roles.current_page"
                     @click="onGetStaff(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
@@ -157,19 +158,7 @@
                 </li>
               </v-select>
             </div>
-            <!-- <select-button
-              :self="{
-                label: 'Staff',
-                optionLabel: 'nama_lengkap',
-                isLoading: isLoadingGetStaff,
-                lookup: lookup_grade,
-                onGet: onGetStaff,
-                value: parameters.form.staff_id,
-                input: onSelectStaff,
-              }"
-              width="w-[60%]"
-              :required="true"
-            /> -->
+
             <select-button
               :self="{
                 label: 'Alasan Konversi',
@@ -192,6 +181,7 @@
                 v-model="parameters.form.keterangan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="false"
               />
             </div>
           </div>
@@ -469,7 +459,7 @@ export default {
       "lookup_custom9",
       "lookup_custom10",
       "lookup_customers",
-      "lookup_grade",
+      "lookup_roles",
     ]),
   },
 
@@ -1081,7 +1071,7 @@ export default {
 
     // get  Staff
     onGetStaff(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+      if (!search?.length && typeof isNext === "function") return;
 
       clearTimeout(this.isStopSearchStaff);
 
@@ -1089,11 +1079,11 @@ export default {
         this.staff_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_grade.current_page = isNext
-            ? this.lookup_grade.current_page + 1
-            : this.lookup_grade.current_page - 1;
+          this.lookup_roles.current_page = isNext
+            ? this.lookup_roles.current_page + 1
+            : this.lookup_roles.current_page - 1;
         } else {
-          this.lookup_grade.current_page = 1;
+          this.lookup_roles.current_page = 1;
         }
 
         this.onSearchStaff();
@@ -1106,14 +1096,14 @@ export default {
 
         await this.lookUp({
           url: "master/staff/get-staff",
-          lookup: "grade",
+          lookup: "roles",
           query:
             "?search=" +
             this.staff_search +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
-            this.lookup_grade.current_page +
+            this.lookup_roles.current_page +
             "&per_page=10",
         });
 
@@ -1123,11 +1113,10 @@ export default {
 
     onSelectStaff(item) {
       if (item) {
-        this.parameters.form.staff_id = item;
-        this.parameters.form.vendor_id = item.vendor_id_operator;
+        this.parameters.form.staff_id = item || "";
+        console.log(item);
       } else {
         this.parameters.form.staff_id = "";
-        this.parameters.form.vendor_id = "";
       }
     },
 

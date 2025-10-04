@@ -40,7 +40,7 @@
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
-            <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="lg:w-full w-[200px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <th class="w-[200px] border border-gray-300">Lokasi Penyimpanan</th>
             <!-- <th class="w-[200px] border border-gray-300">Zona</th>

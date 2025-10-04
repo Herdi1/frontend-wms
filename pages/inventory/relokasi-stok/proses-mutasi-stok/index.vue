@@ -500,18 +500,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/proses-relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/proses-mutasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/proses-relokasi-stok/" + item.mutasi_stok_id
+        "/inventory/relokasi-stok/proses-mutasi-stok/" + item.mutasi_stok_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail/" +
+        "/inventory/relokasi-stok/proses-mutasi-stok/detail/" +
           item.mutasi_stok_id
       );
     },

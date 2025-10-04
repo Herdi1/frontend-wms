@@ -515,18 +515,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/approval-relokasi-stok/add");
+      this.$router.push("/inventory/relokasi-stok/approve-mutasi-stok/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/approval-relokasi-stok/" + item.mutasi_stok_id
+        "/inventory/relokasi-stok/approve-mutasi-stok/" + item.mutasi_stok_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/pengajuan-relokasi-stok/detail/" +
+        "/inventory/relokasi-stok/approve-mutasi-stok/detail/" +
           item.mutasi_stok_id
       );
     },

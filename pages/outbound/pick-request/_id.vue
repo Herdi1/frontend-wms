@@ -87,7 +87,45 @@
               </div>
 
               <ValidationProvider name="lokasi">
-                <select-button
+                <div class="flex">
+                  <label for="" class="w-[50%]"
+                    >Ship to <span class="text-danger">*</span></label
+                  >
+                  <v-select
+                    label="nama_lokasi"
+                    :loading="isLoadingGetLokasi"
+                    :options="lookup_location.data"
+                    :filterable="false"
+                    @search="onGetLokasi"
+                    v-model="parameters.form.lokasi_id"
+                    @input="onSelectLokasi"
+                    class="w-[50%] bg-white"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_location.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_location.current_page > 1"
+                        @click="onGetLokasi(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_location.last_page >
+                          lookup_location.current_page
+                        "
+                        @click="onGetLokasi(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+                <!-- <select-button
                   :self="{
                     label: 'Ship to',
                     optionLabel: 'nama_lokasi',
@@ -100,7 +138,7 @@
                   width="w-[50%]"
                   class="mb-5"
                   :required="true"
-                />
+                /> -->
               </ValidationProvider>
 
               <!-- <div class="form-group">
@@ -404,6 +442,11 @@ export default {
     await this.onSearchItemGudang();
     this.getGeoLocation();
     this.getUserAgent();
+    // if (this.lookup_custom4.data && !this.isEditable) {
+    //   this.$refs.detailPickRequest.onSearchValuation(
+    //     this.lookup_custom4.data[0] ?? ""
+    //   );
+    // }
   },
 
   computed: {
@@ -655,7 +698,7 @@ export default {
         this.isLoadingGetLokasi = true;
 
         await this.lookUp({
-          url: "master/lokasi/get-lokasi",
+          url: "master/lokasi-by-gudang/get-lokasi-by-gudang",
           lookup: "location",
           query:
             "?search=" +
