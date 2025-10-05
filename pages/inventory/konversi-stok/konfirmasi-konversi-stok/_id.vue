@@ -45,28 +45,26 @@
                 labelWidth="w-[40%]"
               />
             </div>
-            <div class="form-group">
-              <input-horizontal
-                :isHorizontal="true"
-                label="Tanggal Mulai"
-                type="date"
-                name="tanggal_mulai"
-                :disabled="true"
+            <div class="form-group flex justify-between">
+              <label for="" class="w-[40%]">Tanggal Mulai </label>
+              <input
+                disabled
+                @input="setTanggalMulai"
+                type="datetime-local"
+                step="1"
                 v-model="parameters.form.tanggal_mulai"
-                inputWidth="w-[60%]"
-                labelWidth="w-[40%]"
+                class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
               />
             </div>
-            <div class="form-group">
-              <input-horizontal
-                :isHorizontal="true"
-                label="Tanggal Selesai"
-                type="date"
-                name="tanggal_selesai"
-                :disabled="true"
+            <div class="form-group flex justify-between">
+              <label for="" class="w-[40%]">Tanggal Selesai</label>
+              <input
+                disabled
+                @input="getEstimasiLamaPengerjaan"
+                type="datetime-local"
+                step="1"
                 v-model="parameters.form.tanggal_selesai"
-                inputWidth="w-[60%]"
-                labelWidth="w-[40%]"
+                class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
               />
             </div>
             <div class="form-group">
@@ -432,10 +430,11 @@ export default {
           }
         });
 
-        this.parameters.form.gudang_id = res.data.gudang;
-        this.parameters.form.alasan_beda_plan_id = res.data.alasan_beda_plan;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.alasan_beda_plan_id =
+          res.data.alasan_beda_plan ?? "";
         this.parameters.form.staff_id = res.data.staff ?? "";
-        this.parameters.form.vendor_id = res.data.staff.vendor_operator ?? "";
+        this.parameters.form.vendor_id = res.data.staff?.vendor_operator ?? "";
         await this.onSearchItemGudang();
         await this.onSearchZonaPlan();
 
@@ -444,9 +443,9 @@ export default {
             return {
               ...item,
               konversi_stok_detail_bahan_id: item.konversi_stok_detail_bahan_id,
-              item_id: item.item_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
+              item_id: item.item_id ?? "",
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
@@ -459,9 +458,9 @@ export default {
             return {
               ...item,
               konversi_stok_detail_jadi_id: item.konversi_stok_detail_jadi_id,
-              item_id: item.item_id,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
+              item_id: item.item_id ?? "",
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
@@ -473,6 +472,7 @@ export default {
       }
     } catch (error) {
       this.$router.back();
+      console.log(error);
     }
   },
 

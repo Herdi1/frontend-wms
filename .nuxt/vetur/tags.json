@@ -23,6 +23,18 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  },
   "AsideSidebarBrand": {
     "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
@@ -40,6 +52,18 @@
   },
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  },
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
+  },
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"

@@ -1379,47 +1379,47 @@
                     ></textarea>
                   </div>
                 </div>
+                <modal-footer-section
+                  :isLoadingForm="isLoadingForm"
+                  @reset="formReset()"
+                />
               </div>
 
-              <div class="w-full mb-5">
-                <!-- <div>
-                  <ul class="flex gap-1">
-                    <li
-                      class="bg-white p-2 rounded-t-md border border-gray-300"
-                    >
-                      Item Gudang
-                    </li>
-                    <li
-                      class="bg-white p-2 rounded-t-md border border-gray-300"
-                    >
-                      Status Transaksi
-                    </li>
-                    <li
-                      class="bg-white p-2 rounded-t-md border border-gray-300"
-                    >
-                      Kendaraan Gudang
-                    </li>
-                  </ul>
-                </div> -->
-                <TabComponent :tabs="tabs">
-                  <template #ItemGudang>
-                    <ItemGudang :self="{ form, parameters, isEditable }" />
-                  </template>
-                  <!-- <template #Shipto v-if="isEditable">
-                    <p>Shipto</p>
-                    <StatusTransaksi :self="{ form, isEditable }" />
-                  </template>
-                  <template #KendaraanGudang v-if="isEditable">
-                    <p>Kendaraan Gudang</p>
-                  </template> -->
-                </TabComponent>
-              </div>
-              <modal-footer-section
-                :isLoadingForm="isLoadingForm"
-                @reset="formReset()"
-              />
             </div>
           </form>
+          <div class="w-full mb-5">
+            <!-- <div>
+              <ul class="flex gap-1">
+                <li
+                  class="bg-white p-2 rounded-t-md border border-gray-300"
+                >
+                  Item Gudang
+                </li>
+                <li
+                  class="bg-white p-2 rounded-t-md border border-gray-300"
+                >
+                  Status Transaksi
+                </li>
+                <li
+                  class="bg-white p-2 rounded-t-md border border-gray-300"
+                >
+                  Kendaraan Gudang
+                </li>
+              </ul>
+            </div> -->
+            <TabComponent :tabs="tabs">
+              <template #ItemGudang>
+                <ItemGudang :self="{ form, parameters, isEditable }" />
+              </template>
+              <!-- <template #Shipto v-if="isEditable">
+                <p>Shipto</p>
+                <StatusTransaksi :self="{ form, isEditable }" />
+              </template>
+              <template #KendaraanGudang v-if="isEditable">
+                <p>Kendaraan Gudang</p>
+              </template> -->
+            </TabComponent>
+          </div>
         </ValidationObserver>
       </div>
     </div>
@@ -1750,6 +1750,12 @@ export default {
           response.data.item_gudang.forEach((item) => {
             this.form.item_gudang.push({
               ...item,
+              berat_bersih: item.berat_bersih ?? 0,
+              berat_kotor: item.berat_kotor ?? 0,
+              panjang: item.panjang ?? 0,
+              lebar: item.lebar ?? 0,
+              tebal: item.tebal ?? 0,
+              volume: item.volume ?? 0,
             });
           });
         }
@@ -2047,6 +2053,7 @@ export default {
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          ...(this.isEditable ? { "X-HTTP-Method-Override": "PUT" } : {}),
         },
       })
         .then((res) => {

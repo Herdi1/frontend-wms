@@ -93,7 +93,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
-              <div class="form-group w-full flex">
+              <div class="form-group w-full flex" v-if="!this.user.gudang_id">
                 <div class="mb-3 w-1/2">Gudang</div>
 
                 <v-select
@@ -104,7 +104,7 @@
                   :filterable="false"
                   @search="onGetGudang"
                   v-model="parameters.params.gudang_id"
-                  :reduce="(item) => item.gudang_id"
+                  @input="onSelectGudang"
                 >
                   <template slot="selected-option" slot-scope="option">
                     <div
@@ -296,6 +296,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },
@@ -376,6 +379,7 @@ export default {
           status_konversi: "",
           status_approve: "",
           gudang_id: "",
+          gudang: "",
           per_page: 10,
           page: 1,
           form: {
@@ -444,9 +448,7 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/add`
-      );
+      this.$router.push(`/inventory/konversi-stok/konversi-stok/add`);
       // this.$refs.formInput.parameters.form = {
       //   nama_jenis_kontrak: "",
       //   kode_jenis_kontrak: "",
@@ -461,13 +463,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/konversi-stok/${item.konversi_stok_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/inventory/konversi-stok/permohonan-konversi-stok/detail/${item.konversi_stok_id}`
+        `/inventory/konversi-stok/konversi-stok/detail/${item.konversi_stok_id}`
       );
     },
 
@@ -602,6 +604,16 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.params.gudang = item;
+        this.parameters.params.gudang_id = item.gudang_id;
+      } else {
+        this.parameters.params.gudang = "";
+        this.parameters.params.gudang_id = "";
       }
     },
   },

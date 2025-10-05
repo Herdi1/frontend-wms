@@ -203,12 +203,19 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addPickRequestDetail() {
+      let valuasi = {};
+      if (this.lookup_custom4.data.length > 0) {
+        console.log(this.lookup_custom4.data);
+        valuasi = this.lookup_custom4.data.filter(
+          (item) => item.kode_valuation === "N"
+        );
+      }
       this.self.parameters.form.pick_request_details.push({
         pick_request_detail_id: "",
         item_id: "",
         item_gudang_id: "",
         quantity: "",
-        valuation_id: "",
+        valuation_id: valuasi[0],
         keterangan: "",
       });
       // this.resetFormPickRequest();

@@ -721,7 +721,6 @@ export default {
               ...item,
               stok_opname_detail_id: item,
               item_gudang_id: item.item_gudang ?? "",
-              item_id: item.item_id ?? "",
               zona_gudang_id: item.zona_gudang ?? "",
               valuation_id: item.valuation ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
@@ -851,7 +850,10 @@ export default {
                 typeof item.stok_opname_detail_id === "object"
                   ? item.stok_opname_detail_id.stok_opname_detail_id
                   : "",
-              item_id: item.item_id ?? "",
+              item_id:
+                typeof item.item_gudang_id === "object"
+                  ? item.item_gudang_id.item_id || item.item.item_id
+                  : item.item_id ?? "",
               item_gudang_id:
                 typeof item.item_gudang_id === "object"
                   ? item.item_gudang_id.item_gudang_id ?? ""
@@ -1393,8 +1395,6 @@ export default {
     async onSelectItemGudang(item, index) {
       if (item) {
         this.parameters.form.stok_opname_details[index].item_gudang_id = item;
-        this.parameters.form.stok_opname_details[index].item_id =
-          item.item_id ?? "";
 
         let details = [...this.parameters.form.stok_opname_details];
 
@@ -1411,6 +1411,8 @@ export default {
               this.parameters.form.stok_opname_details[index].item_gudang_id
                 .item_gudang_id
         );
+
+        console.log(itemGudangs);
 
         if (itemGudangs.length > 1) {
           this.$toaster.error("Item gudang sudah ada");
@@ -1554,7 +1556,6 @@ export default {
       if (this.add_params.zona_gudang_id && this.add_params.item_gudang_id) {
         this.parameters.form.stok_opname_details.push({
           item_gudang_id: this.add_params.item_gudang_id,
-          item_id: this.add_params.item_gudang_id.item_id ?? "",
           zona_gudang_id: this.add_params.zona_gudang_id,
           valuation_id: "",
           stok_sistem: 0,
@@ -1598,7 +1599,6 @@ export default {
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
             item_gudang_id: item,
-            item_id: item.item_id ?? "",
             zona_gudang_id: this.add_params.zona_gudang_id,
             valuation_id: item.valuation,
             stok_sistem: 0,
@@ -1642,7 +1642,6 @@ export default {
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
             item_gudang_id: this.add_params.item_gudang_id,
-            item_id: this.add_params.item_gudang_id.item_id ?? "",
             zona_gudang_id: item.zona_gudang,
             valuation_id: item.valuation,
             stok_sistem: 0,
@@ -1687,7 +1686,6 @@ export default {
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
             item_gudang_id: item,
-            item_id: item.item_id ?? "",
             zona_gudang_id: item.zona_gudang,
             valuation_id: item.valuation,
             stok_sistem: 0,

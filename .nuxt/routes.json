@@ -354,6 +354,12 @@
     "chunkName": "pages/inventory/stock-card/index"
   },
   {
+    "name": "inventory-stok-opname",
+    "path": "/inventory/stok-opname",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\index.vue",
+    "chunkName": "pages/inventory/stok-opname/index"
+  },
+  {
     "name": "inventory-update-harga",
     "path": "/inventory/update-harga",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\update-harga\\\\index.vue",
@@ -1488,10 +1494,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/index"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/index"
+    "name": "inventory-konversi-stok-konversi-stok",
+    "path": "/inventory/konversi-stok/konversi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/index"
   },
   {
     "name": "inventory-pemakaian_barang-detail",
@@ -2964,10 +2970,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/DetailProdukJadi"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-DetailProdukBahan",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/DetailProdukBahan",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\DetailProdukBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/DetailProdukBahan"
+    "name": "inventory-konversi-stok-konversi-stok-DetailProdukBahan",
+    "path": "/inventory/konversi-stok/konversi-stok/DetailProdukBahan",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\DetailProdukBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/DetailProdukBahan"
   },
   {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-detail",
@@ -3450,16 +3456,16 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/DetailItemJadi"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-DetailItemBahan",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemBahan",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\DetailItemBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemBahan"
+    "name": "inventory-konversi-stok-konversi-stok-detail-DetailItemBahan",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/DetailItemBahan",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\DetailItemBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/DetailItemBahan"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-DetailItemJadi",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemJadi",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\DetailItemJadi.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemJadi"
+    "name": "inventory-konversi-stok-konversi-stok-detail-DetailItemJadi",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/DetailItemJadi",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\DetailItemJadi.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/DetailItemJadi"
   },
   {
     "name": "manufactur-production_activity-cont_bleach-import-modal-error-report",
@@ -3750,10 +3756,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/_id"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-id",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/_id"
+    "name": "inventory-konversi-stok-konversi-stok-detail-id",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/_id"
   },
   {
     "name": "inventory-stok-opname-adjustment-stok-opname-detail-id",
@@ -3978,10 +3984,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/_id"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-id",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/:id?",
-    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/_id"
+    "name": "inventory-konversi-stok-konversi-stok-id",
+    "path": "/inventory/konversi-stok/konversi-stok/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/_id"
   },
   {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-id",
@@ -4027,19 +4033,25 @@
   },
   {
     "name": "inventory-stok-opname-adjustment-stok-opname-id",
-    "path": "/inventory/stok-opname/adjustment-stok-opname/:id?",
+    "path": "/inventory/stok-opname/adjustment-stok-opname/:id",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\adjustment-stok-opname\\\\_id.vue",
     "chunkName": "pages/inventory/stok-opname/adjustment-stok-opname/_id"
   },
   {
+    "name": "inventory-stok-opname-detail-id",
+    "path": "/inventory/stok-opname/detail/:id",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/stok-opname/detail/_id"
+  },
+  {
     "name": "inventory-stok-opname-proses-stok-opname-id",
-    "path": "/inventory/stok-opname/proses-stok-opname/:id?",
+    "path": "/inventory/stok-opname/proses-stok-opname/:id",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\proses-stok-opname\\\\_id.vue",
     "chunkName": "pages/inventory/stok-opname/proses-stok-opname/_id"
   },
   {
     "name": "inventory-stok-opname-stok-opname-id",
-    "path": "/inventory/stok-opname/stok-opname/:id?",
+    "path": "/inventory/stok-opname/stok-opname/:id",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\stok-opname\\\\_id.vue",
     "chunkName": "pages/inventory/stok-opname/stok-opname/_id"
   },
@@ -4414,6 +4426,12 @@
     "path": "/inventory/stock_out/:id",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stock_out\\\\_id.vue",
     "chunkName": "pages/inventory/stock_out/_id"
+  },
+  {
+    "name": "inventory-stok-opname-id",
+    "path": "/inventory/stok-opname/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\_id.vue",
+    "chunkName": "pages/inventory/stok-opname/_id"
   },
   {
     "name": "lastmile-konfirmasi-selesai-kirim-id",

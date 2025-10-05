@@ -6,14 +6,6 @@
           >Inventory</a
         >
       </li>
-      <li>
-        <a
-          href="javascript:;"
-          class="text-primary hover:underline before:content-['/']"
-        >
-          Relokasi Stok</a
-        >
-      </li>
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
@@ -68,34 +60,6 @@
 
               <div class="grid grid-cols-2 gap-2 mb-1">
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Mutasi</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_mutasi"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="MENUNGGU">Menunggu</option>
-                    <option value="PROSES">Proses</option>
-                    <option value="SELESAI">Selesai</option>
-                    <option value="BATAL">Batal</option>
-                  </select>
-                </div>
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Adjustment</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_adjustment"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="0">Menunggu</option>
-                    <option value="1">Approved</option>
-                  </select>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-2 mb-1">
-                <div class="form-group w-full flex" v-if="!this.user.gudang_id">
                   <div class="mb-3 w-1/2">Gudang</div>
 
                   <v-select
@@ -105,8 +69,8 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang"
-                    @input="onSelectGudang"
+                    v-model="parameters.params.gudang_id"
+                    :reduce="(item) => item.gudang_id"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -140,6 +104,34 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Opname</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_opname"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                    <option value="BATAL">Batal</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mb-1">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Adjustment</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_adjustment"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Menunggu</option>
+                    <option value="1">Approved</option>
+                  </select>
+                </div>
               </div>
 
               <div class="flex gap-3">
@@ -154,36 +146,35 @@
             </div>
           </div>
 
-          <div class="table-responsive w-full relative">
+          <div class="table-responsive w-full relative overflow-y-auto">
             <table
-              class="mb-5 overflow-auto border border-gray-300"
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
               ref="formContainer"
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[5%] text-center border border-gray-300">
-                    Edit
-                  </th>
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th class="w-20 text-center border border-gray-300">Edit</th>
+
+                  <th class="w-20 text-center border border-gray-300">
                     Detail
                   </th>
-                  <th class="w-[5%] text-center border border-gray-300">No</th>
+                  <th class="w-12 text-center border border-gray-300">No</th>
                   <th
+                    class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
-                        'kode_mutasi_stok',
+                        'kode_stok_opname',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Kode Mutasi Stok</div>
+                      <div>Kode Stok Opname</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
                           :class="
-                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.order == 'kode_stok_opname' &&
                             parameters.params.sort == 'asc'
                               ? ''
                               : 'light-gray'
@@ -192,7 +183,7 @@
                         <i
                           class="fas fa-caret-down"
                           :class="
-                            parameters.params.order == 'kode_mutasi_stok' &&
+                            parameters.params.order == 'kode_stok_opname' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -201,15 +192,47 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Gudang</th>
                   <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_adjustment',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Adjustment</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_adjustment' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
                     @click="
                       onSort(
                         'tanggal',
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Tanggal</div>
@@ -235,26 +258,92 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Status Relokasi</th>
+                  <th class="w-52 border border-gray-300">Gudang</th>
 
-                  <th class="w-[5%] text-center border border-gray-300">
-                    Delete
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_opname',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Status Opname</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_opname' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_opname' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
                   </th>
+                  <th
+                    class="w-52 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'tanggal_adjustment',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Tanggal Adjustment</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'tanggal_adjustment' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'tanggal_adjustment' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+
+                  <th class="w-52 border border-gray-300">Keterangan</th>
+                  <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in data" :key="index">
+                <tr v-for="(item, i) in data" :key="i">
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
-                        item.status_mutasi === 'BATAL' ||
-                        item.status_adjustment == 1
+                        item.status_adjustment === '1' ||
+                        item.status_opname === 'BATAL'
                       "
                     />
                   </td>
                   <td
-                    class="text-center place-content-center border border-gray-300"
+                    class="text-center place-items-center border border-gray-300"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -262,53 +351,94 @@
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
-                      index +
+                      i +
                       1
                     }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kode_mutasi_stok }}
+                    {{ item.kode_stok_opname }}
+                    <p
+                      v-if="item.user_input"
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                    </p>
+                    <p
+                      v-else
+                      class="text-blue-500 cursor-pointer hover:underline"
+                    >
+                      <i>Dibuat oleh: Sistem</i>
+                    </p>
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.gudang ? item.gudang.nama_gudang : "" }}
+                    <div
+                      v-if="item.status_adjustment === '0'"
+                      class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                    >
+                      <p>MENUNGGU</p>
+                    </div>
+                    <div
+                      v-if="item.status_adjustment === '1'"
+                      class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                    >
+                      <p>APPROVE</p>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     {{ formatDate(item.tanggal) }}
                   </td>
-                  <td class="text-center border border-gray-300">
-                    <div
-                      v-if="item.status_mutasi === 'MENUNGGU'"
-                      class="p-1 rounded-md bg-orange-500 text-white"
-                    >
-                      <p>Menunggu</p>
-                    </div>
-                    <div
-                      v-if="item.status_mutasi === 'PROSES'"
-                      class="p-1 rounded-md bg-blue-500 text-white"
-                    >
-                      <p>Proses</p>
-                    </div>
-                    <div
-                      v-if="item.status_mutasi === 'SELESAI'"
-                      class="p-1 rounded-md bg-green-500 text-white"
-                    >
-                      <p>Selesai</p>
-                    </div>
-                    <div
-                      v-if="item.status_mutasi === 'BATAL'"
-                      class="p-1 rounded-md bg-red-500 text-white"
-                    >
-                      <p>Batal</p>
+                  <td class="border border-gray-300">
+                    {{ item.gudang.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_opname === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'SELESAI'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_opname === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_opname }}
+                        </p>
+                      </span>
                     </div>
                   </td>
 
+                  <td class="border border-gray-300">
+                    {{
+                      item.tanggal_adjustment
+                        ? formatDate(item.tanggal_adjustment.split(" ")[0])
+                        : "-"
+                    }}
+                  </td>
+                  <td class="border border-gray-300">{{ item.keterangan }}</td>
+
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
-                      v-if="!item.deleted_at"
                       @click="onTrashed(item)"
+                      v-if="!item.deleted_at"
                       :disabled="
-                        item.status_mutasi === 'BATAL' ||
-                        item.status_adjustment == 1
+                        item.status_adjustment === '1' ||
+                        item.status_opname === 'BATAL'
                       "
                     />
                   </td>
@@ -319,45 +449,33 @@
               <table-data-not-found-section :self="this" />
             </table>
           </div>
-          <div
-            class="card-title border-top"
-            style="padding-bottom: -100px !important"
-          >
+          <div class="mx-3 mt-2 mb-4">
             <pagination-section :self="this" ref="pagination" />
           </div>
         </div>
       </div>
     </div>
-    <!-- <ModalStokGudang :self="this" ref="modalStokGudang"/> -->
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-// import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
 
 export default {
   middleware: ["checkRoleUser"],
 
-  components: {
-    // ModalStokGudang
-  },
-
   head() {
     return {
-      title: "Permohonan Relokasi Stok",
+      title: "Permohonan Stok Opname",
     };
   },
 
   created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
-    }
     this.set_data([]);
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -392,6 +510,8 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+
+    await this.onSearchGudang();
   },
 
   data() {
@@ -400,16 +520,16 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Permohonan Relokasi Stok",
+      title: "Permohonan Stok Opname",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "inventory/mutasi-stok",
+        url: "inventory/stok-opname",
         type: "pdf",
         params: {
           soft_deleted: "",
           search: "",
-          order: "mutasi_stok_id",
+          order: "stok_opname_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -417,16 +537,19 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
-          gudang: "",
-          status_mutasi: "",
+          status_opname: "",
           status_adjustment: "",
         },
         form: {
-          no_transaksi: "",
+          kode_stok_opname: "",
           tanggal: "",
           gudang_id: "",
-          mutasi_stok_details: [],
-          biaya: [],
+          keterangan: "",
+          status_opname: "",
+          catatan_proses: "",
+          catatan_selesai: "",
+          catatan_batal: "",
+          stok_opname_details: [],
 
           //Tracking
           user_agent: "",
@@ -465,7 +588,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "mutasi-stok"
+          (item) => item.rute == "stok-opname"
         );
 
         let roles = {};
@@ -502,18 +625,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/relokasi-stok/mutasi-stok/add");
+      this.$router.push("/inventory/stok-opname/stok-opname/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/mutasi-stok/" + item.mutasi_stok_id
+        "/inventory/stok-opname/stok-opname/" + item.stok_opname_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/mutasi-stok/detail/" + item.mutasi_stok_id
+        "/inventory/stok-opname/stok-opname/detail/" + item.stok_opname_id
       );
     },
 
@@ -533,7 +656,7 @@ export default {
 
             await this.deleteData({
               url: this.parameters.url,
-              id: item.mutasi_stok_id,
+              id: item.stok_opname_id,
               params: this.parameters.params,
             });
 
@@ -632,16 +755,6 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
-      }
-    },
-
-    onSelectGudang(item) {
-      if (item) {
-        this.parameters.params.gudang = item;
-        this.parameters.params.gudang_id = item.gudang_id;
-      } else {
-        this.parameters.params.gudang = "";
-        this.parameters.params.gudang_id = "";
       }
     },
   },
