@@ -1494,10 +1494,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/index"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\index.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/index"
+    "name": "inventory-konversi-stok-konversi-stok",
+    "path": "/inventory/konversi-stok/konversi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/index"
   },
   {
     "name": "inventory-pemakaian_barang-detail",
@@ -2970,10 +2970,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/DetailProdukJadi"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-DetailProdukBahan",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/DetailProdukBahan",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\DetailProdukBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/DetailProdukBahan"
+    "name": "inventory-konversi-stok-konversi-stok-DetailProdukBahan",
+    "path": "/inventory/konversi-stok/konversi-stok/DetailProdukBahan",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\DetailProdukBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/DetailProdukBahan"
   },
   {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-detail",
@@ -3456,16 +3456,16 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/DetailItemJadi"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-DetailItemBahan",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemBahan",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\DetailItemBahan.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemBahan"
+    "name": "inventory-konversi-stok-konversi-stok-detail-DetailItemBahan",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/DetailItemBahan",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\DetailItemBahan.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/DetailItemBahan"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-DetailItemJadi",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemJadi",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\DetailItemJadi.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/DetailItemJadi"
+    "name": "inventory-konversi-stok-konversi-stok-detail-DetailItemJadi",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/DetailItemJadi",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\DetailItemJadi.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/DetailItemJadi"
   },
   {
     "name": "manufactur-production_activity-cont_bleach-import-modal-error-report",
@@ -3756,10 +3756,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/_id"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-detail-id",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/detail/:id?",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\detail\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/detail/_id"
+    "name": "inventory-konversi-stok-konversi-stok-detail-id",
+    "path": "/inventory/konversi-stok/konversi-stok/detail/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/detail/_id"
   },
   {
     "name": "inventory-stok-opname-adjustment-stok-opname-detail-id",
@@ -3984,10 +3984,10 @@
     "chunkName": "pages/inventory/konversi-stok/konfirmasi-konversi-stok/_id"
   },
   {
-    "name": "inventory-konversi-stok-permohonan-konversi-stok-id",
-    "path": "/inventory/konversi-stok/permohonan-konversi-stok/:id?",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\permohonan-konversi-stok\\\\_id.vue",
-    "chunkName": "pages/inventory/konversi-stok/permohonan-konversi-stok/_id"
+    "name": "inventory-konversi-stok-konversi-stok-id",
+    "path": "/inventory/konversi-stok/konversi-stok/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/konversi-stok/konversi-stok/_id"
   },
   {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-id",
