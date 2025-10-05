@@ -594,7 +594,7 @@
                   </table>
                 </div>
               </template>
-              <template #Biaya>
+              <!-- <template #Biaya>
                 <div class="w-full flex justify-between items-center mt-3">
                   <h1 class="text-xl font-bold">Biaya</h1>
 
@@ -652,13 +652,6 @@
                             v-model="item.jenis_biaya_id"
                             class="w-full"
                           >
-                            <!-- <template
-                              slot="selected-option"
-                              slot-scope="option"
-                              class="whitespace-nowrap overflow-hidden text-ellipsis"
-                            >
-                              {{ option.nama_jenis_biaya }}
-                            </template> -->
                             <li
                               slot-scope="{ search }"
                               slot="list-footer"
@@ -841,7 +834,7 @@
                     </tbody>
                   </table>
                 </div>
-              </template>
+              </template> -->
             </TabComponent>
           </div>
           <modal-footer-section
@@ -878,10 +871,10 @@ export default {
           name: "Detail Item",
           slotName: "DetailItem",
         },
-        {
-          name: "Biaya",
-          slotName: "Biaya",
-        },
+        // {
+        //   name: "Biaya",
+        //   slotName: "Biaya",
+        // },
       ],
 
       id,

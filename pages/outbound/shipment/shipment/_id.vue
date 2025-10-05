@@ -465,11 +465,16 @@ export default {
     await this.onSearchUser();
     // await this.onSearchStaff();
 
-    // await this.onSearchPickOrder();
+    // await this.onSearchPickOrder(); warehouses
 
     this.getGeoLocation();
     this.getUserAgent();
+
+    if (this.lookup_warehouses.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_warehouses.data[0]);
+    }
   },
+
   computed: {
     ...mapState("moduleApi", [
       "error",

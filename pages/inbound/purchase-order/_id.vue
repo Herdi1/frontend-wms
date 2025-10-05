@@ -346,21 +346,21 @@
             >
               <thead>
                 <tr class="text-sm uppercase">
-                  <th class="w-20 border border-gray-300 text-center">
-                    Delete
-                  </th>
+                  <th class="w-[10%] border border-gray-300">Delete</th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-60 border border-gray-300">Item Gudang</th>
+                  <th class="w-[20%] border border-gray-300">Item Gudang</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
-                  <th class="w-40 border border-gray-300">Quantity</th>
+                  <th class="w-[20%] border border-gray-300">Quantity</th>
                   <!-- <th class="w-40 border border-gray-300">Serial Number</th> -->
-                  <th class="w-40 border border-gray-300">Nomor Referensi</th>
-                  <th class="w-40 border border-gray-300">Dimensi</th>
+                  <th class="w-[20%] border border-gray-300">
+                    Nomor Referensi
+                  </th>
+                  <th class="w-[20%] border border-gray-300">Dimensi</th>
                   <!-- <th class="w-40 border border-gray-300">Lebar</th>
                   <th class="w-40 border border-gray-300">Tinggi</th>
                   <th class="w-40 border border-gray-300">Berat</th> -->
-                  <th class="w-40 border border-gray-300">Note</th>
+                  <th class="w-[15%] border border-gray-300">Note</th>
                 </tr>
               </thead>
               <tbody>
@@ -732,6 +732,9 @@ export default {
     await this.onSearchZonaGudang();
     this.getGeoLocation();
     this.getUserAgent();
+    if (this.lookup_roles.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_roles.data[0]);
+    }
   },
 
   computed: {

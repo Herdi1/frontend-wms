@@ -451,6 +451,9 @@ export default {
     //     this.lookup_custom4.data[0] ?? ""
     //   );
     // }
+    if (this.lookup_roles.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_roles.data[0]);
+    }
   },
 
   computed: {

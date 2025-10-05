@@ -14,6 +14,8 @@ You can directly use them in pages and other components without the need to impo
 - `<SuccessModal>` | `<success-modal>` (components/SuccessModal.vue)
 - `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
 - `<VuetifyLogo>` | `<vuetify-logo>` (components/VuetifyLogo.vue)
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
 - `<AnavbarMessages>` | `<anavbar-messages>` (components/anavbar/Messages.vue)
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)

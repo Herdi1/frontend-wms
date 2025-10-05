@@ -258,8 +258,8 @@
                       >
                         <td class="border border-gray-300">
                           <p>
-                            {{ item.kode_item || "" }} -
-                            {{ item.nama_item || "-" }}
+                            {{ item?.kode_item ?? "" }} -
+                            {{ item?.nama_item ?? "-" }}
                           </p>
                         </td>
                         <td class="border border-gray-300">
@@ -415,7 +415,7 @@
                     <thead>
                       <tr class="text-sm uppercase">
                         <th class="w-[200px] border border-gray-300">
-                          Jenis Biaya
+                          Jenis Biayaa
                         </th>
                         <th class="w-[200px] border border-gray-300">
                           Nominal Satuan
@@ -744,12 +744,21 @@ export default {
         );
         this.parameters.form = res.data;
         this.parameters.form.gudang_id = res.data.gudang;
+        // this.parameters.form.biaya = [];
         this.parameters.form.mutasi_stok_details =
           res.data.mutasi_stok_details.map((item) => {
             return {
               ...item,
-              nama_item: item.item_gudang.nama_item,
-              kode_item: item.item_gudang.kode_item,
+              nama_item: item.item_gudang
+                ? item.item_gudang.nama_item
+                : item.item
+                ? item.item.nama_item
+                : "",
+              kode_item: item.item_gudang
+                ? item.item_gudang.kode_item
+                : item.item
+                ? item.item.kode_wms
+                : "",
               mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id,
               valuation_id: item.valuation_id,
@@ -777,8 +786,8 @@ export default {
         }
       }
     } catch (error) {
-      console.log("error", error);
-      //this.$router.back()
+      // console.log("error", error);
+      this.$router.back();
     } finally {
       this.isLoadingPage = false;
     }
@@ -793,8 +802,9 @@ export default {
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
 
-    // await this.onSearchJenisBiaya();
-    // await this.onSearchCoa();
+    await this.onSearchJenisBiaya();
+    await this.onSearchCoa();
+    await this.onSearchVendor();
     await this.onSearchStaff();
 
     this.getUserAgent();

@@ -379,7 +379,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -414,10 +414,10 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
-  },
-
-  async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data) {
+      this.parameters.params.gudang_id = this.lookup_custom1.data[0].gudang_id;
+    }
   },
 
   data() {
