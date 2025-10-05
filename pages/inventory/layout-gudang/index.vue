@@ -45,6 +45,7 @@
                 }"
                 width="w-[70%]"
                 class="mb-5 w-[350px]"
+                :disabled="lookup_warehouses.data.length == 1"
               />
             </ValidationProvider>
 
@@ -240,6 +241,9 @@ export default {
     // }
 
     await this.onSearchGudang();
+    if (this.lookup_warehouses.data) {
+      await this.onSelectGudang(this.lookup_warehouses.data[0]);
+    }
   },
 
   computed: {

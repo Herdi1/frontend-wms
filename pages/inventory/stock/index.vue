@@ -59,7 +59,7 @@
                 </div>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
-                <div class="form-group w-full flex">
+                <div class="form-group w-full flex" v-if="!this.user.gudang_id">
                   <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
                   <v-select
@@ -553,7 +553,10 @@ export default {
     ModalDetail,
   },
 
-  created() {
+  async created() {
+    if (this.user.gudang) {
+      await this.onSetGudang(this.user.gudang);
+    }
     this.set_data([]);
     this.onLoad();
   },

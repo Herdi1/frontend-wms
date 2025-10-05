@@ -66,6 +66,7 @@
                     @search="onGetChartOfAccount"
                     @input="onSetChartOfAccount"
                     v-model="parameters.params.gudang_id"
+                    :disabled="lookup_chart_of_accounts.data.length == 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -639,7 +640,10 @@ export default {
     };
   },
 
-  created() {
+  async created() {
+    if (this.user.gudang) {
+      await this.onSetChartOfAccount(this.user.gudang);
+    }
     this.onLoad();
   },
 
@@ -1116,11 +1120,13 @@ export default {
         this.isLoadingGetChartOfAccount = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "chart_of_accounts",
           query:
             "?search=" +
             this.chart_of_account_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_chart_of_accounts.current_page +
             "&per_page=10",
