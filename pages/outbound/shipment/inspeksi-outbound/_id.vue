@@ -224,7 +224,7 @@ import ShipmentDetails from "./ShipmentDetails.vue";
 import RuteShipments from "./RuteShipments.vue";
 import BiayaLastmiles from "./BiayaLastmiles.vue";
 import ModalPickOrder from "../../../../components/transaksional/ModalPickOrder.vue";
-import TagihanLastmiles from "./TagihanLastmiles.vue";
+import TagihanLastmiles from "../inspeksi-outbound/TagihanLastmiles.vue";
 export default {
   props: ["self"],
   middleware: ["checkRoleUserDetail"],

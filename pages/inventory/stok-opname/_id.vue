@@ -235,14 +235,14 @@
                     </th>
 
                     <th class="w-[200px] border border-gray-300">
-                      Stok Sistem <span class="text-danger">*</span>
+                      Stok Sistem<span class="text-danger">*</span>
                     </th>
-                    <!-- <th class="w-[200px] border border-gray-300">
+                    <th class="w-[200px] border border-gray-300">
                       Stok Real <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
                       Stok Selisih <span class="text-danger">*</span>
-                    </th> -->
+                    </th>
                     <th class="w-[200px] border border-gray-300">Keterangan</th>
                     <th class="w-[100px] border border-gray-300 text-center">
                       Hapus
@@ -525,7 +525,7 @@
                       />
                       <!-- @input="updateStokSelisih(item)" -->
                     </td>
-                    <!-- <td class="border border-gray-300">
+                    <td class="border border-gray-300">
                       <money
                         v-model="item.stok_real"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -534,10 +534,10 @@
                         "
                         @keyup.native="onChangeStok(i)"
                       />
-                    </td> -->
+                    </td>
                     <!-- @input="updateStokSelisih(item)" -->
 
-                    <!-- <td class="border border-gray-300">
+                    <td class="border border-gray-300">
                       <money
                         v-model="item.stok_selisih"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -546,7 +546,7 @@
                         "
                         disabled
                       />
-                    </td> -->
+                    </td>
                     <td class="border border-gray-300">
                       <textarea
                         placeholder="Keterangan"
