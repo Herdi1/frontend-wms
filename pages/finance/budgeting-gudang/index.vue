@@ -152,7 +152,7 @@
                     </div>
                   </th> -->
                   <th class="w-full border border-gray-300">Gudang</th>
-                  <!-- <th class="w-full border border-gray-300">Budget</th> -->
+                  <th class="w-full border border-gray-300">Budget</th>
                   <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
               </thead>
@@ -183,9 +183,9 @@
                   <td class="border border-gray-300">
                     {{ item.nama_gudang }}
                   </td>
-                  <!-- <td class="border border-gray-300">
-                    {{ item.budget ? item.budget : "-" }}
-                  </td> -->
+                  <td class="border border-gray-300">
+                    {{ item.budget | formatPrice }}
+                  </td>
 
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
@@ -230,7 +230,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -265,6 +265,7 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+    await this.onSearchGudang();
   },
 
   data() {

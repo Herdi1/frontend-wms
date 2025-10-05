@@ -961,11 +961,14 @@ export default {
     this.getGeoLocation();
     this.getUserAgent();
 
+    if (this.lookup_roles.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_roles.data[0]);
+    }
+
     const generateData = sessionStorage.getItem("asnGenerateData");
     if (generateData) {
       const itemData = JSON.parse(generateData);
       this.setGenerate(itemData);
-      // Hapus data setelah digunakan
       sessionStorage.removeItem("asnGenerateData");
     }
   },

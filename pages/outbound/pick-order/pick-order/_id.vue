@@ -957,6 +957,9 @@ export default {
     // await this.onSearchMe();
     this.getGeoLocation();
     this.getUserAgent();
+    if (this.lookup_custom7.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_custom7.data[0]);
+    }
   },
 
   computed: {

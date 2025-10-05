@@ -484,19 +484,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/inventory/stok-transfer/permintaan-stok/add");
+      this.$router.push("/inventory/stok-transfer/stok-transfer/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/inventory/stok-transfer/permintaan-stok/" + item.stok_transfer_id
+        "/inventory/stok-transfer/stok-transfer/" + item.stok_transfer_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/stok-transfer/permintaan-stok/detail/" +
-          item.stok_transfer_id
+        "/inventory/stok-transfer/stok-transfer/detail/" + item.stok_transfer_id
       );
     },
 
