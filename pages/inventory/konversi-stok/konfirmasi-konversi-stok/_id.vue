@@ -153,7 +153,44 @@
                 labelWidth="w-[40%]"
               />
             </div>
-            <div class="form-group">
+            <div class="form-group flex items-center justify-between">
+              <label for="staff_id"
+                >Staff<span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_lengkap"
+                :loading="isLoadingGetStaff"
+                :options="lookup_custom9.data"
+                :filterable="false"
+                @search="onGetStaff"
+                v-model="parameters.form.staff_id"
+                @input="onSelectStaff"
+                class="w-[60%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom9.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom9.current_page > 1"
+                    @click="onGetStaff(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom9.last_page > lookup_custom9.current_page
+                    "
+                    @click="onGetStaff(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <!-- <div class="form-group">
               <select-button
                 :self="{
                   label: 'Staff',
@@ -168,7 +205,7 @@
                 class="mb-5"
                 :required="true"
               />
-            </div>
+            </div> -->
             <div class="form-group">
               <input-horizontal
                 :disabled="true"
@@ -398,7 +435,7 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang;
         this.parameters.form.alasan_beda_plan_id = res.data.alasan_beda_plan;
         this.parameters.form.staff_id = res.data.staff ?? "";
-        this.parameters.form.vendor_id = res.data.vendor ?? "";
+        this.parameters.form.vendor_id = res.data.staff.vendor_operator ?? "";
         await this.onSearchItemGudang();
         await this.onSearchZonaPlan();
 
@@ -1032,6 +1069,8 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom9.current_page +
             "&per_page=10",

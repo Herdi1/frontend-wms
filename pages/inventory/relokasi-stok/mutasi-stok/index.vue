@@ -509,7 +509,7 @@ export default {
 
     onDetail(item) {
       this.$router.push(
-        "/inventory/relokasi-stok/mutasi-stok/detail" + item.mutasi_stock_id
+        "/inventory/relokasi-stok/mutasi-stok/detail/" + item.mutasi_stok_id
       );
     },
 

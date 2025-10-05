@@ -624,8 +624,8 @@
                         </th>
                         <th class="w-[200px] border border-gray-300">Jumlah</th>
                         <th class="w-[200px] border border-gray-300">Total</th>
-                        <th class="w-[200px] border border-gray-300">COA</th>
-                        <th class="w-[200px] border border-gray-300">Vendor</th>
+                        <th class="w-[250px] border border-gray-300">COA</th>
+                        <th class="w-[250px] border border-gray-300">Vendor</th>
                         <th class="w-[300px] border border-gray-300">
                           Keterangan
                         </th>
@@ -730,9 +730,12 @@
                             <template
                               slot="selected-option"
                               slot-scope="option"
-                              class="whitespace-nowrap overflow-hidden text-ellipsis"
                             >
-                              {{ option.nama_coa }}
+                              <div
+                                class="w-[150px] whitespace-nowrap overflow-hidden text-ellipsis"
+                              >
+                                {{ option.nama_coa }}
+                              </div>
                             </template>
                             <li
                               slot-scope="{ search }"
@@ -774,9 +777,12 @@
                             <template
                               slot="selected-option"
                               slot-scope="option"
-                              class="text-nowrap whitespace-nowrap overflow-hidden text-ellipsis"
                             >
-                              {{ option.nama_vendor }}
+                              <div
+                                class="w-[150px] text-nowrap whitespace-nowrap overflow-hidden text-ellipsis"
+                              >
+                                {{ option.nama_vendor }}
+                              </div>
                             </template>
                             <li
                               slot-scope="{ search }"
@@ -888,8 +894,8 @@ export default {
       isLoadingGetValuation: false,
       valuation_search: "",
 
-      isStopSearchItemZonaGudang: false,
-      isLoadingGetItemZonaGudang: false,
+      isStopSearchZonaGudang: false,
+      isLoadingGetZonaGudang: false,
       zonaGudang_search: "",
 
       isStopSearchSlotAisle: false,
@@ -1011,6 +1017,7 @@ export default {
         } else {
           this.parameters.form.biaya = [];
         }
+        console.log(this.parameters.form);
       }
     } catch (error) {
       console.log("error", error);
@@ -1161,6 +1168,8 @@ export default {
       if (this.isEditable) {
         url += "/" + this.id;
       }
+
+      // console.log(formData);
 
       this.$axios({
         method: this.isEditable ? "put" : "post",

@@ -221,6 +221,13 @@ export default {
       // this.resetFormPickRequest();
     },
 
+    onDeleteItem(index) {
+      this.self.parameters.form.pick_request_details =
+        this.self.parameters.form.pick_request_details.filter(
+          (_, itemIndex) => index !== itemIndex
+        );
+    },
+
     resetFormPickRequest() {
       this.formPickRequest = {
         detail_pick_request_id: "",
@@ -277,6 +284,7 @@ export default {
       if (item) {
         this.self.parameters.form.pick_request_details[index].item_gudang_id =
           item;
+        console.log(item);
       } else {
         this.self.parameters.form.pick_request_details[index].item_gudang_id =
           "";
