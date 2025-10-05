@@ -235,7 +235,7 @@
                     </th>
 
                     <th class="w-[200px] border border-gray-300">
-                      Stok Sistem<span class="text-danger">*</span>
+                      Stok Sistem <span class="text-danger">*</span>
                     </th>
                     <th class="w-[200px] border border-gray-300">
                       Stok Real <span class="text-danger">*</span>

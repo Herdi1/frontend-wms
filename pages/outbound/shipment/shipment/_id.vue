@@ -473,6 +473,9 @@ export default {
     if (this.lookup_warehouses.data && !this.isEditable) {
       this.onSelectGudang(this.lookup_warehouses.data[0]);
     }
+    if (this.user && !this.isEditable) {
+      this.onSelectUser(this.user);
+    }
   },
 
   computed: {
