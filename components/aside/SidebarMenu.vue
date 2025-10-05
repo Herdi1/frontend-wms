@@ -297,7 +297,12 @@ export default {
 
       menus.forEach((menu) => {
         if (Array.isArray(menu.childs)) {
-          menu.childs = menu.childs.filter((child) => child.status == 0);
+          menu.childs = menu.childs.filter(
+            (child) => child.status == 0 || child.childs_2
+          );
+          menu.childs.forEach((menu) => {
+            menu.childs_2.filter((child) => child.status == 0);
+          });
         }
       });
 
@@ -308,9 +313,16 @@ export default {
         );
 
         menus.forEach((element) => {
-          element.childs = element.childs.filter((item) =>
-            roles_id.includes(item.menu_id)
+          element.childs = element.childs.filter(
+            (item) =>
+              roles_id.includes(item.menu_id) || item.childs_2.length > 0
           );
+
+          element.childs.forEach((child) => {
+            child.childs_2 = child.childs_2.filter((item) =>
+              roles_id.includes(item.menu_id)
+            );
+          });
         });
       }
 

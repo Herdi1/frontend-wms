@@ -72,6 +72,7 @@
                   }"
                   width="w-[50%]"
                   required="true"
+                  :disabled="isEditable || lookup_roles.data.length == 1"
                 />
                 <!-- <ValidationProvider name="gudang" rules="required">
                   <div slot-scope="{ errors, valid }">
@@ -400,6 +401,9 @@ export default {
     // await this.onSearchSupplier();
     // await this.onSearchLokasi();
     await this.onSearchGudang();
+    if (this.lookup_roles.data.length > 0) {
+      await this.onSelectGudang(this.lookup_roles.data[0]);
+    }
     await this.onSearchPelanggan();
     await this.onSearchItemGudang();
     this.getGeoLocation();

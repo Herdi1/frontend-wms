@@ -63,6 +63,7 @@ const _38b5e9ed = () => interopDefault(import('..\\pages\\inventory\\stock_mutat
 const _4a8ad7ca = () => interopDefault(import('..\\pages\\inventory\\stock_opname\\index.vue' /* webpackChunkName: "pages/inventory/stock_opname/index" */))
 const _0ec23210 = () => interopDefault(import('..\\pages\\inventory\\stock_out\\index.vue' /* webpackChunkName: "pages/inventory/stock_out/index" */))
 const _9f6888d0 = () => interopDefault(import('..\\pages\\inventory\\stock-card\\index.vue' /* webpackChunkName: "pages/inventory/stock-card/index" */))
+const _13fc2dd9 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\index.vue' /* webpackChunkName: "pages/inventory/stok-opname/index" */))
 const _22ccb990 = () => interopDefault(import('..\\pages\\inventory\\update-harga\\index.vue' /* webpackChunkName: "pages/inventory/update-harga/index" */))
 const _3b79075e = () => interopDefault(import('..\\pages\\lastmile\\konfirmasi-selesai-kirim\\index.vue' /* webpackChunkName: "pages/lastmile/konfirmasi-selesai-kirim/index" */))
 const _0d5c7c52 = () => interopDefault(import('..\\pages\\lastmile\\riwayat-shipment\\index.vue' /* webpackChunkName: "pages/lastmile/riwayat-shipment/index" */))
@@ -676,6 +677,7 @@ const _4f888c4f = () => interopDefault(import('..\\pages\\inventory\\relokasi-st
 const _7fdaf682 = () => interopDefault(import('..\\pages\\inventory\\stock_in\\lain\\_id.vue' /* webpackChunkName: "pages/inventory/stock_in/lain/_id" */))
 const _23a3dc5e = () => interopDefault(import('..\\pages\\inventory\\stock_out\\lain\\_id.vue' /* webpackChunkName: "pages/inventory/stock_out/lain/_id" */))
 const _29ceb225 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\adjustment-stok-opname\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/adjustment-stok-opname/_id" */))
+const _45b4ead0 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/detail/_id" */))
 const _60d8a244 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\proses-stok-opname\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/proses-stok-opname/_id" */))
 const _54396cc7 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\stok-opname\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/stok-opname/_id" */))
 const _0d0838b2 = () => interopDefault(import('..\\pages\\inventory\\stok-transfer\\approve-stok-transfer\\_id.vue' /* webpackChunkName: "pages/inventory/stok-transfer/approve-stok-transfer/_id" */))
@@ -740,6 +742,7 @@ const _3b7e3d99 = () => interopDefault(import('..\\pages\\inventory\\stock_in\\_
 const _329f8395 = () => interopDefault(import('..\\pages\\inventory\\stock_mutation\\_id.vue' /* webpackChunkName: "pages/inventory/stock_mutation/_id" */))
 const _01a044b2 = () => interopDefault(import('..\\pages\\inventory\\stock_opname\\_id.vue' /* webpackChunkName: "pages/inventory/stock_opname/_id" */))
 const _1e557878 = () => interopDefault(import('..\\pages\\inventory\\stock_out\\_id.vue' /* webpackChunkName: "pages/inventory/stock_out/_id" */))
+const _07845afe = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/_id" */))
 const _76765ef9 = () => interopDefault(import('..\\pages\\lastmile\\konfirmasi-selesai-kirim\\_id.vue' /* webpackChunkName: "pages/lastmile/konfirmasi-selesai-kirim/_id" */))
 const _60216b3a = () => interopDefault(import('..\\pages\\lastmile\\riwayat-shipment\\_id.vue' /* webpackChunkName: "pages/lastmile/riwayat-shipment/_id" */))
 const _7c29ce87 = () => interopDefault(import('..\\pages\\manufactur\\bom\\_id.vue' /* webpackChunkName: "pages/manufactur/bom/_id" */))
@@ -1092,6 +1095,10 @@ export const routerOptions = {
     path: "/inventory/stock-card",
     component: _9f6888d0,
     name: "inventory-stock-card"
+  }, {
+    path: "/inventory/stok-opname",
+    component: _13fc2dd9,
+    name: "inventory-stok-opname"
   }, {
     path: "/inventory/update-harga",
     component: _22ccb990,
@@ -3541,15 +3548,19 @@ export const routerOptions = {
     component: _23a3dc5e,
     name: "inventory-stock_out-lain-id"
   }, {
-    path: "/inventory/stok-opname/adjustment-stok-opname/:id?",
+    path: "/inventory/stok-opname/adjustment-stok-opname/:id",
     component: _29ceb225,
     name: "inventory-stok-opname-adjustment-stok-opname-id"
   }, {
-    path: "/inventory/stok-opname/proses-stok-opname/:id?",
+    path: "/inventory/stok-opname/detail/:id",
+    component: _45b4ead0,
+    name: "inventory-stok-opname-detail-id"
+  }, {
+    path: "/inventory/stok-opname/proses-stok-opname/:id",
     component: _60d8a244,
     name: "inventory-stok-opname-proses-stok-opname-id"
   }, {
-    path: "/inventory/stok-opname/stok-opname/:id?",
+    path: "/inventory/stok-opname/stok-opname/:id",
     component: _54396cc7,
     name: "inventory-stok-opname-stok-opname-id"
   }, {
@@ -3800,6 +3811,10 @@ export const routerOptions = {
     path: "/inventory/stock_out/:id",
     component: _1e557878,
     name: "inventory-stock_out-id"
+  }, {
+    path: "/inventory/stok-opname/:id?",
+    component: _07845afe,
+    name: "inventory-stok-opname-id"
   }, {
     path: "/lastmile/konfirmasi-selesai-kirim/:id?",
     component: _76765ef9,

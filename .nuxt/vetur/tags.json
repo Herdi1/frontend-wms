@@ -23,24 +23,6 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "AnavbarMessages": {
-    "description": "Auto imported from components/anavbar/Messages.vue"
-  },
-  "AnavbarNotifications": {
-    "description": "Auto imported from components/anavbar/Notifications.vue"
-  },
-  "AnavbarSearchForm": {
-    "description": "Auto imported from components/anavbar/SearchForm.vue"
-  },
-  "AnavbarUserOptions": {
-    "description": "Auto imported from components/anavbar/UserOptions.vue"
-  },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -68,6 +50,24 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  },
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
+  },
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
+  },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
   },
@@ -76,6 +76,66 @@
   },
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
+  },
+  "SectionFilterData": {
+    "description": "Auto imported from components/section/FilterData.vue"
+  },
+  "SectionFilterSection": {
+    "description": "Auto imported from components/section/FilterSection.vue"
+  },
+  "SectionHeaderSection": {
+    "description": "Auto imported from components/section/HeaderSection.vue"
+  },
+  "SectionListOptionSection": {
+    "description": "Auto imported from components/section/ListOptionSection.vue"
+  },
+  "SectionModalFooterSection": {
+    "description": "Auto imported from components/section/ModalFooterSection.vue"
+  },
+  "SectionModalFooterSectionWoReset": {
+    "description": "Auto imported from components/section/ModalFooterSectionWoReset.vue"
+  },
+  "SectionModalHeaderSection": {
+    "description": "Auto imported from components/section/ModalHeaderSection.vue"
+  },
+  "SectionPaginationSection": {
+    "description": "Auto imported from components/section/PaginationSection.vue"
+  },
+  "SectionReportSection": {
+    "description": "Auto imported from components/section/ReportSection.vue"
+  },
+  "SectionTableDataLoadingSection": {
+    "description": "Auto imported from components/section/TableDataLoadingSection.vue"
+  },
+  "SectionTableDataNotFoundSection": {
+    "description": "Auto imported from components/section/TableDataNotFoundSection.vue"
+  },
+  "SectionTableHeaderSection": {
+    "description": "Auto imported from components/section/TableHeaderSection.vue"
+  },
+  "TransaksionalModalImportFile": {
+    "description": "Auto imported from components/transaksional/ModalImportFile.vue"
+  },
+  "TransaksionalModalKartuStok": {
+    "description": "Auto imported from components/transaksional/ModalKartuStok.vue"
+  },
+  "TransaksionalModalPickOrder": {
+    "description": "Auto imported from components/transaksional/ModalPickOrder.vue"
+  },
+  "TransaksionalModalPickRequest": {
+    "description": "Auto imported from components/transaksional/ModalPickRequest.vue"
+  },
+  "TransaksionalModalPurchaseOrder": {
+    "description": "Auto imported from components/transaksional/ModalPurchaseOrder.vue"
+  },
+  "TransaksionalModalStokGudang": {
+    "description": "Auto imported from components/transaksional/ModalStokGudang.vue"
+  },
+  "TransaksionalSelectButton": {
+    "description": "Auto imported from components/transaksional/SelectButton.vue"
+  },
+  "TransaksionalShowPictureModal": {
+    "description": "Auto imported from components/transaksional/ShowPictureModal.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
@@ -490,66 +550,6 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
-  },
-  "SectionFilterData": {
-    "description": "Auto imported from components/section/FilterData.vue"
-  },
-  "SectionFilterSection": {
-    "description": "Auto imported from components/section/FilterSection.vue"
-  },
-  "SectionHeaderSection": {
-    "description": "Auto imported from components/section/HeaderSection.vue"
-  },
-  "SectionListOptionSection": {
-    "description": "Auto imported from components/section/ListOptionSection.vue"
-  },
-  "SectionModalFooterSection": {
-    "description": "Auto imported from components/section/ModalFooterSection.vue"
-  },
-  "SectionModalFooterSectionWoReset": {
-    "description": "Auto imported from components/section/ModalFooterSectionWoReset.vue"
-  },
-  "SectionModalHeaderSection": {
-    "description": "Auto imported from components/section/ModalHeaderSection.vue"
-  },
-  "SectionPaginationSection": {
-    "description": "Auto imported from components/section/PaginationSection.vue"
-  },
-  "SectionReportSection": {
-    "description": "Auto imported from components/section/ReportSection.vue"
-  },
-  "SectionTableDataLoadingSection": {
-    "description": "Auto imported from components/section/TableDataLoadingSection.vue"
-  },
-  "SectionTableDataNotFoundSection": {
-    "description": "Auto imported from components/section/TableDataNotFoundSection.vue"
-  },
-  "SectionTableHeaderSection": {
-    "description": "Auto imported from components/section/TableHeaderSection.vue"
-  },
-  "TransaksionalModalImportFile": {
-    "description": "Auto imported from components/transaksional/ModalImportFile.vue"
-  },
-  "TransaksionalModalKartuStok": {
-    "description": "Auto imported from components/transaksional/ModalKartuStok.vue"
-  },
-  "TransaksionalModalPickOrder": {
-    "description": "Auto imported from components/transaksional/ModalPickOrder.vue"
-  },
-  "TransaksionalModalPickRequest": {
-    "description": "Auto imported from components/transaksional/ModalPickRequest.vue"
-  },
-  "TransaksionalModalPurchaseOrder": {
-    "description": "Auto imported from components/transaksional/ModalPurchaseOrder.vue"
-  },
-  "TransaksionalModalStokGudang": {
-    "description": "Auto imported from components/transaksional/ModalStokGudang.vue"
-  },
-  "TransaksionalSelectButton": {
-    "description": "Auto imported from components/transaksional/SelectButton.vue"
-  },
-  "TransaksionalShowPictureModal": {
-    "description": "Auto imported from components/transaksional/ShowPictureModal.vue"
   },
   "IconMenuApps": {
     "description": "Auto imported from components/icon/menu/icon-menu-apps.vue"

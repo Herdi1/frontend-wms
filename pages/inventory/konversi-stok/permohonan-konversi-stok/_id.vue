@@ -293,6 +293,7 @@ export default {
           lama_pengerjaan: "",
           lama_pengerjaan_string: "",
           gudang_id: "",
+          staff_id: "",
           alasan_beda_plan_id: "",
           status_transaksi_id: "",
           keterangan: "",

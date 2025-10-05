@@ -370,7 +370,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(item, i) in this.self.form.item_gudang"
+            v-for="(item, i) in this.paginatedItemGudang"
             :key="i"
             class="align-top"
           >
@@ -495,7 +495,7 @@
                     :filterable="false"
                     @search="onGetVendorPemilik"
                     v-model="item.vendor_id"
-                    :reduce="(item) => item.vendor_id"
+                    @input="(item) => onSelectVendor(item, i)"
                     class="w-full"
                   >
                     <li
@@ -791,9 +791,25 @@
       </table>
     </div>
 
-    <!-- <div class="mx-3 mt-2 mb-4">
-      <pagination-section :self="{ isPaginate, onLoad }" ref="pagination" />
-    </div> -->
+    <div class="flex gap-2 mx-3 mt-2 mb-4">
+      <button
+        type="button"
+        @click="prevPage"
+        class="bg-gray-300 p-2 rounded-sm"
+        :disabled="item_gudang_current_page == 1"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="p-2">{{ item_gudang_current_page }}</div>
+      <button
+        type="button"
+        @click="nextPage"
+        class="bg-gray-300 p-2 rounded-sm"
+        :disabled="item_gudang_current_page == totalPages"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -840,6 +856,9 @@ export default {
         group_item_id_4: "",
         group_item_id_5: "",
       },
+
+      item_gudang_current_page: 1,
+      item_gudang_per_page: 10,
 
       isStopSearchGroupItem1: false,
       isLoadingGetGroupItem1: false,
@@ -893,11 +912,34 @@ export default {
       "lookup_users",
       "lookup_chart_of_accounts",
     ]),
+
+    totalPages() {
+      return Math.ceil(
+        this.self.form.item_gudang.length / this.item_gudang_per_page
+      );
+    },
+    paginatedItemGudang() {
+      const start =
+        (this.item_gudang_current_page - 1) * this.item_gudang_per_page;
+      return this.self.form.item_gudang.slice(
+        start,
+        start + this.item_gudang_per_page
+      );
+    },
   },
 
   methods: {
     ...mapActions("moduleApi", ["lookUp", "getData"]),
     ...mapMutations("moduleApi", ["set_data"]),
+
+    nextPage() {
+      if (this.item_gudang_current_page < this.item_gudang_per_page)
+        this.item_gudang_current_page++;
+      console.log(this.item_gudang_current_page);
+    },
+    prevPage() {
+      if (this.item_gudang_current_page > 1) this.item_gudang_current_page--;
+    },
 
     onGetGroupItem1(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -1145,6 +1187,14 @@ export default {
         });
 
         this.isLoadingGetVendorPemilik = false;
+      }
+    },
+
+    onSelectVendor(item, index) {
+      if (item) {
+        this.self.form.item_gudang[index].vendor_id = item;
+      } else {
+        this.self.form.item_gudang[index].vendor_id = "";
       }
     },
 

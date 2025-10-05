@@ -1526,9 +1526,9 @@ export default {
           item_gudang_id: data.item_gudang_id,
           biaya_inbound_id: "",
           jenis_biaya_id: data.jenis_biaya,
-          nominal_satuan: data.nilai_kontrak,
-          berat: data.item_gudang.berat_kotor,
-          volume: data.item_gudang.volume,
+          nominal_satuan: data.nilai_kontrak ?? 0,
+          berat: data.item_gudang ? data.item_gudang.berat_kotor : 0,
+          volume: data.item_gudang ? data.item_gudang.volume : 0,
           jumlah: parseFloat(
             this.self.form.inbound_details[index].quantity_terima
           ),

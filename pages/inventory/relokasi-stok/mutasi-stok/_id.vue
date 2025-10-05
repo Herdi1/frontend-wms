@@ -952,13 +952,15 @@ export default {
   watch: {
     "parameters.form.biaya": {
       handler(newVal) {
-        newVal.forEach((item) => {
-          if (item.jumlah > 0) {
-            item.total = item.jumlah * item.nominal_satuan;
-          } else {
-            item.total = 0;
-          }
-        });
+        if (newVal && newVal.length > 0) {
+          newVal.forEach((item) => {
+            if (item.jumlah > 0) {
+              item.total = item.jumlah * item.nominal_satuan;
+            } else {
+              item.total = 0;
+            }
+          });
+        }
       },
       immediate: true,
       deep: true,

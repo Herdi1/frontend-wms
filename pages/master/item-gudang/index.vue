@@ -324,7 +324,7 @@
                 <th class="w-[75px] border border-gray-300">Details</th>
                 <th class="w-[50px] text-center border border-gray-300">No</th>
                 <th class="w-[200px] border border-gray-300">Item</th>
-                <th class="w-[200px] border border-gray-300">Vendor</th>
+                <th class="w-[200px] border border-gray-300">Gudang</th>
                 <th class="w-[200px] border border-gray-300">Supplier</th>
                 <!-- <th
                   @click="
@@ -385,7 +385,7 @@
                   <div>{{ item.nama_item }}</div>
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.vendor?.nama_vendor ?? "" }}
+                  {{ item.gudang?.nama_gudang ?? "" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.supplier.nama_supplier }}

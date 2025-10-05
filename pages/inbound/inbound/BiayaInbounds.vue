@@ -43,8 +43,8 @@
             class="align-top mx-0"
           >
             <td class="border border-gray-300">
-              {{ item.item_gudang.nama_item }}
-              {{ item.item_gudang.kode_item }}
+              {{ item.item_gudang?.nama_item }}
+              {{ item.item_gudang?.kode_item }}
             </td>
             <td class="border border-gray-300">
               <!-- <v-select
