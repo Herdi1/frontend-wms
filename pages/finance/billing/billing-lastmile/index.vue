@@ -314,6 +314,9 @@ export default {
   },
 
   async created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     await this.onLoad();
   },

@@ -407,6 +407,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },
@@ -566,18 +569,18 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/outbound/shipment/inspeksi-shipment/add");
+      this.$router.push("/outbound/shipment/inspeksi-outbound/add");
     },
 
     onEdit(item) {
       this.$router.push(
-        "/outbound/shipment/inspeksi-shipment/" + item.shipment_id
+        "/outbound/shipment/inspeksi-outbound/" + item.shipment_id
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        "/outbound/shipment/inspeksi-shipment/detail/" + item.shipment_id
+        "/outbound/shipment/inspeksi-outbound/detail/" + item.shipment_id
       );
     },
 

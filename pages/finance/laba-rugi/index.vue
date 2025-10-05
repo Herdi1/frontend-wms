@@ -178,6 +178,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.onLoad();
     this.set_data([]);
   },

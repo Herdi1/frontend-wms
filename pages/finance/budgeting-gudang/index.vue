@@ -184,7 +184,7 @@
                     {{ item.nama_gudang }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.budget | formatPrice }}
+                    {{ parseFloat(item.budget || 0) | formatPrice }}
                   </td>
 
                   <td class="place-items-center border border-gray-300">
@@ -226,6 +226,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },

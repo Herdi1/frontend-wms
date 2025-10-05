@@ -268,9 +268,15 @@
                     <th class="w-40 border border-gray-300">Jenis</th>
                     <th class="w-40 border border-gray-300">Jenis Kiriman</th>
                     <th class="w-60 border border-gray-300">Peralatan</th>
-                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
-                    <th class="w-60 border border-gray-300">Valuation</th>
-                    <th class="w-60 border border-gray-300">Zona Asal</th>
+                    <th class="w-60 border border-gray-300">
+                      Jenis Biaya <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Valuation <span class="text-danger">*</span>
+                    </th>
+                    <th class="w-60 border border-gray-300">
+                      Zona Asal <span class="text-danger">*</span>
+                    </th>
                     <th class="w-60 border border-gray-300">
                       Lokasi Penyimpanan Asal
                     </th>
