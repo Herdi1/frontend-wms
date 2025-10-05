@@ -153,6 +153,7 @@
                 :options="lookup_custom1.data"
                 :filterable="false"
                 @search="onGetGroupRole"
+                @input="onSelectRole"
                 v-model="parameters.form.role_id"
               >
                 <li
@@ -186,6 +187,7 @@
                 :options="lookup_custom2.data"
                 :filterable="false"
                 @search="onGetPelanggan"
+                @input="onSelectPelanggan"
                 v-model="parameters.form.pelanggan_id"
                 class="w-full"
                 :aria-disabled="parameters.form.status_user == 2"
@@ -258,6 +260,7 @@
                 :options="lookup_custom4.data"
                 :filterable="false"
                 @search="onGetJabatan"
+                @input="onSelectJabatan"
                 v-model="parameters.form.jabatan_id"
                 class="w-full"
               >
@@ -293,6 +296,7 @@
                 :options="lookup_custom5.data"
                 :filterable="false"
                 @search="onGetStaff"
+                @input="onSelectStaff"
                 v-model="parameters.form.staff_id"
                 class="w-full"
               >
@@ -541,23 +545,23 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id,
+            : "",
         role_id:
           typeof this.parameters.form.role_id === "object"
             ? this.parameters.form.role_id.role_id
-            : this.parameters.form.role_id,
+            : "",
         jabatan_id:
           typeof this.parameters.form.jabatan_id === "object"
             ? this.parameters.form.jabatan_id.jabatan_id
-            : this.parameters.form.jabatan_id,
+            : "",
         pelanggan_id:
           typeof this.parameters.form.pelanggan_id === "object"
             ? this.parameters.form.pelanggan_id.pelanggan_id
-            : this.parameters.form.pelanggan_id,
+            : "",
         staff_id:
           typeof this.parameters.form.staff_id === "object"
             ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id,
+            : "",
       };
       formData.user_gudangs = this.parameters.form.user_gudangs.map((item) => {
         return {
@@ -823,6 +827,38 @@ export default {
         });
 
         this.isLoadingGetStaff = false;
+      }
+    },
+
+    onSelectRole(item) {
+      if (item) {
+        this.parameters.form.role_id = item;
+      } else {
+        this.parameters.form.role_id = "";
+      }
+    },
+
+    onSelectJabatan(item) {
+      if (item) {
+        this.parameters.form.jabatan_id = item;
+      } else {
+        this.parameters.form.jabatan_id = "";
+      }
+    },
+
+    onSelectStaff(item) {
+      if (item) {
+        this.parameters.form.staff_id = item;
+      } else {
+        this.parameters.form.staff_id = "";
+      }
+    },
+
+    onSelectPelanggan(item) {
+      if (item) {
+        this.parameters.form.pelanggan_id = item;
+      } else {
+        this.parameters.form.pelanggan_id = "";
       }
     },
 
