@@ -463,6 +463,8 @@ export default {
       parameters: {
         url: "inventory/approve-mutasi-stok",
         form: {
+          coa_id: "",
+          divisi_id: "",
           gudang_id: "",
           status_adjustment: "",
           tanggal: "",
@@ -480,13 +482,42 @@ export default {
       },
     };
   },
+
+  watch: {
+    "parameters.form.biaya": {
+      handler(newVal) {
+        if (newVal && newVal.length > 0) {
+          newVal.forEach((item) => {
+            if (item.jumlah > 0) {
+              item.total = item.jumlah * item.nominal_satuan;
+            } else {
+              item.total = 0;
+            }
+          });
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+
   async created() {
     try {
       if (this.isEditable) {
         let res = await this.$axios.get(
           `inventory/approve-mutasi-stok/${this.id}`
         );
-        this.parameters.form = res.data;
+        // this.parameters.form = res.data;
+        Object.keys(this.parameters.form).forEach((item) => {
+          if (
+            item !== "biaya" &&
+            item !== "gudang_id" &&
+            item !== "staff_id" &&
+            item !== "mutasi_stok_details"
+          ) {
+            this.parameters.form[item] = res.data[item];
+          }
+        });
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.parameters.form.coa_id = res.data.coa ?? "";
         this.parameters.form.divisi_id = res.data.divisi ?? "";
@@ -497,14 +528,14 @@ export default {
               nama_item: item.item_gudang.nama_item,
               kode_item: item.item_gudang.kode_item,
               mutasi_stok_details_id: item,
-              item_gudang_id: item.item_gudang_id,
-              valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang,
+              item_gudang_id: item.item_gudang_id ?? "",
+              valuation_id: item.valuation_id ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
-              kode_valuation: item.valuation.kode_valuation,
+              kode_valuation: item.valuation?.kode_valuation ?? "",
             };
           });
 
@@ -523,7 +554,7 @@ export default {
         }
       }
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       //this.$router.back()
     } finally {
       this.isLoadingPage = false;
@@ -611,15 +642,15 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id,
+            : "",
         coa_id:
           typeof this.parameters.form.coa_id === "object"
             ? this.parameters.form.coa_id.coa_id
-            : this.parameters.form.coa_id,
+            : "",
         divisi_id:
           typeof this.parameters.form.divisi_id === "object"
             ? this.parameters.form.divisi_id.divisi_id
-            : this.parameters.form.divisi_id,
+            : "",
         mutasi_stok_details: this.parameters.form.mutasi_stok_details.map(
           (item) => {
             return {

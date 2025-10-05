@@ -388,7 +388,7 @@
                   {{ item.gudang?.nama_gudang ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.supplier.nama_supplier }}
+                  {{ item.supplier?.nama_supplier }}
                 </td>
                 <!-- <td class="border border-gray-300">{{ item.nama_item }}</td> -->
                 <td class="border border-gray-300">

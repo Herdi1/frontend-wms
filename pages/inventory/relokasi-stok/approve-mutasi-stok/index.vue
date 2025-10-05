@@ -68,6 +68,34 @@
 
               <div class="grid grid-cols-2 gap-2 mb-1">
                 <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Mutasi</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_mutasi"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="MENUNGGU">Menunggu</option>
+                    <option value="PROSES">Proses</option>
+                    <option value="SELESAI">Selesai</option>
+                    <option value="BATAL">Batal</option>
+                  </select>
+                </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2">Status Adjustment</div>
+                  <select
+                    name=""
+                    id=""
+                    v-model="parameters.params.status_adjustment"
+                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  >
+                    <option value="0">Menunggu</option>
+                    <option value="1">Approved</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mb-1">
+                <div class="form-group w-full flex" v-if="!this.user.gudang_id">
                   <div class="mb-3 w-1/2">Gudang</div>
 
                   <v-select
@@ -77,8 +105,8 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
-                    :reduce="(item) => item.gudang_id"
+                    v-model="parameters.params.gudang"
+                    @input="onSelectGudang"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -111,34 +139,6 @@
                       >
                     </li>
                   </v-select>
-                </div>
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Mutasi</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_mutasi"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="MENUNGGU">Menunggu</option>
-                    <option value="PROSES">Proses</option>
-                    <option value="SELESAI">Selesai</option>
-                    <option value="BATAL">Batal</option>
-                  </select>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-2 mb-1">
-                <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Adjustment</div>
-                  <select
-                    name=""
-                    id=""
-                    v-model="parameters.params.status_adjustment"
-                    class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  >
-                    <option value="0">Menunggu</option>
-                    <option value="1">Approved</option>
-                  </select>
                 </div>
               </div>
 
@@ -367,6 +367,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },
@@ -430,6 +433,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
+          gudang: "",
           gudang_id: "",
           status_mutasi: "",
           status_adjustment: "",
@@ -646,6 +650,15 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.params.gudang = item;
+        this.parameters.params.gudang_id = item.gudang_id;
+      } else {
+        this.parameters.params.gudang = "";
+        this.parameters.params.gudang_id = "";
       }
     },
   },

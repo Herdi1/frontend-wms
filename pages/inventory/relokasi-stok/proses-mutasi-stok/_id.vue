@@ -415,7 +415,7 @@
                     <thead>
                       <tr class="text-sm uppercase">
                         <th class="w-[200px] border border-gray-300">
-                          Jenis Biayaa
+                          Jenis Biaya
                         </th>
                         <th class="w-[200px] border border-gray-300">
                           Nominal Satuan
@@ -436,8 +436,8 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(item, i) in parameters.form.biaya"
-                        :key="i"
+                        v-for="(item, index) in parameters.form.biaya"
+                        :key="index"
                         class="align-top border-t"
                       >
                         <td class="border border-gray-300">
@@ -499,6 +499,7 @@
                         <td class="border border-gray-300">
                           <money
                             v-model="item.total"
+                            disabled
                             class="w-full pl-2 py-1 border rounded focus:outline-none"
                             @keydown.native="
                               $event.key === '-'
@@ -594,7 +595,7 @@
                           </span>
                         </td>
                       </tr>
-                      <tr v-if="!parameters.form.biaya.length">
+                      <tr v-if="!parameters.form.biaya.length > 0">
                         <td colspan="100" class="text-center">
                           <span class="flex justify-center">
                             <img
@@ -729,6 +730,25 @@ export default {
       },
     };
   },
+
+  watch: {
+    "parameters.form.biaya": {
+      handler(newVal) {
+        if (newVal && newVal.length > 0) {
+          newVal.forEach((item) => {
+            if (item.jumlah > 0) {
+              item.total = item.jumlah * item.nominal_satuan;
+            } else {
+              item.total = 0;
+            }
+          });
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
+
   async created() {
     const today = new Date();
     const year = today.getFullYear();
@@ -742,8 +762,20 @@ export default {
         let res = await this.$axios.get(
           `inventory/proses-mutasi-stok/${this.id}`
         );
-        this.parameters.form = res.data;
-        this.parameters.form.gudang_id = res.data.gudang;
+        // this.parameters.form = res.data;
+        Object.keys(this.parameters.form).forEach((item) => {
+          if (
+            item !== "biaya" &&
+            item !== "gudang_id" &&
+            item !== "staff_id" &&
+            item !== "mutasi_stok_details"
+          ) {
+            this.parameters.form[item] = res.data[item];
+          }
+        });
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        await this.onSearchStaff();
+        this.parameters.form.staff_id = res.data.staff ?? "";
         // this.parameters.form.biaya = [];
         this.parameters.form.mutasi_stok_details =
           res.data.mutasi_stok_details.map((item) => {
@@ -762,12 +794,12 @@ export default {
               mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id,
               valuation_id: item.valuation_id,
-              zona_gudang_id: item.zona_gudang,
+              zona_gudang_id: item.zona_gudang ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
-              kode_valuation: item.valuation.kode_valuation,
+              kode_valuation: item.valuation?.kode_valuation ?? "",
             };
           });
 
@@ -776,9 +808,9 @@ export default {
             return {
               ...item,
               biaya_id: item,
-              jenis_biaya_id: item.jenis_biaya ?? item.jenis_biaya_id,
-              coa_id: item.coa ?? item.coa_id,
-              vendor_id: item.vendor ?? item.vendor_id,
+              jenis_biaya_id: item.jenis_biaya ?? "",
+              coa_id: item.coa ?? "",
+              vendor_id: item.vendor ?? "",
             };
           });
         } else {
@@ -805,7 +837,7 @@ export default {
     await this.onSearchJenisBiaya();
     await this.onSearchCoa();
     await this.onSearchVendor();
-    await this.onSearchStaff();
+    // await this.onSearchStaff();
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1018,14 +1050,17 @@ export default {
     },
 
     addBiayaItem() {
+      if (!this.parameters.form.biaya) {
+        this.$set(this.parameters.form, "biaya", []);
+      }
       this.parameters.form.biaya.push({
         biaya_id: "",
         jenis_biaya_id: "",
         coa_id: "",
         vendor_id: "",
-        nominal_satuan: "",
-        jumlah: "",
-        total: "",
+        nominal_satuan: 0,
+        jumlah: 0,
+        total: 0,
         keterangan: "",
       });
     },
@@ -1590,6 +1625,8 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_customers.current_page +
             "&per_page=10",
