@@ -115,8 +115,8 @@
                     :options="lookup_custom3.data"
                     :filterable="false"
                     @search="onGetZonaGudang"
-                    :reduce="(item) => item.zona_gudang_id"
                     v-model="filter_params.zona_gudang_id"
+                    @input="onSelectZona"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -856,7 +856,8 @@ export default {
       // // "&item_gudang_id=" +
       // // this.parameters.params.item_gudang_id +
       this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
-      this.parameters.params.zona_gudang_id = this.filter_params.zona_gudang_id;
+      this.parameters.params.zona_gudang_id =
+        this.filter_params.zona_gudang_id.zona_gudang_id;
       this.parameters.params.item_gudang_id =
         this.filter_params.item_gudang_id.item_gudang_id;
 
@@ -1095,6 +1096,14 @@ export default {
         });
 
         this.isLoadingGetZonaGudang = false;
+      }
+    },
+
+    onSelectZona(item) {
+      if (item) {
+        this.filter_params.zona_gudang_id = item;
+      } else {
+        this.filter_params.zona_gudang_id = "";
       }
     },
 

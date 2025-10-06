@@ -288,11 +288,13 @@ export default {
       });
     },
 
-    onDeleteDetailShipment(index) {
+    async onDeleteDetailShipment(index) {
+      //delete shipment detail
       this.self.parameters.form.shipment_details =
         this.self.parameters.form.shipment_details.filter(
           (_, itemIndex) => index !== itemIndex
         );
+      await this.self.generateRuteShipment();
     },
 
     setUrutan(index) {

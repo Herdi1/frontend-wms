@@ -1253,18 +1253,23 @@ export default {
           await Promise.all(
             this.parameters.form.rute_shipments.map((item) => {
               return this.$axios
-                .get("/finance/kontrak-lastmile/get-kontrak-lastmile-atcost", {
-                  params: {
-                    gudang_id: this.parameters.form.gudang_id.gudang_id,
-                    jenis_kendaraan_id:
-                      this.parameters.form.jenis_kendaraan_id
-                        .jenis_kendaraan_id,
-                    lokasi_id: item.lokasi_id_tujuan.lokasi_id,
-                    vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
-                    jenis_kiriman: item.jenis_kiriman,
-                    jarak: sumJarak,
-                  },
-                })
+                .get(
+                  item.lokasi_id_tujuan?.status_bongkar_toko == 1
+                    ? "/finance/kontrak-lastmile/get-kontrak-lastmile-bongkar-tujuan"
+                    : "/finance/kontrak-lastmile/get-kontrak-lastmile-atcost",
+                  {
+                    params: {
+                      gudang_id: this.parameters.form.gudang_id.gudang_id,
+                      jenis_kendaraan_id:
+                        this.parameters.form.jenis_kendaraan_id
+                          .jenis_kendaraan_id,
+                      lokasi_id: item.lokasi_id_tujuan.lokasi_id,
+                      vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
+                      jenis_kiriman: item.jenis_kiriman,
+                      jarak: sumJarak,
+                    },
+                  }
+                )
                 .then((res) => {
                   res.data.forEach((data) => {
                     this.parameters.form.biaya_lastmiles.push({
