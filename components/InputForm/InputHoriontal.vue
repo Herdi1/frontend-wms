@@ -11,6 +11,8 @@
       :required="required"
       :disabled="disabled"
       :class="inputWidth"
+      :max="max"
+      :min="min"
       class="pl-2 py-1 border border-gray-300 rounded focus:outline-none"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"
@@ -52,6 +54,14 @@ export default {
     labelWidth: {
       type: String,
       default: "w-1/2",
+    },
+    max: {
+      type: String,
+      default: "",
+    },
+    min: {
+      type: String,
+      default: "",
     },
   },
 };
