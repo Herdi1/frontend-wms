@@ -22,6 +22,42 @@
         <div>
           <list-option-section :self="this" ref="form-option" />
         </div>
+
+        <div class="w-full mt-3 mb-7">
+          <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2"><b>Tipe Lokasi</b></div>
+
+                <select
+                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                  name="tipe_lokasi"
+                  id="tipe_lokasi"
+                  v-model="parameters.params.tipe_lokasi"
+                >
+                  <option
+                    v-for="(item, i) in lookup_custom1"
+                    :key="i"
+                    :value="item.value"
+                  >
+                    {{ item.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex gap-3 mt-5">
+              <button
+                @click="onLoad"
+                class="bg-blue-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
+              >
+                <i class="fa fa-filter text-white font-bold mr-2"></i>
+                <div>Filter</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive w-full relative overflow-y-auto">
           <table
             ref="formContainer"
@@ -176,7 +212,7 @@ export default {
     this.onLoad();
   },
 
-  mounted() {
+  async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -210,6 +246,11 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
+    await this.lookUp({
+      url: "utility",
+      lookup: "custom1",
+      query: "?q=tipe_lokasi",
+    });
   },
 
   data() {
@@ -243,50 +284,54 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
-          form: {
-            lokasi_id_induk: "",
-            tipe_lokasi: "T",
-            kode_referensi: "",
-            kode_lokasi: "",
-            nama_lokasi: "",
-            negara_id: "",
-            provinsi_id: "",
-            kota_id: "",
-            kecamatan_id: "",
-            kelurahan_id: "",
-            kode_pos_id: "",
-            email: "",
-            nilai_plafon: "",
-            no_telp: "",
-            no_hp: "",
-            no_npwp: "",
-            longitude: "",
-            latitude: "",
-            radius: "",
-            longitude2: "",
-            latitude2: "",
-            radius2: "",
-            longitude3: "",
-            latitude3: "",
-            radius3: "",
-            alamat: "",
-            alamat_lokasi: "",
-            nama_pemilik: "",
-            nik_pemilik: "",
-            npwp_pemilik: "",
-            negara_id_pemilik: "",
-            provinsi_id_pemilik: "",
-            kota_id_pemilik: "",
-            kecamatan_id_pemilik: "",
-            kelurahan_id_pemilik: "",
-            alamat_pemilik: "",
-          },
+          tipe_lokasi: "",
+        },
+        form: {
+          lokasi_id_induk: "",
+          tipe_lokasi: "T",
+          kode_referensi: "",
+          kode_lokasi: "",
+          nama_lokasi: "",
+          negara_id: "",
+          provinsi_id: "",
+          kota_id: "",
+          kecamatan_id: "",
+          kelurahan_id: "",
+          kode_pos_id: "",
+          email: "",
+          nilai_plafon: "",
+          no_telp: "",
+          no_hp: "",
+          no_npwp: "",
+          longitude: "",
+          latitude: "",
+          radius: "",
+          longitude2: "",
+          latitude2: "",
+          radius2: "",
+          longitude3: "",
+          latitude3: "",
+          radius3: "",
+          alamat: "",
+          alamat_lokasi: "",
+          nama_pemilik: "",
+          nik_pemilik: "",
+          npwp_pemilik: "",
+          negara_id_pemilik: "",
+          provinsi_id_pemilik: "",
+          kota_id_pemilik: "",
+          kecamatan_id_pemilik: "",
+          kelurahan_id_pemilik: "",
+          alamat_pemilik: "",
         },
         loadings: {
           isDelete: false,
           isRestore: false,
         },
       },
+      isStopSearchTipe: false,
+      isLoadingGetTipe: false,
+      tipe_lokasi_search: "",
     };
   },
 
@@ -296,7 +341,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -328,6 +373,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
 
