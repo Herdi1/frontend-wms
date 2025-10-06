@@ -1683,7 +1683,7 @@ export default {
       this.isStopSearchItem = setTimeout(() => {
         this.item_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_custom1.current_page = isNext
             ? this.lookup_custom1.current_page + 1
             : this.lookup_custom1.current_page - 1;
@@ -1791,7 +1791,7 @@ export default {
       this.isStopSearchSuppliers = setTimeout(() => {
         this.suppliers_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_suppliers.current_page = isNext
             ? this.lookup_suppliers.current_page + 1
             : this.lookup_suppliers.current_page - 1;
@@ -1827,7 +1827,7 @@ export default {
       this.isStopSearchCategory = setTimeout(() => {
         this.category_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_grade.current_page = isNext
             ? this.lookup_grade.current_page + 1
             : this.lookup_grade.current_page - 1;
@@ -1863,7 +1863,7 @@ export default {
       this.isStopSearchGudang = setTimeout(() => {
         this.gudang_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_custom4.current_page = isNext
             ? this.lookup_custom4.current_page + 1
             : this.lookup_custom4.current_page - 1;
@@ -1908,7 +1908,7 @@ export default {
       this.isStopSearchZona = setTimeout(() => {
         this.zona_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_custom5.current_page = isNext
             ? this.lookup_custom5.current_page + 1
             : this.lookup_custom5.current_page - 1;

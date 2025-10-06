@@ -562,6 +562,17 @@ export default {
     },
 
     async onLoad(page = 1) {
+      if (
+        !this.parameters.params.coa_id ||
+        !this.parameters.params.start_date ||
+        !this.parameters.params.end_date ||
+        !this.parameters.params.gudang_id
+      ) {
+        this.$toaster.error(
+          "Mohon isi Gudang, Master Akun, Periode Awal dan Akhir Terlebih Dulu"
+        );
+        return;
+      }
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
