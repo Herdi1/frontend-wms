@@ -381,26 +381,27 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
-        this.parameters.form.pengemudi_id = res.data.pengemudi;
-        this.parameters.form.vendor_id = res.data.vendor;
-        this.parameters.form.kendaraan_id = res.data.kendaraan;
-        this.parameters.form.gudang_id = res.data.gudang;
-        this.parameters.form.staff_id = res.data.staff;
-        this.parameters.form.user_id_pic = res.data.user_pic;
-        this.parameters.form.jenis_kendaraan_id = res.data.jenis_kendaraan;
+        this.parameters.form.pengemudi_id = res.data.pengemudi ?? "";
+        this.parameters.form.vendor_id = res.data.vendor ?? "";
+        this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.staff_id = res.data.staff ?? "";
+        this.parameters.form.user_id_pic = res.data.user_pic ?? "";
+        this.parameters.form.jenis_kendaraan_id =
+          res.data.jenis_kendaraan ?? "";
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
             return {
               ...item,
               shipment_detail_id: item,
-              lokasi_id: item.lokasi,
-              item_gudang_id: item.item_gudang,
-              zona_gudang_id: item.zona_gudang,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
+              lokasi_id: item.lokasi ?? "",
+              item_gudang_id: item.item_gudang ?? "",
+              zona_gudang_id: item.zona_gudang ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
             };
           }
         );
@@ -411,8 +412,8 @@ export default {
               return {
                 ...item,
                 rute_shipment_id: item,
-                lokasi_id_asal: item.lokasi_asal,
-                lokasi_id_tujuan: item.lokasi_tujuan,
+                lokasi_id_asal: item.lokasi_asal ?? "",
+                lokasi_id_tujuan: item.lokasi_tujuan ?? "",
                 jenis_routing: item.jenis_routing.trim(),
               };
             }
@@ -425,11 +426,11 @@ export default {
               return {
                 ...item,
                 biaya_lastmile_id: item,
-                lokasi_id: item.lokasi,
-                jenis_biaya_id: item.jenis_biaya,
-                term_pembayaran_id: item.term_pembayaran,
-                divisi_id: item.divisi,
-                vendor_id: item.vendor,
+                lokasi_id: item.lokasi ?? "",
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                term_pembayaran_id: item.term_pembayaran ?? "",
+                divisi_id: item.divisi ?? "",
+                vendor_id: item.vendor ?? "",
               };
             }
           );
@@ -441,12 +442,12 @@ export default {
               return {
                 ...item,
                 biaya_lastmile_id: item,
-                lokasi_id: item.lokasi,
-                jenis_biaya_id: item.jenis_biaya,
-                term_pembayaran_id: item.term_pembayaran,
-                divisi_id: item.divisi,
-                vendor_id: item.vendor,
-                pelanggan_id: item.pelanggan,
+                lokasi_id: item.lokasi ?? "",
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                term_pembayaran_id: item.term_pembayaran ?? "",
+                divisi_id: item.divisi ?? "",
+                vendor_id: item.vendor ?? "",
+                pelanggan_id: item.pelanggan ?? "",
               };
             });
         }
