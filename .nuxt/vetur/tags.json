@@ -23,12 +23,6 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"
   },
@@ -490,6 +484,12 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
+  },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "SectionFilterData": {
     "description": "Auto imported from components/section/FilterData.vue"
