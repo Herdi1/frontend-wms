@@ -856,7 +856,8 @@ export default {
       // // "&item_gudang_id=" +
       // // this.parameters.params.item_gudang_id +
       this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
-      this.parameters.params.zona_gudang_id = this.filter_params.zona_gudang_id;
+      this.parameters.params.zona_gudang_id =
+        this.filter_params.zona_gudang_id.zona_gudang_id;
       this.parameters.params.item_gudang_id =
         this.filter_params.item_gudang_id.item_gudang_id;
 
