@@ -23,12 +23,15 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+<<<<<<< HEAD
   "AsideSidebarBrand": {
     "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
+=======
+>>>>>>> dc1bd454a3ee38e6c98bcf55deb0dea7b014bdc0
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"
   },
@@ -67,6 +70,18 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"

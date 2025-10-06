@@ -38,6 +38,7 @@
                     :isHorizontal="true"
                     v-model="parameters.params.start_date"
                     :required="false"
+                    :max="parameters.params.end_date"
                   />
                 </div>
 
@@ -49,6 +50,7 @@
                     :isHorizontal="true"
                     v-model="parameters.params.end_date"
                     :required="false"
+                    :min="parameters.params.start_date"
                   />
                 </div>
               </div>
@@ -636,7 +638,7 @@ export default {
 
   head() {
     return {
-      title: "Stock Card",
+      title: "Kartu Stok",
     };
   },
 
@@ -703,7 +705,7 @@ export default {
       data: [],
       raw_data: [],
       ActiveRow: null,
-      title: "Stock Card",
+      title: "Kartu Stok",
       isLoadingData: false,
       isPaginate: true,
       parameters: {

@@ -40,7 +40,7 @@
                       name="kode_sap"
                       :isHorizontal="true"
                       v-model="parameters.params.start_date"
-                      :required="false"
+                      :required="false" :max="parameters.params.end_date"
                     />
                   </div>
                 </div>
@@ -53,7 +53,7 @@
                       name="periode_akhir"
                       :isHorizontal="true"
                       v-model="parameters.params.end_date"
-                      :required="false"
+                      :required="false" :min="parameters.params.start_date"
                     />
                   </div>
                 </div>

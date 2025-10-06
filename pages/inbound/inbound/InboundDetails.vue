@@ -27,7 +27,7 @@
             <!-- <th class="w-[200px] border border-gray-300">
                             Item Pelanggan
                           </th> -->
-            <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[300px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Nomor</th>
             <!-- <th class="w-[200px] border border-gray-300">
                             Nomor Referensi
@@ -47,10 +47,7 @@
               Lokasi Plan
             </th>
             <th class="w-[200px] border border-gray-300">Zona</th>
-            <th class="w-[200px] border border-gray-300">Aisle</th>
-            <th class="w-[200px] border border-gray-300">Rack</th>
-            <th class="w-[200px] border border-gray-300">Level</th>
-            <th class="w-[200px] border border-gray-300">Bin</th>
+            <th class="w-[200px] border border-gray-300">Lokasi Penyimpanan</th>
             <th class="w-[300px] border border-gray-300">Keterangan</th>
             <th
               class="w-[300px] border border-gray-300"
@@ -130,7 +127,11 @@
                 </li>
               </v-select>
               <!-- <p>{{ item.index }}</p> -->
-              <!-- {{ item.nama_item ? item.nama_item : "-" }} -->
+              <p>
+                {{ item.item_gudang_id ? item.item_gudang_id.nama_item : "-" }}
+                -
+                {{ item.item_gudang_id ? item.item_gudang_id.kode_item : "-" }}
+              </p>
             </td>
             <td class="border border-gray-300">
               <div>
@@ -227,7 +228,6 @@
                   :filterable="false"
                   @search="onGetValuation"
                   v-model="item.valuation_id"
-                  :reduce="(item) => item.valuation_id"
                   class="w-full"
                 >
                   <li
@@ -383,195 +383,201 @@
               </v-select>
             </td>
             <td class="border border-gray-300">
-              <v-select
-                label="nama_slot_penyimpanan"
-                :loading="isLoadingGetSlotAisle"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onGetSlotAisle(index)"
-                v-model="item.slot_penyimpanan_id_aisle"
-                @input="(item) => onSelectAisle(item, index)"
-                class="w-full"
-              >
-                <template slot="option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
-                </template>
-                <template slot="selected-option" slot-scope="option">
-                  <div
-                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >
+              <div>
+                <label for="">Aisle</label>
+                <v-select
+                  label="nama_slot_penyimpanan"
+                  :loading="isLoadingGetSlotAisle"
+                  :options="lookup_custom2.data"
+                  :filterable="false"
+                  @search="onGetSlotAisle(index)"
+                  v-model="item.slot_penyimpanan_id_aisle"
+                  @input="(item) => onSelectAisle(item, index)"
+                  class="w-full"
+                >
+                  <template slot="option" slot-scope="option">
                     {{
                       option.nama_slot_penyimpanan +
                       " - " +
                       option.kode_slot_penyimpanan
                     }}
-                  </div>
-                </template>
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
+                  </template>
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{
+                        option.nama_slot_penyimpanan +
+                        " - " +
+                        option.kode_slot_penyimpanan
+                      }}
+                    </div>
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom2.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom2.current_page > 1"
+                      @click="onGetSlotAisle(index, search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom2.last_page > lookup_custom2.current_page
+                      "
+                      @click="onGetSlotAisle(index, search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div>
+                <label for="Rack">Rack</label>
+                <v-select
+                  label="nama_slot_penyimpanan"
+                  :loading="isLoadingGetSlotRack"
+                  :options="lookup_custom3.data"
+                  :filterable="false"
+                  @search="onGetSlotRack(index)"
+                  v-model="item.slot_penyimpanan_id_rack"
+                  @input="(item) => onSelectRack(item, index)"
+                  class="w-full"
                 >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetSlotAisle(index, search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetSlotAisle(index, search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_slot_penyimpanan"
-                :loading="isLoadingGetSlotRack"
-                :options="lookup_custom3.data"
-                :filterable="false"
-                @search="onGetSlotRack(index)"
-                v-model="item.slot_penyimpanan_id_rack"
-                @input="(item) => onSelectRack(item, index)"
-                class="w-full"
-              >
-                <template slot="option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
-                </template>
-                <template slot="selected-option" slot-scope="option">
-                  <div
-                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >
+                  <template slot="option" slot-scope="option">
                     {{
                       option.nama_slot_penyimpanan +
                       " - " +
                       option.kode_slot_penyimpanan
                     }}
-                  </div>
-                </template>
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom3.data.length || search"
+                  </template>
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{
+                        option.nama_slot_penyimpanan +
+                        " - " +
+                        option.kode_slot_penyimpanan
+                      }}
+                    </div>
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom3.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom3.current_page > 1"
+                      @click="onGetSlotRack(index, search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom3.last_page > lookup_custom3.current_page
+                      "
+                      @click="onGetSlotRack(index, search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div>
+                <label for="Level">Level</label>
+                <v-select
+                  label="nama_slot_penyimpanan"
+                  :loading="isLoadingGetSlotLevel"
+                  :options="lookup_custom4.data"
+                  :filterable="false"
+                  @search="onGetSlotLevel(index)"
+                  v-model="item.slot_penyimpanan_id_level"
+                  @input="(item) => onSelectLevel(item, index)"
+                  class="w-full"
                 >
-                  <span
-                    v-if="lookup_custom3.current_page > 1"
-                    @click="onGetSlotRack(index, search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom3.last_page > lookup_custom3.current_page
-                    "
-                    @click="onGetSlotRack(index, search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                label="nama_slot_penyimpanan"
-                :loading="isLoadingGetSlotLevel"
-                :options="lookup_custom4.data"
-                :filterable="false"
-                @search="onGetSlotLevel(index)"
-                v-model="item.slot_penyimpanan_id_level"
-                @input="(item) => onSelectLevel(item, index)"
-                class="w-full"
-              >
-                <template slot="option" slot-scope="option">
-                  {{
-                    option.nama_slot_penyimpanan +
-                    " - " +
-                    option.kode_slot_penyimpanan
-                  }}
-                </template>
-                <template slot="selected-option" slot-scope="option">
-                  <div
-                    class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
-                  >
+                  <template slot="option" slot-scope="option">
                     {{
                       option.nama_slot_penyimpanan +
                       " - " +
                       option.kode_slot_penyimpanan
                     }}
-                  </div>
-                </template>
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom4.data.length || search"
+                  </template>
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-20 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{
+                        option.nama_slot_penyimpanan +
+                        " - " +
+                        option.kode_slot_penyimpanan
+                      }}
+                    </div>
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom4.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom4.current_page > 1"
+                      @click="onGetSlotLevel(index, search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom4.last_page > lookup_custom4.current_page
+                      "
+                      @click="onGetSlotLevel(index, search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div>
+                <label for="bin">Bin</label>
+                <v-select
+                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_slot_penyimpanan"
+                  :loading="isLoadingGetSlotBin"
+                  :options="lookup_custom5.data"
+                  :filterable="false"
+                  @search="onGetSlotBin"
+                  v-model="item.slot_penyimpanan_id_bin"
+                  @input="(item) => onSelectBin(item, index)"
                 >
-                  <span
-                    v-if="lookup_custom4.current_page > 1"
-                    @click="onGetSlotLevel(index, search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
+                  <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom5.data.length || search"
                   >
-                  <span
-                    v-if="
-                      lookup_custom4.last_page > lookup_custom4.current_page
-                    "
-                    @click="onGetSlotLevel(index, search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </td>
-            <td class="border border-gray-300">
-              <v-select
-                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                label="nama_slot_penyimpanan"
-                :loading="isLoadingGetSlotBin"
-                :options="lookup_custom5.data"
-                :filterable="false"
-                @search="onGetSlotBin"
-                v-model="item.slot_penyimpanan_id_bin"
-                @input="(item) => onSelectBin(item, index)"
-              >
-                <!-- :reduce="(item) => item.slot_penyimpanan_id" -->
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom5.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom5.current_page > 1"
-                    @click="onGetSlotBin(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom5.last_page > lookup_custom5.current_page
-                    "
-                    @click="onGetSlotBin(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
+                    <span
+                      v-if="lookup_custom5.current_page > 1"
+                      @click="onGetSlotBin(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom5.last_page > lookup_custom5.current_page
+                      "
+                      @click="onGetSlotBin(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
             </td>
             <td class="border border-gray-300">
               <textarea
@@ -773,6 +779,12 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     AddDetailInbound() {
+      let valuasi = {};
+      if (this.lookup_warehouses.data.length > 0) {
+        valuasi = this.lookup_warehouses.data.filter(
+          (item) => item.kode_valuation === "N"
+        );
+      }
       this.self.form.inbound_details.push({
         detail_inbound_id: "",
         item_id: "",
@@ -780,7 +792,7 @@ export default {
         serial_number: "",
         quantity: "",
         peralatan_id: "",
-        valuation_id: "",
+        valuation_id: valuasi[0],
         status_terima: "FULL",
         panjang: "",
         lebar: "",

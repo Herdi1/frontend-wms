@@ -20,13 +20,13 @@
         >
           <div class="modal-body mt-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
-              <div class="form-group">
+              <div class="form-group" v-if="isEditable">
                 <input-form
                   label="Kode Lokasi Gudang"
                   type="text"
                   name="kode_lokasi_gudang"
                   v-model="parameters.form.kode_lokasi_gudang"
-                  :required="true"
+                  :disabled="true"
                 />
               </div>
 

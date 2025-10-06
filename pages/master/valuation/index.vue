@@ -25,7 +25,6 @@
             <thead>
               <tr class="uppercase">
                 <th class="w-[5%] text-center">Edit</th>
-                <th class="w-[5%] text-center">Delete</th>
                 <th class="w-[5%]">No</th>
                 <th>Kode Valuation</th>
                 <th
@@ -63,6 +62,8 @@
                 <th>Group</th>
 
                 </th>
+                <th class="w-[5%] text-center">Delete</th>
+
               </tr>
             </thead>
             <tbody>
@@ -70,12 +71,7 @@
                 <td>
                   <small-edit-button @click="onEdit(item)" />
                 </td>
-                <td>
-                  <small-delete-button
-                    @click="onTrashed(item)"
-                    v-if="!item.deleted_at"
-                  />
-                </td>
+
                 <td>
                   {{
                     (parameters.params.page - 1) * parameters.params.per_page +
@@ -86,6 +82,12 @@
                 <td>{{ item.kode_valuation }}</td>
                 <td>{{ item.nama_valuation }}</td>
                 <td>{{ item.group }}</td>
+                <td>
+                  <small-delete-button
+                    @click="onTrashed(item)"
+                    v-if="!item.deleted_at"
+                  />
+                </td>
               </tr>
             </tbody>
             <table-data-loading-section :self="this" />

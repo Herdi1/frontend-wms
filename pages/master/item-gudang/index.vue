@@ -383,6 +383,7 @@
                 </td>
                 <td class="border border-gray-300">
                   <div>{{ item.nama_item }}</div>
+                  <div>{{ item.kode_item ?? "" }}</div>
                 </td>
                 <td class="border border-gray-300">
                   {{ item.gudang?.nama_gudang ?? "" }}
