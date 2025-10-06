@@ -638,7 +638,7 @@ export default {
 
   head() {
     return {
-      title: "Stock Card",
+      title: "Kartu Stok",
     };
   },
 
@@ -705,7 +705,7 @@ export default {
       data: [],
       raw_data: [],
       ActiveRow: null,
-      title: "Stock Card",
+      title: "Kartu Stok",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
