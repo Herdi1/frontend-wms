@@ -45,7 +45,7 @@
               </select>
             </div>
 
-            <div class="flex w-full m-1 pr-1">
+            <!-- <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="provinsi"
                 >Provinsi <span class="text-danger">*</span></label
               >
@@ -81,7 +81,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="region"
                 >Region <span class="text-danger">*</span></label
@@ -95,7 +95,6 @@
                 v-model="parameters.form.wilayah_id"
                 @input="onSetWilayah"
                 class="w-[50%] bg-white"
-                disabled
               >
                 <li
                   slot-scope="{ search }"
@@ -220,6 +219,8 @@ export default {
 
   async mounted() {
     await this.onSearchProvinsi();
+    await this.onSearchGudang();
+    await this.onSearchWilayah();
   },
 
   data() {
@@ -241,7 +242,7 @@ export default {
         form: {
           gudang_id: "",
           wilayah_id: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         },
       },
       user: this.$auth.user,
@@ -446,7 +447,7 @@ export default {
     onPreview() {
       if (
         !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date
       ) {
         this.$toaster.error(
@@ -468,8 +469,8 @@ export default {
         this.parameters.url +
         "?download=" +
         this.parameters.params.download +
-        "&provinsi_id=" +
-        this.parameters.form.provinsi_id.provinsi_id +
+        // "&provinsi_id=" +
+        // this.parameters.form.provinsi_id.provinsi_id +
         "&gudang_id=" +
         this.parameters.form.gudang_id.gudang_id +
         "&wilayah_id=" +
@@ -486,7 +487,7 @@ export default {
     async onExport() {
       if (
         !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date
       ) {
         this.$toaster.error(
@@ -506,8 +507,8 @@ export default {
           this.parameters.url +
           "?download=" +
           this.parameters.params.download +
-          "&provinsi_id=" +
-          this.parameters.form.provinsi_id.provinsi_id +
+          // "&provinsi_id=" +
+          // this.parameters.form.provinsi_id.provinsi_id +
           "&gudang_id=" +
           this.parameters.form.gudang_id.gudang_id +
           "&wilayah_id=" +

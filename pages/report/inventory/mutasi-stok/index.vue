@@ -60,7 +60,7 @@
                 <option value="excel">Excel</option>
               </select>
             </div>
-            <div class="flex w-full m-1 pr-1">
+            <!-- <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="provinsi"
                 >Provinsi <span class="text-danger">*</span></label
               >
@@ -96,7 +96,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="region"
                 >Region <span class="text-danger">*</span></label
@@ -110,7 +110,6 @@
                 v-model="parameters.form.wilayah_id"
                 @input="onSetWilayah"
                 class="w-[50%] bg-white"
-                disabled
               >
                 <li
                   slot-scope="{ search }"
@@ -256,7 +255,8 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchProvinsi();
+    await this.onSearchGudang();
+    await this.onSearchWilayah();
   },
 
   data() {
@@ -279,7 +279,7 @@ export default {
         form: {
           gudang_id: "",
           wilayah_id: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         },
       },
       user: this.$auth.user,
@@ -372,8 +372,8 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
-            "&provinsi_id=" +
-            this.parameters.form.provinsi_id.provinsi_id +
+            // "&provinsi_id=" +
+            // this.parameters.form.provinsi_id.provinsi_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -485,7 +485,7 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.type ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
@@ -527,8 +527,8 @@ export default {
         this.parameters.params.type +
         "&gudang_id=" +
         gudangId +
-        "&provinsi_id=" +
-        this.parameters.form.provinsi_id.provinsi_id +
+        // "&provinsi_id=" +
+        // this.parameters.form.provinsi_id.provinsi_id +
         "&wilayah_id=" +
         this.parameters.form.wilayah_id.wilayah_id +
         // "&nama_wilayah=" +
@@ -547,7 +547,7 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.type ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
@@ -583,8 +583,8 @@ export default {
           this.parameters.params.type +
           "&gudang_id=" +
           gudangId +
-          "&provinsi_id=" +
-          this.parameters.form.provinsi_id.provinsi_id +
+          // "&provinsi_id=" +
+          // this.parameters.form.provinsi_id.provinsi_id +
           "&wilayah_id=" +
           this.parameters.form.wilayah_id.wilayah_id +
           // "&nama_wilayah=" +

@@ -74,6 +74,47 @@
                   </li>
                 </v-select>
               </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Status Plant</div>
+
+                <select
+                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                  name="is_plant"
+                  id="is_plant"
+                  v-model="parameters.params.is_plant"
+                >
+                  <option value="0">Bukan Plant</option>
+                  <option value="1">Plant</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-1">
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Status Shipto</div>
+
+                <select
+                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                  name="is_shipto"
+                  id="is_shiptos"
+                  v-model="parameters.params.is_shipto"
+                >
+                  <option value="0">Bukan Shipto</option>
+                  <option value="1">Shipto</option>
+                </select>
+              </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Status Warehouse</div>
+
+                <select
+                  class="p-1 w-1/2 border border-gray-300 rounded-sm outline-none"
+                  name="is_warehouse"
+                  id="is_warehouse"
+                  v-model="parameters.params.is_warehouse"
+                >
+                  <option value="0">Bukan Warehouse</option>
+                  <option value="1">Warehouse</option>
+                </select>
+              </div>
             </div>
 
             <div class="flex gap-3">
@@ -273,6 +314,9 @@ export default {
           per_page: 10,
           page: 1,
           gudang_id: "",
+          is_plant: "",
+          is_shipto: "",
+          is_warehouse: "",
         },
         form: {
           kode_lokasi_gudang: "",

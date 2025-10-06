@@ -44,7 +44,7 @@
                 <option value="excel">Excel</option>
               </select>
             </div>
-            <div class="flex w-full m-1 pr-1">
+            <!-- <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="provinsi"
                 >Provinsi <span class="text-danger">*</span></label
               >
@@ -80,7 +80,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="region"
                 >Region <span class="text-danger">*</span></label
@@ -94,7 +94,6 @@
                 v-model="parameters.form.wilayah_id"
                 @input="onSetWilayah"
                 class="w-[50%] bg-white"
-                disabled
               >
                 <li
                   slot-scope="{ search }"
@@ -223,6 +222,8 @@ export default {
 
   async mounted() {
     await this.onSearchProvinsi();
+    await this.onSearchGudang();
+    await this.onSearchWilayah();
   },
 
   data() {
@@ -240,7 +241,7 @@ export default {
         form: {
           gudang_id: "",
           wilayah_id: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         },
       },
 
@@ -437,7 +438,7 @@ export default {
 
     onPreview() {
       if (
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
@@ -468,8 +469,8 @@ export default {
         this.parameters.params.end_date +
         "&urutan=" +
         this.parameters.params.urutan +
-        "&provinsi_id=" +
-        this.parameters.form.provinsi_id.provinsi_id +
+        // "&provinsi_id=" +
+        // this.parameters.form.provinsi_id.provinsi_id +
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
@@ -478,7 +479,7 @@ export default {
 
     async onExport() {
       if (
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
@@ -506,8 +507,8 @@ export default {
           this.parameters.params.end_date +
           "&urutan=" +
           this.parameters.params.urutan +
-          "&provinsi_id=" +
-          this.parameters.form.provinsi_id.provinsi_id +
+          // "&provinsi_id=" +
+          // this.parameters.form.provinsi_id.provinsi_id +
           "&token=" +
           token;
 

@@ -45,7 +45,7 @@
               </select>
             </div>
 
-            <div class="flex w-full m-1 pr-1">
+            <!-- <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="provinsi"
                 >Provinsi <span class="text-danger">*</span></label
               >
@@ -81,7 +81,7 @@
                   >
                 </li>
               </v-select>
-            </div>
+            </div> -->
             <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="region"
                 >Region <span class="text-danger">*</span></label
@@ -95,7 +95,6 @@
                 v-model="parameters.form.wilayah_id"
                 @input="onSetWilayah"
                 class="w-[50%] bg-white"
-                disabled
               >
                 <li
                   slot-scope="{ search }"
@@ -255,6 +254,8 @@ export default {
 
   async mounted() {
     await this.onSearchProvinsi();
+    await this.onSearchGudang();
+    await this.onSearchWilayah();
 
     await this.onSearchGroupItem();
   },
@@ -279,7 +280,7 @@ export default {
           gudang_id: "",
           wilayah_id: "",
           group_item: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         },
       },
       user: this.$auth.user,
@@ -526,7 +527,7 @@ export default {
     onPreview() {
       if (
         !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
@@ -555,8 +556,8 @@ export default {
         this.parameters.form.wilayah_id.wilayah_id +
         "&group_item=" +
         groupItem +
-        "&provinsi_id=" +
-        this.parameters.form.provinsi_id.provinsi_id +
+        // "&provinsi_id=" +
+        // this.parameters.form.provinsi_id.provinsi_id +
         "&start_date=" +
         this.parameters.params.start_date +
         "&end_date=" +
@@ -570,7 +571,7 @@ export default {
     async onExport() {
       if (
         !this.parameters.form.gudang_id ||
-        !this.parameters.form.provinsi_id ||
+        // !this.parameters.form.provinsi_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
@@ -597,8 +598,8 @@ export default {
           this.parameters.form.wilayah_id.wilayah_id +
           "&group_item=" +
           groupItem +
-          "&provinsi_id=" +
-          this.parameters.form.provinsi_id.provinsi_id +
+          // "&provinsi_id=" +
+          // this.parameters.form.provinsi_id.provinsi_id +
           "&start_date=" +
           this.parameters.params.start_date +
           "&end_date=" +

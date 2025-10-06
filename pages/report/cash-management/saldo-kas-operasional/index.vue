@@ -9,7 +9,7 @@
           href="javascript:;"
           class="text-primary hover:underline before:content-['/']"
         >
-          Inventory</a
+          Cash Management</a
         >
       </li>
       <li

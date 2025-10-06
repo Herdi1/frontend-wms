@@ -199,6 +199,41 @@
                     </li>
                   </v-select>
                 </div>
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Valuation</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_valuation"
+                    :loading="isLoadingGetValuation"
+                    :options="lookup_custom5.data"
+                    :filterable="false"
+                    @search="onGetValuation"
+                    v-model="filter_params.valuation_id"
+                  >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom5.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom5.current_page > 1"
+                        @click="onGetValuation(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom5.last_page > lookup_custom5.current_page
+                        "
+                        @click="onGetValuation(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
               </div>
 
               <div class="flex gap-3">
@@ -651,6 +686,7 @@ export default {
     this.$refs["form-option"].isShowingPage = false;
 
     await this.onSearchGudang();
+    await this.onSearchValuation();
     // await this.onSearchZonaGudang();
 
     // this.$axios.get(this.parameters.url + "/get-spesification")
@@ -680,6 +716,10 @@ export default {
       isStopSearchItemGudang: false,
       item_gudang_search: "",
 
+      isStopSearchValuation: false,
+      isLoadingGetValuation: false,
+      valuation_search: "",
+
       parameters: {
         url: "inventory/stock",
         type: "pdf",
@@ -695,6 +735,7 @@ export default {
           gudang_id: "",
           zona_gudang_id: "",
           item_gudang_id: "",
+          valuation_id: "",
           // start_date: "",
           // end_date: "",
 
@@ -724,6 +765,7 @@ export default {
           gudang_id: "",
           zona_gudang_id: "",
           item_gudang_id: "",
+          valuation_id: "",
           // shape: "",
           // detail_1: "",
           // detail_2: "",
@@ -765,6 +807,7 @@ export default {
         gudang_id: "",
         zona_gudang_id: "",
         item_gudang_id: "",
+        valuation_id: "",
       },
 
       user: { ...this.$auth.user },
@@ -788,6 +831,7 @@ export default {
       "lookup_custom1",
       "lookup_custom3",
       "lookup_custom4",
+      "lookup_custom5",
     ]),
 
     getRoles() {
@@ -860,6 +904,8 @@ export default {
         this.filter_params.zona_gudang_id.zona_gudang_id;
       this.parameters.params.item_gudang_id =
         this.filter_params.item_gudang_id.item_gudang_id;
+      this.parameters.params.valuation_id =
+        this.filter_params.valuation_id.valuation_id;
 
       await this.getData(this.parameters);
       // await this.$axios
@@ -1155,6 +1201,53 @@ export default {
         this.filter_params.item_gudang_id = item;
       } else {
         this.filter_params.item_gudang_id = "";
+      }
+    },
+
+    onGetValuation(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchValuation);
+
+      this.isStopSearchValuation = setTimeout(() => {
+        this.valuation_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom5.current_page = isNext
+            ? this.lookup_custom5.current_page + 1
+            : this.lookup_custom5.current_page - 1;
+        } else {
+          this.lookup_custom5.current_page = 1;
+        }
+
+        this.onSearchValuation();
+      }, 600);
+    },
+
+    async onSearchValuation() {
+      if (!this.isLoadingGetValuation) {
+        this.isLoadingGetValuation = true;
+
+        await this.lookUp({
+          url: "master/valuation/get-valuation",
+          lookup: "custom5",
+          query:
+            "?search=" +
+            this.valuation_search +
+            "&page=" +
+            this.lookup_custom5.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetValuation = false;
+      }
+    },
+
+    onSelectValuation(item) {
+      if (item) {
+        this.filter_params.valuation_id = item;
+      } else {
+        this.filter_params.valuation_id = "";
       }
     },
   },
