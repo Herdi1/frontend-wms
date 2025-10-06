@@ -35,17 +35,11 @@
   "AnavbarUserOptions": {
     "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
-  "ButtonSmallDeleteButton": {
-    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
-  "ButtonSmallDetailButton": {
-    "description": "Auto imported from components/button/SmallDetailButton.vue"
-  },
-  "ButtonSmallEditButton": {
-    "description": "Auto imported from components/button/SmallEditButton.vue"
-  },
-  "ButtonSmallRestoreButton": {
-    "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
@@ -61,6 +55,18 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
@@ -484,12 +490,6 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
-  },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "SectionFilterData": {
     "description": "Auto imported from components/section/FilterData.vue"

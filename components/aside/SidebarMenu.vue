@@ -298,7 +298,7 @@ export default {
       menus.forEach((menu) => {
         if (Array.isArray(menu.childs)) {
           menu.childs = menu.childs.filter(
-            (child) => child.status == 0 || child.childs_2
+            (child) => child.status == 0
           );
           menu.childs.forEach((menu) => {
             menu.childs_2.filter((child) => child.status == 0);
