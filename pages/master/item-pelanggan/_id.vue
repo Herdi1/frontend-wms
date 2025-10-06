@@ -1573,7 +1573,7 @@ export default {
       this.isStopSearchItem = setTimeout(() => {
         this.item_search = search;
 
-        if (typeof isNext === "function") {
+        if (typeof isNext !== "function") {
           this.lookup_custom1.current_page = isNext
             ? this.lookup_custom1.current_page + 1
             : this.lookup_custom1.current_page - 1;

@@ -205,7 +205,6 @@ export default {
     addPickRequestDetail() {
       let valuasi = {};
       if (this.lookup_custom4.data.length > 0) {
-        console.log(this.lookup_custom4.data);
         valuasi = this.lookup_custom4.data.filter(
           (item) => item.kode_valuation === "N"
         );

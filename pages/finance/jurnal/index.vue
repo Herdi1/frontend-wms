@@ -408,15 +408,15 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/finance/jurnal-manual/add");
+      this.$router.push("/finance/jurnal/add");
     },
 
     onEdit(item) {
-      this.$router.push("/finance/jurnal-manual/" + item.jurnal_id);
+      this.$router.push("/finance/jurnal/" + item.jurnal_id);
     },
 
     onDetail(item) {
-      this.$router.push(`/finance/jurnal-manual/detail/${item.gudang_id}`);
+      this.$router.push(`/finance/jurnal/detail/${item.gudang_id}`);
     },
 
     onTrashed(item) {

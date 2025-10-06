@@ -1253,23 +1253,18 @@ export default {
           await Promise.all(
             this.parameters.form.rute_shipments.map((item) => {
               return this.$axios
-                .get(
-                  item.lokasi_id_tujuan?.status_bongkar_toko == 1
-                    ? "/finance/kontrak-lastmile/get-kontrak-lastmile-bongkar-tujuan"
-                    : "/finance/kontrak-lastmile/get-kontrak-lastmile-atcost",
-                  {
-                    params: {
-                      gudang_id: this.parameters.form.gudang_id.gudang_id,
-                      jenis_kendaraan_id:
-                        this.parameters.form.jenis_kendaraan_id
-                          .jenis_kendaraan_id,
-                      lokasi_id: item.lokasi_id_tujuan.lokasi_id,
-                      vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
-                      jenis_kiriman: item.jenis_kiriman,
-                      jarak: sumJarak,
-                    },
-                  }
-                )
+                .get("/finance/kontrak-lastmile/get-kontrak-lastmile-atcost", {
+                  params: {
+                    gudang_id: this.parameters.form.gudang_id.gudang_id,
+                    jenis_kendaraan_id:
+                      this.parameters.form.jenis_kendaraan_id
+                        .jenis_kendaraan_id,
+                    lokasi_id: item.lokasi_id_tujuan.lokasi_id,
+                    vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
+                    jenis_kiriman: item.jenis_kiriman,
+                    jarak: sumJarak,
+                  },
+                })
                 .then((res) => {
                   res.data.forEach((data) => {
                     this.parameters.form.biaya_lastmiles.push({
@@ -1311,7 +1306,60 @@ export default {
                     });
                   });
                 });
-            })
+            }),
+
+            this.parameters.form.shipment_details
+              .filter((item) => item.lokasi.status_bongkar_toko == 1)
+              .map((item) => {
+                return this.$axios
+                  .get(
+                    "/finance/kontrak-lastmile/get-kontrak-lastmile-bongkar-tujuan",
+                    {
+                      params: {
+                        gudang_id: this.parameters.form.gudang_id.gudang_id,
+                        jenis_kendaraan_id:
+                          this.parameters.form.jenis_kendaraan_id
+                            .jenis_kendaraan_id,
+                        lokasi_id: item.lokasi_id.lokasi_id,
+                        vendor_id:
+                          this.parameters.form.vendor_id.vendor_id ?? "",
+                        item_gudang_id: item.item_gudang_id.item_gudang_id,
+                        jarak: sumJarak,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    res.data.forEach((data) => {
+                      this.parameters.form.biaya_lastmiles.push({
+                        ...data,
+                        // pick_order_detail_id: item.pick_order_detail_id,
+                        jenis: "",
+                        item_gudang: data.item_gudang ?? "",
+                        item_id: data.item_id ?? "",
+                        item_gudang_id: data.item_gudang_id ?? "",
+                        biaya_inbound_id: "",
+                        jenis_biaya_id: data.jenis_biaya ?? "",
+                        jenis_kendaraan_id: data.jenis_kendaraan ?? "",
+                        jenis_kontrak_id: data.jenis_kontrak ?? "",
+                        mata_uang_id: data.mata_uang ?? "",
+                        pembayaran_id: data.pembayaran ?? "",
+                        term_pembayaran_id: data.term_pembayaran ?? "",
+                        vendor_id: data.vendor ?? "",
+                        dasar_perhitungan: data.dasar_perhitungan ?? "",
+                        // lokasi_id_asal: item.lokasi_id_tujuan_asal ?? '',
+                        lokasi_id: item.lokasi_id ?? "",
+                        jenis_routing: "",
+                        jumlah: 0,
+                        nominal_satuan: data.nilai_kontrak ?? 0,
+                        total: 0,
+                        vendor_id: {
+                          vendor_id: item.vendor_id ?? "",
+                          nama_vendor: item.nama_vendor ?? "",
+                        },
+                      });
+                    });
+                  });
+              })
           );
           this.parameters.form.tagihan_lastmiles = [];
           await Promise.all(

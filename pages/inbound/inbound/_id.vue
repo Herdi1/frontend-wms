@@ -477,9 +477,9 @@
                 <template #BiayaInbound>
                   <BiayaInbounds :self="{ form, isEditable }" />
                 </template>
-                <template #TagihanInbound>
+                <!-- <template #TagihanInbound>
                   <TagihanInbounds :self="{ form }" />
-                </template>
+                </template> -->
               </tab-component>
             </div>
             <modal-footer-section
@@ -492,9 +492,10 @@
       </ValidationObserver>
       <success-modal
         v-model="showModal"
-        :message="`Data Berhasil ${
+        :message="`${this.res.kode_inbound ?? ''} Data Berhasil ${
           isEditable ? 'Diedit' : 'Disimpan'
         }! Cetak Label?`"
+        @closed="onCloseModal"
       >
         <template #footer>
           <div class="flex justify-center gap-3">
@@ -539,7 +540,7 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
-        { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
+        // { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
       ],
 
       id,
@@ -655,6 +656,8 @@ export default {
       items: [],
       items_quantity: [],
       showModal: false,
+
+      res: {},
     };
   },
 
@@ -695,6 +698,14 @@ export default {
               detail_inbound_id: item,
               item_gudang_id: item.item_gudang ?? "",
               zona_gudang_id: item.zona_gudang,
+              jenis_biaya_id:
+                typeof item.jenis_biaya === "object" && item.jenis_biaya
+                  ? item.jenis_biaya
+                  : "",
+              valuation_id:
+                typeof item.valuation === "object" && item.valuation
+                  ? item.valuation
+                  : "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_aisle === "object" &&
                 item.slot_penyimpanan_aisle
@@ -1068,7 +1079,10 @@ export default {
           detail_inbound_id: item.detail_inbound_id
             ? item.detail_inbound_id.detail_inbound_id ?? ""
             : "",
-          valuation_id: item.valuation_id ?? "",
+          valuation_id:
+            typeof item.valuation_id === "object"
+              ? item.valuation_id.valuation_id
+              : "",
           item_gudang_id:
             typeof item.item_gudang_id === "object"
               ? item.item_gudang_id.item_gudang_id
@@ -1185,8 +1199,6 @@ export default {
         url += "/" + this.id;
       }
 
-      console.log(formData);
-
       this.$axios({
         method: this.isEditable ? "put" : "post",
         url: url,
@@ -1196,6 +1208,8 @@ export default {
           if (res.data.id) {
             this.form.inbound_id = res.data.id;
           }
+
+          this.res = { ...res.data };
 
           this.$toaster.success(
             "Data berhasil di " +
