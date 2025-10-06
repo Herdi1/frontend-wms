@@ -152,6 +152,54 @@
                   </v-select>
                 </div>
               </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+                <div class="form-group w-full flex">
+                  <div class="mb-3 w-1/2"><b>Item Gudang</b></div>
+
+                  <v-select
+                    class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                    label="nama_item"
+                    :loading="isLoadingGetItemGudang"
+                    :options="lookup_custom4.data"
+                    :filterable="false"
+                    @search="onGetItemGudang"
+                    @input="onSelectItem"
+                    v-model="filter_params.item_gudang_id"
+                  >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_item }}
+                      </div>
+                           </template
+                    >
+                    <li
+                      slot-scope="{ search }"
+                      slot="list-footer"
+                      class="p-1 border-t flex justify-between"
+                      v-if="lookup_custom4.data.length || search"
+                    >
+                      <span
+                        v-if="lookup_custom4.current_page > 1"
+                        @click="onGetItemGudang(search, false)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        style="cursor: pointer"
+                        >Sebelumnya</span
+                      >
+                      <span
+                        v-if="
+                          lookup_custom4.last_page > lookup_custom4.current_page
+                        "
+                        @click="onGetItemGudang(search, true)"
+                        class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                        style="cursor: pointer"
+                        >Selanjutnya</span
+                      >
+                    </li>
+                  </v-select>
+                </div>
+              </div>
 
               <div class="flex gap-3">
                 <button
@@ -628,6 +676,10 @@ export default {
       isStopSearchZonaGudang: false,
       zona_gudang_search: "",
 
+      isLoadingGetItemGudang: false,
+      isStopSearchItemGudang: false,
+      item_gudang_search: "",
+
       parameters: {
         url: "inventory/stock",
         type: "pdf",
@@ -642,6 +694,7 @@ export default {
 
           gudang_id: "",
           zona_gudang_id: "",
+          item_gudang_id: "",
           // start_date: "",
           // end_date: "",
 
@@ -670,6 +723,7 @@ export default {
 
           gudang_id: "",
           zona_gudang_id: "",
+          item_gudang_id: "",
           // shape: "",
           // detail_1: "",
           // detail_2: "",
@@ -710,6 +764,7 @@ export default {
       filter_params: {
         gudang_id: "",
         zona_gudang_id: "",
+        item_gudang_id: "",
       },
 
       user: { ...this.$auth.user },
@@ -732,6 +787,7 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom3",
+      "lookup_custom4",
     ]),
 
     getRoles() {
@@ -801,6 +857,8 @@ export default {
       // // this.parameters.params.item_gudang_id +
       this.parameters.params.gudang_id = this.filter_params.gudang_id.gudang_id;
       this.parameters.params.zona_gudang_id = this.filter_params.zona_gudang_id;
+      this.parameters.params.item_gudang_id =
+        this.filter_params.item_gudang_id.item_gudang_id;
 
       await this.getData(this.parameters);
       // await this.$axios
@@ -989,9 +1047,13 @@ export default {
         this.filter_params.gudang_id = item;
         this.filter_params.zona_gudang_id = "";
         await this.onSearchZonaGudang();
+        await this.onSearchItemGudang();
       } else {
         this.filter_params.gudang_id = "";
         this.filter_params.zona_gudang_id = "";
+        this.filter_params.item_gudang_id = "";
+        this.lookup_custom3.data = [];
+        this.lookup_custom4.data = [];
       }
     },
 
@@ -1033,6 +1095,57 @@ export default {
         });
 
         this.isLoadingGetZonaGudang = false;
+      }
+    },
+
+    onGetItemGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchItemGudang);
+
+      this.isStopSearchItemGudang = setTimeout(() => {
+        this.item_gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom4.current_page = isNext
+            ? this.lookup_custom4.current_page + 1
+            : this.lookup_custom4.current_page - 1;
+        } else {
+          this.lookup_custom4.current_page = 1;
+        }
+
+        this.onSearchItemGudang();
+      }, 600);
+    },
+
+    async onSearchItemGudang() {
+      if (!this.isLoadingGetItemGudang) {
+        this.isLoadingGetItemGudang = true;
+
+        await this.lookUp({
+          url: "master/item-gudang/get-item-gudang",
+          lookup: "custom4",
+          query:
+            "?search=" +
+            this.item_gudang_search +
+            "&gudang_id=" +
+            this.filter_params.gudang_id.gudang_id +
+            "&zona_gudang_id=" +
+            this.filter_params.zona_gudang_id.zona_gudang_id +
+            "&page=" +
+            this.lookup_custom4.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetItemGudang = false;
+      }
+    },
+
+    onSelectItem(item) {
+      if (item) {
+        this.filter_params.item_gudang_id = item;
+      } else {
+        this.filter_params.item_gudang_id = "";
       }
     },
   },
