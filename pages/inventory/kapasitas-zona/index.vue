@@ -45,6 +45,7 @@
                 }"
                 width="w-[50%]"
                 class="mb-5 w-[500px]"
+                :disabled="lookup_warehouses.data.length == 1"
               />
             </ValidationProvider>
           </div>
@@ -140,6 +141,9 @@ export default {
     // }
 
     await this.onSearchGudang();
+    if (this.lookup_warehouses.data) {
+      await this.onSelectGudang(this.lookup_warehouses.data[0]);
+    }
   },
 
   computed: {

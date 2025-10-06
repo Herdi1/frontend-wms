@@ -170,6 +170,8 @@ You can directly use them in pages and other components without the need to impo
 - `<IconXCircle>` | `<icon-x-circle>` (components/icon/icon-x-circle.vue)
 - `<IconX>` | `<icon-x>` (components/icon/icon-x.vue)
 - `<IconZipFile>` | `<icon-zip-file>` (components/icon/icon-zip-file.vue)
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
 - `<SectionFilterData>` | `<section-filter-data>` (components/section/FilterData.vue)
 - `<SectionFilterSection>` | `<section-filter-section>` (components/section/FilterSection.vue)
 - `<SectionHeaderSection>` | `<section-header-section>` (components/section/HeaderSection.vue)
