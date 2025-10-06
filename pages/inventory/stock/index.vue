@@ -31,7 +31,7 @@
             <div
               class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
             >
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+              <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
                 <div class="grid grid-cols-1 gap-5 w-full">
                   <div class="form-group">
                     <input-horizontal
@@ -57,7 +57,7 @@
                     />
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
                 <div class="form-group w-full flex" v-if="!this.user.gudang_id">
                   <div class="mb-3 w-1/2"><b>Gudang</b></div>
@@ -642,8 +642,8 @@ export default {
 
           gudang_id: "",
           zona_gudang_id: "",
-          start_date: "",
-          end_date: "",
+          // start_date: "",
+          // end_date: "",
 
           // shape: "",
           // detail_1: "",
