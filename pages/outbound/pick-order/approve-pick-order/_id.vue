@@ -980,9 +980,9 @@ export default {
           res.data.pick_order_details.map((item) => {
             return {
               ...item,
-              pick_order_details_id: item.pick_order_details_id
-                ? item.pick_order_details_id
-                : "",
+              // pick_order_detail_id: item.pick_order_detail_id
+              //   ? item.pick_order_detail_id
+              //   : "",
               item_gudang_id: item.item_gudang,
               kode_item: item.item_gudang
                 ? item.item_gudang.kode_item
@@ -1030,15 +1030,14 @@ export default {
                       ...data,
                       pick_order_detail_id: item.pick_order_detail_id,
                       jenis: item.jenis,
-                      item_gudang: data.item_gudang,
-                      item_id: data.item_id,
-                      item_gudang_id: data.item_gudang_id,
+                      item_gudang: data.item_gudang ?? "",
+                      item_id: data.item_id ?? "",
+                      item_gudang_id: data.item_gudang_id ?? "",
                       biaya_inbound_id: "",
-                      jenis_biaya_id: data.jenis_biaya,
-                      berat: data.item_gudang.berat_kotor,
-                      volume: data.item_gudang.volume,
+                      jenis_biaya_id: data.jenis_biaya ?? "",
+                      berat: data.item_gudang?.berat_kotor,
                       nominal_satuan: parseFloat(data.nilai_kontrak) ?? 0,
-                      jumlah: parseFloat(item.quantity) ?? 0,
+                      jumlah: parseFloat(item.sisa_quantity) ?? 0,
                       berat: parseFloat(data.item_gudang.berat_kotor) ?? 0,
                       volume: parseFloat(data.item_gudang.volume) ?? 0,
                       total: parseFloat(data.total) ?? 0,
@@ -1091,11 +1090,10 @@ export default {
                       tagihan_pick_order_id: "",
                       jenis_biaya_id: data.jenis_biaya,
                       berat: data.item_gudang.berat_kotor,
-                      volume: data.item_gudang.volume,
                       nominal_satuan: parseFloat(data.nilai_kontrak) ?? 0,
                       jumlah: parseFloat(data.jumlah) ?? 0,
                       berat: parseFloat(data.item_gudang.berat_kotor) ?? 0,
-                      volume: parseFloat(data.item_gudang.volume) ?? 0,
+                      volume: parseFloat(data.item_gudang.volume ?? 0) ?? 0,
                       total: parseFloat(data.total) ?? 0,
                       jenis: 0,
                       divisi_id: data.divisi,
@@ -1275,15 +1273,15 @@ export default {
         gudang_id:
           typeof this.parameters.form.gudang_id == "object"
             ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id,
+            : "",
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id
-            : this.parameters.form.user_id_pic,
+            : "",
         staff_id_pic:
           typeof this.parameters.form.staff_id_pic == "object"
             ? this.parameters.form.staff_id_pic.staff_id
-            : this.parameters.form.staff_id_pic,
+            : "",
         // peralatan_id:
         //   typeof this.parameters.form.peralatan_id == "object"
         //     ? this.parameters.form.peralatan_id.peralatan_id
@@ -1293,87 +1291,81 @@ export default {
       formData.pick_order_details = formData.pick_order_details.map((item) => {
         return {
           ...item,
-          pick_order_details_id: item.pick_order_details_id
-            ? item.pick_order_details_id
+          pick_order_detail_id: item.pick_order_detail_id
+            ? item.pick_order_detail_id
             : "",
-          item_id:
-            typeof item.item_id == "object"
-              ? item.item_id.item_id
-              : item.item_id,
+          item_id: typeof item.item_id == "object" ? item.item_id.item_id : "",
           item_gudang_id:
             typeof item.item_gudang_id == "object"
               ? item.item_gudang_id.item_gudang_id
-              : item.item_gudang_id,
+              : "",
           zona_gudang_id:
             typeof item.zona_gudang_id == "object"
               ? item.zona_gudang_id.zona_gudang_id
-              : item.zona_gudang_id,
+              : "",
           zona_gudang_id_tujuan:
             typeof item.zona_gudang_id_tujuan == "object"
               ? item.zona_gudang_id_tujuan.zona_gudang_id
-              : item.zona_gudang_id_tujuan,
+              : "",
           quantity: item.sisa_quantity ? item.sisa_quantity : "",
           quantity_request: item.quantity ? item.quantity : "",
           slot_penyimpanan_id_aisle:
             typeof item.slot_penyimpanan_id_aisle == "object"
               ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_aisle,
+              : "",
           slot_penyimpanan_id_rack:
             typeof item.slot_penyimpanan_id_rack == "object"
               ? item.slot_penyimpanan_id_rack.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_rack,
+              : "",
           slot_penyimpanan_id_level:
             typeof item.slot_penyimpanan_id_level == "object"
               ? item.slot_penyimpanan_id_level.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_level,
+              : "",
           slot_penyimpanan_id_bin:
             typeof item.slot_penyimpanan_id_bin == "object"
               ? item.slot_penyimpanan_id_bin.slot_penyimpanan_id
-              : item.slot_penyimpanan_id_bin,
+              : "",
           peralatan_id:
             typeof item.peralatan_id == "object"
               ? item.peralatan_id.peralatan_id
-              : item.peralatan_id,
+              : "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id == "object"
               ? item.jenis_biaya_id.jenis_biaya_id
-              : item.jenis_biaya_id,
+              : "",
         };
       });
       formData.biaya_pick_orders = formData.biaya_pick_orders.map((item) => {
         return {
           ...item,
-          pick_order_detail_id:
-            typeof item.pick_order_detail_id === "object"
-              ? item.pick_order_detail_id.pick_order_detail_id
-              : item.pick_order_detail_id,
-          item_id: item.item.item_id,
-          item_gudang_id: item.item_gudang.item_gudang_id,
+          pick_order_detail_id: item.pick_order_detail_id,
+          item_id: item.item?.item_id ?? "",
+          item_gudang_id: item.item_gudang?.item_gudang_id ?? "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id === "object"
               ? item.jenis_biaya_id.jenis_biaya_id
-              : item.jenis_biaya_id,
+              : "",
           jenis_kontrak_id:
             typeof item.jenis_kontrak_id === "object"
               ? item.jenis_kontrak_id.jenis_kontrak_id
-              : item.jenis_kontrak_id,
+              : "",
           mata_uang_id:
             typeof item.mata_uang_id === "object"
               ? item.mata_uang_id.mata_uang_id
-              : item.mata_uang_id,
-          pembayaran_id:
-            typeof item.pembayaran_id === "object"
-              ? item.pembayaran_id.pembayaran_id
-              : item.pembayaran_id,
+              : "",
+          // pembayaran_id:
+          //   typeof item.pembayaran_id === "object"
+          //     ? item.pembayaran_id.pembayaran_id
+          //     : '',
           term_pembayaran_id:
             typeof item.term_pembayaran_id === "object"
               ? item.term_pembayaran_id.term_pembayaran_id
-              : item.term_pembayaran_id,
-          vendor_id:
-            typeof item.vendor_id === "object"
-              ? item.vendor_id.vendor_id
-              : item.vendor_id,
+              : "",
+          vendor_id: item.vendor_id,
+          // typeof item.vendor_id === "object" ? item.vendor_id.vendor_id : "",
           total: item.total ?? 0,
+          berat: item.berat > 0 ? item.berat : 1,
+          volume: item.volume > 0 ? item.volume : 1,
         };
       });
 
@@ -1388,21 +1380,19 @@ export default {
             jenis_biaya_id:
               typeof item.jenis_biaya_id === "object"
                 ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
+                : "",
             coa_id:
-              typeof item.coa_id === "object"
-                ? item.coa_id.coa_id ?? ""
-                : item.coa_id ?? "",
+              typeof item.coa_id === "object" ? item.coa_id.coa_id ?? "" : "",
             pelanggan_id:
               typeof item.pelanggan_id === "object"
                 ? item.pelanggan_id.pelanggan_id
-                : item.pelanggan_id,
+                : "",
             divisi_id:
               typeof item.divisi_id === "object"
                 ? item.divisi_id.divisi_id
-                : item.divisi_id,
+                : "",
             berat: item.berat > 0 ? item.berat : 1,
-            volume: item.volume > 0 ? item.volume : 1,
+            volume: item.volume ? item.volume : 1,
             jenis: item.jenis ? item.jenis : 0,
             keterangan: item.keterangan || "",
             total: item.total ?? 0,
@@ -1439,7 +1429,7 @@ export default {
 
     addPickOrderDetails() {
       this.parameters.form.pick_order_details.push({
-        pick_order_details_id: "",
+        pick_order_detail_id: "",
         item_id: "",
         item_gudang_id: "",
         valuation_id: "",

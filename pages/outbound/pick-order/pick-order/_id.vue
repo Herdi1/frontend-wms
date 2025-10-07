@@ -1051,6 +1051,20 @@ export default {
         }
       );
 
+      this.parameters.form.pick_order_details.forEach((item) => {
+        let dataItemSama = this.parameters.form.pick_order_details.filter(
+          (data) => item.item_gudang_id === data.item_gudang_id
+        );
+        let total = 0;
+        dataItemSama.forEach((item) => (total += item.quantity));
+        if (total > item.quantity) {
+          this.$toaster.error(
+            `Quantity Tidak Boleh Melebihi Quantity Request dan Stok`
+          );
+          return;
+        }
+      });
+
       // Jika ada item yang tidak valid, tampilkan pesan error dan hentikan submit
       if (invalidItems.length > 0) {
         this.$toaster.error(
@@ -1165,7 +1179,7 @@ export default {
           this.$router.back();
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;
@@ -1446,6 +1460,7 @@ export default {
           query:
             "?search=" +
             this.staff_search +
+            "&jenis_user=operator" +
             "&gudang_id=" +
             this.parameters.form.gudang_id.gudang_id +
             "&page=" +
@@ -1989,6 +2004,7 @@ export default {
         });
       }
       this.$toaster.success("Data Berhasil Ditambahkan");
+      this.$refs.modalPickRequest.hide();
     },
 
     formReset() {

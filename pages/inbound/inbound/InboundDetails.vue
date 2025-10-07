@@ -1478,7 +1478,7 @@ export default {
     },
 
     async generateBiayaTagihan(index) {
-      let itemNumber = index;
+      let itemNumber = this.self.form.inbound_details[index].index;
 
       // this.self.form.biaya_inbounds = [];
 
@@ -1533,11 +1533,11 @@ export default {
         }
       );
 
-      if (biaya.data.length) {
-        this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
-          (item) => item.urutan !== itemNumber
-        );
-      }
+      // if (biaya.data.length) {
+      // }
+      this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
+        (item) => item.urutan !== itemNumber
+      );
 
       // if (
       //   !this.self.form.biaya_inbounds.find(

@@ -275,8 +275,8 @@ input.form-control:focus {
 
 /* SCROLL BAR GLOBAL STYLE */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {

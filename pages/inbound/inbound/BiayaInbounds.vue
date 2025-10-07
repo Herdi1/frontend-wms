@@ -82,7 +82,7 @@
               <p>{{ item.nama_vendor }}</p>
             </td>
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_divisi"
                 :loading="isLoadingGetDivisi"
                 :options="lookup_custom9.data"
@@ -113,7 +113,8 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <div>{{ item.divisi_id?.nama_divisi ?? "" }}</div>
             </td>
             <!-- <td class="border border-gray-300">
               <v-select
@@ -151,7 +152,7 @@
             </td> -->
 
             <td class="border border-gray-300">
-              <v-select
+              <!-- <v-select
                 label="nama_jenis_biaya"
                 :loading="isLoadingGetJenisBiaya"
                 :options="lookup_custom7.data"
@@ -183,7 +184,8 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select>
+              </v-select> -->
+              <div>{{ item.jenis_biaya_id?.nama_jenis_biaya ?? "" }}</div>
             </td>
             <td class="border border-gray-300">{{ item.dasar_perhitungan }}</td>
             <td class="border border-gray-300">
@@ -311,14 +313,22 @@ export default {
     "self.form.biaya_inbounds": {
       handler(newVal) {
         newVal.forEach((item) => {
+          item.total = 0;
           if (item.dasar_perhitungan === "QTY") {
-            item.total = item.jumlah * item.nilai_kontrak;
+            item.total =
+              parseFloat(item.jumlah) * parseFloat(item.nilai_kontrak);
           } else if (item.dasar_perhitungan === "BERAT") {
-            item.total = item.jumlah * item.nilai_kontrak * item.berat;
+            item.total =
+              parseFloat(item.jumlah) *
+              parseFloat(item.nilai_kontrak) *
+              parseFloat(item.berat);
           } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total = item.jumlah * item.nilai_kontrak * item.volume;
+            item.total =
+              parseFloat(item.jumlah) *
+              parseFloat(item.nilai_kontrak) *
+              parseFloat(item.volume);
           } else {
-            item.total = item.total;
+            item.total = parseFloat(item.total);
           }
         });
       },
@@ -328,9 +338,9 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchJenisBiaya();
+    // await this.onSearchJenisBiaya();
     await this.onSearchCoa();
-    await this.onSearchDivisi();
+    // await this.onSearchDivisi();
     await this.onSearchVendor();
   },
 
@@ -353,7 +363,7 @@ export default {
     calculateTotal() {
       let total = 0;
       this.self.form.biaya_inbounds.forEach((item) => {
-        total += parseFloat(item.total);
+        total += parseFloat(item.total ?? 0);
       });
       // if (this.self.form.biaya_inbounds.length > 0) {
       // }

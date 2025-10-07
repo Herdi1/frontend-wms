@@ -733,10 +733,10 @@ export default {
               coa_id: item.coa ?? "",
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              berat: parseFloat(item.berat ?? 0),
-              jumlah: parseFloat(item.jumlah ?? 0),
-              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              volume: parseFloat(item.volume ?? 0),
+              // berat: parseFloat(item.berat ?? 0),
+              // jumlah: parseFloat(item.jumlah ?? 0),
+              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              // volume: parseFloat(item.volume ?? 0),
               total: 0,
             };
           });
@@ -794,10 +794,10 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              berat: parseFloat(item.berat ?? 0),
-              jumlah: parseFloat(item.jumlah ?? 0),
-              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              volume: parseFloat(item.volume ?? 0),
+              // berat: parseFloat(item.berat ?? 0),
+              // jumlah: parseFloat(item.jumlah ?? 0),
+              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              // volume: parseFloat(item.volume ?? 0),
               total: 0,
             };
           });
@@ -855,10 +855,10 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              berat: parseFloat(item.berat ?? 0),
-              jumlah: parseFloat(item.jumlah ?? 0),
-              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              volume: parseFloat(item.volume ?? 0),
+              // berat: parseFloat(item.berat ?? 0),
+              // jumlah: parseFloat(item.jumlah ?? 0),
+              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              // volume: parseFloat(item.volume ?? 0),
               total: 0,
             };
           });
