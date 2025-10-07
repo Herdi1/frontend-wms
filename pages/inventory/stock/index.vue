@@ -69,9 +69,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="filter_params.gudang"
+                    v-model="filter_params.gudang_id"
                     @input="onSelectGudang"
-                    :disabled="lookup_custom1.data.length <= 1"
+                    :disabled="lookup_custom1.data.length == 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -638,7 +638,7 @@ export default {
   async created() {
     await this.onSearchGudang();
     if (this.lookup_custom1.data.length > 0) {
-      this.onSelectGudang(this.lookup_custom1.data[0]);
+      this.filter_params.gudang_id = this.lookup_custom1.data[0];
     }
     this.set_data([]);
     this.onLoad();

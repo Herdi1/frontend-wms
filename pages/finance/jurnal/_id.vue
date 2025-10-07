@@ -761,7 +761,6 @@ export default {
     }
     await this.onSearchCoa();
     await this.onSearchDivisi();
-    await this.onSearchKendaraan();
     // await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
     // await this.onSearchProfit();
@@ -965,6 +964,7 @@ export default {
         this.form.gudang_id = item;
         this.form.jurnal_details = [];
         await this.onSearchZonaGudang();
+        await this.onSearchKendaraan();
       } else {
         this.form.gudang_id = "";
         this.form.jurnal_details = [];
@@ -1082,6 +1082,8 @@ export default {
           query:
             "?search=" +
             this.kendaraan_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
