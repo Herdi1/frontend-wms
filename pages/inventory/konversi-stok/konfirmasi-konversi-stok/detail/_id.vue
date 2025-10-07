@@ -87,8 +87,8 @@
                 <label class="w-[40%] font-bold" for="fullname">Vendor</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
-                    this.detail_item.vendor
-                      ? this.detail_item.vendor.nama_vendor
+                    this.detail_item.staff.vendor_operator
+                      ? this.detail_item.staff.vendor_operator.nama_vendor
                       : "-"
                   }}
                 </div>
@@ -156,6 +156,9 @@ export default {
         tanggal_selesai: "",
         lama_pengerjaan: "",
         gudang: {},
+        staff: {},
+        vendor: {},
+        status_konversi: "",
         status_approve: "",
         keterangan: "",
         konversi_stok_detail_bahan: [],

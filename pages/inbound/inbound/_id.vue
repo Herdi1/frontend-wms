@@ -748,6 +748,26 @@ export default {
               total: parseFloat(item.total) ?? 0,
             };
           });
+          // this.$set(
+          //   this.form,
+          //   "biaya_inbounds",
+          //   res.data.biaya_inbounds.map((item) => ({
+          //     ...item,
+          //     // mapping kamu
+          //     biaya_inbound_id: item,
+          //     nama_item: item.item_gudang.nama_item,
+          //     kode_item: item.item_gudang.kode_item,
+          //     jenis_biaya_id: item.jenis_biaya,
+          //     coa_id: item.coa,
+          //     divisi_id: item.divisi,
+          //     vendor_id: item.vendor,
+          //     nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+          //     jumlah: parseFloat(item.jumlah) ?? 0,
+          //     berat: parseFloat(item.berat) ?? 0,
+          //     volume: parseFloat(item.volume) ?? 0,
+          //     total: parseFloat(item.total) ?? 9999,
+          //   }))
+          // );
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
             return {
               ...item,
@@ -809,6 +829,26 @@ export default {
               total: parseFloat(item.total) ?? 0,
             };
           });
+          // this.$set(
+          //   this.form,
+          //   "biaya_inbounds",
+          //   res.data.biaya_inbounds.map((item) => ({
+          //     ...item,
+          //     // mapping kamu
+          //     biaya_inbound_id: item,
+          //     nama_item: item.item_gudang.nama_item,
+          //     kode_item: item.item_gudang.kode_item,
+          //     jenis_biaya_id: item.jenis_biaya,
+          //     coa_id: item.coa,
+          //     divisi_id: item.divisi,
+          //     vendor_id: item.vendor,
+          //     nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+          //     jumlah: parseFloat(item.jumlah) ?? 0,
+          //     berat: parseFloat(item.berat) ?? 0,
+          //     volume: parseFloat(item.volume) ?? 0,
+          //     total: parseFloat(item.total) ?? 99999,
+          //   }))
+          // );
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
             return {
               ...item,
@@ -870,6 +910,26 @@ export default {
               total: parseFloat(item.total) ?? 0,
             };
           });
+          // this.$set(
+          //   this.form,
+          //   "biaya_inbounds",
+          //   res.data.biaya_inbounds.map((item) => ({
+          //     ...item,
+          //     // mapping kamu
+          //     biaya_inbound_id: item,
+          //     nama_item: item.item_gudang.nama_item,
+          //     kode_item: item.item_gudang.kode_item,
+          //     jenis_biaya_id: item.jenis_biaya,
+          //     coa_id: item.coa,
+          //     divisi_id: item.divisi,
+          //     vendor_id: item.vendor,
+          //     nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+          //     jumlah: parseFloat(item.jumlah) ?? 0,
+          //     berat: parseFloat(item.berat) ?? 0,
+          //     volume: parseFloat(item.volume) ?? 0,
+          //     total: parseFloat(item.total) ?? 999999,
+          //   }))
+          // );
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
             return {
               ...item,

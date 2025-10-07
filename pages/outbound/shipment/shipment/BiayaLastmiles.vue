@@ -23,8 +23,8 @@
             <th class="w-[150px] border border-gray-300">Jenis Transaksi</th>
             <th class="w-[150px] border border-gray-300">Jenis Routing</th>
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
-            <th class="w-[200px] border border-gray-300">Vendor</th>
-            <th class="w-[200px] border border-gray-300">Lokasi Asal</th>
+            <!-- <th class="w-[200px] border border-gray-300">Vendor</th>
+            <th class="w-[200px] border border-gray-300">Lokasi Asal</th> -->
             <th class="w-[200px] border border-gray-300">Lokasi Tujuan</th>
             <!-- <th class="w-[200px] border border-gray-300">Term Pembayaran</th> -->
             <th class="w-[200px] border border-gray-300">Quantity</th>
@@ -108,8 +108,8 @@
                 <p>{{ item.jenis_biaya_id.nama_jenis_biaya }}</p>
               </div>
             </td>
-            <td class="border border-gray-300">
-              <!-- <v-select
+            <!-- <td class="border border-gray-300"> -->
+            <!-- <v-select
                 label="nama_vendor"
                 :loading="isLoadingGetVendor"
                 :options="lookup_custom9.data"
@@ -141,15 +141,15 @@
                   >
                 </li>
               </v-select> -->
-              <p>
+            <!-- <p>
                 {{ item.vendor_id.nama_vendor }}
               </p>
-            </td>
-            <td class="border border-gray-300">
+            </td> -->
+            <!-- <td class="border border-gray-300">
               <p>
                 {{ item.lokasi_id_asal ? item.lokasi_id_asal.nama_lokasi : "" }}
               </p>
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <p>{{ item.lokasi_id.nama_lokasi }}</p>
             </td>

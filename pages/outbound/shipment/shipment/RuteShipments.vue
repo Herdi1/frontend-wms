@@ -28,7 +28,7 @@
             <th class="w-[200px] border border-gray-300">Jarak</th>
             <!-- <th class="w-[200px] border border-gray-300">Biaya BBM</th> -->
             <th class="w-[200px] border border-gray-300">
-              Waktu Sampai Tujuan (menit)
+              Waktu Sampai Tujuan (jam)
             </th>
             <th class="w-[200px] border border-gray-300">Biaya Lain-lain</th>
             <th class="w-[200px] border border-gray-300">Jenis Routing</th>

@@ -483,7 +483,7 @@
                           <th class="w-[100px] border border-gray-300">
                             Quantity
                           </th>
-                          <th class="w-[100px] border border-gray-300">
+                          <th class="w-[200px] border border-gray-300">
                             Valuation
                           </th>
                           <th class="w-[200px] border border-gray-300">
@@ -516,7 +516,31 @@
                             {{ retur.quantity_retur }}
                           </td>
                           <td class="w-20 border border-gray-300">
-                            <!-- {{ retur.valuation.nama_valuation }} -->
+                            <p>
+                              {{
+                                retur.item_gudang
+                                  ? retur.item_gudang.nama_item +
+                                    " - " +
+                                    retur.item_gudang.kode_item
+                                  : ""
+                              }}
+                            </p>
+                            <div class="w-full">
+                              <select
+                                class="p-1 w-full border border-gray-300 rounded-sm outline-none"
+                                name="tipe_lokasi"
+                                id="tipe_lokasi"
+                                v-model="retur.valuation_id"
+                              >
+                                <option
+                                  v-for="(item, i) in lookup_custom6.data"
+                                  :key="i"
+                                  :value="item.valuation_id"
+                                >
+                                  {{ item.nama_valuation }}
+                                </option>
+                              </select>
+                            </div>
                           </td>
                           <td class="w-20 border border-gray-300">
                             {{ retur.alasan }}
@@ -923,9 +947,15 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     this.getGeoLocation();
     this.getUserAgent();
+
+    await this.lookUp({
+      url: "master/valuation/get-valuation",
+      lookup: "custom6",
+      query: "?page=1&per_page=10",
+    });
   },
 
   computed: {
@@ -937,6 +967,7 @@ export default {
       "lookup_custom3",
       "lookup_custom4",
       "lookup_custom5",
+      "lookup_custom6",
     ]),
   },
 

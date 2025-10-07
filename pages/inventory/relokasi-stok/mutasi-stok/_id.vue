@@ -214,21 +214,15 @@
                           </select> -->
                           <p v-if="!isEditable">
                             {{
-                              item.zona_gudang
-                                ? item.zona_gudang.nama_zona_gudang +
+                              item.zona_gudang_asal
+                                ? item.zona_gudang_asal.nama_zona_gudang +
                                   " - " +
-                                  item.zona_gudang.kode_zona_gudang
+                                  item.zona_gudang_asal.kode_zona_gudang
                                 : "-"
                             }}
                           </p>
-                          <p v-if="isEditable">
-                            {{
-                              item.zona_gudang_id_asal
-                                ? item.zona_gudang_id_asal.nama_zona_gudang +
-                                  " - " +
-                                  item.zona_gudang_id_asal.kode_zona_gudang
-                                : "-"
-                            }}
+                          <p>
+                            {{ item.kode_slot_penyimpanan_terakhir_asal ?? "" }}
                           </p>
                         </td>
                         <td class="border border-gray-300">
@@ -946,6 +940,7 @@ export default {
           tanggal: "",
           mutasi_stok_details: [],
           biaya: [],
+          zona_gudang_asal: "",
 
           //Tracking
           user_agent: "",
@@ -1359,7 +1354,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
-        this.onSearchZonaudang();
+        this.onSearchZonaGudang();
       }, 600);
     },
 

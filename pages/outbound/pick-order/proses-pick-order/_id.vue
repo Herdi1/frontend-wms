@@ -770,10 +770,10 @@ export default {
         Object.keys(this.parameters.form).forEach((item) => {
           this.parameters.form[item] = res.data[item];
         });
-        this.parameters.form.user_id_pic = res.data.user_pic;
-        this.parameters.form.gudang_id = res.data.gudang;
-        this.parameters.form.staff_id_pic = res.data.staff_pic;
-        this.parameters.form.peralatan_id = res.data.peralatan;
+        this.parameters.form.user_id_pic = res.data.user_pic ?? "";
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.staff_id_pic = res.data.staff_pic ?? "";
+        this.parameters.form.peralatan_id = res.data.peralatan ?? "";
         this.parameters.form.pick_order_details =
           res.data.pick_order_details.map((item) => {
             return {
@@ -904,20 +904,20 @@ export default {
         ...this.parameters.form,
         gudang_id:
           typeof this.parameters.form.gudang_id == "object"
-            ? this.parameters.form.gudang_id.gudang_id
-            : this.parameters.form.gudang_id,
+            ? this.parameters.form.gudang_id.gudang_id ?? ""
+            : "",
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
-            ? this.parameters.form.user_id_pic.user_id
-            : this.parameters.form.user_id_pic,
+            ? this.parameters.form.user_id_pic.user_id ?? ""
+            : "",
         staff_id_pic:
           typeof this.parameters.form.staff_id_pic == "object"
-            ? this.parameters.form.staff_id_pic.staff_id
-            : this.parameters.form.staff_id_pic,
-        // peralatan_id:
-        //   typeof this.parameters.form.peralatan_id == "object"
-        //     ? this.parameters.form.peralatan_id.peralatan_id
-        //     : this.parameters.form.peralatan_id,
+            ? this.parameters.form.staff_id_pic.staff_id ?? ""
+            : "",
+        peralatan_id:
+          typeof this.parameters.form.peralatan_id == "object"
+            ? this.parameters.form.peralatan_id.peralatan_id ?? ""
+            : "",
       };
 
       formData.pick_order_details = formData.pick_order_details.map((item) => {

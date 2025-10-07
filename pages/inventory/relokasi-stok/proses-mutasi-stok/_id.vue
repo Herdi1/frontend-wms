@@ -263,6 +263,15 @@
                           </p>
                         </td>
                         <td class="border border-gray-300">
+                          <p>
+                            {{
+                              item.zona_gudang_asal
+                                ? item.zona_gudang_asal.nama_zona_gudang +
+                                  " - " +
+                                  item.zona_gudang_asal.kode_zona_gudang
+                                : "-"
+                            }}
+                          </p>
                           <p>{{ item.kode_slot_penyimpanan_terakhir_asal }}</p>
                         </td>
                         <td class="border border-gray-300">
@@ -393,7 +402,8 @@
                 </div>
               </template>
               <template #Biaya>
-                <div class="w-full flex justify-between items-center mt-3">
+                <BiayaRelokasi :self="{ parameters }" />
+                <!-- <div class="w-full flex justify-between items-center mt-3">
                   <h1 class="text-xl font-bold">Biaya</h1>
 
                   <div>
@@ -608,7 +618,7 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                </div> -->
               </template>
             </TabComponent>
           </div>
@@ -629,12 +639,14 @@ import { ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
 import TabComponent from "./tabComponent.vue";
 import ModalStokGudang from "../../../../components/transaksional/ModalStokGudang.vue";
+import BiayaRelokasi from "./BiayaRelokasi.vue";
 export default {
   props: ["self"],
 
   components: {
     TabComponent,
     ModalStokGudang,
+    BiayaRelokasi,
   },
 
   data() {
@@ -647,7 +659,7 @@ export default {
           slotName: "DetailItem",
         },
         {
-          name: "Biaya",
+          name: "Detail Biaya Relokasi",
           slotName: "Biaya",
         },
       ],
@@ -719,7 +731,8 @@ export default {
           staff_id: "",
           vendor_id: "",
           mutasi_stok_details: [],
-          biaya: [],
+          biaya_mutasi_stok_details: [],
+          zona_gudang_asal: "",
 
           //Tracking
           user_agent: "",
@@ -765,7 +778,7 @@ export default {
         // this.parameters.form = res.data;
         Object.keys(this.parameters.form).forEach((item) => {
           if (
-            item !== "biaya" &&
+            item !== "biaya_mutasi_stok_details" &&
             item !== "gudang_id" &&
             item !== "staff_id" &&
             item !== "mutasi_stok_details"
@@ -803,18 +816,18 @@ export default {
             };
           });
 
-        if (res.data.biaya) {
-          this.parameters.form.biaya = res.data.biaya.map((item) => {
-            return {
-              ...item,
-              biaya_id: item,
-              jenis_biaya_id: item.jenis_biaya ?? "",
-              coa_id: item.coa ?? "",
-              vendor_id: item.vendor ?? "",
-            };
-          });
+        if (res.data.biaya_mutasi_stok_details) {
+          this.parameters.form.biaya_mutasi_stok_details =
+            res.data.biaya_mutasi_stok_details.map((item) => {
+              return {
+                ...item,
+                biaya_mutasi_stok_detail_id: item,
+                jenis_biaya_id: item.jenis_biaya ?? "",
+                coa_id: item.coa ?? "",
+              };
+            });
         } else {
-          this.parameters.form.biaya = [];
+          this.parameters.form.biaya_mutasi_stok_details = [];
         }
       }
     } catch (error) {
@@ -953,27 +966,29 @@ export default {
             };
           }
         ),
-        biaya: this.parameters.form.biaya.map((item) => {
-          return {
-            ...item,
-            biaya_id:
-              typeof item.biaya_id === "object"
-                ? item.biaya_id.biaya_id ?? ""
-                : "",
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
-                : item.jenis_biaya_id ?? "",
-            coa_id:
-              typeof item.coa_id === "object"
-                ? item.coa_id.coa_id ?? ""
-                : item.coa_id ?? "",
-            vendor_id:
-              typeof item.vendor_id === "object"
-                ? item.vendor_id.vendor_id ?? ""
-                : item.vendor_id ?? "",
-          };
-        }),
+        biaya_mutasi_stok_details:
+          this.parameters.form.biaya_mutasi_stok_details.map((item) => {
+            return {
+              ...item,
+              biaya_mutasi_stok_detail_id:
+                typeof item.biaya_mutasi_stok_detail_id === "object"
+                  ? item.biaya_mutasi_stok_detail_id
+                      .biaya_mutasi_stok_detail_id ?? ""
+                  : "",
+              jenis_biaya_id:
+                typeof item.jenis_biaya_id === "object"
+                  ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+                  : item.jenis_biaya_id ?? "",
+              coa_id:
+                typeof item.coa_id === "object"
+                  ? item.coa_id.coa_id ?? ""
+                  : item.coa_id ?? "",
+              divisi_id:
+                typeof item.divisi_id === "object"
+                  ? item.divisi_id.divisi_id ?? ""
+                  : item.divisi_id ?? "",
+            };
+          }),
       };
 
       const today = new Date();

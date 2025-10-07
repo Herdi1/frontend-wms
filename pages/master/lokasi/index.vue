@@ -36,7 +36,7 @@
                   v-model="parameters.params.tipe_lokasi"
                 >
                   <option
-                    v-for="(item, i) in lookup_custom1"
+                    v-for="(item, i) in lookup_custom1.data"
                     :key="i"
                     :value="item.value"
                   >
@@ -230,10 +230,10 @@ export default {
     }
 
     if (this.getRoles.export) {
-      this.$refs["form-option"].isExportFile = false;
+      this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = false;
-      this.$refs["form-option"].isExportFileExcel = false;
+      this.$refs["form-option"].isExportFilePdf = true;
+      this.$refs["form-option"].isExportFileExcel = true;
 
       if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
         this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
@@ -243,12 +243,17 @@ export default {
     }
 
     if (this.getRoles.print) {
-      this.$refs["form-option"].isExportPrint = false;
+      this.$refs["form-option"].isExportPrint = true;
     }
-    await this.lookUp({
-      url: "utility",
-      lookup: "custom1",
-      query: "?q=tipe_lokasi",
+
+    // await this.lookUp({
+    //   url: "utility",
+    //   lookup: "custom1",
+    //   query: "?q=tipe_lokasi",
+    // });
+
+    await this.$axios.get("utility?q=tipe_lokasi").then((res) => {
+      this.lookup_custom1.data = { ...res.data };
     });
   },
 

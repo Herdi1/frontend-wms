@@ -23,6 +23,8 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+<<<<<<< HEAD
+=======
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"
   },
@@ -41,6 +43,7 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
+>>>>>>> 09314a09f5f7b1bb4fceb3bc46566e4c3dd1f5b8
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -53,6 +56,21 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
+<<<<<<< HEAD
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
+  },
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
+  },
+=======
+>>>>>>> 09314a09f5f7b1bb4fceb3bc46566e4c3dd1f5b8
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
@@ -490,6 +508,12 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
+  },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "SectionFilterData": {
     "description": "Auto imported from components/section/FilterData.vue"
