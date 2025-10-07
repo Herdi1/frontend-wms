@@ -214,7 +214,6 @@ export default {
 
   async mounted() {
     this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isAddData = true;
     if (
@@ -396,7 +395,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
