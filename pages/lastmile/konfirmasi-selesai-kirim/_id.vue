@@ -483,9 +483,7 @@
                           <th class="w-[100px] border border-gray-300">
                             Quantity
                           </th>
-                          <th class="w-[200px] border border-gray-300">
-                            Valuation
-                          </th>
+                          <th class="w-[200px] border border-gray-300">Item</th>
                           <th class="w-[200px] border border-gray-300">
                             Alasan
                           </th>
@@ -505,6 +503,7 @@
                           v-for="(retur, index) in parameters.form
                             .shipment_retur_details"
                           :key="index"
+                          class="text-start"
                         >
                           <td class="w-20 border border-gray-300">
                             {{ retur.shipment_detail.kode_delivery_order }}
@@ -543,7 +542,20 @@
                             </div>
                           </td>
                           <td class="w-20 border border-gray-300">
-                            {{ retur.alasan }}
+                            <select
+                              class="p-1 w-full border border-gray-300 rounded-sm outline-none"
+                              name="tipe_lokasi"
+                              id="tipe_lokasi"
+                              v-model="retur.alasan_beda_plan_id"
+                            >
+                              <option
+                                v-for="(item, i) in lookup_custom7.data"
+                                :key="i"
+                                :value="item.alasan_beda_plan_id"
+                              >
+                                {{ item.nama_alasan_beda_plan }}
+                              </option>
+                            </select>
                           </td>
                           <td class="border border-gray-300">
                             <v-select
