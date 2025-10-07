@@ -230,6 +230,18 @@
                 <p class="mb-2">
                   Valuation: <span class="text-danger">*</span>
                 </p>
+                <!-- <select
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  v-model="item.valuation_id"
+                >
+                  <option
+                    v-for="(item, i) in lookup_warehouses.data"
+                    :key="i"
+                    :value="item"
+                  >
+                    {{ item.nama_valuation }}
+                  </option>
+                </select> -->
                 <v-select
                   label="nama_valuation"
                   :loading="isLoadingGetValuation"
@@ -748,7 +760,7 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchValuation();
+    // await this.onSearchValuation();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
@@ -757,6 +769,11 @@ export default {
     await this.onSearchJenisBiaya();
     await this.onSearchAlasan();
     // await this.onSearchItemGudang();
+    await this.lookUp({
+      url: "master/valuation/get-valuation",
+      lookup: "warehouses",
+      query: "?q=tipe_lokasi",
+    });
   },
 
   computed: {

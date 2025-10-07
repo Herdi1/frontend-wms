@@ -399,6 +399,7 @@ export default {
           return {
             ...item,
             inbound_details_id: item || "",
+            quantity: item.quantity_terima,
           };
         });
         // console.log(this.form);
@@ -500,7 +501,7 @@ export default {
           this.$router.push("/inbound/konfirmasi-put-away");
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;
