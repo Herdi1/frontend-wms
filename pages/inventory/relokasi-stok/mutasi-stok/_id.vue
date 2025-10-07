@@ -214,10 +214,10 @@
                           </select> -->
                           <p v-if="!isEditable">
                             {{
-                              item.zona_gudang_asal
-                                ? item.zona_gudang_asal.nama_zona_gudang +
+                              item.zona_gudang
+                                ? item.zona_gudang.nama_zona_gudang +
                                   " - " +
-                                  item.zona_gudang_asal.kode_zona_gudang
+                                  item.zona_gudang.kode_zona_gudang
                                 : "-"
                             }}
                           </p>
@@ -1340,11 +1340,11 @@ export default {
     },
 
     onGetZonaGudang(search, isNext) {
-      if (!search.length && typeof isNext === "function") return;
+      if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchZonaGudang);
 
-      this.isStopSearchZonaGudang = setTimeout(() => {
+      this.isStopSearchItemGudang = setTimeout(() => {
         this.zonaGudang_search = search;
 
         if (typeof isNext !== "function") {
@@ -1354,6 +1354,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
+
         this.onSearchZonaGudang();
       }, 600);
     },
@@ -1870,6 +1871,7 @@ export default {
         };
         this.parameters.form.mutasi_stok_details.push(detailItem);
         this.$toaster.success("Data Berhasil Ditambahkan");
+        // console.log(this.parameters.form.mutasi_stok_details);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }

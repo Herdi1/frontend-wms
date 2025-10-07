@@ -202,7 +202,7 @@
               >
                 <thead>
                   <tr class="text-sm uppercase text-nowrap">
-                    <th class="w-60 border border-gray-300">Item</th>
+                    <th class="w-60 lg:w-full border border-gray-300">Item</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
                     <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">keterangan</th>
@@ -260,6 +260,10 @@
                           >
                         </li>
                       </v-select>
+                      <p v-if="item.item_gudang_id">
+                        {{ item.item_gudang_id.kode_item }} -
+                        {{ item.item_gudang_id.nama_item }}
+                      </p>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
