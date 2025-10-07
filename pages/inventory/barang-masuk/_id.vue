@@ -163,27 +163,27 @@
                 @input="onSelectStaff"
                 class="w-[60%] bg-white"
               >
-                <!-- <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom10.data.length || search"
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom10.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom10.current_page > 1"
+                    @click="onGetStaff(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
                   >
-                    <span
-                      v-if="lookup_custom10.current_page > 1"
-                      @click="onGetStaff(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom10.last_page > lookup_custom10.current_page
-                      "
-                      @click="onGetStaff(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li> -->
+                  <span
+                    v-if="
+                      lookup_custom10.last_page > lookup_custom10.current_page
+                    "
+                    @click="onGetStaff(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
               </v-select>
             </div>
             <!-- <select-button

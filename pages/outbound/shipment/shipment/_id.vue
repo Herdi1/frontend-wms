@@ -158,7 +158,7 @@
                   @input="onSelectStaff"
                   class="w-[50%] bg-white"
                 >
-                  <!-- <li
+                  <li
                     slot-scope="{ search }"
                     slot="list-footer"
                     class="p-1 border-t flex justify-between"
@@ -178,7 +178,7 @@
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
-                  </li> -->
+                  </li>
                 </v-select>
               </div>
               <!-- <div class="form-group">
