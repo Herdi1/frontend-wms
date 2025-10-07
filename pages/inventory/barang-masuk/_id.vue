@@ -153,51 +153,22 @@
               <label for="" class="w-[40%]"
                 >Pengemudi <span class="text-danger">*</span></label
               >
-              <v-select
-                label="nama_lengkap"
-                :loading="isLoadingGetStaff"
-                :options="lookup_custom10"
-                :filterable="false"
-                @search="onGetStaff"
+              <select
+                class="p-1 w-[60%] border border-gray-300 rounded-md outline-none"
+                name="staff_id"
+                id="staff_id"
                 v-model="parameters.form.staff_id"
-                @input="onSelectStaff"
-                class="w-[60%] bg-white"
               >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom10.data.length || search"
+                <option
+                  v-for="(item, i) in lookup_custom10"
+                  :key="i"
+                  :value="item"
                 >
-                  <span
-                    v-if="lookup_custom10.current_page > 1"
-                    @click="onGetStaff(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom10.last_page > lookup_custom10.current_page
-                    "
-                    @click="onGetStaff(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
+                  {{ item.nama_lengkap }}
+                </option>
+              </select>
             </div>
-            <!-- <select-button
-              :self="{
-                label: 'Pengemudi',
-                optionLabel: 'nama_lengkap',
-                isLoading: isLoadingGetStaff,
-                lookup: lookup_custom10,
-                onGet: onGetStaff,
-                value: parameters.form.staff_id,
-                input: onSelectStaff,
-              }"
-              width="w-[60%]"
-            /> -->
+
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
@@ -1817,6 +1788,11 @@ export default {
             this.lookup_custom10.current_page +
             "&per_page=10",
         });
+
+        console.log(this.lookup_custom10);
+        console.log("Tipe lookup_custom10:", typeof this.lookup_custom10);
+        console.log("Apakah array?", Array.isArray(this.lookup_custom10));
+
         this.isLoadingGetStaff = false;
       }
     },
@@ -1877,7 +1853,12 @@ export default {
       if (item) {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.nama_kendaraan = item.nama_kendaraan ?? "";
-        await this.onSearchStaff();
+        // await this.onSearchStaff();
+        await this.lookUp({
+          url: "master/kendaraan/get-pengemudi-kendaraan",
+          lookup: "custom10",
+          query: "?kendaraan_id=" + item.kendaraan_id,
+        });
       } else {
         this.parameters.form.kendaraan_id = "";
         this.parameters.form.nama_kendaraan = "";
