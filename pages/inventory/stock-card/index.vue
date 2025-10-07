@@ -937,7 +937,7 @@ export default {
       });
 
       const params = {
-        page: this.parameters.params.page,
+        page: page,
         gudang_id: this.parameters.params.gudang_id?.gudang_id || "",
         item_gudang_id:
           this.parameters.params.item_gudang_id?.item_gudang_id || "",
@@ -1455,10 +1455,8 @@ export default {
         this.parameters.params.zona_gudang_id = item;
         await this.onSearchSlotAisle();
       } else {
-        this.parameters.params.zona_gudang_id = { zona_gudang_id: "" };
-        this.parameters.params.slot_penyimpanan_id_aisle = {
-          slot_penyimpanan_id: "",
-        };
+        this.parameters.params.zona_gudang_id = "";
+        this.parameters.params.slot_penyimpanan_id_aisle = "";
       }
     },
 
@@ -1467,12 +1465,8 @@ export default {
         this.parameters.params.slot_penyimpanan_id_aisle = item;
         await this.onSearchSlotRack();
       } else {
-        this.parameters.params.slot_penyimpanan_id_aisle = {
-          slot_penyimpanan_id: "",
-        };
-        this.parameters.params.slot_penyimpanan_id_rack = {
-          slot_penyimpanan_id: "",
-        };
+        this.parameters.params.slot_penyimpanan_id_aisle = "";
+        this.parameters.params.slot_penyimpanan_id_rack = "";
       }
     },
 
@@ -1481,12 +1475,8 @@ export default {
         this.parameters.params.slot_penyimpanan_id_rack = item;
         await this.onSearchSlotLevel();
       } else {
-        this.parameters.params.slot_penyimpanan_id_rack = {
-          slot_penyimpanan_id: "",
-        };
-        this.parameters.params.slot_penyimpanan_id_level = {
-          slot_penyimpanan_id: "",
-        };
+        this.parameters.params.slot_penyimpanan_id_rack = "";
+        this.parameters.params.slot_penyimpanan_id_level = "";
       }
     },
 
@@ -1495,12 +1485,8 @@ export default {
         this.parameters.params.slot_penyimpanan_id_level = item;
         await this.onSearchSlotBin();
       } else {
-        this.parameters.params.slot_penyimpanan_id_level = {
-          slot_penyimpanan_id: "",
-        };
-        this.parameters.params.slot_penyimpanan_id_bin = {
-          slot_penyimpanan_id: "",
-        };
+        this.parameters.params.slot_penyimpanan_id_level = "";
+        this.parameters.params.slot_penyimpanan_id_bin = "";
       }
     },
 

@@ -307,24 +307,25 @@ export default {
     };
   },
 
-  // watch: {
-  //   "self.form.biaya_inbounds": {
-  //     handler(newVal) {
-  //       newVal.forEach((item) => {
-  //         if (item.dasar_perhitungan === "QTY") {
-  //           item.total = item.jumlah * item.nilai_kontrak;
-  //         } else if (item.dasar_perhitungan === "BERAT") {
-  //           item.total = item.jumlah * item.nilai_kontrak * item.berat;
-  //         } else if (item.dasar_perhitungan === "VOLUME") {
-  //           item.total = item.jumlah * item.nilai_kontrak * item.volume;
-  //         } else {
-  //           item.total = item.total;
-  //         }
-  //       });
-  //     },
-  //     deep: true,
-  //   },
-  // },
+  watch: {
+    "self.form.biaya_inbounds": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total = item.jumlah * item.nilai_kontrak;
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total = item.jumlah * item.nilai_kontrak * item.berat;
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total = item.jumlah * item.nilai_kontrak * item.volume;
+          } else {
+            item.total = item.total;
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
 
   async mounted() {
     await this.onSearchJenisBiaya();
@@ -352,7 +353,7 @@ export default {
     calculateTotal() {
       let total = 0;
       this.self.form.biaya_inbounds.forEach((item) => {
-        total += item.total;
+        total += parseFloat(item.total);
       });
       // if (this.self.form.biaya_inbounds.length > 0) {
       // }

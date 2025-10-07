@@ -492,7 +492,7 @@
       </ValidationObserver>
       <success-modal
         v-model="showModal"
-        :message="`${this.res.kode_inbound ?? ''} Data Berhasil ${
+        :message="`${this.res.kode_inbound + ' - ' ?? ''} Data Berhasil ${
           isEditable ? 'Diedit' : 'Disimpan'
         }! Cetak Label?`"
         @closed="onCloseModal"
@@ -698,14 +698,8 @@ export default {
               detail_inbound_id: item,
               item_gudang_id: item.item_gudang ?? "",
               zona_gudang_id: item.zona_gudang,
-              jenis_biaya_id:
-                typeof item.jenis_biaya === "object" && item.jenis_biaya
-                  ? item.jenis_biaya
-                  : "",
-              valuation_id:
-                typeof item.valuation === "object" && item.valuation
-                  ? item.valuation
-                  : "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
+              valuation_id: item.valuation ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_aisle === "object" &&
                 item.slot_penyimpanan_aisle
@@ -739,7 +733,11 @@ export default {
               coa_id: item.coa ?? "",
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              total: item.total ?? 999,
+              berat: parseFloat(item.berat ?? 0),
+              jumlah: parseFloat(item.jumlah ?? 0),
+              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              volume: parseFloat(item.volume ?? 0),
+              total: 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -764,7 +762,9 @@ export default {
               ...item,
               item_gudang_id: item.item_gudang,
               detail_inbound_id: item,
-              zona_gudang_id: item.zona_gudang,
+              zona_gudang_id: item.zona_gudang ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
+              valuation_id: item.valuation ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_aisle === "object"
                   ? item.slot_penyimpanan_aisle
@@ -794,6 +794,11 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
+              berat: parseFloat(item.berat ?? 0),
+              jumlah: parseFloat(item.jumlah ?? 0),
+              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              volume: parseFloat(item.volume ?? 0),
+              total: 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -816,9 +821,11 @@ export default {
           this.form.inbound_details = res.data.inbound_details.map((item) => {
             return {
               ...item,
-              item_gudang_id: item.item_gudang,
+              item_gudang_id: item.item_gudang ?? "",
               detail_inbound_id: item,
-              zona_gudang_id: item.zona_gudang,
+              zona_gudang_id: item.zona_gudang ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
+              valuation_id: item.valuation ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_aisle === "object"
                   ? item.slot_penyimpanan_aisle
@@ -835,6 +842,7 @@ export default {
                 typeof item.slot_penyimpanan_bin === "object"
                   ? item.slot_penyimpanan_bin
                   : "",
+              peralatan_id: item.peralatan ?? "",
             };
           });
           this.form.biaya_inbounds = res.data.biaya_inbounds.map((item) => {
@@ -847,6 +855,11 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
+              berat: parseFloat(item.berat ?? 0),
+              jumlah: parseFloat(item.jumlah ?? 0),
+              nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
+              volume: parseFloat(item.volume ?? 0),
+              total: 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -1140,10 +1153,10 @@ export default {
             typeof item.jenis_biaya_id === "object"
               ? item.jenis_biaya_id.jenis_biaya_id ?? ""
               : item.jenis_biaya_id ?? "",
-          coa_id:
-            typeof item.coa_id === "object"
-              ? item.coa_id.coa_id ?? ""
-              : item.coa_id ?? "",
+          // coa_id:
+          //   typeof item.coa_id === "object"
+          //     ? item.coa_id.coa_id ?? ""
+          //     : item.coa_id ?? "",
           divisi_id:
             typeof item.divisi_id === "object"
               ? item.divisi_id.divisi_id ?? ""
@@ -1223,7 +1236,7 @@ export default {
           this.showModal = true;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;

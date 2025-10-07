@@ -189,7 +189,10 @@
                   <td class="place-items-center border border-gray-300">
                     <small-edit-button
                       @click="onEdit(item)"
-                      :disabled="item.tanggal !== getTodaysDate"
+                      :disabled="
+                        item.tanggal !== getTodaysDate ||
+                        item.status_put_away !== 'MENUNGGU'
+                      "
                     />
                   </td>
 
