@@ -148,7 +148,21 @@
                 <label for="" class="w-[50%]"
                   >Pengemudi <span class="text-danger">*</span></label
                 >
-                <v-select
+                <select
+                  class="p-1 w-[50%] border border-gray-300 rounded-md outline-none"
+                  name="staff_id"
+                  id="staff_id"
+                  v-model="parameters.form.staff_id"
+                >
+                  <option
+                    v-for="(item, i) in lookup_custom10"
+                    :key="i"
+                    :value="item"
+                  >
+                    {{ item.nama_lengkap }}
+                  </option>
+                </select>
+                <!-- <v-select
                   label="nama_lengkap"
                   :loading="isLoadingGetStaff"
                   :options="lookup_custom10"
@@ -179,7 +193,7 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
               </div>
               <!-- <div class="form-group">
                 <select-button
@@ -1040,7 +1054,11 @@ export default {
         this.parameters.form.jenis_kendaraan_id = item.jenis_kendaraan;
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
-        await this.onSearchStaff();
+        await this.lookUp({
+          url: "master/kendaraan/get-pengemudi-kendaraan",
+          lookup: "custom10",
+          query: "?kendaraan_id=" + item.kendaraan_id,
+        });
       } else {
         this.parameters.form.kendaraan_id = "";
         this.parameters.form.jenis_kendaraan_id = "";

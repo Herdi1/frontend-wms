@@ -169,6 +169,20 @@
               <label for="" class="w-[40%]"
                 >Pengemudi <span class="text-danger">*</span></label
               >
+              <select
+                class="p-1 w-[60%] border border-gray-300 rounded-md outline-none"
+                name="staff_id"
+                id="staff_id"
+                v-model="parameters.form.staff_id"
+              >
+                <option
+                  v-for="(item, i) in lookup_custom10"
+                  :key="i"
+                  :value="item"
+                >
+                  {{ item.nama_lengkap }}
+                </option>
+              </select>
               <!-- <v-select
                 label="nama_lengkap"
                 :loading="isLoadingGetStaff"
@@ -201,22 +215,6 @@
                   >
                 </li>
               </v-select> -->
-              <div class="w-[60%]">
-                <select
-                  class="p-1 w-full border border-gray-300 rounded-sm outline-none"
-                  name="staff_id"
-                  id="staff_id"
-                  v-model="parameters.form.staff_id"
-                >
-                  <option
-                    v-for="(item, i) in lookup_custom10"
-                    :key="i"
-                    :value="item"
-                  >
-                    {{ item.nama_lengkap }}
-                  </option>
-                </select>
-              </div>
             </div>
             <div class="form-group">
               <input-horizontal
@@ -1577,12 +1575,10 @@ export default {
       if (item) {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.nama_kendaraan = item.nama_kendaraan ?? "";
-        // await this.onSearchStaff();
         await this.lookUp({
           url: "master/kendaraan/get-pengemudi-kendaraan",
           lookup: "custom10",
-          query:
-            "?kendaraan_id=" + this.parameters.form.kendaraan_id.kendaraan_id,
+          query: "?kendaraan_id=" + item.kendaraan_id,
         });
       } else {
         this.parameters.form.kendaraan_id = "";
