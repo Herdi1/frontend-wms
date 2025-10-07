@@ -4396,6 +4396,27 @@
     "_name": "_33b0f306"
   },
   {
+    "name": "inventory-relokasi-stok-approve-mutasi-stok-detail-id",
+    "path": "/inventory/relokasi-stok/approve-mutasi-stok/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/approve-mutasi-stok/detail/_id",
+    "_name": "_31646c34"
+  },
+  {
+    "name": "inventory-relokasi-stok-mutasi-stok-detail-id",
+    "path": "/inventory/relokasi-stok/mutasi-stok/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/mutasi-stok/detail/_id",
+    "_name": "_4dc5b134"
+  },
+  {
+    "name": "inventory-relokasi-stok-proses-mutasi-stok-detail-id",
+    "path": "/inventory/relokasi-stok/proses-mutasi-stok/detail/:id?",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\proses-mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/relokasi-stok/proses-mutasi-stok/detail/_id",
+    "_name": "_1fbaf012"
+  },
+  {
     "name": "inventory-stok-opname-adjustment-stok-opname-detail-id",
     "path": "/inventory/stok-opname/adjustment-stok-opname/detail/:id?",
     "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\inventory\\\\stok-opname\\\\adjustment-stok-opname\\\\detail\\\\_id.vue",

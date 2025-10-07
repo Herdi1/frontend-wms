@@ -212,12 +212,21 @@
                             <option value="ASAL">Asal</option>
                             <option value="TUJUAN">Tujuan</option>
                           </select> -->
-                          <p>
+                          <p v-if="!isEditable">
                             {{
                               item.zona_gudang
                                 ? item.zona_gudang.nama_zona_gudang +
                                   " - " +
                                   item.zona_gudang.kode_zona_gudang
+                                : "-"
+                            }}
+                          </p>
+                          <p v-if="isEditable">
+                            {{
+                              item.zona_gudang_id_asal
+                                ? item.zona_gudang_id_asal.nama_zona_gudang +
+                                  " - " +
+                                  item.zona_gudang_id_asal.kode_zona_gudang
                                 : "-"
                             }}
                           </p>
@@ -998,6 +1007,7 @@ export default {
               item_gudang_id: item.item_gudang_id ?? "",
               valuation_id: item.valuation_id ?? "",
               zona_gudang_id: item.zona_gudang ?? "",
+              zona_gudang_id_asal: item.zona_gudang_asal ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
               slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
