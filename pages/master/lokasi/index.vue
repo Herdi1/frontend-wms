@@ -255,8 +255,6 @@ export default {
     await this.$axios.get("utility?q=tipe_lokasi").then((res) => {
       this.lookup_custom1.data = { ...res.data };
     });
-
-    console.log(this.lookup_custom1.data);
   },
 
   data() {
