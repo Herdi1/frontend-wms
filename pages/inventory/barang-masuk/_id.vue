@@ -847,7 +847,6 @@ export default {
     await this.onSearchKendaraan();
     await this.onSearchValuation();
     await this.onSearchAlasanBedaPlan();
-    await this.onSearchLokasi();
     // await this.onSearchItemGudang();
     // await this.onSearchZonaPlan();
     // await this.onSearchSlotAisle();
@@ -1195,11 +1194,13 @@ export default {
         this.isLoadingGetLokasi = true;
 
         await this.lookUp({
-          url: "master/lokasi/get-lokasi",
+          url: "master/lokasi-by-gudang/get-lokasi-by-gudang",
           lookup: "roles",
           query:
             "?search=" +
             this.lokasi_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_roles.current_page +
             "&per_page=10",
@@ -1625,6 +1626,7 @@ export default {
         this.parameters.form.barang_masuk_details = [];
         await this.onSearchZonaPlan();
         await this.onSearchItemGudang();
+        await this.onSearchLokasi();
       } else {
         this.parameters.form.gudang_id = "";
       }

@@ -26,6 +26,16 @@
                 </div>
               </div>
               <div class="flex w-full items-center">
+                <label class="w-[40%]">Gudang</label>
+                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
+                  {{
+                    this.detail_pick_order.gudang_id
+                      ? this.detail_pick_order.gudang_id.nama_gudang
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="flex w-full items-center">
                 <label class="w-[40%]">Tanggal</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
@@ -65,16 +75,7 @@
                   }}
                 </div>
               </div>
-              <div class="flex w-full items-center">
-                <label class="w-[40%]">Gudang</label>
-                <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-                  {{
-                    this.detail_pick_order.gudang_id
-                      ? this.detail_pick_order.gudang_id.nama_gudang
-                      : "-"
-                  }}
-                </div>
-              </div>
+
               <div class="flex w-full items-center">
                 <label class="w-[40%]">User PIC</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
@@ -86,7 +87,7 @@
                 </div>
               </div>
               <div class="flex w-full items-center">
-                <label class="w-[40%]">Staff</label>
+                <label class="w-[40%]">Operator</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
                     this.detail_pick_order.staff_id_pic
@@ -95,7 +96,7 @@
                   }}
                 </div>
               </div>
-              <div class="flex w-full items-center">
+              <!-- <div class="flex w-full items-center">
                 <label class="w-[40%]">Peralatan</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
                   {{
@@ -104,7 +105,7 @@
                       : "-"
                   }}
                 </div>
-              </div>
+              </div> -->
               <div class="flex w-full items-center">
                 <label class="w-[40%]">Keterangan</label>
                 <div class="border border-gray-300 rounded-md p-1 w-[60%]">
