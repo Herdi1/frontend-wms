@@ -37,7 +37,7 @@
         </thead>
         <tbody class="border-collapse border border-gray-300">
           <tr
-            v-for="(item, index) in self.form.biaya_inbounds"
+            v-for="(item, index) in this.self.form.biaya_inbounds"
             :key="index"
             style="border-top: 0.5px solid lightgray"
             class="align-top mx-0"
@@ -309,25 +309,25 @@ export default {
     };
   },
 
-  watch: {
-    "self.form.biaya_inbounds": {
-      handler(newVal) {
-        newVal.forEach((item) => {
-          if (item.dasar_perhitungan === "QTY") {
-            item.total = item.jumlah * parseFloat(item.nilai_kontrak);
-          } else if (item.dasar_perhitungan === "BERAT") {
-            item.total = item.jumlah * item.nilai_kontrak * item.berat;
-          } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total = item.jumlah * item.nilai_kontrak * item.volume;
-          } else {
-            item.total = 0;
-          }
-        });
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
+  // watch: {
+  //   "self.form.biaya_inbounds": {
+  //     handler(newVal) {
+  //       newVal.forEach((item) => {
+  //         if (item.dasar_perhitungan === "QTY") {
+  //           item.total = item.jumlah * parseFloat(item.nilai_kontrak);
+  //         } else if (item.dasar_perhitungan === "BERAT") {
+  //           item.total = item.jumlah * item.nilai_kontrak * item.berat;
+  //         } else if (item.dasar_perhitungan === "VOLUME") {
+  //           item.total = item.jumlah * item.nilai_kontrak * item.volume;
+  //         } else {
+  //           item.total = 0;
+  //         }
+  //       });
+  //     },
+  //     immediate: true,
+  //     deep: true,
+  //   },
+  // },
 
   async mounted() {
     // await this.onSearchJenisBiaya();
@@ -370,6 +370,22 @@ export default {
       });
       return grandTotal;
     },
+
+    // biayaInboundsComputed() {
+    //   let biaya = this.self.form.biaya_inbounds.map((item) => {
+    //     let total = 0;
+    //     if (item.dasar_perhitungan == "QTY") {
+    //       total = item.jumlah * parseFloat(item.nilai_kontrak);
+    //     } else if (item.dasar_perhitungan == "BERAT") {
+    //       total = item.jumlah * item.nilai_kontrak * item.berat;
+    //     } else if (item.dasar_perhitungan == "VOLUME") {
+    //       total = item.jumlah * item.nilai_kontrak * item.volume;
+    //     }
+    //     return { ...item, total };
+    //   });
+
+    //   return biaya;
+    // },
   },
 
   methods: {

@@ -1349,7 +1349,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
-        this.onSearchZonaudang();
+        this.onSearchZonaGudang();
       }, 600);
     },
 
