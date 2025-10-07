@@ -633,6 +633,9 @@ const _5713f458 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendo
 const _783741f6 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/detail/_id" */))
 const _67ac6398 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/_id" */))
 const _37a34b76 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konversi-stok/detail/_id" */))
+const _ac539fc2 = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/detail/_id" */))
+const _4af052c2 = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/mutasi-stok/detail/_id" */))
+const _7247f69e = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\proses-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/proses-mutasi-stok/detail/_id" */))
 const _7bcde674 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\adjustment-stok-opname\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/adjustment-stok-opname/detail/_id" */))
 const _bf69cba6 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\proses-stok-opname\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/proses-stok-opname/detail/_id" */))
 const _282cdf16 = () => interopDefault(import('..\\pages\\inventory\\stok-opname\\stok-opname\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/stok-opname/stok-opname/detail/_id" */))
@@ -3378,6 +3381,18 @@ export const routerOptions = {
     path: "/inventory/konversi-stok/konversi-stok/detail/:id?",
     component: _37a34b76,
     name: "inventory-konversi-stok-konversi-stok-detail-id"
+  }, {
+    path: "/inventory/relokasi-stok/approve-mutasi-stok/detail/:id?",
+    component: _ac539fc2,
+    name: "inventory-relokasi-stok-approve-mutasi-stok-detail-id"
+  }, {
+    path: "/inventory/relokasi-stok/mutasi-stok/detail/:id?",
+    component: _4af052c2,
+    name: "inventory-relokasi-stok-mutasi-stok-detail-id"
+  }, {
+    path: "/inventory/relokasi-stok/proses-mutasi-stok/detail/:id?",
+    component: _7247f69e,
+    name: "inventory-relokasi-stok-proses-mutasi-stok-detail-id"
   }, {
     path: "/inventory/stok-opname/adjustment-stok-opname/detail/:id?",
     component: _7bcde674,
