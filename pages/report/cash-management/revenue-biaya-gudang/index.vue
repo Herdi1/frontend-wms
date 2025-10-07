@@ -224,6 +224,9 @@ export default {
     await this.onSearchProvinsi();
     await this.onSearchGudang();
     await this.onSearchWilayah();
+    if (this.lookup_custom1.data) {
+      this.onSetGudang(this.lookup_custom1.data[0]);
+    }
   },
 
   data() {
@@ -324,7 +327,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +

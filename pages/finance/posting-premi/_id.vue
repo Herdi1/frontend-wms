@@ -781,6 +781,9 @@ export default {
     await this.onSearchDivisi();
     await this.onSearchPelanggan();
     await this.onSearchStaff();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
   },
 
   computed: {
@@ -842,7 +845,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +

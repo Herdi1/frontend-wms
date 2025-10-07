@@ -453,7 +453,7 @@ const _63956bb6 = () => interopDefault(import('..\\pages\\report\\inventory\\agi
 const _30a5271e = () => interopDefault(import('..\\pages\\report\\inventory\\average-inventory-periode\\index.vue' /* webpackChunkName: "pages/report/inventory/average-inventory-periode/index" */))
 const _5775c8f6 = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-gudang-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-gudang-inventory-level/index" */))
 const _f5b44ddc = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-inventory-level/index" */))
-const _d11f67bc = () => interopDefault(import('..\\pages\\report\\inventory\\mutasi-stok\\index.vue' /* webpackChunkName: "pages/report/inventory/mutasi-stok/index" */))
+const _503363c4 = () => interopDefault(import('..\\pages\\report\\inventory\\laporan-mutasi-stok\\index.vue' /* webpackChunkName: "pages/report/inventory/laporan-mutasi-stok/index" */))
 const _ac15df1e = () => interopDefault(import('..\\pages\\report\\inventory\\obsolete-stock\\index.vue' /* webpackChunkName: "pages/report/inventory/obsolete-stock/index" */))
 const _68a440f9 = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan/index" */))
 const _5bc4369f = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan-damage\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan-damage/index" */))
@@ -2676,9 +2676,9 @@ export const routerOptions = {
     component: _f5b44ddc,
     name: "report-inventory-kapasitas-inventory-level"
   }, {
-    path: "/report/inventory/mutasi-stok",
-    component: _d11f67bc,
-    name: "report-inventory-mutasi-stok"
+    path: "/report/inventory/laporan-mutasi-stok",
+    component: _503363c4,
+    name: "report-inventory-laporan-mutasi-stok"
   }, {
     path: "/report/inventory/obsolete-stock",
     component: _ac15df1e,

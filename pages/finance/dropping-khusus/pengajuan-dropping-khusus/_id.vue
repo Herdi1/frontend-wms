@@ -178,6 +178,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     this.getUserAgent();
     this.getGeoLocation();
   },

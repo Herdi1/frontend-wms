@@ -3143,11 +3143,11 @@
     "_name": "_f5b44ddc"
   },
   {
-    "name": "report-inventory-mutasi-stok",
-    "path": "/report/inventory/mutasi-stok",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\mutasi-stok\\\\index.vue",
-    "chunkName": "pages/report/inventory/mutasi-stok/index",
-    "_name": "_d11f67bc"
+    "name": "report-inventory-laporan-mutasi-stok",
+    "path": "/report/inventory/laporan-mutasi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\laporan-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/report/inventory/laporan-mutasi-stok/index",
+    "_name": "_503363c4"
   },
   {
     "name": "report-inventory-obsolete-stock",

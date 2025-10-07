@@ -645,6 +645,9 @@ export default {
     await this.onSearchCoaBiaya();
     await this.onSearchDivisi();
     await this.onSearchPelanggan();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
   },
 
   computed: {

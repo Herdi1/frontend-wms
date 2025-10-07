@@ -517,6 +517,9 @@ export default {
     await this.onSearchPelanggan();
     this.getUserAgent();
     this.getGeoLocation();
+    if (!this.isEditable) {
+      await this.onSelectGudang(this.lookup_suppliers.data[0]);
+    }
   },
 
   computed: {

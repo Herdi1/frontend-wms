@@ -31,7 +31,7 @@
                       >Level<span class="text-danger">*</span></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      class="pl-2 py-1 border rounded focus:outline-none w-8/12"
                       v-model="form.level"
                       @change="onChangeLevel"
                       :disabled="isEditable"
@@ -56,7 +56,7 @@
                       >Tipe<span class="text-danger">*</span></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      class="pl-2 py-1 border rounded focus:outline-none w-8/12"
                       v-model="form.tipe"
                       @change="onChangeType"
                       :disabled="isEditable"
@@ -138,7 +138,7 @@
                       >Fungsi COA<span class="text-danger">*</span></label
                     >
                     <select
-                      class="w-full pl-2 py-1 border rounded focus:outline-none w-8/12"
+                      class="pl-2 py-1 border rounded focus:outline-none w-8/12"
                       v-model="form.jenis_coa"
                       :disabled="isEditable"
                     >
@@ -366,8 +366,8 @@ export default {
         url += "/" + this.id;
       }
 
-      console.log(formData);
-      console.log("sampe sini");
+      // console.log(formData);
+      // console.log("sampe sini");
       this.$axios({
         url: url,
         method: this.isEditable ? "put" : "post",

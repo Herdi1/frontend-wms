@@ -765,6 +765,9 @@ export default {
     await this.onSearchZonaGudang();
     // await this.onSearchProfit();
     // await this.onSearchCost();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      await this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
   },
 
   computed: {
