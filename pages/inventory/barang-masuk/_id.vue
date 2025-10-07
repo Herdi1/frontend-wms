@@ -68,6 +68,7 @@
                 v-model="parameters.form.no_referensi_1"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="false"
               />
             </div>
             <div class="form-group">
@@ -79,6 +80,7 @@
                 v-model="parameters.form.no_referensi_2"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="false"
               />
             </div>
 
@@ -123,30 +125,6 @@
 
             <select-button
               :self="{
-                label: 'Pengemudi',
-                optionLabel: 'nama_lengkap',
-                isLoading: isLoadingGetStaff,
-                lookup: lookup_custom10,
-                onGet: onGetStaff,
-                value: parameters.form.staff_id,
-                input: onSelectStaff,
-              }"
-              width="w-[60%]"
-            />
-            <div class="form-group">
-              <input-horizontal
-                :isHorizontal="true"
-                label="Nama Pengemudi"
-                type="text"
-                name="nama_pengemudi"
-                v-model="parameters.form.nama_pengemudi"
-                inputWidth="w-[60%]"
-                labelWidth="w-[40%]"
-              />
-            </div>
-
-            <select-button
-              :self="{
                 label: 'Kendaraan',
                 optionLabel: 'nama_kendaraan',
                 isLoading: isLoadingGetKendaraan,
@@ -156,6 +134,7 @@
                 input: onSelectKendaraan,
               }"
               width="w-[60%]"
+              :required="true"
             />
             <div class="form-group">
               <input-horizontal
@@ -166,6 +145,69 @@
                 v-model="parameters.form.nama_kendaraan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="true"
+              />
+            </div>
+
+            <div class="form-group flex">
+              <label for="" class="w-[40%]"
+                >Pengemudi <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_lengkap"
+                :loading="isLoadingGetStaff"
+                :options="lookup_custom10"
+                :filterable="false"
+                @search="onGetStaff"
+                v-model="parameters.form.staff_id"
+                @input="onSelectStaff"
+                class="w-[60%] bg-white"
+              >
+                <!-- <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom10.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom10.current_page > 1"
+                      @click="onGetStaff(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom10.last_page > lookup_custom10.current_page
+                      "
+                      @click="onGetStaff(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li> -->
+              </v-select>
+            </div>
+            <!-- <select-button
+              :self="{
+                label: 'Pengemudi',
+                optionLabel: 'nama_lengkap',
+                isLoading: isLoadingGetStaff,
+                lookup: lookup_custom10,
+                onGet: onGetStaff,
+                value: parameters.form.staff_id,
+                input: onSelectStaff,
+              }"
+              width="w-[60%]"
+            /> -->
+            <div class="form-group">
+              <input-horizontal
+                :isHorizontal="true"
+                label="Nama Pengemudi"
+                type="text"
+                name="nama_pengemudi"
+                v-model="parameters.form.nama_pengemudi"
+                inputWidth="w-[60%]"
+                labelWidth="w-[40%]"
+                :required="true"
               />
             </div>
 
@@ -843,8 +885,8 @@ export default {
     await this.onSearchGudang();
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
-    await this.onSearchStaff();
-    await this.onSearchKendaraan();
+    // await this.onSearchStaff();
+    // await this.onSearchKendaraan();
     await this.onSearchValuation();
     await this.onSearchAlasanBedaPlan();
     // await this.onSearchItemGudang();
@@ -853,6 +895,9 @@ export default {
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
+    if (!this.isEditable) {
+      await this.onSelectGudang(this.lookup_custom8.data[0]);
+    }
 
     this.getUserAgent();
     this.getGeoLocation();
@@ -1627,6 +1672,7 @@ export default {
         await this.onSearchZonaPlan();
         await this.onSearchItemGudang();
         await this.onSearchLokasi();
+        await this.onSearchKendaraan();
       } else {
         this.parameters.form.gudang_id = "";
       }
@@ -1760,17 +1806,17 @@ export default {
         this.isLoadingGetStaff = true;
 
         await this.lookUp({
-          url: "master/staff/get-staff",
+          url: "master/kendaraan/get-pengemudi-kendaraan",
           lookup: "custom10",
           query:
             "?search=" +
             this.staff_search +
-            "&jenis_user=pengemudi" +
+            "&kendaraan_id=" +
+            this.parameters.form.kendaraan_id.kendaraan_id +
             "&page=" +
             this.lookup_custom10.current_page +
             "&per_page=10",
         });
-
         this.isLoadingGetStaff = false;
       }
     },
@@ -1816,6 +1862,8 @@ export default {
           query:
             "?search=" +
             this.kendaraan_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
@@ -1825,13 +1873,16 @@ export default {
       }
     },
 
-    onSelectKendaraan(item) {
+    async onSelectKendaraan(item) {
       if (item) {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.nama_kendaraan = item.nama_kendaraan ?? "";
+        await this.onSearchStaff();
       } else {
         this.parameters.form.kendaraan_id = "";
         this.parameters.form.nama_kendaraan = "";
+        this.parameters.form.staff_id = "";
+        this.parameters.form.nama_pengemudi = "";
       }
     },
 

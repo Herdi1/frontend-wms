@@ -129,6 +129,14 @@
                     v-model="add_params.item_gudang_id"
                     @input="(item) => onSelectItemAdd(item)"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_item }}
+                      </div>
+                           </template
+                    >
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -162,6 +170,14 @@
                     v-model="add_params.zona_gudang_id"
                     @input="(item) => onSelectZonaAdd(item)"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.zona_gudang }}
+                      </div>
+                           </template
+                    >
                     <!-- :reduce="(item) => item.zona_gudang_id" -->
                     <li
                       slot-scope="{ search }"
@@ -266,6 +282,14 @@
                         v-model="item.item_gudang_id"
                         @input="(item) => onSelectItemGudang(item, i)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_item }}
+                          </div>
+                               </template
+                        >
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -289,6 +313,10 @@
                           >
                         </li>
                       </v-select>
+                      <p v-if="item.item_gudang_id">
+                        {{ item.item_gudang_id.kode_item }} -
+                        {{ item.item_gudang_id.nama_item }}
+                      </p>
                     </td>
 
                     <td class="border border-gray-300">
