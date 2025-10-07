@@ -985,7 +985,7 @@ export default {
           this.data = newData;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           loader.hide();
@@ -1059,7 +1059,7 @@ export default {
           this.raw_data.current_page += 1;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           loader.hide();

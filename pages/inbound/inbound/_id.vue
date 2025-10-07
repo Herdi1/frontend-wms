@@ -491,9 +491,6 @@
                 <template #BiayaInbound>
                   <BiayaInbounds :self="{ form, isEditable }" />
                 </template>
-                <!-- <template #TagihanInbound>
-                  <TagihanInbounds :self="{ form }" />
-                </template> -->
               </tab-component>
             </div>
             <modal-footer-section
@@ -536,7 +533,6 @@
 import { mapActions, mapState } from "vuex";
 import InboundDetails from "./InboundDetails.vue";
 import BiayaInbounds from "./BiayaInbounds.vue";
-import TagihanInbounds from "./TagihanInbounds.vue";
 
 export default {
   props: ["self"],
@@ -544,7 +540,6 @@ export default {
   components: {
     InboundDetails,
     BiayaInbounds,
-    TagihanInbounds,
   },
 
   data() {
@@ -554,7 +549,6 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "BiayaInbound" },
-        // { name: "PENDAPATAN INBOUND", slotName: "TagihanInbound" },
       ],
 
       id,
@@ -747,11 +741,11 @@ export default {
               coa_id: item.coa ?? "",
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              // berat: parseFloat(item.berat ?? 0),
-              // jumlah: parseFloat(item.jumlah ?? 0),
-              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              // volume: parseFloat(item.volume ?? 0),
-              total: 0,
+              nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+              jumlah: parseFloat(item.jumlah) ?? 0,
+              berat: parseFloat(item.berat) ?? 0,
+              volume: parseFloat(item.volume) ?? 0,
+              total: parseFloat(item.total) ?? 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -808,11 +802,11 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              // berat: parseFloat(item.berat ?? 0),
-              // jumlah: parseFloat(item.jumlah ?? 0),
-              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              // volume: parseFloat(item.volume ?? 0),
-              total: 0,
+              nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+              jumlah: parseFloat(item.jumlah) ?? 0,
+              berat: parseFloat(item.berat) ?? 0,
+              volume: parseFloat(item.volume) ?? 0,
+              total: parseFloat(item.total) ?? 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {
@@ -869,11 +863,11 @@ export default {
               coa_id: item.coa,
               divisi_id: item.divisi,
               vendor_id: item.vendor,
-              // berat: parseFloat(item.berat ?? 0),
-              // jumlah: parseFloat(item.jumlah ?? 0),
-              // nominal_satuan: parseFloat(item.nominal_satuan ?? 0),
-              // volume: parseFloat(item.volume ?? 0),
-              total: 0,
+              nominal_satuan: parseFloat(item.nominal_satuan) ?? 0,
+              jumlah: parseFloat(item.jumlah) ?? 0,
+              berat: parseFloat(item.berat) ?? 0,
+              volume: parseFloat(item.volume) ?? 0,
+              total: parseFloat(item.total) ?? 0,
             };
           });
           this.form.tagihan_inbounds = res.data.tagihan_inbounds.map((item) => {

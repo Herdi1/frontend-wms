@@ -1492,7 +1492,7 @@ export default {
           this.$router.push("/master/item-pelanggan");
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;

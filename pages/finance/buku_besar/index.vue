@@ -176,7 +176,7 @@
 
                 <div class="flex gap-3 mt-5">
                   <button
-                    @click="onLoad"
+                    @click="onClickFilter"
                     class="bg-blue-500 hover:bg-blue-500 p-2 text-white rounded-md flex"
                   >
                     <i class="fa fa-filter text-white font-bold mr-2"></i>
@@ -561,7 +561,7 @@ export default {
       return `${day}-${month}-${year}`;
     },
 
-    async onLoad(page = 1) {
+    async onClickFilter() {
       if (
         !this.parameters.params.coa_id ||
         !this.parameters.params.start_date ||
@@ -573,6 +573,10 @@ export default {
         );
         return;
       }
+      await this.onLoad();
+    },
+
+    async onLoad(page = 1) {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
@@ -638,7 +642,7 @@ export default {
           this.data = newData;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           loader.hide();
@@ -716,7 +720,7 @@ export default {
           this.raw_data.current_page += 1;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           loader.hide();

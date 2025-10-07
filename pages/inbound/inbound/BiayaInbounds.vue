@@ -313,22 +313,14 @@ export default {
     "self.form.biaya_inbounds": {
       handler(newVal) {
         newVal.forEach((item) => {
-          item.total = 0;
           if (item.dasar_perhitungan === "QTY") {
-            item.total =
-              parseFloat(item.jumlah) * parseFloat(item.nilai_kontrak);
+            item.total = item.jumlah * parseFloat(item.nilai_kontrak);
           } else if (item.dasar_perhitungan === "BERAT") {
-            item.total =
-              parseFloat(item.jumlah) *
-              parseFloat(item.nilai_kontrak) *
-              parseFloat(item.berat);
+            item.total = item.jumlah * item.nilai_kontrak * item.berat;
           } else if (item.dasar_perhitungan === "VOLUME") {
-            item.total =
-              parseFloat(item.jumlah) *
-              parseFloat(item.nilai_kontrak) *
-              parseFloat(item.volume);
+            item.total = item.jumlah * item.nilai_kontrak * item.volume;
           } else {
-            item.total = parseFloat(item.total);
+            item.total = 0;
           }
         });
       },
@@ -374,7 +366,7 @@ export default {
     calculateGrandTotal() {
       let grandTotal = 0;
       this.self.form.biaya_inbounds.forEach((item) => {
-        grandTotal += parseFloat(item.total);
+        grandTotal += parseFloat(item.total ?? 0);
       });
       return grandTotal;
     },

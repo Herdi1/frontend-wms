@@ -2070,7 +2070,7 @@ export default {
           this.$router.push("/master/gudang");
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;

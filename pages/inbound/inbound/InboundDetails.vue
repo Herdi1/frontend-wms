@@ -950,7 +950,7 @@ export default {
         this.self.form.inbound_details[index].slot_penyimpanan_id_aisle = "";
         await this.onSearchSlotAisle(index);
       } else {
-        this.self.form.inbound_details[index].zona_gudang_id = null;
+        this.self.form.inbound_details[index].zona_gudang_id = "";
         this.self.form.inbound_details[index].slot_penyimpanan_id_aisle = "";
 
         // Force update UI

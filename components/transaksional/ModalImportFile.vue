@@ -114,7 +114,7 @@ export default {
           this.self.onLoad();
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
+          this.$globalErrorToaster(this.$toaster, err.message);
         })
         .finally(() => {
           this.isLoadingForm = false;
