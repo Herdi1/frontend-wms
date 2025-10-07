@@ -144,12 +144,49 @@
                   :disabled="true"
                 />
               </ValidationProvider>
-              <div class="form-group">
+              <div class="form-group flex">
+                <label for="" class="w-[50%]"
+                  >Pengemudi <span class="text-danger">*</span></label
+                >
+                <v-select
+                  label="nama_lengkap"
+                  :loading="isLoadingGetStaff"
+                  :options="lookup_custom10"
+                  :filterable="false"
+                  @search="onGetStaff"
+                  v-model="parameters.form.staff_id"
+                  @input="onSelectStaff"
+                  class="w-[50%] bg-white"
+                >
+                  <!-- <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom10.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom10.current_page > 1"
+                      @click="onGetStaff(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom10.last_page > lookup_custom10.current_page
+                      "
+                      @click="onGetStaff(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li> -->
+                </v-select>
+              </div>
+              <!-- <div class="form-group">
                 <select-button
                   :self="{
                     label: 'Pengemudi',
                     optionLabel: 'nama_lengkap',
-                    lookup: lookup_beam,
+                    lookup: lookup_custom10,
                     value: parameters.form.staff_id,
                     onGet: onGetStaff,
                     isLoadingL: isLoadingGetStaff,
@@ -159,7 +196,7 @@
                   class="mb-5"
                   :required="true"
                 />
-              </div>
+              </div> -->
               <div v-if="parameters.form.vendor_id" class="form-group">
                 <input-horizontal
                   label="Vendor"
@@ -488,7 +525,7 @@ export default {
       "lookup_custom2", //kendaraan
       "lookup_custom6", //pick_order
       "lookup_grade", //user pic
-      "lookup_beam", //staff
+      "lookup_custom10", //staff
       "lookup_roles", //jenis kendaraan
     ]),
   },
@@ -824,7 +861,7 @@ export default {
         this.parameters.form.rute_shipments = [];
         this.parameters.form.biaya_lastmiles = [];
         await this.onSearchKendaraan();
-        await this.onSearchStaff();
+        // await this.onSearchStaff();
       } else {
         this.parameters.form.gudang_id = "";
         this.parameters.form.kendaraan_id = "";
@@ -1066,7 +1103,7 @@ export default {
     },
 
     onGetStaff(search, isNext) {
-      if (!search?.length && typeof isNext === "function") return;
+      if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchStaff);
 
@@ -1074,12 +1111,13 @@ export default {
         this.staff_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_beam.current_page = isNext
-            ? this.lookup_beam.current_page + 1
-            : this.lookup_beam.current_page - 1;
+          this.lookup_custom10.current_page = isNext
+            ? this.lookup_custom10.current_page + 1
+            : this.lookup_custom10.current_page - 1;
         } else {
-          this.lookup_beam.current_page = 1;
+          this.lookup_custom10.current_page = 1;
         }
+
         this.onSearchStaff();
       }, 600);
     },
@@ -1089,19 +1127,19 @@ export default {
         this.isLoadingGetStaff = true;
 
         await this.lookUp({
-          url: "master/staff/get-staff",
-          lookup: "beam",
+          url: "master/kendaraan/get-pengemudi-kendaraan",
+          lookup: "custom10",
           query:
             "?search=" +
-              this.staff_search +
-              "&jenis_user=pengemudi" +
-              "&gudang_id=" +
-              this.parameters.form.gudang_id.gudang_id +
-              "&kendaran_id=" +
-              this.parameters.form.kendaraan_id.kendaraan_id ??
-            "" + "&page=" + this.lookup_beam.current_page + "&per_page=10",
+            this.staff_search +
+            "&kendaraan_id=" +
+            this.parameters.form.kendaraan_id.kendaraan_id +
+            "&page=" +
+            this.lookup_custom10.current_page +
+            "&per_page=10",
         });
         this.isLoadingGetStaff = false;
+        // console.log(this.lookup_custom10);
       }
     },
 
