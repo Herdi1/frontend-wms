@@ -14,15 +14,12 @@ You can directly use them in pages and other components without the need to impo
 - `<SuccessModal>` | `<success-modal>` (components/SuccessModal.vue)
 - `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
 - `<VuetifyLogo>` | `<vuetify-logo>` (components/VuetifyLogo.vue)
-<<<<<<< HEAD
-- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
-- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
-=======
->>>>>>> dc1bd454a3ee38e6c98bcf55deb0dea7b014bdc0
 - `<AnavbarMessages>` | `<anavbar-messages>` (components/anavbar/Messages.vue)
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
@@ -32,10 +29,6 @@ You can directly use them in pages and other components without the need to impo
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
-- `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
-- `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
-- `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
-- `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)

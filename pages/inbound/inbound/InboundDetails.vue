@@ -27,12 +27,16 @@
             <!-- <th class="w-[200px] border border-gray-300">
                             Item Pelanggan
                           </th> -->
-            <th class="w-[300px] border border-gray-300">Item</th>
+            <th class="w-[300px] border border-gray-300">
+              Item <span class="text-danger">*</span>
+            </th>
             <th class="w-[200px] border border-gray-300">Nomor</th>
             <!-- <th class="w-[200px] border border-gray-300">
                             Nomor Referensi
                           </th> -->
-            <th class="w-[200px] border border-gray-300">Quantity</th>
+            <th class="w-[200px] border border-gray-300">
+              Quantity <span class="text-danger">*</span>
+            </th>
             <th class="w-[200px] border border-gray-300">Tanggal Expired</th>
             <th
               class="w-[200px] border border-gray-300"
@@ -46,7 +50,9 @@
             >
               Lokasi Plan
             </th>
-            <th class="w-[200px] border border-gray-300">Zona</th>
+            <th class="w-[200px] border border-gray-300">
+              Zona <span class="text-danger">*</span>
+            </th>
             <th class="w-[200px] border border-gray-300">Lokasi Penyimpanan</th>
             <th class="w-[300px] border border-gray-300">Keterangan</th>
             <th
@@ -148,7 +154,7 @@
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                   />
                 </div>
-                <p>Jenis Biaya:</p>
+                <p>Jenis Biaya: <span class="text-danger">*</span></p>
                 <div class="w-full">
                   <v-select
                     label="nama_jenis_biaya"
@@ -209,8 +215,9 @@
                 />
               </p>
               <p class="mb-2">
-                Quantity Terima:
+                Quantity Terima: <span class="text-danger">*</span>
                 <money
+                  required
                   v-model="item.quantity_terima"
                   @input="handleQuantityChange(item)"
                   class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -220,7 +227,9 @@
                 />
               </p>
               <div class="mb-2">
-                <p class="mb-2">Valuation:</p>
+                <p class="mb-2">
+                  Valuation: <span class="text-danger">*</span>
+                </p>
                 <v-select
                   label="nama_valuation"
                   :loading="isLoadingGetValuation"
@@ -255,8 +264,11 @@
                 </v-select>
               </div>
               <div>
-                <p class="mb-2">Status Terima:</p>
+                <p class="mb-2">
+                  Status Terima: <span class="text-danger">*</span>
+                </p>
                 <select
+                  required
                   name="status_terima"
                   id="status_terima"
                   v-model="item.status_terima"
