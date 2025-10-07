@@ -214,12 +214,15 @@
                           </select> -->
                           <p>
                             {{
-                              item.zona_gudang
-                                ? item.zona_gudang.nama_zona_gudang +
+                              item.zona_gudang_asal
+                                ? item.zona_gudang_asal.nama_zona_gudang +
                                   " - " +
-                                  item.zona_gudang.kode_zona_gudang
+                                  item.zona_gudang_asal.kode_zona_gudang
                                 : "-"
                             }}
+                          </p>
+                          <p>
+                            {{ item.kode_slot_penyimpanan_terakhir_asal ?? "" }}
                           </p>
                         </td>
                         <td class="border border-gray-300">
@@ -937,6 +940,7 @@ export default {
           tanggal: "",
           mutasi_stok_details: [],
           biaya: [],
+          zona_gudang_asal: "",
 
           //Tracking
           user_agent: "",

@@ -235,6 +235,15 @@
                           </p>
                         </td>
                         <td class="border border-gray-300">
+                          <p>
+                            {{
+                              item.zona_gudang_asal
+                                ? item.zona_gudang_asal.nama_zona_gudang +
+                                  " - " +
+                                  item.zona_gudang_asal.kode_zona_gudang
+                                : "-"
+                            }}
+                          </p>
                           <p>{{ item.kode_slot_penyimpanan_terakhir_asal }}</p>
                         </td>
                         <td class="border border-gray-300">
@@ -472,6 +481,7 @@ export default {
           keterangan_approve: "",
           mutasi_stok_details: [],
           biaya_mutasi_stok_details: [],
+          zona_gudang_asal: "",
 
           //Tracking
           user_agent: "",
@@ -510,7 +520,7 @@ export default {
         // this.parameters.form = res.data;
         Object.keys(this.parameters.form).forEach((item) => {
           if (
-            item !== "biaya" &&
+            item !== "biaya_mutasi_stok_details" &&
             item !== "gudang_id" &&
             item !== "staff_id" &&
             item !== "mutasi_stok_details"
@@ -572,6 +582,13 @@ export default {
 
     // await this.onSearchJenisBiaya();
     await this.onSearchCoa();
+    let coa = "";
+    if (this.lookup_custom4.data.length > 0) {
+      coa = this.lookup_custom4.data.filter(
+        (item) => item.kode_coa == "111.001"
+      );
+    }
+    this.parameters.form.coa_id = coa[0];
     await this.onSearchDivisi();
     // await this.onSearchVendor();
 

@@ -506,6 +506,7 @@ const _b1a9c536 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_b
 const _0d00d03a = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\BiayaRelokasi.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/BiayaRelokasi" */))
 const _c220bc7c = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/tabComponent" */))
 const _f71a697c = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/mutasi-stok/tabComponent" */))
+const _ffca1a0e = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\proses-mutasi-stok\\BiayaRelokasi.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/proses-mutasi-stok/BiayaRelokasi" */))
 const _3692a9ba = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\proses-mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/proses-mutasi-stok/tabComponent" */))
 const _108ed9dc = () => interopDefault(import('..\\pages\\inventory\\stock_in\\lain\\detail.vue' /* webpackChunkName: "pages/inventory/stock_in/lain/detail" */))
 const _419b2c46 = () => interopDefault(import('..\\pages\\inventory\\stock_out\\lain\\detail.vue' /* webpackChunkName: "pages/inventory/stock_out/lain/detail" */))
@@ -2869,6 +2870,10 @@ export const routerOptions = {
     path: "/inventory/relokasi-stok/mutasi-stok/tabComponent",
     component: _f71a697c,
     name: "inventory-relokasi-stok-mutasi-stok-tabComponent"
+  }, {
+    path: "/inventory/relokasi-stok/proses-mutasi-stok/BiayaRelokasi",
+    component: _ffca1a0e,
+    name: "inventory-relokasi-stok-proses-mutasi-stok-BiayaRelokasi"
   }, {
     path: "/inventory/relokasi-stok/proses-mutasi-stok/tabComponent",
     component: _3692a9ba,

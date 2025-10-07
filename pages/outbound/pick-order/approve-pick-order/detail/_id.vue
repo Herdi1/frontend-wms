@@ -290,51 +290,145 @@
               <table
                 class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
                 :class="
-                  detail_pick_order.biaya_pick_orders.length ? 'mb-48' : ''
+                  detail_pick_order.biaya_pick_orders.length ? 'mb-[300px]' : ''
                 "
               >
                 <thead>
-                  <tr class="text-sm uppercase">
-                    <th class="w-60 border border-gray-300">Jenis Biaya</th>
-                    <th class="w-60 border border-gray-300">COA</th>
-                    <th class="w-60 border border-gray-300">Divisi</th>
-                    <th class="w-60 border border-gray-300">Vendor</th>
-                    <th class="w-60 border border-gray-300">Nominal Satuan</th>
-                    <th class="w-60 border border-gray-300">Jumlah</th>
-                    <th class="w-60 border border-gray-300">Keterangan</th>
+                  <tr class="uppercase">
+                    <th class="w-[200px] border border-gray-300">Item</th>
+                    <th class="w-[200px] border border-gray-300">
+                      Jenis Biaya
+                    </th>
+                    <th class="w-[200px] border border-gray-300">
+                      Dasar Perhitungan
+                    </th>
+                    <th class="w-[200px] border border-gray-300">
+                      Nominal Satuan
+                    </th>
+                    <th class="w-[200px] border border-gray-300">Jumlah</th>
+                    <th class="w-[200px] border border-gray-300">Berat</th>
+                    <th class="w-[200px] border border-gray-300">Volume</th>
+                    <th class="w-[200px] border border-gray-300">Sub Total</th>
+                    <th class="w-[200px] border border-gray-300">Divisi</th>
+                    <th class="w-[200px] border border-gray-300">Vendor</th>
+                    <th class="w-[300px] border border-gray-300">Keterangan</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     v-for="(item, i) in detail_pick_order.biaya_pick_orders"
                     :key="i"
-                    class="border-t border-gray-400 align-top"
+                    class="alt align-top"
                   >
                     <td class="border border-gray-300">
-                      {{
-                        item.jenis_biaya
-                          ? item.jenis_biaya.nama_jenis_biaya
-                          : "-"
-                      }}
+                      {{ item.item_gudang.nama_item }}
+                      {{ item.item_gudang.kode_item }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.coa ? item.coa.kode_coa : "" }} -
-                      {{ item.coa ? item.coa.nama_coa : "-" }}
+                      <p>{{ item.jenis_biaya.nama_jenis_biaya ?? "" }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.divisi ? item.divisi.nama_divisi : "-" }}
+                      {{ item.dasar_perhitungan }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.vendor ? item.vendor.nama_vendor : "-" }}
+                      <!-- <money
+                            disabled
+                            v-model="item.nominal_satuan"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          /> -->
+                      {{ item.nominal_satuan | formatPrice }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.nominal_satuan ? item.nominal_satuan : "-" }}
+                      <!-- <money
+                            v-model="item.jumlah"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          /> -->
+                      {{ item.jumlah | formatPrice }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.jumlah ? item.jumlah : "-" }}
+                      <!-- <money
+                            disabled
+                            v-model="item.berat"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          /> -->
+                      {{ item.berat | formatPrice }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.keterangan ? item.keterangan : "-" }}
+                      <!-- <money
+                            disabled
+                            v-model="item.volume"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          /> -->
+                      {{ item.volume | formatPrice }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <!-- :value="this.totalValue(item, index)" -->
+                      <!-- <money
+                            type="text"
+                            disabled
+                            v-model="item.total"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          /> -->
+                      {{ item.total | formatPrice }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ item.divisi.nama_divisi ?? "" }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ item.nama_vendor }}</p>
+                    </td>
+                    <td class="border border-gray-300">
+                      <p>{{ item.keterangan }}</p>
+                    </td>
+                  </tr>
+                  <tr v-if="detail_pick_order.biaya_pick_orders.length > 0">
+                    <td colspan="7" class="border border-gray-300 text-right">
+                      Grand Total
+                    </td>
+                    <td class="border border-gray-300 text-right">
+                      <p>
+                        {{ calculateGrandTotalBiayas | formatPrice }}
+                      </p>
+                    </td>
+                    <td
+                      colspan="3"
+                      class="border border-gray-300 text-right"
+                    ></td>
+                  </tr>
+                  <tr v-if="!detail_pick_order.biaya_pick_orders.length > 0">
+                    <td colspan="100" class="text-center">
+                      <span class="flex justify-center">
+                        <img
+                          src="/img/data-not-found.svg"
+                          style="height: 250px; object-fit: cover"
+                        />
+                      </span>
+                      <div class="mt-3">Data Tidak Ditemukan</div>
                     </td>
                   </tr>
                 </tbody>
@@ -416,6 +510,16 @@ export default {
       this.$router.back();
       // console.log("error", error);
     }
+  },
+
+  computed: {
+    calculateGrandTotalBiayas() {
+      let grandTotal = 0;
+      this.detail_pick_order.biaya_pick_orders.forEach((item) => {
+        grandTotal += parseFloat(item.total);
+      });
+      return grandTotal;
+    },
   },
 };
 </script>

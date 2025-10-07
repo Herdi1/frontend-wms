@@ -341,16 +341,9 @@
                     v-if="parameters.form.status === 'SELESAI'"
                     class="flex items-center justify-between"
                   >
-                    <label for="" class="w-1/2"
-                      >File
-                      <span
-                        v-if="parameters.form.status === 'SELESAI'"
-                        class="text-danger"
-                        >*</span
-                      ></label
-                    >
+                    <label for="" class="w-1/2">File </label>
+                    <!-- :required="parameters.form.status === 'SELESAI'" -->
                     <input
-                      :required="parameters.form.status === 'SELESAI'"
                       type="file"
                       name="file"
                       id="file"
