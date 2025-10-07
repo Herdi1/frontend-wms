@@ -766,6 +766,9 @@ export default {
     await this.onSearchZonaGudang();
     // await this.onSearchProfit();
     // await this.onSearchCost();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      await this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
   },
 
   computed: {
@@ -944,7 +947,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +
@@ -1080,6 +1083,8 @@ export default {
           query:
             "?search=" +
             this.kendaraan_search +
+            "&gudang_id=" +
+            this.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",

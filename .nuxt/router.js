@@ -450,7 +450,7 @@ const _54f319a8 = () => interopDefault(import('..\\pages\\report\\inventory\\agi
 const _04b9ef37 = () => interopDefault(import('..\\pages\\report\\inventory\\average-inventory-periode\\index.vue' /* webpackChunkName: "pages/report/inventory/average-inventory-periode/index" */))
 const _11bcb54c = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-gudang-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-gudang-inventory-level/index" */))
 const _593aa12b = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-inventory-level/index" */))
-const _7a4443fb = () => interopDefault(import('..\\pages\\report\\inventory\\mutasi-stok\\index.vue' /* webpackChunkName: "pages/report/inventory/mutasi-stok/index" */))
+const _6522729d = () => interopDefault(import('..\\pages\\report\\inventory\\laporan-mutasi-stok\\index.vue' /* webpackChunkName: "pages/report/inventory/laporan-mutasi-stok/index" */))
 const _3a274410 = () => interopDefault(import('..\\pages\\report\\inventory\\obsolete-stock\\index.vue' /* webpackChunkName: "pages/report/inventory/obsolete-stock/index" */))
 const _6ff56a00 = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan/index" */))
 const _e2a9b090 = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan-damage\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan-damage/index" */))
@@ -2650,9 +2650,9 @@ export const routerOptions = {
     component: _593aa12b,
     name: "report-inventory-kapasitas-inventory-level"
   }, {
-    path: "/report/inventory/mutasi-stok",
-    component: _7a4443fb,
-    name: "report-inventory-mutasi-stok"
+    path: "/report/inventory/laporan-mutasi-stok",
+    component: _6522729d,
+    name: "report-inventory-laporan-mutasi-stok"
   }, {
     path: "/report/inventory/obsolete-stock",
     component: _3a274410,

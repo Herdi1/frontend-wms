@@ -1335,8 +1335,8 @@ export default {
     },
 
     addPengemudiKendaraan() {
-      if (this.form.status_driver === "") {
-        this.$toaster.error("Status Driver harus diisi");
+      if (this.form.status_driver === "" || !this.form.gudang_id) {
+        this.$toaster.error("Gudang dan Status Driver harus diisi");
         return;
       } else if (
         this.form.status_driver === "dedicated" &&

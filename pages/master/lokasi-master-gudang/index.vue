@@ -211,11 +211,14 @@ export default {
 
   head() {
     return {
-      title: "Slot Penyimpanan",
+      title: "Lokasi Master Gudang",
     };
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },
@@ -262,7 +265,7 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Slot Penyimpanan",
+      title: "Lokasi Master Gudang",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,

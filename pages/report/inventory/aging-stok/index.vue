@@ -256,6 +256,9 @@ export default {
     await this.onSearchProvinsi();
     await this.onSearchGudang();
     await this.onSearchWilayah();
+    if (this.lookup_custom1.data) {
+      this.onSetGudang(this.lookup_custom1.data[0]);
+    }
 
     await this.onSearchGroupItem();
   },
@@ -367,7 +370,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +
@@ -381,8 +384,12 @@ export default {
       }
     },
 
-    onSetGudang(item) {
-      this.parameters.form.gudang_id = item || "";
+    async onSetGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+      } else {
+        this.parameters.form.gudang_id = "";
+      }
       // this.parameters.params.nama_gudang = item.nama_gudang || "";
       // this.parameters.params.kode_gudang = item.kode_gudang || "";
     },

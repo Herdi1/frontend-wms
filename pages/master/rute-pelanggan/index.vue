@@ -186,6 +186,9 @@ export default {
   },
 
   created() {
+    if (this.user.gudang_id) {
+      this.filter.gudang_id = this.user.gudang_id;
+    }
     this.set_data([]);
     this.onLoad();
   },
