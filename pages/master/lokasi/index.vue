@@ -213,10 +213,10 @@ export default {
   },
 
   async mounted() {
-    // this.$refs["form-option"].isMaintenancePage = false;
-    // this.$refs["form-option"].isExport = false;
+    this.$refs["form-option"].isMaintenancePage = false;
+    this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
-    // this.$refs["form-option"].isAddData = true;
+    this.$refs["form-option"].isAddData = true;
     if (
       this.getRoles.destroy ||
       this.getRoles.destroy_all ||

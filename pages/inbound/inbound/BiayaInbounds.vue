@@ -21,7 +21,7 @@
         <thead class="border-collapse border border-gray-300">
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Item</th>
-            <th class="w-[200px] border border-gray-300">Vendor</th>
+            <!-- <th class="w-[200px] border border-gray-300">Vendor</th> -->
             <th class="w-[200px] border border-gray-300">Divisi</th>
             <!-- <th class="w-[200px] border border-gray-300">COA</th> -->
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
@@ -46,8 +46,8 @@
               {{ item.item_gudang?.nama_item }}
               {{ item.item_gudang?.kode_item }}
             </td>
-            <td class="border border-gray-300">
-              <!-- <v-select
+            <!-- <td class="border border-gray-300">
+              <v-select
                 label="nama_vendor"
                 :loading="isLoadingGetVendor"
                 :options="lookup_custom10.data"
@@ -78,9 +78,9 @@
                     >Selanjutnya</span
                   >
                 </li>
-              </v-select> -->
+              </v-select>
               <p>{{ item.nama_vendor }}</p>
-            </td>
+            </td> -->
             <td class="border border-gray-300">
               <!-- <v-select
                 label="nama_divisi"
@@ -200,6 +200,7 @@
             </td>
             <td class="border border-gray-300">
               <money
+                disabled
                 v-model="item.jumlah"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
@@ -309,25 +310,32 @@ export default {
     };
   },
 
-  // watch: {
-  //   "self.form.biaya_inbounds": {
-  //     handler(newVal) {
-  //       newVal.forEach((item) => {
-  //         if (item.dasar_perhitungan === "QTY") {
-  //           item.total = item.jumlah * parseFloat(item.nilai_kontrak);
-  //         } else if (item.dasar_perhitungan === "BERAT") {
-  //           item.total = item.jumlah * item.nilai_kontrak * item.berat;
-  //         } else if (item.dasar_perhitungan === "VOLUME") {
-  //           item.total = item.jumlah * item.nilai_kontrak * item.volume;
-  //         } else {
-  //           item.total = 0;
-  //         }
-  //       });
-  //     },
-  //     immediate: true,
-  //     deep: true,
-  //   },
-  // },
+  watch: {
+    "self.form.biaya_inbounds": {
+      handler(newVal) {
+        newVal.forEach((item) => {
+          if (item.dasar_perhitungan === "QTY") {
+            item.total =
+              parseFloat(item.jumlah) * parseFloat(item.nominal_satuan);
+          } else if (item.dasar_perhitungan === "BERAT") {
+            item.total =
+              parseFloat(item.jumlah) *
+              parseFloat(item.nominal_satuan) *
+              parseFloat(item.berat);
+          } else if (item.dasar_perhitungan === "VOLUME") {
+            item.total =
+              parseFloat(item.jumlah) *
+              parseFloat(item.nominal_satuan) *
+              parseFloat(item.volume);
+          } else {
+            item.total = 0;
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
 
   async mounted() {
     // await this.onSearchJenisBiaya();
@@ -366,7 +374,7 @@ export default {
     calculateGrandTotal() {
       let grandTotal = 0;
       this.self.form.biaya_inbounds.forEach((item) => {
-        grandTotal += parseFloat(item.total ?? 0);
+        grandTotal += parseFloat(item.total) ?? 0;
       });
       return grandTotal;
     },

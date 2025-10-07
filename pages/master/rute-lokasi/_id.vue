@@ -341,9 +341,9 @@ export default {
   },
 
   async mounted() {
-    await this.onSearchLokasiAwal();
     await this.onSearchGudang();
-    await this.onSearchLokasiTujuan();
+    // await this.onSearchLokasiAwal();
+    // await this.onSearchLokasiTujuan();
   },
 
   computed: {
@@ -460,11 +460,13 @@ export default {
         this.isLoadingGeLokasiAwal = true;
 
         await this.lookUp({
-          url: "master/lokasi/get-lokasi",
+          url: "master/lokasi-by-gudang/get-lokasi-by-gudang",
           lookup: "custom1",
           query:
             "?search=" +
             this.lokasi_awal_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -531,9 +533,15 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
+        this.parameters.form.lokasi_id_awal = "";
+        this.parameters.form.lokasi_id_tujuan = "";
+        await this.onSearchLokasiAwal();
+        await this.onSearchLokasiTujuan();
         await this.getRekomendasiJarak();
       } else {
         this.parameters.form.gudang_id = "";
+        this.parameters.form.lokasi_id_awal = "";
+        this.parameters.form.lokasi_id_tujuan = "";
       }
     },
 
@@ -562,11 +570,13 @@ export default {
         this.isLoadingGetLokasiTujuan = true;
 
         await this.lookUp({
-          url: "master/lokasi/get-lokasi",
+          url: "master/lokasi-by-gudang/get-lokasi-by-gudang",
           lookup: "defects",
           query:
             "?search=" +
             this.lokasi_awal_search +
+            "&gudang_id=" +
+            this.parameters.form.gudang_id.gudang_id +
             "&page=" +
             this.lookup_defects.current_page +
             "&per_page=10",

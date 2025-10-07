@@ -1548,7 +1548,7 @@ export default {
       // if (biaya.data.length) {
       // }
       this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
-        (item) => item.urutan !== itemNumber
+        (item) => item.index !== itemNumber
       );
 
       // if (
@@ -1584,7 +1584,7 @@ export default {
             ? this.self.form.inbound_details[index].peralatan_id.peralatan_id
             : "",
           urutan: itemNumber,
-          index: index,
+          index: itemNumber,
         });
       });
 
