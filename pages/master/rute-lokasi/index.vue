@@ -139,7 +139,7 @@
                 <v-select
                   class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
                   label="nama_lokasi"
-                  :loading="isLoadingGetLokasiAkhirhir"
+                  :loading="isLoadingGetLokasiAkhir"
                   :options="lookup_custom3.data"
                   :filterable="false"
                   @search="onGetLokasiAkhir"
