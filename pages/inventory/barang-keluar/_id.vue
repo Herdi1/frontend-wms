@@ -46,6 +46,7 @@
               }"
               width="w-[60%]"
               :required="true"
+              :disabled="lookup_custom8.data.length == 1"
             />
             <div class="form-group">
               <input-horizontal

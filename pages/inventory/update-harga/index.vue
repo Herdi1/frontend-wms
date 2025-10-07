@@ -37,7 +37,8 @@
                   :filterable="false"
                   @search="onGetGudang"
                   v-model="filter_params.gudang_id"
-                  :reduce="(item) => item.gudang_id"
+                  @input="onSelectGudangFilter"
+                  :disabled="lookup_custom1.data.length == 1"
                   class="w-[60%] bg-white"
                 >
                   <template slot="selected-option" slot-scope="option">
@@ -325,7 +326,8 @@
                   :filterable="false"
                   @search="onGetGudang"
                   v-model="parameters.form.gudang_id"
-                  :reduce="(item) => item.gudang_id"
+                  @input="onSelectGudang"
+                  :disabled="lookup_custom1.data.length == 1"
                   class="w-[60%] bg-white"
                 >
                   <template slot="selected-option" slot-scope="option">
@@ -560,6 +562,10 @@ export default {
     // }
 
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+      this.onSelectGudangFilter(this.lookup_custom1.data[0]);
+    }
     await this.onSearchGroupItem1();
     // await this.onSearchGroupItem2();
     // await this.onSearchGroupItem3();
@@ -1045,6 +1051,21 @@ export default {
       }
     },
 
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.form.gudang_id = item;
+      } else {
+        this.parameters.form.gudang_id = "";
+      }
+    },
+    onSelectGudangFilter(item) {
+      if (item) {
+        this.filter_params.gudang_id = item;
+      } else {
+        this.filter_params.gudang_id = "";
+      }
+    },
+
     async onExport() {
       // var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       // window.open(
@@ -1073,7 +1094,7 @@ export default {
           // "?token=" +
           // token +
           "?gudang_id=" +
-          this.filter_params.gudang_id +
+          this.filter_params.gudang_id.gudang_id +
           "&group_item_id_1=" +
           this.filter_params.group_item_id_1 +
           "&group_item_id_2=" +
@@ -1124,7 +1145,7 @@ export default {
     onImport() {
       if (this.parameters.form.file) {
         let fileData = new FormData();
-        fileData.append("gudang_id", this.parameters.form.gudang_id);
+        fileData.append("gudang_id", this.parameters.form.gudang_id.gudang_id);
         fileData.append("periode", this.parameters.form.periode);
         fileData.append("file", this.parameters.form.file);
 

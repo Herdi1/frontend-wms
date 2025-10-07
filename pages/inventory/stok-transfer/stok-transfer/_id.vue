@@ -80,6 +80,7 @@
                   }"
                   width="w-[60%]"
                   :required="true"
+                  :disabled="lookup_suppliers.data.length == 1"
                 />
               </div>
               <div class="w-full mb-2">
@@ -508,6 +509,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_suppliers.data.length > 0) {
+      this.form.gudang_id = this.lookup_suppliers.data[0];
+    }
     // await this.onSearchItemGudang();
     await this.onSearchValuation();
     await this.onSearchPelanggan();

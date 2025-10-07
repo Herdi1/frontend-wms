@@ -1757,6 +1757,27 @@
     "_name": "_2dd182ff"
   },
   {
+    "name": "inventory-mutasi-stok-approve-mutasi-stok",
+    "path": "/inventory/mutasi-stok/approve-mutasi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\approve-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/mutasi-stok/approve-mutasi-stok/index",
+    "_name": "_42e4b43f"
+  },
+  {
+    "name": "inventory-mutasi-stok-mutasi-stok",
+    "path": "/inventory/mutasi-stok/mutasi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/mutasi-stok/mutasi-stok/index",
+    "_name": "_0e1c01bf"
+  },
+  {
+    "name": "inventory-mutasi-stok-proses-mutasi-stok",
+    "path": "/inventory/mutasi-stok/proses-mutasi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\proses-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/inventory/mutasi-stok/proses-mutasi-stok/index",
+    "_name": "_497f8920"
+  },
+  {
     "name": "inventory-pemakaian_barang-detail",
     "path": "/inventory/pemakaian_barang/detail",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\pemakaian_barang\\\\detail.vue",
@@ -3479,6 +3500,41 @@
     "_name": "_0fcd8845"
   },
   {
+    "name": "inventory-mutasi-stok-approve-mutasi-stok-BiayaRelokasi",
+    "path": "/inventory/mutasi-stok/approve-mutasi-stok/BiayaRelokasi",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\approve-mutasi-stok\\\\BiayaRelokasi.vue",
+    "chunkName": "pages/inventory/mutasi-stok/approve-mutasi-stok/BiayaRelokasi",
+    "_name": "_4f3b39de"
+  },
+  {
+    "name": "inventory-mutasi-stok-approve-mutasi-stok-tabComponent",
+    "path": "/inventory/mutasi-stok/approve-mutasi-stok/tabComponent",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\approve-mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/mutasi-stok/approve-mutasi-stok/tabComponent",
+    "_name": "_7c34d80b"
+  },
+  {
+    "name": "inventory-mutasi-stok-mutasi-stok-tabComponent",
+    "path": "/inventory/mutasi-stok/mutasi-stok/tabComponent",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/mutasi-stok/mutasi-stok/tabComponent",
+    "_name": "_bf994aea"
+  },
+  {
+    "name": "inventory-mutasi-stok-proses-mutasi-stok-BiayaRelokasi",
+    "path": "/inventory/mutasi-stok/proses-mutasi-stok/BiayaRelokasi",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\proses-mutasi-stok\\\\BiayaRelokasi.vue",
+    "chunkName": "pages/inventory/mutasi-stok/proses-mutasi-stok/BiayaRelokasi",
+    "_name": "_5d602942"
+  },
+  {
+    "name": "inventory-mutasi-stok-proses-mutasi-stok-tabComponent",
+    "path": "/inventory/mutasi-stok/proses-mutasi-stok/tabComponent",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\proses-mutasi-stok\\\\tabComponent.vue",
+    "chunkName": "pages/inventory/mutasi-stok/proses-mutasi-stok/tabComponent",
+    "_name": "_783d07ba"
+  },
+  {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-detail",
     "path": "/inventory/pemakaian_barang/pemakaian_bahan_penolong/detail",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\pemakaian_barang\\\\pemakaian_bahan_penolong\\\\detail.vue",
@@ -4403,6 +4459,27 @@
     "_name": "_37a34b76"
   },
   {
+    "name": "inventory-mutasi-stok-approve-mutasi-stok-detail-id",
+    "path": "/inventory/mutasi-stok/approve-mutasi-stok/detail/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\approve-mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/approve-mutasi-stok/detail/_id",
+    "_name": "_3d5c8cb6"
+  },
+  {
+    "name": "inventory-mutasi-stok-mutasi-stok-detail-id",
+    "path": "/inventory/mutasi-stok/mutasi-stok/detail/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/mutasi-stok/detail/_id",
+    "_name": "_3643ba36"
+  },
+  {
+    "name": "inventory-mutasi-stok-proses-mutasi-stok-detail-id",
+    "path": "/inventory/mutasi-stok/proses-mutasi-stok/detail/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\proses-mutasi-stok\\\\detail\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/proses-mutasi-stok/detail/_id",
+    "_name": "_6ec82b27"
+  },
+  {
     "name": "inventory-relokasi-stok-approve-mutasi-stok-detail-id",
     "path": "/inventory/relokasi-stok/approve-mutasi-stok/detail/:id?",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\relokasi-stok\\\\approve-mutasi-stok\\\\detail\\\\_id.vue",
@@ -4688,6 +4765,27 @@
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\konversi-stok\\\\konversi-stok\\\\_id.vue",
     "chunkName": "pages/inventory/konversi-stok/konversi-stok/_id",
     "_name": "_19923927"
+  },
+  {
+    "name": "inventory-mutasi-stok-approve-mutasi-stok-id",
+    "path": "/inventory/mutasi-stok/approve-mutasi-stok/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\approve-mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/approve-mutasi-stok/_id",
+    "_name": "_2040ba67"
+  },
+  {
+    "name": "inventory-mutasi-stok-mutasi-stok-id",
+    "path": "/inventory/mutasi-stok/mutasi-stok/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/mutasi-stok/_id",
+    "_name": "_23ed67e7"
+  },
+  {
+    "name": "inventory-mutasi-stok-proses-mutasi-stok-id",
+    "path": "/inventory/mutasi-stok/proses-mutasi-stok/:id?",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\inventory\\\\mutasi-stok\\\\proses-mutasi-stok\\\\_id.vue",
+    "chunkName": "pages/inventory/mutasi-stok/proses-mutasi-stok/_id",
+    "_name": "_738659d8"
   },
   {
     "name": "inventory-pemakaian_barang-pemakaian_bahan_penolong-id",

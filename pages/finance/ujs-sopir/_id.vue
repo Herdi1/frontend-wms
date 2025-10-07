@@ -34,7 +34,6 @@
                         >Gudang <span class="text-danger">*</span></label
                       >
                       <v-select
-                        :disabled="isEditable"
                         label="nama_gudang"
                         :loading="isLoadingGetGudang"
                         :options="lookup_custom1.data"
@@ -43,6 +42,9 @@
                         v-model="form.gudang_id"
                         class="w-1/2"
                         @input="onSelectGudang"
+                        :disabled="
+                          lookup_custom1.data.length == 1 || isEditable
+                        "
                       >
                         <template slot="selected-option" slot-scope="option">
                           <div
@@ -848,11 +850,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",

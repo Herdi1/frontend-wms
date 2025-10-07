@@ -255,6 +255,9 @@ const _267bb3c8 = () => interopDefault(import('..\\pages\\inventory\\kapasitas-z
 const _df7f4d02 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\index.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/index" */))
 const _3f286c3d = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\index.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/index" */))
 const _2dd182ff = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konversi-stok\\index.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konversi-stok/index" */))
+const _42e4b43f = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\approve-mutasi-stok\\index.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/approve-mutasi-stok/index" */))
+const _0e1c01bf = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\mutasi-stok\\index.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/mutasi-stok/index" */))
+const _497f8920 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\proses-mutasi-stok\\index.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/proses-mutasi-stok/index" */))
 const _ebafc63a = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\detail.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/detail" */))
 const _3bacd1e6 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_bahan_penolong\\index.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_bahan_penolong/index" */))
 const _a4342024 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_lain\\index.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_lain/index" */))
@@ -501,6 +504,11 @@ const _5fbc4063 = () => interopDefault(import('..\\pages\\inventory\\konversi-st
 const _fb943646 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\DetailItemBahan.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/DetailItemBahan" */))
 const _607036ff = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\DetailProdukJadi.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/DetailProdukJadi" */))
 const _0fcd8845 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konversi-stok\\DetailProdukBahan.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konversi-stok/DetailProdukBahan" */))
+const _4f3b39de = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\approve-mutasi-stok\\BiayaRelokasi.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/approve-mutasi-stok/BiayaRelokasi" */))
+const _7c34d80b = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\approve-mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/approve-mutasi-stok/tabComponent" */))
+const _bf994aea = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/mutasi-stok/tabComponent" */))
+const _5d602942 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\proses-mutasi-stok\\BiayaRelokasi.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/proses-mutasi-stok/BiayaRelokasi" */))
+const _783d07ba = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\proses-mutasi-stok\\tabComponent.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/proses-mutasi-stok/tabComponent" */))
 const _09474bb4 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_bahan_penolong\\detail.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_bahan_penolong/detail" */))
 const _b1a9c536 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_lain\\detail.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_lain/detail" */))
 const _0d00d03a = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\BiayaRelokasi.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/BiayaRelokasi" */))
@@ -633,6 +641,9 @@ const _5713f458 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendo
 const _783741f6 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/detail/_id" */))
 const _67ac6398 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/_id" */))
 const _37a34b76 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konversi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konversi-stok/detail/_id" */))
+const _3d5c8cb6 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\approve-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/approve-mutasi-stok/detail/_id" */))
+const _3643ba36 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/mutasi-stok/detail/_id" */))
+const _6ec82b27 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\proses-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/proses-mutasi-stok/detail/_id" */))
 const _ac539fc2 = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/detail/_id" */))
 const _4af052c2 = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/mutasi-stok/detail/_id" */))
 const _7247f69e = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\proses-mutasi-stok\\detail\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/proses-mutasi-stok/detail/_id" */))
@@ -674,6 +685,9 @@ const _14ab10a7 = () => interopDefault(import('..\\pages\\inventory\\barang-masu
 const _0276a0b2 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/_id" */))
 const _9d234c36 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/_id" */))
 const _19923927 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konversi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konversi-stok/_id" */))
+const _2040ba67 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\approve-mutasi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/approve-mutasi-stok/_id" */))
+const _23ed67e7 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\mutasi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/mutasi-stok/_id" */))
+const _738659d8 = () => interopDefault(import('..\\pages\\inventory\\mutasi-stok\\proses-mutasi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/mutasi-stok/proses-mutasi-stok/_id" */))
 const _cd480e96 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_bahan_penolong\\_id.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_bahan_penolong/_id" */))
 const _2729d454 = () => interopDefault(import('..\\pages\\inventory\\pemakaian_barang\\pemakaian_lain\\_id.vue' /* webpackChunkName: "pages/inventory/pemakaian_barang/pemakaian_lain/_id" */))
 const _76f65260 = () => interopDefault(import('..\\pages\\inventory\\relokasi-stok\\approve-mutasi-stok\\_id.vue' /* webpackChunkName: "pages/inventory/relokasi-stok/approve-mutasi-stok/_id" */))
@@ -1870,6 +1884,18 @@ export const routerOptions = {
     component: _2dd182ff,
     name: "inventory-konversi-stok-konversi-stok"
   }, {
+    path: "/inventory/mutasi-stok/approve-mutasi-stok",
+    component: _42e4b43f,
+    name: "inventory-mutasi-stok-approve-mutasi-stok"
+  }, {
+    path: "/inventory/mutasi-stok/mutasi-stok",
+    component: _0e1c01bf,
+    name: "inventory-mutasi-stok-mutasi-stok"
+  }, {
+    path: "/inventory/mutasi-stok/proses-mutasi-stok",
+    component: _497f8920,
+    name: "inventory-mutasi-stok-proses-mutasi-stok"
+  }, {
     path: "/inventory/pemakaian_barang/detail",
     component: _ebafc63a,
     name: "inventory-pemakaian_barang-detail"
@@ -2854,6 +2880,26 @@ export const routerOptions = {
     component: _0fcd8845,
     name: "inventory-konversi-stok-konversi-stok-DetailProdukBahan"
   }, {
+    path: "/inventory/mutasi-stok/approve-mutasi-stok/BiayaRelokasi",
+    component: _4f3b39de,
+    name: "inventory-mutasi-stok-approve-mutasi-stok-BiayaRelokasi"
+  }, {
+    path: "/inventory/mutasi-stok/approve-mutasi-stok/tabComponent",
+    component: _7c34d80b,
+    name: "inventory-mutasi-stok-approve-mutasi-stok-tabComponent"
+  }, {
+    path: "/inventory/mutasi-stok/mutasi-stok/tabComponent",
+    component: _bf994aea,
+    name: "inventory-mutasi-stok-mutasi-stok-tabComponent"
+  }, {
+    path: "/inventory/mutasi-stok/proses-mutasi-stok/BiayaRelokasi",
+    component: _5d602942,
+    name: "inventory-mutasi-stok-proses-mutasi-stok-BiayaRelokasi"
+  }, {
+    path: "/inventory/mutasi-stok/proses-mutasi-stok/tabComponent",
+    component: _783d07ba,
+    name: "inventory-mutasi-stok-proses-mutasi-stok-tabComponent"
+  }, {
     path: "/inventory/pemakaian_barang/pemakaian_bahan_penolong/detail",
     component: _09474bb4,
     name: "inventory-pemakaian_barang-pemakaian_bahan_penolong-detail"
@@ -3382,6 +3428,18 @@ export const routerOptions = {
     component: _37a34b76,
     name: "inventory-konversi-stok-konversi-stok-detail-id"
   }, {
+    path: "/inventory/mutasi-stok/approve-mutasi-stok/detail/:id?",
+    component: _3d5c8cb6,
+    name: "inventory-mutasi-stok-approve-mutasi-stok-detail-id"
+  }, {
+    path: "/inventory/mutasi-stok/mutasi-stok/detail/:id?",
+    component: _3643ba36,
+    name: "inventory-mutasi-stok-mutasi-stok-detail-id"
+  }, {
+    path: "/inventory/mutasi-stok/proses-mutasi-stok/detail/:id?",
+    component: _6ec82b27,
+    name: "inventory-mutasi-stok-proses-mutasi-stok-detail-id"
+  }, {
     path: "/inventory/relokasi-stok/approve-mutasi-stok/detail/:id?",
     component: _ac539fc2,
     name: "inventory-relokasi-stok-approve-mutasi-stok-detail-id"
@@ -3545,6 +3603,18 @@ export const routerOptions = {
     path: "/inventory/konversi-stok/konversi-stok/:id?",
     component: _19923927,
     name: "inventory-konversi-stok-konversi-stok-id"
+  }, {
+    path: "/inventory/mutasi-stok/approve-mutasi-stok/:id?",
+    component: _2040ba67,
+    name: "inventory-mutasi-stok-approve-mutasi-stok-id"
+  }, {
+    path: "/inventory/mutasi-stok/mutasi-stok/:id?",
+    component: _23ed67e7,
+    name: "inventory-mutasi-stok-mutasi-stok-id"
+  }, {
+    path: "/inventory/mutasi-stok/proses-mutasi-stok/:id?",
+    component: _738659d8,
+    name: "inventory-mutasi-stok-proses-mutasi-stok-id"
   }, {
     path: "/inventory/pemakaian_barang/pemakaian_bahan_penolong/:id",
     component: _cd480e96,
