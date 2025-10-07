@@ -824,6 +824,7 @@ export default {
         this.parameters.form.rute_shipments = [];
         this.parameters.form.biaya_lastmiles = [];
         await this.onSearchKendaraan();
+        await this.onSearchStaff();
       } else {
         this.parameters.form.gudang_id = "";
         this.parameters.form.kendaraan_id = "";
@@ -1094,6 +1095,8 @@ export default {
             "?search=" +
               this.staff_search +
               "&jenis_user=pengemudi" +
+              "&gudang_id=" +
+              this.parameters.form.gudang_id.gudang_id +
               "&kendaran_id=" +
               this.parameters.form.kendaraan_id.kendaraan_id ??
             "" + "&page=" + this.lookup_beam.current_page + "&per_page=10",

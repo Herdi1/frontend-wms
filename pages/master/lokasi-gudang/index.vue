@@ -83,6 +83,7 @@
                   id="is_plant"
                   v-model="parameters.params.is_plant"
                 >
+                  <option value=""></option>
                   <option value="0">Bukan Plant</option>
                   <option value="1">Plant</option>
                 </select>
@@ -98,6 +99,8 @@
                   id="is_shiptos"
                   v-model="parameters.params.is_shipto"
                 >
+                  <option value=""></option>
+
                   <option value="0">Bukan Shipto</option>
                   <option value="1">Shipto</option>
                 </select>
@@ -111,6 +114,8 @@
                   id="is_warehouse"
                   v-model="parameters.params.is_warehouse"
                 >
+                  <option value=""></option>
+
                   <option value="0">Bukan Warehouse</option>
                   <option value="1">Warehouse</option>
                 </select>
