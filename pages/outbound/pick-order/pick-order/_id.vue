@@ -1051,6 +1051,13 @@ export default {
         }
       );
 
+      const total = this.parameters.form.pick_order_details.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
+
+      console.log(total);
+
       // Jika ada item yang tidak valid, tampilkan pesan error dan hentikan submit
       if (invalidItems.length > 0) {
         this.$toaster.error(
@@ -1150,27 +1157,27 @@ export default {
         url += "/" + this.id;
       }
 
-      this.$axios({
-        method: this.isEditable ? "put" : "post",
-        url: url,
-        data: formData,
-      })
-        .then((res) => {
-          this.$toaster.success(
-            "Data Berhasil di " + (this.isEditable ? "Update" : "Tambah")
-          );
-          if (!this.isEditable) {
-            this.parameters.form = this.default_form;
-          }
-          this.$router.back();
-        })
-        .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
-        });
+      // this.$axios({
+      //   method: this.isEditable ? "put" : "post",
+      //   url: url,
+      //   data: formData,
+      // })
+      //   .then((res) => {
+      //     this.$toaster.success(
+      //       "Data Berhasil di " + (this.isEditable ? "Update" : "Tambah")
+      //     );
+      //     if (!this.isEditable) {
+      //       this.parameters.form = this.default_form;
+      //     }
+      //     this.$router.back();
+      //   })
+      //   .catch((err) => {
+      //     this.$globalErrorToaster(this.$toaster, err);
+      //   })
+      //   .finally(() => {
+      //     this.isLoadingForm = false;
+      //     this.$refs.formValidate.reset();
+      //   });
     },
 
     addPickOrderDetails() {
