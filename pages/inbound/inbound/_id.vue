@@ -38,8 +38,11 @@
                 class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full mb-7"
               >
                 <div class="form-group flex items-center">
-                  <label for="" class="w-[40%]">Status Inbound</label>
+                  <label for="" class="w-[40%]"
+                    >Status Inbound <span class="text-danger">*</span></label
+                  >
                   <select
+                    required
                     name=""
                     id=""
                     v-model="form.sumber_data"
@@ -53,7 +56,9 @@
                   </select>
                 </div>
                 <div class="form-group flex">
-                  <label for="" class="w-[40%]">Gudang</label>
+                  <label for="" class="w-[40%]"
+                    >Gudang <span class="text-danger">*</span></label
+                  >
                   <v-select
                     label="nama_gudang"
                     :loading="isLoadingGetGudang"
@@ -143,8 +148,11 @@
                   />
                 </div>
                 <div class="form-group flex items-center">
-                  <label for="" class="w-[40%]">Jenis Transaksi</label>
+                  <label for="" class="w-[40%]"
+                    >Jenis Transaksi <span class="text-danger">*</span></label
+                  >
                   <select
+                    required
                     name=""
                     id=""
                     v-model="form.jenis_transaksi"
@@ -300,7 +308,9 @@
                   /> -->
                 </div>
                 <div class="form-group flex">
-                  <label for="pelanggan" class="w-[40%]">Pelanggan</label>
+                  <label for="pelanggan" class="w-[40%]"
+                    >Pelanggan <span class="text-danger">*</span></label
+                  >
                   <v-select
                     label="nama_pelanggan"
                     :loading="isLoadingGetPelanggan"
@@ -362,7 +372,9 @@
                   />
                 </div> -->
                 <div class="form-group flex">
-                  <label for="staff" class="w-[40%]">Operator</label>
+                  <label for="staff" class="w-[40%]"
+                    >Operator <span class="text-danger">*</span></label
+                  >
                   <v-select
                     label="nama_lengkap"
                     :loading="isLoadingGetStaff"
@@ -397,7 +409,9 @@
                   </v-select>
                 </div>
                 <div class="form-group flex">
-                  <label for="staff" class="w-[40%]">Vendor Operator</label>
+                  <label for="staff" class="w-[40%]"
+                    >Vendor Operator <span class="text-danger">*</span></label
+                  >
                   <v-select
                     label="nama_vendor"
                     :loading="isLoadingGetVendor"

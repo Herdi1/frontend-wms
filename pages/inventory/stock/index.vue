@@ -72,7 +72,6 @@
                     v-model="filter_params.gudang_id"
                     @input="onSetGudang"
                   >
-                    <!-- :reduce="(item) => item.gudang_id" -->
                     <template slot="selected-option" slot-scope="option">
                       <div
                         class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
@@ -151,8 +150,7 @@
                     </li>
                   </v-select>
                 </div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
+
                 <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2"><b>Item Gudang</b></div>
 

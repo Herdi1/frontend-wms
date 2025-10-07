@@ -427,8 +427,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // console.log("error", error);
-      this.$router.back();
+      console.log("error", error);
+      // this.$router.back();
     }
   },
 
