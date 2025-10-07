@@ -956,6 +956,12 @@ export default {
       lookup: "custom6",
       query: "?page=1&per_page=10",
     });
+
+    await this.lookUp({
+      url: "master/alasan-beda-plan/get-alasan-beda-plan",
+      lookup: "custom7",
+      query: "?tipe_alasan_id=4&page=1&per_page=10",
+    });
   },
 
   computed: {
@@ -968,6 +974,7 @@ export default {
       "lookup_custom4",
       "lookup_custom5",
       "lookup_custom6",
+      "lookup_custom7",
     ]),
   },
 

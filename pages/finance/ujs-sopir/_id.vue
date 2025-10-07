@@ -717,6 +717,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     await this.onSearchCoa();
     await this.onSearchCoaBiaya();
     await this.onSearchDivisi();

@@ -62,38 +62,8 @@
                 />
               </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
-              <div class="w-full flex justify-between items-center px-1">
-                <label for="">Status Konversi</label>
-                <select
-                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  name="status_konversi"
-                  id="status_konversi"
-                  v-model="parameters.params.status_konversi"
-                >
-                  <option value="MENUNGGU">Menunggu</option>
-                  <option value="PROSES">Proses</option>
-                  <option value="SELESAI">Selesai</option>
-                  <option value="BATAL">Batal</option>
-                </select>
-              </div>
-              <div class="w-full flex justify-between items-center px-1">
-                <label for="">Status Approve</label>
-                <select
-                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
-                  name="status_approve"
-                  id="status_approve"
-                  v-model="parameters.params.status_approve"
-                >
-                  <option value="0">Menunggu</option>
-                  <option value="1">Approved</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
-              <div class="form-group w-full flex" v-if="!this.user.gudang_id">
+              <div class="form-group w-full flex">
                 <div class="mb-3 w-1/2">Gudang</div>
 
                 <v-select
@@ -105,6 +75,7 @@
                   @search="onGetGudang"
                   v-model="parameters.params.gudang"
                   @input="onSelectGudang"
+                  :disabled="lookup_custom1.data.length == 1"
                 >
                   <template slot="selected-option" slot-scope="option">
                     <div
@@ -139,6 +110,35 @@
                     >
                   </li>
                 </v-select>
+              </div>
+              <div class="w-full flex justify-between items-center px-1">
+                <label for="">Status Konversi</label>
+                <select
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  name="status_konversi"
+                  id="status_konversi"
+                  v-model="parameters.params.status_konversi"
+                >
+                  <option value="MENUNGGU">Menunggu</option>
+                  <option value="PROSES">Proses</option>
+                  <option value="SELESAI">Selesai</option>
+                  <option value="BATAL">Batal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
+              <div class="w-full flex justify-between items-center px-1">
+                <label for="">Status Approve</label>
+                <select
+                  class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                  name="status_approve"
+                  id="status_approve"
+                  v-model="parameters.params.status_approve"
+                >
+                  <option value="0">Menunggu</option>
+                  <option value="1">Approved</option>
+                </select>
               </div>
             </div>
 
@@ -288,15 +288,16 @@ export default {
     };
   },
 
-  created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
+  async created() {
+    await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
     }
     this.set_data([]);
     this.onLoad();
   },
 
-  async mounted() {
+  mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
     // this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -330,8 +331,6 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = false;
     }
-
-    await this.onSearchGudang();
   },
 
   data() {

@@ -59,7 +59,7 @@
                 </div>
               </div> -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full mt-2">
-                <div class="form-group w-full flex" v-if="!this.user.gudang_id">
+                <div class="form-group w-full flex">
                   <div class="mb-3 w-1/2"><b>Gudang</b></div>
 
                   <v-select
@@ -69,8 +69,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="filter_params.gudang_id"
-                    @input="onSetGudang"
+                    v-model="filter_params.gudang"
+                    @input="onSelectGudang"
+                    :disabled="lookup_custom1.data.length <= 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -635,8 +636,9 @@ export default {
   },
 
   async created() {
-    if (this.user.gudang) {
-      await this.onSetGudang(this.user.gudang);
+    await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
     }
     this.set_data([]);
     this.onLoad();
@@ -683,7 +685,6 @@ export default {
     this.$refs["form-option"].isSearching = true;
     this.$refs["form-option"].isShowingPage = false;
 
-    await this.onSearchGudang();
     await this.onSearchValuation();
     // await this.onSearchZonaGudang();
 
