@@ -907,8 +907,8 @@ export default {
           res.data.pick_order_details.map((item) => {
             return {
               ...item,
-              pick_order_details_id: item.pick_order_details_id
-                ? item.pick_order_details_id
+              pick_order_detail_id: item.pick_order_detail_id
+                ? item.pick_order_detail_id
                 : "",
               kode_item: item.item_gudang
                 ? item.item_gudang.kode_item
