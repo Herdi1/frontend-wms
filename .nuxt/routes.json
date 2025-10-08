@@ -2700,6 +2700,12 @@
     "chunkName": "pages/report/inventory/laporan-mutasi-stok/index"
   },
   {
+    "name": "report-inventory-laporan-stok-opname",
+    "path": "/report/inventory/laporan-stok-opname",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\laporan-stok-opname\\\\index.vue",
+    "chunkName": "pages/report/inventory/laporan-stok-opname/index"
+  },
+  {
     "name": "report-inventory-obsolete-stock",
     "path": "/report/inventory/obsolete-stock",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\obsolete-stock\\\\index.vue",
@@ -2740,12 +2746,6 @@
     "path": "/report/inventory/status-barang",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\status-barang\\\\index.vue",
     "chunkName": "pages/report/inventory/status-barang/index"
-  },
-  {
-    "name": "report-inventory-stok-opname",
-    "path": "/report/inventory/stok-opname",
-    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\stok-opname\\\\index.vue",
-    "chunkName": "pages/report/inventory/stok-opname/index"
   },
   {
     "name": "report-lastmile-ketidak-sesuaian-bongkar",

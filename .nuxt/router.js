@@ -454,6 +454,7 @@ const _30a5271e = () => interopDefault(import('..\\pages\\report\\inventory\\ave
 const _5775c8f6 = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-gudang-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-gudang-inventory-level/index" */))
 const _f5b44ddc = () => interopDefault(import('..\\pages\\report\\inventory\\kapasitas-inventory-level\\index.vue' /* webpackChunkName: "pages/report/inventory/kapasitas-inventory-level/index" */))
 const _503363c4 = () => interopDefault(import('..\\pages\\report\\inventory\\laporan-mutasi-stok\\index.vue' /* webpackChunkName: "pages/report/inventory/laporan-mutasi-stok/index" */))
+const _eade2d72 = () => interopDefault(import('..\\pages\\report\\inventory\\laporan-stok-opname\\index.vue' /* webpackChunkName: "pages/report/inventory/laporan-stok-opname/index" */))
 const _ac15df1e = () => interopDefault(import('..\\pages\\report\\inventory\\obsolete-stock\\index.vue' /* webpackChunkName: "pages/report/inventory/obsolete-stock/index" */))
 const _68a440f9 = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan/index" */))
 const _5bc4369f = () => interopDefault(import('..\\pages\\report\\inventory\\persediaan-damage\\index.vue' /* webpackChunkName: "pages/report/inventory/persediaan-damage/index" */))
@@ -461,7 +462,6 @@ const _513d5b19 = () => interopDefault(import('..\\pages\\report\\inventory\\ras
 const _ea7cfb3a = () => interopDefault(import('..\\pages\\report\\inventory\\retur\\index.vue' /* webpackChunkName: "pages/report/inventory/retur/index" */))
 const _78b2399a = () => interopDefault(import('..\\pages\\report\\inventory\\revenue-biaya-gudang\\index.vue' /* webpackChunkName: "pages/report/inventory/revenue-biaya-gudang/index" */))
 const _2cb7f8bf = () => interopDefault(import('..\\pages\\report\\inventory\\status-barang\\index.vue' /* webpackChunkName: "pages/report/inventory/status-barang/index" */))
-const _5c645cb6 = () => interopDefault(import('..\\pages\\report\\inventory\\stok-opname\\index.vue' /* webpackChunkName: "pages/report/inventory/stok-opname/index" */))
 const _1fd974fa = () => interopDefault(import('..\\pages\\report\\lastmile\\ketidak-sesuaian-bongkar\\index.vue' /* webpackChunkName: "pages/report/lastmile/ketidak-sesuaian-bongkar/index" */))
 const _3ef271a1 = () => interopDefault(import('..\\pages\\report\\lastmile\\pengiriman-truk\\index.vue' /* webpackChunkName: "pages/report/lastmile/pengiriman-truk/index" */))
 const _0b005f26 = () => interopDefault(import('..\\pages\\report\\lastmile\\truk\\index.vue' /* webpackChunkName: "pages/report/lastmile/truk/index" */))
@@ -2680,6 +2680,10 @@ export const routerOptions = {
     component: _503363c4,
     name: "report-inventory-laporan-mutasi-stok"
   }, {
+    path: "/report/inventory/laporan-stok-opname",
+    component: _eade2d72,
+    name: "report-inventory-laporan-stok-opname"
+  }, {
     path: "/report/inventory/obsolete-stock",
     component: _ac15df1e,
     name: "report-inventory-obsolete-stock"
@@ -2707,10 +2711,6 @@ export const routerOptions = {
     path: "/report/inventory/status-barang",
     component: _2cb7f8bf,
     name: "report-inventory-status-barang"
-  }, {
-    path: "/report/inventory/stok-opname",
-    component: _5c645cb6,
-    name: "report-inventory-stok-opname"
   }, {
     path: "/report/lastmile/ketidak-sesuaian-bongkar",
     component: _1fd974fa,

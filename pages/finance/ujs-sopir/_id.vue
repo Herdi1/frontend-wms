@@ -1241,6 +1241,7 @@ export default {
         parseFloat(item.total_bbm ?? 0) +
         parseFloat(item.total_bongkar_toko ?? 0) +
         parseFloat(item.total_retribusi ?? 0) +
+        parseFloat(item.insentif_jarak ?? 0) +
         parseFloat(item.total_locco) +
         parseFloat(item.total_switch) +
         parseFloat(item.total_lain);

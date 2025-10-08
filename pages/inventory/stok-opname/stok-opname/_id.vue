@@ -1547,9 +1547,6 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        kode_stok_opname: "",
-        tanggal: "",
-        gudang_id: "",
         keterangan: "",
         status_opname: "",
         catatan_proses: "",
