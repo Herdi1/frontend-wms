@@ -146,8 +146,7 @@
               />
             </td> -->
             <td class="border border-gray-300">
-              <input
-                type="number"
+              <money
                 v-model="item.waktu_sampai_tujuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="

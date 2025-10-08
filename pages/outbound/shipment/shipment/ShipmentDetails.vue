@@ -113,8 +113,10 @@
                 >Stok Transfer</span
               >
             </td>
-            <td class="w-[200px] border border-gray-300">
-              <p>
+            <td
+              class="w-[200px] border border-gray-300 break-words whitespace-normal"
+            >
+              <p class="break-words whitespace-normal">
                 {{
                   item.lokasi_id.alamat_lokasi
                     ? item.lokasi_id.alamat_lokasi

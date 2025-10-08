@@ -506,7 +506,7 @@
                           {{ item.total_retribusi ?? 0 | formatPrice }}
                         </td>
                         <td class="border border-gray-300 text-right">
-                          {{ item.total_insentif_jarak ?? 0 | formatPrice }}
+                          {{ item.insentif_jarak ?? 0 | formatPrice }}
                         </td>
                         <td class="border border-gray-300 text-right">
                           {{ item.total_locco ?? 0 | formatPrice }}

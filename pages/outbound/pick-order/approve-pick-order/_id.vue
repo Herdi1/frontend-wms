@@ -792,7 +792,7 @@ export default {
       tabs: [
         { name: "DETAIL PICK ORDER", slotName: "DetailPickOrder" },
         { name: "BIAYA PICK ORDER", slotName: "BiayaPickOrder" },
-        { name: "TAGIHAN PICK ORDER", slotName: "TagihanPickOrder" },
+        // { name: "TAGIHAN PICK ORDER", slotName: "TagihanPickOrder" },
       ],
 
       id,

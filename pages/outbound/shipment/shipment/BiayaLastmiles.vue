@@ -243,7 +243,7 @@
             </td>
           </tr>
           <tr v-if="self.parameters.form.biaya_lastmiles.length > 0">
-            <td colspan="8" class="border border-gray-300 text-right">
+            <td colspan="6" class="border border-gray-300 text-right">
               Grand Total
             </td>
             <td class="border border-gray-300 text-right">

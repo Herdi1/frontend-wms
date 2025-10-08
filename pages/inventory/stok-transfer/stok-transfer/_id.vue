@@ -727,7 +727,6 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.form.gudang_id = item;
-        await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
       }
@@ -773,9 +772,11 @@ export default {
       }
     },
 
-    onSelectGudangPengirim(item) {
+    async onSelectGudangPengirim(item) {
       if (item) {
         this.form.gudang_id_pengirim = item;
+        this.item_gudang_search = "";
+        await this.onSearchItemGudang();
       } else {
         this.form.gudang_id_pengirim = "";
       }
@@ -813,7 +814,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id=" +
-            this.form.gudang_id.gudang_id +
+            this.form.gudang_id_pengirim.gudang_id +
             "&page=" +
             this.lookup_products.current_page +
             "&per_page=10",

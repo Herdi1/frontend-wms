@@ -1239,6 +1239,15 @@ export default {
       if (item) {
         if (this.self.form.sumber_data !== "NON") {
           // this.self.form.inbound_details[index] = { ...item };
+          this.self.form.inbound_details[index].asn_detail_id =
+            item.asn_detail_id ?? "";
+          this.self.form.inbound_details[index].asn_id = item.asn_id ?? "";
+          this.self.form.inbound_details[index].serial_number =
+            item.serial_number ?? "";
+          this.self.form.inbound_details[index].shipment_detail_id =
+            item.shipment_detail_id ?? "";
+          this.self.form.inbound_details[index].stok_transfer_detail_id =
+            item.stok_transfer_detail_id ?? "";
           this.self.form.inbound_details[index].quantity_terima =
             item.quantity_request;
           this.self.form.inbound_details[index].quantity_request =
@@ -1255,7 +1264,6 @@ export default {
           this.self.form.inbound_details[index].item_gudang_id = item;
           this.self.form.inbound_details[index].item_id = item.item_id;
         }
-        console.log(this.self.form.inbound_details[index].item_id);
         await this.onSearchZonaPlan();
         await this.generateBiayaTagihan(index);
 
@@ -1282,6 +1290,7 @@ export default {
             this.onSelectZona(itemFromOptions, index);
           }
         }
+        console.log(this.self.form.inbound_details[index]);
       } else {
         // this.self.form.inbound_details[index].quantity_terima = 0;
         // this.self.form.inbound_details[index].quantity_request = 0;

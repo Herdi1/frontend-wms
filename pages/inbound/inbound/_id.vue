@@ -1156,7 +1156,10 @@ export default {
       formData.inbound_details = formData.inbound_details.map((item) => {
         return {
           ...item,
-          quantity_request: item.quantity ?? "",
+          quantity_request:
+            this.form.sumber_data === "NON"
+              ? item.quantity ?? 0
+              : item.quantity_request,
           detail_inbound_id: item.detail_inbound_id
             ? item.detail_inbound_id.detail_inbound_id ?? ""
             : "",

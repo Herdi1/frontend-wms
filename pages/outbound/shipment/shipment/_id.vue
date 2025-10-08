@@ -211,13 +211,13 @@
                   :required="true"
                 />
               </div> -->
-              <div v-if="parameters.form.vendor_id" class="form-group">
+              <div v-if="parameters.form.staff_id" class="form-group">
                 <input-horizontal
                   label="Vendor"
                   type="text"
                   name="vendor_id"
                   :isHorizontal="true"
-                  v-model="parameters.form.vendor_id.nama_vendor"
+                  v-model="parameters.form.staff_id.nama_vendor"
                   :disabled="true"
                 />
               </div>
@@ -618,9 +618,9 @@ export default {
           typeof this.parameters.form.jenis_kendaraan_id == "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
             : "",
-        staff_id:
+        vendor_id:
           typeof this.parameters.form.staff_id == "object"
-            ? this.parameters.form.staff_id.staff_id
+            ? this.parameters.form.staff_id.vendor_id_operator
             : "",
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
@@ -1229,7 +1229,7 @@ export default {
           valuation_id: item.valuation_id,
           urutan: 1,
         };
-        this.updateUrutan();
+        // this.updateUrutan();
         this.parameters.form.shipment_details.push(detailShipment);
         this.generateRuteShipment();
         this.$toaster.success("Data Berhasil Ditambahkan");
@@ -1320,7 +1320,8 @@ export default {
                       this.parameters.form.jenis_kendaraan_id
                         .jenis_kendaraan_id,
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
-                    vendor_id: this.parameters.form.vendor_id.vendor_id ?? "",
+                    vendor_id:
+                      this.parameters.form.staff_id.vendor_id_operator ?? "",
                     jenis_kiriman: item.jenis_kiriman,
                     jarak: sumJarak,
                   },
@@ -1382,7 +1383,8 @@ export default {
                             .jenis_kendaraan_id,
                         lokasi_id: item.lokasi_id.lokasi_id,
                         vendor_id:
-                          this.parameters.form.vendor_id.vendor_id ?? "",
+                          this.parameters.form.staff_id.vendor_id_operator ??
+                          "",
                         item_gudang_id: item.item_gudang_id.item_gudang_id,
                         jarak: sumJarak,
                       },

@@ -257,7 +257,7 @@
             </td>
           </tr>
           <tr v-if="self.form.biaya_inbounds.length > 0">
-            <td colspan="9" class="border border-gray-300 text-right">
+            <td colspan="8" class="border border-gray-300 text-right">
               Grand Total
             </td>
             <td class="border border-gray-300 text-right">
