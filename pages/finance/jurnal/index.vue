@@ -170,7 +170,10 @@
                   <td
                     class="text-center border border-gray-300 place-items-center"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.tanggal !== getTodaysDate"
+                    />
                   </td>
                   <td class="border border-gray-300 text-center">
                     {{
@@ -232,6 +235,7 @@
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.tanggal !== getTodaysDate"
                     />
                   </td>
                 </tr>
@@ -392,6 +396,17 @@ export default {
 
         return roles;
       }
+    },
+
+    getTodaysDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+
+      return formattedDate;
     },
   },
 
