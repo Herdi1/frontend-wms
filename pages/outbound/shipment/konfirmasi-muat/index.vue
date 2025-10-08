@@ -67,8 +67,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
-                    :reduce="(item) => item.gudang_id"
+                    v-model="parameters.params.gudang"
+                    @input="onSelectGudang"
+                    :disabled="lookup_custom1.data.length == 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -407,15 +408,16 @@ export default {
     };
   },
 
-  created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
+  async created() {
+    await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
     }
     this.set_data([]);
     this.onLoad();
   },
 
-  async mounted() {
+  mounted() {
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
     this.$refs["form-option"].isMaintenancePage = true;
@@ -450,8 +452,6 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
-
-    await this.onSearchGudang();
   },
 
   data() {
@@ -473,6 +473,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          gudang: "",
         },
         form: {
           kode_shipment: "",
@@ -704,7 +705,13 @@ export default {
     },
 
     onSelectGudang(item) {
-      this.parameters.params.gudang_id = item ? item : "";
+      if (item) {
+        this.parameters.params.gudang = item;
+        this.parameters.params.gudang_id = item.gudang_id;
+      } else {
+        this.parameters.params.gudang = "";
+        this.parameters.params.gudang_id = "";
+      }
     },
   },
 };

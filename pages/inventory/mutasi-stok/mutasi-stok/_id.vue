@@ -122,13 +122,17 @@
                     "
                   >
                     <thead>
-                      <tr class="text-sm uppercase text-nowrap">
-                        <th class="w-60 border border-gray-300">Item Gudang</th>
-                        <th class="w-52 border border-gray-300">
+                      <tr class="text-sm uppercase">
+                        <th class="w-[200px] border border-gray-300">
+                          Item Gudang
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
                           Lokasi Penyimpanan Asal
                         </th>
-                        <th class="w-48 border border-gray-300">Zona Tujuan</th>
-                        <th class="w-52 border border-gray-300">
+                        <th class="w-[200px] border border-gray-300">
+                          Zona Tujuan
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
                           Lokasi Penyimpanan Tujuan
                         </th>
                         <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
@@ -138,9 +142,15 @@
                         <!-- <th class="w-[200px] border border-gray-300">
                           Valuation
                         </th> -->
-                        <th class="w-48 border border-gray-300">Quantity</th>
-                        <th class="w-48 border border-gray-300">Keterangan</th>
-                        <th class="w-28 border border-gray-300 text-center">
+                        <th class="w-[200px] border border-gray-300">
+                          Quantity
+                        </th>
+                        <th class="w-[200px] border border-gray-300">
+                          Keterangan
+                        </th>
+                        <th
+                          class="w-[100px] border border-gray-300 text-center"
+                        >
                           Hapus
                         </th>
                       </tr>
@@ -202,12 +212,12 @@
                             <option value="ASAL">Asal</option>
                             <option value="TUJUAN">Tujuan</option>
                           </select> -->
-                          <p>
+                          <p v-if="!isEditable">
                             {{
-                              item.zona_gudang_id_asal
-                                ? item.zona_gudang_id_asal.nama_zona_gudang +
+                              item.zona_gudang
+                                ? item.zona_gudang.nama_zona_gudang +
                                   " - " +
-                                  item.zona_gudang_id_asal.kode_zona_gudang
+                                  item.zona_gudang.kode_zona_gudang
                                 : "-"
                             }}
                           </p>
@@ -931,7 +941,6 @@ export default {
           mutasi_stok_details: [],
           biaya: [],
           zona_gudang_asal: "",
-          keterangan: "",
 
           //Tracking
           user_agent: "",
@@ -989,7 +998,7 @@ export default {
               ...item,
               nama_item: item.item_gudang?.nama_item ?? "",
               kode_item: item.item_gudang?.kode_item ?? "",
-              mutasi_stok_detail_id: item,
+              mutasi_stok_details_id: item,
               item_gudang_id: item.item_gudang_id ?? "",
               valuation_id: item.valuation_id ?? "",
               zona_gudang_id: item.zona_gudang ?? "",
@@ -1121,10 +1130,6 @@ export default {
                 typeof item.zona_gudang_id === "object"
                   ? item.zona_gudang_id.zona_gudang_id ?? ""
                   : item.zona_gudang_id ?? "",
-              zona_gudang_id_asal:
-                typeof item.zona_gudang_id_asal === "object"
-                  ? item.zona_gudang_id_asal.zona_gudang_id ?? ""
-                  : item.zona_gudang_id_asal ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
                   ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
@@ -1849,7 +1854,7 @@ export default {
           nama_item: item.nama_item,
           kode_item: item.kode_item,
           quantity_asal: item.quantity,
-          zona_gudang_id_asal: item.zona_gudang,
+          zona_gudang_id_asal: item.zona_gudang_id,
           slot_penyimpanan_id_aisle_asal: item.slot_penyimpanan_id_aisle,
           slot_penyimpanan_id_rack_asal: item.slot_penyimpanan_id_rack,
           slot_penyimpanan_id_level_asal: item.slot_penyimpanan_id_level,

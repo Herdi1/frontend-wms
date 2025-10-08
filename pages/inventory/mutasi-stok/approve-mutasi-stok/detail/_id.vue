@@ -217,6 +217,9 @@
                       <th class="w-[300px] border border-gray-300">
                         Keterangan
                       </th>
+                      <th class="w-[100px] border border-gray-300 text-center">
+                        Hapus
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -271,13 +274,8 @@ export default {
         tanggal: "",
         keterangan: "",
         keterangan_approve: "",
-        status_mutasi: "",
-        catatan_adjustment: "",
-        catatan_batal: "",
-        catatan_proses: "",
-        catatan_selesai: "",
-        status_adjustment: "",
         mutasi_stok_details: [],
+        biaya: [],
       },
     };
   },

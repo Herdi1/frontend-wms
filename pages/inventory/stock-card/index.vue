@@ -643,8 +643,9 @@ export default {
   },
 
   async created() {
-    if (this.user.gudang) {
-      await this.onSetChartOfAccount(this.user.gudang);
+    await this.onSearchChartOfAccount();
+    if (this.lookup_chart_of_accounts.data.length > 0) {
+      await this.onSetChartOfAccount(this.lookup_chart_of_accounts.data[0]);
     }
     this.onLoad();
   },

@@ -1415,7 +1415,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get("master/item-gudang/" + this.id);
         Object.keys(this.form).forEach((item) => {
-          this.form[item] = res.data[item];
+          this.form[item] = res.data[item] ?? "";
         });
         this.form.item_id = res.data.item;
         this.form.group_item_id_1 = res.data.group_item_1 ?? "";

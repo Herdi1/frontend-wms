@@ -2,9 +2,7 @@
   <section class="section">
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
-        <h1 class="text-xl font-bold uppercase">
-          Detail Approve Relokasi Stok
-        </h1>
+        <h1 class="text-xl font-bold uppercase">Detail Proses Relokasi Stok</h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -44,37 +42,34 @@
           <div class="flex w-full items-center">
             <label class="w-[40%] font-bold">Status</label>
             <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-              {{
-                this.form.status_adjustment === "0"
-                  ? "Tidak Disesuaikan"
-                  : "Disesuaikan"
-              }}
+              {{ this.form.status_mutasi ? this.form.status_mutasi : "-" }}
             </div>
           </div>
           <div
             class="flex w-full items-center"
-            v-if="this.form.status_adjustment === '1'"
+            v-if="this.form.status_mutasi === 'PROSES'"
           >
             <label class="w-[40%] font-bold">Catatan</label>
             <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-              {{
-                this.form.catatan_adjustment
-                  ? this.form.catatan_adjustment
-                  : "-"
-              }}
+              {{ this.form.catatan_proses ? this.form.catatan_proses : "-" }}
             </div>
           </div>
-          <div class="flex w-full items-center">
-            <label class="w-[40%] font-bold">Coa</label>
+          <div
+            class="flex w-full items-center"
+            v-if="this.form.status_mutasi === 'SELESAI'"
+          >
+            <label class="w-[40%] font-bold">Catatan</label>
             <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-              {{ this.form.coa_id ? this.form.coa_id.kode_coa : "-" }} -
-              {{ this.form.coa_id ? this.form.coa_id.nama_coa : "-" }}
+              {{ this.form.catatan_selesai ? this.form.catatan_selesai : "-" }}
             </div>
           </div>
-          <div class="flex w-full items-center">
-            <label class="w-[40%] font-bold">Divisi</label>
+          <div
+            class="flex w-full items-center"
+            v-if="this.form.status_mutasi === 'BATAL'"
+          >
+            <label class="w-[40%] font-bold">Catatan</label>
             <div class="border border-gray-300 rounded-md p-1 w-[60%]">
-              {{ this.form.divisi_id ? this.form.divisi_id.nama_divisi : "-" }}
+              {{ this.form.catatan_batal ? this.form.catatan_batal : "-" }}
             </div>
           </div>
         </div>
@@ -217,6 +212,9 @@
                       <th class="w-[300px] border border-gray-300">
                         Keterangan
                       </th>
+                      <th class="w-[100px] border border-gray-300 text-center">
+                        Hapus
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -245,7 +243,6 @@
 <script>
 export default {
   props: ["self"],
-
   data() {
     let id = parseInt(this.$route.params.id);
     return {
@@ -264,20 +261,15 @@ export default {
       isLoadingData: false,
       form: {
         kode_mutasi_stok: "",
-        coa_id: "",
-        divisi_id: "",
         gudang_id: "",
-        status_adjustment: "",
+        status_mutasi: "",
         tanggal: "",
         keterangan: "",
-        keterangan_approve: "",
-        status_mutasi: "",
-        catatan_adjustment: "",
-        catatan_batal: "",
-        catatan_proses: "",
-        catatan_selesai: "",
-        status_adjustment: "",
+        keterangan_proses: "",
+        staff_id: "",
+        vendor_id: "",
         mutasi_stok_details: [],
+        biaya: [],
       },
     };
   },
@@ -285,14 +277,11 @@ export default {
   async created() {
     try {
       let res = await this.$axios.get(
-        `inventory/approve-mutasi-stok/${this.id}`
+        `inventory/proses-mutasi-stok/${this.id}`
       );
       Object.keys(this.form).forEach((item) => {
         this.form[item] = res.data[item];
       });
-      this.form.gudang_id = res.data.gudang;
-      this.form.coa_id = res.data.coa;
-      this.form.divisi_id = res.data.divisi;
       this.form.mutasi_stok_details = res.data.mutasi_stok_details.map(
         (item) => {
           return {
@@ -303,11 +292,11 @@ export default {
           };
         }
       );
-      this.form.biaya = res.data.biaya_mutasi_stok_details ?? [];
+      this.form.biaya = res.data.biaya ?? [];
+      this.form.gudang_id = res.data.gudang;
       this.isLoadingPage = false;
     } catch (error) {
-      console.error(error);
-      // this.$router.back();
+      this.$router.back();
     }
   },
 };
