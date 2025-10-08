@@ -602,9 +602,9 @@
                         <div class="ml-10">
                           <p class="w-[100px] mb-1">Balance</p>
                           <div
-                            class="w-[150px] border border-gray-300 p-1 rounded-md"
+                            class="w-full border border-gray-300 p-1 rounded-md"
                           >
-                            {{ balance }}
+                            {{ balance | formatPrice }}
                           </div>
                         </div>
                       </div>
