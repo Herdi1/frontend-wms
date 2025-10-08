@@ -23,11 +23,17 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
   },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
@@ -41,14 +47,11 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
@@ -64,18 +67,6 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
-  },
-  "AnavbarMessages": {
-    "description": "Auto imported from components/anavbar/Messages.vue"
-  },
-  "AnavbarNotifications": {
-    "description": "Auto imported from components/anavbar/Notifications.vue"
-  },
-  "AnavbarSearchForm": {
-    "description": "Auto imported from components/anavbar/SearchForm.vue"
-  },
-  "AnavbarUserOptions": {
-    "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
