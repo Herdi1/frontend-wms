@@ -91,6 +91,7 @@
                       name="periode_awal"
                       :required="true"
                       v-model="form.periode_awal"
+                      :max="form.periode_akhir"
                     />
                   </div>
                   <div class="form-group">
@@ -100,6 +101,7 @@
                       name="periode_akhir"
                       :required="true"
                       v-model="form.periode_akhir"
+                      :min="form.periode_akhir"
                     />
                   </div>
                   <div class="form-group">
@@ -460,6 +462,24 @@
                           class="w-48 border border-gray-300"
                           v-if="form.jenis === 'PREMI'"
                         >
+                          Kode Shipment
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Kode UJS
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          Tanggal
+                        </th>
+                        <th
+                          class="w-48 border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
                           Staff
                         </th>
                         <th
@@ -556,6 +576,24 @@
                           class="border border-gray-300"
                           v-if="form.jenis === 'PREMI'"
                         >
+                          {{ item.kode_shipment }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          {{ item.kode_ujs }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
+                          {{ formatDate(item.tanggal) }}
+                        </td>
+                        <td
+                          class="border border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        >
                           {{ item.nama_lengkap }}
                         </td>
                         <td
@@ -617,10 +655,24 @@
                           class="border-b border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        ></td>
+                        <td
+                          class="border-b border-gray-300"
+                          v-if="form.jenis === 'PREMI'"
+                        ></td>
                         <!-- <td class="border-b border-gray-300"></td> -->
                         <td class="border-b border-gray-300"></td>
                         <td class="border-b border-gray-300"></td>
-                        <td class="border border-gray-300">Grand Total</td>
+                        <td class="border border-gray-300 text-right">
+                          Grand Total
+                        </td>
                         <td class="border border-gray-300">
                           <p class="text-right">
                             {{ totalNominal | formatPrice }}
@@ -776,14 +828,14 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data && !this.isEditable) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     await this.onSearchCoa();
     await this.onSearchCoaBiaya();
     await this.onSearchDivisi();
     await this.onSearchPelanggan();
     await this.onSearchStaff();
-    if (this.lookup_custom1.data && !this.isEditable) {
-      this.onSelectGudang(this.lookup_custom1.data[0]);
-    }
   },
 
   computed: {

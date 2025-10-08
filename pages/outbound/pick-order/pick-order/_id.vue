@@ -919,13 +919,14 @@ export default {
               quantity: item.quantity_request,
               sisa_quantity: item.quantity,
               valuation_id: item.valuation,
-              zona_gudang_id: item.zona_gudang,
-              zona_gudang_id_tujuan: item.zona_gudang_tujuan,
-              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle,
-              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack,
-              slot_penyimpanan_id_level: item.slot_penyimpanan_level,
-              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin,
-              jenis_biaya_id: item.jenis_biaya,
+              zona_gudang_id: item.zona_gudang ?? "",
+              zona_gudang_id_tujuan: item.zona_gudang_tujuan ?? "",
+              slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
+              slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
+              slot_penyimpanan_id_level: item.slot_penyimpanan_level ?? "",
+              slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
+              peralatan_id: item.peralatan ?? "",
+              jenis_biaya_id: item.jenis_biaya ?? "",
             };
           });
 
@@ -1152,7 +1153,7 @@ export default {
           peralatan_id:
             typeof item.peralatan_id == "object" && item.peralatan_id
               ? item.peralatan_id.peralatan_id
-              : item.peralatan_id,
+              : "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id == "object" && item.jenis_biaya_id
               ? item.jenis_biaya_id.jenis_biaya_id

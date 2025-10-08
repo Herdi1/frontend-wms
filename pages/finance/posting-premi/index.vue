@@ -63,8 +63,9 @@
                     :options="lookup_custom1.data"
                     :filterable="false"
                     @search="onGetGudang"
-                    v-model="parameters.params.gudang_id"
-                    :reduce="(item) => item.gudang_id"
+                    v-model="parameters.params.gudang"
+                    @input="onSelectGudang"
+                    :disabled="lookup_custom1.data.length == 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
@@ -313,8 +314,9 @@ export default {
   },
 
   async created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
+    await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
     }
     this.set_data([]);
     await this.onLoad();
@@ -374,6 +376,7 @@ export default {
           per_page: 10,
           page: 1,
           gudang_id: "",
+          gudang: "",
           start_date: "",
           end_date: "",
         },
@@ -588,6 +591,16 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.params.gudang = item;
+        this.parameters.params.gudang_id = item.gudang_id;
+      } else {
+        this.parameters.params.gudang = "";
+        this.parameters.params.gudang_id = "";
       }
     },
 

@@ -181,6 +181,30 @@
                     class="w-48 border border-gray-300"
                     v-if="form.jenis === 'PREMI'"
                   >
+                    Kode Shipment
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    Kode UJS
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    Tanggal
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    Staff
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
                     Item
                   </th>
                   <th class="w-48 border border-gray-300">Quantity</th>
@@ -242,6 +266,30 @@
                   </td>
 
                   <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    {{ item.kode_shipment }}
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    {{ item.kode_ujs }}
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+                  <td
+                    class="border border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  >
+                    {{ item.nama_lengkap }}
+                  </td>
+                  <td
                     class="border border-gray-300 text-right"
                     v-if="form.jenis === 'PREMI'"
                   >
@@ -288,6 +336,22 @@
                   <td
                     class="border-b border-gray-300"
                     v-if="form.jenis === 'RITASE'"
+                  ></td>
+                  <td
+                    class="border-b border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  ></td>
+                  <td
+                    class="border-b border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  ></td>
+                  <td
+                    class="border-b border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
+                  ></td>
+                  <td
+                    class="border-b border-gray-300"
+                    v-if="form.jenis === 'PREMI'"
                   ></td>
                   <td class="border-b border-gray-300"></td>
                   <td class="border-b border-gray-300"></td>
@@ -426,9 +490,9 @@ export default {
         }
       );
       this.isLoadingPage = false;
-      console.log(this.form);
+      // console.log(this.form);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       // this.$router.back()
     }
   },
