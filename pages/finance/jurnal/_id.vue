@@ -604,7 +604,7 @@
                           <div
                             class="w-[150px] border border-gray-300 p-1 rounded-md"
                           >
-                            {{ balance }}
+                            {{ balance | formatPrice }}
                           </div>
                         </div>
                       </div>
@@ -660,7 +660,7 @@ export default {
         kode_referensi_2: "",
         kode_referensi_3: "",
         gudang_id: "",
-        jenis_jurnal: "",
+        jenis_jurnal: "UMUM",
         jurnal_details: [],
       },
       default_form: {
@@ -738,7 +738,7 @@ export default {
         this.form.jurnal_details = response.data.jurnal_details.map((item) => {
           return {
             ...item,
-            jurnal_details_id: item ?? "",
+            jurnal_detail_id: item,
             coa_id: item.coa ?? "",
             jenis_biaya_id: item.jenis_biaya ?? "",
             divisi_id: item.divisi ?? "",

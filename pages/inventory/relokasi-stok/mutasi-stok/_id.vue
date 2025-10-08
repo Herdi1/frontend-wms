@@ -212,7 +212,7 @@
                             <option value="ASAL">Asal</option>
                             <option value="TUJUAN">Tujuan</option>
                           </select> -->
-                          <p v-if="!isEditable">
+                          <p>
                             {{
                               item.zona_gudang_id_asal
                                 ? item.zona_gudang_id_asal.nama_zona_gudang +
@@ -999,7 +999,7 @@ export default {
               ...item,
               nama_item: item.item_gudang?.nama_item ?? "",
               kode_item: item.item_gudang?.kode_item ?? "",
-              mutasi_stok_details_id: item,
+              mutasi_stok_detail_id: item,
               item_gudang_id: item.item_gudang_id ?? "",
               valuation_id: item.valuation_id ?? "",
               zona_gudang_id: item.zona_gudang ?? "",

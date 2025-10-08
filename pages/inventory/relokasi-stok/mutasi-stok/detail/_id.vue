@@ -173,6 +173,12 @@ export default {
         no_transaksi: "",
         tanggal: "",
         keterangan: "",
+        status_mutasi: "",
+        catatan_adjustment: "",
+        catatan_batal: "",
+        catatan_proses: "",
+        catatan_selesai: "",
+        status_adjustment: "",
         mutasi_stok_details: [],
       },
     };
