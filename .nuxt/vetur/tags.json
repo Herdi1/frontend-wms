@@ -56,7 +56,6 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
-<<<<<<< HEAD
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -69,8 +68,6 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
-=======
->>>>>>> 1ddc926ccc32dc6a05ab5eb21f8120787ee0203e
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
   },
