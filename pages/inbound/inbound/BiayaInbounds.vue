@@ -189,17 +189,18 @@
             </td>
             <td class="border border-gray-300">{{ item.dasar_perhitungan }}</td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 disabled
                 v-model="item.nominal_satuan"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              {{ item.nominal_satuan | formatPrice }}
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 disabled
                 v-model="item.jumlah"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -207,38 +208,42 @@
                   $event.key === '-' ? $event.preventDefault() : null
                 "
                 @input="totalValue(item, index)"
-              />
+              /> -->
+              {{ item.jumlah | formatPrice }}
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 disabled
                 v-model="item.berat"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              {{ item.berat | formatPrice }}
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 disabled
                 v-model="item.volume"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              {{ item.volume | formatPrice }}
             </td>
             <td class="border border-gray-300">
               <!-- :value="this.totalValue(item, index)" -->
-              <money
+              <!-- <money
                 disabled
                 v-model="item.total"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              {{ item.total | formatPrice }}
             </td>
 
             <td class="border border-gray-300">

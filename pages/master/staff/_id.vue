@@ -40,7 +40,7 @@
               />
             </div>
             <div class="form-group w-full items-center">
-              <label for="">Gudang <span class="text-danger">*</span></label>
+              <label for="">Gudang </label>
               <v-select
                 label="nama_gudang"
                 :loading="isLoadingGetGudang"

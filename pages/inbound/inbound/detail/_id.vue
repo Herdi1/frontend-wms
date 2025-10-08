@@ -206,9 +206,9 @@
               <template #DetailBiaya>
                 <DetailBiaya :self="{ form, items }" />
               </template>
-              <template #DetailTagihan>
+              <!-- <template #DetailTagihan>
                 <DetailTagihan :self="{ form, items }" />
-              </template>
+              </template> -->
               <template #DetailHistoris>
                 <!-- <DetailHistoris :self="{ form, items }" /> -->
                 <div>
@@ -303,7 +303,7 @@ export default {
       tabs: [
         { name: "DETAIL INBOUND", slotName: "DetailInbound" },
         { name: "BIAYA INBOUND", slotName: "DetailBiaya" },
-        { name: "PENDAPATAN INBOUND", slotName: "DetailTagihan" },
+        // { name: "PENDAPATAN INBOUND", slotName: "DetailTagihan" },
         { name: "HISTORIS INBOUND", slotName: "DetailHistoris" },
       ],
       id,

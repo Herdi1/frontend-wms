@@ -1449,6 +1449,7 @@ export default {
           query:
             "?search=" +
             this.jenis_biaya_search +
+            "&jenis=TKBM" +
             "&page=" +
             this.lookup_custom7.current_page +
             "&per_page=10",
