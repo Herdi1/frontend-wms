@@ -298,10 +298,7 @@
                 v-model="item.tanggal_expired"
               />
             </td>
-            <td
-              class="border border-gray-300"
-              v-if="self.form.sumber_data === 'ASN'"
-            >
+            <td class="border border-gray-300">
               <!-- <div>
                 <p v-if="item.panjang">Panjang: {{ item.panjang }}</p>
                 <p v-if="item.lebar">Lebar: {{ item.lebar }}</p>
@@ -1555,11 +1552,11 @@ export default {
         }
       );
 
-      // if (biaya.data.length) {
-      // }
-      this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
-        (item) => item.index !== itemNumber
-      );
+      if (biaya.data.length) {
+        this.self.form.biaya_inbounds = this.self.form.biaya_inbounds.filter(
+          (item) => item.index !== itemNumber
+        );
+      }
 
       // if (
       //   !this.self.form.biaya_inbounds.find(

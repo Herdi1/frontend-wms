@@ -46,6 +46,7 @@
                     name=""
                     id=""
                     v-model="form.sumber_data"
+                    @change="onChangeSumberData"
                     class="w-[60%] p-1 rounded-sm border border-gray-300 outline-none"
                     :disabled="isEditable"
                     :class="isEditable ? 'bg-gray-100/80' : ''"
@@ -633,7 +634,6 @@ export default {
         latitude: "",
       },
       default_form: {
-        sumber_data: "ASN",
         asn_id: "",
         surat_jalan: "",
         doc_type_sap: "",
@@ -1963,6 +1963,31 @@ export default {
 
         this.isLoadingGetZonaPlan = false;
       }
+    },
+
+    onChangeSumberData() {
+      this.form = {
+        ...this.form,
+        asn_id: "",
+        surat_jalan: "",
+        doc_type_sap: "",
+        kode_inbound: "",
+        no_referensi_1: "",
+        no_referensi_2: "",
+        no_referensi_3: "",
+        supplier_id: "",
+        jenis_transaksi: "0",
+        pelanggan_id: "",
+        staff_id: "",
+        vendor_id_transporter: "",
+        peralatan_id: "",
+
+        tanggal_approve: "",
+
+        inbound_details: [],
+        biaya_inbounds: [],
+        tagihan_inbounds: [],
+      };
     },
   },
 };
