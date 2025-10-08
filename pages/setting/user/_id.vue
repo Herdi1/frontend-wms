@@ -633,11 +633,11 @@ export default {
         this.group_role_search = search;
 
         if (typeof isNext !== "function") {
-          this.lookup_group_custom1.current_page = isNext
-            ? this.lookup_group_custom1.current_page + 1
-            : this.lookup_group_custom1.current_page - 1;
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
         } else {
-          this.lookup_group_custom1.current_page = 1;
+          this.lookup_custom1.current_page = 1;
         }
 
         this.onSearchGroupRole();
