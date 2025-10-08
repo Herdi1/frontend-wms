@@ -18,6 +18,11 @@ You can directly use them in pages and other components without the need to impo
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
+<<<<<<< HEAD
+=======
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+>>>>>>> cabc76a7d8f95bc111da6afc64fc9a38f3f5a576
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
@@ -27,8 +32,11 @@ You can directly use them in pages and other components without the need to impo
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+<<<<<<< HEAD
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+=======
+>>>>>>> cabc76a7d8f95bc111da6afc64fc9a38f3f5a576
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)

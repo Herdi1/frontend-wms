@@ -122,17 +122,13 @@
                     "
                   >
                     <thead>
-                      <tr class="text-sm uppercase">
-                        <th class="w-[200px] border border-gray-300">
-                          Item Gudang
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
+                      <tr class="text-sm uppercase text-nowrap">
+                        <th class="w-60 border border-gray-300">Item Gudang</th>
+                        <th class="w-52 border border-gray-300">
                           Lokasi Penyimpanan Asal
                         </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Zona Tujuan
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
+                        <th class="w-48 border border-gray-300">Zona Tujuan</th>
+                        <th class="w-52 border border-gray-300">
                           Lokasi Penyimpanan Tujuan
                         </th>
                         <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
@@ -142,15 +138,9 @@
                         <!-- <th class="w-[200px] border border-gray-300">
                           Valuation
                         </th> -->
-                        <th class="w-[200px] border border-gray-300">
-                          Quantity
-                        </th>
-                        <th class="w-[200px] border border-gray-300">
-                          Keterangan
-                        </th>
-                        <th
-                          class="w-[100px] border border-gray-300 text-center"
-                        >
+                        <th class="w-48 border border-gray-300">Quantity</th>
+                        <th class="w-48 border border-gray-300">Keterangan</th>
+                        <th class="w-28 border border-gray-300 text-center">
                           Hapus
                         </th>
                       </tr>
