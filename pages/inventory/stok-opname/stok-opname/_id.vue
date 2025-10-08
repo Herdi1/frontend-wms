@@ -174,7 +174,7 @@
                       <div
                         class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
                       >
-                        {{ option.zona_gudang }}
+                        {{ option.nama_zona_gudang }}
                       </div>
                            </template
                     >
@@ -779,13 +779,10 @@ export default {
     }
 
     // await this.onSearchItem();
-    // await this.onSearchItemGudang();
     // await this.onSearchItemPelanggan();
     // await this.onSearchSupplier();
     await this.onSearchValuation();
-    // await this.onSearchZonaGudang();
 
-    // await this.onSearchZonaGudang();
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -1056,7 +1053,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
-        this.onSearchZonaudang();
+        this.onSearchZonaGudang();
       }, 600);
     },
 
@@ -1449,8 +1446,6 @@ export default {
           await this.onSearchSlotAisle(index);
           this.onGetSystemStok(index);
         }
-
-        // await this.onSearchZonaGudang();
       } else {
         this.parameters.form.stok_opname_details[index].item_gudang_id = "";
       }
@@ -1571,7 +1566,11 @@ export default {
     },
 
     onSelectZonaAdd(item) {
-      this.add_params.zona_gudang_id = item || "";
+      if (item) {
+        this.add_params.zona_gudang_id = item;
+      } else {
+        this.add_params.zona_gudang_id = "";
+      }
     },
 
     onSelectItemAdd(item) {
