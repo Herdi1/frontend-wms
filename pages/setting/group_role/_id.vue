@@ -59,15 +59,35 @@
                   </select>
                 </div>
 
-                <button
-                  type="button"
-                  class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
-                  @click="onAddGrant"
-                >
-                  <!-- href="#" -->
-                  <i class="fas fa-plus"></i>
-                  <p class="text-xs font-medium">Tambah Menu</p>
-                </button>
+                <div class="flex gap-2 mb-2 mt-5">
+                  <button
+                    type="button"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
+                    @click="onAddGrant"
+                  >
+                    <!-- href="#" -->
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Menu</p>
+                  </button>
+                  <button
+                    type="button"
+                    class="bg-yellow-500 text-white px-2 py-2 rounded-md w-32 flex gap-2 items-center"
+                    @click="onAddAllGrant"
+                  >
+                    <!-- href="#" -->
+                    <div
+                      v-if="!isLoadingGetAll"
+                      class="flex gap-x-2 items-center"
+                    >
+                      <i class="fas fa-plus"></i>
+                      <p class="text-xs font-medium">Tambah Semua Menu</p>
+                    </div>
+                    <div v-else>
+                      <!-- <i class="fas fa-plus"></i> -->
+                      <p class="text-xs font-medium">Loading...</p>
+                    </div>
+                  </button>
+                </div>
                 <div>
                   <div
                     class="table-responsive"
@@ -456,6 +476,7 @@ export default {
       isStopSearchRole: false,
       isLoadingGetRole: false,
       role_search: "",
+      isLoadingGetAll: false,
 
       options: [
         "all",
@@ -601,6 +622,30 @@ export default {
         this.grantsList = [...this.parameters.form.grants];
         this.tableKey++;
       });
+    },
+
+    async onAddAllGrant() {
+      this.isLoadingGetAll = true;
+      try {
+        let res = await this.$axios.get("setting/role/get-menu?all=1");
+        res.data.forEach((role) => {
+          if (
+            !this.parameters.form.grants.find(
+              (itemGrant) =>
+                itemGrant.menu_id && itemGrant.menu_id.menu_id === role.menu_id
+            )
+          ) {
+            this.parameters.form.grants.push({
+              menu_id: role,
+              aplikasi: "",
+              operators: [],
+            });
+          }
+        });
+      } catch (error) {
+        this.$globalErrorToaster(this.$toaster, error);
+      }
+      this.isLoadingGetAll = false;
     },
 
     onDeleteGrant(index) {
