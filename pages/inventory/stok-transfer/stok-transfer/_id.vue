@@ -88,9 +88,9 @@
                   :self="{
                     label: 'Gudang Pengirim',
                     optionLabel: 'nama_gudang',
-                    isLoading: isLoadingGetGudang,
-                    lookup: lookup_suppliers,
-                    onGet: onGetGudang,
+                    isLoading: isLoadingGetGudangPengirim,
+                    lookup: lookup_custom3,
+                    onGet: onGetGudangPengirim,
                     value: form.gudang_id_pengirim,
                     input: onSelectGudangPengirim,
                   }"
@@ -400,6 +400,10 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
+      isStopSearchGudangPengirim: false,
+      isLoadingGetGudangPengirim: false,
+      gudang_pengirim_search: "",
+
       isStopSearchItemGudang: false,
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
@@ -513,6 +517,7 @@ export default {
       this.form.gudang_id = this.lookup_suppliers.data[0];
     }
     // await this.onSearchItemGudang();
+    await this.onSearchGudangPengirim();
     await this.onSearchValuation();
     await this.onSearchPelanggan();
     this.getUserAgent();
@@ -530,6 +535,7 @@ export default {
       "lookup_products", //item gudang
       "lookup_custom1", //valuation
       "lookup_custom2", //pelanggan
+      "lookup_custom3", //gudang_pengirim
     ]),
   },
 
@@ -702,11 +708,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "suppliers",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_suppliers.current_page +
             "&per_page=10",
@@ -722,6 +730,46 @@ export default {
         await this.onSearchItemGudang();
       } else {
         this.form.gudang_id = "";
+      }
+    },
+
+    // get  gudang
+    onGetGudangPengirim(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudangPengirim);
+
+      this.isStopSearchGudangPengirim = setTimeout(() => {
+        this.gudang_pengirim_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchGudangPengirim();
+      }, 600);
+    },
+
+    async onSearchGudangPengirim() {
+      if (!this.isLoadingGetGudangPengirim) {
+        this.isLoadingGetGudangPengirim = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.gudang_pengirim_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudangPengirim = false;
       }
     },
 
