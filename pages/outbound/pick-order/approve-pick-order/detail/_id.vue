@@ -161,119 +161,121 @@
                 "
               >
                 <thead>
-                  <tr class="text-sm uppercase">
-                    <!-- <th class="w-60 border border-gray-300">
-                          Kode Pick Request
-                        </th>
-                        <th class="w-60 border border-gray-300">Tanggal</th> -->
-                    <th class="w-60 border border-gray-300">
-                      Kode Delivery Order
-                    </th>
+                  <tr class="uppercase">
                     <th class="w-60 border border-gray-300">Kode Item</th>
                     <th class="w-60 border border-gray-300">Nama Item</th>
-                    <th class="w-60 border border-gray-300">Valuation</th>
-                    <th class="w-60 border border-gray-300">Zona Asal</th>
+                    <th class="w-40 border border-gray-300">Jenis</th>
+                    <th class="w-40 border border-gray-300">Jenis Kiriman</th>
+                    <th class="w-60 border border-gray-300">Peralatan</th>
                     <th class="w-60 border border-gray-300">
-                      Lokasi Penyimpanan Asal
+                      Jenis <Biaya></Biaya>
                     </th>
+                    <th class="w-60 border border-gray-300">Valuation</th>
                     <th class="w-60 border border-gray-300">
                       Quantity Request
                     </th>
                     <th class="w-60 border border-gray-300">Quantity</th>
+                    <th class="w-60 border border-gray-300">Zona Asal</th>
+                    <th class="w-60 border border-gray-300">
+                      Lokasi Penyimpanan Asal
+                    </th>
                     <th class="w-60 border border-gray-300">Zona Tujuan</th>
-                    <!-- <th class="w-60 border border-gray-300">
-                          Lokasi Penyimpanan Tujuan
-                        </th> -->
                     <th class="w-60 border border-gray-300">Keterangan</th>
-                    <!-- <th class="w-20 border border-gray-300 text-center">
-                          Delete
-                        </th> -->
                   </tr>
                 </thead>
                 <tbody>
                   <tr
                     v-for="(item, i) in detail_pick_order.pick_order_details"
                     :key="i"
-                    class="border-t border-gray-400 align-top"
+                    class="border-t align-top"
                   >
                     <td class="border border-gray-300">
-                      {{ item.kode_delivery_order }}
+                      {{ item.item_gudang.kode_item }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.item_gudang ? item.item_gudang.kode_item : "-" }}
+                      {{ item.item_gudang.nama_item }}
+                    </td>
+                    <td class="border border-gray-300 text-center">
+                      <span
+                        v-if="item.jenis == 0"
+                        class="p-1 text-white rounded-md bg-orange-500"
+                        >Penjualan</span
+                      >
+                      <span
+                        v-if="item.jenis == 1"
+                        class="p-1 text-white rounded-md bg-green-500"
+                        >Stok Transfer</span
+                      >
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.item_gudang ? item.item_gudang.nama_item : "-" }}
+                      <div v-if="item.jenis_kiriman">
+                        <p v-if="item.jenis_kiriman.trim() === 'FRC'">Franco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'LCO'">Locco</p>
+                        <p v-if="item.jenis_kiriman.trim() === 'SWC'">Switch</p>
+                      </div>
+                      <div v-else>-</div>
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.valuation ? item.valuation.nama_valuation : "-" }}
+                      {{ item.peralatan?.nama_peralatan ?? "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      {{
-                        item.zona_gudang
-                          ? item.zona_gudang.nama_zona_gudang
-                          : "-"
-                      }}
+                      {{ item.jenis_biaya?.nama_jenis_biaya ?? "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      <div class="w-full flex justify-between">
-                        <p>Lokasi Aisle:</p>
-                        <div class="text-right font-medium">
+                      {{ item.valuation.nama_valuation }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity_request }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.quantity }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.zona_gudang.nama_zona_gudang }}
+                    </td>
+                    <td class="border border-gray-300">
+                      <div>
+                        <p>Aisle</p>
+                        <p class="text-right">
                           {{
                             item.slot_penyimpanan_aisle
-                              ? item.slot_penyimpanan_aisle
-                                  .nama_slot_penyimpanan
-                              : "-"
+                              ?.nama_slot_penyimpanan ?? "-"
                           }}
-                        </div>
+                        </p>
                       </div>
-                      <div class="w-full flex justify-between">
-                        <p>Lokasi Rack:</p>
-                        <div class="font-medium">
+                      <div>
+                        <p>Rack</p>
+                        <p class="text-right">
                           {{
-                            item.slot_penyimpanan_rack
-                              ? item.slot_penyimpanan_rack.nama_slot_penyimpanan
-                              : "-"
+                            item.slot_penyimpanan_rack?.nama_slot_penyimpanan ??
+                            "-"
                           }}
-                        </div>
+                        </p>
                       </div>
-                      <div class="w-full flex justify-between">
-                        <p>Lokasi Level:</p>
-                        <div class="font-medium">
+                      <div>
+                        <p>Level</p>
+                        <p class="text-right">
                           {{
                             item.slot_penyimpanan_level
-                              ? item.slot_penyimpanan_level
-                                  .nama_slot_penyimpanan
-                              : "-"
+                              ?.nama_slot_penyimpanan ?? "-"
                           }}
-                        </div>
+                        </p>
                       </div>
-                      <div class="w-full flex justify-between">
-                        <p>Lokasi Bin:</p>
-                        <div class="font-medium">
+                      <div>
+                        <p>Bin</p>
+                        <p class="text-right">
                           {{
-                            item.slot_penyimpanan_bin
-                              ? item.slot_penyimpanan_bin.nama_slot_penyimpanan
-                              : "-"
+                            item.slot_penyimpanan_bin?.nama_slot_penyimpanan ??
+                            "-"
                           }}
-                        </div>
+                        </p>
                       </div>
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.quantity_request ? item.quantity_request : "-" }}
+                      {{ item.zona_gudang_tujuan.nama_zona_gudang }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.quantity ? item.quantity : "-" }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{
-                        item.zona_gudang_tujuan
-                          ? item.zona_gudang_tujuan.nama_zona_gudang
-                          : "-"
-                      }}
-                    </td>
-                    <td class="border border-gray-300">
-                      {{ item.keterangan ? item.keterangan : "-" }}
+                      {{ item.keterangan }}
                     </td>
                   </tr>
                 </tbody>

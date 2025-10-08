@@ -244,6 +244,7 @@
                   </th>
                   <th class="w-20 border border-gray-300">Idle</th>
                   <th class="w-40 border border-gray-300">Presentase</th>
+                  <!-- <th class="w-40 border border-gray-300">Print</th> -->
                   <th class="w-20 text-center border border-gray-300">
                     Delete
                   </th>
@@ -305,6 +306,11 @@
                   <td class="border border-gray-300">
                     {{ getPresentase(item) }} %
                   </td>
+                  <!-- <td class="border border-gray-300">
+                    <button @click="onPrintUtilitasKendaraan(item)">
+                      Print
+                    </button>
+                  </td> -->
 
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
@@ -655,21 +661,21 @@ export default {
 
     getPresentase(item) {
       let presentase = (item.total_realisasi / item.standar_waktu_kerja) * 100;
-      return presentase;
+      return parseFloat(presentase).toFixed(2);
     },
 
-    onPrintUtilitasKendaraan(item) {
-      var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(
-        process.env.API_URL +
-          "utilitas-kendaraan/get-print-detail" +
-          item.shipment_id +
-          "?token=" +
-          token +
-          "&type=spj-detail",
-        "_blank"
-      );
-    },
+    // onPrintUtilitasKendaraan(item) {
+    //   var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+    //   window.open(
+    //     process.env.API_URL +
+    //       "utilitas-kendaraan/get-print-detail/" +
+    //       item.utilitas_kendaraan_id +
+    //       "?token=" +
+    //       token +
+    //       "&type=spj-detail",
+    //     "_blank"
+    //   );
+    // },
   },
 };
 </script>

@@ -184,6 +184,12 @@
               <tr class="uppercase">
                 <th class="w-60 border border-gray-300">Kode Item</th>
                 <th class="w-60 border border-gray-300">Nama Item</th>
+                <th class="w-40 border border-gray-300">Jenis</th>
+                <th class="w-40 border border-gray-300">Jenis Kiriman</th>
+                <th class="w-60 border border-gray-300">Peralatan</th>
+                <th class="w-60 border border-gray-300">
+                  Jenis <Biaya></Biaya>
+                </th>
                 <th class="w-60 border border-gray-300">Valuation</th>
                 <th class="w-60 border border-gray-300">Quantity Request</th>
                 <th class="w-60 border border-gray-300">Quantity</th>
@@ -199,13 +205,39 @@
               <tr
                 v-for="(item, i) in detail_pick_order.pick_order_details"
                 :key="i"
-                class="border-t"
+                class="border-t align-top"
               >
                 <td class="border border-gray-300">
                   {{ item.item_gudang.kode_item }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.item_gudang.nama_item }}
+                </td>
+                <td class="border border-gray-300 text-center">
+                  <span
+                    v-if="item.jenis == 0"
+                    class="p-1 text-white rounded-md bg-orange-500"
+                    >Penjualan</span
+                  >
+                  <span
+                    v-if="item.jenis == 1"
+                    class="p-1 text-white rounded-md bg-green-500"
+                    >Stok Transfer</span
+                  >
+                </td>
+                <td class="border border-gray-300">
+                  <div v-if="item.jenis_kiriman">
+                    <p v-if="item.jenis_kiriman.trim() === 'FRC'">Franco</p>
+                    <p v-if="item.jenis_kiriman.trim() === 'LCO'">Locco</p>
+                    <p v-if="item.jenis_kiriman.trim() === 'SWC'">Switch</p>
+                  </div>
+                  <div v-else>-</div>
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.peralatan?.nama_peralatan ?? "-" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.jenis_biaya?.nama_jenis_biaya ?? "-" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.valuation.nama_valuation }}
@@ -220,27 +252,40 @@
                   {{ item.zona_gudang.nama_zona_gudang }}
                 </td>
                 <td class="border border-gray-300">
-                  <span
-                    >{{
-                      item.slot_penyimpanan_aisle?.nama_slot_penyimpanan ?? ""
-                    }}
-                    -
-                  </span>
-                  <span
-                    >{{
-                      item.slot_penyimpanan_rack?.nama_slot_penyimpanan ?? ""
-                    }}
-                    -
-                  </span>
-                  <span
-                    >{{
-                      item.slot_penyimpanan_level?.nama_slot_penyimpanan ?? ""
-                    }}
-                    -
-                  </span>
-                  <span>{{
-                    item.slot_penyimpanan_bin?.nama_slot_penyimpanan ?? ""
-                  }}</span>
+                  <div>
+                    <p>Aisle</p>
+                    <p class="text-right">
+                      {{
+                        item.slot_penyimpanan_aisle?.nama_slot_penyimpanan ??
+                        "-"
+                      }}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Rack</p>
+                    <p class="text-right">
+                      {{
+                        item.slot_penyimpanan_rack?.nama_slot_penyimpanan ?? "-"
+                      }}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Level</p>
+                    <p class="text-right">
+                      {{
+                        item.slot_penyimpanan_level?.nama_slot_penyimpanan ??
+                        "-"
+                      }}
+                    </p>
+                  </div>
+                  <div>
+                    <p>Bin</p>
+                    <p class="text-right">
+                      {{
+                        item.slot_penyimpanan_bin?.nama_slot_penyimpanan ?? "-"
+                      }}
+                    </p>
+                  </div>
                 </td>
                 <td class="border border-gray-300">
                   {{ item.zona_gudang_tujuan.nama_zona_gudang }}
