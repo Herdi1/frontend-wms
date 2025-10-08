@@ -1005,6 +1005,10 @@ export default {
       } else {
         this.parameters.form.gudang_id = "";
         this.parameters.form.stok_opname_details = [];
+        this.add_params.zona_gudang_id = "";
+        this.add_params.item_gudang_id = "";
+        this.lookup_custom3.data = [];
+        this.lookup_custom8.data = [];
       }
     },
 
@@ -1026,6 +1030,7 @@ export default {
           stok_selisih: 0.0,
           keterangan: "",
         });
+        this.$toaster.success("Berhasil menambah item");
       } else {
         this.$toaster.error("Silahkan pilih gudang terlebih dahulu");
       }

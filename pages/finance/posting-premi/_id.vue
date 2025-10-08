@@ -853,8 +853,8 @@ export default {
 
     totalNominal() {
       return this.form.posting_premi_details.reduce((total, item) => {
-        const nominal = item.total_biaya || 0;
-        return total + nominal;
+        const nominal = parseFloat(item.total_biaya) || 0;
+        return parseFloat(total) + parseFloat(nominal);
       }, 0);
     },
   },
