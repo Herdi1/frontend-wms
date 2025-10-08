@@ -55,7 +55,8 @@
                         input: onSelectGudang,
                       }"
                       width="w-[50%]"
-                      required="true"
+                      :required="true"
+                      :disabled="lookup_roles.data.length == 1"
                     />
                     <!-- <div class="w-full flex justify-end">
                       <span

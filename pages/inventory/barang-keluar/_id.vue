@@ -318,7 +318,7 @@
                         class="align-top"
                       >
                         <td class="border border-gray-300">
-                          <v-select
+                          <!-- <v-select
                             label="nama_item"
                             :loading="isLoadingGetItemGudang"
                             :options="lookup_custom7.data"
@@ -350,7 +350,16 @@
                                 >Selanjutnya</span
                               >
                             </li>
-                          </v-select>
+                          </v-select> -->
+                          <div>
+                            {{
+                              typeof item.item_gudang_id === "object"
+                                ? item.item_gudang_id.nama_item +
+                                  " - " +
+                                  item.item_gudang_id.kode_item
+                                : "-"
+                            }}
+                          </div>
                         </td>
                         <td class="border border-gray-300 text-start">
                           <p>Serial Number:</p>
@@ -499,7 +508,7 @@
         </form>
       </ValidationObserver>
     </div>
-    <ModalKartuStok :self="this" ref="modalKartuStok" />
+    <ModalStokGudang :self="this" ref="modalKartuStok" />
     <!-- <ModalStokGudang :self="this" ref="modalStokGudang" /> -->
   </section>
 </template>
@@ -507,13 +516,13 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { mapActions, mapState } from "vuex";
-import ModalKartuStok from "../../../components/transaksional/ModalKartuStok.vue";
+import ModalStokGudang from "../../../components/transaksional/ModalStokGudang.vue";
 
 export default {
   props: ["self"],
 
   components: {
-    ModalKartuStok,
+    ModalStokGudang,
   },
 
   data() {
@@ -619,6 +628,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom8.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
     // await this.onSearchStaff();
@@ -1674,7 +1686,11 @@ export default {
       ) {
         let detailItem = {
           ...item,
-          item_gudang_id: item.item_gudang,
+          item_gudang_id: {
+            item_gudang_id: item.item_gudang_id,
+            nama_item: item.nama_item,
+            kode_item: item.kode_item,
+          },
           zona_gudang_id: item.zona_gudang,
           slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
           slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
@@ -1682,6 +1698,7 @@ export default {
           slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
         };
         this.parameters.form.barang_keluar_details.push(detailItem);
+        this.$toaster.success("Data Berhasil Ditambahkan");
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }

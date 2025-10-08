@@ -35,11 +35,7 @@
                     />
                   </div>
                   <ValidationProvider name="gudang_id" class="w-full mt-1">
-                    <div
-                      slot-scope="{ errors, valid }"
-                      v-if="!user.gudang_id"
-                      class="flex"
-                    >
+                    <div slot-scope="{ errors, valid }" class="flex">
                       <label for="gudang_id" class="w-1/2">Gudang </label>
                       <v-select
                         label="nama_gudang"
@@ -50,6 +46,7 @@
                         v-model="form.gudang_id"
                         class="w-1/2"
                         @input="onSelectGudang"
+                        :disabled="lookup_custom1.data.length == 1"
                       >
                         <template slot="selected-option" slot-scope="option">
                           <div
@@ -759,9 +756,11 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     await this.onSearchCoa();
     await this.onSearchDivisi();
-    await this.onSearchKendaraan();
     // await this.onSearchJenisBiaya();
     await this.onSearchZonaGudang();
     // await this.onSearchProfit();
@@ -952,6 +951,8 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -966,6 +967,7 @@ export default {
         this.form.gudang_id = item;
         this.form.jurnal_details = [];
         await this.onSearchZonaGudang();
+        await this.onSearchKendaraan();
       } else {
         this.form.gudang_id = "";
         this.form.jurnal_details = [];

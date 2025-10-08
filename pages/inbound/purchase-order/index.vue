@@ -62,6 +62,7 @@
                     @search="onGetGudang"
                     v-model="parameters.params.gudang_id"
                     :reduce="(item) => item.gudang_id"
+                    :disabled="lookup_custom1.data.length == 1"
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div

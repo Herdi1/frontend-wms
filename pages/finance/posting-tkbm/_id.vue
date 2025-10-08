@@ -638,6 +638,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     await this.onSearchCoa();
     await this.onSearchCoaBiaya();
     await this.onSearchDivisi();
@@ -704,6 +707,8 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -925,6 +930,8 @@ export default {
       this.form.posting_tkbm_details = daftarDetail.data.map((item) => {
         return {
           ...item,
+          quantity:
+            this.form.jenis == "INBOUND" ? item.quantity_terima : item.quantity,
         };
       });
     },
