@@ -26,11 +26,11 @@
 
           <div class="table-responsive w-full relative overflow-y-auto">
             <table
-              class="mb-5 overflow-auto table-fixed border border-gray-300"
+              class="mb-5 overflow-x-auto table-fixed border border-gray-300"
               ref="formContainer"
             >
               <thead>
-                <tr class="text-base uppercase text-nowrap">
+                <tr class="text-base uppercase">
                   <th class="w-20 text-center border border-gray-300">Edit</th>
 
                   <th class="w-20 text-center border border-gray-300">
@@ -75,7 +75,8 @@
                     Kode Gudang External
                   </th>
                   <th class="w-48 border border-gray-300">Kode Gudang</th>
-                  <th class="w-48 border border-gray-300">Profit & Cost</th>
+                  <th class="w-48 border border-gray-300">Profit Center</th>
+                  <th class="w-48 border border-gray-300">Cost Center</th>
                   <th
                     @click="
                       onSort(
@@ -172,15 +173,12 @@
                       item.profit_cost.cost_center +
                       ")"
                     }} -->
-                    <div>
-                      Profit Center:
-                      {{ item.profit_center.kode_profit_center }}
-                    </div>
-                    <div>
-                      Cost Center:
-                      {{ item.cost_center.kode_cost_center }}
-                    </div>
+                    {{ item.profit_center.kode_profit_center }}
                   </td>
+                  <td class="border border-gray-300">
+                    {{ item.cost_center.kode_cost_center }}
+                  </td>
+
                   <td class="border border-gray-300">{{ item.nama_gudang }}</td>
                   <!-- <td>
                     {{
@@ -233,7 +231,9 @@
                   </td>
                   <td class="border border-gray-300">{{ item.longitude }}</td>
                   <td class="border border-gray-300">{{ item.latitude }}</td>
-                  <td class="border border-gray-300">
+                  <td
+                    class="border border-gray-300 break-words whitespace-normal"
+                  >
                     {{ item.alamat ?? "" }}
                   </td>
                   <td class="border border-gray-300">

@@ -1130,6 +1130,10 @@ export default {
                 typeof item.zona_gudang_id === "object"
                   ? item.zona_gudang_id.zona_gudang_id ?? ""
                   : item.zona_gudang_id ?? "",
+              zona_gudang_id_asal:
+                typeof item.zona_gudang_id_asal === "object"
+                  ? item.zona_gudang_id_asal.zona_gudang_id ?? ""
+                  : item.zona_gudang_id_asal ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
                   ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
