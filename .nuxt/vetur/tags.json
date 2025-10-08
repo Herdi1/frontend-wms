@@ -35,15 +35,12 @@
   "AnavbarUserOptions": {
     "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
-<<<<<<< HEAD
-=======
   "AsideSidebarBrand": {
     "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
->>>>>>> cabc76a7d8f95bc111da6afc64fc9a38f3f5a576
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -71,15 +68,6 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
-<<<<<<< HEAD
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
-=======
->>>>>>> cabc76a7d8f95bc111da6afc64fc9a38f3f5a576
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
   },
