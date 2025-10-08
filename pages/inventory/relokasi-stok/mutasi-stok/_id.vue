@@ -214,10 +214,10 @@
                           </select> -->
                           <p v-if="!isEditable">
                             {{
-                              item.zona_gudang
-                                ? item.zona_gudang.nama_zona_gudang +
+                              item.zona_gudang_id_asal
+                                ? item.zona_gudang_id_asal.nama_zona_gudang +
                                   " - " +
-                                  item.zona_gudang.kode_zona_gudang
+                                  item.zona_gudang_id_asal.kode_zona_gudang
                                 : "-"
                             }}
                           </p>
@@ -941,6 +941,7 @@ export default {
           mutasi_stok_details: [],
           biaya: [],
           zona_gudang_asal: "",
+          keterangan: "",
 
           //Tracking
           user_agent: "",
@@ -1130,6 +1131,10 @@ export default {
                 typeof item.zona_gudang_id === "object"
                   ? item.zona_gudang_id.zona_gudang_id ?? ""
                   : item.zona_gudang_id ?? "",
+              zona_gudang_id_asal:
+                typeof item.zona_gudang_id_asal === "object"
+                  ? item.zona_gudang_id_asal.zona_gudang_id ?? ""
+                  : item.zona_gudang_id_asal ?? "",
               slot_penyimpanan_id_aisle:
                 typeof item.slot_penyimpanan_id_aisle === "object"
                   ? item.slot_penyimpanan_id_aisle.slot_penyimpanan_id ?? ""
@@ -1854,7 +1859,7 @@ export default {
           nama_item: item.nama_item,
           kode_item: item.kode_item,
           quantity_asal: item.quantity,
-          zona_gudang_id_asal: item.zona_gudang_id,
+          zona_gudang_id_asal: item.zona_gudang,
           slot_penyimpanan_id_aisle_asal: item.slot_penyimpanan_id_aisle,
           slot_penyimpanan_id_rack_asal: item.slot_penyimpanan_id_rack,
           slot_penyimpanan_id_level_asal: item.slot_penyimpanan_id_level,

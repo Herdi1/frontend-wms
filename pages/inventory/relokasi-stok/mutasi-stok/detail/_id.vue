@@ -75,7 +75,7 @@
                     {{ item.item_gudang?.nama_item ?? "-" }}
                   </td>
                   <td class="w-[200px] border border-gray-300">
-                    {{ item.zona_gudang_asal?.nama_zona_gudang ?? "-" }}
+                    {{ item.zona_gudang_id_asal?.nama_zona_gudang ?? "-" }}
                   </td>
                   <td class="w-[200px] border border-gray-300">
                     {{ item.zona_gudang?.nama_zona_gudang ?? "-" }}
@@ -172,6 +172,7 @@ export default {
         gudang_id: "",
         no_transaksi: "",
         tanggal: "",
+        keterangan: "",
         mutasi_stok_details: [],
       },
     };
@@ -188,6 +189,7 @@ export default {
         (item) => {
           return {
             ...item,
+            zona_gudang_id_asal: item.zona_gudang_asal ?? "",
             quantity_asal: item.quantity_asal ?? 0,
             quantity_tujuan: item.quantity_tujuan ?? 0,
             quantity_mutasi: item.quantity_mutasi ?? 0,
