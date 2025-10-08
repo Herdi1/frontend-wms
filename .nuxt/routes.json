@@ -2694,10 +2694,26 @@
     "chunkName": "pages/report/inventory/kapasitas-inventory-level/index"
   },
   {
+<<<<<<< HEAD
     "name": "report-inventory-laporan-mutasi-stok",
     "path": "/report/inventory/laporan-mutasi-stok",
     "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\laporan-mutasi-stok\\\\index.vue",
     "chunkName": "pages/report/inventory/laporan-mutasi-stok/index"
+=======
+<<<<<<< HEAD
+    "name": "report-inventory-laporan-mutasi-stok",
+    "path": "/report/inventory/laporan-mutasi-stok",
+    "component": "C:\\\\Users\\\\asusu\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\laporan-mutasi-stok\\\\index.vue",
+    "chunkName": "pages/report/inventory/laporan-mutasi-stok/index",
+    "_name": "_6522729d"
+=======
+    "name": "report-inventory-mutasi-stok",
+    "path": "/report/inventory/mutasi-stok",
+    "component": "D:\\\\wms\\\\frontend-wms\\\\pages\\\\report\\\\inventory\\\\mutasi-stok\\\\index.vue",
+    "chunkName": "pages/report/inventory/mutasi-stok/index",
+    "_name": "_d11f67bc"
+>>>>>>> a60710abef24ad164b11c55f88a77fd8bdc1a4d9
+>>>>>>> b82bdccc8af12dcbab5dde68f7f99ab9c53a516f
   },
   {
     "name": "report-inventory-obsolete-stock",
