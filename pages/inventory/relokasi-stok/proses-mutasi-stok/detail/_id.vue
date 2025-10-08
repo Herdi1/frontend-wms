@@ -202,22 +202,47 @@
                       <th class="w-[200px] border border-gray-300">
                         Jenis Biaya
                       </th>
+                      <th class="w-[200px] lg:w-full border border-gray-300">
+                        COA
+                      </th>
+                      <th class="w-[200px] border border-gray-300">Quantity</th>
                       <th class="w-[200px] border border-gray-300">
                         Nominal Satuan
                       </th>
-                      <th class="w-[200px] border border-gray-300">Jumlah</th>
-                      <th class="w-[200px] border border-gray-300">Total</th>
-                      <th class="w-[200px] border border-gray-300">COA</th>
-                      <th class="w-[200px] border border-gray-300">Vendor</th>
-                      <th class="w-[300px] border border-gray-300">
+                      <th class="w-[200px] border border-gray-300">
+                        Sub Total
+                      </th>
+                      <!-- <th class="w-[200px] border border-gray-300">Vendor</th> -->
+                      <th class="w-[200px] border border-gray-300">
                         Keterangan
                       </th>
-                      <th class="w-[100px] border border-gray-300 text-center">
+                      <!-- <th class="w-[100px] border border-gray-300 text-center">
                         Hapus
-                      </th>
+                      </th> -->
                     </tr>
                   </thead>
                   <tbody>
+                    <tr v-for="(item, index) in form.biaya" :key="index">
+                      <td class="border border-gray-300">
+                        {{ item.jenis_biaya?.nama_jenis_biaya ?? "-" }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.coa?.kode_coa ?? "-" }} -
+                        {{ item.coa?.nama_coa ?? "-" }}
+                      </td>
+                      <td class="border border-gray-300 text-right">
+                        {{ item.jumlah | formatPrice }}
+                      </td>
+                      <td class="border border-gray-300 text-right">
+                        {{ item.nominal_satuan | formatPrice }}
+                      </td>
+                      <td class="border border-gray-300 text-right">
+                        {{ item.total | formatPrice }}
+                      </td>
+                      <td class="border border-gray-300">
+                        {{ item.keterangan ?? "-" }}
+                      </td>
+                    </tr>
                     <tr v-if="!form.biaya.length > 0">
                       <td colspan="100" class="text-center">
                         <span class="flex justify-center">
@@ -298,7 +323,7 @@ export default {
           };
         }
       );
-      this.form.biaya = res.data.biaya ?? [];
+      this.form.biaya = res.data.biaya_mutasi_stok_details ?? [];
       this.form.gudang_id = res.data.gudang;
       this.isLoadingPage = false;
     } catch (error) {
