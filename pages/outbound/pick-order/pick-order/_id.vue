@@ -1578,6 +1578,7 @@ export default {
             "?search=" +
             this.jenis_biaya_search +
             "&page=" +
+            "&jenis=TKBM" +
             this.lookup_beam.current_page +
             "&per_page=10",
         });
