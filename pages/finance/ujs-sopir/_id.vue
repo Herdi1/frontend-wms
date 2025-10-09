@@ -485,7 +485,7 @@
                           <p v-if="item.jenis_kiriman == 0">Berangkat</p>
                         </td>
                         <td class="border border-gray-300">
-                          {{ item.tanggal_berangkat }}
+                          {{ formatDateTime(item.tanggal_berangkat) }}
                         </td>
                         <!-- <td class="border border-gray-300">
                           {{ item.status }}
@@ -755,6 +755,16 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["lookUp"]),
+
+    formatDateTime(dateTimeString) {
+      if (!dateTimeString) return "";
+
+      const [datePart, timePart] = dateTimeString.split(" ");
+      const [year, month, day] = datePart.split("-");
+      const [hour, minute, second] = timePart.split(":");
+
+      return `${day}-${month}-${year} ${hour}-${minute}-${second}`;
+    },
 
     onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;

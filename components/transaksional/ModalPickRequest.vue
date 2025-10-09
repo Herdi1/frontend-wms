@@ -2,7 +2,7 @@
   <portal v-if="visible" to="modal-detail">
     <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
-      class="modal fade fixed top-6 left-1/2 -translate-x-1/2 bg-white rounded shadow-lg p-6 z-50 overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
+      class="modal fade fixed top-6 left-1/2 -translate-x-1/2 w-[1000px] bg-white rounded shadow-lg p-6 z-50 overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
       id="modal-detail"
     >
@@ -169,6 +169,7 @@
                       </div>
                     </th>
 
+                    <th class="border border-gray-300 w-32">Pelanggan</th>
                     <th class="border border-gray-300 w-32">Quantity</th>
                     <th class="w-20">Options</th>
                   </tr>
@@ -220,6 +221,9 @@
                     </td>
                     <td class="border border-gray-300">
                       {{ item.nama_item ? item.nama_item : "-" }}
+                    </td>
+                    <td class="border border-gray-300">
+                      {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
                     </td>
                     <td class="border border-gray-300">
                       {{ item.sisa_quantity ? item.sisa_quantity : "-" }}

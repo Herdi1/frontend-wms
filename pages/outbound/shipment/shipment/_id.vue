@@ -1494,9 +1494,10 @@ export default {
           //   this.parameters.form.biaya_lastmiles = []
           //   this.parameters.form.biaya_lastmiles = res.data.biaya_lastmiles.map(())
           // }
+          // this.$toaster.success("Data Berhasil Diupdate");
         } catch (error) {
           this.$globalErrorToaster(this.$toaster, error);
-          console.log(error);
+          // console.log(error);
         } finally {
           this.isLoadingGenerate = false;
         }
