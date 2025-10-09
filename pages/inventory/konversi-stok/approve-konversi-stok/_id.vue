@@ -363,8 +363,9 @@ export default {
           }
         });
 
-        this.parameters.form.gudang_id = res.data.gudang;
-        this.parameters.form.alasan_beda_plan_id = res.data.alasan_beda_plan;
+        this.parameters.form.gudang_id = res.data.gudang ?? "";
+        this.parameters.form.alasan_beda_plan_id =
+          res.data.alasan_beda_plan ?? "";
         this.parameters.form.coa_id = res.data.coa ?? "";
         this.parameters.form.divisi_id = res.data.divisi ?? "";
 
