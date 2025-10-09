@@ -747,7 +747,7 @@ export default {
       );
 
       this.$refs.modalRuteLastmile.form = {
-        ...listDetail.data[0],
+        ...listDetail.data,
       };
       this.$refs.modalRuteLastmile.show();
     },

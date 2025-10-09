@@ -22,7 +22,76 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="table-responsive mb-5">
+            <table
+              class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+            >
+              <!-- :class="
+                      form.ujs_sopir_details.length ? 'mb-[300px]' : ''
+                    " -->
+              <thead>
+                <tr class="text-sm uppercase text-nowrap">
+                  <th class="w-48 border border-gray-300">Lokasi</th>
+                  <th class="w-48 border border-gray-300">Vendor</th>
+                  <th class="w-48 border border-gray-300">Divisi</th>
+                  <th class="w-48 border border-gray-300">Jenis Biaya</th>
+                  <th class="w-48 border border-gray-300">Term Pembayaran</th>
+                  <th class="w-48 border border-gray-300">Jenis Routing</th>
+                  <th class="w-48 border border-gray-300">Berat</th>
+                  <th class="w-48 border border-gray-300">Jumlah</th>
+                  <th class="w-48 border border-gray-300">Nominal Satuan</th>
+                  <th class="w-48 border border-gray-300">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in this.form" :key="i">
+                  <td class="border border-gray-300">
+                    {{ item.lokasi?.nama_lokasi ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.vendor?.nama_vendor ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.divisi?.nama_divisi ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis_biaya?.nama_jenis_biaya ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.term_pembayaran?.nama_term_pembayaran ?? "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.jenis_routing ?? "" }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.berat || 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.jumlah || 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.nominal_satuan || 0 | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.total || 0 | formatPrice }}
+                  </td>
+                </tr>
+                <tr v-if="!form.length > 0">
+                  <td colspan="100" class="text-center">
+                    <span class="flex justify-center">
+                      <img
+                        src="/img/data-not-found.svg"
+                        style="height: 250px; object-fit: cover"
+                      />
+                    </span>
+                    <div class="mt-3">Data Tidak Ditemukan</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- <div class="modal-body">
             <div class="grid grid-cols-2 gap-3 mb-3 my-1">
               <div>
                 <label class="font-semibold">Lokasi</label>
@@ -93,7 +162,7 @@
                 <span>{{ this.form.total | formatPrice }}</span>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -114,16 +183,16 @@ export default {
       isLoadingData: false,
       isPaginate: true,
       form: {
-        berat: "",
-        divisi: {},
-        jenis_biaya: {},
-        jenis_routing: "",
-        jumlah: "",
-        lokasi: {},
-        nominal_satuan: "",
-        term_pembayaran: {},
-        total: "",
-        vendor: {},
+        // berat: "",
+        // divisi: {},
+        // jenis_biaya: {},
+        // jenis_routing: "",
+        // jumlah: "",
+        // lokasi: {},
+        // nominal_satuan: "",
+        // term_pembayaran: {},
+        // total: "",
+        // vendor: {},
       },
       // parameters: {
       //   url: "",

@@ -341,7 +341,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang-user",
+          url: "master/gudang/get-gudang-user-for-report",
           lookup: "custom1",
           query:
             "?search=" +
