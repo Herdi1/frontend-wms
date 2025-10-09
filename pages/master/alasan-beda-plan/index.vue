@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Alasan Beda Plan</span>
+        <span>Alasan</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -37,7 +37,7 @@
                   class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Kode Alasan Beda Plan</div>
+                    <div>Kode Alasan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
@@ -70,7 +70,7 @@
                   class="cursor-pointer border border-gray-300"
                 >
                   <div class="flex justify-between align-baseline">
-                    <div>Nama Alasan Beda Plan</div>
+                    <div>Nama Alasan</div>
                     <div>
                       <i
                         class="fas fa-caret-up"
@@ -151,7 +151,7 @@ export default {
 
   head() {
     return {
-      title: "Alasan Beda Plan",
+      title: "Alasan",
     };
   },
 
@@ -198,7 +198,7 @@ export default {
 
   data() {
     return {
-      title: "Alasan Beda Plan",
+      title: "Alasan",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
