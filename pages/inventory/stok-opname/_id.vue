@@ -1594,7 +1594,7 @@ export default {
         this.add_params.item_gudang_id === ""
       ) {
         let res = await this.$axios.get(
-          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?zona_gudang_id=${this.add_params.zona_gudang_id.zona_gudang_id}`
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?zona_gudang_id=${this.add_params.zona_gudang_id.zona_gudang_id}&all=1`
         );
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
@@ -1637,7 +1637,7 @@ export default {
         this.add_params.item_gudang_id
       ) {
         let res = await this.$axios.get(
-          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?item_gudang_id=${this.add_params.item_gudang_id.item_gudang_id}`
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?item_gudang_id=${this.add_params.item_gudang_id.item_gudang_id}&all=1`
         );
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({
@@ -1681,7 +1681,7 @@ export default {
         this.add_params.item_gudang_id === ""
       ) {
         let res = await this.$axios.get(
-          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}`
+          `inventory/stock/get-stok-item/${this.parameters.form.gudang_id.gudang_id}?all=1`
         );
         res.data.data.forEach((item) => {
           this.parameters.form.stok_opname_details.push({

@@ -5,10 +5,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Barang Masuk
+          Edit Data Pengembalian Barang
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Barang Masuk
+          Tambah Data Pengembalian Barang
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -24,7 +24,7 @@
             <div class="form-group" v-if="isEditable">
               <input-horizontal
                 :isHorizontal="true"
-                label="Kode Barang Masuk"
+                label="Kode Pengembalian Barang"
                 type="text"
                 name="kode_barang_masuk"
                 :required="true"
@@ -213,7 +213,7 @@
             <template #DetailBarangMasuk>
               <div>
                 <div class="w-full flex justify-between items-center">
-                  <h1 class="text-xl font-bold">Detail Barang Masuk</h1>
+                  <h1 class="text-xl font-bold">Detail Pengembalian Barang</h1>
                   <div class="flex gap-2">
                     <!-- <button
           type="button"
@@ -754,7 +754,7 @@ export default {
 
     return {
       tabs: [
-        { name: "Detail Barang Masuk", slotName: "DetailBarangMasuk" },
+        { name: "Detail Pengembalian Barang", slotName: "DetailBarangMasuk" },
         // { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
         // { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
       ],
@@ -768,7 +768,7 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Barang Masuk",
+      title: "Pengembalian Barang",
       parameters: {
         url: "inventory/barang-masuk",
         form: {
@@ -898,6 +898,8 @@ export default {
         this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
         this.parameters.form.lokasi_id = res.data.lokasi ?? "";
+        // this.lookup_custom10 = res.data.staff ?? "";
+        // console.log(this.lookup_custom10);
 
         this.parameters.form.barang_masuk_details =
           res.data.barang_masuk_details.map((item) => {

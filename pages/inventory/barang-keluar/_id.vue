@@ -5,10 +5,10 @@
     <div class="section-body mb-4" v-if="!isLoadingPage">
       <div class="flex justify-between items-center w-full">
         <h1 v-if="isEditable" class="text-xl font-bold mb-2 uppercase">
-          Edit Data Barang Keluar
+          Edit Data Retur Supplier
         </h1>
         <h1 v-else class="text-xl font-bold mb-2 uppercase">
-          Tambah Data Barang Keluar
+          Tambah Data Retur Supplier
         </h1>
         <button class="btn btn-primary my-2" @click="$router.back()">
           <i class="fas fa-arrow-left mr-2"></i>
@@ -24,7 +24,7 @@
             <div class="form-group" v-if="isEditable">
               <input-horizontal
                 :isHorizontal="true"
-                label="Kode Barang Keluar"
+                label="Kode Retur Supplier"
                 type="text"
                 name="kode_barang_keluar"
                 :required="true"
@@ -94,6 +94,7 @@
                 input: onSelectSupplier,
               }"
               width="w-[60%]"
+              :required="true"
             />
             <div class="form-group">
               <input-horizontal
@@ -104,9 +105,10 @@
                 v-model="parameters.form.nama_supplier"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="true"
               />
             </div>
-            <!-- <select-button
+            <select-button
               :self="{
                 label: 'Pelanggan',
                 optionLabel: 'nama_pelanggan',
@@ -118,7 +120,7 @@
               }"
               width="w-[60%]"
               :required="true"
-            /> -->
+            />
             <!-- <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
@@ -167,9 +169,8 @@
               width="w-[60%]"
             /> -->
             <div class="form-group flex">
-              <label for="" class="w-[40%]"
-                >Pengemudi <span class="text-danger">*</span></label
-              >
+              <label for="" class="w-[40%]">Pengemudi </label>
+              <!-- <span class="text-danger">*</span> -->
               <select
                 class="p-1 w-[60%] border border-gray-300 rounded-md outline-none"
                 name="staff_id"
@@ -229,9 +230,7 @@
               />
             </div>
 
-            <div
-              class="form-group col-span-2 flex w-full justify-between items-start"
-            >
+            <div class="form-group flex w-full justify-between items-start">
               <label for="">Keterangan</label>
               <textarea
                 name="keterangan"
@@ -247,7 +246,7 @@
             <template #DetailBarangKeluar>
               <div>
                 <div class="w-full flex justify-between items-center">
-                  <h1 class="text-xl font-bold">Detail Barang Keluar</h1>
+                  <h1 class="text-xl font-bold">Detail Retur Supplier</h1>
                   <div class="flex gap-2">
                     <!-- <button
           type="button"
@@ -531,7 +530,7 @@ export default {
 
     return {
       tabs: [
-        { name: "Detail Barang Keluar", slotName: "DetailBarangKeluar" },
+        { name: "Detail Retur Supplier", slotName: "DetailBarangKeluar" },
         // { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
         // { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
       ],
@@ -545,7 +544,7 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Barang Keluar",
+      title: "Retur Supplier",
       parameters: {
         url: "inventory/barang-keluar",
         form: {
@@ -850,45 +849,47 @@ export default {
         url += "/" + this.id;
       }
 
-      this.$axios({
-        method: this.isEditable ? "put" : "post",
-        url: url,
-        data: formData,
-      })
-        .then((res) => {
-          this.$toaster.success(
-            "Data berhasil di " +
-              (this.isEditable == true ? "Diedit" : "Tambah")
-          );
+      console.log(formData);
 
-          this.isEditable = false;
-          this.parameters.form = {
-            kode_barang_keluar: "",
-            tanggal: "",
-            no_referensi_1: "",
-            no_referensi_2: "",
-            gudang_id: "",
-            supplier_id: "",
-            pelanggan_id: "",
-            lokasi_id: "",
-            staff_id: "",
-            kendaraan_id: "",
-            nama_lokasi: "",
-            nama_pengemudi: "",
-            nama_kendaraan: "",
-            keterangan: "",
-            barang_keluar_details: [],
-          };
-          this.$refs.formValidate.reset();
-          this.$router.back();
-        })
-        .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
-        });
+      // this.$axios({
+      //   method: this.isEditable ? "put" : "post",
+      //   url: url,
+      //   data: formData,
+      // })
+      //   .then((res) => {
+      //     this.$toaster.success(
+      //       "Data berhasil di " +
+      //         (this.isEditable == true ? "Diedit" : "Tambah")
+      //     );
+
+      //     this.isEditable = false;
+      //     this.parameters.form = {
+      //       kode_barang_keluar: "",
+      //       tanggal: "",
+      //       no_referensi_1: "",
+      //       no_referensi_2: "",
+      //       gudang_id: "",
+      //       supplier_id: "",
+      //       pelanggan_id: "",
+      //       lokasi_id: "",
+      //       staff_id: "",
+      //       kendaraan_id: "",
+      //       nama_lokasi: "",
+      //       nama_pengemudi: "",
+      //       nama_kendaraan: "",
+      //       keterangan: "",
+      //       barang_keluar_details: [],
+      //     };
+      //     this.$refs.formValidate.reset();
+      //     this.$router.back();
+      //   })
+      //   .catch((err) => {
+      //     this.$globalErrorToaster(this.$toaster, err);
+      //   })
+      //   .finally(() => {
+      //     this.isLoadingForm = false;
+      //     this.$refs.formValidate.reset();
+      //   });
     },
 
     formReset() {

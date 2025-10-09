@@ -29,7 +29,7 @@
                   type="text"
                   name="kode_master_rute_lokasi"
                   v-model="parameters.form.kode_master_rute_lokasi"
-                  :required="true"
+                  :required="false"
                 />
               </div> -->
               <ValidationProvider rules="required">
