@@ -23,7 +23,7 @@
         >
           <div class="flex gap-x-4">
             <div class="w-1/2 flex-1">
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input-form
                   label="Kode Rute Lokasi"
                   type="text"
@@ -31,7 +31,7 @@
                   v-model="parameters.form.kode_master_rute_lokasi"
                   :required="true"
                 />
-              </div>
+              </div> -->
               <ValidationProvider rules="required">
                 <div class="form-group" slot-scope="{ errors, valid }">
                   <label for="gudang_id"
