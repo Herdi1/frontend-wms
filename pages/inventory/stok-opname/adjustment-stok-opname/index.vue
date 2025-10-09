@@ -330,6 +330,7 @@
                   </th>
 
                   <th class="w-52 border border-gray-300">Keterangan</th>
+                  <th class="w-20 border border-gray-300 text-center">Print</th>
 
                   <th class="w-20 text-center border border-gray-300">Hapus</th>
                 </tr>
@@ -433,6 +434,18 @@
                     }}
                   </td>
                   <td class="border border-gray-300">{{ item.keterangan }}</td>
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
+                    <button
+                      class="btn btn-sm"
+                      v-if="!item.deleted_at"
+                      title="Print Invoice Jurnal"
+                      @click="onPrintDetail(item)"
+                    >
+                      <i class="fas fa-print text-primary"></i>
+                    </button>
+                  </td>
 
                   <td class="place-items-center border border-gray-300">
                     <small-delete-button
@@ -773,6 +786,18 @@ export default {
         this.parameters.params.gudang = "";
         this.parameters.params.gudang_id = "";
       }
+    },
+
+    onPrintDetail(item) {
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(
+        process.env.API_URL +
+          "inventory/stok-opname/get-print-detail/" +
+          item.stok_opname_id +
+          "?token=" +
+          token,
+        "_blank"
+      );
     },
   },
 };

@@ -268,7 +268,7 @@ export default {
       isLoadingData: false,
 
       parameters: {
-        url: "report/mutasi-stok/export",
+        url: "report/laporan-mutasi-stok/export",
         params: {
           type: "",
           download: "pdf",
@@ -316,7 +316,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "mutasi-sok"
+          (item) => item.rute == "laporan-mutasi-stok"
         );
 
         let roles = {};
