@@ -38,12 +38,7 @@
               Quantity <span class="text-danger">*</span>
             </th>
             <th class="w-[200px] border border-gray-300">Tanggal Expired</th>
-            <th
-              class="w-[200px] border border-gray-300"
-              v-if="self.form.sumber_data === 'ASN'"
-            >
-              Peralatan
-            </th>
+            <th class="w-[200px] border border-gray-300">Peralatan</th>
             <th
               class="w-[200px] border border-gray-300"
               v-if="self.form.sumber_data === 'ASN'"
