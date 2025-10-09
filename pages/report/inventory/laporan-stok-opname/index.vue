@@ -202,7 +202,7 @@ export default {
       isLoadingData: false,
 
       parameters: {
-        url: "report/stok-opname/export",
+        url: "report/laporan-stok-opname/export",
         params: {
           // type: "",
           download: "pdf",
@@ -245,7 +245,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "stok-opname"
+          (item) => item.rute == "laporan-stok-opname"
         );
 
         let roles = {};
@@ -298,6 +298,8 @@ export default {
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",

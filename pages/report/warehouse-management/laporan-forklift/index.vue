@@ -1,0 +1,242 @@
+<template>
+  <section>
+    <ul class="flex space-x-2 rtl:space-x-reverse mb-5">
+      <li>
+        <a href="javascript:;" class="text-primary hover:underline">Report</a>
+      </li>
+      <li>
+        <a
+          href="javascript:;"
+          class="text-primary hover:underline before:content-['/']"
+        >
+          Inventory</a
+        >
+      </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>{{ this.title }}</span>
+      </li>
+    </ul>
+    <div class="mb-5 flex items-center justify-between">
+      <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ this.title }}
+      </h5>
+    </div>
+    <div
+      class="relative p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300 mb-10"
+    >
+      <div class="card-body">
+        <div class="w-full mt-2 mb-3">
+          <div class="w-full text-xl pl-2 mb-3 font-bold">Export Item</div>
+          <div
+            class="w-full grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 px-1"
+          >
+            <div class="flex w-full m-1 pr-1">
+              <label for="" class="w-1/2">Download</label>
+              <select
+                name=""
+                id=""
+                v-model="parameters.params.download"
+                class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+              >
+                <option value="pdf">PDF</option>
+                <option value="excel">Excel</option>
+              </select>
+            </div>
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="group_item_id_1"
+                >Gudang <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_gudang"
+                :loading="isLoadingGetGudang"
+                :options="lookup_custom1.data"
+                :filterable="false"
+                @search="onGetGudang"
+                v-model="parameters.params.gudang_id"
+                @input="onSetGudang"
+                class="w-[50%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom1.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom1.current_page > 1"
+                    @click="onGetGudang(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom1.last_page > lookup_custom1.current_page
+                    "
+                    @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Awal"
+                type="date"
+                name="periode_awal"
+                :isHorizontal="true"
+                v-model="parameters.params.start_date"
+                :required="true"
+              />
+            </div>
+            <div class="form-group w-full">
+              <input-horizontal
+                label="Periode Akhir"
+                type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="true"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapActions, mapState, mapMutations } from "vuex";
+
+export default {
+  middleware: ["checkRoleUser"],
+
+  head() {
+    return {
+      title: "Laporan Forklift",
+    };
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
+    // await this.onSearchWilayah();
+    if (this.lookup_custom1.data) {
+      this.onSetGudang(this.lookup_custom1.data[0]);
+    }
+  },
+
+  data() {
+    return {
+      title: "Laporan Forklift",
+      isLoadingData: false,
+
+      parameters: {
+        url: "report/laporan-forklift/export",
+        params: {
+          download: "pdf",
+          start_date: "",
+          end_date: "",
+          gudang_id: "",
+        },
+      },
+      user: this.$auth.user,
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+    };
+  },
+
+  computed: {
+    ...mapState("moduleApi", [
+      "data",
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+      "lookup_custom3",
+    ]),
+
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "laporan-forklift"
+        );
+
+        let roles = {};
+
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
+
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
+
+        return roles;
+      }
+    },
+  },
+
+  methods: {
+    ...mapActions("moduleApi", ["lookUp"]),
+
+    ...mapMutations("moduleApi", ["set_data"]),
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSetGudang(item) {
+      this.parameters.params.gudang_id = item || "";
+      // this.parameters.params.nama_gudang = item.nama_gudang || "";
+      // this.parameters.params.kode_gudang = item.kode_gudang || "";
+    },
+  },
+
+  onPreview() {},
+  async onExport() {},
+};
+</script>

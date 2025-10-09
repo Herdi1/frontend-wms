@@ -1019,6 +1019,7 @@ export default {
           stok_selisih: 0.0,
           keterangan: "",
         });
+        this.$toaster.success("Berhasil menambah item");
       } else {
         this.$toaster.error("Silahkan pilih gudang terlebih dahulu");
       }
