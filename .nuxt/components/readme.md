@@ -20,15 +20,32 @@ You can directly use them in pages and other components without the need to impo
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+<<<<<<< HEAD
+=======
+- `<AnavbarMessages>` | `<anavbar-messages>` (components/anavbar/Messages.vue)
+- `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
+- `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
+- `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
+- `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
+- `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
+- `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
+- `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
+>>>>>>> b6b05df0637e34a7778b1cfa3f5cb76a993e62f1
 - `<FormsCloseButton>` | `<forms-close-button>` (components/forms/CloseButton.vue)
 - `<FormsInputForm>` | `<forms-input-form>` (components/forms/InputForm.vue)
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+<<<<<<< HEAD
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
 - `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
+=======
+- `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
+- `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
+- `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+>>>>>>> b6b05df0637e34a7778b1cfa3f5cb76a993e62f1
 - `<IconAirplay>` | `<icon-airplay>` (components/icon/icon-airplay.vue)
 - `<IconArchive>` | `<icon-archive>` (components/icon/icon-archive.vue)
 - `<IconArrowBackward>` | `<icon-arrow-backward>` (components/icon/icon-arrow-backward.vue)

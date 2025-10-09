@@ -959,6 +959,7 @@ export default {
           "",
         start_date: this.parameters.params.start_date || "",
         end_date: this.parameters.params.end_date || "",
+        asal_data: this.parameters.params.asal_data || "",
       };
 
       let url = `${this.parameters.url}?page=${params.page}&gudang_id=${params.gudang_id}&item_gudang_id=${params.item_gudang_id}&valuation_id=${params.valuation_id}&zona_gudang_id=${params.zona_gudang_id}&slot_penyimpanan_id_aisle=${params.aisle_id}&slot_penyimpanan_id_rack=${params.rack_id}&slot_penyimpanan_id_level=${params.level_id}&slot_penyimpanan_id_bin=${params.bin_id}&start_date=${params.start_date}&end_date=${params.end_date}`;
