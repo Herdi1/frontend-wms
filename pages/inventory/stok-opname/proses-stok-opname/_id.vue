@@ -223,8 +223,9 @@
                     <th class="w-[200px] border border-gray-300">
                       Stok Selisih <span class="text-danger">*</span>
                     </th>
-                    <th class="w-[200px] border border-gray-300">
-                      Keterangan <span class="text-danger">*</span>
+                    <th class="w-[200px] border border-gray-300">Keterangan</th>
+                    <th class="w-[100px] border border-gray-300 text-center">
+                      Hapus
                     </th>
                   </tr>
                 </thead>
@@ -604,6 +605,15 @@
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         v-model="item.keterangan"
                       ></textarea>
+                    </td>
+                    <td
+                      class="text-center text-gray-600 border border-gray-300"
+                    >
+                      <i
+                        class="fas fa-trash mx-auto"
+                        style="cursor: pointer"
+                        @click="onDeleteItem(i)"
+                      ></i>
                     </td>
                   </tr>
                   <tr v-if="!parameters.form.stok_opname_details.length > 0">
@@ -1036,7 +1046,7 @@ export default {
         } else {
           this.lookup_custom3.current_page = 1;
         }
-        this.onSearchZonaudang();
+        this.onSearchZonaGudang();
       }, 600);
     },
 

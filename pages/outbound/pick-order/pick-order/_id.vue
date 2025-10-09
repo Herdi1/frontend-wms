@@ -1577,8 +1577,8 @@ export default {
           query:
             "?search=" +
             this.jenis_biaya_search +
-            "&page=" +
             "&jenis=TKBM" +
+            "&page=" +
             this.lookup_beam.current_page +
             "&per_page=10",
         });

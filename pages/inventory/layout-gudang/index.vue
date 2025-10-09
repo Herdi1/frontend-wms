@@ -91,7 +91,7 @@
               <ul class="w-full pl-2">
                 <li
                   v-for="(room, i) in rooms"
-                  :key="i"
+                  :key="room.zona_gudang_id"
                   class="w-full p-1 px-2 mb-2 border border-gray-300 rounded-md"
                 >
                   <div class="mb-2 w-full">
@@ -149,7 +149,7 @@
           </div>
           <div class="min-w-[800px] w-[800px] h-[800px] relative bg-gray-300">
             <VueDraggableResizable
-              v-for="room in rooms"
+              v-for="(room, index) in rooms"
               :key="index"
               :x="room.x"
               :y="room.y"
@@ -525,10 +525,10 @@ export default {
           });
           await this.$axios
             .get(
-              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}&all=1`
             )
             .then((res) => {
-              this.zona_gudangs = res.data.data
+              this.zona_gudangs = res.data
                 .filter(
                   (zona) =>
                     zona.status_zona.trim() !== "v" &&
@@ -553,12 +553,12 @@ export default {
         } else {
           await this.$axios
             .get(
-              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}`
+              `master/zona-gudang/get-zona-gudang?gudang_id=${item.gudang_id}&all=1`
             )
             .then((res) => {
               this.rooms = [];
               this.zona_gudangs = [];
-              this.zona_gudangs = res.data.data
+              this.zona_gudangs = res.data
                 .filter(
                   (data) =>
                     data.status_zona.trim() !== "v" &&
@@ -587,10 +587,10 @@ export default {
     async getZona() {
       await this.$axios
         .get(
-          `master/zona-gudang/get-zona-gudang?gudang_id=${this.parameters.form.gudang_id.gudang_id}`
+          `master/zona-gudang/get-zona-gudang?gudang_id=${this.parameters.form.gudang_id.gudang_id}&all=1`
         )
         .then((res) => {
-          this.zona_gudangs = res.data.data
+          this.zona_gudangs = res.data
             .filter(
               (zona) =>
                 zona.status_zona.trim() !== "v" &&
@@ -603,8 +603,8 @@ export default {
                 zona_gudang_id: item.zona_gudang_id,
                 nama_zona_gudang: item.nama_zona_gudang,
                 kode_zona_gudang: item.kode_zona_gudang,
-                x: 0,
-                y: 0,
+                x: 100,
+                y: 100,
                 width: 100,
                 height: 100,
                 color: "ff0000",
