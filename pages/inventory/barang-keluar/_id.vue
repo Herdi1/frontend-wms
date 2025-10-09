@@ -106,19 +106,7 @@
                 labelWidth="w-[40%]"
               />
             </div>
-            <!-- <select-button
-              :self="{
-                label: 'Pelanggan',
-                optionLabel: 'nama_pelanggan',
-                isLoading: isLoadingGetPelanggan,
-                lookup: lookup_customers,
-                onGet: onGetPelanggan,
-                value: parameters.form.pelanggan_id,
-                input: onSelectPelanggan,
-              }"
-              width="w-[60%]"
-              :required="true"
-            /> -->
+
             <!-- <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
@@ -175,6 +163,7 @@
                 name="staff_id"
                 id="staff_id"
                 v-model="parameters.form.staff_id"
+                @change="onSelectStaff(parameters.form.staff_id)"
               >
                 <option
                   v-for="(item, i) in lookup_custom10"
@@ -228,6 +217,19 @@
                 labelWidth="w-[40%]"
               />
             </div>
+            <select-button
+              :self="{
+                label: 'Pelanggan',
+                optionLabel: 'nama_pelanggan',
+                isLoading: isLoadingGetPelanggan,
+                lookup: lookup_customers,
+                onGet: onGetPelanggan,
+                value: parameters.form.pelanggan_id,
+                input: onSelectPelanggan,
+              }"
+              width="w-[60%]"
+              :required="true"
+            />
 
             <div
               class="form-group col-span-2 flex w-full justify-between items-start"
@@ -294,7 +296,7 @@
                         <th class="w-[200px] border border-gray-300">
                           Tanggal Expired
                         </th>
-                        <th class="w-[200px] border border-gray-300">
+                        <th class="w-[250px] border border-gray-300">
                           Lokasi Penyimpanan Terkahir
                         </th>
                         <!-- <th class="w-[200px] border border-gray-300">Zona</th>
@@ -353,13 +355,8 @@
                             </li>
                           </v-select> -->
                           <div>
-                            {{
-                              typeof item.item_gudang_id === "object"
-                                ? item.item_gudang_id.nama_item +
-                                  " - " +
-                                  item.item_gudang_id.kode_item
-                                : "-"
-                            }}
+                            {{ item.item_gudang?.nama_item ?? "" }} -
+                            {{ item.item_gudang?.kode_item ?? "" }}
                           </div>
                         </td>
                         <td class="border border-gray-300 text-start">
@@ -422,7 +419,8 @@
                           />
                         </td>
                         <td class="border border-gray-300">
-                          {{ item.kode_slot_penyimpanan_terakhir }}
+                          {{ item.zona_gudang?.nama_zona_gudang }} -
+                          {{ item.zona_gudang?.kode_zona_gudang }}
                         </td>
 
                         <td class="border border-gray-300">
@@ -682,7 +680,7 @@ export default {
               ...item,
               barang_keluar_detail_id: item,
               item_id: item.item_id,
-              item_gudang_id: item.item_gudang ?? "",
+              item_gudang_id: item.item_gudang,
               zona_gudang_id: item.zona_gudang ?? "",
               slot_penyimpanan_id_aisle: item.slot_penyimpanan_aisle ?? "",
               slot_penyimpanan_id_rack: item.slot_penyimpanan_rack ?? "",
@@ -694,9 +692,9 @@ export default {
               kode_valuation: item.kode_valuation ?? "",
             };
           });
-
-        this.isLoadingPage = false;
       }
+      console.log(this.parameters.form);
+      this.isLoadingPage = false;
     } catch (error) {
       // this.$router.back();
       console.log(error);
