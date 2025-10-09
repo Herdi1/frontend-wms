@@ -639,6 +639,7 @@ export default {
     await this.onSearchGudang();
     if (this.lookup_custom1.data.length > 0) {
       this.filter_params.gudang_id = this.lookup_custom1.data[0];
+      await this.onSearchZonaGudang();
     }
     this.set_data([]);
     this.onLoad();

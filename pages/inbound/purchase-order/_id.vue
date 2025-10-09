@@ -721,12 +721,15 @@ export default {
   },
 
   async mounted() {
+    await this.onSearchGudang();
+    if (this.lookup_roles.data.length > 0) {
+      this.onSelectGudang(this.lookup_roles.data[0]);
+    }
     await this.onSearchVendor();
     await this.onSearchKendaraan();
     await this.onSearchStaff();
     await this.onSearchSupplier();
     await this.onSearchLokasi();
-    await this.onSearchGudang();
     await this.onSearchItem();
     await this.onSearchPelanggan();
     // await this.onSearchItemGudang();

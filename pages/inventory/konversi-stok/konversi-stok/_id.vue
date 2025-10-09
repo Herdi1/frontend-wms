@@ -643,6 +643,7 @@ export default {
           };
           this.$refs.formValidate.reset();
           this.$router.back();
+          this.$toaster.success("Data berhasil di Tambah");
         })
         .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
