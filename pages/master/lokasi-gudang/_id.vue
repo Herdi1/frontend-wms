@@ -44,6 +44,7 @@
                     @search="onGetGudang"
                     v-model="parameters.form.gudang_id"
                     @input="(item) => onSelectGudang(item)"
+                    :disabled="lookup_custom2.data.length > 0"
                   >
                     <!-- :reduce="(item) => item.gudang_id" -->
                     <li
@@ -289,6 +290,9 @@ export default {
   async mounted() {
     await this.onSearchLokasi();
     await this.onSearchGudang();
+    if (this.lookup_custom2.data.length > 0) {
+      await this.onSelectGudang(this.lookup_custom2.data[0]);
+    }
     // await this.onSearchJalurLokasi();
   },
 
@@ -430,11 +434,13 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom2",
           query:
             "?search=" +
             this.gudang_search +
+            "&user_id=" +
+            this.user.user_id +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
