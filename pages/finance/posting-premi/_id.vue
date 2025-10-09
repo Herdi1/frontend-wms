@@ -533,13 +533,13 @@
                           class="border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         >
-                          {{ item.jam_pengiriman_awal ?? "-" }}
+                          {{ formatDateTime(item.jam_pengiriman_awal) }}
                         </td>
                         <td
                           class="border border-gray-300"
                           v-if="form.jenis === 'RITASE'"
                         >
-                          {{ item.jam_pengiriman_akhir ?? "-" }}
+                          {{ formatDateTime(item.jam_pengiriman_akhir) }}
                         </td>
                         <td
                           class="border border-gray-300 text-right"
@@ -866,6 +866,16 @@ export default {
       if (!dateString) return "";
       const [year, month, day] = dateString.split("-");
       return `${day}-${month}-${year}`;
+    },
+
+    formatDateTime(dateTimeString) {
+      if (!dateTimeString) return "";
+
+      const [datePart, timePart] = dateTimeString.split(" ");
+      const [year, month, day] = datePart.split("-");
+      const [hour, minute, second] = timePart.split(":");
+
+      return `${day}-${month}-${year} ${hour}-${minute}-${second}`;
     },
 
     onSelectJenis() {
