@@ -114,7 +114,7 @@ export default {
       Object.keys(this.form).forEach((item) => {
         this.form[item] = res.data[item];
       });
-      this.form.gudang = res.data.gudang;
+      this.form.gudang_id = res.data.gudang;
       this.isLoadingPage = false;
     } catch (error) {
       this.$router.back();

@@ -472,6 +472,7 @@ export default {
       parameters: {
         url: "inventory/approve-mutasi-stok",
         form: {
+          kode_mutasi_stok: "",
           coa_id: "",
           divisi_id: "",
           gudang_id: "",
@@ -718,10 +719,7 @@ export default {
                 typeof item.coa_id === "object"
                   ? item.coa_id.coa_id ?? ""
                   : item.coa_id ?? "",
-              divisi_id:
-                typeof item.divisi_id === "object"
-                  ? item.divisi_id.divisi_id ?? ""
-                  : item.divisi_id ?? "",
+              divisi_id: "",
             };
           }),
       };

@@ -472,6 +472,7 @@ export default {
       parameters: {
         url: "inventory/approve-mutasi-stok",
         form: {
+          kode_mutasi_stok: "",
           coa_id: "",
           divisi_id: "",
           gudang_id: "",
@@ -718,10 +719,7 @@ export default {
                 typeof item.coa_id === "object"
                   ? item.coa_id.coa_id ?? ""
                   : item.coa_id ?? "",
-              divisi_id:
-                typeof item.divisi_id === "object"
-                  ? item.divisi_id.divisi_id ?? ""
-                  : item.divisi_id ?? "",
+              divisi_id: "",
             };
           }),
       };
@@ -1012,7 +1010,11 @@ export default {
     },
 
     onSelectDivisi(item) {
-      this.parameters.form.divisi_id = item || "";
+      if (item) {
+        this.parameters.form.divisi_id = item;
+      } else {
+        this.parameters.form.divisi_id = "";
+      }
     },
 
     onGetSlotLevel(search, isNext) {
@@ -1254,11 +1256,17 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = {
-        no_transaksi: "",
+        kode_mutasi_stok: "",
+        coa_id: "",
+        divisi_id: "",
+        gudang_id: "",
+        status_adjustment: "",
         tanggal: "",
+        keterangan: "",
+        keterangan_approve: "",
         mutasi_stok_details: [],
-        biaya: [],
-
+        biaya_mutasi_stok_details: [],
+        zona_gudang_asal: "",
         //Tracking
         user_agent: "",
         device: "",

@@ -206,7 +206,7 @@
                     {{ item.total_retribusi ?? 0 | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
-                    {{ item.total_insentif_jarak ?? 0 | formatPrice }}
+                    {{ item.insentif_jarak ?? 0 | formatPrice }}
                   </td>
                   <td class="border border-gray-300 text-right">
                     {{ item.total_locco ?? 0 | formatPrice }}
@@ -360,6 +360,7 @@ export default {
                 parseFloat(item.total_bongkar_toko) +
                 parseFloat(item.total_retribusi) +
                 parseFloat(item.total_locco) +
+                parseFloat(item.insentif_jarak) +
                 parseFloat(item.total_switch) +
                 parseFloat(item.total_lain),
             };

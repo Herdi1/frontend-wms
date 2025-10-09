@@ -1173,10 +1173,6 @@ export default {
       this.form.posting_premi_details = daftarDetail.data.map((item) => {
         return {
           ...item,
-          staff_id:
-            typeof this.form.staff_id === "object"
-              ? this.form.staff_id.staff_id
-              : this.form.staff_id,
           quantity:
             this.form.jenis === "RITASE" ? item.jumlah_ritase : item.total_qty,
         };
@@ -1232,10 +1228,10 @@ export default {
           typeof this.form.pelanggan_id === "object"
             ? this.form.pelanggan_id.pelanggan_id
             : this.form.pelanggan_id,
-        staff_id:
-          typeof this.form.staff_id === "object"
-            ? this.form.staff_id.staff_id
-            : this.form.staff_id,
+        // staff_id:
+        //   typeof this.form.staff_id === "object"
+        //     ? this.form.staff_id.staff_id
+        //     : this.form.staff_id,
       };
 
       formData.posting_premi_details = this.form.posting_premi_details.map(
@@ -1246,36 +1242,37 @@ export default {
         }
       );
 
-      if (this.isEditable) {
-        url += "/" + this.id;
-      }
+      // if (this.isEditable) {
+      //   url += "/" + this.id;
+      // }
 
-      this.$axios({
-        url: url,
-        method: this.isEditable ? "put" : "post",
-        data: formData,
-      })
-        .then((res) => {
-          this.$toaster.success(
-            "Berhasil " +
-              (this.isEditable ? "Update" : "Tambah") +
-              " Posting Periodik"
-          );
+      // this.$axios({
+      //   url: url,
+      //   method: this.isEditable ? "put" : "post",
+      //   data: formData,
+      // })
+      //   .then((res) => {
+      //     this.$toaster.success(
+      //       "Berhasil " +
+      //         (this.isEditable ? "Update" : "Tambah") +
+      //         " Posting Periodik"
+      //     );
 
-          if (!this.isEditable) {
-            this.form = {
-              ...this.default_form,
-            };
-          }
-          this.$router.back();
-        })
-        .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err);
-        })
-        .finally(() => {
-          this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
-        });
+      //     if (!this.isEditable) {
+      //       this.form = {
+      //         ...this.default_form,
+      //       };
+      //     }
+      //     this.$router.back();
+      //   })
+      //   .catch((err) => {
+      //     this.$globalErrorToaster(this.$toaster, err);
+      //   })
+      //   .finally(() => {
+      //     this.isLoadingForm = false;
+      //     this.$refs.formValidate.reset();
+      //   });
+      console.log(formData);
     },
 
     formReset() {
