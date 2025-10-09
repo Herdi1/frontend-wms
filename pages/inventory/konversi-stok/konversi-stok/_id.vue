@@ -20,7 +20,7 @@
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
         >
-          <div class="w-full grid grid-rows-4 grid-flow-col gap-2 mb-5">
+          <div class="w-full grid grid-rows-4 grid-flow-col gap-2 mb-2">
             <div class="form-group" v-if="isEditable">
               <input-horizontal
                 :isHorizontal="true"
@@ -80,6 +80,7 @@
                 type="datetime-local"
                 step="1"
                 v-model="parameters.form.tanggal_mulai"
+                :max="parameters.form.tanggal_selesai"
                 class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
               />
             </div>
@@ -92,6 +93,7 @@
                 type="datetime-local"
                 step="1"
                 v-model="parameters.form.tanggal_selesai"
+                :min="parameters.form.tanggal_mulai"
                 class="w-[60%] pl-2 py-1 border border-gray-300 rounded focus:outline-none"
               />
             </div>
@@ -172,7 +174,7 @@
               width="w-[60%]"
               :required="true"
             />
-            <div class="form-group">
+            <!-- <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
                 label="Keterangan"
@@ -183,7 +185,17 @@
                 labelWidth="w-[40%]"
                 :required="false"
               />
-            </div>
+            </div> -->
+          </div>
+
+          <div class="w-full px-1 mb-5">
+            <label for="keterangan">Keterangan</label>
+            <textarea
+              name="keterangan"
+              id="keterangan"
+              v-model="parameters.form.keterangan"
+              class="w-full outline-none border border-gray-300 rounded-md px-1"
+            ></textarea>
           </div>
 
           <tab-component :tabs="tabs">

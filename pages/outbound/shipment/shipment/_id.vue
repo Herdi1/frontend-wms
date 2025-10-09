@@ -273,6 +273,7 @@
             <template #DetailShipment>
               <ShipmentDetails
                 :self="{
+                  isLoadingGenerate,
                   parameters,
                   onOpenModal,
                   generateRuteShipment,
@@ -382,6 +383,9 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
+
+      isLoadingGenerate: false,
+
       title: "Konfirmasi Muat",
       parameters: {
         url: "outbound/shipment",
@@ -1248,7 +1252,10 @@ export default {
     async generateRuteShipment() {
       if (this.parameters.form.shipment_details.length > 0) {
         try {
-          this.isLoadingForm = true;
+          if (this.isLoadingGenerate) return;
+
+          this.isLoadingGenerate = true;
+
           this.parameters.form.rute_shipments = [];
           this.parameters.form.rute_shipments =
             this.parameters.form.shipment_details
@@ -1481,6 +1488,7 @@ export default {
                 });
             })
           );
+
           // if(!res.data.biaya_lastmiles.length){
           // }else{
           //   this.parameters.form.biaya_lastmiles = []
@@ -1490,7 +1498,7 @@ export default {
           this.$globalErrorToaster(this.$toaster, error);
           console.log(error);
         } finally {
-          this.isLoadingForm = false;
+          this.isLoadingGenerate = false;
         }
       } else {
         this.$toaster.error("Detail Shipment Masih Kosong");

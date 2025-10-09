@@ -15,8 +15,12 @@
           type="button"
           @click="self.generateRuteShipment"
           class="bg-[#4fc47a] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+          :disabled="self.isLoadingGenerate"
         >
-          <i class="fas fa-retweet"></i>
+          <span class="mr-2" v-if="self.isLoadingGenerate">
+            <i class="fas fa-circle-notch fa-spin"></i>
+          </span>
+          <i v-else class="fas fa-retweet"></i>
           <p class="text-xs font-medium">Generate</p>
         </button>
       </div>
