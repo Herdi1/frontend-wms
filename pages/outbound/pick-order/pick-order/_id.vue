@@ -341,6 +341,7 @@
                         :filterable="false"
                         @search="onGetPeralatan"
                         v-model="item.peralatan_id"
+                        @input="(item) => onSelectPeralatan(item, i)"
                       >
                         <!-- @input="onSelectItem(i)" -->
                         <li
@@ -1852,11 +1853,13 @@ export default {
       }
     },
 
-    onSelectPeralatan(item) {
+    onSelectPeralatan(item, index) {
       if (item) {
-        this.parameters.form.peralatan_id = item;
+        this.parameters.form.pick_order_details[index].peralatan_id = item;
+        this.parameters.form.pick_order_details[index].jenis_biaya_id = "";
       } else {
-        this.parameters.form.peralatan_id = "";
+        this.parameters.form.pick_order_details[index].peralatan_id = "";
+        this.parameters.form.pick_order_details[index].jenis_biaya_id = "";
       }
     },
 

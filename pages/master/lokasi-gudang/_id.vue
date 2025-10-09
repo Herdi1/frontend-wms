@@ -30,7 +30,7 @@
                 />
               </div>
 
-              <ValidationProvider name="gudang" v-if="!user.gudang_id">
+              <ValidationProvider name="gudang">
                 <div class="form-group w-full items-center mb-5">
                   <label for="" class="w-4/12"
                     >Gudang <span class="text-danger">*</span></label

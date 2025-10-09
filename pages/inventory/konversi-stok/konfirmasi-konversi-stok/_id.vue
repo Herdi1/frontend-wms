@@ -337,6 +337,7 @@ export default {
           staff_id: "",
           vendor_id: "",
           status_transaksi_id: "",
+          vendor_id: "",
           keterangan: "",
           konversi_stok_detail_bahan: [],
           konversi_stok_detail_jadi: [],
