@@ -287,6 +287,7 @@ export default {
           alasan_beda_plan_id: "",
           status_transaksi_id: "",
           keterangan: "",
+          vendor_id: "",
           konversi_stok_detail_bahan: [],
           konversi_stok_detail_jadi: [],
           biaya_konversi: [],
@@ -1116,9 +1117,11 @@ export default {
     onSelectStaff(item) {
       if (item) {
         this.parameters.form.staff_id = item || "";
-        console.log(item);
+        this.parameters.form.vendor_id = item.vendor_id_operator || "";
+        // console.log(item);
       } else {
         this.parameters.form.staff_id = "";
+        this.parameters.form.vendor_id = "";
       }
     },
 

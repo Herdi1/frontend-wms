@@ -6,6 +6,11 @@
           >Inventory</a
         >
       </li>
+      <li
+        class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
+      >
+        <span>{{ this.title }}</span>
+      </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
       <h5 class="text-lg font-semibold dark:text-white-light">
@@ -348,7 +353,7 @@ export default {
 
   head() {
     return {
-      title: "Barang Keluar",
+      title: "Retur Supplier",
     };
   },
 
@@ -404,7 +409,7 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Barang Keluar",
+      title: "Retur Supplier",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
