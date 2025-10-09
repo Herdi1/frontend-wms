@@ -102,6 +102,22 @@
               />
             </div>
           </div>
+          <div class="flex gap-3 mt-3 justify-end">
+            <button
+              @click="onPreview"
+              class="bg-green-600/80 hover:bg-green-600 shadow-lg hover:shadow-none p-2 text-white rounded-md"
+            >
+              <i class="fa fa-eye text-white font-bold mr-2"></i>
+              Preview
+            </button>
+            <button
+              @click="onExport"
+              class="bg-blue-500/80 shadow hover:bg-blue-500 hover:shadow-none p-2 text-white rounded-md"
+            >
+              <i class="fa fa-file text-white font-bold mr-2"></i>
+              Export
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -134,7 +150,7 @@ export default {
       isLoadingData: false,
 
       parameters: {
-        url: "report/laporan-forklift/export",
+        url: "warehouse-management/get-preview-aktivitas-forklift",
         params: {
           download: "pdf",
           start_date: "",
@@ -234,9 +250,103 @@ export default {
       // this.parameters.params.nama_gudang = item.nama_gudang || "";
       // this.parameters.params.kode_gudang = item.kode_gudang || "";
     },
-  },
+    onPreview() {
+      if (
+        !this.parameters.params.gudang_id ||
+        !this.parameters.params.end_date ||
+        !this.parameters.params.start_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Periode Awal dan Periode Akhir Terlebih Dahulu"
+        );
+        return;
+      }
 
-  onPreview() {},
-  async onExport() {},
+      if (this.parameters.params.download !== "pdf") {
+        this.$toaster.error("Fitur Preview Hanya Tersedia Untuk PDF");
+        return;
+      }
+
+      let url =
+        this.parameters.url +
+        "?download=" +
+        this.parameters.params.download +
+        "&gudang_id=" +
+        this.parameters.params.gudang_id.gudang_id +
+        "&end_date=" +
+        this.parameters.params.end_date +
+        // "&provinsi_id=" +
+        // this.parameters.form.provinsi_id.provinsi_id +
+        "&start_date=" +
+        this.parameters.params.start_date;
+      // +
+      // "&mode=preview";
+
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
+    },
+    async onExport() {
+      if (
+        !this.parameters.params.gudang_id ||
+        !this.parameters.params.end_date ||
+        !this.parameters.params.start_date
+      ) {
+        this.$toaster.error(
+          "Mohon Pilih Gudang, Periode Awal dan Periode Akhir Terlebih Dahulu"
+        );
+        return;
+      }
+
+      let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
+
+      try {
+        this.parameters.url +
+          "?download=" +
+          this.parameters.params.download +
+          "&gudang_id=" +
+          this.parameters.params.gudang_id.gudang_id +
+          "&end_date=" +
+          this.parameters.params.end_date +
+          // "&provinsi_id=" +
+          // this.parameters.form.provinsi_id.provinsi_id +
+          "&start_date=" +
+          this.parameters.params.start_date +
+          "&token=" +
+          token;
+
+        this.$axios({
+          method: "GET",
+          url: url,
+          responseType: "blob",
+        }).then((res) => {
+          const blob = new Blob([res.data], {
+            type: res.headers["content-type"],
+          });
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+
+          const disposition = res.headers["content-disposition"];
+          let filename = "laporan_forklift";
+          if (disposition && disposition.indexOf("filename=") !== 0) {
+            filename = disposition
+              .split("filename=")[1]
+              .replace(/"/g, "")
+              .trim();
+          }
+
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          this.parameters.params.start_date = "";
+          this.parameters.params.end_date = "";
+        });
+      } catch (error) {
+        this.$globalErrorToaster(this.$toaster, error);
+      }
+    },
+  },
 };
 </script>
