@@ -150,7 +150,7 @@ export default {
       isLoadingData: false,
 
       parameters: {
-        url: "warehouse-management/get-preview-aktivitas-forklift",
+        url: "report/warehouse-management/get-preview-aktivitas-forklift",
         params: {
           download: "pdf",
           start_date: "",
@@ -302,7 +302,8 @@ export default {
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
-        this.parameters.url +
+        let url =
+          this.parameters.url +
           "?download=" +
           this.parameters.params.download +
           "&gudang_id=" +
@@ -344,6 +345,7 @@ export default {
           this.parameters.params.end_date = "";
         });
       } catch (error) {
+        console.log(error);
         this.$globalErrorToaster(this.$toaster, error);
       }
     },

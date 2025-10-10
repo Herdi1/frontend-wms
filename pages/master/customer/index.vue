@@ -74,12 +74,7 @@
                         class="cursor-pointer"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Kode</div>
                           <div>
@@ -115,12 +110,7 @@
                         style="width: 40%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Nama</div>
                           <div>
@@ -156,12 +146,7 @@
                         style="width: 25%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Email</div>
                           <div>
@@ -197,12 +182,7 @@
                         style="width: 20%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>No Telp</div>
                           <div>
@@ -513,7 +493,6 @@ export default {
         seller_id: item.seller,
         // customer_group_id: item.customer_group ? item.customer_group.id : "",
         customer_induk_id: item.customer_induk ? item.customer_induk : "",
-
       };
       window.$("#modal-form").modal("show");
       this.$refs["form-input"].$refs["form-validate"].reset();
@@ -530,7 +509,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {

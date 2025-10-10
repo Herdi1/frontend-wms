@@ -319,7 +319,7 @@
                     {{ item.staff ? item.staff.nama_lengkap : "" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.kendaraan ? item.kendaraan.nama_kendaraan : "" }}
+                    {{ item.nama_kendaraan ?? "" }}
                   </td>
                   <td class="border border-gray-300">{{ item.keterangan }}</td>
 

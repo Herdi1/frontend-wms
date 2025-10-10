@@ -1242,37 +1242,37 @@ export default {
         }
       );
 
-      // if (this.isEditable) {
-      //   url += "/" + this.id;
-      // }
+      if (this.isEditable) {
+        url += "/" + this.id;
+      }
 
-      // this.$axios({
-      //   url: url,
-      //   method: this.isEditable ? "put" : "post",
-      //   data: formData,
-      // })
-      //   .then((res) => {
-      //     this.$toaster.success(
-      //       "Berhasil " +
-      //         (this.isEditable ? "Update" : "Tambah") +
-      //         " Posting Periodik"
-      //     );
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "put" : "post",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              " Posting Periodik"
+          );
 
-      //     if (!this.isEditable) {
-      //       this.form = {
-      //         ...this.default_form,
-      //       };
-      //     }
-      //     this.$router.back();
-      //   })
-      //   .catch((err) => {
-      //     this.$globalErrorToaster(this.$toaster, err);
-      //   })
-      //   .finally(() => {
-      //     this.isLoadingForm = false;
-      //     this.$refs.formValidate.reset();
-      //   });
-      console.log(formData);
+          if (!this.isEditable) {
+            this.form = {
+              ...this.default_form,
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+      // console.log(formData);
     },
 
     formReset() {

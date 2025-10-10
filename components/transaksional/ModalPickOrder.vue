@@ -283,7 +283,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.url = `outbound/pick-order/get-pick-order-detail/${this.self.parameters.form.gudang_id.gudang_id}`;
 

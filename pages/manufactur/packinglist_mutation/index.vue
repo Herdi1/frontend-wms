@@ -16,7 +16,7 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>                      
+                    <tr>
                       <th style="width: 5%">No</th>
                       <th style="width: 10%">Kode</th>
                       <th
@@ -30,12 +30,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -61,8 +56,8 @@
                         </div>
                       </th>
                       <th style="width: 10%">Roll Barcode</th>
-                      <th style="Width: 10%">Packing List Awal</th>
-                      <th style="Width: 10%">Packing List Tujuan</th>
+                      <th style="width: 10%">Packing List Awal</th>
+                      <th style="width: 10%">Packing List Tujuan</th>
                       <th class="text-center">Cetak Packing List</th>
                     </tr>
                   </thead>
@@ -72,13 +67,18 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
                       <td>
                         {{ item.code }} <br />
-                        
+
                         <!-- <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
@@ -89,20 +89,34 @@
                           >
                         </div> -->
                       </td>
-                      <td>{{ item.date }}</td>                      
+                      <td>{{ item.date }}</td>
                       <td>
-                        {{ item.detail_packing_list ? item.detail_packing_list.barcode : "-" }}
-                        <!-- <br/>                       
-                        <hr class="m-0 mt-1 p-0"/>                        
+                        {{
+                          item.detail_packing_list
+                            ? item.detail_packing_list.barcode
+                            : "-"
+                        }}
+                        <!-- <br/>
+                        <hr class="m-0 mt-1 p-0"/>
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
                         >
                           <i>Keterangan : {{ item.description }}</i>
                         </div> -->
-                      </td>             
-                      <td>{{ item.packing_list_from ? item.packing_list_from.code : "-" }}</td>                      
-                      <td>{{ item.packing_list_to ? item.packing_list_to.code : "-" }}</td>                      
+                      </td>
+                      <td>
+                        {{
+                          item.packing_list_from
+                            ? item.packing_list_from.code
+                            : "-"
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          item.packing_list_to ? item.packing_list_to.code : "-"
+                        }}
+                      </td>
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -111,7 +125,6 @@
                           >
                             <i class="fas fa-print text-primary"></i>
                           </button>
-                                                
                         </div>
                       </td>
                     </tr>
@@ -240,7 +253,7 @@ export default {
           start_date: "",
           end_date: "",
           is_kosong: "no",
-          by_user: 'yes',
+          by_user: "yes",
 
           // master_proces_id:'1',
         },
@@ -255,8 +268,7 @@ export default {
           start_date: "",
           end_date: "",
           is_kosong: "no",
-          by_user: 'yes',
-
+          by_user: "yes",
         },
         form: {
           checkboxs: [],
@@ -289,11 +301,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -327,9 +335,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/packinglist_mutation/add");
@@ -343,7 +349,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -384,13 +390,12 @@ export default {
         method: "post",
         data: formData,
       })
-        .then(res => {
-
+        .then((res) => {
           // this.setCode();
           // this.onChangeType();
           this.onLoad(this.parameters.params.page);
         })
-        .catch(err => {
+        .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
         });
     },
@@ -565,7 +570,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

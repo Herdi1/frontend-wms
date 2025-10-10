@@ -377,6 +377,7 @@
                         :filterable="false"
                         @search="onGetJenisBiaya"
                         v-model="item.jenis_biaya_id"
+                        @input="(item) => onSelectJenisBiaya(item, i)"
                       >
                         <!-- @input="onSelectItem(i)" -->
                         <li
@@ -1587,6 +1588,14 @@ export default {
       }
     },
 
+    onSelectJenisBiaya(item, index) {
+      if (item) {
+        this.parameters.form.pick_order_details[index].jenis_biaya_id = item;
+      } else {
+        this.parameters.form.pick_order_details[index].jenis_biaya_id = "";
+      }
+    },
+
     onGetSlotAisle(search, isNext, index) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -1995,7 +2004,7 @@ export default {
             item_gudang_id: data.item_gudang_id,
             jenis_kontrak_id: data.jenis_kontrak,
             divisi_id: data.divisi,
-            jenis_biaya_id: data.jenis_biaya,
+            jenis_biaya_id: data.jenis_biaya ?? "",
             mata_uang_id: data.mata_uang,
             pembayaran_id: data.pembayaran,
             term_pembayaran_id: data.term_pembayaran,

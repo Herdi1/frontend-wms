@@ -16,124 +16,126 @@
                   ref="formContainer"
                 >
                   <thead>
-                      <tr>                      
-                        <th style="width: 5%">No</th>
-                        <th style="width: 10%">Kode Kain</th>
-                        <th style="width: 10%">Nama Kain</th>
-                        <th
-                          @click="onSort(
-                              'date',
-                              parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                            )
-                            "
-                          class="cursor-pointer"
-                          style="width: 10%"
+                    <tr>
+                      <th style="width: 5%">No</th>
+                      <th style="width: 10%">Kode Kain</th>
+                      <th style="width: 10%">Nama Kain</th>
+                      <th
+                        @click="
+                          onSort(
+                            'date',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer"
+                        style="width: 10%"
+                      >
+                        <div
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
-                          <div
-                            class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
-                          >
-                            <div>Tgl</div>
-                            <div>
-                              <i
-                                class="fas fa-caret-up"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'asc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                              <i
-                                class="fas fa-caret-down"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'desc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                            </div>
+                          <div>Tgl</div>
+                          <div>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
                           </div>
-                        </th>
-                        <th style="width: 10%">No Batch</th>
-                        <th style="Width: 10%">Jumlah</th>
-                        <th class="text-center">Options</th>
-                      </tr>
-                    </thead>
+                        </div>
+                      </th>
+                      <th style="width: 10%">No Batch</th>
+                      <th style="width: 10%">Jumlah</th>
+                      <th class="text-center">Options</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                      <tr
-                        :class="{ 'table-active': ActiveRow == i }"
-                        v-for="(item, i) in data"
-                        :key="i"
-                        @click="onRowSelected(i)"
-                      >                    
-                        <td>
-                          {{ ((parameters.params.page - 1) * parameters.params.per_page) + i + 1 }}
-                        </td>
-                        <td>
-                          {{ item.product.code }} <br />
-                        
-                          <div
-                            class="text-left m-0 p-0"
-                            style="font-size: 12px !important"
-                          >
-                          
-                          </div>
-                        </td>
-                        <td>{{ item.product.name }}</td>                      
-                        <td>{{ item.product.name }}</td>                      
+                    <tr
+                      :class="{ 'table-active': ActiveRow == i }"
+                      v-for="(item, i) in data"
+                      :key="i"
+                      @click="onRowSelected(i)"
+                    >
+                      <td>
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
+                      </td>
+                      <td>
+                        {{ item.product.code }} <br />
 
-                        <!-- <td>{{ item.date }}</td>                       -->
-                        <td>
-                          {{ item.no_batch ? item.no_batch : "-" }}
-                          <!-- <br/>                       
-                        <hr class="m-0 mt-1 p-0"/>                        
+                        <div
+                          class="text-left m-0 p-0"
+                          style="font-size: 12px !important"
+                        ></div>
+                      </td>
+                      <td>{{ item.product.name }}</td>
+                      <td>{{ item.product.name }}</td>
+
+                      <!-- <td>{{ item.date }}</td>                       -->
+                      <td>
+                        {{ item.no_batch ? item.no_batch : "-" }}
+                        <!-- <br/>
+                        <hr class="m-0 mt-1 p-0"/>
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
                         >
                           <i>Keterangan : {{ item.description }}</i>
                         </div> -->
-                        </td>             
-                        <td>
-                          Jumlah Produksi : {{ item.quantity }}
-                          <!-- <br/>
+                      </td>
+                      <td>
+                        Jumlah Produksi : {{ item.quantity }}
+                        <!-- <br/>
                         Jumlah Selesai {{ item.production_details_sum_quantity_finish }} -->
-                        </td>            
-                        <td class="text-center">
-                          <div class="btn-group border border-success">
-                            <button
-                              class="btn btn-sm"
-                              v-if="!item.deleted_at"
-                              @click="onPrintDetail(item)"
-                            >
-                              <i class="fas fa-print text-primary"></i>
-                            </button>
-                            <button
-                              class="btn btn-sm"
-                              @click="onEdit(item.id)"
-                              v-if="!item.deleted_at &&
-                                // item.sent_to_warehouses_count == 0 &&
-                                getRoles.update
-                                "
-                            >
-                              <i class="fas fa-pen text-warning"></i>
-                            </button>
-                            
-                            <button
-                              class="btn btn-sm"
-                              @click="onDetail(item)"
-                              v-if="getRoles.show"
-                            >
-                              <i class="fas fa-info-circle text-info"></i>
-                            </button>                        
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
+                      </td>
+                      <td class="text-center">
+                        <div class="btn-group border border-success">
+                          <button
+                            class="btn btn-sm"
+                            v-if="!item.deleted_at"
+                            @click="onPrintDetail(item)"
+                          >
+                            <i class="fas fa-print text-primary"></i>
+                          </button>
+                          <button
+                            class="btn btn-sm"
+                            @click="onEdit(item.id)"
+                            v-if="
+                              !item.deleted_at &&
+                              // item.sent_to_warehouses_count == 0 &&
+                              getRoles.update
+                            "
+                          >
+                            <i class="fas fa-pen text-warning"></i>
+                          </button>
+
+                          <button
+                            class="btn btn-sm"
+                            @click="onDetail(item)"
+                            v-if="getRoles.show"
+                          >
+                            <i class="fas fa-info-circle text-info"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
 
                   <table-data-loading-section :self="this" />
 
@@ -257,7 +259,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          master_proces_id:'3',
+          master_proces_id: "3",
         },
         default_params: {
           soft_deleted: "",
@@ -301,11 +303,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -339,9 +337,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/sizing/add");
@@ -355,7 +351,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -555,7 +551,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

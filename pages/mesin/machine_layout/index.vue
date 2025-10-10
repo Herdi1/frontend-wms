@@ -16,7 +16,7 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>                      
+                    <tr>
                       <th style="width: 5%">No</th>
                       <th style="width: 15%">Mesin</th>
                       <th style="width: 25%">Operator</th>
@@ -32,28 +32,50 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
-                      <td>{{ item.master_machine ? item.master_machine.name : "-" }}</td>                      
-                      <td>{{ item.karyawan ? item.karyawan.name : "-" }} ({{ item.karyawan ? item.karyawan.code : "-" }})</td>                      
-                      <td>{{ item.work_center ? item.work_center.name : "-" }} </td>                      
-                      <td>{{ item.regu ? item.regu.name : "-" }} </td>                      
-                      <td>{{ 
-                      
-                      item.jenis==0 ? "Operator" : item.jenis == 1 ? "PK" : item.jenis == 2 ? "Mekanik" : 'Kaur' }} </td>                      
-                      
-                              
+                      <td>
+                        {{
+                          item.master_machine ? item.master_machine.name : "-"
+                        }}
+                      </td>
+                      <td>
+                        {{ item.karyawan ? item.karyawan.name : "-" }} ({{
+                          item.karyawan ? item.karyawan.code : "-"
+                        }})
+                      </td>
+                      <td>
+                        {{ item.work_center ? item.work_center.name : "-" }}
+                      </td>
+                      <td>{{ item.regu ? item.regu.name : "-" }}</td>
+                      <td>
+                        {{
+                          item.jenis == 0
+                            ? "Operator"
+                            : item.jenis == 1
+                            ? "PK"
+                            : item.jenis == 2
+                            ? "Mekanik"
+                            : "Kaur"
+                        }}
+                      </td>
+
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
-                              class="btn btn-sm"
-                              @click="onDetail(item)"
-                              v-if="getRoles.show"
-                            >
-                              <i class="fas fa-info-circle text-info"></i>
-                            </button>                        
+                            class="btn btn-sm"
+                            @click="onDetail(item)"
+                            v-if="getRoles.show"
+                          >
+                            <i class="fas fa-info-circle text-info"></i>
+                          </button>
                           <!-- <button
                             class="btn btn-sm"
                             v-if="!item.deleted_at"
@@ -65,9 +87,9 @@
                             class="btn btn-sm"
                             @click="onEdit(item.id)"
                             v-if="
-                              // !item.deleted_at && 
-                              // item.is_can_update_or_delete && 
-                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 && 
+                              // !item.deleted_at &&
+                              // item.is_can_update_or_delete &&
+                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 &&
                               getRoles.update
                             "
                           >
@@ -77,15 +99,14 @@
                             class="btn btn-sm"
                             @click="onTrashed(item)"
                             v-if="
-                              // !item.deleted_at && 
-                              // item.is_can_update_or_delete && 
-                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 && 
+                              // !item.deleted_at &&
+                              // item.is_can_update_or_delete &&
+                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 &&
                               getRoles.destroy
                             "
                           >
                             <i class="fas fa-trash text-danger"></i>
                           </button>                          -->
-                          
                         </div>
                       </td>
                     </tr>
@@ -116,54 +137,45 @@
       <template>
         <div class="col-md-12">
           <div class="mb-3"><b>Jenis</b></div>
-            <div class="form-group">
-              <select
-                                                  class="form-control"
-                                            
-                                                  v-model="parameters.params.jenis"
-                                                >
-                                                  <option value="">Pilih</option>
-                                                  <option value="0">Operator Pegangan</option>
-                                                  <option value="1">Perbaikan Kain (PK)</option>
-                                                  <option value="2">Mekanik</option>
-                                                  <option value="3">Kaur</option>
-                                                </select>
-            </div>
+          <div class="form-group">
+            <select class="form-control" v-model="parameters.params.jenis">
+              <option value="">Pilih</option>
+              <option value="0">Operator Pegangan</option>
+              <option value="1">Perbaikan Kain (PK)</option>
+              <option value="2">Mekanik</option>
+              <option value="3">Kaur</option>
+            </select>
+          </div>
           <div class="mb-3"><b>Regu</b></div>
           <div class="form-group">
-            <select
-                                        class="form-control"
-                                        
-                                        v-model="parameters.params.regu_id"
-                                      >
-                                        <option value="">Pilih</option>
-                                        <option
-                                          v-for="item in lookup_custom1.data"
-                                          :key="item.id"
-                                          :value="item.id"
-                                        >
-                                          {{ item.name }}
-                                        </option>
-                                      </select>
+            <select class="form-control" v-model="parameters.params.regu_id">
+              <option value="">Pilih</option>
+              <option
+                v-for="item in lookup_custom1.data"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
           </div>
 
           <div class="mb-3"><b>Work Center</b></div>
-            <div class="form-group">
-              <select
-                                          class="form-control"
-                                        
-                                          v-model="parameters.params.work_center_id"
-                                        >
-                                          <option value="">Pilih</option>
-                                          <option
-                                            v-for="item in lookup_custom2.data"
-                                            :key="item.id"
-                                            :value="item.id"
-                                          >
-                                            {{ item.name }}
-                                          </option>
-                                        </select>
-            </div>
+          <div class="form-group">
+            <select
+              class="form-control"
+              v-model="parameters.params.work_center_id"
+            >
+              <option value="">Pilih</option>
+              <option
+                v-for="item in lookup_custom2.data"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
           <!-- <div class="mb-3"><b>Tanggal Akhir</b></div>
           <div class="form-group">
             <input
@@ -197,9 +209,6 @@ export default {
   },
 
   mounted() {
-
-     
-    
     this.$refs["form-option"].isAddData = false;
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isFilter = true;
@@ -273,7 +282,6 @@ export default {
           end_date: "",
           group_karyawan: "1",
           work_center_id: "",
-
         },
         default_params: {
           soft_deleted: "",
@@ -289,7 +297,6 @@ export default {
           end_date: "",
           group_karyawan: "1",
           work_center_id: "",
-
         },
         form: {
           checkboxs: [],
@@ -321,16 +328,13 @@ export default {
     ModalDetail,
   },
 
-
-
-
   computed: {
     ...mapState("moduleApi", [
-      "data", 
-      "error", 
+      "data",
+      "error",
       "lookup_custom2",
       "lookup_custom1",
-      "result"
+      "result",
     ]),
 
     getRoles() {
@@ -366,9 +370,7 @@ export default {
       "lookUp",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/mesin/machine_layout/add");
@@ -382,7 +384,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -582,7 +584,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>
