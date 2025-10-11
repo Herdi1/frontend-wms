@@ -119,9 +119,9 @@
           <template #DetailProdukBahan>
             <DetailItemBahan :self="{ detail_item }" />
           </template>
-          <template #DetailProdukJadi>
+          <!-- <template #DetailProdukJadi>
             <DetailItemJadi :self="{ detail_item }" />
-          </template>
+          </template> -->
         </tab-component>
       </div>
     </div>
@@ -144,7 +144,7 @@ export default {
 
       tabs: [
         { name: "DETAIL PRODUK BAHAN", slotName: "DetailProdukBahan" },
-        { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
+        // { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
       ],
 
       isLoadingPage: Number.isInteger(id) ? true : false,

@@ -159,7 +159,7 @@
                     v-show="form.jenis_coa == 'SPESIFIK'"
                     class="form-group w-full items-center flex"
                   >
-                    <label for="gudang_id" class="w-3/12"
+                    <label for="gudang_id" class="w-4/12"
                       >Gudang <span class="text-danger">*</span></label
                     >
                     <v-select
@@ -170,7 +170,7 @@
                       @search="onGetGudang"
                       v-model="form.gudang_id"
                       :reduce="(item) => item.gudang_id"
-                      class="w-9/12"
+                      class="w-8/12"
                       @input="onSearchZonaGudang"
                     >
                       <li
@@ -324,6 +324,9 @@ export default {
 
   async mounted() {
     await this.onSearchGudang();
+    // if(!this.isEditable && this.lookup_custom1){
+    //   this.onSelectGudang(this.lookup_custom1.data[0]);
+    // }
     await this.onSearchParent();
   },
 
@@ -506,7 +509,7 @@ export default {
         this.isLoadingGetGudang = true;
 
         await this.lookUp({
-          url: "master/gudang/get-gudang",
+          url: "master/gudang/get-gudang-user",
           lookup: "custom1",
           query:
             "?search=" +

@@ -8,10 +8,10 @@
           <th class="w-[200px] border border-gray-300">Item</th>
           <th class="w-[200px] border border-gray-300">Quantity</th>
           <th class="w-[200px] border border-gray-300">Zona</th>
-          <th class="w-[200px] border border-gray-300">Aisle</th>
+          <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
           <th class="w-[200px] border border-gray-300">Rack</th>
           <th class="w-[200px] border border-gray-300">Level</th>
-          <th class="w-[200px] border border-gray-300">Bin</th>
+          <th class="w-[200px] border border-gray-300">Bin</th> -->
           <th class="w-[300px] border border-gray-300">Keterangan</th>
         </tr>
       </thead>
@@ -28,9 +28,19 @@
             </p>
           </td>
           <td class="border border-gray-300 text-start">
-            <p class="font-bold">
-              {{ parseFloat(item.quantity) }} <span></span>
-            </p>
+            <div>
+              <p>Quantity</p>
+              <p class="font-bold text-end">
+                {{ parseFloat(item.quantity) }}
+              </p>
+            </div>
+            <div>
+              <p>Valuation</p>
+              <p class="font-semibold text-end">
+                {{ item.valuation?.kode_valuation }} -
+                {{ item.valuation?.nama_valuation }}
+              </p>
+            </div>
           </td>
           <td class="border border-gray-300">
             <p class="font-bold">

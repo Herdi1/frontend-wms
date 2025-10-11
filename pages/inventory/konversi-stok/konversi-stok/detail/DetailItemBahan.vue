@@ -8,10 +8,10 @@
           <th class="w-[200px] border border-gray-300">Item</th>
           <th class="w-[200px] border border-gray-300">Quantity</th>
           <th class="w-[200px] border border-gray-300">Zona</th>
-          <th class="w-[200px] border border-gray-300">Aisle</th>
+          <!-- <th class="w-[200px] border border-gray-300">Aisle</th>
           <th class="w-[200px] border border-gray-300">Rack</th>
           <th class="w-[200px] border border-gray-300">Level</th>
-          <th class="w-[200px] border border-gray-300">Bin</th>
+          <th class="w-[200px] border border-gray-300">Bin</th> -->
           <th class="w-[300px] border border-gray-300">Keterangan</th>
         </tr>
       </thead>
@@ -27,7 +27,7 @@
               {{ item.item_gudang.nama_item }}
             </p>
           </td>
-          <td class="border border-gray-300 text-start">
+          <td class="border border-gray-300 text-end">
             <p class="font-bold">
               {{ parseFloat(item.quantity) }} <span></span>
             </p>
@@ -41,7 +41,7 @@
               }}
             </p>
           </td>
-          <td class="border border-gray-300">
+          <!-- <td class="border border-gray-300">
             <p class="font-bold" v-if="item.slot_penyimpanan_aisle">
               {{
                 item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
@@ -76,7 +76,7 @@
                 item.slot_penyimpanan_bin.kode_slot_penyimpanan
               }}
             </p>
-          </td>
+          </td> -->
           <td class="border border-gray-300">
             <p>{{ item.keterangan }}</p>
           </td>

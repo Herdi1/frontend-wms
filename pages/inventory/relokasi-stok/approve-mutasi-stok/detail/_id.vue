@@ -207,7 +207,7 @@
                       <th class="w-[200px] border border-gray-300">
                         Jenis Biaya
                       </th>
-                      <th class="w-[200px] lg:w-full border border-gray-300">
+                      <th class="w-[250px] flex-1 border border-gray-300">
                         COA
                       </th>
                       <th class="w-[200px] border border-gray-300">Quantity</th>

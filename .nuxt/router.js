@@ -28,6 +28,7 @@ const _2fda57b6 = () => interopDefault(import('..\\pages\\finance\\jurnal\\index
 const _0e8bed22 = () => interopDefault(import('..\\pages\\finance\\kontrak-customer\\index.vue' /* webpackChunkName: "pages/finance/kontrak-customer/index" */))
 const _05447f71 = () => interopDefault(import('..\\pages\\finance\\kontrak-sewa\\index.vue' /* webpackChunkName: "pages/finance/kontrak-sewa/index" */))
 const _4d61cfe4 = () => interopDefault(import('..\\pages\\finance\\laba-rugi\\index.vue' /* webpackChunkName: "pages/finance/laba-rugi/index" */))
+const _11d80510 = () => interopDefault(import('..\\pages\\finance\\post-eksternal-saldo-akun\\index.vue' /* webpackChunkName: "pages/finance/post-eksternal-saldo-akun/index" */))
 const _76f9b438 = () => interopDefault(import('..\\pages\\finance\\posting-premi\\index.vue' /* webpackChunkName: "pages/finance/posting-premi/index" */))
 const _b4c18e4a = () => interopDefault(import('..\\pages\\finance\\posting-tkbm\\index.vue' /* webpackChunkName: "pages/finance/posting-tkbm/index" */))
 const _762b2a54 = () => interopDefault(import('..\\pages\\finance\\profit_and_lose\\index.vue' /* webpackChunkName: "pages/finance/profit_and_lose/index" */))
@@ -587,6 +588,7 @@ const _465a55f9 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendo
 const _38aa6b36 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\detail\\KontrakLastmileBiayaPremi.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/detail/KontrakLastmileBiayaPremi" */))
 const _487a46fc = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\detail\\KontrakLastmileJarak.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/detail/KontrakLastmileJarak" */))
 const _28e5df62 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\detail\\KontrakLastmileRitase.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/detail/KontrakLastmileRitase" */))
+const _1a186e74 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\detail\\BiayaKonversi.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/detail/BiayaKonversi" */))
 const _6244a616 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\detail\\DetailItemBahan.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemBahan" */))
 const _57fd384d = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\approve-konversi-stok\\detail\\DetailItemJadi.vue' /* webpackChunkName: "pages/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemJadi" */))
 const _5a72b076 = () => interopDefault(import('..\\pages\\inventory\\konversi-stok\\konfirmasi-konversi-stok\\detail\\DetailItemBahan.vue' /* webpackChunkName: "pages/inventory/konversi-stok/konfirmasi-konversi-stok/detail/DetailItemBahan" */))
@@ -674,6 +676,7 @@ const _1ef85c74 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendo
 const _04455747 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\_id.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/_id" */))
 const _9c3d3d14 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-sewa\\_id.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-sewa/_id" */))
 const _0b3cebd0 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-tkbm\\_id.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-tkbm/_id" */))
+const _26eb8672 = () => interopDefault(import('..\\pages\\finance\\post-eksternal-saldo-akun\\detail\\_id.vue' /* webpackChunkName: "pages/finance/post-eksternal-saldo-akun/detail/_id" */))
 const _49342422 = () => interopDefault(import('..\\pages\\finance\\posting-premi\\detail\\_id.vue' /* webpackChunkName: "pages/finance/posting-premi/detail/_id" */))
 const _f825a782 = () => interopDefault(import('..\\pages\\finance\\posting-tkbm\\details\\_id.vue' /* webpackChunkName: "pages/finance/posting-tkbm/details/_id" */))
 const _bc15fd88 = () => interopDefault(import('..\\pages\\finance\\ujs-sopir\\details\\_id.vue' /* webpackChunkName: "pages/finance/ujs-sopir/details/_id" */))
@@ -738,6 +741,7 @@ const _64b92fff = () => interopDefault(import('..\\pages\\finance\\coa\\_id.vue'
 const _187b8b7d = () => interopDefault(import('..\\pages\\finance\\journal\\_id.vue' /* webpackChunkName: "pages/finance/journal/_id" */))
 const _033260c4 = () => interopDefault(import('..\\pages\\finance\\jurnal\\_id.vue' /* webpackChunkName: "pages/finance/jurnal/_id" */))
 const _33c4abce = () => interopDefault(import('..\\pages\\finance\\kontrak-sewa\\_id.vue' /* webpackChunkName: "pages/finance/kontrak-sewa/_id" */))
+const _fa77e910 = () => interopDefault(import('..\\pages\\finance\\post-eksternal-saldo-akun\\_id.vue' /* webpackChunkName: "pages/finance/post-eksternal-saldo-akun/_id" */))
 const _815136c0 = () => interopDefault(import('..\\pages\\finance\\posting-premi\\_id.vue' /* webpackChunkName: "pages/finance/posting-premi/_id" */))
 const _8c6893fa = () => interopDefault(import('..\\pages\\finance\\posting-tkbm\\_id.vue' /* webpackChunkName: "pages/finance/posting-tkbm/_id" */))
 const _2cda1402 = () => interopDefault(import('..\\pages\\finance\\transfer-dana\\_id.vue' /* webpackChunkName: "pages/finance/transfer-dana/_id" */))
@@ -976,6 +980,10 @@ export const routerOptions = {
     path: "/finance/laba-rugi",
     component: _4d61cfe4,
     name: "finance-laba-rugi"
+  }, {
+    path: "/finance/post-eksternal-saldo-akun",
+    component: _11d80510,
+    name: "finance-post-eksternal-saldo-akun"
   }, {
     path: "/finance/posting-premi",
     component: _76f9b438,
@@ -3213,6 +3221,10 @@ export const routerOptions = {
     component: _28e5df62,
     name: "finance-kontrak-vendor-kontrak-lastmile-detail-KontrakLastmileRitase"
   }, {
+    path: "/inventory/konversi-stok/approve-konversi-stok/detail/BiayaKonversi",
+    component: _1a186e74,
+    name: "inventory-konversi-stok-approve-konversi-stok-detail-BiayaKonversi"
+  }, {
     path: "/inventory/konversi-stok/approve-konversi-stok/detail/DetailItemBahan",
     component: _6244a616,
     name: "inventory-konversi-stok-approve-konversi-stok-detail-DetailItemBahan"
@@ -3561,6 +3573,10 @@ export const routerOptions = {
     component: _0b3cebd0,
     name: "finance-kontrak-vendor-kontrak-tkbm-id"
   }, {
+    path: "/finance/post-eksternal-saldo-akun/detail/:id?",
+    component: _26eb8672,
+    name: "finance-post-eksternal-saldo-akun-detail-id"
+  }, {
     path: "/finance/posting-premi/detail/:id",
     component: _49342422,
     name: "finance-posting-premi-detail-id"
@@ -3816,6 +3832,10 @@ export const routerOptions = {
     path: "/finance/kontrak-sewa/:id?",
     component: _33c4abce,
     name: "finance-kontrak-sewa-id"
+  }, {
+    path: "/finance/post-eksternal-saldo-akun/:id?",
+    component: _fa77e910,
+    name: "finance-post-eksternal-saldo-akun-id"
   }, {
     path: "/finance/posting-premi/:id?",
     component: _815136c0,

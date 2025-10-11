@@ -331,12 +331,17 @@
                         </td> -->
                         <td class="border border-gray-300">
                           <div class="w-full">
-                            <label for=""
+                            <!-- <label for=""
                               >Valuation:
                               <span class="font-bold text-base">{{
                                 item.kode_valuation
                               }}</span></label
-                            >
+                            > -->
+                            <label>Valuation</label>
+                            <p class="text-right">
+                              {{ item.valuation?.kode_valuation ?? "-" }} -
+                              {{ item.valuation?.nama_valuation ?? "-" }}
+                            </p>
                             <!-- <input
                               type="text"
                               disabled

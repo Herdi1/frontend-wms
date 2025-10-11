@@ -192,7 +192,7 @@
                 </table>
               </div>
             </template>
-            <template #Biaya>
+            <!-- <template #Biaya>
               <div class="table-responsive overflow-y-hidden mb-7">
                 <table
                   class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
@@ -202,7 +202,7 @@
                       <th class="w-[200px] border border-gray-300">
                         Jenis Biaya
                       </th>
-                      <th class="w-[200px] lg:w-full border border-gray-300">
+                      <th class="w-[200px] flex-1 border border-gray-300">
                         COA
                       </th>
                       <th class="w-[200px] border border-gray-300">Quantity</th>
@@ -212,13 +212,10 @@
                       <th class="w-[200px] border border-gray-300">
                         Sub Total
                       </th>
-                      <!-- <th class="w-[200px] border border-gray-300">Vendor</th> -->
                       <th class="w-[200px] border border-gray-300">
                         Keterangan
                       </th>
-                      <!-- <th class="w-[100px] border border-gray-300 text-center">
-                        Hapus
-                      </th> -->
+
                     </tr>
                   </thead>
                   <tbody>
@@ -257,7 +254,7 @@
                   </tbody>
                 </table>
               </div>
-            </template>
+            </template> -->
           </tab-component>
         </div>
       </div>
@@ -276,10 +273,10 @@ export default {
           name: "Detail Item",
           slotName: "DetailItem",
         },
-        {
-          name: "Biaya",
-          slotName: "Biaya",
-        },
+        // {
+        //   name: "Biaya",
+        //   slotName: "Biaya",
+        // },
       ],
       id,
       isLoadingPage: Number.isInteger(id) ? true : false,

@@ -118,47 +118,15 @@
           </div>
 
           <div class="table-responsive">
-            <table class="mb-5 border border-gray-300" ref="formContainer">
+            <table
+              class="mb-5 border border-gray-300 table-fixed"
+              ref="formContainer"
+            >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
-                  <th class="w-[5%] border border-gray-300">Detail</th>
-                  <th class="w-[5%] border border-gray-300">No</th>
-                  <th
-                    @click="
-                      onSort(
-                        'kode_pick_request',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pinter w-[30%] border border-gray-300"
-                  >
-                    <div class="flex justify-between items-baseline">
-                      <div>Kode Pick Request</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'kode_pick_request' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'kode_pick_request' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="border border-gray-300">Jenis Transaksi</th>
-                  <th class="border border-gray-300">Nama Peminta</th>
+                  <th class="w-20 border border-gray-300">Edit</th>
+                  <th class="w-20 border border-gray-300">Detail</th>
+                  <th class="w-20 border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -166,7 +134,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter w-[30%] border border-gray-300"
+                    class="cursor-pinter w-40 border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Tanggal</div>
@@ -192,18 +160,58 @@
                       </div>
                     </div>
                   </th>
-                  <th class="border border-gray-300">Status Approve</th>
-                  <th class="border border-gray-300">Lokasi</th>
-                  <th class="border border-gray-300">Gudang</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th
+                    @click="
+                      onSort(
+                        'kode_pick_request',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pinter w-40 border border-gray-300"
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Kode Pick Request</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'kode_pick_request' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'kode_pick_request' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="w-40 border border-gray-300">Jenis Transaksi</th>
+                  <th class="w-40 border border-gray-300">Nama Peminta</th>
+
+                  <th class="w-40 border border-gray-300">Status Approve</th>
+                  <th class="w-40 border border-gray-300">Lokasi</th>
+                  <th class="w-40 border border-gray-300">Gudang</th>
+                  <th class="w-20 border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
                   <td class="border border-gray-300 text-center">
@@ -213,6 +221,9 @@
                       i +
                       1
                     }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
                   </td>
                   <td class="border border-gray-300">
                     <div>
@@ -225,35 +236,37 @@
                       </p>
                     </div>
                   </td>
-                  <td class="border border-gray-300 text-center">
-                    <span
-                      v-if="item.jenis == 0"
-                      class="p-1 text-white rounded-md bg-orange-500"
-                      >Penjualan</span
-                    >
-                    <span
-                      v-if="item.jenis == 1"
-                      class="p-1 text-white rounded-md bg-green-500"
-                      >Stok Transfer</span
-                    >
+                  <td class="border border-gray-300">
+                    <span v-if="item.jenis == 0">
+                      <p
+                        class="p-1 w-3/4 text-center text-white rounded-md bg-orange-500"
+                      >
+                        Penjualan
+                      </p>
+                    </span>
+                    <span v-if="item.jenis == 1">
+                      <p
+                        class="p-1 w-3/4 text-center text-white rounded-md bg-green-500"
+                      >
+                        Stok Transfer
+                      </p>
+                    </span>
                   </td>
                   <td class="border border-gray-300">
                     {{ item.nama_peminta }}
                   </td>
-                  <td class="border border-gray-300">
-                    {{ formatDate(item.tanggal) }}
-                  </td>
+
                   <td class="border border-gray-300">
                     <span v-if="item.status_approve === '0'">
                       <p
-                        class="bg-orange-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        class="bg-orange-500 p-1 rounded-lg w-3/4 text-center font-semibold text-white"
                       >
                         MENUNGGU
                       </p>
                     </span>
                     <span v-if="item.status_approve === '1'">
                       <p
-                        class="bg-green-500 p-1 rounded-lg w-fit font-semibold text-white"
+                        class="bg-green-500 p-1 rounded-lg w-3/4 text-center font-semibold text-white"
                       >
                         APPROVE
                       </p>
@@ -266,7 +279,9 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
 
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300 place-items-center"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

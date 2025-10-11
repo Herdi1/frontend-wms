@@ -162,11 +162,21 @@
                 @change="onSelectStaff(parameters.form.staff_id)"
               >
                 <option
+                  v-if="lookup_custom10.data?.length === 0"
+                  disabled
+                  value=""
+                >
+                  -
+                  <!-- Tidak ada data staff -->
+                </option>
+
+                <!-- Jika ada data, tampilkan daftar option -->
+                <option v-else value="">-- Pilih Staff --</option>
+                <option
                   v-for="(item, i) in lookup_custom10"
                   :key="i"
-                  :value="item"
+                  :value="item.staff_id"
                 >
-                  <!-- :value="item.staff_id" -->
                   {{ item.nama_lengkap }}
                 </option>
               </select>
@@ -879,7 +889,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
-    // await this.onSearchStaff();
+    await this.onSearchStaff();
     // await this.onSearchKendaraan();
     await this.onSearchValuation();
     await this.onSearchAlasanBedaPlan();
@@ -917,11 +927,11 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.parameters.form.supplier_id = res.data.supplier ?? "";
         this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
-        this.parameters.form.staff_id = res.data.staff ?? "";
+        // this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
         this.parameters.form.lokasi_id = res.data.lokasi ?? "";
         // this.lookup_custom10 = res.data.staff ?? "";
-        // console.log(this.lookup_custom10);
+        console.log(this.parameters.form);
 
         this.parameters.form.barang_masuk_details =
           res.data.barang_masuk_details.map((item) => {
@@ -1814,18 +1824,16 @@ export default {
             "&per_page=10",
         });
 
-        console.log(this.lookup_custom10);
-        console.log("Tipe lookup_custom10:", typeof this.lookup_custom10);
-        console.log("Apakah array?", Array.isArray(this.lookup_custom10));
-
         this.isLoadingGetStaff = false;
+        console.log(this.lookup_custom10);
       }
     },
 
     onSelectStaff(item) {
-      if (item) {
+      const selected = this.lookup_custom10.find((x) => x.staff_id === item);
+      if (selected) {
         this.parameters.form.staff_id = item;
-        this.parameters.form.nama_pengemudi = item.nama_lengkap ?? "";
+        this.parameters.form.nama_pengemudi = selected.nama_lengkap ?? "";
       } else {
         this.parameters.form.staff_id = "";
         this.parameters.form.nama_pengemudi = "";
@@ -1879,6 +1887,8 @@ export default {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.nama_kendaraan = item.nama_kendaraan ?? "";
         // await this.onSearchStaff();
+        this.parameters.form.nama_pengemudi = "";
+
         await this.lookUp({
           url: "master/kendaraan/get-pengemudi-kendaraan",
           lookup: "custom10",

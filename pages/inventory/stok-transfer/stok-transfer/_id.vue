@@ -203,7 +203,7 @@
               >
                 <thead>
                   <tr class="text-sm uppercase text-nowrap">
-                    <th class="w-60 lg:w-full border border-gray-300">Item</th>
+                    <th class="w-60 flex-1 border border-gray-300">Item</th>
                     <th class="w-60 border border-gray-300">Valuation</th>
                     <th class="w-60 border border-gray-300">Quantity</th>
                     <th class="w-60 border border-gray-300">keterangan</th>
