@@ -242,14 +242,14 @@ export default {
   },
 
   async mounted() {
-    let date = new Date();
-    let y = date.getFullYear();
-    let m = date.getMonth();
+    // let date = new Date();
+    // let y = date.getFullYear();
+    // let m = date.getMonth();
 
-    let fm = new Date(y, m, 1);
-    let lm = new Date(y, m + 1, 0);
-    this.parameters.params.start_date = this.formatDate(fm);
-    this.parameters.params.end_date = this.formatDate(lm);
+    // let fm = new Date(y, m, 1);
+    // let lm = new Date(y, m + 1, 0);
+    // this.parameters.params.start_date = this.formatDate(fm);
+    // this.parameters.params.end_date = this.formatDate(lm);
     await this.onSearchGudang();
     await this.onSearchWilayah();
     if (this.lookup_custom1.data) {
@@ -675,12 +675,12 @@ export default {
       }
     },
 
-    formatDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    },
+    // formatDate(date) {
+    //   const year = date.getFullYear();
+    //   const month = String(date.getMonth() + 1).padStart(2, "0");
+    //   const day = String(date.getDate()).padStart(2, "0");
+    //   return `${year}-${month}-${day}`;
+    // },
   },
 };
 </script>
