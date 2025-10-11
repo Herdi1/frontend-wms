@@ -166,6 +166,7 @@
                   :key="i"
                   :value="item"
                 >
+                  <!-- :value="item.staff_id" -->
                   {{ item.nama_lengkap }}
                 </option>
               </select>
