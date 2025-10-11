@@ -158,6 +158,11 @@
                     @search="onGetValuation"
                     v-model="parameters.params.valuation_id"
                   >
+                    <template slot="option" slot-scope="option">
+                      {{
+                        option.kode_valuation + " - " + option.nama_valuation
+                      }}
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"

@@ -7,11 +7,10 @@
         <tr class="text-sm uppercase text-nowrap">
           <th class="w-[200px] border border-gray-300">Item</th>
           <th class="w-[200px] border border-gray-300">Quantity</th>
+          <th class="w-[200px] border border-gray-300">Tgl Expired</th>
+          <th class="w-[200px] border border-gray-300">Serial Number</th>
           <th class="w-[200px] border border-gray-300">Zona</th>
-          <th class="w-[200px] border border-gray-300">Aisle</th>
-          <th class="w-[200px] border border-gray-300">Rack</th>
-          <th class="w-[200px] border border-gray-300">Level</th>
-          <th class="w-[200px] border border-gray-300">Bin</th>
+          <th class="w-[200px] border border-gray-300">Lokasi Penyimpanan</th>
           <th class="w-[300px] border border-gray-300">Keterangan</th>
         </tr>
       </thead>
@@ -28,9 +27,26 @@
             </p>
           </td>
           <td class="border border-gray-300 text-start">
-            <p class="font-bold">
-              {{ parseFloat(item.quantity) }} <span></span>
-            </p>
+            <div>
+              <p>Quantity</p>
+
+              <p class="font-bold text-end">
+                {{ parseFloat(item.quantity) }}
+              </p>
+            </div>
+            <div>
+              <p>Valuation</p>
+              <p class="font-semibold text-end">
+                {{ item.valuation?.kode_valuation }} -
+                {{ item.valuation?.nama_valuation }}
+              </p>
+            </div>
+          </td>
+          <td class="border border-gray-300">
+            {{ formatDate(item.tanggal_expired ?? "") }}
+          </td>
+          <td class="border border-gray-300">
+            {{ item.serial_number ?? "-" }}
           </td>
           <td class="border border-gray-300">
             <p class="font-bold">
@@ -42,41 +58,57 @@
             </p>
           </td>
           <td class="border border-gray-300">
-            <p class="font-bold" v-if="item.slot_penyimpanan_aisle">
-              {{
-                item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
-                " - " +
-                item.slot_penyimpanan_aisle.kode_slot_penyimpanan
-              }}
-            </p>
+            <div>
+              <p>Aisle</p>
+
+              <p class="font-bold text-end" v-if="item.slot_penyimpanan_aisle">
+                {{
+                  item.slot_penyimpanan_aisle.nama_slot_penyimpanan +
+                  " - " +
+                  item.slot_penyimpanan_aisle.kode_slot_penyimpanan
+                }}
+              </p>
+              <p v-else class="text-end">-</p>
+            </div>
+            <div>
+              <p>Rack</p>
+
+              <p class="font-bold text-end" v-if="item.slot_penyimpanan_rack">
+                {{
+                  item.slot_penyimpanan_rack.nama_slot_penyimpanan +
+                  " - " +
+                  item.slot_penyimpanan_rack.kode_slot_penyimpanan
+                }}
+              </p>
+              <p v-else class="text-end">-</p>
+            </div>
+            <div>
+              <p>Level</p>
+
+              <p class="font-bold text-end" v-if="item.slot_penyimpanan_level">
+                {{
+                  item.slot_penyimpanan_level.nama_slot_penyimpanan +
+                  " - " +
+                  item.slot_penyimpanan_level.kode_slot_penyimpanan
+                }}
+              </p>
+              <p v-else class="text-end">-</p>
+            </div>
+            <div>
+              <p>Bin</p>
+              <p class="font-bold text-end" v-if="item.slot_penyimpanan_bin">
+                {{
+                  item.slot_penyimpanan_bin.nama_slot_penyimpanan +
+                  " - " +
+                  item.slot_penyimpanan_bin.kode_slot_penyimpanan
+                }}
+              </p>
+              <p v-else class="text-end">-</p>
+            </div>
           </td>
-          <td class="border border-gray-300">
-            <p class="font-bold" v-if="item.slot_penyimpanan_rack">
-              {{
-                item.slot_penyimpanan_rack.nama_slot_penyimpanan +
-                " - " +
-                item.slot_penyimpanan_rack.kode_slot_penyimpanan
-              }}
-            </p>
-          </td>
-          <td class="border border-gray-300">
-            <p class="font-bold" v-if="item.slot_penyimpanan_level">
-              {{
-                item.slot_penyimpanan_level.nama_slot_penyimpanan +
-                " - " +
-                item.slot_penyimpanan_level.kode_slot_penyimpanan
-              }}
-            </p>
-          </td>
-          <td class="border border-gray-300">
-            <p class="font-bold" v-if="item.slot_penyimpanan_bin">
-              {{
-                item.slot_penyimpanan_bin.nama_slot_penyimpanan +
-                " - " +
-                item.slot_penyimpanan_bin.kode_slot_penyimpanan
-              }}
-            </p>
-          </td>
+          <!-- <td class="border border-gray-300"></td>
+          <td class="border border-gray-300"></td>
+          <td class="border border-gray-300"></td> -->
           <td class="border border-gray-300">
             <p>{{ item.keterangan }}</p>
           </td>
@@ -100,5 +132,13 @@
 <script>
 export default {
   props: ["self"],
+
+  methods: {
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+  },
 };
 </script>

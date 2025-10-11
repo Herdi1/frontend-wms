@@ -122,6 +122,9 @@
           <template #DetailProdukJadi>
             <DetailItemJadi :self="{ detail_item }" />
           </template>
+          <template #BiayaKonversi>
+            <BiayaKonversi :self="{ detail_item }" />
+          </template>
         </tab-component>
       </div>
     </div>
@@ -131,6 +134,7 @@
 <script>
 import DetailItemBahan from "./DetailItemBahan.vue";
 import DetailItemJadi from "./DetailItemJadi.vue";
+import BiayaKonversi from "./BiayaKonversi.vue";
 
 export default {
   // middleware: ["isNotAccessable"],
@@ -145,6 +149,7 @@ export default {
       tabs: [
         { name: "DETAIL PRODUK BAHAN", slotName: "DetailProdukBahan" },
         { name: "DETAIL PRODUK JADI", slotName: "DetailProdukJadi" },
+        { name: "BIAYA KONVERSI", slotName: "BiayaKonversi" },
       ],
 
       isLoadingPage: Number.isInteger(id) ? true : false,
@@ -163,6 +168,7 @@ export default {
         keterangan: "",
         konversi_stok_detail_bahan: [],
         konversi_stok_detail_jadi: [],
+        biaya_konversi_details: [],
       },
       form: {
         item_id: "",
@@ -173,6 +179,7 @@ export default {
   components: {
     DetailItemBahan,
     DetailItemJadi,
+    BiayaKonversi,
   },
 
   async mounted() {
@@ -202,6 +209,14 @@ export default {
         if (response.data.konversi_stok_detail_jadis) {
           this.detail_item.konversi_stok_detail_jadi =
             response.data.konversi_stok_detail_jadis.map((item) => {
+              return {
+                ...item,
+              };
+            });
+        }
+        if (response.data.biaya_konversi_details) {
+          this.detail_item.biaya_konversi_details =
+            response.data.biaya_konversi_details.map((item) => {
               return {
                 ...item,
               };

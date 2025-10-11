@@ -26,7 +26,7 @@
           <tr class="text-sm uppercase text-nowrap">
             <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <!-- <th class="w-[200px] border border-gray-300">Divisi</th> -->
-            <th class="w-[200px] border border-gray-300">COA</th>
+            <th class="w-[300px] border border-gray-300">COA</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <!-- <th class="w-[200px] border border-gray-300">Berat</th>
             <th class="w-[200px] border border-gray-300">Volume</th> -->
@@ -119,6 +119,13 @@
                 v-model="item.coa_id"
                 class="w-full"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_coa }}
+                  </div>
+                </template>
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
