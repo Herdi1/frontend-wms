@@ -16,7 +16,7 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>                      
+                    <tr>
                       <th style="width: 5%">No</th>
                       <th style="width: 10%">Kode</th>
                       <th
@@ -30,12 +30,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -61,7 +56,7 @@
                         </div>
                       </th>
                       <th style="width: 10%">Produksi</th>
-                      <th style="Width: 10%">Jumlah</th>
+                      <th style="width: 10%">Jumlah</th>
                       <th class="text-center">Options</th>
                     </tr>
                   </thead>
@@ -71,13 +66,18 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
                       <td>
                         {{ item.code }} <br />
-                        
+
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
@@ -88,23 +88,25 @@
                           >
                         </div>
                       </td>
-                      <td>{{ item.date }}</td>                      
+                      <td>{{ item.date }}</td>
                       <td>
                         {{ item.work_order ? item.work_order.code : "-" }}
-                        <br/>                       
-                        <hr class="m-0 mt-1 p-0"/>                        
+                        <br />
+                        <hr class="m-0 mt-1 p-0" />
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
                         >
                           <i>Keterangan : {{ item.description }}</i>
                         </div>
-                      </td>             
+                      </td>
                       <td>
-                        Jumlah Produksi : {{ item.production_details_sum_quantity }}
-                        <br/>
-                        Jumlah Selesai {{ item.production_details_sum_quantity_finish }}
-                      </td>            
+                        Jumlah Produksi :
+                        {{ item.production_details_sum_quantity }}
+                        <br />
+                        Jumlah Selesai
+                        {{ item.production_details_sum_quantity_finish }}
+                      </td>
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -118,7 +120,7 @@
                             class="btn btn-sm"
                             @click="onEdit(item.id)"
                             v-if="
-                              !item.deleted_at && 
+                              !item.deleted_at &&
                               item.sent_to_warehouses_count == 0 &&
                               getRoles.update
                             "
@@ -129,20 +131,20 @@
                             class="btn btn-sm"
                             @click="onTrashed(item)"
                             v-if="
-                              !item.deleted_at && 
+                              !item.deleted_at &&
                               item.sent_to_warehouses_count == 0 &&
                               getRoles.destroy
                             "
                           >
                             <i class="fas fa-trash text-danger"></i>
-                          </button>                         
+                          </button>
                           <button
                             class="btn btn-sm"
                             @click="onDetail(item)"
                             v-if="getRoles.show"
                           >
                             <i class="fas fa-info-circle text-info"></i>
-                          </button>                        
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -313,11 +315,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -351,9 +349,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/production/add");
@@ -367,7 +363,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -567,7 +563,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

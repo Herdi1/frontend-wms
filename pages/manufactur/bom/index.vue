@@ -18,9 +18,9 @@
                   <thead>
                     <tr>
                       <!-- <th>
-                        <input 
-                          type="checkbox" 
-                          id="checkAll" 
+                        <input
+                          type="checkbox"
+                          id="checkAll"
                           @click="onCheckAll"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
@@ -38,12 +38,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -80,20 +75,25 @@
                       @click="onRowSelected(i)"
                     >
                       <!-- <td>
-                        <input 
-                          type="checkbox" 
-                          name="checkboxs[]" 
-                          :value="item.id" 
-                          v-model="parameters.form.checkboxs" 
+                        <input
+                          type="checkbox"
+                          name="checkboxs[]"
+                          :value="item.id"
+                          v-model="parameters.form.checkboxs"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
                       </td> -->
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
                       <td>
                         {{ item.code }} <br />
-                        
+
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
@@ -107,15 +107,15 @@
                       <td>{{ item.date }}</td>
                       <td>
                         {{ item.product ? item.product.name : "-" }}
-                        <br/>
-                        <hr class="m-0 mt-1 p-0"/>                        
+                        <br />
+                        <hr class="m-0 mt-1 p-0" />
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
                         >
                           <i>Keterangan : {{ item.description }}</i>
                         </div>
-                      </td>                    
+                      </td>
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -139,8 +139,8 @@
                           >
                             <i class="fas fa-trash text-danger"></i>
                           </button>
-                          <!--  <button class="btn btn-sm btn-success" 
-                            @click="onRestored(item)" 
+                          <!--  <button class="btn btn-sm btn-success"
+                            @click="onRestored(item)"
                             v-if="item.deleted_at && getRoles.restore">
                             <i class="fas fa-redo"></i>
                           </button> -->
@@ -151,7 +151,7 @@
                           >
                             <i class="fas fa-info-circle text-info"></i>
                           </button>
-                          <button 
+                          <button
                             class="btn btn-sm"
                             @click="onExportDetail(item)"
                             v-if="!item.deleted_at"
@@ -328,11 +328,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -366,9 +362,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/bom/add");
@@ -382,7 +376,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -584,16 +578,18 @@ export default {
       this.ActiveRow = index;
     },
 
-    onExportDetail(item){
+    onExportDetail(item) {
       var token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       window.open(
         process.env.API_URL +
-        "/manufactur/bom/get-export-detail/" + item.id +
-        "?token=" + token,
+          "/manufactur/bom/get-export-detail/" +
+          item.id +
+          "?token=" +
+          token,
         "_blank"
       );
-    }
+    },
   },
 };
 </script>

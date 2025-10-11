@@ -16,7 +16,7 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>                      
+                    <tr>
                       <th style="width: 5%">No</th>
                       <th style="width: 10%">Kode</th>
                       <th
@@ -30,12 +30,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -61,10 +56,9 @@
                         </div>
                       </th>
                       <th style="width: 10%">Jenis Produksi</th>
-                      <th style="Width: 10%">Jumlah Produk</th>
-                      <th style="Width: 10%">Status</th>
-                      <th style="Width: 10%">CLOSE</th>
-
+                      <th style="width: 10%">Jumlah Produk</th>
+                      <th style="width: 10%">Status</th>
+                      <th style="width: 10%">CLOSE</th>
 
                       <th class="text-center">Options</th>
                     </tr>
@@ -75,13 +69,18 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
                       <td>
                         {{ item.code }} <br />
-                        
+
                         <!-- <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
@@ -92,28 +91,30 @@
                           >
                         </div> -->
                       </td>
-                      <td>{{ item.tanggal }}</td>                      
+                      <td>{{ item.tanggal }}</td>
                       <td>
-                        {{ item.jenis_produksi}}
-                        <!-- <br/>                       
-                        <hr class="m-0 mt-1 p-0"/>                        
+                        {{ item.jenis_produksi }}
+                        <!-- <br/>
+                        <hr class="m-0 mt-1 p-0"/>
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
                         >
                           <i>Keterangan : {{ item.description }}</i>
                         </div> -->
-                      </td>             
-                      <td>{{ item.detail_packing_list_count }}</td>                      
-                      <td>{{ item.status }}</td>                      
-                      <td><button
-                              class="btn btn-primary"
-                               v-if="item.status == 'OPEN'"
-                              @click="closePackingList(item)"
-                            >
-                              <i class="fas fa-print"></i> CLOSE
-                            </button></td>                      
-                               
+                      </td>
+                      <td>{{ item.detail_packing_list_count }}</td>
+                      <td>{{ item.status }}</td>
+                      <td>
+                        <button
+                          class="btn btn-primary"
+                          v-if="item.status == 'OPEN'"
+                          @click="closePackingList(item)"
+                        >
+                          <i class="fas fa-print"></i> CLOSE
+                        </button>
+                      </td>
+
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -127,7 +128,8 @@
                             class="btn btn-sm"
                             @click="onEdit(item.id)"
                             v-if="
-                              !item.deleted_at && item.status == 'CLOSE' &&
+                              !item.deleted_at &&
+                              item.status == 'CLOSE' &&
                               // item.sent_to_warehouses_count == 0 &&
                               getRoles.update
                             "
@@ -138,20 +140,21 @@
                             class="btn btn-sm"
                             @click="onTrashed(item)"
                             v-if="
-                              !item.deleted_at && item.status == 'OPEN' &&
+                              !item.deleted_at &&
+                              item.status == 'OPEN' &&
                               // item.sent_to_warehouses_count == 0 &&
                               getRoles.destroy
                             "
                           >
                             <i class="fas fa-trash text-danger"></i>
-                          </button>                         
+                          </button>
                           <button
                             class="btn btn-sm"
                             @click="onDetail(item)"
                             v-if="getRoles.show"
                           >
                             <i class="fas fa-info-circle text-info"></i>
-                          </button>                        
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -281,8 +284,7 @@ export default {
           end_date: "",
           is_kosong: "no",
           // by_user: 'yes',
-          by_department: 'yes',
-
+          by_department: "yes",
 
           // master_proces_id:'1',
         },
@@ -298,8 +300,7 @@ export default {
           end_date: "",
           is_kosong: "no",
           // by_user: 'yes',
-          by_department: 'yes',
-
+          by_department: "yes",
         },
         form: {
           checkboxs: [],
@@ -332,11 +333,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -370,9 +367,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/packinglist/add");
@@ -386,7 +381,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -427,13 +422,12 @@ export default {
         method: "post",
         data: formData,
       })
-        .then(res => {
-
+        .then((res) => {
           // this.setCode();
           // this.onChangeType();
           this.onLoad(this.parameters.params.page);
         })
-        .catch(err => {
+        .catch((err) => {
           this.$globalErrorToaster(this.$toaster, err);
         });
     },
@@ -608,7 +602,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

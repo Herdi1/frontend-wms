@@ -37,9 +37,9 @@
                   <thead>
                     <tr>
                       <!-- <th>
-                        <input 
-                          type="checkbox" 
-                          id="checkAll" 
+                        <input
+                          type="checkbox"
+                          id="checkAll"
                           @click="onCheckAll"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
@@ -57,12 +57,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -98,12 +93,7 @@
                         class="cursor-pointer"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Total</div>
                           <div>
@@ -139,12 +129,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Diskon</div>
                           <div>
@@ -180,12 +165,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>PPN</div>
                           <div>
@@ -221,12 +201,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Grand Total</div>
                           <div>
@@ -262,20 +237,25 @@
                       @click="onRowSelected(i)"
                     >
                       <!-- <td>
-                        <input 
-                          type="checkbox" 
-                          name="checkboxs[]" 
-                          :value="item.id" 
-                          v-model="parameters.form.checkboxs" 
+                        <input
+                          type="checkbox"
+                          name="checkboxs[]"
+                          :value="item.id"
+                          v-model="parameters.form.checkboxs"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
                       </td> -->
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
                       <td>
                         {{ item.code }} <br />
-                        
+
                         <div
                           class="text-left m-0 p-0"
                           style="font-size: 12px !important"
@@ -289,7 +269,8 @@
                       <td>{{ item.date }}</td>
                       <td>
                         {{ item.customer ? item.customer.name : "-" }}
-                        <br /><hr class="m-0 mt-1 p-0"/>
+                        <br />
+                        <hr class="m-0 mt-1 p-0" />
 
                         <span class="row m-0 p-0">
                           <div class="col m-0 p-0">
@@ -353,8 +334,8 @@
                           >
                             <i class="fas fa-trash text-danger"></i>
                           </button>
-                          <!--  <button class="btn btn-sm btn-success" 
-                            @click="onRestored(item)" 
+                          <!--  <button class="btn btn-sm btn-success"
+                            @click="onRestored(item)"
                             v-if="item.deleted_at && getRoles.restore">
                             <i class="fas fa-redo"></i>
                           </button> -->
@@ -583,7 +564,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {

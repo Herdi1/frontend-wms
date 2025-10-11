@@ -16,7 +16,7 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>                      
+                    <tr>
                       <th style="width: 5%">No</th>
                       <th
                         @click="
@@ -29,12 +29,7 @@
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div>Tgl</div>
                           <div>
@@ -70,14 +65,21 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
                       </td>
-                      <td>{{ item.tanggal }}</td>           
-                      <td>{{ item.work_center ? item.work_center.name : '-' }}</td>           
-                      <td>{{ item.regu ? item.regu.name : '-' }}</td>           
-                               
+                      <td>{{ item.tanggal }}</td>
+                      <td>
+                        {{ item.work_center ? item.work_center.name : "-" }}
+                      </td>
+                      <td>{{ item.regu ? item.regu.name : "-" }}</td>
+
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -91,9 +93,9 @@
                             class="btn btn-sm"
                             @click="onEdit(item.id)"
                             v-if="
-                              // !item.deleted_at && 
-                              // item.is_can_update_or_delete && 
-                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 && 
+                              // !item.deleted_at &&
+                              // item.is_can_update_or_delete &&
+                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 &&
                               getRoles.update
                             "
                           >
@@ -103,21 +105,21 @@
                             class="btn btn-sm"
                             @click="onTrashed(item)"
                             v-if="
-                              // !item.deleted_at && 
-                              // item.is_can_update_or_delete && 
-                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 && 
+                              // !item.deleted_at &&
+                              // item.is_can_update_or_delete &&
+                              // parseFloat(item.material_requirement_details_sum_quantity_receive) == 0 &&
                               getRoles.destroy
                             "
                           >
                             <i class="fas fa-trash text-danger"></i>
-                          </button>                         
+                          </button>
                           <button
                             class="btn btn-sm"
                             @click="onDetail(item)"
                             v-if="getRoles.show"
                           >
                             <i class="fas fa-info-circle text-info"></i>
-                          </button>                        
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -245,7 +247,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          jenis:"GOODS",
+          jenis: "GOODS",
         },
         default_params: {
           soft_deleted: "",
@@ -258,7 +260,6 @@ export default {
           start_date: "",
           end_date: "",
           jenis: "GOODS",
-
         },
         form: {
           checkboxs: [],
@@ -291,11 +292,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -329,9 +326,7 @@ export default {
       "restoreAllData",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/mesin/machine_counter/add");
@@ -345,7 +340,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -545,7 +540,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

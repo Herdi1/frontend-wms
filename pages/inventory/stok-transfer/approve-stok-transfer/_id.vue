@@ -140,7 +140,7 @@
                   class="w-[60%] h-8 p-1 rounded-md border border-gray-300 outline-none"
                 >
                   <option value="0">Menunggu</option>
-                  <option value="1">Diapprove</option>
+                  <option value="1">Approve</option>
                 </select>
               </div>
               <!-- <div class="form-group">

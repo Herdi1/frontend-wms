@@ -16,87 +16,81 @@
                   ref="formContainer"
                 >
                   <thead>
-                    <tr>    
+                    <tr>
                       <th
-                          @click="
-                            onSort(
-                              'date',
-                              parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                            )
-                            "
-                          class="cursor-pointer"
-                          style="width: 10%"
+                        @click="
+                          onSort(
+                            'date',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer"
+                        style="width: 10%"
+                      >
+                        <div
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
-                          <div
-                            class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
-                          >
-                            <div>P/R No</div>
-                            <div>
-                              <i
-                                class="fas fa-caret-up"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'asc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                              <i
-                                class="fas fa-caret-down"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'desc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                            </div>
+                          <div>P/R No</div>
+                          <div>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
                           </div>
-                        </th>
-                        <th
-                          @click="
-                            onSort(
-                              'date',
-                              parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                            )
-                            "
-                          class="cursor-pointer"
-                          style="width: 5%"
+                        </div>
+                      </th>
+                      <th
+                        @click="
+                          onSort(
+                            'date',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer"
+                        style="width: 5%"
+                      >
+                        <div
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
-                          <div
-                            class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
-                          >
-                            <div>P/R Date</div>
-                            <div>
-                              <i
-                                class="fas fa-caret-up"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'asc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                              <i
-                                class="fas fa-caret-down"
-                                :class="parameters.params.order == 'date' &&
-                                    parameters.params.sort == 'desc'
-                                    ? ''
-                                    : 'light-gray'
-                                  "
-                              ></i>
-                            </div>
+                          <div>P/R Date</div>
+                          <div>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'date' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
                           </div>
-                        </th>                 
+                        </div>
+                      </th>
                       <th style="width: 5%">ProductID</th>
-                      
+
                       <th style="width: 10%">Description</th>
                       <th style="width: 5%">Qty</th>
                       <th style="width: 5%">Unit</th>
@@ -115,64 +109,85 @@
                       v-for="(item, i) in data"
                       :key="i"
                       @click="onRowSelected(i)"
-                    >                    
+                    >
                       <td>
-                        {{ item.permintaan_pembeliaan ? item.permintaan_pembeliaan.code : "-" }}
+                        {{
+                          item.permintaan_pembeliaan
+                            ? item.permintaan_pembeliaan.code
+                            : "-"
+                        }}
                       </td>
                       <td>
-                        {{ item.permintaan_pembeliaan ? item.permintaan_pembeliaan.tanggal : "-" }}
+                        {{
+                          item.permintaan_pembeliaan
+                            ? item.permintaan_pembeliaan.tanggal
+                            : "-"
+                        }}
                       </td>
-                      <td>{{ item.product ? item.product.code : "-" }}</td>                      
+                      <td>{{ item.product ? item.product.code : "-" }}</td>
                       <td>
-                        {{  item.product ? item.product.name : "-" }}
-                      </td>         
+                        {{ item.product ? item.product.name : "-" }}
+                      </td>
                       <td>
-                        {{ item.quantity }} 
-                      </td>           
+                        {{ item.quantity }}
+                      </td>
                       <td class="text-center">
                         {{ item.product ? item.product.purchase_unit : "-" }}
                       </td>
 
                       <td class="table-transaction-row">
-                        <v-select                           
-                                                      label="name"   
-                                                      :loading="isLoadingGetSupplier"
-                                                      :options="lookup_suppliers.data"
-                                                      :filterable="false"
-                                                      @search="onGetSupplier"
-                                                      @input="onSetSupplier"
-                                                      v-model="form.supplier_id">              
-                                                      <template v-slot:option="option">                    
-                                                          <div class="row">
-                                                              <div class="col-md-5 p-1 m-0">
-                                                              {{ option.name }}
-                                                              </div>
-                                                              <div class="col-md-7 p-1 m-0 text-right">
-                                                                  {{ option.code }}
-                                                              </div>
-                                                          </div>
-                                                      </template> 
-                                                      <template #search="{ attributes, events }">
-                                                          <input
-                                                          class="vs__search"
-                                                          :required="!form.supplier_id"
-                                                          v-bind="attributes"
-                                                          v-on="events"
-                                                          />
-                                                      </template>   
-                                                      <li slot-scope="{search}" slot="list-footer"
-                                                          class="d-flex justify-content-between"
-                                                          v-if="lookup_suppliers.data.length || search">
-                                                          <span v-if="lookup_suppliers.current_page > 1" 
-                                                              @click="onGetSupplier(search, false)"
-                                                              class="flex-fill bg-primary text-white text-center"
-                                                              style="cursor:pointer">Sebelumnya</span>
-                                                          <span v-if="lookup_suppliers.last_page > lookup_suppliers.current_page" 
-                                                              @click="onGetSupplier(search, true)"
-                                                              class="flex-fill bg-primary text-white text-center"
-                                                              style="cursor:pointer">Selanjutnya</span>
-                                                      </li> 
-                                                  </v-select>  
+                        <v-select
+                          label="name"
+                          :loading="isLoadingGetSupplier"
+                          :options="lookup_suppliers.data"
+                          :filterable="false"
+                          @search="onGetSupplier"
+                          @input="onSetSupplier"
+                          v-model="form.supplier_id"
+                        >
+                          <template v-slot:option="option">
+                            <div class="row">
+                              <div class="col-md-5 p-1 m-0">
+                                {{ option.name }}
+                              </div>
+                              <div class="col-md-7 p-1 m-0 text-right">
+                                {{ option.code }}
+                              </div>
+                            </div>
+                          </template>
+                          <template #search="{ attributes, events }">
+                            <input
+                              class="vs__search"
+                              :required="!form.supplier_id"
+                              v-bind="attributes"
+                              v-on="events"
+                            />
+                          </template>
+                          <li
+                            slot-scope="{ search }"
+                            slot="list-footer"
+                            class="d-flex justify-content-between"
+                            v-if="lookup_suppliers.data.length || search"
+                          >
+                            <span
+                              v-if="lookup_suppliers.current_page > 1"
+                              @click="onGetSupplier(search, false)"
+                              class="flex-fill bg-primary text-white text-center"
+                              style="cursor: pointer"
+                              >Sebelumnya</span
+                            >
+                            <span
+                              v-if="
+                                lookup_suppliers.last_page >
+                                lookup_suppliers.current_page
+                              "
+                              @click="onGetSupplier(search, true)"
+                              class="flex-fill bg-primary text-white text-center"
+                              style="cursor: pointer"
+                              >Selanjutnya</span
+                            >
+                          </li>
+                        </v-select>
                       </td>
                     </tr>
                   </tbody>
@@ -242,8 +257,6 @@ export default {
   },
 
   mounted() {
-
-
     this.$refs["form-option"].isAddData = false;
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isFilter = true;
@@ -289,7 +302,7 @@ export default {
 
       isStopSearchSupplier: false,
       isLoadingGetSupplier: false,
-      supplier_search: '',
+      supplier_search: "",
 
       isPaginate: true,
       ActiveRow: null,
@@ -306,7 +319,7 @@ export default {
           page: 1,
           start_date: "",
           end_date: "",
-          jenis:"GOODS",
+          jenis: "GOODS",
         },
         default_params: {
           soft_deleted: "",
@@ -319,7 +332,6 @@ export default {
           start_date: "",
           end_date: "",
           jenis: "GOODS",
-
         },
         form: {
           checkboxs: [],
@@ -356,12 +368,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      'lookup_suppliers',
-      "data", 
-      "error", 
-      "result"
-    ]),
+    ...mapState("moduleApi", ["lookup_suppliers", "data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -393,12 +400,10 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
-      'lookUp',
+      "lookUp",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/purchaseing_module/permintaan_pembelian/add");
@@ -435,12 +440,13 @@ export default {
         await this.lookUp({
           url: "purchaseing_module/po_supplier/get-supplier",
           lookup: "suppliers",
-          query: "?search="
-            + this.supplier_search +
-            "&page="
-            + this.lookup_suppliers.current_page +
-            "&per_page=10"
-        })
+          query:
+            "?search=" +
+            this.supplier_search +
+            "&page=" +
+            this.lookup_suppliers.current_page +
+            "&per_page=10",
+        });
 
         this.isLoadingGetSupplier = false;
       }
@@ -450,7 +456,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -650,7 +656,7 @@ export default {
 
     onRowSelected(index) {
       this.ActiveRow = index;
-    }
+    },
   },
 };
 </script>

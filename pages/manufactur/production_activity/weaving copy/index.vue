@@ -13,7 +13,8 @@
                       data-toggle="tooltip"
                       data-placement="top"
                       data-original-title="Import"
-                      @click="$router.push('/master/product/import')">
+                      @click="$router.push('/master/product/import')"
+                    >
                       <i class="fas fa-file"></i> Import
                     </button>
                   </template>
@@ -50,7 +51,8 @@
               <div class="table-responsive">
                 <table
                   class="table table-striped table-sm vld-parent table-hover"
-                  ref="formContainer">
+                  ref="formContainer"
+                >
                   <thead>
                     <tr>
                       <th>
@@ -63,17 +65,17 @@
                       </th>
                       <th style="width: 3%">No</th>
                       <th
-                        @click="onSort('name',parameters.params.sort == 'asc' ? 'desc' : 'asc')"
+                        @click="
+                          onSort(
+                            'name',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
                         class="cursor-pointer"
                         style="width: 10%"
                       >
                         <div
-                          class="
-                            d-flex
-                            flex-row
-                            justify-content-between
-                            align-items-baseline
-                          "
+                          class="d-flex flex-row justify-content-between align-items-baseline"
                         >
                           <div style="width: 25%">Date</div>
                           <div>
@@ -100,16 +102,16 @@
                       </th>
                       <th style="width: 5%">Group</th>
                       <th style="width: 5%">Speed</th>
-                        <th style="width: 5%">Set</th>
-                        <th style="width: 10%">RefNo</th>
-                        <th style="width: 15%">Batch</th>
-                        <th style="width: 10%">ProductID</th>
-                        <th style="width: 15%">ProductName</th>
-                        <th style="width: 15%">SPK Qty</th>
-                        <th style="width: 5%">Beam</th>
+                      <th style="width: 5%">Set</th>
+                      <th style="width: 10%">RefNo</th>
+                      <th style="width: 15%">Batch</th>
+                      <th style="width: 10%">ProductID</th>
+                      <th style="width: 15%">ProductName</th>
+                      <th style="width: 15%">SPK Qty</th>
+                      <th style="width: 5%">Beam</th>
 
                       <th style="width: 5%">MchNo</th>
-                      
+
                       <th style="width: 5%">Length</th>
                       <th style="width: 5%">GrossWeight</th>
                       <th style="width: 5%">BeamWeight</th>
@@ -122,9 +124,10 @@
                   <tbody>
                     <tr
                       v-for="(item, i) in data"
-                      :class="{'table-active' : ActiveRow == i}"
+                      :class="{ 'table-active': ActiveRow == i }"
                       :key="i"
-                      @click="onRowSelected(i)">
+                      @click="onRowSelected(i)"
+                    >
                       <td>
                         <input
                           type="checkbox"
@@ -136,29 +139,31 @@
                       </td>
                       <td>
                         {{
-                          (parameters.params.page - 1) * parameters.params.per_page + i + 1
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
                         }}
                       </td>
                       <td>
                         {{ item.tanggal }}
                       </td>
-                      <td>{{ item.regu.code }}</td> 
-                      <td>{{ item.speed }}</td>  
-                      <td>{{ item.no_set }}</td>  
-                        <td>{{ item.code }}</td>
-                        <td>{{ item.production_detail.no_batch }}</td>  
-                        <td>{{ item.production_detail.product.code }}</td>                  
-                        <td>{{ item.production_detail.product.name }}</td> 
-                      <td></td>                  
-                      <td>{{ item.master_beam.code }}</td>                  
-                      <td>{{ item.master_machine.code }}</td> 
-                      <td>{{ item.length }}</td>  
-                      <td>{{ item.gross_weight }}</td>  
-                      <td>{{ item.beam_weight }}</td>  
-                      <td>{{ item.nett_weight }}</td>  
-                      <td>{{ item.counter }}</td>  
-                      
-                  
+                      <td>{{ item.regu.code }}</td>
+                      <td>{{ item.speed }}</td>
+                      <td>{{ item.no_set }}</td>
+                      <td>{{ item.code }}</td>
+                      <td>{{ item.production_detail.no_batch }}</td>
+                      <td>{{ item.production_detail.product.code }}</td>
+                      <td>{{ item.production_detail.product.name }}</td>
+                      <td></td>
+                      <td>{{ item.master_beam.code }}</td>
+                      <td>{{ item.master_machine.code }}</td>
+                      <td>{{ item.length }}</td>
+                      <td>{{ item.gross_weight }}</td>
+                      <td>{{ item.beam_weight }}</td>
+                      <td>{{ item.nett_weight }}</td>
+                      <td>{{ item.counter }}</td>
+
                       <td class="text-center">
                         <div class="btn-group border border-success">
                           <button
@@ -206,39 +211,40 @@
       </div>
     </div>
 
-    
-    <filter-section
-      :self="this"
-      ref="form-filter">
+    <filter-section :self="this" ref="form-filter">
       <template>
-  
         <div class="col-md-12">
           <div class="form-group">
             <label for="role">Group</label>
-            <input type="text" 
+            <input
+              type="text"
               class="form-control"
-              v-model="parameters.params.product_spesifiaction_group"/>
+              v-model="parameters.params.product_spesifiaction_group"
+            />
           </div>
         </div>
 
         <div class="col-md-12">
           <div class="form-group">
             <label for="role">Properties</label>
-            <input type="text" 
+            <input
+              type="text"
               class="form-control"
-              v-model="parameters.params.product_spesification_propertie"/>
+              v-model="parameters.params.product_spesification_propertie"
+            />
           </div>
         </div>
 
         <div class="col-md-12">
           <div class="form-group">
             <label for="role">Value</label>
-            <input type="text" 
+            <input
+              type="text"
               class="form-control"
-              v-model="parameters.params.product_spesification_value"/>
+              v-model="parameters.params.product_spesification_value"
+            />
           </div>
         </div>
-        
       </template>
     </filter-section>
   </section>
@@ -324,11 +330,11 @@ export default {
           per_page: 10,
           master_proces_id: 35,
 
-          page: 1,      
-          product_spesification_id: '1',
-          product_spesifiaction_group : '',
-          product_spesification_propertie : '',
-          product_spesification_value : ''
+          page: 1,
+          product_spesification_id: "1",
+          product_spesifiaction_group: "",
+          product_spesification_propertie: "",
+          product_spesification_value: "",
         },
         default_params: {
           soft_deleted: "",
@@ -337,13 +343,13 @@ export default {
           sort: "desc",
           all: "",
           per_page: 10,
-          page: 1,   
+          page: 1,
           master_proces_id: 35,
 
-          product_spesification_id: '1',
-          product_spesifiaction_group : '',
-          product_spesification_propertie : '',
-          product_spesification_value : ''
+          product_spesification_id: "1",
+          product_spesifiaction_group: "",
+          product_spesification_propertie: "",
+          product_spesification_value: "",
         },
         form: {
           checkboxs: [],
@@ -372,11 +378,7 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", [
-      "data", 
-      "error", 
-      "result",
-    ]),
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
     getRoles() {
       if (!this.user.parent_id) {
@@ -408,12 +410,10 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
-      "lookUp"
+      "lookUp",
     ]),
 
-    ...mapMutations("moduleApi", [
-      "set_data"
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
     onFormShow() {
       this.$router.push("/manufactur/production_activity/weaving/add");
@@ -427,7 +427,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.form.checkboxs = [];
       if (document.getElementById("checkAll")) {
@@ -614,13 +614,13 @@ export default {
       );
     },
 
-    stentecase(value){
-      if(value){
+    stentecase(value) {
+      if (value) {
         return value[0].toUpperCase() + value.slice(1).toLowerCase();
-      }else{
-        return '-';
+      } else {
+        return "-";
       }
-    }
+    },
   },
 };
 </script>

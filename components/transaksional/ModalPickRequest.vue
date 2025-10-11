@@ -169,7 +169,8 @@
                       </div>
                     </th>
 
-                    <th class="border border-gray-300 w-32">Pelanggan</th>
+                    <th class="border border-gray-300 w-32">Shipto</th>
+                    <!-- <th class="border border-gray-300 w-32">Pelanggan</th> -->
                     <th class="border border-gray-300 w-32">Quantity</th>
                     <th class="w-20">Options</th>
                   </tr>
@@ -223,8 +224,11 @@
                       {{ item.nama_item ? item.nama_item : "-" }}
                     </td>
                     <td class="border border-gray-300">
-                      {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
+                      {{ item.nama_lokasi ?? "-" }}
                     </td>
+                    <!-- <td class="border border-gray-300">
+                      {{ item.pelanggan ? item.pelanggan.nama_pelanggan : "-" }}
+                    </td> -->
                     <td class="border border-gray-300">
                       {{ item.sisa_quantity ? item.sisa_quantity : "-" }}
                     </td>
@@ -317,7 +321,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       this.parameters.url = `outbound/pick-request/get-pick-request-detail/${this.self.parameters.form.gudang_id.gudang_id}`;
 

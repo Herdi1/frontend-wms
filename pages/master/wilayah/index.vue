@@ -252,7 +252,7 @@ export default {
       if (this.isLoadingData) return;
 
       this.isLoadingData = true;
-      this.parameters.params.page = page;
+      this.parameters.params.page = parseInt(page) || 1;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,

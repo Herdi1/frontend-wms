@@ -401,9 +401,9 @@
                   </table>
                 </div>
               </template>
-              <template #Biaya>
-                <BiayaRelokasi :self="{ parameters }" />
-                <!-- <div class="w-full flex justify-between items-center mt-3">
+              <!-- <template #Biaya>
+                <BiayaRelokasi :self="{ parameters }" /> -->
+              <!-- <div class="w-full flex justify-between items-center mt-3">
                   <h1 class="text-xl font-bold">Biaya</h1>
 
                   <div>
@@ -619,7 +619,7 @@
                     </tbody>
                   </table>
                 </div> -->
-              </template>
+              <!-- </template> -->
             </TabComponent>
           </div>
           <modal-footer-section
@@ -658,10 +658,10 @@ export default {
           name: "Detail Item",
           slotName: "DetailItem",
         },
-        {
-          name: "Detail Biaya Relokasi",
-          slotName: "Biaya",
-        },
+        // {
+        //   name: "Detail Biaya Relokasi",
+        //   slotName: "Biaya",
+        // },
       ],
 
       id,
