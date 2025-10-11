@@ -844,7 +844,7 @@ export default {
           divisi_id: item.divisi_id ? item.divisi_id.divisi_id ?? "" : "",
           kendaraan_id: item.kendaraan_id ? item.kendaraan_id.kendaraan_id : "",
           peralatan_id: item.peralatan_id
-            ? item.peralatan_id.divisi_id ?? ""
+            ? item.peralatan_id.peralatan_id ?? ""
             : "",
           // profit_center_id: item.profit_center_id || "",
           // cost_center_id: item.cost_center_id || "",

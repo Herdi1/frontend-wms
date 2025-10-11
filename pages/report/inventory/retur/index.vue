@@ -178,6 +178,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
                 :required="true"
+                :max="parameters.params.end_date"
               />
             </div>
             <div class="form-group w-full">
@@ -188,6 +189,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
                 :required="true"
+                :min="parameters.params.start_date"
               />
             </div>
             <div class="flex w-full m-1 pr-1">
@@ -223,14 +225,24 @@
         </div>
       </div>
     </div>
+
+    <PreviewDocumentSection
+      v-if="isPreviewDoc"
+      :src="preview_doc"
+      height="500"
+    />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import PreviewDocumentSection from "../../../../components/section/PreviewDocumentSection.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+  components: {
+    PreviewDocumentSection,
+  },
 
   head() {
     return {
@@ -239,6 +251,14 @@ export default {
   },
 
   async mounted() {
+    let date = new Date();
+    let y = date.getFullYear();
+    let m = date.getMonth();
+
+    let fm = new Date(y, m, 1);
+    let lm = new Date(y, m + 1, 0);
+    this.parameters.params.start_date = this.formatDate(fm);
+    this.parameters.params.end_date = this.formatDate(lm);
     await this.onSearchProvinsi();
     await this.onSearchGudang();
     await this.onSearchWilayah();
@@ -251,7 +271,8 @@ export default {
     return {
       title: "Laporan Retur",
       isLoadingData: false,
-
+      isPreviewDoc: false,
+      preview_doc: "",
       parameters: {
         url: "report/retur/export",
         params: {
@@ -480,6 +501,9 @@ export default {
         return;
       }
 
+      this.preview_doc = "";
+      this.isPreviewDoc = false;
+
       let url =
         this.parameters.url +
         "?download=" +
@@ -499,9 +523,9 @@ export default {
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-      this.parameters.params.start_date = "";
-      this.parameters.params.end_date = "";
+      // window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.preview_doc = process.env.API_URL + url + "&token=" + token;
+      this.isPreviewDoc = true;
     },
 
     async onExport() {
@@ -573,6 +597,13 @@ export default {
       } catch (error) {
         this.$globalErrorToaster(this.$toaster, error);
       }
+    },
+
+    formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     },
   },
 };

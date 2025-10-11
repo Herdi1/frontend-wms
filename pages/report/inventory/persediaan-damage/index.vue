@@ -223,6 +223,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
                 :required="true"
+                :max="parameters.params.end_date"
               />
             </div>
             <div class="form-group w-full">
@@ -233,6 +234,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
                 :required="true"
+                :min="parameters.params.start_date"
               />
             </div>
           </div>
@@ -257,15 +259,24 @@
       </div>
     </div>
     <div></div>
+
+    <PreviewDocumentSection
+      v-if="isPreviewDoc"
+      :src="preview_doc"
+      height="500"
+    />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
-
+import PreviewDocumentSection from "../../../../components/section/PreviewDocumentSection.vue";
 export default {
   middleware: ["checkRoleUser"],
 
+  components: {
+    PreviewDocumentSection,
+  },
   head() {
     return {
       title: "Laporan Persediaan damage",
@@ -290,7 +301,8 @@ export default {
     return {
       title: "Laporan Persediaan Damage",
       isLoadingData: false,
-
+      isPreviewDoc: false,
+      preview_doc: "",
       parameters: {
         url: "report/persediaan-damage/export",
         params: {
@@ -634,6 +646,9 @@ export default {
         return;
       }
 
+      this.preview_doc = "";
+      this.isPreviewDoc = false;
+
       this.parameters.params.start_date = this.formatDate(
         this.parameters.params.start_date
       );
@@ -660,9 +675,9 @@ export default {
         "&mode=preview";
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
-      window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-      this.parameters.params.start_date = "";
-      this.parameters.params.end_date = "";
+      // window.open(process.env.API_URL + url + "&token=" + token, "_blank");
+      this.preview_doc = process.env.API_URL + url + "&token=" + token;
+      this.isPreviewDoc = true;
     },
 
     async onExport() {

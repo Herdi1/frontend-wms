@@ -1102,6 +1102,19 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
+      let invalids = this.form.inbound_details.filter((item) => {
+        return (
+          item.jenis_biaya_id.kode_jenis_biaya === "Forklift" &&
+          item.peralatan_id.jenis_biaya_id !==
+            item.jenis_biaya_id.jenis_biaya_id
+        );
+      });
+
+      if (invalids.length > 0) {
+        this.$toaster.error(`Peralatan dan Jenis Biaya Tidak Sesuai`);
+        return;
+      }
+
       this.isLoadingForm = true;
       let url = "inbound/inbound";
 
@@ -1693,6 +1706,7 @@ export default {
         this.form.tagihan_inbounds = [];
         await this.onSearchAsn();
         await this.onSearchItemGudang();
+        await this.onSearchZonaPlan();
         await this.onSearchPurchaseOrder();
         await this.onSearchPeralatan();
         await this.onSearchStaff();

@@ -120,6 +120,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
                 :required="false"
+                :max="parameters.params.end_date"
               />
             </div>
             <div class="form-group w-full">
@@ -130,6 +131,7 @@
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
                 :required="false"
+                :min="parameters.params.start_date"
               />
             </div>
           </div>
@@ -149,14 +151,25 @@
       </div>
     </div>
     <div></div>
+
+    <PreviewDocumentSection
+      v-if="isPreviewDoc"
+      :src="preview_doc"
+      height="500"
+    />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import PreviewDocumentSection from "../../../../components/section/PreviewDocumentSection.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+
+  components: {
+    PreviewDocumentSection,
+  },
 
   head() {
     return {
@@ -167,6 +180,14 @@ export default {
   created() {},
 
   async mounted() {
+    let date = new Date();
+    let y = date.getFullYear();
+    let m = date.getMonth();
+
+    let fm = new Date(y, m, 1);
+    let lm = new Date(y, m + 1, 0);
+    this.parameters.params.start_date = this.formatDate(fm);
+    this.parameters.params.end_date = this.formatDate(lm);
     await this.onSearchGudang();
     await this.onSearchWilayah();
   },
@@ -175,7 +196,8 @@ export default {
     return {
       title: "Laporan Revenue Biaya Gudang",
       isLoadingData: false,
-
+      isPreviewDoc: false,
+      preview_doc: "",
       parameters: {
         url: "report/revenue-biaya-gudang/export",
         params: {
@@ -383,6 +405,13 @@ export default {
         console.log(error);
         this.$globalErrorToaster(this.$toaster, error);
       }
+    },
+
+    formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     },
   },
 };

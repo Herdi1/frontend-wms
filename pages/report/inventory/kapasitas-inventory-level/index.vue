@@ -130,14 +130,25 @@
         </div>
       </div>
     </div>
+
+    <PreviewDocumentSection
+      v-if="isPreviewDoc"
+      :src="preview_doc"
+      height="500"
+    />
   </section>
 </template>
 
 <script>
 import { mapActions, mapState, mapMutations } from "vuex";
+import PreviewDocumentSection from "../../../../components/section/PreviewDocumentSection.vue";
 
 export default {
   middleware: ["checkRoleUser"],
+
+  components: {
+    PreviewDocumentSection,
+  },
 
   head() {
     return {
@@ -154,7 +165,8 @@ export default {
     return {
       title: "Kapasitas Inventory Level",
       isLoadingData: false,
-
+      isPreviewDoc: false,
+      preview_doc: "",
       parameters: {
         url: "report/kapasitas/export",
         params: {

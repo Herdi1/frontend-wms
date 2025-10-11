@@ -369,7 +369,7 @@
                       </v-select>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_jenis_biaya"
                         :loading="isLoadingGetJenisBiaya"
@@ -379,7 +379,6 @@
                         v-model="item.jenis_biaya_id"
                         @input="(item) => onSelectJenisBiaya(item, i)"
                       >
-                        <!-- @input="onSelectItem(i)" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -401,7 +400,21 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <select
+                        class="p-1 w-full border border-gray-300 rounded-md outline-none"
+                        name="jenis_biaya_id"
+                        id="jenis_biaya_id"
+                        v-model="item.jenis_biaya_id"
+                      >
+                        <option
+                          v-for="(item, i) in lookup_beam"
+                          :key="i"
+                          :value="item.jenis_biaya_id"
+                        >
+                          {{ item.nama_jenis_biaya }}
+                        </option>
+                      </select>
                     </td>
                     <td class="border border-gray-300">
                       <v-select
@@ -957,7 +970,12 @@ export default {
     // await this.onSearchItemGudang();
     // await this.onSearchStaff();
     await this.onSearchPeralatan();
-    await this.onSearchJenisBiaya();
+    // await this.onSearchJenisBiaya();
+    await this.lookUp({
+      url: "master/jenis-biaya/get-jenis-biaya",
+      lookup: "beam",
+      query: "?jenis=TKBM" + "&all=1",
+    });
     // await this.onSearchSlotAisle();
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
@@ -1158,8 +1176,8 @@ export default {
               : "",
           jenis_biaya_id:
             typeof item.jenis_biaya_id == "object" && item.jenis_biaya_id
-              ? item.jenis_biaya_id.jenis_biaya_id
-              : item.jenis_biaya_id,
+              ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+              : item.jenis_biaya_id ?? "",
         };
       });
 
@@ -1865,7 +1883,8 @@ export default {
     onSelectPeralatan(item, index) {
       if (item) {
         this.parameters.form.pick_order_details[index].peralatan_id = item;
-        this.parameters.form.pick_order_details[index].jenis_biaya_id = "";
+        this.parameters.form.pick_order_details[index].jenis_biaya_id =
+          item.jenis_biaya_id ?? "";
       } else {
         this.parameters.form.pick_order_details[index].peralatan_id = "";
         this.parameters.form.pick_order_details[index].jenis_biaya_id = "";

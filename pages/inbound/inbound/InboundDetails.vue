@@ -39,6 +39,7 @@
             </th>
             <th class="w-[200px] border border-gray-300">Tanggal Expired</th>
             <th class="w-[200px] border border-gray-300">Peralatan</th>
+            <th class="w-[200px] border border-gray-300">Jenis Biaya</th>
             <th
               class="w-[200px] border border-gray-300"
               v-if="self.form.sumber_data === 'ASN'"
@@ -149,7 +150,7 @@
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                   />
                 </div>
-                <p>Jenis Biaya: <span class="text-danger">*</span></p>
+                <!-- <p>Jenis Biaya: <span class="text-danger">*</span></p>
                 <div class="w-full">
                   <v-select
                     label="nama_jenis_biaya"
@@ -183,8 +184,8 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
-                </div>
+                  </v-select> -->
+                <!-- </div> -->
                 <!-- <p>
                                 Nomor Referensi:
                                 <div >
@@ -331,6 +332,23 @@
                   >
                 </li>
               </v-select>
+            </td>
+            <td class="border border-gray-300">
+              <select
+                class="p-1 w-full border border-gray-300 rounded-md outline-none"
+                name="jenis_biaya_id"
+                id="jenis_biaya_id"
+                v-model="item.jenis_biaya_id"
+                @change="onSelectJenisBiaya(item.jenis_biaya_id, index)"
+              >
+                <option
+                  v-for="(data, i) in lookup_custom7"
+                  :key="i"
+                  :value="data"
+                >
+                  {{ data.nama_jenis_biaya }}
+                </option>
+              </select>
             </td>
             <td
               class="border border-gray-300"
@@ -758,7 +776,12 @@ export default {
     // await this.onSearchSlotRack();
     // await this.onSearchSlotLevel();
     // await this.onSearchSlotBin();
-    await this.onSearchJenisBiaya();
+    // await this.onSearchJenisBiaya();
+    await this.lookUp({
+      url: "master/jenis-biaya/get-jenis-biaya",
+      lookup: "custom7",
+      query: "?jenis=TKBM" + "&all=1",
+    });
     await this.onSearchAlasan();
     // await this.onSearchItemGudang();
     await this.lookUp({
@@ -985,8 +1008,8 @@ export default {
             "&gudang_id=" +
             this.self.form.gudang_id.gudang_id +
             "&zona_gudang_id=" +
-            this.self.form.inbound_details[index].zona_gudang_id
-              .zona_gudang_id +
+            (this.self.form.inbound_details[index].zona_gudang_id
+              .zona_gudang_id ?? "") +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -1404,9 +1427,18 @@ export default {
     async onSelectPeralatan(item, index) {
       if (item) {
         this.self.form.inbound_details[index].peralatan_id = item;
+        let jenis_biaya = this.lookup_custom7.filter(
+          (data) => data.jenis_biaya_id === item.jenis_biaya_id
+        );
+        if (jenis_biaya.length > 0) {
+          await this.onSelectJenisBiaya(jenis_biaya[0], index);
+        }
+        // this.self.form.inbound_details[index].jenis_biaya_id =
+        //   jenis_biaya.length > 0 ? jenis_biaya[0] : "";
         await this.generateBiayaTagihan(index);
       } else {
         this.self.form.inbound_details[index].peralatan_id = "";
+        this.self.form.inbound_details[index].jenis_biaya_id = "";
       }
     },
 
@@ -1454,15 +1486,13 @@ export default {
       if (item) {
         this.self.form.inbound_details[index].jenis_biaya_id = item;
         await this.generateBiayaTagihan(index);
-        if (item.jenis_biaya_id == 13) {
+        if (item.status_jenis_biaya_id == 8) {
           const rekomendasiZona = await this.$axios.get(
             `inbound/asn/get-rekomendasi-zona/${this.self.form.gudang_id.gudang_id}`,
             {
               params: {
                 status_zona: "c",
-                status_jenis_biaya_id:
-                  this.self.form.inbound_details[index].jenis_biaya_id
-                    .status_jenis_biaya_id,
+                status_jenis_biaya_id: item.status_jenis_biaya_id,
               },
             }
           );
@@ -1483,8 +1513,8 @@ export default {
                 : this.lookup_custom1.data[0];
 
             this.onSelectZona(itemFromOptions, index);
+            // await this.onSearchSlotAisle(index);
           }
-          await this.onSearchSlotAisle(index);
         }
       } else {
         this.self.form.inbound_details[index].jenis_biaya_id = "";
