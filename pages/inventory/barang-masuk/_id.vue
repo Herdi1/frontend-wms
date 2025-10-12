@@ -256,7 +256,7 @@
                   >
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
-                        <th class="w-[200px] border border-gray-300">Item</th>
+                        <th class="w-[300px] border border-gray-300">Item</th>
                         <th class="w-[200px] border border-gray-300">Nomor</th>
                         <th class="w-[200px] border border-gray-300">
                           Quantity

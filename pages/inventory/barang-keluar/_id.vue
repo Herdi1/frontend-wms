@@ -368,8 +368,8 @@
                             </li>
                           </v-select> -->
                           <div>
-                            {{ item.item_gudang_id?.nama_item ?? "" }} -
-                            {{ item.item_gudang_id?.kode_item ?? "" }}
+                            {{ item.item_gudang_id?.kode_item ?? "" }} -
+                            {{ item.item_gudang_id?.nama_item ?? "" }}
                           </div>
                         </td>
                         <td class="border border-gray-300 text-start">
