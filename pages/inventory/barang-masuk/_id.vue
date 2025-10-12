@@ -109,7 +109,7 @@
                 input: onSelectLokasi,
               }"
               width="w-[60%]"
-              :required="true"
+              :required="false"
             />
             <div class="form-group">
               <input-horizontal
@@ -135,7 +135,7 @@
                 input: onSelectKendaraan,
               }"
               width="w-[60%]"
-              :required="true"
+              :required="false"
             />
             <div class="form-group">
               <input-horizontal
@@ -151,9 +151,7 @@
             </div>
 
             <div class="form-group flex">
-              <label for="" class="w-[40%]"
-                >Pengemudi <span class="text-danger">*</span></label
-              >
+              <label for="" class="w-[40%]">Pengemudi </label>
               <select
                 class="p-1 w-[60%] border border-gray-300 rounded-md outline-none"
                 name="staff_id"
@@ -161,24 +159,18 @@
                 v-model="parameters.form.staff_id"
                 @change="onSelectStaff(parameters.form.staff_id)"
               >
-                <option
-                  v-if="lookup_custom10.data?.length === 0"
-                  disabled
-                  value=""
-                >
-                  -
-                  <!-- Tidak ada data staff -->
+                <option value="" v-if="lookup_custom10.length === 0" disabled>
+                  -- Pilih Pengemudi --
                 </option>
-
-                <!-- Jika ada data, tampilkan daftar option -->
-                <option v-else value="">-- Pilih Staff --</option>
-                <option
-                  v-for="(item, i) in lookup_custom10"
-                  :key="i"
-                  :value="item.staff_id"
-                >
-                  {{ item.nama_lengkap }}
-                </option>
+                <template v-if="lookup_custom10.length > 0">
+                  <option
+                    v-for="(item, i) in lookup_custom10"
+                    :key="i"
+                    :value="item.staff_id"
+                  >
+                    {{ item.nama_lengkap }}
+                  </option>
+                </template>
               </select>
             </div>
 
@@ -955,8 +947,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // this.$router.back();
-      console.log(error);
+      this.$router.back();
+      // console.log(error);
     }
   },
 

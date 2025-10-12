@@ -126,6 +126,7 @@
                   }"
                   width="w-[50%]"
                   class="mb-5"
+                  :required="true"
                 />
               </ValidationProvider>
               <ValidationProvider name="kendaraan_id">
@@ -153,14 +154,20 @@
                   name="staff_id"
                   id="staff_id"
                   v-model="parameters.form.staff_id"
+                  @change="onSelectStaff(parameters.form.staff_id)"
                 >
-                  <option
-                    v-for="(item, i) in lookup_custom10"
-                    :key="i"
-                    :value="item"
-                  >
-                    {{ item.nama_lengkap }}
+                  <option value="" v-if="lookup_custom10.length === 0" disabled>
+                    -- Pilih Pengemudi --
                   </option>
+                  <template v-if="lookup_custom10.length > 0">
+                    <option
+                      v-for="(item, i) in lookup_custom10"
+                      :key="i"
+                      :value="item.staff_id"
+                    >
+                      {{ item.nama_lengkap }}
+                    </option>
+                  </template>
                 </select>
                 <!-- <v-select
                   label="nama_lengkap"
@@ -217,7 +224,7 @@
                   type="text"
                   name="vendor_id"
                   :isHorizontal="true"
-                  v-model="parameters.form.staff_id.nama_vendor"
+                  v-model="parameters.form.nama_vendor"
                   :disabled="true"
                 />
               </div>
@@ -398,6 +405,7 @@ export default {
           jenis_kendaraan_id: "",
           pengemudi_id: "",
           vendor_id: "",
+          nama_vendor: "",
           keterangan: "",
           no_referensi: "",
           status_muat: "",
@@ -440,8 +448,9 @@ export default {
         this.parameters.form.vendor_id = res.data.vendor ?? "";
         this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
         this.parameters.form.gudang_id = res.data.gudang ?? "";
-        this.parameters.form.staff_id = res.data.staff ?? "";
+        // this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.user_id_pic = res.data.user_pic ?? "";
+        this.parameters.form.jenis_kiriman = res.data.jenis_kiriman.trim();
         this.parameters.form.jenis_kendaraan_id =
           res.data.jenis_kendaraan ?? "";
 
@@ -519,7 +528,7 @@ export default {
     // await this.onSearchKendaraan();
     // await this.onSearchJenisKendaraan();
     await this.onSearchUser();
-    // await this.onSearchStaff();
+    await this.onSearchStaff();
 
     // await this.onSearchPickOrder(); warehouses
 
@@ -547,6 +556,34 @@ export default {
       "lookup_roles", //jenis kendaraan
     ]),
   },
+
+  // watch: {
+  //   "parameters.form.staff_id"(newVal) {
+  //     const selected = this.lookup_custom10.find((x) => x.staff_id === newVal);
+  //     if (selected) {
+  //       this.parameters.form.vendor_id = selected.vendor_id_operator;
+  //       this.parameters.form.nama_vendor = selected.nama_vendor;
+  //     } else {
+  //       this.parameters.form.vendor_id = "";
+  //       this.parameters.form.nama_vendor = "";
+  //     }
+  //   },
+
+  //   lookup_custom10(newVal) {
+  //     if (newVal && newVal.length > 0 && this.parameters.form.staff_id) {
+  //       // Panggil ulang watcher staff_id setelah lookup siap
+  //       this.$nextTick(() => {
+  //         const selected = newVal.find(
+  //           (x) => x.staff_id === this.parameters.form.staff_id
+  //         );
+  //         if (selected) {
+  //           this.parameters.form.vendor_id = selected.vendor_id_operator;
+  //           this.parameters.form.nama_vendor = selected.nama_vendor;
+  //         }
+  //       });
+  //     }
+  //   },
+  // },
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
@@ -605,7 +642,7 @@ export default {
         staff_id:
           typeof this.parameters.form.staff_id === "object"
             ? this.parameters.form.staff_id.staff_id
-            : "",
+            : this.parameters.form.staff_id ?? "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
@@ -623,9 +660,9 @@ export default {
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
             : "",
         vendor_id:
-          typeof this.parameters.form.staff_id == "object"
-            ? this.parameters.form.staff_id.vendor_id_operator
-            : "",
+          typeof this.parameters.form.vendor_id == "object"
+            ? this.parameters.form.vendor_id.vendor_id
+            : this.parameters.form.vendor_id ?? "",
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id
@@ -1058,6 +1095,7 @@ export default {
         this.parameters.form.jenis_kendaraan_id = item.jenis_kendaraan;
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
+        this.parameters.form.nama_vendor = "";
         await this.lookUp({
           url: "master/kendaraan/get-pengemudi-kendaraan",
           lookup: "custom10",
@@ -1068,6 +1106,7 @@ export default {
         this.parameters.form.jenis_kendaraan_id = "";
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
+        this.parameters.form.nama_vendor = "";
       }
     },
 
@@ -1166,12 +1205,15 @@ export default {
     },
 
     onSelectStaff(item) {
-      if (item) {
+      const selected = this.lookup_custom10.find((x) => x.staff_id === item);
+      if (selected) {
         this.parameters.form.staff_id = item;
-        this.parameters.form.vendor_id = item.vendor_operator;
+        this.parameters.form.vendor_id = selected.vendor_id_operator;
+        this.parameters.form.nama_vendor = selected.nama_vendor;
       } else {
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
+        this.parameters.form.nama_vendor = "";
       }
     },
 
@@ -1328,7 +1370,9 @@ export default {
                         .jenis_kendaraan_id,
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     vendor_id:
-                      this.parameters.form.staff_id.vendor_id_operator ?? "",
+                      typeof this.parameters.form.vendor_id === "object"
+                        ? this.parameters.form.vendor_id.vendor_id
+                        : this.parameters.form.vendor_id ?? "",
                     jenis_kiriman: item.jenis_kiriman,
                     jarak: sumJarak,
                   },
@@ -1390,8 +1434,9 @@ export default {
                             .jenis_kendaraan_id,
                         lokasi_id: item.lokasi_id.lokasi_id,
                         vendor_id:
-                          this.parameters.form.staff_id.vendor_id_operator ??
-                          "",
+                          typeof this.parameters.form.vendor_id === "object"
+                            ? this.parameters.form.vendor_id.vendor_id
+                            : this.parameters.form.vendor_id ?? "",
                         item_gudang_id: item.item_gudang_id.item_gudang_id,
                         jarak: sumJarak,
                       },
