@@ -182,10 +182,22 @@
                     $event.key === '-' ? $event.preventDefault() : null
                   "
                 />
-                <span v-show="show_rekomendasi" class="text-sm text-gray-500"
-                  >*Jarak Rekomendasi Sistem:
-                  {{ jarak_rekomendasi | formatPrice }} KM</span
-                >
+                <div class="flex flex-col gap-y-2">
+                  <span v-show="show_rekomendasi" class="text-sm text-gray-500"
+                    >*Jarak Rekomendasi Sistem:
+                    {{ jarak_rekomendasi | formatPrice }} KM</span
+                  >
+                  <span
+                    class="text-sm text-gray-500"
+                    v-if="
+                      totalDistance !== 0 &&
+                      parseFloat(jarak_rekomendasi) !==
+                        parseFloat(totalDistance)
+                    "
+                    >*Jarak Perubahan Rute:
+                    {{ totalDistance | formatPrice }} KM</span
+                  >
+                </div>
               </div>
               <div class="flex gap-x-2">
                 <div class="my-2 w-1/2">
@@ -244,6 +256,7 @@
                 :lokasi1Lng="lokasi1Lng"
                 :lokasi2Lat="lokasi2Lat"
                 :lokasi2Lng="lokasi2Lng"
+                @distance-updated="handleDistanceUpdated"
               />
             </div>
           </div>
@@ -286,6 +299,7 @@ export default {
       isStopSearchLokasiTujuan: false,
       isLoadingGetLokasiTujuan: false,
       lokasi_awal_search: "",
+      totalDistance: 0,
 
       parameters: {
         url: "master/rute-lokasi",
@@ -329,13 +343,13 @@ export default {
         this.lokasi2Lng = res.data.lokasi_tujuan.longitude ?? 0;
 
         await this.getRekomendasiJarak();
-        console.log("lokasi 1 latitude", this.lokasi1Lat);
-        console.log("lokasi 1 longitude", this.lokasi1Lng);
-        console.log("lokasi 2 latitude", this.lokasi2Lat);
-        console.log("lokasi 2 longitude", this.lokasi2Lng);
+        // console.log("lokasi 1 latitude", this.lokasi1Lat);
+        // console.log("lokasi 1 longitude", this.lokasi1Lng);
+        // console.log("lokasi 2 latitude", this.lokasi2Lat);
+        // console.log("lokasi 2 longitude", this.lokasi2Lng);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       this.$router.back();
     }
   },
@@ -363,6 +377,10 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+
+    handleDistanceUpdated(data) {
+      this.totalDistance = data.distanceKm;
+    },
 
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;

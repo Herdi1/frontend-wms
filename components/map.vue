@@ -85,6 +85,17 @@ export default {
             padding: [20, 20], // pixel, [x, y]
           }
         );
+        this.routingControl.on("routesfound", (e) => {
+          const routes = e.routes;
+          const summary = routes[0].summary;
+          const distanceKm = (summary.totalDistance / 1000).toFixed(2);
+          const durationMin = (summary.totalTime / 60).toFixed(1);
+
+          this.$emit("distance-updated", {
+            distanceKm,
+            durationMin,
+          });
+        });
       }
     },
   },
