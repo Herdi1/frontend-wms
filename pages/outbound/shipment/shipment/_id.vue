@@ -446,6 +446,9 @@ export default {
         });
         this.parameters.form.pengemudi_id = res.data.pengemudi ?? "";
         this.parameters.form.vendor_id = res.data.vendor ?? "";
+        this.parameters.form.nama_vendor = res.data.vendor
+          ? res.data.vendor.nama_vendor
+          : "";
         this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         // this.parameters.form.staff_id = res.data.staff ?? "";

@@ -11,6 +11,7 @@
       :filterable="false"
       v-model="self.value"
       :class="width"
+      @search="self.onGet"
       @input="self.input"
       :reduce="reduce"
       :disabled="disabled"

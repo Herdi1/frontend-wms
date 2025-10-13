@@ -332,9 +332,24 @@ export default {
       const search = this.searchQuery.toLowerCase();
       return this.menus
         .map((parent) => {
-          let filteredChild = parent.childs.filter((child) =>
-            child.judul.toLowerCase().includes(search)
+          let filteredChild = parent.childs.filter(
+            (child) =>
+              child.judul.toLowerCase().includes(search) ||
+              child.childs_2.some((child2) =>
+                child2.judul.toLowerCase().includes(search)
+              )
           );
+
+          // let filteredChild2 = filteredChild.childs_2.filter((child2) => child2.judul.toLowerCase().includes(search))
+
+          let filteredChildWithChild2 = filteredChild.map((item) => {
+            return {
+              ...item,
+              childs_2: item.childs_2.filter((child2) =>
+                child2.judul.toLowerCase().includes(search)
+              ),
+            };
+          });
 
           if (
             parent.judul.toLowerCase().includes(search) ||
