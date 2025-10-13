@@ -25,9 +25,12 @@ You can directly use them in pages and other components without the need to impo
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
 - `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
+<<<<<<< HEAD
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+=======
+>>>>>>> 0fe27ae74e994c3a5bd2dac143fe76eb00faca91
 - `<FormsCloseButton>` | `<forms-close-button>` (components/forms/CloseButton.vue)
 - `<FormsInputForm>` | `<forms-input-form>` (components/forms/InputForm.vue)
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)

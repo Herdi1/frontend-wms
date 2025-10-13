@@ -93,6 +93,7 @@
                 value: parameters.form.supplier_id,
                 input: onSelectSupplier,
               }"
+              :required="false"
               width="w-[60%]"
             />
             <div class="form-group">
@@ -104,6 +105,7 @@
                 v-model="parameters.form.nama_supplier"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="true"
               />
             </div>
 
@@ -129,6 +131,7 @@
                 value: parameters.form.kendaraan_id,
                 input: onSelectKendaraan,
               }"
+              :required="false"
               width="w-[60%]"
             />
             <div class="form-group">
@@ -140,6 +143,7 @@
                 v-model="parameters.form.nama_kendaraan"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="true"
               />
             </div>
             <!-- <select-button
@@ -155,9 +159,7 @@
               width="w-[60%]"
             /> -->
             <div class="form-group flex">
-              <label for="" class="w-[40%]"
-                >Pengemudi <span class="text-danger">*</span></label
-              >
+              <label for="" class="w-[40%]">Pengemudi </label>
               <select
                 class="p-1 w-[60%] border border-gray-300 rounded-md outline-none"
                 name="staff_id"
@@ -165,13 +167,25 @@
                 v-model="parameters.form.staff_id"
                 @change="onSelectStaff(parameters.form.staff_id)"
               >
-                <option
+                <!-- <option
                   v-for="(item, i) in lookup_custom10"
                   :key="i"
                   :value="item"
                 >
                   {{ item.nama_lengkap }}
+                </option> -->
+                <option value="" v-if="lookup_custom10.length === 0" disabled>
+                  -- Pilih Pengemudi --
                 </option>
+                <template v-if="lookup_custom10.length > 0">
+                  <option
+                    v-for="(item, i) in lookup_custom10"
+                    :key="i"
+                    :value="item.staff_id"
+                  >
+                    {{ item.nama_lengkap }}
+                  </option>
+                </template>
               </select>
               <!-- <v-select
                 label="nama_lengkap"
@@ -215,6 +229,7 @@
                 v-model="parameters.form.nama_pengemudi"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                :required="true"
               />
             </div>
             <select-button
@@ -231,9 +246,7 @@
               :required="true"
             />
 
-            <div
-              class="form-group col-span-2 flex w-full justify-between items-start"
-            >
+            <div class="form-group flex w-full justify-between items-start">
               <label for="">Keterangan</label>
               <textarea
                 name="keterangan"
@@ -355,8 +368,8 @@
                             </li>
                           </v-select> -->
                           <div>
-                            {{ item.item_gudang?.nama_item ?? "" }} -
-                            {{ item.item_gudang?.kode_item ?? "" }}
+                            {{ item.item_gudang_id?.kode_item ?? "" }} -
+                            {{ item.item_gudang_id?.nama_item ?? "" }}
                           </div>
                         </td>
                         <td class="border border-gray-300 text-start">
@@ -632,7 +645,7 @@ export default {
     }
     await this.onSearchSupplier();
     await this.onSearchPelanggan();
-    // await this.onSearchStaff();
+    await this.onSearchStaff();
     // await this.onSearchKendaraan();
     await this.onSearchValuation();
     await this.onSearchAlasanBedaPlan();
@@ -648,6 +661,8 @@ export default {
 
     this.getUserAgent();
     this.getGeoLocation();
+    console.log("staff_id dari API:", this.parameters.form.staff_id);
+    console.log("lookup_custom10:", this.lookup_custom10);
   },
 
   async created() {
@@ -670,7 +685,7 @@ export default {
         this.parameters.form.gudang_id = res.data.gudang ?? "";
         this.parameters.form.supplier_id = res.data.supplier ?? "";
         this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
-        this.parameters.form.staff_id = res.data.staff ?? "";
+        // this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.kendaraan_id = res.data.kendaraan ?? "";
         this.parameters.form.lokasi_id = res.data.lokasi ?? "";
 
@@ -696,8 +711,8 @@ export default {
       console.log(this.parameters.form);
       this.isLoadingPage = false;
     } catch (error) {
-      // this.$router.back();
-      console.log(error);
+      this.$router.back();
+      // console.log(error);
     }
   },
 
@@ -1519,9 +1534,10 @@ export default {
     },
 
     onSelectStaff(item) {
-      if (item) {
+      const selected = this.lookup_custom10.find((x) => x.staff_id === item);
+      if (selected) {
         this.parameters.form.staff_id = item;
-        this.parameters.form.nama_pengemudi = item.nama_lengkap ?? "";
+        this.parameters.form.nama_pengemudi = selected.nama_lengkap ?? "";
       } else {
         this.parameters.form.staff_id = "";
         this.parameters.form.nama_pengemudi = "";
@@ -1698,6 +1714,7 @@ export default {
         };
         this.parameters.form.barang_keluar_details.push(detailItem);
         this.$toaster.success("Data Berhasil Ditambahkan");
+        console.log(this.parameters.form.barang_keluar_details);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }
