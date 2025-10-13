@@ -142,10 +142,16 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">
-                    Proses
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Approve
                   </th>
-                  <th class="w-20 text-center border border-gray-300">
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
                   <th class="w-20 text-center border border-gray-300">No</th>
@@ -319,14 +325,20 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-20 text-center border border-gray-300">
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     Delete
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
@@ -335,7 +347,10 @@
                       "
                     />
                   </td>
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
 
@@ -421,7 +436,10 @@
                       <p>APPROVE</p>
                     </div>
                   </td>
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

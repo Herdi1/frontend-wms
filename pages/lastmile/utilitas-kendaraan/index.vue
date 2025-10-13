@@ -124,7 +124,10 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
                   <th class="w-20 text-center border border-gray-300">No</th>
@@ -245,14 +248,20 @@
                   <th class="w-20 border border-gray-300">Idle</th>
                   <th class="w-40 border border-gray-300">Presentase</th>
                   <!-- <th class="w-40 border border-gray-300">Print</th> -->
-                  <th class="w-20 text-center border border-gray-300">
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     Delete
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
 
@@ -312,7 +321,10 @@
                     </button>
                   </td> -->
 
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

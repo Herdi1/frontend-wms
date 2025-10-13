@@ -131,7 +131,12 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%] border border-gray-300">Konfirmasi</th>
+                  <th
+                    class="w-[5%] border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Konfirmasi
+                  </th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <!-- <th
                     @click="
@@ -275,6 +280,7 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"

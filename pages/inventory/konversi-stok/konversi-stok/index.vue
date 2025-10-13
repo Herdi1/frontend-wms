@@ -162,8 +162,18 @@
           >
             <thead>
               <tr class="uppercase text-nowrap">
-                <th class="w-20 text-center border border-gray-300">Edit</th>
-                <th class="w-20 text-center border border-gray-300">Detail</th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.update"
+                >
+                  Edit
+                </th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.show"
+                >
+                  Detail
+                </th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th class="w-52 border border-gray-300">Kode Konversi Stok</th>
                 <th class="w-52 border border-gray-300">Gudang</th>
@@ -173,12 +183,20 @@
                 <th class="w-52 border border-gray-300">Tanggal Mulai</th>
                 <th class="w-52 border border-gray-300">Tanggal Selesai</th>
                 <th class="w-52 border border-gray-300">Lama Pengerjaan</th>
-                <th class="w-20 text-center border border-gray-300">Delete</th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.destroy"
+                >
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="border border-gray-300 place-items-center">
+                <td
+                  class="border border-gray-300 place-items-center"
+                  v-if="getRoles.update"
+                >
                   <small-edit-button
                     @click="onEdit(item)"
                     :disabled="
@@ -187,7 +205,10 @@
                     "
                   />
                 </td>
-                <td class="border border-gray-300 place-items-center">
+                <td
+                  class="border border-gray-300 place-items-center"
+                  v-if="getRoles.show"
+                >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
 
@@ -263,7 +284,10 @@
                   {{ item.lama_pengerjaan }}
                 </td>
 
-                <td class="border border-gray-300 place-items-center">
+                <td
+                  class="border border-gray-300 place-items-center"
+                  v-if="getRoles.destroy"
+                >
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

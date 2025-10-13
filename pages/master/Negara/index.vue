@@ -24,7 +24,12 @@
           <table class="border border-gray-300" ref="formContainer">
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
+                <th
+                  class="w-[5%] text-center border border-gray-300"
+                  v-if="getRoles.update"
+                >
+                  Edit
+                </th>
 
                 <th class="w-[5%] border border-gray-300">No</th>
                 <th class="border border-gray-300">Kode Negara</th>
@@ -61,14 +66,20 @@
                     </div>
                   </div>
                 </th>
-                <th class="w-[5%] text-center border border-gray-300">
+                <th
+                  class="w-[5%] text-center border border-gray-300"
+                  v-if="getRoles.destroy"
+                >
                   Delete
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="border border-gray-300 place-items-center">
+                <td
+                  class="border border-gray-300 place-items-center"
+                  v-if="getRoles.update"
+                >
                   <small-edit-button @click="onEdit(item)" />
                 </td>
                 <td class="border border-gray-300 text-center">
@@ -86,7 +97,10 @@
                   {{ item.nama_negara }}
                 </td>
 
-                <td class="border border-gray-300 place-items-center">
+                <td
+                  class="border border-gray-300 place-items-center"
+                  v-if="getRoles.destroy"
+                >
                   <small-delete-button
                     @click="onTrashed(item)"
                     v-if="!item.deleted_at"

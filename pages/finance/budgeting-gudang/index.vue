@@ -112,7 +112,12 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-20 text-center border border-gray-300">Edit</th>
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
 
                   <!-- <th class="w-20 text-center border border-gray-300">
                     Detail
@@ -153,12 +158,20 @@
                   </th> -->
                   <th class="w-full border border-gray-300">Gudang</th>
                   <th class="w-full border border-gray-300">Budget</th>
-                  <th class="w-20 text-center border border-gray-300">Hapus</th>
+                  <th
+                    class="w-20 text-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
+                    Hapus
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
@@ -187,7 +200,10 @@
                     {{ parseFloat(item.budget || 0) | formatPrice }}
                   </td>
 
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

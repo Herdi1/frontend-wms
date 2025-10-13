@@ -17,7 +17,7 @@
       v-show="!isLoadingPreview && src"
       :src="src"
       type="application/pdf"
-      class="w-full rounded-md shadow h-full"
+      class="w-full rounded-md shadow"
       :class="`h-[${height}px]`"
       @load="handleLoad"
     ></iframe>
@@ -33,7 +33,7 @@ export default {
     },
     height: {
       type: [String, Number],
-      default: 600,
+      default: 500,
     },
   },
 

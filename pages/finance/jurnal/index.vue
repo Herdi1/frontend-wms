@@ -121,7 +121,12 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th
+                    class="w-[5%] border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
                   <th class="w-[5%] border border-gray-300">No</th>
                   <th
                     @click="
@@ -162,13 +167,19 @@
                   <th class="border border-gray-300">Debit</th>
                   <th class="border border-gray-300">Kredit</th>
                   <th class="w-[5%] border border-gray-300">Print</th>
-                  <th class="w-[5%] border border-gray-300">Delete</th>
+                  <th
+                    class="w-[5%] border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
@@ -231,6 +242,7 @@
 
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.destroy"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"

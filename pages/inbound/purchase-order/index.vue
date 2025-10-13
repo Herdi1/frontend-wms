@@ -149,9 +149,21 @@
             >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-28 border border-gray-300">Generate ASN</th>
-                  <th class="w-20 border border-gray-300">Edit</th>
-                  <th class="w-20 border border-gray-300">Details</th>
+                  <th
+                    class="w-28 border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Generate ASN
+                  </th>
+                  <th
+                    class="w-20 border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
+                  <th class="w-20 border border-gray-300" v-if="getRoles.show">
+                    Details
+                  </th>
                   <th class="w-20 border border-gray-300">No</th>
                   <!-- <th
                   @click="
@@ -199,12 +211,20 @@
                   <th class="w-60 border border-gray-300">Status PO</th>
                   <th class="w-60 border border-gray-300">Total QTY ASN</th>
 
-                  <th class="w-20 border border-gray-300">Delete</th>
+                  <th
+                    class="w-20 border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center border border-gray-300">
+                  <td
+                    class="text-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     <button
                       @click="onGenerate(item)"
                       class="text-white p-1 rounded-md px-3"
@@ -221,6 +241,7 @@
 
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
@@ -229,6 +250,7 @@
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -339,6 +361,7 @@
 
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.destroy"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"

@@ -70,14 +70,16 @@
             <div class="form-group">
               <input-horizontal
                 :isHorizontal="true"
-                label="Lama Pengerjaan"
+                label="Estimasi Lama Pengerjaan"
                 type="text"
                 name="lama_pengerjaan"
-                :disabled="true"
-                v-model="parameters.form.lama_pengerjaan"
+                v-model="parameters.form.lama_pengerjaan_string"
                 inputWidth="w-[60%]"
                 labelWidth="w-[40%]"
+                disabled
+                :required="false"
               />
+              <!-- @input="getEstimasiSelesai" -->
             </div>
             <select-button
               v-if="!user.gudang_id"
@@ -332,6 +334,7 @@ export default {
           tanggal_mulai: "",
           tanggal_selesai: "",
           lama_pengerjaan: "",
+          lama_pengerjaan_string: "",
           gudang_id: "",
           alasan_beda_plan_id: "",
           staff_id: "",
@@ -436,6 +439,11 @@ export default {
           res.data.alasan_beda_plan ?? "";
         this.parameters.form.staff_id = res.data.staff ?? "";
         this.parameters.form.vendor_id = res.data.staff?.vendor_operator ?? "";
+
+        let hari = Math.floor(this.parameters.form.lama_pengerjaan / 24) ?? 0;
+        let jam = this.parameters.form.lama_pengerjaan % 24 ?? 0;
+        this.parameters.form.lama_pengerjaan_string = `${hari} hari ${jam} jam`;
+
         await this.onSearchItemGudang();
         await this.onSearchZonaPlan();
 
@@ -1088,6 +1096,33 @@ export default {
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
       }
+    },
+
+    getEstimasiLamaPengerjaan() {
+      const start = new Date(this.parameters.form.tanggal_mulai);
+      const end = new Date(this.parameters.form.tanggal_selesai);
+
+      const diffMils = end - start;
+
+      // const lamaPengerjaan =
+      //   Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
+      //   Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+
+      const oneDayInMilis = 1000 * 60 * 60 * 24;
+      const msInHour = 1000 * 60 * 60;
+      const msInMinute = 1000 * 60;
+
+      const days = Math.floor(diffMils / oneDayInMilis) ?? 0;
+      const remainingOfDay = diffMils % oneDayInMilis;
+
+      const hours = Math.floor(remainingOfDay / msInHour) ?? 0;
+      const remainingOfHour = remainingOfDay % msInHour;
+
+      const minutes = Math.floor(remainingOfHour / msInMinute) ?? 0;
+
+      this.parameters.form.lama_pengerjaan =
+        Math.floor(diffMils / msInHour) ?? 0;
+      this.parameters.form.lama_pengerjaan_string = `${days} hari ${hours} jam`;
     },
   },
 };

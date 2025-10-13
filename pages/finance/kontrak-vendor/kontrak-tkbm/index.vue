@@ -37,8 +37,18 @@
           >
             <thead>
               <tr class="uppercase">
-                <th class="w-20 text-center border border-gray-300">Edit</th>
-                <th class="w-20 text-center border border-gray-300">Detail</th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.update"
+                >
+                  Edit
+                </th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.show"
+                >
+                  Detail
+                </th>
                 <th class="w-20 text-center border border-gray-300">No</th>
                 <th
                   @click="
@@ -113,16 +123,25 @@
                 <!-- <th class="w-48 border border-gray-300">Jenis Kontrak</th> -->
                 <th class="w-48 border border-gray-300">No Referensi</th>
                 <th class="w-48 border border-gray-300">Keterangan</th>
-                <th class="w-20 text-center border border-gray-300">Hapus</th>
+                <th
+                  class="w-20 text-center border border-gray-300"
+                  v-if="getRoles.destroy"
+                >
+                  Hapus
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, i) in data" :key="i">
-                <td class="place-items-center border border-gray-300">
+                <td
+                  class="place-items-center border border-gray-300"
+                  v-if="getRoles.update"
+                >
                   <small-edit-button @click="onEdit(item)" />
                 </td>
                 <td
                   class="text-center border border-gray-300 place-items-center"
+                  v-if="getRoles.show"
                 >
                   <small-detail-button @click="onDetail(item)" />
                 </td>
@@ -182,7 +201,10 @@
                 <td class="border border-gray-300">{{ item.no_referensi }}</td>
                 <td class="border border-gray-300">{{ item.keterangan }}</td>
 
-                <td class="place-items-center border border-gray-300">
+                <td
+                  class="place-items-center border border-gray-300"
+                  v-if="getRoles.destroy"
+                >
                   <small-delete-button @click="onTrashed(item)" />
                 </td>
               </tr>

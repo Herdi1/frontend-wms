@@ -164,10 +164,16 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th
+                    class="w-[5%] text-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     Edit
                   </th>
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th
+                    class="w-[5%] text-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
                   <th class="w-[5%] text-center border border-gray-300">No</th>
@@ -240,14 +246,20 @@
                   </th>
                   <th class="border border-gray-300">Status Relokasi</th>
 
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th
+                    class="w-[5%] text-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     Delete
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, index) in data" :key="index">
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
@@ -258,6 +270,7 @@
                   </td>
                   <td
                     class="text-center place-content-center border border-gray-300"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -305,7 +318,10 @@
                     </div>
                   </td>
 
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     <small-delete-button
                       v-if="!item.deleted_at"
                       @click="onTrashed(item)"

@@ -34,6 +34,70 @@
                 <list-option-section :self="this" ref="formOption" />
               </div>
 
+              <div class="w-full mt-3 mb-7">
+                <div class="w-full gap-5 p-2 border border-gray-300 rounded-md">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
+                    <div class="form-group w-full flex">
+                      <div class="mb-3 w-1/2">Gudang</div>
+
+                      <v-select
+                        class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                        label="nama_gudang"
+                        :loading="isLoadingGetGudang"
+                        :options="lookup_custom1.data"
+                        :filterable="false"
+                        @search="onGetGudang"
+                        v-model="parameters.params.gudang"
+                        @input="onSelectGudang"
+                        :disabled="lookup_custom1.data.length == 1"
+                      >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_gudang }}
+                          </div>
+                        </template>
+                        <li
+                          slot-scope="{ search }"
+                          slot="list-footer"
+                          class="p-1 border-t flex justify-between"
+                          v-if="lookup_custom1.data.length || search"
+                        >
+                          <span
+                            v-if="lookup_custom1.current_page > 1"
+                            @click="onGetGudang(search, false)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            style="cursor: pointer"
+                            >Sebelumnya</span
+                          >
+                          <span
+                            v-if="
+                              lookup_custom1.last_page >
+                              lookup_custom1.current_page
+                            "
+                            @click="onGetGudang(search, true)"
+                            class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                            style="cursor: pointer"
+                            >Selanjutnya</span
+                          >
+                        </li>
+                      </v-select>
+                    </div>
+
+                    <div class="flex gap-3 justify-self-end">
+                      <button
+                        @click="onLoad"
+                        class="bg-blue-500 shadow-lg hover:shadow-none p-2 text-white rounded-md flex"
+                      >
+                        <i class="fa fa-filter text-white font-bold mr-2"></i>
+                        <div>Filter</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- start table -->
               <div class="table-responsive">
                 <table class="mb-5" ref="formContainer">
@@ -185,7 +249,11 @@ export default {
     };
   },
 
-  created() {
+  async created() {
+    await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom1.data[0]);
+    }
     this.set_data([]);
     this.onLoad();
   },
@@ -199,6 +267,10 @@ export default {
 
   data() {
     return {
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
       title: "Akun",
       isLoadingData: false,
       isPaginate: true,
@@ -213,6 +285,8 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          gudang: "",
+          gudang_id: "",
         },
         form: {
           nama_lengkap: "",
@@ -233,6 +307,21 @@ export default {
           isRestore: false,
         },
       },
+      default_roles: {
+        store: true,
+        update: true,
+        destroy: true,
+        restore: true,
+        show: true,
+        export: true,
+        export_excel: true,
+        export_pdf: true,
+        print: true,
+        destroy_all: true,
+        restore_all: true,
+        import: true,
+      },
+      user: this.$auth.user,
     };
   },
 
@@ -241,7 +330,29 @@ export default {
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result"]),
+    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
+
+    getRoles() {
+      if (this.user.is_superadmin == 1) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.role.menus.find(
+          (item) => item.rute == "user"
+        );
+
+        let roles = {};
+
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
+        }
+
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
+
+        return roles;
+      }
+    },
   },
 
   methods: {
@@ -251,6 +362,7 @@ export default {
       "restoreData",
       "deleteAllData",
       "restoreAllData",
+      "lookUp",
     ]),
 
     ...mapMutations("moduleApi", ["set_data"]),
@@ -343,6 +455,54 @@ export default {
       };
 
       this.onLoad(this.parameters.params.page);
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudangGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudangGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+    onSelectGudang(item) {
+      if (item) {
+        this.parameters.params.gudang = item;
+        this.parameters.params.gudang_id = item.gudang_id;
+      } else {
+        this.parameters.params.gudang = "";
+        this.parameters.params.gudang_id = "";
+      }
     },
   },
 };

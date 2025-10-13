@@ -133,8 +133,16 @@
             >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-20 border text-center border-gray-300">Edit</th>
-                  <th class="w-20 border text-center border-gray-300">
+                  <th
+                    class="w-20 border text-center border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
+                  <th
+                    class="w-20 border text-center border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
 
@@ -178,7 +186,10 @@
                   <th class="w-44 border border-gray-300">Tanggal</th>
                   <th class="w-24 border border-gray-300">Cetak Label</th>
                   <th class="w-24 border border-gray-300">Cetak GR</th>
-                  <th class="w-20 border text-center border-gray-300">
+                  <th
+                    class="w-20 border text-center border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     Delete
                   </th>
                   <!-- <th>Kendaraan</th>
@@ -187,7 +198,10 @@
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     <small-edit-button
                       @click="onEdit(item)"
                       :disabled="
@@ -199,6 +213,7 @@
 
                   <td
                     class="text-center place-items-center border border-gray-300"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -291,7 +306,10 @@
                       <i class="fa fa-file" aria-hidden="true"></i>
                     </button>
                   </td>
-                  <td class="place-items-center border border-gray-300">
+                  <td
+                    class="place-items-center border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

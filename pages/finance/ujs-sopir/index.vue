@@ -118,7 +118,9 @@
               <thead>
                 <tr class="text-base uppercase text-nowrap">
                   <!-- <th class="w-20 border border-gray-300">Edit</th> -->
-                  <th class="w-20 border border-gray-300">Detail</th>
+                  <th class="w-20 border border-gray-300" v-if="getRoles.show">
+                    Detail
+                  </th>
                   <th class="w-20 border border-gray-300">No</th>
                   <th
                     class="w-48 border border-gray-300 cursor-pointer"
@@ -201,7 +203,12 @@
                   <th class="w-48 border border-gray-300">Keterangan</th>
                   <th class="w-28 border border-gray-300">Print</th>
 
-                  <th class="w-20 border border-gray-300">Delete</th>
+                  <th
+                    class="w-20 border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -213,6 +220,7 @@
                   </td> -->
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -296,6 +304,7 @@
 
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.destroy"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"

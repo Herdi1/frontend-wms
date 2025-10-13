@@ -31,8 +31,16 @@
             >
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-20 border border-gray-300 text-center">Edit</th>
-                  <th class="w-20 border border-gray-300 text-center">
+                  <th
+                    class="w-20 border border-gray-300 text-center"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
+                  <th
+                    class="w-20 border border-gray-300 text-center"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
                   <th class="w-14 border border-gray-300 text-center">No</th>
@@ -141,7 +149,10 @@
                     </div>
                   </th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
-                  <th class="w-20 border border-gray-300 text-center">
+                  <th
+                    class="w-20 border border-gray-300 text-center"
+                    v-if="getRoles.destroy"
+                  >
                     Delete
                   </th>
                 </tr>
@@ -150,11 +161,13 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -194,6 +207,7 @@
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.destroy"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"

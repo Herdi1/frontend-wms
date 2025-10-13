@@ -123,6 +123,7 @@
                 <button
                   @click="onOpenModalImport"
                   class="bg-green-500 shadow-md hover:shadow-none p-2 text-white rounded-md flex"
+                  v-if="getRoles.store"
                 >
                   <i class="fa fa-file-import text-white font-bold mr-2"></i>
                   <div>Import ASN</div>
@@ -141,9 +142,16 @@
             >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-20 border border-gray-300">Edit</th>
+                  <th
+                    class="w-20 border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Edit
+                  </th>
 
-                  <th class="border border-gray-300 w-20">Details</th>
+                  <th class="border border-gray-300 w-20" v-if="getRoles.show">
+                    Details
+                  </th>
 
                   <th class="w-20 border border-gray-300">No</th>
                   <!-- <th
@@ -256,13 +264,19 @@
                   <th class="w-52 border border-gray-300">Status Inspeksi</th>
                   <th class="w-52 border border-gray-300">Status Konfirmasi</th>
                   <th class="w-52 border border-gray-300">Status Bongkar</th>
-                  <th class="w-20 border border-gray-300">Delete</th>
+                  <th
+                    class="w-20 border border-gray-300"
+                    v-if="getRoles.destroy"
+                  >
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
@@ -276,6 +290,7 @@
                   </td>
                   <td
                     class="text-center place-items-center border border-gray-300"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
@@ -442,6 +457,7 @@
 
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.destroy"
                   >
                     <small-delete-button
                       @click="onTrashed(item)"

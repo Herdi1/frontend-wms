@@ -133,10 +133,16 @@
             <table class="mb-5 border border-gray-300" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase text-nowrap">
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th
+                    class="w-[5%] text-center border border-gray-300"
+                    v-if="getRoles.update"
+                  >
                     Edit
                   </th>
-                  <th class="w-[5%] text-center border border-gray-300">
+                  <th
+                    class="w-[5%] text-center border border-gray-300"
+                    v-if="getRoles.show"
+                  >
                     Detail
                   </th>
                   <th class="w-[5%] text-center border border-gray-300">No</th>
@@ -284,6 +290,7 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center place-items-center border border-gray-300"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
@@ -292,6 +299,7 @@
                   </td>
                   <td
                     class="text-center place-items-center border border-gray-300"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onEdit(item)" />
                   </td>

@@ -133,8 +133,15 @@
             >
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-24 border border-gray-300">Konfirmasi</th>
-                  <th class="w-20 border border-gray-300">Detail</th>
+                  <th
+                    class="w-24 border border-gray-300"
+                    v-if="getRoles.update"
+                  >
+                    Konfirmasi
+                  </th>
+                  <th class="w-20 border border-gray-300" v-if="getRoles.show">
+                    Detail
+                  </th>
                   <th class="w-20 text-center border border-gray-300">No</th>
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
@@ -243,6 +250,7 @@
                 <tr v-for="(item, i) in data" :key="i">
                   <td
                     class="text-center border border-gray-300 place-items-center"
+                    v-if="getRoles.update"
                   >
                     <small-edit-button
                       @click="onEdit(item)"
@@ -251,6 +259,7 @@
                   </td>
                   <td
                     class="text-center place-items-center border border-gray-300"
+                    v-if="getRoles.show"
                   >
                     <small-detail-button @click="onDetail(item)" />
                   </td>
