@@ -207,6 +207,7 @@ export default {
       parameters: {
         url: "finance/kontrak-lastmile",
         form: {
+          kontrak_lastmile_id: "",
           no_referensi: "",
           vendor_id: "",
           tanggal_kontrak: "",
@@ -272,126 +273,138 @@ export default {
         this.parameters.form.user_id_pic = res.data.user_pic;
         this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
 
-        this.parameters.form.kontrak_lastmile_jarak_details =
-          res.data.kontrak_lastmile_jarak_details.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_jarak_detail_id:
-                item.kontrak_lastmile_jarak_detail_id
-                  ? item.kontrak_lastmile_jarak_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-            };
-          });
-        this.parameters.form.kontrak_lastmile_ritase_details =
-          res.data.kontrak_lastmile_ritase_details.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_ritase_detail_id:
-                item.kontrak_lastmile_ritase_detail_id
-                  ? item.kontrak_lastmile_ritase_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-            };
-          });
-        this.parameters.form.kontrak_lastmile_berat_details =
-          res.data.kontrak_lastmile_berat_details.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_berat_detail_id:
-                item.kontrak_lastmile_berat_detail_id
-                  ? item.kontrak_lastmile_berat_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-              satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
-              satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
-            };
-          });
-        this.parameters.form.kontrak_lastmile_atcost_details =
-          res.data.kontrak_lastmile_atcost_details.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_atcost_detail_id:
-                item.kontrak_lastmile_atcost_detail_id
-                  ? item.kontrak_lastmile_atcost_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-              lokasi_id: item.lokasi ? item.lokasi : "",
-              // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
-              // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
-            };
-          });
-        this.parameters.form.kontrak_lastmile_premi_details =
-          res.data.kontrak_lastmile_premi_details.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_premi_detail_id:
-                item.kontrak_lastmile_premi_detail_id
-                  ? item.kontrak_lastmile_premi_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              group_item_id: item.group_item ? item.group_item : "",
-              item_gudang_id: item.item_gudang ? item.item_gudang : "",
-            };
-          });
+        // if (res.data.kontrak_lastmile_jarak_details.length > 0) {
+        //   this.parameters.form.kontrak_lastmile_jarak_details =
+        //     res.data.kontrak_lastmile_jarak_details.map((item) => {
+        //       return {
+        //         ...item,
+        //         kontrak_lastmile_jarak_detail_id:
+        //           item.kontrak_lastmile_jarak_detail_id
+        //             ? item.kontrak_lastmile_jarak_detail_id
+        //             : "",
+        //         jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //         divisi_id: item.divisi ? item.divisi : "",
+        //         jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //         gudang_id: item.gudang ? item.gudang : "",
+        //         mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //         pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //         term_pembayaran_id: item.term_pembayaran
+        //           ? item.term_pembayaran
+        //           : "",
+        //         jenis_kendaraan_id: item.jenis_kendaraan
+        //           ? item.jenis_kendaraan
+        //           : "",
+        //       };
+        //     });
+        // }
+        // if (res.data.kontrak_lastmile_ritase_details.length > 0) {
+        //   this.parameters.form.kontrak_lastmile_ritase_details =
+        //     res.data.kontrak_lastmile_ritase_details.map((item) => {
+        //       return {
+        //         ...item,
+        //         kontrak_lastmile_ritase_detail_id:
+        //           item.kontrak_lastmile_ritase_detail_id
+        //             ? item.kontrak_lastmile_ritase_detail_id
+        //             : "",
+        //         jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //         divisi_id: item.divisi ? item.divisi : "",
+        //         jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //         gudang_id: item.gudang ? item.gudang : "",
+        //         mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //         pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //         term_pembayaran_id: item.term_pembayaran
+        //           ? item.term_pembayaran
+        //           : "",
+        //         jenis_kendaraan_id: item.jenis_kendaraan
+        //           ? item.jenis_kendaraan
+        //           : "",
+        //       };
+        //     });
+        // }
+        // if (res.data.kontrak_lastmile_berat_details.length > 0) {
+        //   this.parameters.form.kontrak_lastmile_berat_details =
+        //     res.data.kontrak_lastmile_berat_details.map((item) => {
+        //       return {
+        //         ...item,
+        //         kontrak_lastmile_berat_detail_id:
+        //           item.kontrak_lastmile_berat_detail_id
+        //             ? item.kontrak_lastmile_berat_detail_id
+        //             : "",
+        //         jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //         divisi_id: item.divisi ? item.divisi : "",
+        //         jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //         gudang_id: item.gudang ? item.gudang : "",
+        //         mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //         pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //         term_pembayaran_id: item.term_pembayaran
+        //           ? item.term_pembayaran
+        //           : "",
+        //         jenis_kendaraan_id: item.jenis_kendaraan
+        //           ? item.jenis_kendaraan
+        //           : "",
+        //         satuan_id_dimensi: item.satuan_dimensi
+        //           ? item.satuan_dimensi
+        //           : "",
+        //         satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
+        //       };
+        //     });
+        // }
+        // if (res.data.kontrak_lastmile_atcost_details.length > 0) {
+        //   this.parameters.form.kontrak_lastmile_atcost_details =
+        //     res.data.kontrak_lastmile_atcost_details.map((item) => {
+        //       return {
+        //         ...item,
+        //         kontrak_lastmile_atcost_detail_id:
+        //           item.kontrak_lastmile_atcost_detail_id
+        //             ? item.kontrak_lastmile_atcost_detail_id
+        //             : "",
+        //         jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //         divisi_id: item.divisi ? item.divisi : "",
+        //         jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //         gudang_id: item.gudang ? item.gudang : "",
+        //         mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //         pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //         term_pembayaran_id: item.term_pembayaran
+        //           ? item.term_pembayaran
+        //           : "",
+        //         jenis_kendaraan_id: item.jenis_kendaraan
+        //           ? item.jenis_kendaraan
+        //           : "",
+        //         lokasi_id: item.lokasi ? item.lokasi : "",
+        //         // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
+        //         // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
+        //       };
+        //     });
+        // }
+        // if (res.data.kontrak_lastmile_premi_details.length > 0) {
+        //   this.parameters.form.kontrak_lastmile_premi_details =
+        //     res.data.kontrak_lastmile_premi_details.map((item) => {
+        //       return {
+        //         ...item,
+        //         kontrak_lastmile_premi_detail_id:
+        //           item.kontrak_lastmile_premi_detail_id
+        //             ? item.kontrak_lastmile_premi_detail_id
+        //             : "",
+        //         jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //         divisi_id: item.divisi ? item.divisi : "",
+        //         jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //         gudang_id: item.gudang ? item.gudang : "",
+        //         mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //         pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //         term_pembayaran_id: item.term_pembayaran
+        //           ? item.term_pembayaran
+        //           : "",
+        //         group_item_id: item.group_item ? item.group_item : "",
+        //         item_gudang_id: item.item_gudang ? item.item_gudang : "",
+        //       };
+        //     });
+        // }
         // console.log("res", res.data);
         this.isLoadingPage = false;
       }
     } catch (error) {
       this.$router.back();
-      // console.log("error", error);
+      console.log("error", error);
     }
   },
 

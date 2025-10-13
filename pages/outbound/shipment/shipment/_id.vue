@@ -1323,6 +1323,7 @@ export default {
                   jenis_routing: "MUAT",
                   jenis_kiriman: 1,
                   jenis: item.jenis,
+                  total_lain: 0,
                 };
               });
           this.parameters.form.rute_shipments.push({
@@ -1334,6 +1335,7 @@ export default {
             jenis_routing: "KOSONG",
             jenis_kiriman: 0,
             jenis: 0,
+            total_lain: 0,
           });
           // if (!res.data.biaya_lastmiles.length) {
           //   this.parameters.form;

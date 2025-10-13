@@ -177,7 +177,7 @@
     <PreviewDocumentSection
       v-if="isPreviewDoc"
       :src="preview_doc"
-      height="500"
+      height="800"
     />
   </section>
 </template>
@@ -416,7 +416,8 @@ export default {
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
       // window.open(process.env.API_URL + url + "&token=" + token, "_blank");
-      this.preview_doc = process.env.API_URL + url + "&token=" + token;
+      this.preview_doc =
+        process.env.API_URL + url + "&token=" + token + "#toolbar=0&navpanes=0";
       this.isPreviewDoc = true;
     },
 

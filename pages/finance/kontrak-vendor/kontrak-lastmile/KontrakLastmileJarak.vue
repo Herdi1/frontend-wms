@@ -448,6 +448,35 @@ export default {
     await this.onSearchTerm();
     await this.onSearchJenisKendaraan();
     await this.onSearchUang();
+
+    await this.$axios
+      .get(
+        `finance/kontrak-lastmile/get-detail-kontrak-insentif-jarak/${this.self.parameters.form.kontrak_lastmile_id}`
+      )
+      .then((res) => {
+        this.self.parameters.form.kontrak_lastmile_jarak_details =
+          res.data.data.map((item) => {
+            return {
+              ...item,
+              kontrak_lastmile_jarak_detail_id:
+                item.kontrak_lastmile_jarak_detail_id
+                  ? item.kontrak_lastmile_jarak_detail_id
+                  : "",
+              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+              divisi_id: item.divisi ? item.divisi : "",
+              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+              gudang_id: item.gudang ? item.gudang : "",
+              mata_uang_id: item.mata_uang ? item.mata_uang : "",
+              pembayaran_id: item.pembayaran ? item.pembayaran : "",
+              term_pembayaran_id: item.term_pembayaran
+                ? item.term_pembayaran
+                : "",
+              jenis_kendaraan_id: item.jenis_kendaraan
+                ? item.jenis_kendaraan
+                : "",
+            };
+          });
+      });
   },
 
   computed: {

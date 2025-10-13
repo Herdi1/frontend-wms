@@ -155,7 +155,7 @@
     <PreviewDocumentSection
       v-if="isPreviewDoc"
       :src="preview_doc"
-      height="500"
+      height="800"
     />
   </section>
 </template>
