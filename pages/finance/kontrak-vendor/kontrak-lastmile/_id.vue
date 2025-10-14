@@ -122,7 +122,13 @@
                 v-model="parameters.form.keterangan"
               ></textarea>
             </div>
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
           </div>
+
           <div
             class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >

@@ -26,50 +26,17 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
-  "AnavbarMessages": {
-    "description": "Auto imported from components/anavbar/Messages.vue"
-<<<<<<< HEAD
-  },
-  "AnavbarNotifications": {
-    "description": "Auto imported from components/anavbar/Notifications.vue"
-  },
-  "AnavbarSearchForm": {
-    "description": "Auto imported from components/anavbar/SearchForm.vue"
-  },
-  "AnavbarUserOptions": {
-    "description": "Auto imported from components/anavbar/UserOptions.vue"
-  },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
-=======
->>>>>>> b8337c94db4d806b7d88b4d351a98e1af161e2b2
   },
-  "AnavbarNotifications": {
-    "description": "Auto imported from components/anavbar/Notifications.vue"
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
   },
-  "AnavbarSearchForm": {
-    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
   },
-  "AnavbarUserOptions": {
-    "description": "Auto imported from components/anavbar/UserOptions.vue"
-  },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
@@ -86,19 +53,23 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
-<<<<<<< HEAD
-=======
-  "ButtonSmallDeleteButton": {
-    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
   },
-  "ButtonSmallDetailButton": {
-    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
   },
-  "ButtonSmallEditButton": {
-    "description": "Auto imported from components/button/SmallEditButton.vue"
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
   },
-  "ButtonSmallRestoreButton": {
-    "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
+  },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
@@ -112,7 +83,6 @@
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
->>>>>>> b8337c94db4d806b7d88b4d351a98e1af161e2b2
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
   },

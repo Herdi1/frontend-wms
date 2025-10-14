@@ -13,6 +13,62 @@
         </button>
       </div>
     </div>
+    <div class="flex gap-5">
+      <div class="col-md-1 mt-2">
+        <select
+          class="border border-gray-300 rounded-sm outline-none w-[4rem]"
+          style="
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0px;
+            padding-left: 2px;
+            padding-right: 0px;
+          "
+          v-model="parameters.params.per_page"
+          @change="
+            parameters.params.page = 1;
+            onLoad();
+          "
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <div class="col-md-1 mt-2 flex gap-3 items-center">
+        <label for="">Gudang</label>
+        <v-select
+          label="nama_gudang"
+          :loading="isLoadingGetGudang"
+          :options="lookup_custom6.data"
+          :filterable="false"
+          v-model="parameters.params.gudang_id"
+          @input="(item) => onSelectGudang(item)"
+          class="w-[300px] mb-2"
+        >
+          <li
+            slot-scope="{ search }"
+            slot="list-footer"
+            class="p-1 border-t flex justify-between"
+            v-if="lookup_custom6.data.length || search"
+          >
+            <span
+              v-if="lookup_custom6.current_page > 1"
+              @click="onGetGudang(search, false)"
+              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+              >Sebelumnya</span
+            >
+            <span
+              v-if="lookup_custom6.last_page > lookup_custom6.current_page"
+              @click="onGetGudang(search, true)"
+              class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+              >Selanjutnya</span
+            >
+          </li>
+        </v-select>
+      </div>
+    </div>
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
         ref="formContainer"
@@ -458,6 +514,7 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          gudang_id: "",
         },
       },
     };
@@ -898,15 +955,12 @@ export default {
       }
     },
 
-    onSelectGudang(item, index) {
+    async onSelectGudang(item) {
       if (item) {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].gudang_id = item;
+        this.parameters.params.gudang_id = item;
+        await this.onLoad();
       } else {
-        this.self.parameters.form.kontrak_lastmile_jarak_details[
-          index
-        ].gudang_id = "";
+        this.parameters.params.gudang_id = "";
       }
     },
 
@@ -974,7 +1028,10 @@ export default {
         .get(
           `/finance/kontrak-lastmile/get-detail-kontrak-insentif-jarak/${this.self.parameters.form.kontrak_lastmile_id}`,
           {
-            params: this.parameters.params,
+            params: {
+              ...this.parameters.params,
+              gudang_id: this.parameters.params.gudang_id?.gudang_id,
+            },
           }
         )
         .then((res) => {
