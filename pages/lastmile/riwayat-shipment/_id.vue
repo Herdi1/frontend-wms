@@ -436,7 +436,9 @@
                     class="flex items-center justify-between"
                     v-if="parameters.form.shipment_detail_id"
                   >
-                    <label for="" class="w-1/2">Delivery Order</label>
+                    <label for="" class="w-1/2"
+                      >Delivery Order <span class="text-danger">*</span></label
+                    >
                     <div class="w-1/2 p-1 rounded-sm border border-gray-300">
                       {{
                         parameters.form.shipment_detail_id
@@ -460,12 +462,17 @@
                       >Quantity Retur <span class="text-danger">*</span></label
                     >
                     <!-- type="text" -->
-                    <money
-                      min="1"
+                    <!-- <money
                       name="quantity"
                       id="quantity"
                       v-model="parameters.form.quantity_retur"
                       class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                    /> -->
+                    <input-koma
+                      :required="false"
+                      v-model="parameters.form.quantity_retur"
+                      name="quantity_retur"
+                      class="w-1/2 p-1 rounded-sm outline-none"
                     />
                   </div>
                   <div class="flex items-center justify-between">
@@ -518,7 +525,9 @@
                     </v-select>
                   </div>
                   <div class="form-group flex items-start mb-5">
-                    <label for="Alasan" class="w-1/2 pt-1">Alasan</label>
+                    <label for="Alasan" class="w-1/2 pt-1"
+                      >Alasan <span class="text-danger">*</span></label
+                    >
                     <v-select
                       label="nama_alasan_beda_plan"
                       :loading="isLoadingGetAlasan"
@@ -840,11 +849,12 @@ export default {
     async onSubmitRetur(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
-      if (this.parameters.form.quantity_retur < 1) {
-        this.$globalErrorToaster(
-          this.$toaster,
-          "Quantity Retur Tidak Boleh Kurang Dari 1"
-        );
+      if (!this.parameters.form.shipment_detail_id) {
+        this.$toaster.error("Mohon Pilih Delivery Order Terlebih Dahulu");
+        return;
+      }
+      if (this.parameters.form.quantity_retur < 0) {
+        this.$toaster.error("Quantity Retur tidak boleh kurang dari 0");
         return;
       }
 

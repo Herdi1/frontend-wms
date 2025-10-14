@@ -21,6 +21,7 @@ You can directly use them in pages and other components without the need to impo
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
+<<<<<<< HEAD
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
@@ -29,11 +30,24 @@ You can directly use them in pages and other components without the need to impo
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
 - `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+=======
+>>>>>>> b8337c94db4d806b7d88b4d351a98e1af161e2b2
 - `<FormsCloseButton>` | `<forms-close-button>` (components/forms/CloseButton.vue)
 - `<FormsInputForm>` | `<forms-input-form>` (components/forms/InputForm.vue)
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+<<<<<<< HEAD
+=======
+- `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
+- `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
+- `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
+- `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
+- `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
+- `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
+- `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
+- `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+>>>>>>> b8337c94db4d806b7d88b4d351a98e1af161e2b2
 - `<IconAirplay>` | `<icon-airplay>` (components/icon/icon-airplay.vue)
 - `<IconArchive>` | `<icon-archive>` (components/icon/icon-archive.vue)
 - `<IconArrowBackward>` | `<icon-arrow-backward>` (components/icon/icon-arrow-backward.vue)
