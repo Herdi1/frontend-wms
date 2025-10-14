@@ -18,11 +18,6 @@
         <div class="table-responsive overflow-y-hidden mb-7">
           <table
             class="table border-collapse border border-gray-300 my-5 h-full overflow-auto table-fixed"
-            :class="
-              this.self.parameters.form.kontrak_lastmile_premi_details.length
-                ? 'mb-[300px]'
-                : ''
-            "
           >
             <thead>
               <tr class="uppercase">
@@ -426,6 +421,9 @@
             </tbody>
           </table>
         </div>
+        <div class="mx-3 mt-2 mb-4">
+          <pagination-component :self="this" ref="pagination" />
+        </div>
       </div>
     </div>
   </div>
@@ -478,7 +476,23 @@ export default {
       isStopSearchItemGudang: false,
       isLoadingGetItemGudang: false,
       item_gudang_search: "",
+
+      parameters: {
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kontrak_lastmile_premi_detail_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+        },
+      },
     };
+  },
+
+  async created() {
+    await this.onLoad();
   },
 
   async mounted() {
@@ -493,33 +507,33 @@ export default {
     await this.onSearchGroupItem();
     // await this.onSearchItemGudang();
 
-    await this.$axios
-      .get(
-        `finance/kontrak-lastmile/get-detail-kontrak-premi/${this.self.parameters.form.kontrak_lastmile_id}`
-      )
-      .then((res) => {
-        this.self.parameters.form.kontrak_lastmile_premi_details =
-          res.data.data.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_premi_detail_id:
-                item.kontrak_lastmile_premi_detail_id
-                  ? item.kontrak_lastmile_premi_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              group_item_id: item.group_item ? item.group_item : "",
-              item_gudang_id: item.item_gudang ? item.item_gudang : "",
-            };
-          });
-      });
+    // await this.$axios
+    //   .get(
+    //     `finance/kontrak-lastmile/get-detail-kontrak-premi/${this.self.parameters.form.kontrak_lastmile_id}`
+    //   )
+    //   .then((res) => {
+    //     this.self.parameters.form.kontrak_lastmile_premi_details =
+    //       res.data.data.map((item) => {
+    //         return {
+    //           ...item,
+    //           kontrak_lastmile_premi_detail_id:
+    //             item.kontrak_lastmile_premi_detail_id
+    //               ? item.kontrak_lastmile_premi_detail_id
+    //               : "",
+    //           jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+    //           divisi_id: item.divisi ? item.divisi : "",
+    //           jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+    //           gudang_id: item.gudang ? item.gudang : "",
+    //           mata_uang_id: item.mata_uang ? item.mata_uang : "",
+    //           pembayaran_id: item.pembayaran ? item.pembayaran : "",
+    //           term_pembayaran_id: item.term_pembayaran
+    //             ? item.term_pembayaran
+    //             : "",
+    //           group_item_id: item.group_item ? item.group_item : "",
+    //           item_gudang_id: item.item_gudang ? item.item_gudang : "",
+    //         };
+    //       });
+    //   });
   },
 
   computed: {
@@ -1099,6 +1113,59 @@ export default {
           index
         ].mata_uang_id = "";
       }
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = parseInt(page) || 1;
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.$axios
+        .get(
+          `finance/kontrak-lastmile/get-detail-kontrak-premi/${this.self.parameters.form.kontrak_lastmile_id}`,
+          {
+            params: this.parameters.params,
+          }
+        )
+        .then((res) => {
+          this.self.parameters.form.kontrak_lastmile_premi_details =
+            res.data.data.map((item) => {
+              return {
+                ...item,
+                kontrak_lastmile_premi_detail_id:
+                  item.kontrak_lastmile_premi_detail_id
+                    ? item.kontrak_lastmile_premi_detail_id
+                    : "",
+                jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+                divisi_id: item.divisi ? item.divisi : "",
+                jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+                gudang_id: item.gudang ? item.gudang : "",
+                mata_uang_id: item.mata_uang ? item.mata_uang : "",
+                pembayaran_id: item.pembayaran ? item.pembayaran : "",
+                term_pembayaran_id: item.term_pembayaran
+                  ? item.term_pembayaran
+                  : "",
+                group_item_id: item.group_item ? item.group_item : "",
+                item_gudang_id: item.item_gudang ? item.item_gudang : "",
+              };
+            });
+          loader.hide();
+          this.$store.dispatch("pagination/setPagination", res.data);
+          this.$refs["pagination"].active_page = this.parameters.params.page;
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingData = false;
+        });
     },
   },
 };

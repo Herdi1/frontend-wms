@@ -15,13 +15,14 @@
     </div>
     <div class="table-responsive overflow-y-hidden mb-7">
       <table
+        ref="formContainer"
         class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-        :class="
+      >
+        <!-- :class="
           this.self.parameters.form.kontrak_lastmile_jarak_details.length
             ? 'mb-[300px]'
             : ''
-        "
-      >
+        " -->
         <thead>
           <tr class="uppercase">
             <th class="w-60 border border-gray-300">
@@ -394,14 +395,22 @@
         </tbody>
       </table>
     </div>
+    <div class="mx-3 mt-2 mb-4">
+      <PaginationComponent :self="this" ref="pagination" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import PaginationComponent from "../../../../components/section/PaginationComponent.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    PaginationComponent,
+  },
 
   data() {
     return {
@@ -436,7 +445,26 @@ export default {
       isStopSearchUang: false,
       isLoadingGetUang: false,
       uang_search: "",
+
+      isLoadingData: false,
+      isPaginate: true,
+
+      parameters: {
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kontrak_lastmile_jarak_detail_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+        },
+      },
     };
+  },
+
+  async created() {
+    await this.onLoad();
   },
 
   async mounted() {
@@ -449,34 +477,34 @@ export default {
     await this.onSearchJenisKendaraan();
     await this.onSearchUang();
 
-    await this.$axios
-      .get(
-        `finance/kontrak-lastmile/get-detail-kontrak-insentif-jarak/${this.self.parameters.form.kontrak_lastmile_id}`
-      )
-      .then((res) => {
-        this.self.parameters.form.kontrak_lastmile_jarak_details =
-          res.data.data.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_jarak_detail_id:
-                item.kontrak_lastmile_jarak_detail_id
-                  ? item.kontrak_lastmile_jarak_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-            };
-          });
-      });
+    // await this.$axios
+    //   .get(
+    //     `finance/kontrak-lastmile/get-detail-kontrak-insentif-jarak/${this.self.parameters.form.kontrak_lastmile_id}`
+    //   )
+    //   .then((res) => {
+    //     this.self.parameters.form.kontrak_lastmile_jarak_details =
+    //       res.data.data.map((item) => {
+    //         return {
+    //           ...item,
+    //           kontrak_lastmile_jarak_detail_id:
+    //             item.kontrak_lastmile_jarak_detail_id
+    //               ? item.kontrak_lastmile_jarak_detail_id
+    //               : "",
+    //           jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+    //           divisi_id: item.divisi ? item.divisi : "",
+    //           jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+    //           gudang_id: item.gudang ? item.gudang : "",
+    //           mata_uang_id: item.mata_uang ? item.mata_uang : "",
+    //           pembayaran_id: item.pembayaran ? item.pembayaran : "",
+    //           term_pembayaran_id: item.term_pembayaran
+    //             ? item.term_pembayaran
+    //             : "",
+    //           jenis_kendaraan_id: item.jenis_kendaraan
+    //             ? item.jenis_kendaraan
+    //             : "",
+    //         };
+    //       });
+    //   });
   },
 
   computed: {
@@ -928,6 +956,60 @@ export default {
           index
         ].mata_uang_id = "";
       }
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = parseInt(page) || 1;
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.$axios
+        .get(
+          `/finance/kontrak-lastmile/get-detail-kontrak-insentif-jarak/${this.self.parameters.form.kontrak_lastmile_id}`,
+          {
+            params: this.parameters.params,
+          }
+        )
+        .then((res) => {
+          this.self.parameters.form.kontrak_lastmile_jarak_details =
+            res.data.data.map((item) => {
+              return {
+                ...item,
+                kontrak_lastmile_jarak_detail_id:
+                  item.kontrak_lastmile_jarak_detail_id
+                    ? item.kontrak_lastmile_jarak_detail_id
+                    : "",
+                jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+                divisi_id: item.divisi ? item.divisi : "",
+                jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+                gudang_id: item.gudang ? item.gudang : "",
+                mata_uang_id: item.mata_uang ? item.mata_uang : "",
+                pembayaran_id: item.pembayaran ? item.pembayaran : "",
+                term_pembayaran_id: item.term_pembayaran
+                  ? item.term_pembayaran
+                  : "",
+                jenis_kendaraan_id: item.jenis_kendaraan
+                  ? item.jenis_kendaraan
+                  : "",
+              };
+            });
+          loader.hide();
+          this.$store.dispatch("pagination/setPagination", res.data);
+          this.$refs["pagination"].active_page = this.parameters.params.page;
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingData = false;
+        });
     },
   },
 };

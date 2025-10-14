@@ -17,11 +17,6 @@
       <div class="table-responsive overflow-y-hidden mb-7">
         <table
           class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-          :class="
-            this.self.parameters.form.kontrak_lastmile_atcost_details.length
-              ? 'mb-[300px]'
-              : ''
-          "
         >
           <thead>
             <tr class="uppercase">
@@ -482,6 +477,9 @@
           </tbody>
         </table>
       </div>
+      <div class="mx-3 mt-2 mb-4">
+        <pagination-component :self="this" ref="pagination" />
+      </div>
     </div>
   </div>
 </template>
@@ -537,7 +535,23 @@ export default {
       isStopSearchLokasi: false,
       isLoadingGetLokasi: false,
       lokasi_search: "",
+
+      parameters: {
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kontrak_lastmile_atcost_detail_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+        },
+      },
     };
+  },
+
+  async created() {
+    await this.onLoad();
   },
 
   async mounted() {
@@ -553,38 +567,38 @@ export default {
     // await this.onSearchLuas();
     await this.onSearchLokasi();
 
-    await this.$axios
-      .get(
-        `finance/kontrak-lastmile/get-detail-kontrak-atcost/${this.self.parameters.form.kontrak_lastmile_id}`
-      )
-      .then((res) => {
-        this.self.parameters.form.kontrak_lastmile_atcost_details =
-          res.data.data.map((item) => {
-            return {
-              ...item,
-              kontrak_lastmile_atcost_detail_id:
-                item.kontrak_lastmile_atcost_detail_id
-                  ? item.kontrak_lastmile_atcost_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              jenis_kendaraan_id: item.jenis_kendaraan
-                ? item.jenis_kendaraan
-                : "",
-              lokasi_id: item.lokasi ? item.lokasi : "",
-              nilai_kontrak: item.nilai_kontrak ?? 0.0,
-              // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
-              // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
-            };
-          });
-      });
+    // await this.$axios
+    //   .get(
+    //     `finance/kontrak-lastmile/get-detail-kontrak-atcost/${this.self.parameters.form.kontrak_lastmile_id}`
+    //   )
+    //   .then((res) => {
+    //     this.self.parameters.form.kontrak_lastmile_atcost_details =
+    //       res.data.data.map((item) => {
+    //         return {
+    //           ...item,
+    //           kontrak_lastmile_atcost_detail_id:
+    //             item.kontrak_lastmile_atcost_detail_id
+    //               ? item.kontrak_lastmile_atcost_detail_id
+    //               : "",
+    //           jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+    //           divisi_id: item.divisi ? item.divisi : "",
+    //           jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+    //           gudang_id: item.gudang ? item.gudang : "",
+    //           mata_uang_id: item.mata_uang ? item.mata_uang : "",
+    //           pembayaran_id: item.pembayaran ? item.pembayaran : "",
+    //           term_pembayaran_id: item.term_pembayaran
+    //             ? item.term_pembayaran
+    //             : "",
+    //           jenis_kendaraan_id: item.jenis_kendaraan
+    //             ? item.jenis_kendaraan
+    //             : "",
+    //           lokasi_id: item.lokasi ? item.lokasi : "",
+    //           nilai_kontrak: item.nilai_kontrak ?? 0.0,
+    //           // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
+    //           // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
+    //         };
+    //       });
+    //   });
   },
 
   computed: {
@@ -1232,6 +1246,64 @@ export default {
           index
         ].jenis_kendaraan_id = "";
       }
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = parseInt(page) || 1;
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.$axios
+        .get(
+          `finance/kontrak-lastmile/get-detail-kontrak-atcost/${this.self.parameters.form.kontrak_lastmile_id}`,
+          {
+            params: this.parameters.params,
+          }
+        )
+        .then((res) => {
+          this.self.parameters.form.kontrak_lastmile_atcost_details =
+            res.data.data.map((item) => {
+              return {
+                ...item,
+                kontrak_lastmile_atcost_detail_id:
+                  item.kontrak_lastmile_atcost_detail_id
+                    ? item.kontrak_lastmile_atcost_detail_id
+                    : "",
+                jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+                divisi_id: item.divisi ? item.divisi : "",
+                jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+                gudang_id: item.gudang ? item.gudang : "",
+                mata_uang_id: item.mata_uang ? item.mata_uang : "",
+                pembayaran_id: item.pembayaran ? item.pembayaran : "",
+                term_pembayaran_id: item.term_pembayaran
+                  ? item.term_pembayaran
+                  : "",
+                jenis_kendaraan_id: item.jenis_kendaraan
+                  ? item.jenis_kendaraan
+                  : "",
+                lokasi_id: item.lokasi ? item.lokasi : "",
+                nilai_kontrak: item.nilai_kontrak ?? 0.0,
+                // satuan_id_dimensi: item.satuan_dimensi ? item.satuan_dimensi : "",
+                // satuan_id_volume: item.satuan_volume ? item.satuan_volume : "",
+              };
+            });
+          loader.hide();
+          this.$store.dispatch("pagination/setPagination", res.data);
+          this.$refs["pagination"].active_page = this.parameters.params.page;
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingData = false;
+        });
     },
   },
 };

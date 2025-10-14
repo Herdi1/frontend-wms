@@ -6,109 +6,181 @@
           <div class="card">
             <div class="card-body">
               <div class="card-title">
-                <list-option-section
-                  :self="this"
-                  ref="form-option"
-                />
-              </div>            
+                <list-option-section :self="this" ref="form-option" />
+              </div>
 
               <div v-if="parameters.form.checkboxs.length" class="p-1">
-                <button class="btn btn-sm btn-danger"
+                <button
+                  class="btn btn-sm btn-danger"
                   data-toggle="tooltip"
                   data-placement="top"
                   data-original-title="Hapus Semua Data"
                   @click="onDeleteAll()"
-                  v-if="parameters.params.soft_deleted != 'deleted' && getRoles.destroy_all">
+                  v-if="
+                    parameters.params.soft_deleted != 'deleted' &&
+                    getRoles.destroy_all
+                  "
+                >
                   Hapus <i class="fas fa-trash"></i>
                 </button>
-                <button class="btn btn-sm btn-success"
+                <button
+                  class="btn btn-sm btn-success"
                   data-toggle="tooltip"
                   data-placement="top"
                   data-original-title="Restore Semua Data"
                   @click="onRestoreAll()"
-                  v-if="parameters.params.soft_deleted && getRoles.restore_all">
+                  v-if="parameters.params.soft_deleted && getRoles.restore_all"
+                >
                   Pulihkan <i class="fas fa-redo"></i>
                 </button>
               </div>
 
               <!-- start table -->
               <div class="table-responsive">
-                <table class="table table-striped table-sm vld-parent table-hover"
-                  ref="formContainer">
+                <table
+                  class="table table-striped table-sm vld-parent table-hover"
+                  ref="formContainer"
+                >
                   <thead>
-                    <tr>         
-                      <th style="width:5%">
-                        <input 
-                          type="checkbox" 
-                          id="checkAll" 
+                    <tr>
+                      <th style="width: 5%">
+                        <input
+                          type="checkbox"
+                          id="checkAll"
                           @click="onCheckAll"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
-                      </th>            
-                      <th style="width:5%">No</th>
-                      <th @click="onSort('code',parameters.params.sort == 'asc' ? 'desc' : 'asc')"
-                        class="cursor-pointer" style="width:15%">
-                        <div class="d-flex flex-row justify-content-between align-items-baseline">
+                      </th>
+                      <th style="width: 5%">No</th>
+                      <th
+                        @click="
+                          onSort(
+                            'code',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer"
+                        style="width: 15%"
+                      >
+                        <div
+                          class="d-flex flex-row justify-content-between align-items-baseline"
+                        >
                           <div>Kode</div>
                           <div>
-                            <i class="fas fa-caret-up"
-                              :class="parameters.params.order == 'code' && parameters.params.sort == 'asc' ? '' : 'light-gray'"></i>
-                            <i class="fas fa-caret-down"
-                              :class="parameters.params.order == 'code' && parameters.params.sort == 'desc' ? '' : 'light-gray'"></i>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'code' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'code' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
                           </div>
                         </div>
                       </th>
-                      <th @click="onSort('name',parameters.params.sort == 'asc' ? 'desc' : 'asc')"
-                        class="cursor-pointer" style="width:100%">
-                        <div class="d-flex flex-row justify-content-between align-items-baseline">
+                      <th
+                        @click="
+                          onSort(
+                            'name',
+                            parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                          )
+                        "
+                        class="cursor-pointer"
+                        style="width: 100%"
+                      >
+                        <div
+                          class="d-flex flex-row justify-content-between align-items-baseline"
+                        >
                           <div>Nama</div>
                           <div>
-                            <i class="fas fa-caret-up"
-                              :class="parameters.params.order == 'name' && parameters.params.sort == 'asc' ? '' : 'light-gray'"></i>
-                            <i class="fas fa-caret-down"
-                              :class="parameters.params.order == 'name' && parameters.params.sort == 'desc' ? '' : 'light-gray'"></i>
+                            <i
+                              class="fas fa-caret-up"
+                              :class="
+                                parameters.params.order == 'name' &&
+                                parameters.params.sort == 'asc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
+                            <i
+                              class="fas fa-caret-down"
+                              :class="
+                                parameters.params.order == 'name' &&
+                                parameters.params.sort == 'desc'
+                                  ? ''
+                                  : 'light-gray'
+                              "
+                            ></i>
                           </div>
                         </div>
-                      </th>                                   
-                      <th class="text-center">                      
-                        Options
                       </th>
+                      <th class="text-center">Options</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr :class="{'table-active': ActiveRow == i }" v-for="(item,i) in data" :key="i"  @click="onRowSelected(i)">
+                    <tr
+                      :class="{ 'table-active': ActiveRow == i }"
+                      v-for="(item, i) in data"
+                      :key="i"
+                      @click="onRowSelected(i)"
+                    >
                       <td>
-                        <input 
-                          type="checkbox" 
-                          name="checkboxs[]" 
-                          :value="item.id" 
-                          v-model="parameters.form.checkboxs" 
+                        <input
+                          type="checkbox"
+                          name="checkboxs[]"
+                          :value="item.id"
+                          v-model="parameters.form.checkboxs"
                           v-if="getRoles.destroy_all || getRoles.restore_all"
                         />
                       </td>
-                      <td>{{ ((parameters.params.page-1) * parameters.params.per_page)+i  + 1 }}</td>
+                      <td>
+                        {{
+                          (parameters.params.page - 1) *
+                            parameters.params.per_page +
+                          i +
+                          1
+                        }}
+                      </td>
                       <td>{{ item.code }}</td>
-                      <td>{{ item.name }}</td>  
+                      <td>{{ item.name }}</td>
                       <td class="text-center">
                         <div class="btn-group border border-success">
-                          <button class="btn btn-sm " 
+                          <button
+                            class="btn btn-sm"
                             @click="onDetail(item)"
-                            v-if="getRoles.show">
+                            v-if="getRoles.show"
+                          >
                             <i class="fas fa-info-circle text-info"></i>
                           </button>
-                          <button class="btn btn-sm " 
+                          <button
+                            class="btn btn-sm"
                             @click="onEdit(item)"
-                            v-if="!item.deleted_at && getRoles.update">
+                            v-if="!item.deleted_at && getRoles.update"
+                          >
                             <i class="fas fa-pen text-warning"></i>
                           </button>
-                          <button class="btn btn-sm" 
-                            @click="onTrashed(item)" 
-                            v-if="!item.deleted_at && getRoles.destroy">
+                          <button
+                            class="btn btn-sm"
+                            @click="onTrashed(item)"
+                            v-if="!item.deleted_at && getRoles.destroy"
+                          >
                             <i class="fas fa-trash text-danger"></i>
                           </button>
-                          <button class="btn btn-sm" 
-                            @click="onRestored(item)" 
-                            v-if="item.deleted_at && getRoles.restore">
+                          <button
+                            class="btn btn-sm"
+                            @click="onRestored(item)"
+                            v-if="item.deleted_at && getRoles.restore"
+                          >
                             <i class="fas fa-redo text-success"></i>
                           </button>
                         </div>
@@ -116,23 +188,18 @@
                     </tr>
                   </tbody>
 
-                  <table-data-loading-section
-                    :self="this"
-                  />
+                  <table-data-loading-section :self="this" />
 
-                  <table-data-not-found-section
-                    :self="this"
-                  />
+                  <table-data-not-found-section :self="this" />
                 </table>
               </div>
               <!-- end table -->
 
-              <div class="card-title border-top"
-                style="padding-bottom: -100px !important">
-                <pagination-section
-                  :self="this"
-                  ref="pagination"
-                />
+              <div
+                class="card-title border-top"
+                style="padding-bottom: -100px !important"
+              >
+                <pagination-component :self="this" ref="pagination" />
               </div>
             </div>
           </div>
@@ -140,15 +207,9 @@
       </div>
     </div>
 
-    <ModalDetail
-      :self="this"
-      ref="modal-detail"
-    />
+    <ModalDetail :self="this" ref="modal-detail" />
 
-    <FormInput
-      :self="this"
-      ref="form-input"
-    />
+    <FormInput :self="this" ref="form-input" />
 
     <!--
     <filter-section
@@ -169,22 +230,21 @@
       </template>
     </filter-section>
     -->
-
   </section>
 </template>
 
 <script>
-import { mapActions,mapState,mapMutations } from 'vuex'
+import { mapActions, mapState, mapMutations } from "vuex";
 import FormInput from "./form";
 import ModalDetail from "./detail";
 
 export default {
-  middleware : ['checkRoleUser'],
+  middleware: ["checkRoleUser"],
 
   head() {
     return {
-      title: 'Regu',
-    }
+      title: "Regu",
+    };
   },
 
   created() {
@@ -195,164 +255,161 @@ export default {
   mounted() {
     this.$refs["form-option"].isAddData = false;
     this.$refs["form-option"].isMaintenancePage = false;
-    this.$refs['form-option'].isFilter          = false;
-    this.$refs["form-option"].isExport          = true;
-    this.$refs["form-option"].isExportFile      = false;
-    this.$refs["form-option"].isExportPrint     = false;
+    this.$refs["form-option"].isFilter = false;
+    this.$refs["form-option"].isExport = true;
+    this.$refs["form-option"].isExportFile = false;
+    this.$refs["form-option"].isExportPrint = false;
 
-    if(
-      this.getRoles.destroy || 
-      this.getRoles.destroy_all || 
-      this.getRoles.restore || 
+    if (
+      this.getRoles.destroy ||
+      this.getRoles.destroy_all ||
+      this.getRoles.restore ||
       this.getRoles.restore_all
-    ){
+    ) {
       this.$refs["form-option"].isMaintenancePage = true;
     }
-    
-    if(this.getRoles.store){
+
+    if (this.getRoles.store) {
       this.$refs["form-option"].isAddData = true;
     }
 
-    if(this.getRoles.export){
+    if (this.getRoles.export) {
       this.$refs["form-option"].isExportFile = true;
 
-      this.$refs["form-option"].isExportFilePdf = true;          
+      this.$refs["form-option"].isExportFilePdf = true;
       this.$refs["form-option"].isExportFileExcel = true;
 
-      if("export_pdf" in this.getRoles || "export_excel" in this.getRoles){
-        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;          
-        this.$refs["form-option"].isExportFileExcel = this.getRoles.export_excel;          
+      if ("export_pdf" in this.getRoles || "export_excel" in this.getRoles) {
+        this.$refs["form-option"].isExportFilePdf = this.getRoles.export_pdf;
+        this.$refs["form-option"].isExportFileExcel =
+          this.getRoles.export_excel;
       }
     }
 
-    if(this.getRoles.print){
+    if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
   },
 
   data() {
     return {
-      title               : 'REGU',
-      ActiveRow           : null,
-      isLoadingData       : false,
-      isPaginate          : true,
-      parameters : {
-        url : 'master/transaction_type',
-        type : 'pdf',
-        params :{
-          soft_deleted : '',
-          search      : '',
-          order       : 'id',
-          sort        : 'desc',
-          all         : '',
-          per_page    : 10,
-          page        : 1,
+      title: "REGU",
+      ActiveRow: null,
+      isLoadingData: false,
+      isPaginate: true,
+      parameters: {
+        url: "master/transaction_type",
+        type: "pdf",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
         },
-        form : {
-          checkboxs : []
+        form: {
+          checkboxs: [],
         },
-        loadings : {
-          isDelete  : false,
-          isRestore : false,
-        },        
+        loadings: {
+          isDelete: false,
+          isRestore: false,
+        },
       },
-      default_roles : {
-        store : true,
-        update : true,
-        destroy : true,
-        restore : true,
-        show : true,
-        export : true,
-        export_excel : true,
-        export_pdf : true,
-        print : true,
-        destroy_all : true,
-        restore_all : true
+      default_roles: {
+        store: true,
+        update: true,
+        destroy: true,
+        restore: true,
+        show: true,
+        export: true,
+        export_excel: true,
+        export_pdf: true,
+        print: true,
+        destroy_all: true,
+        restore_all: true,
       },
-      user : this.$auth.user
-    }
+      user: this.$auth.user,
+    };
   },
 
-  components : {
-     FormInput,
-     ModalDetail
+  components: {
+    FormInput,
+    ModalDetail,
   },
 
-  computed : {
-    ...mapState('moduleApi',[
-      'data',
-      'error',
-      'result'
-    ]),
+  computed: {
+    ...mapState("moduleApi", ["data", "error", "result"]),
 
-    getRoles(){
-      if(!this.user.parent_id){
-        return this.default_roles;        
-      }else{
-        let main_role = this.user.group_role.roles.find(item => item.name == "warehouse");
+    getRoles() {
+      if (!this.user.parent_id) {
+        return this.default_roles;
+      } else {
+        let main_role = this.user.group_role.roles.find(
+          (item) => item.name == "warehouse"
+        );
 
         let roles = {};
 
-        if(JSON.parse(main_role.pivot.operators).includes("all")){
-          return this.default_roles;        
+        if (JSON.parse(main_role.pivot.operators).includes("all")) {
+          return this.default_roles;
         }
 
-        JSON.parse(main_role.pivot.operators).forEach(item => {
-          roles[item.replace("-","_")] = true;
-        })
+        JSON.parse(main_role.pivot.operators).forEach((item) => {
+          roles[item.replace("-", "_")] = true;
+        });
 
         return roles;
-      }    
-    }
+      }
+    },
   },
 
-  methods : {
-    ...mapActions('moduleApi',[
-      'getData',
-      'deleteData',
-      'restoreData',
-      'deleteAllData',
-      'restoreAllData'
+  methods: {
+    ...mapActions("moduleApi", [
+      "getData",
+      "deleteData",
+      "restoreData",
+      "deleteAllData",
+      "restoreAllData",
     ]),
 
-    ...mapMutations('moduleApi',[
-      'set_data'
-    ]),
+    ...mapMutations("moduleApi", ["set_data"]),
 
-    onFormShow(){
+    onFormShow() {
       this.$refs["form-input"].parameters.form = {
-        code : '',
-        name : '',
+        code: "",
+        name: "",
       };
       this.$refs["form-input"].isEditable = false;
-      window.$("#modal-form").modal("show")
-      this.$refs["form-input"].$refs['form-validate'].reset();
+      window.$("#modal-form").modal("show");
+      this.$refs["form-input"].$refs["form-validate"].reset();
     },
 
-    onEdit(item){
+    onEdit(item) {
       this.$refs["form-input"].isEditable = true;
       this.$refs["form-input"].parameters.form = {
         ...item,
       };
       window.$("#modal-form").modal("show");
-      this.$refs["form-input"].$refs['form-validate'].reset();
+      this.$refs["form-input"].$refs["form-validate"].reset();
     },
 
-    onDetail(item){
+    onDetail(item) {
       this.$refs["modal-detail"].parameters.form = {
-        ...item
+        ...item,
       };
       window.$("#modal-detail").modal("show");
     },
 
-    async onLoad(page = 1){
-      if(this.isLoadingData) return;
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
 
-      this.isLoadingData            = true;
-      this.parameters.params.page   = page
+      this.isLoadingData = true;
+      this.parameters.params.page = page;
 
       this.parameters.form.checkboxs = [];
-      if(document.getElementById("checkAll")){
+      if (document.getElementById("checkAll")) {
         document.getElementById("checkAll").checked = false;
       }
 
@@ -363,47 +420,49 @@ export default {
       });
 
       await this.getData(this.parameters);
-      
-      if(this.result == true){
+
+      if (this.result == true) {
         loader.hide();
 
         if (page == 1) {
-            this.$refs['pagination'].generatePage();
+          //this.$refs["pagination"].generatePage();
         }
 
-        this.$refs['pagination'].active_page = this.parameters.params.page;  
-      }else{
-        this.$globalErrorToaster(this.$toaster,this.error);
+        this.$refs["pagination"].active_page = this.parameters.params.page;
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.isLoadingData = false;
     },
 
-    onTrashed(item){
-      if(this.parameters.loadings.isDelete) return
+    onTrashed(item) {
+      if (this.parameters.loadings.isDelete) return;
 
       this.$confirm({
         auth: false,
         message: "Data ini akan dipindahkan ke dalam Trash. Yakin ??",
         button: {
-          no: 'No',
-          yes: 'Yes'
+          no: "No",
+          yes: "Yes",
         },
-        callback: async confirm => {
+        callback: async (confirm) => {
           if (confirm) {
             this.parameters.loadings.isDelete = true;
 
             await this.deleteData({
-              url :  this.parameters.url,
-              id  :  item.id,
-              params : this.parameters.params
+              url: this.parameters.url,
+              id: item.id,
+              params: this.parameters.params,
             });
 
-            if (this.result == true){
-              this.onLoad(this.parameters.params.page)
-              this.$toaster.success("Data berhasil di pindahkan ke dalam Trash!");
-            }else {
-              this.$globalErrorToaster(this.$toaster,this.error);
+            if (this.result == true) {
+              this.onLoad(this.parameters.params.page);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
             }
 
             this.parameters.loadings.isDelete = false;
@@ -412,77 +471,87 @@ export default {
       });
     },
 
-    async onRestored(item){
-      if(this.parameters.loadings.isRestore) return
+    async onRestored(item) {
+      if (this.parameters.loadings.isRestore) return;
 
       this.parameters.loadings.isRestore = true;
 
       await this.restoreData({
-        url : this.parameters.url,
-        id : item.id,
-        params : this.parameters.params
-      })
+        url: this.parameters.url,
+        id: item.id,
+        params: this.parameters.params,
+      });
 
-      if(this.result == true){
-        this.onLoad(this.parameters.params.page)
-        this.$toaster.success("Data berhail di restore")
-      }else{
-        this.$globalErrorToaster(this.$toaster,this.error);
+      if (this.result == true) {
+        this.onLoad(this.parameters.params.page);
+        this.$toaster.success("Data berhail di restore");
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.parameters.loadings.isRestore = false;
     },
 
-    async onRestoreAll(){
-      if(!this.parameters.form.checkboxs.length || this.parameters.loadings.isRestore) return
+    async onRestoreAll() {
+      if (
+        !this.parameters.form.checkboxs.length ||
+        this.parameters.loadings.isRestore
+      )
+        return;
 
       this.parameters.loadings.isRestore = true;
 
       await this.restoreAllData({
-        url : this.parameters.url,
-        checkboxs : this.parameters.form.checkboxs,
-        params : this.parameters.params
-      })
+        url: this.parameters.url,
+        checkboxs: this.parameters.form.checkboxs,
+        params: this.parameters.params,
+      });
 
-      if(this.result == true){
-        this.onLoad(this.parameters.params.page)
+      if (this.result == true) {
+        this.onLoad(this.parameters.params.page);
         this.parameters.form.checkboxs = [];
         document.getElementById("checkAll").checked = false;
-        this.$toaster.success("Data berhail di restore")
-      }else{
-        this.$globalErrorToaster(this.$toaster,this.error);
+        this.$toaster.success("Data berhail di restore");
+      } else {
+        this.$globalErrorToaster(this.$toaster, this.error);
       }
 
       this.parameters.loadings.isRestore = false;
     },
 
-    onDeleteAll(){
-      if(!this.parameters.form.checkboxs.length || this.parameters.loadings.isDelete) return
+    onDeleteAll() {
+      if (
+        !this.parameters.form.checkboxs.length ||
+        this.parameters.loadings.isDelete
+      )
+        return;
 
       this.$confirm({
         auth: false,
         message: "Semua Data ini akan dipindahkan ke dalam Trash. Yakin ??",
         button: {
-          no: 'No',
-          yes: 'Yes'
+          no: "No",
+          yes: "Yes",
         },
-        callback: async confirm => {
+        callback: async (confirm) => {
           if (confirm) {
             this.parameters.loadings.isDelete = true;
 
             await this.deleteAllData({
-              url :  this.parameters.url,
-              checkboxs : this.parameters.form.checkboxs,
-              params : this.parameters.params
+              url: this.parameters.url,
+              checkboxs: this.parameters.form.checkboxs,
+              params: this.parameters.params,
             });
 
-            if (this.result == true){
-              this.onLoad()
+            if (this.result == true) {
+              this.onLoad();
               this.parameters.form.checkboxs = [];
               document.getElementById("checkAll").checked = false;
-              this.$toaster.success("Data berhasil di pindahkan ke dalam Trash!");
-            }else {
-              this.$globalErrorToaster(this.$toaster,this.error);
+              this.$toaster.success(
+                "Data berhasil di pindahkan ke dalam Trash!"
+              );
+            } else {
+              this.$globalErrorToaster(this.$toaster, this.error);
             }
 
             this.parameters.loadings.isDelete = false;
@@ -491,31 +560,31 @@ export default {
       });
     },
 
-    onCheckAll(evt){
+    onCheckAll(evt) {
       let tmpCheckboxs = [];
 
-      document.querySelectorAll("input[name='checkboxs[]']").forEach(item => {
+      document.querySelectorAll("input[name='checkboxs[]']").forEach((item) => {
         item.checked = evt.target.checked;
-        if(evt.target.checked){
+        if (evt.target.checked) {
           tmpCheckboxs.push(item.value);
         }
-      })
+      });
 
-      this.parameters.form.checkboxs = tmpCheckboxs
+      this.parameters.form.checkboxs = tmpCheckboxs;
     },
 
-    onSort(column,sort = 'asc'){
+    onSort(column, sort = "asc") {
       this.parameters.params = {
         ...this.parameters.params,
-        order : column,
-        sort : sort
-      }
+        order: column,
+        sort: sort,
+      };
 
-      this.onLoad(this.parameters.params.page)
+      this.onLoad(this.parameters.params.page);
     },
-     onRowSelected(index){
+    onRowSelected(index) {
       this.ActiveRow = index;
-    }
-  }
-}
+    },
+  },
+};
 </script>

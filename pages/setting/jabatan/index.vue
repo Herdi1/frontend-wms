@@ -186,7 +186,7 @@
               <!-- end table -->
 
               <div class="mx-3 mt-2 mb-4">
-                <pagination-section :self="this" ref="pagination" />
+                <pagination-component :self="this" ref="pagination" />
               </div>
             </div>
           </div>
@@ -353,7 +353,7 @@ export default {
         loader.hide();
 
         if (page == 1) {
-          this.$refs["pagination"].generatePage();
+          //this.$refs["pagination"].generatePage();
         }
 
         this.$refs["pagination"].active_page = this.parameters.params.page;
