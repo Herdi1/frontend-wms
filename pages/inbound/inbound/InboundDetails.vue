@@ -212,7 +212,13 @@
               </p>
               <p class="mb-2">
                 Quantity Terima: <span class="text-danger">*</span>
-                <money
+                <input-koma
+                  v-model="item.quantity_terima"
+                  :required="true"
+                  name="quantity"
+                  @input="handleQuantityChange(item)"
+                />
+                <!-- <money
                   required
                   v-model="item.quantity_terima"
                   @input="handleQuantityChange(item)"
@@ -220,7 +226,7 @@
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
                   "
-                />
+                /> -->
               </p>
               <div class="mb-2">
                 <p class="mb-2">
@@ -626,7 +632,7 @@
             >
               <ValidationProvider name="alasan_beda_plan_id" class="w-full">
                 <!-- :rules="isSameAsPlan" -->
-                <div slot-scope="{ errors, valid }">
+                <div>
                   <v-select
                     label="nama_alasan_beda_plan"
                     :loading="isLoadingGetAlasan"

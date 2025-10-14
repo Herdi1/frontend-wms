@@ -383,7 +383,7 @@
                         </td>
                         <td class="border border-gray-300 text-start">
                           <p class="mb-2">Quantity</p>
-                          <money
+                          <!-- <money
                             v-model="item.quantity"
                             class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                             :class="
@@ -395,6 +395,16 @@
                               $event.key === '-'
                                 ? $event.preventDefault()
                                 : null
+                            "
+                          /> -->
+                          <input-koma
+                            v-model="item.quantity"
+                            :required="false"
+                            name="quantity"
+                            :class="
+                              item.quantity > parseFloat(item.quantity_sisa)
+                                ? 'text-danger'
+                                : ''
                             "
                           />
                           <!-- <p class="mb-2">
@@ -1714,7 +1724,7 @@ export default {
         };
         this.parameters.form.barang_keluar_details.push(detailItem);
         this.$toaster.success("Data Berhasil Ditambahkan");
-        console.log(this.parameters.form.barang_keluar_details);
+        // console.log(this.parameters.form.barang_keluar_details);
       } else {
         this.$toaster.error("Item Sudah Ditambahkan");
       }

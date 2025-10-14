@@ -148,14 +148,23 @@
                   >
                 </li>
               </v-select>
+              <p v-if="item.coa_id">
+                {{ item.coa_id?.kode_coa ?? "" }} -
+                {{ item.coa_id?.nama_coa ?? "" }}
+              </p>
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 v-model="item.jumlah"
                 class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
+              /> -->
+              <input-koma
+                v-model="item.jumlah"
+                :required="false"
+                name="quantity"
               />
             </td>
             <!-- <td class="border border-gray-300">
@@ -186,14 +195,17 @@
               />
             </td>
             <td class="border border-gray-300">
-              <money
+              <!-- <money
                 disabled
                 v-model="item.total"
                 class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
+              <p class="text-right">
+                {{ parseFloat(item.total ?? 0) | formatPrice }}
+              </p>
             </td>
             <td class="border border-gray-300">
               <textarea

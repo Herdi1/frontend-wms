@@ -639,7 +639,13 @@
                           </li>
                         </v-select>
                       </div>
-                      <div class="mt-5">
+                      <div class="mt-2">
+                        <label for=""
+                          >Stok di
+                          {{
+                            item.zona_gudang_id?.nama_zona_gudang ?? "Zona"
+                          }}</label
+                        >
                         <money
                           v-model="item.stok"
                           class="w-full pl-2 py-1 border rounded focus:outline-none"
@@ -648,6 +654,9 @@
                           "
                           disabled
                         />
+                        <!-- <p class="text-right font-semibold text-[15px]">
+                          {{ parseFloat(item.stok ?? 0) | formatPrice }}
+                        </p> -->
                       </div>
                     </td>
                     <td class="border border-gray-300">
@@ -659,9 +668,12 @@
                         "
                         disabled
                       />
+                      <!-- <p class="text-right font-semibold text-[15px]">
+                        {{ parseFloat(item.quantity ?? 0) | formatPrice }}
+                      </p> -->
                     </td>
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.sisa_quantity"
                         class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                         :class="
@@ -672,6 +684,17 @@
                         "
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
+                        "
+                      /> -->
+                      <input-koma
+                        v-model="item.sisa_quantity"
+                        :required="false"
+                        name="sisa_quantity"
+                        :class="
+                          item.quantity < parseFloat(item.sisa_quantity) ||
+                          item.stok < parseFloat(item.sisa_quantity)
+                            ? 'text-danger'
+                            : ''
                         "
                       />
                     </td>
@@ -686,6 +709,13 @@
                         v-model="item.zona_gudang_id_tujuan"
                         @input="(item) => onSelectZonaVirtual(item, i)"
                       >
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_zona_gudang }}
+                          </div>
+                        </template>
                         <!-- @input="onSelectItem(i)" -->
                         <li
                           slot-scope="{ search }"

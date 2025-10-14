@@ -533,29 +533,41 @@
                           </li>
                         </v-select>
                       </div>
-                      <div class="mt-5">
-                        <money
+                      <div class="mt-2">
+                        <label for=""
+                          >Stok di
+                          {{
+                            item.zona_gudang_id?.nama_zona_gudang ?? "Zona"
+                          }}</label
+                        >
+                        <!-- <money
                           v-model="item.stok"
                           class="w-full pl-2 py-1 border rounded focus:outline-none"
                           @keydown.native="
                             $event.key === '-' ? $event.preventDefault() : null
                           "
                           disabled
-                        />
+                        /> -->
+                        <p class="text-right font-semibold text-[15px]">
+                          {{ parseFloat(item.stok ?? 0) | formatPrice }}
+                        </p>
                       </div>
                     </td>
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.quantity"
                         class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
                         disabled
-                      />
+                      /> -->
+                      <p class="text-right font-semibold text-[15px]">
+                        {{ parseFloat(item.quantity ?? 0) | formatPrice }}
+                      </p>
                     </td>
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.sisa_quantity"
                         class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                         :class="
@@ -567,10 +579,13 @@
                           $event.key === '-' ? $event.preventDefault() : null
                         "
                         disabled
-                      />
+                      /> -->
+                      <p class="text-right font-semibold text-[15px]">
+                        {{ parseFloat(item.sisa_quantity ?? 0) | formatPrice }}
+                      </p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_zona_gudang"
                         :loading="isLoadingGetZonaGudang"
@@ -581,7 +596,13 @@
                         :reduce="(item) => item.zona_gudang_id"
                         disabled
                       >
-                        <!-- @input="onSelectItem(i)" -->
+                        <template slot="selected-option" slot-scope="option">
+                          <div
+                            class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                          >
+                            {{ option.nama_zona_gudang }}
+                          </div>
+                        </template>
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -604,7 +625,8 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      {{ item.zona_gudang_id_tujuan?.nama_zona_gudang ?? "" }}
                     </td>
 
                     <td class="border border-gray-300">

@@ -71,6 +71,13 @@
                     class="w-[60%] bg-white"
                     :disabled="isEditable || lookup_suppliers.data.length == 1"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_gudang }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -271,6 +278,13 @@
                     class="w-[60%] bg-white"
                     :disabled="form.sumber_data !== 'NON'"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_supplier }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -323,6 +337,13 @@
                     class="w-[60%] bg-white"
                     :disabled="form.sumber_data !== 'NON'"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_pelanggan }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -386,6 +407,13 @@
                     @input="onSelectStaff"
                     class="w-[60%] bg-white"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_lengkap }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -424,6 +452,13 @@
                     class="w-[60%] bg-white"
                     :disabled="form.sumber_data !== 'NON'"
                   >
+                    <template slot="selected-option" slot-scope="option">
+                      <div
+                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      >
+                        {{ option.nama_vendor }}
+                      </div>
+                    </template>
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"

@@ -112,7 +112,17 @@
             </td>
             <td class="border border-gray-300 text-start">
               <p class="mb-2">Quantity</p>
-              <money
+              <input-koma
+                v-model="item.quantity"
+                :required="false"
+                name="quantity"
+                :class="
+                  item.quantity > parseFloat(item.quantity_sisa)
+                    ? 'text-danger'
+                    : ''
+                "
+              />
+              <!-- <money
                 v-model="item.quantity"
                 class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                 :class="
@@ -123,7 +133,7 @@
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
-              />
+              /> -->
               <p class="mb-2">
                 Quantity Tersedia :
                 <span class="text-primary">{{ item.quantity_sisa }}</span>

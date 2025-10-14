@@ -476,12 +476,16 @@
                         <td class="border border-gray-300">
                           <div class="w-full">
                             <label for="">Valuation</label>
-                            <input
+                            <!-- <input
                               type="text"
                               disabled
                               v-model="item.valuation.kode_valuation"
                               class="pl-2 w-full py-1 border border-gray-300 rounded focus:outline-none"
-                            />
+                            /> -->
+                            <p class="text-right">
+                              {{ item.valuation?.kode_valuation ?? "" }} -
+                              {{ item.valuation?.nama_valuation ?? "" }}
+                            </p>
                           </div>
                           <div class="w-full">
                             <!-- <v-select
@@ -518,25 +522,37 @@
                             </v-select> -->
                             <div class="w-full">
                               <label for="">Saldo Stok</label>
-                              <money
+                              <!-- <money
                                 type="text"
                                 disabled
                                 class="pl-2 w-full py-1 border border-gray-300 rounded focus:outline-none"
                                 v-model="item.quantity_asal"
-                              />
+                              /> -->
+                              <p class="text-right">
+                                {{
+                                  parseFloat(item.quantity_asal ?? 0)
+                                    | formatPrice
+                                }}
+                              </p>
                             </div>
                             <div class="w-full">
                               <label for="">Quantity Tujuan</label>
-                              <money
+                              <!-- <money
                                 type="text"
                                 disabled
                                 class="pl-2 w-full py-1 border border-gray-300 rounded focus:outline-none"
                                 v-model="item.quantity_tujuan"
-                              />
+                              /> -->
+                              <p class="text-right">
+                                {{
+                                  parseFloat(item.quantity_tujuan ?? 0)
+                                    | formatPrice
+                                }}
+                              </p>
                             </div>
                             <div class="w-full">
                               <label for="">Quantity Mutasi</label>
-                              <money
+                              <!-- <money
                                 v-model="item.quantity_mutasi"
                                 class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                                 :class="
@@ -549,6 +565,17 @@
                                   $event.key === '-'
                                     ? $event.preventDefault()
                                     : null
+                                "
+                              /> -->
+                              <input-koma
+                                v-model="item.quantity_mutasi"
+                                :required="false"
+                                name="quantity_mutasi"
+                                :class="
+                                  item.quantity_mutasi >
+                                  parseFloat(item.quantity_asal)
+                                    ? 'text-danger'
+                                    : ''
                                 "
                               />
                             </div>

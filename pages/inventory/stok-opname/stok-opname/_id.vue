@@ -235,7 +235,7 @@
                     <!-- <th class="w-[200px] border border-gray-300">
                       Item Pelanggan
                     </th> -->
-                    <th class="w-[200px] border border-gray-300">
+                    <th class="w-[300px] border border-gray-300">
                       Item Gudang <span class="text-danger">*</span>
                     </th>
                     <!-- <th class="w-[200px] border border-gray-300">Supplier</th> -->
