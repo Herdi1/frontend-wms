@@ -320,15 +320,7 @@ export default {
     };
   },
 
-  created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
-    } else {
-      this.parameters.params.gudang_id = this.lookup_custom1.data[0].gudang_id;
-    }
-    this.set_data([]);
-    this.onLoad();
-  },
+  created() {},
 
   components: {},
 
@@ -371,6 +363,14 @@ export default {
     this.user_agent = navigator.userAgent;
     // console.log(this.user_agent);
     await this.onSearchGudang();
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    } else {
+      this.parameters.params.gudang_id =
+        this.lookup_custom1.data[0]?.gudang_id ?? "";
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   data() {

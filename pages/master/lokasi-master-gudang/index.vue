@@ -215,17 +215,9 @@ export default {
     };
   },
 
-  created() {
-    if (this.user.gudang_id) {
-      this.parameters.params.gudang_id = this.user.gudang_id;
-    } else {
-      this.parameters.params.gudang_id = this.lookup_custom1.data[0].gudang_id;
-    }
-    this.set_data([]);
-    this.onLoad();
-  },
+  created() {},
 
-  mounted() {
+  async mounted() {
     this.$refs["form-option"].isMaintenancePage = false;
     this.$refs["form-option"].isExport = false;
     this.$refs["form-option"].isFilter = false;
@@ -259,6 +251,15 @@ export default {
     if (this.getRoles.print) {
       this.$refs["form-option"].isExportPrint = true;
     }
+    await this.onSearchGudang();
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    } else {
+      this.parameters.params.gudang_id =
+        this.lookup_custom1.data[0]?.gudang_id ?? "";
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   data() {

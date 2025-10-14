@@ -83,7 +83,7 @@
                 class="align-top"
               >
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_jenis_kontrak"
                     :loading="isLoadingGetJenisKontrak"
                     :options="lookup_custom3.data"
@@ -113,10 +113,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.jenis_kontrak_id?.nama_jenis_kontrak ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_divisi"
                     :loading="isLoadingGetDivisi"
                     :options="lookup_custom4.data"
@@ -146,10 +147,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.divisi_id?.nama_divisi ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_jenis_biaya"
                     :loading="isLoadingGetJenisBiaya"
                     :options="lookup_custom5.data"
@@ -179,10 +181,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.jenis_biaya_id?.nama_jenis_biaya ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_gudang"
                     :loading="isLoadingGetGudang"
                     :options="lookup_custom6.data"
@@ -212,10 +215,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.gudang_id?.nama_gudang ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_mata_uang"
                     :loading="isLoadingGetUang"
                     :options="lookup_custom10.data"
@@ -246,10 +250,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.mata_uang_id?.nama_mata_uang ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_pembayaran"
                     :loading="isLoadingGetPembayaran"
                     :options="lookup_custom7.data"
@@ -279,10 +284,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.pembayaran_id?.nama_pembayaran ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_term_pembayaran"
                     :loading="isLoadingGetTerm"
                     :options="lookup_custom8.data"
@@ -312,10 +318,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.term_pembayaran_id?.nama_term_pembayaran ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <select
+                  <!-- <select
                     v-model="item.payable_to"
                     name=""
                     id=""
@@ -325,10 +332,11 @@
                     <option value="DRIVER">Driver</option>
                     <option value="VENDOR">Vendor</option>
                     <option value="PIC">PIC</option>
-                  </select>
+                  </select> -->
+                  {{ item.payable_to ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     label="nama_jenis_kendaraan"
                     :loading="isLoadingGetJenisKendaraan"
                     :options="lookup_custom9.data"
@@ -358,138 +366,183 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.jenis_kendaraan_id?.nama_jenis_kendaraan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     v-model="item.biaya_perkm_muat"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.biaya_perkm_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     v-model="item.biaya_perkm_kosong"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.biaya_perkm_kosong ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.standar_muat"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.standar_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     v-model="item.minimal_muat"
                     disabled
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.minimal_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     v-model="item.maksimal_muat"
                     disabled
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.maksimal_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     v-model="item.kecepatan_muat"
                     disabled
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.kecepatan_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.kecepatan_kosong"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.kecepatan_kosong ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.standar_waktu_muat"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.standar_waktu_muat ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.standar_waktu_bongkar"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{
+                      parseFloat(item.standar_waktu_bongkar ?? 0) | formatPrice
+                    }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.standar_waktu_istirahat_perkm"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{
+                      parseFloat(item.standar_waktu_istirahat_perkm ?? 0)
+                        | formatPrice
+                    }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.maksimal_panjang"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.maksimal_panjang ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.maksimal_lebar"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.maksimal_lebar ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.maksimal_tinggi"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.maksimal_tinggi ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     disabled
                     label="nama_satuan"
                     :loading="isLoadingGetDimensi"
@@ -499,7 +552,6 @@
                     class="w-full mb-2"
                     :reduce="(item) => item.satuan_id"
                   >
-                    <!-- @input="(item) => onSelectLuas(item, i)" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -522,10 +574,11 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.satuan_id_dimensi?.nama_satuan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <v-select
+                  <!-- <v-select
                     disabled
                     label="nama_satuan"
                     :loading="isLoadingGetVolume"
@@ -535,7 +588,6 @@
                     class="w-full mb-2"
                     :reduce="(item) => item.satuan_id"
                   >
-                    <!-- @input="(item) => onSelectLuas(item, i)" -->
                     <li
                       slot-scope="{ search }"
                       slot="list-footer"
@@ -558,17 +610,21 @@
                         >Selanjutnya</span
                       >
                     </li>
-                  </v-select>
+                  </v-select> -->
+                  {{ item.satuan_id_volume?.nama_satuan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  <money
+                  <!-- <money
                     disabled
                     v-model="item.maksimal_volume"
                     class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
+                  <p class="text-right">
+                    {{ parseFloat(item.maksimal_volume ?? 0) | formatPrice }}
+                  </p>
                 </td>
                 <td class="border border-gray-300 text-center">
                   <i

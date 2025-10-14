@@ -185,13 +185,7 @@ export default {
     };
   },
 
-  created() {
-    if (this.user.gudang_id) {
-      this.filter.gudang_id = this.user.gudang_id;
-    }
-    this.set_data([]);
-    this.onLoad();
-  },
+  created() {},
 
   async mounted() {
     // this.$refs["form-option"].isMaintenancePage = false;
@@ -228,6 +222,13 @@ export default {
       this.$refs["form-option"].isExportPrint = false;
     }
     await this.onSearchGudang();
+    if (this.user.gudang_id) {
+      this.filter.gudang_id = this.user.gudang_id;
+    } else {
+      this.onSelectGudang(this.lookup_custom1.data[0] ?? "");
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   computed: {
