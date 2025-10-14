@@ -18,9 +18,6 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"
     />
-    <!-- :class="inputClass" -->
-    <!-- @input="$emit('input', $event.target.value)"
-      @blur="$emit('blur', $event)" -->
   </div>
 </template>
 

@@ -16,11 +16,11 @@
       :reduce="reduce"
       :disabled="disabled"
     >
-      <template #selected-option="{ option }">
+      <!-- <template #selected-option="{ option }">
         <div class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden">
           {{ option?.[self.optionLabel] || "No data" }}
         </div>
-      </template>
+      </template> -->
       <li
         slot-scope="{ search }"
         slot="list-footer"

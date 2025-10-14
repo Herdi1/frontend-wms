@@ -280,10 +280,7 @@ export default {
     };
   },
 
-  created() {
-    this.set_data([]);
-    this.onLoad();
-  },
+  created() {},
 
   components: {
     FormInput,
@@ -326,6 +323,14 @@ export default {
       this.$refs["form-option"].isExportPrint = true;
     }
     await this.onSearchGudang();
+    if (this.user.gudang_id) {
+      this.parameters.params.gudang_id = this.user.gudang_id;
+    } else {
+      this.parameters.params.gudang_id =
+        this.lookup_custom1.data[0]?.gudang_id ?? "";
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   data() {
