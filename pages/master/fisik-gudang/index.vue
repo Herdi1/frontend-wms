@@ -33,8 +33,8 @@
             <table class="mb-5" ref="formContainer">
               <thead>
                 <tr class="text-base uppercase">
-                  <th class="w-[5%]">Edit</th>
-                  <th class="w-[5%] text-center">No</th>
+                  <th class="w-[5%] border border-gray-300">Edit</th>
+                  <th class="w-[5%] text-center border border-gray-300">No</th>
                   <th
                     @click="
                       onSort(
@@ -42,7 +42,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pinter border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Kode Fisik Gudang</div>
@@ -75,7 +75,7 @@
                         parameters.params.sort == 'asc' ? 'desc' : 'asc'
                       )
                     "
-                    class="cursor-pinter"
+                    class="cursor-pinter border border-gray-300"
                   >
                     <div class="flex justify-between items-baseline">
                       <div>Nama Fisik Gudang</div>
@@ -101,15 +101,17 @@
                       </div>
                     </div>
                   </th>
-                  <th class="w-[5%]">Delete</th>
+                  <th class="w-[5%] border border-gray-300">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(item, i) in data" :key="i">
-                  <td class="text-center place-items-center">
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
                     <small-edit-button @click="onEdit(item)" />
                   </td>
-                  <td class="text-center">
+                  <td class="text-center border border-gray-300">
                     {{
                       (parameters.params.page - 1) *
                         parameters.params.per_page +
@@ -117,11 +119,13 @@
                       1
                     }}
                   </td>
-                  <td>
+                  <td class="border border-gray-300">
                     {{ item.kode_fisik }}
                   </td>
-                  <td>{{ item.nama_fisik }}</td>
-                  <td class="text-center place-items-center">
+                  <td class="border border-gray-300">{{ item.nama_fisik }}</td>
+                  <td
+                    class="text-center place-items-center border border-gray-300"
+                  >
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"

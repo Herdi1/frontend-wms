@@ -18,7 +18,7 @@
     >
       <template #selected-option="{ option }">
         <div class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden">
-          {{ self.value?.[self.optionLabel] || "No data" }}
+          {{ option?.[self.optionLabel] || "No data" }}
         </div>
       </template>
       <li

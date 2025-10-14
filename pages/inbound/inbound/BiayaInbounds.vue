@@ -188,7 +188,7 @@
               <div>{{ item.jenis_biaya_id?.nama_jenis_biaya ?? "" }}</div>
             </td>
             <td class="border border-gray-300">{{ item.dasar_perhitungan }}</td>
-            <td class="border border-gray-300">
+            <td class="border border-gray-300 text-right">
               <!-- <money
                 disabled
                 v-model="item.nominal_satuan"
@@ -199,7 +199,7 @@
               /> -->
               {{ item.nominal_satuan | formatPrice }}
             </td>
-            <td class="border border-gray-300">
+            <td class="border border-gray-300 text-right">
               <!-- <money
                 disabled
                 v-model="item.jumlah"
@@ -211,7 +211,7 @@
               /> -->
               {{ item.jumlah | formatPrice }}
             </td>
-            <td class="border border-gray-300">
+            <td class="border border-gray-300 text-right">
               <!-- <money
                 disabled
                 v-model="item.berat"
@@ -222,7 +222,7 @@
               /> -->
               {{ item.berat | formatPrice }}
             </td>
-            <td class="border border-gray-300">
+            <td class="border border-gray-300 text-right">
               <!-- <money
                 disabled
                 v-model="item.volume"
@@ -233,7 +233,7 @@
               /> -->
               {{ item.volume | formatPrice }}
             </td>
-            <td class="border border-gray-300">
+            <td class="border border-gray-300 text-right">
               <!-- :value="this.totalValue(item, index)" -->
               <!-- <money
                 disabled

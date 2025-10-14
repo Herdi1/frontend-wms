@@ -347,10 +347,10 @@
             >
               <thead>
                 <tr class="text-sm uppercase">
-                  <th class="w-[10%] border border-gray-300">Delete</th>
+                  <th class="w-20 border border-gray-300">Delete</th>
                   <!-- <th class="w-40 border border-gray-300">Item</th> -->
                   <!-- <th class="w-40 border border-gray-300">Item Pelanggan</th> -->
-                  <th class="w-[20%] border border-gray-300">Item Gudang</th>
+                  <th class="w-60 border border-gray-300">Item Gudang</th>
                   <!-- <th class="w-40 border border-gray-300">Zona Gudang</th> -->
                   <th class="w-[20%] border border-gray-300">Quantity</th>
                   <!-- <th class="w-40 border border-gray-300">Serial Number</th> -->
@@ -422,8 +422,8 @@
                       </v-select>
 
                       <p v-if="item.item_gudang_id">
-                        {{ item.item_gudang_id.nama_item }}
-                        {{ item.item_gudang_id.kode_item }}
+                        {{ item.item_gudang_id?.nama_item ?? "" }}
+                        {{ item.item_gudang_id?.kode_item ?? "" }}
                       </p>
                     </div>
                   </td>
@@ -462,13 +462,18 @@
                     </v-select>
                   </td> -->
                   <td class="border border-gray-300">
-                    <money
+                    <input-koma
+                      v-model="item.quantity"
+                      :required="false"
+                      name="quantity"
+                    />
+                    <!-- <money
                       v-model="item.quantity"
                       class="w-full pl-2 py-1 border rounded focus:outline-none"
                       @keydown.native="
                         $event.key === '-' ? $event.preventDefault() : null
                       "
-                    />
+                    /> -->
                   </td>
                   <!-- <td class="border border-gray-300">
                     <input-form

@@ -274,7 +274,6 @@
               </div>
             </div>
           </div>
-
           <DetailPickRequest ref="detailPickRequest" :self="{ parameters }" />
 
           <div class="w-full flex justify-start items-center">

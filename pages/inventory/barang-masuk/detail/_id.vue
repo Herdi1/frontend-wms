@@ -265,7 +265,7 @@
                         class="align-top"
                       >
                         <td class="border border-gray-300">
-                          <v-select
+                          <!-- <v-select
                             :disabled="true"
                             label="nama_item"
                             :loading="isLoadingGetItemGudang"
@@ -298,17 +298,22 @@
                                 >Selanjutnya</span
                               >
                             </li>
-                          </v-select>
+                          </v-select> -->
+                          {{ item.item_gudang?.kode_item ?? "" }} -
+                          {{ item.item_gudang?.nama_item ?? "" }}
                         </td>
                         <td class="border border-gray-300 text-start">
                           <p>Serial Number:</p>
-                          <div>
+                          <!-- <div>
                             <input
                               :disabled="true"
                               v-model="item.serial_number"
                               class="w-full pl-2 py-1 border rounded focus:outline-none"
                             />
-                          </div>
+                          </div> -->
+                          <p class="text-end">
+                            {{ item.serial_number ?? "-" }}
+                          </p>
                         </td>
                         <td class="border border-gray-300 text-start">
                           <p class="mb-2">Quantity</p>

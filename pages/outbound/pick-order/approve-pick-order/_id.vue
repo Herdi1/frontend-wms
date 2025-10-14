@@ -293,7 +293,7 @@
                         <td class="border border-gray-300">
                           <div>
                             <label for="">Lokasi Aisle</label>
-                            <p>
+                            <p class="text-end">
                               {{
                                 item.slot_penyimpanan_aisle
                                   ? item.slot_penyimpanan_aisle
@@ -304,7 +304,7 @@
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Rack</label>
-                            <p>
+                            <p class="text-end">
                               {{
                                 item.slot_penyimpanan_rack
                                   ? item.slot_penyimpanan_rack
@@ -315,7 +315,7 @@
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Level</label>
-                            <p>
+                            <p class="text-end">
                               {{
                                 item.slot_penyimpanan_level
                                   ? item.slot_penyimpanan_level
@@ -326,7 +326,7 @@
                           </div>
                           <div class="mt-1">
                             <label for="">Lokasi Bin</label>
-                            <p>
+                            <p class="text-end">
                               {{
                                 item.slot_penyimpanan_bin
                                   ? item.slot_penyimpanan_bin
@@ -337,7 +337,7 @@
                           </div>
                         </td>
                         <td class="border border-gray-300">
-                          <money
+                          <!-- <money
                             v-model="item.quantity"
                             class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                             @keydown.native="
@@ -346,10 +346,13 @@
                                 : null
                             "
                             disabled
-                          />
+                          /> -->
+                          <p class="font-semibold text-end text-[15px]">
+                            {{ parseFloat(item.quantity ?? 0) | formatPrice }}
+                          </p>
                         </td>
                         <td class="border border-gray-300">
-                          <money
+                          <!-- <money
                             v-model="item.sisa_quantity"
                             class="w-full mb-2 pl-2 py-1 border rounded focus:outline-none"
                             :class="
@@ -363,7 +366,12 @@
                                 : null
                             "
                             disabled
-                          />
+                          /> -->
+                          <p class="font-semibold text-end text-[15px]">
+                            {{
+                              parseFloat(item.sisa_quantity ?? 0) | formatPrice
+                            }}
+                          </p>
                         </td>
                         <td class="border border-gray-300">
                           <p>

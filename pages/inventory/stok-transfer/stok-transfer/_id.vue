@@ -303,12 +303,17 @@
                       </v-select>
                     </td>
                     <td class="border border-gray-300">
-                      <money
+                      <!-- <money
                         v-model="item.quantity"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
+                      /> -->
+                      <input-koma
+                        v-model="item.quantity"
+                        :required="false"
+                        name="quantity"
                       />
                     </td>
                     <!-- <td class="border border-gray-300">

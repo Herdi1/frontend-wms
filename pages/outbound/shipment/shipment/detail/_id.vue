@@ -118,9 +118,9 @@
           <template #BiayaLastmile>
             <BiayaLastmile :self="{ detail_shipment }" />
           </template>
-          <template #TagihanLastmile>
+          <!-- <template #TagihanLastmile>
             <TagihanLastmiles :self="{ detail_shipment }" />
-          </template>
+          </template> -->
           <template #RiwayatShipment>
             <div>
               <table
@@ -240,10 +240,10 @@ export default {
           name: "Biaya Lastmile",
           slotName: "BiayaLastmile",
         },
-        {
-          name: "Tagihan Lastmile",
-          slotName: "TagihanLastmile",
-        },
+        // {
+        //   name: "Tagihan Lastmile",
+        //   slotName: "TagihanLastmile",
+        // },
         {
           name: "Riwayat Shipment",
           slotName: "RiwayatShipment",

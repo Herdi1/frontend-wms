@@ -49,6 +49,13 @@
                   v-model="item.item_gudang_id"
                   @input="(item) => onSelectItemGudang(item, index)"
                 >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_item }}
+                    </div>
+                  </template>
                   <li
                     slot-scope="{ search }"
                     slot="list-footer"
@@ -82,12 +89,17 @@
             </td>
             <td class="border border-gray-300">
               <p>Quantity:</p>
-              <money
+              <!-- <money
                 v-model="item.quantity"
                 class="w-full pl-2 py-1 border rounded focus:outline-none mb-2"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
+              /> -->
+              <input-koma
+                v-model="item.quantity"
+                :required="false"
+                name="quantity"
               />
               <p>Valuation:</p>
               <v-select

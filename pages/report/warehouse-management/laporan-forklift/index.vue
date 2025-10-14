@@ -178,6 +178,7 @@ export default {
           start_date: "",
           end_date: "",
           gudang_id: "",
+          test: "",
         },
       },
       user: this.$auth.user,
@@ -329,48 +330,47 @@ export default {
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 
       try {
-        let url =
-          this.parameters.url +
-          "?download=" +
-          this.parameters.params.download +
-          "&gudang_id=" +
-          this.parameters.params.gudang_id.gudang_id +
-          "&end_date=" +
-          this.parameters.params.end_date +
-          // "&provinsi_id=" +
-          // this.parameters.form.provinsi_id.provinsi_id +
-          "&start_date=" +
-          this.parameters.params.start_date +
-          "&token=" +
-          token;
+        console.log(this.parameters.params);
+        // let url =
+        //   this.parameters.url +
+        //   "?download=" +
+        //   this.parameters.params.download +
+        //   "&gudang_id=" +
+        //   this.parameters.params.gudang_id.gudang_id +
+        //   "&end_date=" +
+        //   this.parameters.params.end_date +
+        //   "&start_date=" +
+        //   this.parameters.params.start_date +
+        //   "&token=" +
+        //   token;
 
-        this.$axios({
-          method: "GET",
-          url: url,
-          responseType: "blob",
-        }).then((res) => {
-          const blob = new Blob([res.data], {
-            type: res.headers["content-type"],
-          });
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
+        // this.$axios({
+        //   method: "GET",
+        //   url: url,
+        //   responseType: "blob",
+        // }).then((res) => {
+        //   const blob = new Blob([res.data], {
+        //     type: res.headers["content-type"],
+        //   });
+        //   const link = document.createElement("a");
+        //   link.href = window.URL.createObjectURL(blob);
 
-          const disposition = res.headers["content-disposition"];
-          let filename = "laporan_forklift";
-          if (disposition && disposition.indexOf("filename=") !== 0) {
-            filename = disposition
-              .split("filename=")[1]
-              .replace(/"/g, "")
-              .trim();
-          }
+        //   const disposition = res.headers["content-disposition"];
+        //   let filename = "laporan_forklift";
+        //   if (disposition && disposition.indexOf("filename=") !== 0) {
+        //     filename = disposition
+        //       .split("filename=")[1]
+        //       .replace(/"/g, "")
+        //       .trim();
+        //   }
 
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          this.parameters.params.start_date = "";
-          this.parameters.params.end_date = "";
-        });
+        //   link.download = filename;
+        //   document.body.appendChild(link);
+        //   link.click();
+        //   link.remove();
+        //   this.parameters.params.start_date = "";
+        //   this.parameters.params.end_date = "";
+        // });
       } catch (error) {
         console.log(error);
         this.$globalErrorToaster(this.$toaster, error);

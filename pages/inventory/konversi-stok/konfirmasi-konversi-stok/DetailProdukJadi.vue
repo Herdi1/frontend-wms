@@ -24,7 +24,7 @@
       >
         <thead>
           <tr class="text-sm uppercase text-nowrap">
-            <th class="w-[200px] border border-gray-300">Item</th>
+            <th class="w-[300px] border border-gray-300">Item</th>
             <th class="w-[200px] border border-gray-300">Quantity</th>
             <th class="w-[200px] border border-gray-300">Tgl Expired</th>
             <th class="w-[200px] border border-gray-300">Serial Number</th>
@@ -33,7 +33,7 @@
             <!-- <th class="w-[200px] border border-gray-300">Rack</th>
             <th class="w-[200px] border border-gray-300">Level</th>
             <th class="w-[200px] border border-gray-300">Bin</th> -->
-            <th class="w-[300px] border border-gray-300">Keterangan</th>
+            <th class="w-[200px] border border-gray-300">Keterangan</th>
             <th class="w-[100px] border border-gray-300">Delete</th>
           </tr>
         </thead>
@@ -54,6 +54,13 @@
                 @input="(item) => onSelectItemGudang(item, index)"
                 class="w-full mb-2"
               >
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-36 whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_item }}
+                  </div>
+                </template>
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -95,12 +102,17 @@
             </td>
             <td class="border border-gray-300 text-start">
               <p class="mb-2">Quantity</p>
-              <money
+              <!-- <money
                 v-model="item.quantity"
                 class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                 @keydown.native="
                   $event.key === '-' ? $event.preventDefault() : null
                 "
+              /> -->
+              <input-koma
+                v-model="item.quantity"
+                :required="false"
+                name="quantity"
               />
               <p class="mb-2">Valuation</p>
               <v-select
