@@ -26,11 +26,17 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
   },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
@@ -43,6 +49,24 @@
   },
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  },
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  },
+  "InputForm": {
+    "description": "Auto imported from components/InputForm/InputForm.vue"
+  },
+  "InputHoriontal": {
+    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
+  },
+  "InputKoma": {
+    "description": "Auto imported from components/InputForm/InputKoma.vue"
+  },
+  "InputFormSelectComponent": {
+    "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
@@ -58,30 +82,6 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
-  },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
-  "AnavbarMessages": {
-    "description": "Auto imported from components/anavbar/Messages.vue"
-  },
-  "AnavbarNotifications": {
-    "description": "Auto imported from components/anavbar/Notifications.vue"
-  },
-  "AnavbarSearchForm": {
-    "description": "Auto imported from components/anavbar/SearchForm.vue"
-  },
-  "AnavbarUserOptions": {
-    "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
