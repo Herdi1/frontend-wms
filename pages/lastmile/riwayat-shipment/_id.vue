@@ -461,6 +461,7 @@
                     >
                     <!-- type="text" -->
                     <money
+                      min="1"
                       name="quantity"
                       id="quantity"
                       v-model="parameters.form.quantity_retur"
@@ -838,6 +839,14 @@ export default {
 
     async onSubmitRetur(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
+
+      if (this.parameters.form.quantity_retur < 1) {
+        this.$globalErrorToaster(
+          this.$toaster,
+          "Quantity Retur Tidak Boleh Kurang Dari 1"
+        );
+        return;
+      }
 
       this.isLoadingForm = true;
       let url;
