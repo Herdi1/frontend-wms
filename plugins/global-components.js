@@ -32,11 +32,8 @@ import InputHoriontal from "../components/InputForm/InputHoriontal.vue";
 import TabComponent from "../pages/master/gudang/tabComponent.vue";
 import SuccessModal from "../components/SuccessModal.vue";
 import SelectButton from "../components/transaksional/SelectButton.vue";
-<<<<<<< HEAD
 import PaginationComponent from "../components/section/PaginationComponent.vue";
-=======
 import InputKoma from "../components/InputForm/InputKoma.vue";
->>>>>>> 731c64458aa37642a0b76bae457a349a4530f3a0
 // import { ChromePicker } from 'vue-color'
 
 const icons = {
@@ -157,11 +154,8 @@ Vue.component("input-horizontal", InputHoriontal);
 Vue.component("tab-component", TabComponent);
 Vue.component("success-modal", SuccessModal);
 Vue.component("select-button", SelectButton);
-<<<<<<< HEAD
 Vue.component("pagination-component", PaginationComponent);
-=======
 Vue.component("input-koma", InputKoma);
->>>>>>> 731c64458aa37642a0b76bae457a349a4530f3a0
 
 // Vue.use(VueApexCharts);
 // Vue.component('apexchart', VueApexCharts);

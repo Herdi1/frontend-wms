@@ -133,6 +133,7 @@
                   </div>
                 </th>
                 <th class="min-w-28 border border-gray-300">Email</th>
+                <th class="min-w-28 border border-gray-300">Gudang</th>
                 <th class="min-w-28 border border-gray-300">Jabatan</th>
                 <th class="min-w-28 border border-gray-300">NIK</th>
                 <th class="min-w-28 border border-gray-300">No KTP</th>
@@ -162,6 +163,9 @@
                 <td class="border border-gray-300">{{ item.kode_staff }}</td>
                 <td class="border border-gray-300">{{ item.nama_lengkap }}</td>
                 <td class="border border-gray-300">{{ item.email }}</td>
+                <td class="border border-gray-300">
+                  {{ item.gudang ? item.gudang.nama_gudang : "-" }}
+                </td>
                 <td class="border border-gray-300">
                   {{ item.jabatan ? item.jabatan.nama_jabatan : "-" }}
                 </td>
@@ -225,6 +229,8 @@ export default {
   created() {
     if (this.user.gudang_id) {
       this.parameters.params.gudang_id = this.user.gudang_id;
+    } else {
+      this.parameters.params.gudang_id = this.lookup_custom1.data[0].gudang_id;
     }
     this.set_data([]);
     this.onLoad();
