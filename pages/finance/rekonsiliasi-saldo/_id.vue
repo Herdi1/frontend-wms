@@ -1,0 +1,560 @@
+<template>
+  <section class="min-h-screen">
+    <div class="section-body mb-10" v-if="!isLoadingPage">
+      <div class="mt- justify-between items-center flex">
+        <h1 class="text-xl font-bold">
+          {{ isEditable ? "Edit" : "Tambah" }} Rekonsiliasi Saldo
+        </h1>
+
+        <button class="btn btn-primary my-2" @click="$router.back()">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Kembali
+        </button>
+      </div>
+
+      <div class="w-full">
+        <ValidationObserver v-slot="{ invalid, validate }" ref="formVaidate">
+          <form
+            @submit.prevent="validate().then(() => onSubmit(invalid))"
+            autocomplete="off"
+          >
+            <div class="w-full">
+              <div
+                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+              >
+                <div
+                  class="grid grid-cols-1 md:grid-cols-2 gap-2 gap-x-4 w-full"
+                >
+                  <div class="form-group">
+                    <input-horizontal
+                      label="Tanggal"
+                      type="date"
+                      name="tanggal"
+                      :required="true"
+                      v-model="form.tanggal"
+                      :inputWidth="'w-[75%]'"
+                    />
+                  </div>
+                  <div class="form-group flex">
+                    <label for="" class="w-1/4">Gudang</label>
+                    <v-select
+                      label="nama_gudang"
+                      :loading="isLoadingGetGudang"
+                      :options="lookup_custom2.data"
+                      :filterable="false"
+                      @search="onGetGudang"
+                      v-model="form.gudang_id"
+                      @input="onSelectGudang"
+                      class="w-3/4"
+                    >
+                      <template slot="selected-option" slot-scope="option">
+                        <div
+                          class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        >
+                          {{ option.nama_gudang }}
+                        </div>
+                      </template>
+                      <li
+                        slot-scope="{ search }"
+                        slot="list-footer"
+                        class="p-1 border-t flex justify-between"
+                        v-if="lookup_custom2.data.length || search"
+                      >
+                        <span
+                          v-if="lookup_custom2.current_page > 1"
+                          @click="onGetGudang(search, false)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Sebelumnya</span
+                        >
+                        <span
+                          v-if="
+                            lookup_custom2.last_page >
+                            lookup_custom2.current_page
+                          "
+                          @click="onGetGudang(search, true)"
+                          class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                          >Selanjutnya</span
+                        >
+                      </li>
+                    </v-select>
+                  </div>
+
+                  <div class="form-group">
+                    <input-horizontal
+                      label="No Referensi"
+                      type="text"
+                      name="no_referensi"
+                      :required="false"
+                      v-model="form.no_referensi"
+                      :inputWidth="'w-[75%]'"
+                    />
+                  </div>
+                  <div class="flex justify-between">
+                    <label for="" class="w-1/4">Keterangan</label>
+                    <textarea
+                      name="keterangan"
+                      v-model="form.keterangan"
+                      class="w-3/4 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full flex justify-between items-center my-10">
+                <h1 class="text-xl font-bold">Detail Rekonsiliasi Saldo</h1>
+                <div class=" ">
+                  <button
+                    type="button"
+                    @click="addDetails"
+                    class="bg-[#2B7BF3] text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Tambah Detail</p>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+              >
+                <div class="table-responsive overflow-y-hidden">
+                  <table
+                    class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                    :class="
+                      form.rekonsiliasi_saldo_details.length ? 'mb-80' : ''
+                    "
+                  >
+                    <thead>
+                      <tr class="text-sm uppercase text-nowrap">
+                        <th class="w-80 border border-gray-300">Coa</th>
+                        <th class="w-52 border border-gray-300">
+                          Saldo Sistem
+                        </th>
+                        <th class="w-52 border border-gray-300">
+                          Saldo Rekonsiliasi
+                        </th>
+                        <th class="w-52 border border-gray-300">Keterangan</th>
+                        <th class="w-52 border border-gray-300">Rincian</th>
+                        <th class="w-20 border border-gray-300">Hapus</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item, i) in form.rekonsiliasi_saldo_details"
+                        :key="i"
+                        class="align-top"
+                      >
+                        <td class="border border-gray-300">
+                          <v-select
+                            label="nama_coa"
+                            :loading="isLoadingGetCoa"
+                            :options="lookup_custom1.data"
+                            :filterable="false"
+                            @search="onGetCoa"
+                            v-model="item.coa_id"
+                            @input="(item) => onSelectCoa(item)"
+                          >
+                            <template slot="option" slot-scope="option">
+                              {{ option.nama_coa + " - " + option.kode_coa }}
+                            </template>
+                            <template
+                              slot="selected-option"
+                              slot-scope="option"
+                            >
+                              <div
+                                class="w-[200px] whitespace-nowrap text-ellipsis overflow-hidden"
+                              >
+                                {{ option.nama_coa + " - " + option.kode_coa }}
+                              </div>
+                            </template>
+                            <li
+                              slot-scope="{ search }"
+                              slot="list-footer"
+                              class="p-1 border-t flex justify-between"
+                              v-if="lookup_custom1.data.length || search"
+                            >
+                              <span
+                                v-if="lookup_custom1.current_page > 1"
+                                @click="onGetCoa(search, false)"
+                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >Sebelumnya</span
+                              >
+                              <span
+                                v-if="
+                                  lookup_custom1.last_page >
+                                  lookup_custom1.current_page
+                                "
+                                @click="onGetCoa(search, true)"
+                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >Selanjutnya</span
+                              >
+                            </li>
+                          </v-select>
+                          <p v-if="item.coa_id" class="mt-2">
+                            {{ item.coa_id?.kode_coa ?? "" }} -
+                            {{ item.coa_id?.nama_coa ?? "" }}
+                          </p>
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            v-model="item.saldo_sistem"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <money
+                            v-model="item.saldo_rekonsiliasi"
+                            class="w-full pl-2 py-1 border rounded focus:outline-none"
+                            @keydown.native="
+                              $event.key === '-'
+                                ? $event.preventDefault()
+                                : null
+                            "
+                          />
+                        </td>
+                        <td class="border border-gray-300">
+                          <textarea
+                            name="keterangan"
+                            v-model="item.keterangan"
+                            class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                          ></textarea>
+                        </td>
+                        <td class="border border-gray-300">
+                          <textarea
+                            name="rincian"
+                            v-model="item.rincian"
+                            class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                          ></textarea>
+                        </td>
+                        <td
+                          class="text-center text-gray-600 border border-gray-300"
+                        >
+                          <i
+                            class="fas fa-trash mx-auto"
+                            style="cursor: pointer"
+                            @click="onDeletedDetails(i)"
+                          ></i>
+                        </td>
+                      </tr>
+                      <tr v-if="!form.rekonsiliasi_saldo_details.length > 0">
+                        <td colspan="100" class="text-center">
+                          <span class="flex justify-center">
+                            <img
+                              src="/img/data-not-found.svg"
+                              style="height: 250px; object-fit: cover"
+                            />
+                          </span>
+                          <div class="mt-3">Data Tidak Ditemukan</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <modal-footer-section
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
+          </form>
+        </ValidationObserver>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { ValidationObserver } from "vee-validate";
+import { mapActions, mapMutations, mapState } from "vuex";
+export default {
+  middleware: ["checkRoleUserDetail"],
+
+  head() {
+    return {
+      title: "Rekonsiliasi Saldo",
+    };
+  },
+
+  data() {
+    let id = parseInt(this.$route.params.id);
+
+    return {
+      id,
+      isEditable: Number.isInteger(id) ? true : false,
+      isLoadingPage: Number.isInteger(id) ? true : false,
+      isLoadingForm: false,
+      title: "Rekonsiliasi Saldo",
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
+
+      user: this.$auth.user,
+
+      isStopSearchCoa: false,
+      isLoadingGetCoa: false,
+      coa_search: "",
+
+      form: {
+        gudang_id: "",
+        no_referensi: "",
+        tanggal: "",
+        keterangan: "",
+        rekonsiliasi_saldo_details: [],
+      },
+      default_form: {
+        gudang_id: "",
+        no_referensi: "",
+        tanggal: "",
+        keterangan: "",
+        rekonsiliasi_saldo_details: [],
+      },
+    };
+  },
+
+  async created() {
+    this.form.tanggal = this.formattedDate();
+    try {
+      if (this.isEditable) {
+        let res = await this.$axios.get(
+          `finance/rekonsiliasi-saldo/${this.id}`
+        );
+        Object.keys(this.form).forEach((item) => {
+          if (item != "rekonsiliasi_saldo_details") {
+            this.form[item] = res.data[item];
+          }
+        });
+        this.form.rekonsiliasi_saldo_details =
+          res.data.rekonsiliasi_saldo_details.map((item) => {
+            return {
+              ...item,
+              coa_id: item.coa ?? "",
+            };
+          });
+        this.form.gudang_id = res.data.gudang;
+        this.isLoadingPage = false;
+      }
+    } catch (error) {
+      console.log(error);
+      // this.$router.back();
+    }
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
+    if (!this.isEditable && this.lookup_custom2.data.length > 0) {
+      this.onSelectGudang(this.lookup_custom2.data[0]);
+    }
+    await this.onSearchCoa();
+  },
+
+  computed: {
+    ...mapState("moduleApi", [
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+    ]),
+  },
+
+  methods: {
+    ...mapActions("moduleApi", ["lookUp"]),
+
+    formattedDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = (today.getMonth() + 1).toString().padStart(2, "0");
+      const day = today.getDate().toString().padStart(2, "0");
+
+      const formattedDate = `${year}-${month}-${day}`;
+      return formattedDate;
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectGudang(item) {
+      if (item) {
+        this.form.gudang_id = item;
+      } else {
+        this.form.gudang_id = "";
+      }
+    },
+
+    addDetails() {
+      this.form.rekonsiliasi_saldo_details.push({
+        coa_id: "",
+        saldo_sistem: "",
+        saldo_rekonsiliasi: "",
+        keterangan: "",
+        rincian: "",
+      });
+    },
+
+    onDeletedDetails(index) {
+      this.form.rekonsiliasi_saldo_details =
+        this.form.rekonsiliasi_saldo_details.filter(
+          (_, itemIndex) => index != itemIndex
+        );
+    },
+
+    onGetCoa(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchCoa);
+
+      this.isStopSearchCoa = setTimeout(() => {
+        this.coa_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom1.current_page = isNext
+            ? this.lookup_custom1.current_page + 1
+            : this.lookup_custom1.current_page - 1;
+        } else {
+          this.lookup_custom1.current_page = 1;
+        }
+
+        this.onSearchCoa();
+      }, 600);
+    },
+
+    async onSearchCoa() {
+      if (!this.isLoadingGetCoa) {
+        this.isLoadingGetCoa = true;
+
+        await this.lookUp({
+          url: "finance/coa/get-coa",
+          lookup: "custom1",
+          query:
+            "?search=" +
+            this.coa_search +
+            // "&tipe=HARTA" +
+            "&page=" +
+            this.lookup_custom1.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetCoa = false;
+      }
+    },
+
+    onSelectCoa(item) {
+      if (item) {
+        this.form.coa_id = item;
+      } else {
+        this.form.coa_id = "";
+      }
+    },
+
+    onSubmit(isInvalid) {
+      if (isInvalid || this.isLoadingForm) return;
+
+      this.isLoadingForm = true;
+
+      let url = "finance/rekonsiliasi-saldo";
+      let formData = {
+        ...this.form,
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id ?? ""
+            : this.form.gudang_id ?? "",
+      };
+
+      formData.rekonsiliasi_saldo_details =
+        this.form.rekonsiliasi_saldo_details.map((item) => {
+          return {
+            ...item,
+            coa_id:
+              typeof item.coa_id === "object"
+                ? item.coa_id.coa_id ?? ""
+                : item.coa_id ?? "",
+          };
+        });
+
+      if (this.isEditable) {
+        url += "/" + this.id;
+      }
+
+      this.$axios({
+        url: url,
+        method: this.isEditable ? "put" : "post",
+        data: formData,
+      })
+        .then((res) => {
+          this.$toaster.success(
+            "Berhasil " +
+              (this.isEditable ? "Update" : "Tambah") +
+              " Rekonsiliasi Saldo"
+          );
+
+          if (!this.isEditable) {
+            this.form = {
+              ...this.default_form,
+              rekonsiliasi_saldo_details: [],
+            };
+          }
+          this.$router.back();
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingForm = false;
+          this.$refs.formValidate.reset();
+        });
+    },
+
+    formReset() {
+      this.isLoadingForm = false;
+      this.form = {
+        no_referensi: "",
+        keterangan: "",
+        rekonsiliasi_saldo_details: [],
+      };
+      this.form.tanggal = this.formattedDate();
+      this.form.gudang_id = this.lookup_custom2.data[0];
+    },
+  },
+};
+</script>
