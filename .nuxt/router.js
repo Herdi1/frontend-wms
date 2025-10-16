@@ -489,13 +489,20 @@ const _f91be042 = () => interopDefault(import('..\\pages\\finance\\kontrak-custo
 const _a75b2e3c = () => interopDefault(import('..\\pages\\finance\\kontrak-customer\\kontrak-sewa-pelanggan\\KontrakGudangDetail.vue' /* webpackChunkName: "pages/finance/kontrak-customer/kontrak-sewa-pelanggan/KontrakGudangDetail" */))
 const _7788479c = () => interopDefault(import('..\\pages\\finance\\kontrak-customer\\kontrak-sewa-pelanggan\\KontrakPeralatanDetail.vue' /* webpackChunkName: "pages/finance/kontrak-customer/kontrak-sewa-pelanggan/KontrakPeralatanDetail" */))
 const _b2d11ef4 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-bongkar-tujuan\\KontrakBongkarTujuanDetails.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-bongkar-tujuan/KontrakBongkarTujuanDetails" */))
+const _7c447577 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-bongkar-tujuan\\KontrakBongkarTujuanDetailsModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-bongkar-tujuan/KontrakBongkarTujuanDetailsModal" */))
 const _67de7083 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileAtcost.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileAtcost" */))
+const _6a3eeb9a = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileAtcostModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileAtcostModal" */))
 const _a7805462 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileBerat.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileBerat" */))
+const _d4b61464 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileBeratModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileBeratModal" */))
 const _69a0b9d5 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileInsentifBerat.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileInsentifBerat" */))
+const _4f6fa588 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileInsentifBeratModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileInsentifBeratModal" */))
 const _a340725c = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileJarak.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileJarak" */))
+const _53f22eab = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileJarakModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileJarakModal" */))
 const _42578b39 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileRitase.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileRitase" */))
+const _700fdab8 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-lastmile\\KontrakLastmileRitaseModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileRitaseModal" */))
 const _49961c7c = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-sewa\\KontrakGudangDetail.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-sewa/KontrakGudangDetail" */))
 const _fdec947c = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-sewa\\KontrakPeralatanDetail.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-sewa/KontrakPeralatanDetail" */))
+const _25fd0309 = () => interopDefault(import('..\\pages\\finance\\kontrak-vendor\\kontrak-tkbm\\KontrakTkbmDetailModal.vue' /* webpackChunkName: "pages/finance/kontrak-vendor/kontrak-tkbm/KontrakTkbmDetailModal" */))
 const _1e76a627 = () => interopDefault(import('..\\pages\\inbound\\inbound\\detail\\DetailBiaya.vue' /* webpackChunkName: "pages/inbound/inbound/detail/DetailBiaya" */))
 const _2c64c95a = () => interopDefault(import('..\\pages\\inbound\\inbound\\detail\\DetailHistoris.vue' /* webpackChunkName: "pages/inbound/inbound/detail/DetailHistoris" */))
 const _46a3a95e = () => interopDefault(import('..\\pages\\inbound\\inbound\\detail\\DetailInbound.vue' /* webpackChunkName: "pages/inbound/inbound/detail/DetailInbound" */))
@@ -2825,25 +2832,49 @@ export const routerOptions = {
     component: _b2d11ef4,
     name: "finance-kontrak-vendor-kontrak-bongkar-tujuan-KontrakBongkarTujuanDetails"
   }, {
+    path: "/finance/kontrak-vendor/kontrak-bongkar-tujuan/KontrakBongkarTujuanDetailsModal",
+    component: _7c447577,
+    name: "finance-kontrak-vendor-kontrak-bongkar-tujuan-KontrakBongkarTujuanDetailsModal"
+  }, {
     path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileAtcost",
     component: _67de7083,
     name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileAtcost"
+  }, {
+    path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileAtcostModal",
+    component: _6a3eeb9a,
+    name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileAtcostModal"
   }, {
     path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileBerat",
     component: _a7805462,
     name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileBerat"
   }, {
+    path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileBeratModal",
+    component: _d4b61464,
+    name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileBeratModal"
+  }, {
     path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileInsentifBerat",
     component: _69a0b9d5,
     name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileInsentifBerat"
+  }, {
+    path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileInsentifBeratModal",
+    component: _4f6fa588,
+    name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileInsentifBeratModal"
   }, {
     path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileJarak",
     component: _a340725c,
     name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileJarak"
   }, {
+    path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileJarakModal",
+    component: _53f22eab,
+    name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileJarakModal"
+  }, {
     path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileRitase",
     component: _42578b39,
     name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileRitase"
+  }, {
+    path: "/finance/kontrak-vendor/kontrak-lastmile/KontrakLastmileRitaseModal",
+    component: _700fdab8,
+    name: "finance-kontrak-vendor-kontrak-lastmile-KontrakLastmileRitaseModal"
   }, {
     path: "/finance/kontrak-vendor/kontrak-sewa/KontrakGudangDetail",
     component: _49961c7c,
@@ -2852,6 +2883,10 @@ export const routerOptions = {
     path: "/finance/kontrak-vendor/kontrak-sewa/KontrakPeralatanDetail",
     component: _fdec947c,
     name: "finance-kontrak-vendor-kontrak-sewa-KontrakPeralatanDetail"
+  }, {
+    path: "/finance/kontrak-vendor/kontrak-tkbm/KontrakTkbmDetailModal",
+    component: _25fd0309,
+    name: "finance-kontrak-vendor-kontrak-tkbm-KontrakTkbmDetailModal"
   }, {
     path: "/inbound/inbound/detail/DetailBiaya",
     component: _1e76a627,

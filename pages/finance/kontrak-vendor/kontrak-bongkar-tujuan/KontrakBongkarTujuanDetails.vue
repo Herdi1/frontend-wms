@@ -14,14 +14,69 @@
           </button>
         </div>
       </div>
+      <div
+        class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
+      >
+        <div class="flex gap-5">
+          <div class="col-md-1 mt-2">
+            <select
+              class="border border-gray-300 rounded-sm outline-none w-[4rem]"
+              style="
+                height: calc(1.5em + 0.5rem + 2px);
+                padding: 0px;
+                padding-left: 2px;
+                padding-right: 0px;
+              "
+              v-model="parameters.params.per_page"
+              @change="
+                parameters.params.page = 1;
+                onLoad();
+              "
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="col-md-1 mt-2 flex gap-3 items-center">
+            <label for="">Gudang</label>
+            <v-select
+              label="nama_gudang"
+              :loading="isLoadingGetGudang"
+              :options="lookup_custom6.data"
+              :filterable="false"
+              v-model="parameters.params.gudang_id"
+              @input="(item) => onSelectGudang(item)"
+              class="w-[300px] mb-2"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_custom6.data.length || search"
+              >
+                <span
+                  v-if="lookup_custom6.current_page > 1"
+                  @click="onGetGudang(search, false)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_custom6.last_page > lookup_custom6.current_page"
+                  @click="onGetGudang(search, true)"
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
+        </div>
+      </div>
       <div class="table-responsive overflow-y-hidden mb-7">
         <table
           class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-          :class="
-            this.self.parameters.form.kontrak_bongkar_tujuan_details.length
-              ? 'mb-[300px]'
-              : ''
-          "
         >
           <thead>
             <tr class="uppercase">
@@ -58,6 +113,7 @@
               <th class="w-60 border border-gray-300">
                 Nilai Kontrak <span class="text-danger">*</span>
               </th>
+              <th class="w-20 border border-gray-300">Edit</th>
               <th class="w-20 border border-gray-300">Hapus</th>
             </tr>
           </thead>
@@ -432,9 +488,16 @@
               </td>
               <td class="border border-gray-300 text-center">
                 <i
+                  class="fas fa-pen mx-auto"
+                  style="cursor: pointer"
+                  @click="editAtcost(item)"
+                ></i>
+              </td>
+              <td class="border border-gray-300 text-center">
+                <i
                   class="fas fa-trash mx-auto"
                   style="cursor: pointer"
-                  @click="deleteAtcost(i)"
+                  @click="deleteAtcost(item)"
                 ></i>
               </td>
             </tr>
@@ -457,15 +520,24 @@
           </tbody>
         </table>
       </div>
+      <div class="mx-3 mt-2 mb-4">
+        <pagination-component :self="{ onLoad }" ref="pagination" />
+      </div>
     </div>
+    <KontrakBongkarTujuanDetailsModal :self="this" ref="modal-bongkar-tujuan" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import KontrakBongkarTujuanDetailsModal from "./KontrakBongkarTujuanDetailsModal.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    KontrakBongkarTujuanDetailsModal,
+  },
 
   data() {
     return {
@@ -516,14 +588,31 @@ export default {
       isStopSearchSatuan: false,
       isLoadingGetSatuan: false,
       satuan_search: "",
+
+      parameters: {
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kontrak_bongkar_tujuan_detail_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+          gudang_id: "",
+        },
+      },
     };
+  },
+
+  async created() {
+    await this.onLoad();
   },
 
   async mounted() {
     await this.onSearchJenisKontrak();
     await this.onSearchDivisi();
     await this.onSearchJenisBiaya();
-    // await this.onSearchGudang();
+    await this.onSearchGudang();
     await this.onSearchPembayaran();
     await this.onSearchTerm();
     await this.onSearchGroupItem();
@@ -558,26 +647,43 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailBongkarTujuan() {
-      this.self.parameters.form.kontrak_bongkar_tujuan_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: this.self.parameters.form.gudang_id,
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        payable_to: "",
-        group_item_id: "",
-        item_gudang_id: "",
-        nilai_kontrak: "",
-      });
+      // this.self.parameters.form.kontrak_bongkar_tujuan_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: this.self.parameters.form.gudang_id,
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   payable_to: "",
+      //   group_item_id: "",
+      //   item_gudang_id: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs[
+        "modal-bongkar-tujuan"
+      ].parameters.form.kontrak_bongkar_tujuan_id =
+        this.self.parameters.form.kontrak_bongkar_tujuan_id;
+      this.$refs["modal-bongkar-tujuan"].show();
     },
 
-    deleteAtcost(index) {
-      this.self.parameters.form.kontrak_bongkar_tujuan_details =
-        this.self.parameters.form.kontrak_bongkar_tujuan_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editAtcost(item) {
+      this.$refs["modal-bongkar-tujuan"].parameters.form = {
+        ...item,
+        item_gudang_id: {
+          ...item.item_gudang_id,
+          item_id: item.item_id.item_id,
+        },
+      };
+      this.$refs["modal-bongkar-tujuan"].show();
+    },
+
+    async deleteAtcost(item) {
+      await this.$axios.delete(
+        "finance/kontrak-bongkar-tujuan/delete-detail-kontrak-bongkar-tujuan/" +
+          item.kontrak_bongkar_tujuan_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {
@@ -1128,15 +1234,12 @@ export default {
       }
     },
 
-    onSelectGudang(item, index) {
+    async onSelectGudang(item, index) {
       if (item) {
-        this.self.parameters.form.kontrak_bongkar_tujuan_details[
-          index
-        ].gudang_id = item;
+        this.parameters.params.gudang_id = item;
+        await this.onLoad();
       } else {
-        this.self.parameters.form.kontrak_bongkar_tujuan_details[
-          index
-        ].gudang_id = "";
+        this.parameters.params.gudang_id = "";
       }
     },
 
@@ -1222,6 +1325,63 @@ export default {
           index
         ].group_item_id = "";
       }
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = parseInt(page) || 1;
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.$axios
+        .get(
+          `/finance/kontrak-bongkar-tujuan/get-detail-kontrak-bongkar-tujuan/${this.self.parameters.form.kontrak_bongkar_tujuan_id}`,
+          {
+            params: {
+              ...this.parameters.params,
+              gudang_id: this.parameters.params.gudang_id?.gudang_id,
+            },
+          }
+        )
+        .then((res) => {
+          this.self.parameters.form.kontrak_bongkar_tujuan_details =
+            res.data.data.map((item) => {
+              return {
+                ...item,
+                kontrak_bongkar_tujuan_detail_id:
+                  item.kontrak_bongkar_tujuan_detail_id
+                    ? item.kontrak_bongkar_tujuan_detail_id
+                    : "",
+                jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+                divisi_id: item.divisi ? item.divisi : "",
+                jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+                gudang_id: item.gudang ? item.gudang : "",
+                mata_uang_id: item.mata_uang ? item.mata_uang : "",
+                pembayaran_id: item.pembayaran ? item.pembayaran : "",
+                term_pembayaran_id: item.term_pembayaran
+                  ? item.term_pembayaran
+                  : "",
+                group_item_id: item.group_item ? item.group_item : "",
+                item_gudang_id: item.item_gudang ? item.item_gudang : "",
+                satuan_id: item.satuan ? item.satuan : "",
+              };
+            });
+          loader.hide();
+          this.$store.dispatch("pagination/setPagination", res.data);
+          this.$refs["pagination"].active_page = this.parameters.params.page;
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingData = false;
+        });
     },
   },
 };

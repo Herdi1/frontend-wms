@@ -11,7 +11,7 @@
           Kembali
         </button>
       </div>
-      <ValidationObserver v-slot="{ invalid, validate }" ref="formVaidate">
+      <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
         <form
           @submit.prevent="validate().then(() => onSubmit(invalid))"
           autocomplete="off"
@@ -123,7 +123,7 @@
               ></textarea>
             </div>
             <modal-footer-section
-              class="mt-5"
+              class="my-5"
               :isLoadingForm="isLoadingForm"
               @reset="formReset()"
             />
@@ -150,11 +150,11 @@
               </template>
             </tab-component>
           </div>
-          <modal-footer-section
+          <!-- <modal-footer-section
             class="mt-5"
             :isLoadingForm="isLoadingForm"
             @reset="formReset()"
-          />
+          /> -->
         </form>
       </ValidationObserver>
     </div>
@@ -275,9 +275,9 @@ export default {
           }
         });
 
-        this.parameters.form.vendor_id = res.data.vendor;
-        this.parameters.form.user_id_pic = res.data.user_pic;
-        this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
+        this.parameters.form.vendor_id = res.data.vendor ?? "";
+        this.parameters.form.user_id_pic = res.data.user_pic ?? "";
+        this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak ?? "";
 
         // if (res.data.kontrak_lastmile_jarak_details.length > 0) {
         //   this.parameters.form.kontrak_lastmile_jarak_details =
@@ -625,264 +625,280 @@ export default {
       let url = this.parameters.url;
 
       let formData = {
-        ...this.parameters.form,
+        // ...this.parameters.form,
+        no_referensi: this.parameters.form.no_referensi,
+        tanggal_kontrak: this.parameters.form.tanggal_kontrak,
+        tanggal_berlaku: this.parameters.form.tanggal_berlaku,
+        tanggal_berhenti: this.parameters.form.tanggal_berhenti,
+        keterangan: this.parameters.form.keterangan,
+        status_kontrak: this.parameters.form.status_kontrak,
+        user_agent: this.parameters.form.user_agent,
+        device: this.parameters.form.device,
+        latitude: this.parameters.form.latitude,
+        longitude: this.parameters.form.longitude,
         vendor_id:
           typeof this.parameters.form.vendor_id === "object"
             ? this.parameters.form.vendor_id.vendor_id
             : this.parameters.form.vendor_id,
         user_id_pic:
           typeof this.parameters.form.user_id_pic === "object"
-            ? this.parameters.form.user_id_pic.user_id
-            : this.parameters.form.user_id_pic,
+            ? this.parameters.form.user_id_pic.user_id ?? ""
+            : "",
         jenis_kontrak_id:
           typeof this.parameters.form.jenis_kontrak_id === "object"
             ? this.parameters.form.jenis_kontrak_id.jenis_kontrak_id
-            : this.parameters.form.jenis_kontrak_id,
+            : "",
       };
 
-      formData.kontrak_lastmile_jarak_details =
-        this.parameters.form.kontrak_lastmile_jarak_details.map((item) => {
-          return {
-            ...item,
-            kontrak_lastmile_jarak_detail_id:
-              typeof item.kontrak_lastmile_jarak_detail_id === "object"
-                ? item.kontrak_lastmile_jarak_detail_id
-                    .kontrak_lastmile_jarak_detail_id
-                : item.kontrak_lastmile_jarak_detail_id,
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : item.jenis_kontrak_id,
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            jenis_kendaraan_id:
-              typeof item.jenis_kendaraan_id === "object"
-                ? item.jenis_kendaraan_id.jenis_kendaraan_id
-                : item.jenis_kendaraan_id,
-          };
-        });
+      // formData.kontrak_lastmile_jarak_details = [];
+      // formData.kontrak_lastmile_premi_details = [];
+      // formData.kontrak_lastmile_atcost_details = [];
+      // formData.kontrak_lastmile_berat_details = [];
+      // formData.kontrak_lastmile_ritase_details = [];
 
-      formData.kontrak_lastmile_ritase_details =
-        this.parameters.form.kontrak_lastmile_ritase_details.map((item) => {
-          return {
-            ...item,
-            kontrak_lastmile_ritase_detail_id:
-              typeof item.kontrak_lastmile_ritase_detail_id === "object"
-                ? item.kontrak_lastmile_ritase_detail_id
-                    .kontrak_lastmile_ritase_detail_id
-                : item.kontrak_lastmile_ritase_detail_id,
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : item.jenis_kontrak_id,
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            jenis_kendaraan_id:
-              typeof item.jenis_kendaraan_id === "object"
-                ? item.jenis_kendaraan_id.jenis_kendaraan_id
-                : item.jenis_kendaraan_id,
-          };
-        });
+      // formData.kontrak_lastmile_jarak_details =
+      //   this.parameters.form.kontrak_lastmile_jarak_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_lastmile_jarak_detail_id:
+      //         typeof item.kontrak_lastmile_jarak_detail_id === "object"
+      //           ? item.kontrak_lastmile_jarak_detail_id
+      //               .kontrak_lastmile_jarak_detail_id
+      //           : item.kontrak_lastmile_jarak_detail_id,
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : item.jenis_kontrak_id,
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       jenis_kendaraan_id:
+      //         typeof item.jenis_kendaraan_id === "object"
+      //           ? item.jenis_kendaraan_id.jenis_kendaraan_id
+      //           : item.jenis_kendaraan_id,
+      //     };
+      //   });
 
-      formData.kontrak_lastmile_berat_details =
-        this.parameters.form.kontrak_lastmile_berat_details.map((item) => {
-          return {
-            ...item,
-            kontrak_lastmile_berat_detail_id:
-              typeof item.kontrak_lastmile_berat_detail_id === "object"
-                ? item.kontrak_lastmile_berat_detail_id
-                    .kontrak_lastmile_berat_detail_id
-                : item.kontrak_lastmile_berat_detail_id,
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : item.jenis_kontrak_id,
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            jenis_kendaraan_id:
-              typeof item.jenis_kendaraan_id === "object"
-                ? item.jenis_kendaraan_id.jenis_kendaraan_id
-                : item.jenis_kendaraan_id,
-            satuan_id_dimensi:
-              typeof item.satuan_id_dimensi === "object"
-                ? item.satuan_id_dimensi.satuan_id
-                : item.satuan_id_dimensi,
-            satuan_id_volume:
-              typeof item.satuan_id_volume === "object"
-                ? item.satuan_id_volume.satuan_id
-                : item.satuan_id_volume,
-          };
-        });
+      // formData.kontrak_lastmile_ritase_details =
+      //   this.parameters.form.kontrak_lastmile_ritase_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_lastmile_ritase_detail_id:
+      //         typeof item.kontrak_lastmile_ritase_detail_id === "object"
+      //           ? item.kontrak_lastmile_ritase_detail_id
+      //               .kontrak_lastmile_ritase_detail_id
+      //           : item.kontrak_lastmile_ritase_detail_id,
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : item.jenis_kontrak_id,
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       jenis_kendaraan_id:
+      //         typeof item.jenis_kendaraan_id === "object"
+      //           ? item.jenis_kendaraan_id.jenis_kendaraan_id
+      //           : item.jenis_kendaraan_id,
+      //     };
+      //   });
 
-      formData.kontrak_lastmile_atcost_details =
-        this.parameters.form.kontrak_lastmile_atcost_details.map((item) => {
-          return {
-            ...item,
-            kontrak_lastmile_atcost_detail_id:
-              typeof item.kontrak_lastmile_atcost_detail_id === "object"
-                ? item.kontrak_lastmile_atcost_detail_id
-                    .kontrak_lastmile_atcost_detail_id
-                : item.kontrak_lastmile_atcost_detail_id,
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : item.jenis_kontrak_id,
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            jenis_kendaraan_id:
-              typeof item.jenis_kendaraan_id === "object"
-                ? item.jenis_kendaraan_id.jenis_kendaraan_id
-                : item.jenis_kendaraan_id,
-            lokasi_id:
-              typeof item.lokasi_id === "object"
-                ? item.lokasi_id.lokasi_id
-                : item.lokasi_id,
-            // satuan_id_luas:
-            //   typeof item.satuan_id_luas === "object"
-            //     ? item.satuan_id_luas.satuan_id
-            //     : item.satuan_id_luas,
-            // satuan_id_waktu:
-            //   typeof item.satuan_id_waktu === "object"
-            //     ? item.satuan_id_waktu.satuan_id
-            //     : item.satuan_id_waktu,
-          };
-        });
+      // formData.kontrak_lastmile_berat_details =
+      //   this.parameters.form.kontrak_lastmile_berat_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_lastmile_berat_detail_id:
+      //         typeof item.kontrak_lastmile_berat_detail_id === "object"
+      //           ? item.kontrak_lastmile_berat_detail_id
+      //               .kontrak_lastmile_berat_detail_id
+      //           : item.kontrak_lastmile_berat_detail_id,
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : item.jenis_kontrak_id,
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       jenis_kendaraan_id:
+      //         typeof item.jenis_kendaraan_id === "object"
+      //           ? item.jenis_kendaraan_id.jenis_kendaraan_id
+      //           : item.jenis_kendaraan_id,
+      //       satuan_id_dimensi:
+      //         typeof item.satuan_id_dimensi === "object"
+      //           ? item.satuan_id_dimensi.satuan_id
+      //           : item.satuan_id_dimensi,
+      //       satuan_id_volume:
+      //         typeof item.satuan_id_volume === "object"
+      //           ? item.satuan_id_volume.satuan_id
+      //           : item.satuan_id_volume,
+      //     };
+      //   });
 
-      formData.kontrak_lastmile_premi_details =
-        this.parameters.form.kontrak_lastmile_premi_details.map((item) => {
-          return {
-            ...item,
-            kontrak_lastmile_premi_detail_id:
-              typeof item.kontrak_lastmile_premi_detail_id === "object"
-                ? item.kontrak_lastmile_premi_detail_id
-                    .kontrak_lastmile_premi_detail_id
-                : item.kontrak_lastmile_premi_detail_id,
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : item.jenis_kontrak_id,
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            group_item_id:
-              typeof item.group_item_id === "object"
-                ? item.group_item_id.group_item_id
-                : item.group_item_id,
-            item_gudang_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id
-                : item.item_gudang_id,
-          };
-        });
+      // formData.kontrak_lastmile_atcost_details =
+      //   this.parameters.form.kontrak_lastmile_atcost_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_lastmile_atcost_detail_id:
+      //         typeof item.kontrak_lastmile_atcost_detail_id === "object"
+      //           ? item.kontrak_lastmile_atcost_detail_id
+      //               .kontrak_lastmile_atcost_detail_id
+      //           : item.kontrak_lastmile_atcost_detail_id,
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : item.jenis_kontrak_id,
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       jenis_kendaraan_id:
+      //         typeof item.jenis_kendaraan_id === "object"
+      //           ? item.jenis_kendaraan_id.jenis_kendaraan_id
+      //           : item.jenis_kendaraan_id,
+      //       lokasi_id:
+      //         typeof item.lokasi_id === "object"
+      //           ? item.lokasi_id.lokasi_id
+      //           : item.lokasi_id,
+      //       // satuan_id_luas:
+      //       //   typeof item.satuan_id_luas === "object"
+      //       //     ? item.satuan_id_luas.satuan_id
+      //       //     : item.satuan_id_luas,
+      //       // satuan_id_waktu:
+      //       //   typeof item.satuan_id_waktu === "object"
+      //       //     ? item.satuan_id_waktu.satuan_id
+      //       //     : item.satuan_id_waktu,
+      //     };
+      //   });
+
+      // formData.kontrak_lastmile_premi_details =
+      //   this.parameters.form.kontrak_lastmile_premi_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_lastmile_premi_detail_id:
+      //         typeof item.kontrak_lastmile_premi_detail_id === "object"
+      //           ? item.kontrak_lastmile_premi_detail_id
+      //               .kontrak_lastmile_premi_detail_id
+      //           : item.kontrak_lastmile_premi_detail_id,
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : item.jenis_kontrak_id,
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       group_item_id:
+      //         typeof item.group_item_id === "object"
+      //           ? item.group_item_id.group_item_id
+      //           : item.group_item_id,
+      //       item_gudang_id:
+      //         typeof item.item_gudang_id === "object"
+      //           ? item.item_gudang_id.item_gudang_id
+      //           : item.item_gudang_id,
+      //     };
+      //   });
 
       if (this.isEditable) {
         url += "/" + this.id;

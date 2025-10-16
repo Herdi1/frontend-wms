@@ -115,6 +115,12 @@
                 v-model="parameters.form.keterangan"
               ></textarea>
             </div>
+
+            <modal-footer-section
+              class="mt-5"
+              :isLoadingForm="isLoadingForm"
+              @reset="formReset()"
+            />
           </div>
           <div class="w-full mt-5 flex justify-between items-center">
             <h1 class="text-xl font-bold uppercase">Detail Kontak TKBM</h1>
@@ -132,14 +138,68 @@
           <div
             class="mt-4 w-full bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
+            <div class="flex gap-5">
+              <div class="col-md-1 mt-2">
+                <select
+                  class="border border-gray-300 rounded-sm outline-none w-[4rem]"
+                  style="
+                    height: calc(1.5em + 0.5rem + 2px);
+                    padding: 0px;
+                    padding-left: 2px;
+                    padding-right: 0px;
+                  "
+                  v-model="parameters.params.per_page"
+                  @change="
+                    parameters.params.page = 1;
+                    onLoad();
+                  "
+                >
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="40">40</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+              <div class="col-md-1 mt-2 flex gap-3 items-center">
+                <label for="">Gudang</label>
+                <v-select
+                  label="nama_gudang"
+                  :loading="isLoadingGetGudang"
+                  :options="lookup_custom6.data"
+                  :filterable="false"
+                  v-model="parameters.params.gudang_id"
+                  @input="(item) => onSelectGudang(item)"
+                  class="w-[300px] mb-2"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom6.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom6.current_page > 1"
+                      @click="onGetGudang(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom6.last_page > lookup_custom6.current_page
+                      "
+                      @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+            </div>
             <div class="table-responsive overflow-y-hidden mb-7">
               <table
+                ref="formContainer"
                 class="border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
-                :class="
-                  parameters.form.kontrak_tkbm_details.length
-                    ? 'mb-[300px]'
-                    : ''
-                "
               >
                 <thead>
                   <tr class="text-sm uppercase">
@@ -174,6 +234,7 @@
                     <th class="w-60 border border-gray-300">
                       Nilai Kontrak <span class="text-danger">*</span>
                     </th>
+                    <th class="w-20 border border-gray-300">Edit</th>
                     <th class="w-20 border border-gray-300">Hapus</th>
                   </tr>
                 </thead>
@@ -184,7 +245,7 @@
                     class="border-t"
                   >
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_jenis_kontrak"
                         :loading="isLoadingGetJenisKontrak"
@@ -216,10 +277,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.jenis_kontrak_id?.nama_jenis_kontrak }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_divisi"
                         :loading="isLoadingGetDivisi"
@@ -250,10 +312,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.divisi_id?.nama_divisi }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_jenis_biaya"
                         :loading="isLoadingGetJenisBiaya"
@@ -284,11 +347,12 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.jenis_biaya_id?.nama_jenis_biaya }}</p>
                     </td>
 
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_mata_uang"
                         :loading="isLoadingGetUang"
@@ -318,10 +382,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.mata_uang_id?.nama_mata_uang }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_pembayaran"
                         :loading="isLoadingGetPembayaran"
@@ -352,10 +417,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.pembayaran_id?.nama_pembayaran }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_term_pembayaran"
                         :loading="isLoadingGetTerm"
@@ -386,20 +452,22 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.term_pembayaran_id?.nama_term_pembayaran }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <select
+                      <!-- <select
                         class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                         v-model="item.payable_to"
                       >
                         <option value="DRIVER">Driver</option>
                         <option value="VENDOR">Vendor</option>
                         <option value="PIC">PIC</option>
-                      </select>
+                      </select> -->
+                      <p>{{ item.payable_to ?? "" }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_gudang"
                         :loading="isLoadingGetGudang"
@@ -409,7 +477,6 @@
                         v-model="item.gudang_id"
                         @input="(item) => onSelectGudang(item, i)"
                       >
-                        <!-- :reduce="(item) => item.gudang_id" -->
                         <li
                           slot-scope="{ search }"
                           slot="list-footer"
@@ -432,10 +499,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.gudang_id?.nama_gudang }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_group_item"
                         :loading="isLoadingGetGroup"
@@ -466,10 +534,11 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.group_item_id?.nama_group_item }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <v-select
+                      <!-- <v-select
                         class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
                         label="nama_item"
                         :loading="isLoadingGetItem"
@@ -501,17 +570,19 @@
                             >Selanjutnya</span
                           >
                         </li>
-                      </v-select>
+                      </v-select> -->
+                      <p>{{ item.item_gudang_id?.nama_item }}</p>
                     </td>
                     <td class="border border-gray-300">
-                      <select
+                      <!-- <select
                         class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                         v-model="item.dasar_perhitungan"
                       >
                         <option value="QTY">Qty</option>
                         <option value="BERAT">Berat</option>
                         <option value="VOLUME">Volume</option>
-                      </select>
+                      </select> -->
+                      <p>{{ item.dasar_perhitungan }}</p>
                     </td>
                     <!-- <td class="border border-gray-300">
                       <v-select
@@ -548,20 +619,28 @@
                         </li>
                       </v-select>
                     </td> -->
-                    <td class="border border-gray-300">
-                      <money
+                    <td class="border border-gray-300 text-right">
+                      <!-- <money
                         v-model="item.nilai_kontrak"
                         class="w-full pl-2 py-1 border rounded focus:outline-none"
                         @keydown.native="
                           $event.key === '-' ? $event.preventDefault() : null
                         "
-                      />
+                      /> -->
+                      <p>{{ item.nilai_kontrak }}</p>
+                    </td>
+                    <td class="border border-gray-300 text-center">
+                      <i
+                        class="fas fa-pen mx-auto"
+                        style="cursor: pointer"
+                        @click="onEditTKBM(item)"
+                      ></i>
                     </td>
                     <td class="border border-gray-300 text-center">
                       <i
                         class="fas fa-trash mx-auto"
                         style="cursor: pointer"
-                        @click="onDeleteTKBM(i)"
+                        @click="onDeleteTKBM(item)"
                       ></i>
                     </td>
                   </tr>
@@ -579,23 +658,27 @@
                 </tbody>
               </table>
             </div>
+            <div class="mx-3 mt-2 mb-4">
+              <pagination-component :self="{ onLoad }" ref="pagination" />
+            </div>
           </div>
-          <modal-footer-section
-            class="mt-5"
-            :isLoadingForm="isLoadingForm"
-            @reset="formReset()"
-          />
         </form>
       </ValidationObserver>
     </div>
+    <KontrakTkbmDetailModal :self="this" ref="modal-detail-tkbm" />
   </section>
 </template>
 
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapState } from "vuex";
+import KontrakTkbmDetailModal from "./KontrakTkbmDetailModal.vue";
 export default {
   props: ["self"],
+
+  components: {
+    KontrakTkbmDetailModal,
+  },
 
   data() {
     let id = parseInt(this.$route.params.id);
@@ -657,7 +740,18 @@ export default {
       title: "Kontrak Vendor TKBM",
       parameters: {
         url: "finance/kontrak-tkbm",
+        params: {
+          soft_deleted: "",
+          search: "",
+          order: "kontrak_tkbm_detail_id",
+          sort: "desc",
+          all: "",
+          per_page: 10,
+          page: 1,
+          gudang_id: "",
+        },
         form: {
+          kontrak_tkbm_id: "",
           kode_kontrak: "",
           no_referensi: "",
           vendor_id: "",
@@ -704,31 +798,34 @@ export default {
             this.parameters.form[item] = res.data[item];
           }
         });
+        if (this.parameters.form.kontrak_tkbm_id !== "") {
+          this.onLoad();
+        }
         this.parameters.form.vendor_id = res.data.vendor;
         this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak;
 
-        this.parameters.form.kontrak_tkbm_details =
-          res.data.kontrak_tkbm_details.map((item) => {
-            return {
-              ...item,
-              kontrak_tkbm_detail_id: item.kontrak_tkbm_detail_id
-                ? item.kontrak_tkbm_detail_id
-                : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              item_id: item.item ? item.item : "",
-              item_gudang_id: item.item_gudang ? item.item_gudang : "",
-              satuan_id: item.satuan ? item.satuan : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              group_item_id: item.group_item ? item.group_item : "",
-            };
-          });
+        // this.parameters.form.kontrak_tkbm_details =
+        //   res.data.kontrak_tkbm_details.map((item) => {
+        //     return {
+        //       ...item,
+        //       kontrak_tkbm_detail_id: item.kontrak_tkbm_detail_id
+        //         ? item.kontrak_tkbm_detail_id
+        //         : "",
+        //       jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //       item_id: item.item ? item.item : "",
+        //       item_gudang_id: item.item_gudang ? item.item_gudang : "",
+        //       satuan_id: item.satuan ? item.satuan : "",
+        //       gudang_id: item.gudang ? item.gudang : "",
+        //       divisi_id: item.divisi ? item.divisi : "",
+        //       jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //       mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //       pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //       term_pembayaran_id: item.term_pembayaran
+        //         ? item.term_pembayaran
+        //         : "",
+        //       group_item_id: item.group_item ? item.group_item : "",
+        //     };
+        //   });
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -750,7 +847,7 @@ export default {
     await this.onSearchGudang();
     await this.onSearchTerm();
     await this.onSearchGroup();
-    // await this.onSearchSatuan();
+    await this.onSearchSatuan();
     // await this.onSearchItem();
     await this.onSearchPembayaran();
     await this.onSearchUang();
@@ -921,28 +1018,47 @@ export default {
     // },
 
     addDetailTKBM() {
-      this.parameters.form.kontrak_tkbm_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        term_pembayaran_id: "",
-        group_item_id: "",
-        item_id: "",
-        dasar_perhitungan: "",
-        satuan_id: "",
-        payable_to: "",
-        mata_uang_id: "",
-        item_gudang_id: "",
-        nilai_kontrak: "",
-      });
+      // this.parameters.form.kontrak_tkbm_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   term_pembayaran_id: "",
+      //   group_item_id: "",
+      //   item_id: "",
+      //   dasar_perhitungan: "",
+      //   satuan_id: "",
+      //   payable_to: "",
+      //   mata_uang_id: "",
+      //   item_gudang_id: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs["modal-detail-tkbm"].parameters.form.kontrak_tkbm_id =
+        this.parameters.form.kontrak_tkbm_id;
+      this.$refs["modal-detail-tkbm"].show();
     },
 
-    onDeleteTKBM(index) {
-      this.parameters.form.kontrak_tkbm_details =
-        this.parameters.form.kontrak_tkbm_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    onEditTKBM(item) {
+      this.$refs["modal-detail-tkbm"].parameters.form = {
+        ...item,
+        item_gudang_id: {
+          ...item.item_gudang_id,
+          item_id: item.item_id.item_id,
+        },
+      };
+      this.$refs["modal-detail-tkbm"].show();
+    },
+
+    async onDeleteTKBM(item) {
+      // this.parameters.form.kontrak_tkbm_details =
+      //   this.parameters.form.kontrak_tkbm_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
+      await this.$axios.delete(
+        "finance/kontrak-tkbm/delete-detail-kontrak-tkbm/" +
+          item.kontrak_tkbm_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {
@@ -1118,12 +1234,12 @@ export default {
       }
     },
 
-    onSelectGudang(item, index) {
+    async onSelectGudang(item) {
       if (item) {
-        this.parameters.form.kontrak_tkbm_details[index].gudang_id = item;
-        this.onSearchItem(index);
+        this.parameters.params.gudang_id = item;
+        await this.onLoad();
       } else {
-        this.parameters.form.kontrak_tkbm_details[index].gudang_id = "";
+        this.parameters.params.gudang_id = "";
         // this.parameters.form.kontrak_tkbm_details[index].item_gudang_id = "";
         // this.parameters.form.kontrak_tkbm_details[index].item_id = "";
         // this.parameters.form.kontrak_tkbm_details[index].satuan_id = "";
@@ -1247,7 +1363,7 @@ export default {
       }
     },
 
-    onGetItem(search, isNext, index) {
+    onGetItem(gudang_id, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchItem);
@@ -1263,11 +1379,11 @@ export default {
           this.lookup_custom10.current_page = 1;
         }
 
-        this.onSearchItem(index);
+        this.onSearchItem(gudang_id);
       }, 600);
     },
 
-    async onSearchItem(index) {
+    async onSearchItem(gudang_id) {
       if (!this.isLoadingGetItem) {
         this.isLoadingGetItem = true;
 
@@ -1278,8 +1394,7 @@ export default {
             "?search=" +
             this.item_search +
             "&gudang_id=" +
-            this.parameters.form.kontrak_tkbm_details[index].gudang_id
-              .gudang_id +
+            gudang_id +
             "&page=" +
             this.lookup_custom10.current_page +
             "&per_page=10",
@@ -1390,7 +1505,14 @@ export default {
       let url = this.parameters.url;
 
       let formData = {
-        ...this.parameters.form,
+        // ...this.parameters.form,
+        kode_kontrak: this.parameters.form.kode_kontrak ?? "",
+        no_referensi: this.parameters.form.no_referensi,
+        tanggal_kontrak: this.parameters.form.tanggal_kontrak,
+        tanggal_berlaku: this.parameters.form.tanggal_berlaku,
+        tanggal_berhenti: this.parameters.form.tanggal_berhenti,
+        status_kontrak: this.parameters.form.status_kontrak,
+        keterangan: this.parameters.form.keterangan,
         vendor_id:
           typeof this.parameters.form.vendor_id == "object"
             ? this.parameters.form.vendor_id.vendor_id
@@ -1401,60 +1523,60 @@ export default {
             : "",
       };
 
-      formData.kontrak_tkbm_details =
-        this.parameters.form.kontrak_tkbm_details.map((item) => {
-          return {
-            ...item,
-            kontrak_tkbm_detail_id:
-              typeof item.kontrak_tkbm_detail_id === "object"
-                ? item.kontrak_tkbm_detail_id.kontrak_tkbm_detail_id
-                : "",
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id == "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id
-                : "",
-            item_gudang_id:
-              typeof item.item_gudang_id == "object"
-                ? item.item_gudang_id.item_gudang_id
-                : item.item_gudang_id,
-            item_id:
-              typeof item.item_id == "object"
-                ? item.item_id.item_id
-                : item.item_id,
-            satuan_id:
-              typeof item.satuan_id == "object"
-                ? item.satuan_id.satuan_id
-                : item.satuan_id,
-            gudang_id:
-              typeof item.gudang_id == "object"
-                ? item.gudang_id.gudang_id
-                : item.gudang_id,
-            divisi_id:
-              typeof item.divisi_id == "object"
-                ? item.divisi_id.divisi_id
-                : item.divisi_id,
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id == "object"
-                ? item.jenis_biaya_id.jenis_biaya_id
-                : item.jenis_biaya_id,
-            mata_uang_id:
-              typeof item.mata_uang_id == "object"
-                ? item.mata_uang_id.mata_uang_id
-                : item.mata_uang_id,
-            pembayaran_id:
-              typeof item.pembayaran_id == "object"
-                ? item.pembayaran_id.pembayaran_id
-                : item.pembayaran_id,
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id == "object"
-                ? item.term_pembayaran_id.term_pembayaran_id
-                : item.term_pembayaran_id,
-            group_item_id:
-              typeof item.group_item_id == "object"
-                ? item.group_item_id.group_item_id
-                : item.group_item_id,
-          };
-        });
+      // formData.kontrak_tkbm_details =
+      //   this.parameters.form.kontrak_tkbm_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_tkbm_detail_id:
+      //         typeof item.kontrak_tkbm_detail_id === "object"
+      //           ? item.kontrak_tkbm_detail_id.kontrak_tkbm_detail_id
+      //           : "",
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id == "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id
+      //           : "",
+      //       item_gudang_id:
+      //         typeof item.item_gudang_id == "object"
+      //           ? item.item_gudang_id.item_gudang_id
+      //           : item.item_gudang_id,
+      //       item_id:
+      //         typeof item.item_id == "object"
+      //           ? item.item_id.item_id
+      //           : item.item_id,
+      //       satuan_id:
+      //         typeof item.satuan_id == "object"
+      //           ? item.satuan_id.satuan_id
+      //           : item.satuan_id,
+      //       gudang_id:
+      //         typeof item.gudang_id == "object"
+      //           ? item.gudang_id.gudang_id
+      //           : item.gudang_id,
+      //       divisi_id:
+      //         typeof item.divisi_id == "object"
+      //           ? item.divisi_id.divisi_id
+      //           : item.divisi_id,
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id == "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id
+      //           : item.jenis_biaya_id,
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id == "object"
+      //           ? item.mata_uang_id.mata_uang_id
+      //           : item.mata_uang_id,
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id == "object"
+      //           ? item.pembayaran_id.pembayaran_id
+      //           : item.pembayaran_id,
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id == "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id
+      //           : item.term_pembayaran_id,
+      //       group_item_id:
+      //         typeof item.group_item_id == "object"
+      //           ? item.group_item_id.group_item_id
+      //           : item.group_item_id,
+      //     };
+      //   });
       // console.log(
       //   "Kontrak TKBM Details",
       //   this.parameters.form.kontrak_tkbm_details
@@ -1491,6 +1613,64 @@ export default {
     formReset() {
       this.isEditable = false;
       this.parameters.form = this.default_form;
+    },
+
+    async onLoad(page = 1) {
+      if (this.isLoadingData) return;
+
+      this.isLoadingData = true;
+      this.parameters.params.page = parseInt(page) || 1;
+
+      let loader = this.$loading.show({
+        container: this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+
+      await this.$axios
+        .get(
+          `/finance/kontrak-tkbm/get-detail-kontrak-tkbm/${this.parameters.form.kontrak_tkbm_id}`,
+          {
+            params: {
+              ...this.parameters.params,
+              gudang_id: this.parameters.params.gudang_id?.gudang_id,
+            },
+          }
+        )
+        .then((res) => {
+          this.parameters.form.kontrak_tkbm_details = res.data.data.map(
+            (item) => {
+              return {
+                ...item,
+                kontrak_tkbm_detail_id: item.kontrak_tkbm_detail_id
+                  ? item.kontrak_tkbm_detail_id
+                  : "",
+                jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+                item_id: item.item ? item.item : "",
+                item_gudang_id: item.item_gudang ? item.item_gudang : "",
+                satuan_id: item.satuan ? item.satuan : "",
+                gudang_id: item.gudang ? item.gudang : "",
+                divisi_id: item.divisi ? item.divisi : "",
+                jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+                mata_uang_id: item.mata_uang ? item.mata_uang : "",
+                pembayaran_id: item.pembayaran ? item.pembayaran : "",
+                term_pembayaran_id: item.term_pembayaran
+                  ? item.term_pembayaran
+                  : "",
+                group_item_id: item.group_item ? item.group_item : "",
+              };
+            }
+          );
+          loader.hide();
+          this.$store.dispatch("pagination/setPagination", res.data);
+          this.$refs["pagination"].active_page = this.parameters.params.page;
+        })
+        .catch((err) => {
+          this.$globalErrorToaster(this.$toaster, err.message);
+        })
+        .finally(() => {
+          this.isLoadingData = false;
+        });
     },
   },
 };

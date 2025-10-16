@@ -209,6 +209,7 @@ export default {
       parameters: {
         url: "finance/kontrak-bongkar-tujuan",
         form: {
+          kontrak_bongkar_tujuan_id: "",
           no_referensi: "",
           vendor_id: "",
           tanggal_kontrak: "",
@@ -261,28 +262,28 @@ export default {
         this.parameters.form.jenis_kontrak_id = res.data.jenis_kontrak ?? "";
         this.parameters.form.gudang_id = res.data.gudang ?? "";
 
-        this.parameters.form.kontrak_bongkar_tujuan_details =
-          res.data.kontrak_bongkar_tujuan_details.map((item) => {
-            return {
-              ...item,
-              kontrak_bongkar_tujuan_detail_id:
-                item.kontrak_bongkar_tujuan_detail_id
-                  ? item.kontrak_bongkar_tujuan_detail_id
-                  : "",
-              jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
-              divisi_id: item.divisi ? item.divisi : "",
-              jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
-              gudang_id: item.gudang ? item.gudang : "",
-              mata_uang_id: item.mata_uang ? item.mata_uang : "",
-              pembayaran_id: item.pembayaran ? item.pembayaran : "",
-              term_pembayaran_id: item.term_pembayaran
-                ? item.term_pembayaran
-                : "",
-              group_item_id: item.group_item ? item.group_item : "",
-              item_gudang_id: item.item_gudang ? item.item_gudang : "",
-              satuan_id: item.satuan ? item.satuan : "",
-            };
-          });
+        // this.parameters.form.kontrak_bongkar_tujuan_details =
+        //   res.data.kontrak_bongkar_tujuan_details.map((item) => {
+        //     return {
+        //       ...item,
+        //       kontrak_bongkar_tujuan_detail_id:
+        //         item.kontrak_bongkar_tujuan_detail_id
+        //           ? item.kontrak_bongkar_tujuan_detail_id
+        //           : "",
+        //       jenis_kontrak_id: item.jenis_kontrak ? item.jenis_kontrak : "",
+        //       divisi_id: item.divisi ? item.divisi : "",
+        //       jenis_biaya_id: item.jenis_biaya ? item.jenis_biaya : "",
+        //       gudang_id: item.gudang ? item.gudang : "",
+        //       mata_uang_id: item.mata_uang ? item.mata_uang : "",
+        //       pembayaran_id: item.pembayaran ? item.pembayaran : "",
+        //       term_pembayaran_id: item.term_pembayaran
+        //         ? item.term_pembayaran
+        //         : "",
+        //       group_item_id: item.group_item ? item.group_item : "",
+        //       item_gudang_id: item.item_gudang ? item.item_gudang : "",
+        //       satuan_id: item.satuan ? item.satuan : "",
+        //     };
+        //   });
 
         this.isLoadingPage = false;
       }
@@ -547,7 +548,13 @@ export default {
       let url = this.parameters.url;
 
       let formData = {
-        ...this.parameters.form,
+        // ...this.parameters.form,
+        no_referensi: this.parameters.form.no_referensi,
+        tanggal_kontrak: this.parameters.form.tanggal_kontrak,
+        tanggal_berlaku: this.parameters.form.tanggal_berlaku,
+        tanggal_berhenti: this.parameters.form.tanggal_berhenti,
+        keterangan: this.parameters.form.keterangan,
+        status_kontrak: this.parameters.form.status_kontrak,
         vendor_id:
           typeof this.parameters.form.vendor_id === "object"
             ? this.parameters.form.vendor_id.vendor_id ?? ""
@@ -566,60 +573,60 @@ export default {
             : this.parameters.form.gudang_id ?? "",
       };
 
-      formData.kontrak_bongkar_tujuan_details =
-        this.parameters.form.kontrak_bongkar_tujuan_details.map((item) => {
-          return {
-            ...item,
-            kontrak_bongkar_tujuan_detail_id:
-              typeof item.kontrak_bongkar_tujuan_detail_id === "object"
-                ? item.kontrak_bongkar_tujuan_detail_id
-                    .kontrak_bongkar_tujuan_detail_id
-                : "",
-            jenis_kontrak_id:
-              typeof item.jenis_kontrak_id === "object"
-                ? item.jenis_kontrak_id.jenis_kontrak_id ?? ""
-                : item.jenis_kontrak_id ?? "",
-            divisi_id:
-              typeof item.divisi_id === "object"
-                ? item.divisi_id.divisi_id ?? ""
-                : item.divisi_id ?? "",
-            jenis_biaya_id:
-              typeof item.jenis_biaya_id === "object"
-                ? item.jenis_biaya_id.jenis_biaya_id ?? ""
-                : item.jenis_biaya_id ?? "",
-            gudang_id:
-              typeof item.gudang_id === "object"
-                ? item.gudang_id.gudang_id ?? ""
-                : item.gudang_id ?? "",
-            mata_uang_id:
-              typeof item.mata_uang_id === "object"
-                ? item.mata_uang_id.mata_uang_id ?? ""
-                : item.mata_uang_id ?? "",
-            pembayaran_id:
-              typeof item.pembayaran_id === "object"
-                ? item.pembayaran_id.pembayaran_id ?? ""
-                : item.pembayaran_id ?? "",
-            term_pembayaran_id:
-              typeof item.term_pembayaran_id === "object"
-                ? item.term_pembayaran_id.term_pembayaran_id ?? ""
-                : item.term_pembayaran_id ?? "",
-            group_item_id:
-              typeof item.group_item_id === "object"
-                ? item.group_item_id.group_item_id ?? ""
-                : item.group_item_id ?? "",
-            item_gudang_id:
-              typeof item.item_gudang_id === "object"
-                ? item.item_gudang_id.item_gudang_id ?? ""
-                : item.item_gudang_id ?? "",
-            item_id: item.item_gudang_id.item_id
-              ? item.item_gudang_id.item_id ?? ""
-              : item.item_id ?? "",
-            satuan_id:
-              typeof item.satuan_id === "object"
-                ? item.satuan_id.satuan_id ?? ""
-                : item.satuan_id ?? "",
-          };
-        });
+      // formData.kontrak_bongkar_tujuan_details =
+      //   this.parameters.form.kontrak_bongkar_tujuan_details.map((item) => {
+      //     return {
+      //       ...item,
+      //       kontrak_bongkar_tujuan_detail_id:
+      //         typeof item.kontrak_bongkar_tujuan_detail_id === "object"
+      //           ? item.kontrak_bongkar_tujuan_detail_id
+      //               .kontrak_bongkar_tujuan_detail_id
+      //           : "",
+      //       jenis_kontrak_id:
+      //         typeof item.jenis_kontrak_id === "object"
+      //           ? item.jenis_kontrak_id.jenis_kontrak_id ?? ""
+      //           : item.jenis_kontrak_id ?? "",
+      //       divisi_id:
+      //         typeof item.divisi_id === "object"
+      //           ? item.divisi_id.divisi_id ?? ""
+      //           : item.divisi_id ?? "",
+      //       jenis_biaya_id:
+      //         typeof item.jenis_biaya_id === "object"
+      //           ? item.jenis_biaya_id.jenis_biaya_id ?? ""
+      //           : item.jenis_biaya_id ?? "",
+      //       gudang_id:
+      //         typeof item.gudang_id === "object"
+      //           ? item.gudang_id.gudang_id ?? ""
+      //           : item.gudang_id ?? "",
+      //       mata_uang_id:
+      //         typeof item.mata_uang_id === "object"
+      //           ? item.mata_uang_id.mata_uang_id ?? ""
+      //           : item.mata_uang_id ?? "",
+      //       pembayaran_id:
+      //         typeof item.pembayaran_id === "object"
+      //           ? item.pembayaran_id.pembayaran_id ?? ""
+      //           : item.pembayaran_id ?? "",
+      //       term_pembayaran_id:
+      //         typeof item.term_pembayaran_id === "object"
+      //           ? item.term_pembayaran_id.term_pembayaran_id ?? ""
+      //           : item.term_pembayaran_id ?? "",
+      //       group_item_id:
+      //         typeof item.group_item_id === "object"
+      //           ? item.group_item_id.group_item_id ?? ""
+      //           : item.group_item_id ?? "",
+      //       item_gudang_id:
+      //         typeof item.item_gudang_id === "object"
+      //           ? item.item_gudang_id.item_gudang_id ?? ""
+      //           : item.item_gudang_id ?? "",
+      //       item_id: item.item_gudang_id.item_id
+      //         ? item.item_gudang_id.item_id ?? ""
+      //         : item.item_id ?? "",
+      //       satuan_id:
+      //         typeof item.satuan_id === "object"
+      //           ? item.satuan_id.satuan_id ?? ""
+      //           : item.satuan_id ?? "",
+      //     };
+      //   });
 
       if (this.isEditable) {
         url += "/" + this.id;

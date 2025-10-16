@@ -107,6 +107,7 @@
             <th class="w-60 border border-gray-300">
               Nilai Kontrak <span class="text-danger">*</span>
             </th>
+            <th class="w-20 border border-gray-300">Edit</th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
@@ -444,9 +445,16 @@
             </td>
             <td class="border border-gray-300 text-center">
               <i
+                class="fas fa-pen mx-auto"
+                style="cursor: pointer"
+                @click="editRitase(item)"
+              ></i>
+            </td>
+            <td class="border border-gray-300 text-center">
+              <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
-                @click="deleteRitase(i)"
+                @click="deleteRitase(item)"
               ></i>
             </td>
           </tr>
@@ -472,14 +480,20 @@
     <div class="mx-3 mt-2 mb-4">
       <pagination-component :self="this" ref="pagination" />
     </div>
+    <KontrakLastmileRitaseModal :self="this" ref="modal-insentif-ritase" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import KontrakLastmileRitaseModal from "./KontrakLastmileRitaseModal.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    KontrakLastmileRitaseModal,
+  },
 
   data() {
     return {
@@ -597,25 +611,34 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailRitase() {
-      this.self.parameters.form.kontrak_lastmile_ritase_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        ritase_awal: "",
-        ritase_akhir: "",
-        nilai_kontrak: "",
-      });
+      // this.self.parameters.form.kontrak_lastmile_ritase_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   ritase_awal: "",
+      //   ritase_akhir: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs["modal-insentif-ritase"].parameters.form.kontrak_lastmile_id =
+        this.self.parameters.form.kontrak_lastmile_id;
+      this.$refs["modal-insentif-ritase"].show();
     },
 
-    deleteRitase(index) {
-      this.self.parameters.form.kontrak_lastmile_ritase_details =
-        this.self.parameters.form.kontrak_lastmile_ritase_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editRitase(item) {
+      this.$refs["modal-insentif-ritase"].parameters.form = { ...item };
+      this.$refs["modal-insentif-ritase"].show();
+    },
+
+    async deleteRitase(item) {
+      await this.$axios.delete(
+        "finance/kontrak-lastmile/delete-detail-kontrak-insentif-ritase/" +
+          item.kontrak_lastmile_ritase_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {

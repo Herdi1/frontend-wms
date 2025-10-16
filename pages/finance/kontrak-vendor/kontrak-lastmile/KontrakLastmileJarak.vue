@@ -109,6 +109,7 @@
             <th class="w-60 border border-gray-300">
               Nilai Kontrak <span class="text-danger">*</span>
             </th>
+            <th class="w-20 border border-gray-300">Edit</th>
             <th class="w-20 border border-gray-300">Hapus</th>
           </tr>
         </thead>
@@ -444,9 +445,16 @@
             </td>
             <td class="border border-gray-300 text-center">
               <i
+                class="fas fa-pen mx-auto"
+                style="cursor: pointer"
+                @click="editJarak(item)"
+              ></i>
+            </td>
+            <td class="border border-gray-300 text-center">
+              <i
                 class="fas fa-trash mx-auto"
                 style="cursor: pointer"
-                @click="deleteJarak(i)"
+                @click="deleteJarak(item)"
               ></i>
             </td>
           </tr>
@@ -472,18 +480,21 @@
     <div class="mx-3 mt-2 mb-4">
       <PaginationComponent :self="this" ref="pagination" />
     </div>
+    <KontrakLastmileJarakModal :self="this" ref="modal-insentif-jarak" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 import PaginationComponent from "../../../../components/section/PaginationComponent.vue";
+import KontrakLastmileJarakModal from "./KontrakLastmileJarakModal.vue";
 
 export default {
   props: ["self"],
 
   components: {
     PaginationComponent,
+    KontrakLastmileJarakModal,
   },
 
   data() {
@@ -602,27 +613,40 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailJarak() {
-      this.self.parameters.form.kontrak_lastmile_jarak_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        payable_to: "",
-        jenis_kendaraan_id: "",
-        km_awal: "",
-        km_akhir: "",
-        nilai_kontrak: "",
-      });
+      // this.self.parameters.form.kontrak_lastmile_jarak_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   payable_to: "",
+      //   jenis_kendaraan_id: "",
+      //   km_awal: "",
+      //   km_akhir: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs["modal-insentif-jarak"].parameters.form.kontrak_lastmile_id =
+        this.self.parameters.form.kontrak_lastmile_id;
+      this.$refs["modal-insentif-jarak"].show();
     },
 
-    deleteJarak(index) {
-      this.self.parameters.form.kontrak_lastmile_jarak_details =
-        this.self.parameters.form.kontrak_lastmile_jarak_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editJarak(item) {
+      this.$refs["modal-insentif-jarak"].parameters.form = { ...item };
+      this.$refs["modal-insentif-jarak"].show();
+    },
+
+    async deleteJarak(item) {
+      // this.self.parameters.form.kontrak_lastmile_jarak_details =
+      //   this.self.parameters.form.kontrak_lastmile_jarak_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
+      await this.$axios.delete(
+        "finance/kontrak-lastmile/delete-detail-kontrak-insentif-jarak/" +
+          item.kontrak_lastmile_jarak_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {

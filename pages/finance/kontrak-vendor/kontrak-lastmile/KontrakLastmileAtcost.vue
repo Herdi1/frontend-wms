@@ -105,6 +105,7 @@
               <th class="w-60 border border-gray-300">
                 Nilai Kontrak <span class="text-danger">*</span>
               </th>
+              <th class="w-20 border border-gray-300">Edit</th>
               <th class="w-20 border border-gray-300">Hapus</th>
             </tr>
           </thead>
@@ -521,9 +522,16 @@
               </td>
               <td class="border border-gray-300 text-center">
                 <i
+                  class="fas fa-pen mx-auto"
+                  style="cursor: pointer"
+                  @click="editAtcost(item)"
+                ></i>
+              </td>
+              <td class="border border-gray-300 text-center">
+                <i
                   class="fas fa-trash mx-auto"
                   style="cursor: pointer"
-                  @click="deleteAtcost(i)"
+                  @click="deleteAtcost(item)"
                 ></i>
               </td>
             </tr>
@@ -549,15 +557,21 @@
       <div class="mx-3 mt-2 mb-4">
         <pagination-component :self="this" ref="pagination" />
       </div>
+      <KontrakLastmileAtcostModal :self="this" ref="modal-atcost" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import KontrakLastmileAtcostModal from "./KontrakLastmileAtcostModal.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    KontrakLastmileAtcostModal,
+  },
 
   data() {
     return {
@@ -696,26 +710,39 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailAtcost() {
-      this.self.parameters.form.kontrak_lastmile_atcost_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        payable_to: "",
-        jenis_kendaraan_id: "",
-        lokasi_id: "",
-        nilai_kontrak: "",
-      });
+      // this.self.parameters.form.kontrak_lastmile_atcost_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   payable_to: "",
+      //   jenis_kendaraan_id: "",
+      //   lokasi_id: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs["modal-atcost"].parameters.form.kontrak_lastmile_id =
+        this.self.parameters.form.kontrak_lastmile_id;
+      this.$refs["modal-atcost"].show();
     },
 
-    deleteAtcost(index) {
-      this.self.parameters.form.kontrak_lastmile_atcost_details =
-        this.self.parameters.form.kontrak_lastmile_atcost_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editAtcost(item) {
+      this.$refs["modal-atcost"].parameters.form = { ...item };
+      this.$refs["modal-atcost"].show();
+    },
+
+    async deleteAtcost(item) {
+      // this.self.parameters.form.kontrak_lastmile_atcost_details =
+      //   this.self.parameters.form.kontrak_lastmile_atcost_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
+      await this.$axios.delete(
+        "finance/kontrak-lastmile/delete-detail-kontrak-atcost/" +
+          item.kontrak_lastmile_atcost_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {

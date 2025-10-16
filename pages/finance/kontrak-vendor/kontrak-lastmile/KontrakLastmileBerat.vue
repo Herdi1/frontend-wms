@@ -128,6 +128,7 @@
                 <th class="w-60 border border-gray-300">Satuan Dimensi</th>
                 <th class="w-60 border border-gray-300">Satuan Volume</th>
                 <th class="w-60 border border-gray-300">Maksimal Volume</th>
+                <th class="w-20 border border-gray-300">Edit</th>
                 <th class="w-20 border border-gray-300">Hapus</th>
               </tr>
             </thead>
@@ -684,9 +685,16 @@
                 </td>
                 <td class="border border-gray-300 text-center">
                   <i
+                    class="fas fa-pen mx-auto"
+                    style="cursor: pointer"
+                    @click="editBerat(item)"
+                  ></i>
+                </td>
+                <td class="border border-gray-300 text-center">
+                  <i
                     class="fas fa-trash mx-auto"
                     style="cursor: pointer"
-                    @click="deleteBerat(i)"
+                    @click="deleteBerat(item)"
                   ></i>
                 </td>
               </tr>
@@ -712,6 +720,7 @@
         <div class="mx-3 mt-2 mb-4">
           <pagination-component :self="this" ref="pagination" />
         </div>
+        <KontrakLastmileBeratModal :self="this" ref="modal-berat" />
       </div>
     </div>
   </div>
@@ -719,9 +728,14 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import KontrakLastmileBeratModal from "./KontrakLastmileBeratModal.vue";
 
 export default {
   props: ["self"],
+
+  component: {
+    KontrakLastmileBeratModal,
+  },
 
   data() {
     return {
@@ -865,40 +879,53 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailBerat() {
-      this.self.parameters.form.kontrak_lastmile_berat_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        payable_to: "",
-        jenis_kendaraan_id: "",
-        biaya_perkm_muat: "",
-        biaya_perkm_kosong: "",
-        standar_muat: "",
-        minimal_muat: "",
-        maksimal_muat: "",
-        kecepatan_muat: "",
-        kecepatan_kosong: "",
-        standar_waktu_muat: "",
-        standar_waktu_bongkar: "",
-        standar_waktu_istirahat_perkm: "",
-        maksimal_panjang: "",
-        maksimal_lebar: "",
-        maksimal_tinggi: "",
-        satuan_id_dimensi: "",
-        satuan_id_volume: "",
-        maksimal_volume: "",
-      });
+      // this.self.parameters.form.kontrak_lastmile_berat_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   payable_to: "",
+      //   jenis_kendaraan_id: "",
+      //   biaya_perkm_muat: "",
+      //   biaya_perkm_kosong: "",
+      //   standar_muat: "",
+      //   minimal_muat: "",
+      //   maksimal_muat: "",
+      //   kecepatan_muat: "",
+      //   kecepatan_kosong: "",
+      //   standar_waktu_muat: "",
+      //   standar_waktu_bongkar: "",
+      //   standar_waktu_istirahat_perkm: "",
+      //   maksimal_panjang: "",
+      //   maksimal_lebar: "",
+      //   maksimal_tinggi: "",
+      //   satuan_id_dimensi: "",
+      //   satuan_id_volume: "",
+      //   maksimal_volume: "",
+      // });
+      this.$refs["modal-berat"].parameters.form.kontrak_lastmile_id =
+        this.self.parameters.form.kontrak_lastmile_id;
+      this.$refs["modal-berat"].show();
     },
 
-    deleteBerat(index) {
-      this.self.parameters.form.kontrak_lastmile_berat_details =
-        this.self.parameters.form.kontrak_lastmile_berat_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editBerat(item) {
+      this.$refs["modal-berat"].parameters.form = { ...item };
+      this.$refs["modal-berat"].show();
+    },
+
+    async deleteBerat(item) {
+      // this.self.parameters.form.kontrak_lastmile_berat_details =
+      //   this.self.parameters.form.kontrak_lastmile_berat_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
+      await this.$axios.delete(
+        "finance/kontrak-lastmile/delete-detail-kontrak-insentif-berat/" +
+          item.kontrak_lastmile_berat_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {

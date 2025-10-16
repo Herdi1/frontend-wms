@@ -109,6 +109,7 @@
                 <th class="w-60 border border-gray-300">
                   Nilai Kontrak <span class="text-danger">*</span>
                 </th>
+                <th class="w-20 border border-gray-300">Edit</th>
                 <th class="w-20 border border-gray-300">Hapus</th>
               </tr>
             </thead>
@@ -468,9 +469,16 @@
                 </td>
                 <td class="border border-gray-300 text-center">
                   <i
+                    class="fas fa-pen mx-auto"
+                    style="cursor: pointer"
+                    @click="editBerat(item)"
+                  ></i>
+                </td>
+                <td class="border border-gray-300 text-center">
+                  <i
                     class="fas fa-trash mx-auto"
                     style="cursor: pointer"
-                    @click="deleteBerat(i)"
+                    @click="deleteBerat(item)"
                   ></i>
                 </td>
               </tr>
@@ -498,14 +506,23 @@
         </div>
       </div>
     </div>
+    <KontrakLastmileInsentifBeratModal
+      :self="this"
+      ref="modal-insentif-premi"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import KontrakLastmileInsentifBeratModal from "./KontrakLastmileInsentifBeratModal.vue";
 
 export default {
   props: ["self"],
+
+  components: {
+    KontrakLastmileInsentifBeratModal,
+  },
 
   data() {
     return {
@@ -633,42 +650,56 @@ export default {
     ...mapActions("moduleApi", ["lookUp"]),
 
     addDetailBerat() {
-      this.self.parameters.form.kontrak_lastmile_premi_details.push({
-        jenis_kontrak_id: "",
-        divisi_id: "",
-        jenis_biaya_id: "",
-        gudang_id: "",
-        mata_uang_id: "",
-        pembayaran_id: "",
-        term_pembayaran_id: "",
-        payable_to: "",
-        jenis_kendaraan_id: "",
-        biaya_perkm_muat: "",
-        biaya_perkm_kosong: "",
-        standar_muat: "",
-        minimal_muat: "",
-        maksimal_muat: "",
-        kecepatan_muat: "",
-        kecepatan_kosong: "",
-        standar_waktu_muat: "",
-        standar_waktu_bongkar: "",
-        standar_waktu_istirahat_perkm: "",
-        maksimal_panjang: "",
-        maksimal_lebar: "",
-        maksimal_tinggi: "",
-        satuan_id_dimensi: "",
-        group_item_id: "",
-        item_gudang_id: "",
-        berat: "",
-        nilai_kontrak: "",
-      });
+      // this.self.parameters.form.kontrak_lastmile_premi_details.push({
+      //   jenis_kontrak_id: "",
+      //   divisi_id: "",
+      //   jenis_biaya_id: "",
+      //   gudang_id: "",
+      //   mata_uang_id: "",
+      //   pembayaran_id: "",
+      //   term_pembayaran_id: "",
+      //   payable_to: "",
+      //   jenis_kendaraan_id: "",
+      //   biaya_perkm_muat: "",
+      //   biaya_perkm_kosong: "",
+      //   standar_muat: "",
+      //   minimal_muat: "",
+      //   maksimal_muat: "",
+      //   kecepatan_muat: "",
+      //   kecepatan_kosong: "",
+      //   standar_waktu_muat: "",
+      //   standar_waktu_bongkar: "",
+      //   standar_waktu_istirahat_perkm: "",
+      //   maksimal_panjang: "",
+      //   maksimal_lebar: "",
+      //   maksimal_tinggi: "",
+      //   satuan_id_dimensi: "",
+      //   group_item_id: "",
+      //   item_gudang_id: "",
+      //   berat: "",
+      //   nilai_kontrak: "",
+      // });
+      this.$refs["modal-insentif-premi"].parameters.form.kontrak_lastmile_id =
+        this.self.parameters.form.kontrak_lastmile_id;
+      this.$refs["modal-insentif-premi"].show();
+      // this.$refs["modal-insentif-premi"].show();
     },
 
-    deleteBerat(index) {
-      this.self.parameters.form.kontrak_lastmile_premi_details =
-        this.self.parameters.form.kontrak_lastmile_premi_details.filter(
-          (_, itemIndex) => index !== itemIndex
-        );
+    editBerat(item) {
+      this.$refs["modal-insentif-premi"].parameters.form = { ...item };
+      this.$refs["modal-insentif-premi"].show();
+    },
+
+    async deleteBerat(item) {
+      // this.self.parameters.form.kontrak_lastmile_premi_details =
+      //   this.self.parameters.form.kontrak_lastmile_premi_details.filter(
+      //     (_, itemIndex) => index !== itemIndex
+      //   );
+      await this.$axios.delete(
+        "finance/kontrak-lastmile/delete-detail-kontrak-premi/" +
+          item.kontrak_lastmile_premi_detail_id
+      );
+      await this.onLoad();
     },
 
     onGetJenisKontrak(search, isNext) {
@@ -1022,7 +1053,7 @@ export default {
       }
     },
 
-    onGetItemGudang(index, search, isNext) {
+    onGetItemGudang(gudang_id, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchItemGudang);
@@ -1038,11 +1069,11 @@ export default {
           this.lookup_grade.current_page = 1;
         }
 
-        this.onSearchItemGudang(index);
+        this.onSearchItemGudang(gudang_id);
       }, 600);
     },
 
-    async onSearchItemGudang(index) {
+    async onSearchItemGudang(gudang_id) {
       if (!this.isLoadingGetItemGudang) {
         this.isLoadingGetItemGudang = true;
 
@@ -1053,8 +1084,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id=" +
-            this.self.parameters.form.kontrak_lastmile_premi_details[index]
-              .gudang_id.gudang_id +
+            gudang_id +
             "&page=" +
             this.lookup_grade.current_page +
             "&per_page=10",
