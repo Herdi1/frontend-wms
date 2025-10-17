@@ -32,7 +32,7 @@
                   validate().then(() => onSubmitBongkarTujuan(invalid))
                 "
               >
-                <!-- <div class="grid grid-cols-2 w-[700px] gap-2 mt-10">
+                <div class="grid grid-cols-2 w-[700px] gap-2 mt-10">
                   <div class="form-group flex items-start mb-5 justify-between">
                     <label for="jenis_kontrak_id">Jenis Kontrak</label>
                     <v-select
@@ -148,7 +148,7 @@
                       @search="self.onGetGudang"
                       :filterable="false"
                       v-model="parameters.form.gudang_id"
-                      @input="(item) => self.onSearchItem(item.gudang_id)"
+                      @input="(item) => self.onSearchItemGudang(item.gudang_id)"
                       class="w-[60%] mb-2"
                     >
                       <li
@@ -181,7 +181,7 @@
                       class="w-[60%] rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_group_item"
                       :loading="self.isLoadingGetGroup"
-                      :options="self.lookup_custom8.data"
+                      :options="self.lookup_custom9.data"
                       :filterable="false"
                       @search="self.onGetGroup"
                       v-model="parameters.form.group_item_id"
@@ -190,18 +190,18 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_custom8.data.length || search"
+                        v-if="self.lookup_custom9.data.length || search"
                       >
                         <span
-                          v-if="self.lookup_custom8.current_page > 1"
+                          v-if="self.lookup_custom9.current_page > 1"
                           @click="self.onGetGroup(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
                         <span
                           v-if="
-                            self.lookup_custom8.last_page >
-                            self.lookup_custom8.current_page
+                            self.lookup_custom9.last_page >
+                            self.lookup_custom9.current_page
                           "
                           @click="self.onGetGroup(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -216,10 +216,12 @@
                       class="w-[60%] rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_item"
                       :loading="self.isLoadingGetItem"
-                      :options="self.lookup_custom10.data"
+                      :options="self.lookup_mesin.data"
                       :filterable="false"
                       @search="
-                        self.onGetItem(parameters.form.gudang_id?.gudang_id)
+                        self.onGetItemGudang(
+                          parameters.form.gudang_id?.gudang_id
+                        )
                       "
                       v-model="parameters.form.item_gudang_id"
                     >
@@ -227,12 +229,12 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_custom10.data.length || search"
+                        v-if="self.lookup_mesin.data.length || search"
                       >
                         <span
-                          v-if="self.lookup_custom10.current_page > 1"
+                          v-if="self.lookup_mesin.current_page > 1"
                           @click="
-                            self.onGetItem(
+                            self.onGetItemGudang(
                               parameters.form.gudang_id?.gudang_id,
                               search,
                               false
@@ -243,11 +245,11 @@
                         >
                         <span
                           v-if="
-                            self.lookup_custom10.last_page >
-                            self.lookup_custom10.current_page
+                            self.lookup_mesin.last_page >
+                            self.lookup_mesin.current_page
                           "
                           @click="
-                            self.onGetItem(
+                            self.onGetItemGudang(
                               parameters.form.gudang_id?.gudang_id,
                               search,
                               true
@@ -264,7 +266,7 @@
                     <v-select
                       label="nama_mata_uang"
                       :loading="self.isLoadingGetUang"
-                      :options="self.lookup_beam.data"
+                      :options="self.lookup_custom10.data"
                       @search="self.onGetUang"
                       :filterable="false"
                       v-model="parameters.form.mata_uang_id"
@@ -274,18 +276,18 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_beam.data.length || search"
+                        v-if="self.lookup_custom10.data.length || search"
                       >
                         <span
-                          v-if="self.lookup_beam.current_page > 1"
+                          v-if="self.lookup_custom10.current_page > 1"
                           @click="self.onGetUang(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
                         <span
                           v-if="
-                            self.lookup_beam.last_page >
-                            self.lookup_beam.current_page
+                            self.lookup_custom10.last_page >
+                            self.lookup_custom10.current_page
                           "
                           @click="self.onGetUang(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -299,7 +301,7 @@
                     <v-select
                       label="nama_pembayaran"
                       :loading="self.isLoadingGetPembayaran"
-                      :options="self.lookup_custom2.data"
+                      :options="self.lookup_custom7.data"
                       @search="self.onGetPembayaran"
                       :filterable="false"
                       v-model="parameters.form.pembayaran_id"
@@ -309,18 +311,18 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_custom2.data.length || search"
+                        v-if="self.lookup_custom7.data.length || search"
                       >
                         <span
-                          v-if="self.lookup_custom2.current_page > 1"
+                          v-if="self.lookup_custom7.current_page > 1"
                           @click="self.onGetPembayaran(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
                         <span
                           v-if="
-                            self.lookup_custom2.last_page >
-                            self.lookup_custom2.current_page
+                            self.lookup_custom7.last_page >
+                            self.lookup_custom7.current_page
                           "
                           @click="self.onGetPembayaran(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -334,7 +336,7 @@
                     <v-select
                       label="nama_term_pembayaran"
                       :loading="self.isLoadingGetTerm"
-                      :options="self.lookup_custom7.data"
+                      :options="self.lookup_custom8.data"
                       @search="self.onGetTerm"
                       :filterable="false"
                       v-model="parameters.form.term_pembayaran_id"
@@ -344,18 +346,18 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_custom7.data.length || search"
+                        v-if="self.lookup_custom8.data.length || search"
                       >
                         <span
-                          v-if="self.lookup_custom7.current_page > 1"
+                          v-if="self.lookup_custom8.current_page > 1"
                           @click="self.onGetTerm(search, false)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                           >Sebelumnya</span
                         >
                         <span
                           v-if="
-                            self.lookup_custom7.last_page >
-                            self.lookup_custom7.current_page
+                            self.lookup_custom8.last_page >
+                            self.lookup_custom8.current_page
                           "
                           @click="self.onGetTerm(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -395,7 +397,7 @@
                       class="w-[60%] rounded-sm bg-white text-gray-500 border-gray-300"
                       label="nama_satuan"
                       :loading="self.isLoadingGetSatuan"
-                      :options="self.lookup_custom9.data"
+                      :options="self.lookup_customers.data"
                       :filterable="false"
                       @search="self.onGetSatuan"
                       v-model="parameters.form.satuan_id"
@@ -404,7 +406,7 @@
                         slot-scope="{ search }"
                         slot="list-footer"
                         class="p-1 border-t flex justify-between"
-                        v-if="self.lookup_custom9.data.length || search"
+                        v-if="self.lookup_customers.data.length || search"
                       >
                         <span
                           v-if="self.lookup_custom9.current_page > 1"
@@ -414,8 +416,8 @@
                         >
                         <span
                           v-if="
-                            self.lookup_custom9.last_page >
-                            self.lookup_custom9.current_page
+                            self.lookup_customers.last_page >
+                            self.lookup_customers.current_page
                           "
                           @click="self.onGetSatuan(search, true)"
                           class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
@@ -433,7 +435,7 @@
                       isFlex="flex justify-between"
                     />
                   </div>
-                </div> -->
+                </div>
                 <modal-footer-section
                   class="mt-5"
                   :isLoadingForm="isLoadingFormBongkarTujuan"
@@ -555,10 +557,9 @@ export default {
       })
         .then((res) => {
           this.$toaster.success(
-            "Data berhasil di " +
-              this.parameters.form.kontrak_bongkar_tujuan_detail_id
-              ? "Edit"
-              : "Tambah"
+            this.parameters.form.kontrak_bongkar_tujuan_detail_id
+              ? "Data berhasil di Edit"
+              : "Data berhasil di Tambah"
           );
           this.self.onLoad();
           this.hide();
