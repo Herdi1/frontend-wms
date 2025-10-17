@@ -203,7 +203,7 @@
                   <th class="w-40 border border-gray-300">Jenis Transaksi</th>
                   <th class="w-40 border border-gray-300">Nama Peminta</th>
 
-                  <th class="w-40 border border-gray-300">Status Approve</th>
+                  <th class="w-40 border border-gray-300">Status Pick Order</th>
                   <th class="w-40 border border-gray-300">Lokasi</th>
                   <th class="w-40 border border-gray-300">Gudang</th>
                   <th
@@ -220,7 +220,10 @@
                     class="text-center border border-gray-300 place-items-center"
                     v-if="getRoles.update"
                   >
-                    <small-edit-button @click="onEdit(item)" />
+                    <small-edit-button
+                      @click="onEdit(item)"
+                      :disabled="item.status_approve === '1'"
+                    />
                   </td>
                   <td
                     class="text-center border border-gray-300 place-items-center"
@@ -300,6 +303,7 @@
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="item.status_approve === '1'"
                     />
                   </td>
                 </tr>

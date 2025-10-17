@@ -112,7 +112,7 @@
               </div>
               <div class="grid grid-cols-2 gap-2 mb-1">
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-1/2">Status Approve</div>
+                  <div class="mb-3 w-1/2">Status Delivery Order</div>
                   <select
                     name=""
                     id=""
@@ -302,7 +302,7 @@
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Approve</div>
+                      <div>Status Delivery Order</div>
                       <div>
                         <i
                           class="fas fa-caret-up"

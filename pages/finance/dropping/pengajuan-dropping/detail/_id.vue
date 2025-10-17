@@ -70,13 +70,14 @@
                 }}
               </div>
             </div>
-            <div class="flex w-full items-center">
-              <label class="w-[40%] font-bold">Keterangan</label>
-              <div
-                class="border border-gray-300 bg-gray-50 rounded-md p-1 w-[60%]"
-              >
-                {{ this.form.periode_akhir ? this.form.keterangan : "-" }}
-              </div>
+            <div class="flex w-full items-start">
+              <label class="w-2/5 pt-1">Keterangan</label>
+              <textarea
+                disabled
+                name="keterangan"
+                v-model="form.keterangan"
+                class="w-3/5 border border-gray-300 rounded-md bg-gray-50 outline-none p-1 active:outline-none"
+              ></textarea>
             </div>
           </div>
         </div>
@@ -124,10 +125,10 @@
                             : "-"
                         }}
                       </td>
-                      <td class="border border-gray-300">
+                      <td class="border border-gray-300 text-right">
                         {{ item.saldo_awal | formatPrice }}
                       </td>
-                      <td class="border border-gray-300">
+                      <td class="border border-gray-300 text-right">
                         {{ item.saldo_akhir | formatPrice }}
                       </td>
                       <td class="border border-gray-300">
@@ -163,15 +164,17 @@
               </thead>
               <tbody>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Informasi Saldo Kas Awal</td>
-                  <td></td>
-                  <td></td>
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Informasi Saldo Kas Awal
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
                 </tr>
                 <tr
                   v-for="(item, i) in form.pengajuan_dropping_details"
                   :key="i"
                 >
-                  <td>
+                  <td class="border border-gray-300">
                     <span class="pl-3">
                       {{
                         item.kode_coa
@@ -186,28 +189,37 @@
                       }}
                     </span>
                   </td>
-                  <td class="text-right">
-                    {{ item.saldo_awal | formatPrice }}
+                  <td class="text-right border border-gray-300">
+                    {{ parseFloat(item.saldo_awal ?? 0) | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300"></td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300 text-right">
+                    {{ parseFloat(form.total_saldo_awal ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Total</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.total_saldo_awal | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Plafon Dropping
                   </td>
-                </tr>
-                <tr class="bg-gray-50">
-                  <td class="font-bold">Plafon Dropping</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.plafon_dropping | formatPrice }}
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.plafon_dropping ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50 text-red-600">
-                  <td class="font-bold">Control</td>
-                  <td></td>
-                  <td class="text-right font-bold">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Control
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td
+                    class="text-right font-bold border-y border-r border-gray-300"
+                  >
                     {{
                       (parseFloat(form.total_saldo_awal) -
                         parseFloat(form.plafon_dropping))
@@ -219,46 +231,92 @@
                   <td></td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Informasi Biaya Operasional</td>
-                  <td></td>
-                  <td></td>
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Informasi Biaya Operasional
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
                 </tr>
                 <tr
-                  v-for="(item, i) in form.pengajuan_dropping_biaya_details"
+                  v-for="(
+                    item, i
+                  ) in form.pengajuan_dropping_biaya_details.filter(
+                    (item) => item.jenis_jurnal.trim() === 'UMUM'
+                  )"
                   :key="i"
                 >
-                  <td>
-                    <span class="pl-3">
-                      {{ item.coa.kode_coa ?? "" }} -
-                      {{ item.coa.nama_coa ?? "" }} ({{
-                        formatDate(item.tanggal)
-                      }})
+                  <td class="border border-gray-300">
+                    <span class="pl-3 flex gap-x-1">
+                      Biaya Operasional ({{ formatDate(item.tanggal) }})
                     </span>
                   </td>
-                  <td class="text-right">
-                    {{ item.nominal | formatPrice }}
+                  <td class="text-right border border-gray-300">
+                    {{ parseFloat(item.nominal ?? 0) | formatPrice }}
                   </td>
+                  <td class="border border-gray-300"></td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Total</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.total_biaya | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total Biaya Operasional
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.total_biaya ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr>
                   <td></td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Informasi Saldo Akhir</td>
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Informasi Biaya Bank
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
+                </tr>
+                <tr
+                  v-for="(
+                    item, i
+                  ) in form.pengajuan_dropping_biaya_details.filter(
+                    (item) => item.jenis_jurnal.trim() === 'BANK'
+                  )"
+                  :key="i"
+                >
+                  <td class="border border-gray-300">
+                    <span class="pl-3 flex gap-x-1">
+                      {{ item.coa?.nama_coa ?? "" }}
+                      ({{ formatDate(item.tanggal) }})
+                    </span>
+                  </td>
+                  <td class="text-right border border-gray-300">
+                    {{ parseFloat(item.nominal ?? 0) | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300"></td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total Biaya Bank
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.total_biaya_bank ?? 0) | formatPrice }}
+                  </td>
+                </tr>
+                <tr>
                   <td></td>
-                  <td></td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Informasi Saldo Akhir
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
                 </tr>
                 <tr
                   v-for="(item, i) in form.pengajuan_dropping_details"
                   :key="i"
                 >
-                  <td>
+                  <td class="border border-gray-300">
                     <span class="pl-3">
                       {{
                         item.kode_coa
@@ -273,50 +331,69 @@
                       }}
                     </span>
                   </td>
-                  <td class="text-right">
+                  <td class="text-right border border-gray-300">
                     {{ item.saldo_akhir | formatPrice }}
                   </td>
+                  <td class="border border-gray-300"></td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Total</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.total_saldo_akhir | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.total_saldo_akhir ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr>
                   <td></td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Pengajuan Dropping</td>
-                  <td></td>
-                  <td></td>
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Pengajuan Dropping
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
                 </tr>
                 <tr class="bg-gray-50 text-green-600">
-                  <td class="font-bold">Permintaan Dropping</td>
-                  <td></td>
-                  <td class="text-right font-bold">
-                    {{ form.permintaan_dropping | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Permintaan Dropping
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td
+                    class="text-right font-bold border-y border-r border-gray-300"
+                  >
+                    {{
+                      parseFloat(form.permintaan_dropping ?? 0) | formatPrice
+                    }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Total Saldo Akhir</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.total_saldo_akhir | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total Saldo Akhir
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.total_saldo_akhir ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50">
-                  <td class="font-bold">Plafon Dropping</td>
-                  <td></td>
-                  <td class="text-right">
-                    {{ form.plafon_dropping | formatPrice }}
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Plafon Dropping
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(form.plafon_dropping ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50 text-red-600">
-                  <td class="font-bold">Control</td>
-                  <td></td>
-                  <td class="text-right font-bold">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Control
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td
+                    class="text-right font-bold border-y border-r border-gray-300"
+                  >
                     {{
                       (parseFloat(form.permintaan_dropping) +
                         parseFloat(form.total_saldo_akhir) -

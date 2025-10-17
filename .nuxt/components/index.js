@@ -7,41 +7,25 @@ export { default as Sidebar } from '../..\\components\\Sidebar.vue'
 export { default as SuccessModal } from '../..\\components\\SuccessModal.vue'
 export { default as Tutorial } from '../..\\components\\Tutorial.vue'
 export { default as VuetifyLogo } from '../..\\components\\VuetifyLogo.vue'
-<<<<<<< HEAD
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
-=======
->>>>>>> 09d7e31071e14d3250c5934edd837b2e59b2fd21
 export { default as AnavbarMessages } from '../..\\components\\anavbar\\Messages.vue'
 export { default as AnavbarNotifications } from '../..\\components\\anavbar\\Notifications.vue'
 export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\SearchForm.vue'
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
-<<<<<<< HEAD
-export { default as FormsCloseButton } from '../..\\components\\forms\\CloseButton.vue'
-export { default as FormsInputForm } from '../..\\components\\forms\\InputForm.vue'
-export { default as FormsResetButton } from '../..\\components\\forms\\ResetButton.vue'
-export { default as FormsSaveButton } from '../..\\components\\forms\\SaveButton.vue'
-export { default as FormsTitleForm } from '../..\\components\\forms\\TitleForm.vue'
-=======
-export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
-export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
->>>>>>> 09d7e31071e14d3250c5934edd837b2e59b2fd21
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
 export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
-export { default as InputForm } from '../..\\components\\InputForm\\InputForm.vue'
-export { default as InputHoriontal } from '../..\\components\\InputForm\\InputHoriontal.vue'
-export { default as InputKoma } from '../..\\components\\InputForm\\InputKoma.vue'
-export { default as InputFormSelectComponent } from '../..\\components\\InputForm\\SelectComponent.vue'
-<<<<<<< HEAD
-=======
 export { default as FormsCloseButton } from '../..\\components\\forms\\CloseButton.vue'
 export { default as FormsInputForm } from '../..\\components\\forms\\InputForm.vue'
 export { default as FormsResetButton } from '../..\\components\\forms\\ResetButton.vue'
 export { default as FormsSaveButton } from '../..\\components\\forms\\SaveButton.vue'
 export { default as FormsTitleForm } from '../..\\components\\forms\\TitleForm.vue'
->>>>>>> 09d7e31071e14d3250c5934edd837b2e59b2fd21
+export { default as InputForm } from '../..\\components\\InputForm\\InputForm.vue'
+export { default as InputHoriontal } from '../..\\components\\InputForm\\InputHoriontal.vue'
+export { default as InputKoma } from '../..\\components\\InputForm\\InputKoma.vue'
+export { default as InputFormSelectComponent } from '../..\\components\\InputForm\\SelectComponent.vue'
 export { default as IconAirplay } from '../..\\components\\icon\\icon-airplay.vue'
 export { default as IconArchive } from '../..\\components\\icon\\icon-archive.vue'
 export { default as IconArrowBackward } from '../..\\components\\icon\\icon-arrow-backward.vue'
