@@ -112,7 +112,7 @@
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full my-2">
                 <div class="form-group w-full flex">
-                  <div class="mb-3 w-full">Status Approve</div>
+                  <div class="mb-3 w-full">Status Delivery Order</div>
                   <select
                     name=""
                     id=""
@@ -187,6 +187,9 @@
                         ></i>
                       </div>
                     </div>
+                  </th>
+                  <th class="w-52 border border-gray-300">
+                    Kode Delivery Order
                   </th>
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
@@ -302,7 +305,7 @@
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Approve</div>
+                      <div>Status Delivery Order</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -334,7 +337,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in data" :key="i">
+                <tr v-for="(item, i) in data" :key="i" class="align-top">
                   <td
                     class="place-items-center border border-gray-300"
                     v-if="getRoles.update"
@@ -372,6 +375,15 @@
                         <i>Dibuat oleh: Sistem</i>
                       </p>
                     </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <div
+                      v-for="(itm, ind) in item.pick_order_details"
+                      :key="ind"
+                    >
+                      {{ itm.kode_delivery_order }}
+                    </div>
+                    <!-- <p v-if="item.pick_order_details.length === 0">-</p> -->
                   </td>
                   <td class="border border-gray-300">
                     {{ formatDate(item.tanggal) }}

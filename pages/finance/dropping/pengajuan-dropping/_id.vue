@@ -235,8 +235,10 @@
                     </tr>
                     <tr v-for="(item, i) in form.dropping" :key="i">
                       <td class="border border-gray-300">
-                        Dropping ({{ formatDate(item.periode_awal) }} -
-                        {{ formatDate(item.periode_akhir) }})
+                        <p class="pl-3">
+                          Dropping ({{ formatDate(item.periode_awal) }} -
+                          {{ formatDate(item.periode_akhir) }})
+                        </p>
                       </td>
                       <td class="text-right border border-gray-300">
                         {{ parseFloat(item.permintaan_dropping) | formatPrice }}

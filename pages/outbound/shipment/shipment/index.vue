@@ -168,6 +168,7 @@
                       </div>
                     </div>
                   </th>
+                  <th class="w-52 border border-gray-300">Delivery Order</th>
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
@@ -317,7 +318,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in data" :key="i">
+                <tr v-for="(item, i) in data" :key="i" class="align-top">
                   <td
                     class="place-items-center border border-gray-300"
                     v-if="getRoles.update"
@@ -353,6 +354,11 @@
                       <p v-else class="text-blue-500">
                         <i>Dibuat oleh: Sistem</i>
                       </p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <div v-for="(itm, ind) in item.shipment_details" :key="ind">
+                      <p>{{ itm.kode_delivery_order }}</p>
                     </div>
                   </td>
                   <td class="border border-gray-300">

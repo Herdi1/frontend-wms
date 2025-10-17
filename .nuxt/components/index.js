@@ -7,12 +7,20 @@ export { default as Sidebar } from '../..\\components\\Sidebar.vue'
 export { default as SuccessModal } from '../..\\components\\SuccessModal.vue'
 export { default as Tutorial } from '../..\\components\\Tutorial.vue'
 export { default as VuetifyLogo } from '../..\\components\\VuetifyLogo.vue'
+<<<<<<< HEAD
+=======
+export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
+export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
 export { default as AnavbarMessages } from '../..\\components\\anavbar\\Messages.vue'
 export { default as AnavbarNotifications } from '../..\\components\\anavbar\\Notifications.vue'
 export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\SearchForm.vue'
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
+<<<<<<< HEAD
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+=======
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'

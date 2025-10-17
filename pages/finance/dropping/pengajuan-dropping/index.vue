@@ -263,7 +263,36 @@
                     {{ item.gudang ? item.gudang.nama_gudang : "-" }}
                   </td>
                   <td class="border border-gray-300">
-                    {{ item.status_pengajuan }}
+                    <div>
+                      <span v-if="item.status_pengajuan === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'SETUJU'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     {{ formatDate(item.periode_awal) }}
@@ -289,6 +318,10 @@
                     <small-delete-button
                       @click="onTrashed(item)"
                       v-if="!item.deleted_at"
+                      :disabled="
+                        item.status_pengajuan === 'SETUJU' ||
+                        item.status_pengajuan === 'BATAL'
+                      "
                     />
                   </td>
                 </tr>
