@@ -15,12 +15,28 @@ You can directly use them in pages and other components without the need to impo
 - `<SuccessModal>` | `<success-modal>` (components/SuccessModal.vue)
 - `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
 - `<VuetifyLogo>` | `<vuetify-logo>` (components/VuetifyLogo.vue)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
+>>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
 - `<AnavbarMessages>` | `<anavbar-messages>` (components/anavbar/Messages.vue)
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
+<<<<<<< HEAD
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+=======
+<<<<<<< HEAD
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+=======
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
+>>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)

@@ -672,7 +672,7 @@ export default {
         ...item,
         item_gudang_id: {
           ...item.item_gudang_id,
-          item_id: item.item_id.item_id,
+          item_id: item.item_id,
         },
       };
       this.$refs["modal-bongkar-tujuan"].show();
@@ -1117,7 +1117,7 @@ export default {
       }
     },
 
-    onGetItemGudang(search, isNext) {
+    onGetItemGudang(gudang_id, search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
       clearTimeout(this.isStopSearchItemGudang);
@@ -1133,11 +1133,11 @@ export default {
           this.lookup_mesin.current_page = 1;
         }
 
-        this.onSearchItemGudang();
+        this.onSearchItemGudang(gudang_id);
       }, 600);
     },
 
-    async onSearchItemGudang() {
+    async onSearchItemGudang(gudang_id) {
       if (!this.isLoadingGetItemGudang) {
         this.isLoadingGetItemGudang = true;
 
@@ -1148,8 +1148,7 @@ export default {
             "?search=" +
             this.item_gudang_search +
             "&gudang_id=" +
-            this.self.parameters.form.kontrak_bongkar_tujuan_details[index]
-              .gudang_id.gudang_id +
+            gudang_id +
             "&page=" +
             this.lookup_mesin.current_page +
             "&per_page=10",
