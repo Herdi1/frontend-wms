@@ -247,7 +247,7 @@
                     </tr>
                     <tr class="bg-gray-50">
                       <td class="font-bold border-y border-l border-gray-300">
-                        Total Dropping
+                        Total Dropping Sebelumnya
                       </td>
                       <td class="border-y border-gray-300"></td>
                       <td class="border-y border-r border-gray-300 text-right">
@@ -571,6 +571,7 @@ export default {
         keterangan: "",
         pengajuan_dropping_details: [],
         pengajuan_dropping_biaya_details: [],
+        dropping_khusus: [],
         dropping: [],
         pengajuan_dropping_id_sebelumnya: "",
 
@@ -977,6 +978,7 @@ export default {
             coa_id: item.coa ? item.coa.coa_id : item.coa_id,
             jenis_jurnal: item.jenis_jurnal,
             nominal: item.total_credit,
+            tipe: item.tipe,
           };
         });
 
@@ -985,6 +987,12 @@ export default {
       //     pegajuan_dropping_id: item.pengajuan_dropping_id ?? "",
       //   };
       // });
+      formData.pengajuan_dropping_umum_khusus_details =
+        this.form.dropping_khusus.map((item) => {
+          return {
+            ...item,
+          };
+        });
 
       if (this.isEditable) {
         url += "/" + this.id;

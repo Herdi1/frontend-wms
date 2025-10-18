@@ -194,13 +194,36 @@
                   </td>
                   <td class="border border-gray-300"></td>
                 </tr>
+                <tr v-for="(item, i) in form.dropping" :key="i">
+                  <td class="border border-gray-300">
+                    <p class="pl-3">
+                      Dropping ({{ formatDate(item.periode_awal) }} -
+                      {{ formatDate(item.periode_akhir) }})
+                    </p>
+                  </td>
+                  <td class="border border-gray-300"></td>
+                  <td class="border border-gray-300">
+                    {{
+                      parseFloat(item.permintaan_dropping ?? 0) | formatPrice
+                    }}
+                  </td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total Dropping Sebelumnya
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300 text-right">
+                    {{ totalDropping | formatPrice }}
+                  </td>
+                </tr>
                 <tr class="bg-gray-50">
                   <td class="font-bold border-y border-l border-gray-300">
                     Total
                   </td>
                   <td class="border-y border-gray-300"></td>
                   <td class="border-y border-r border-gray-300 text-right">
-                    {{ parseFloat(form.total_saldo_awal ?? 0) | formatPrice }}
+                    {{ totalSaldoAwal | formatPrice }}
                   </td>
                 </tr>
                 <tr class="bg-gray-50">
@@ -261,7 +284,7 @@
                   </td>
                   <td class="border-y border-gray-300"></td>
                   <td class="text-right border-y border-r border-gray-300">
-                    {{ parseFloat(form.total_biaya ?? 0) | formatPrice }}
+                    {{ parseFloat(totalBiayaOperasional ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr>
@@ -299,7 +322,7 @@
                   </td>
                   <td class="border-y border-gray-300"></td>
                   <td class="text-right border-y border-r border-gray-300">
-                    {{ parseFloat(form.total_biaya_bank ?? 0) | formatPrice }}
+                    {{ parseFloat(totalBiayaBank ?? 0) | formatPrice }}
                   </td>
                 </tr>
                 <tr>
@@ -440,6 +463,7 @@ export default {
         keterangan: "",
         pengajuan_dropping_details: [],
         pengajuan_dropping_biaya_details: [],
+        dropping: [],
 
         plafon_dropping: "",
         total_biaya: "",
@@ -473,10 +497,71 @@ export default {
             coa: item.coa ? item.coa : "",
           };
         });
+      this.form.dropping = res.data.pengajuan_dropping_sebelumnya;
       this.isLoadingPage = false;
     } catch (error) {
       this.$router.back();
     }
+  },
+
+  computed: {
+    totalBiayaOperasional() {
+      if (
+        !this.form.pengajuan_dropping_biaya_details ||
+        this.form.pengajuan_dropping_biaya_details.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.pengajuan_dropping_biaya_details
+        .filter((item) => item.jenis_jurnal.trim() === "UMUM")
+        .reduce((total, item) => {
+          return total + parseFloat(item.nominal) || 0;
+        }, 0);
+    },
+
+    totalBiayaBank() {
+      if (
+        !this.form.pengajuan_dropping_biaya_details ||
+        this.form.pengajuan_dropping_biaya_details.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.pengajuan_dropping_biaya_details
+        .filter((item) => item.jenis_jurnal.trim() === "BANK")
+        .reduce((total, item) => {
+          return total + parseFloat(item.nominal) || 0;
+        }, 0);
+    },
+
+    totalDropping() {
+      if (!this.form.dropping || this.form.dropping.length === 0) {
+        return 0;
+      }
+
+      return this.form.dropping.reduce((total, item) => {
+        return total + parseFloat(item.permintaan_dropping) || 0;
+      }, 0);
+    },
+
+    totalSaldoAwal() {
+      if (
+        !this.form.pengajuan_dropping_details ||
+        this.form.pengajuan_dropping_details.length === 0
+      ) {
+        return 0;
+      }
+
+      let saldoAwal = this.form.pengajuan_dropping_details.reduce(
+        (total, item) => {
+          return total + parseFloat(item.saldo_awal) || 0;
+        },
+        0
+      );
+      let dropping = this.totalDropping;
+      return saldoAwal + dropping;
+    },
   },
 
   methods: {
