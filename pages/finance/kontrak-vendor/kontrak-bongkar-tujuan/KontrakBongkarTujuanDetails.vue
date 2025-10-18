@@ -125,7 +125,7 @@
               class="align-top"
             >
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_jenis_kontrak"
                   :loading="isLoadingGetJenisKontrak"
                   :options="lookup_custom3.data"
@@ -155,10 +155,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.jenis_kontrak_id?.nama_jenis_kontrak }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_divisi"
                   :loading="isLoadingGetDivisi"
                   :options="lookup_custom4.data"
@@ -188,10 +189,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.divisi_id?.nama_divisi }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_jenis_biaya"
                   :loading="isLoadingGetJenisBiaya"
                   :options="lookup_custom5.data"
@@ -221,10 +223,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.jenis_biaya_id?.nama_jenis_biaya }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   disabled
                   label="nama_gudang"
                   :loading="isLoadingGetGudang"
@@ -255,10 +258,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.gudang_id?.nama_gudang }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_mata_uang"
                   :loading="isLoadingGetUang"
                   :options="lookup_custom10.data"
@@ -288,10 +292,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.mata_uang_id?.nama_mata_uang }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_pembayaran"
                   :loading="isLoadingGetPembayaran"
                   :options="lookup_custom7.data"
@@ -321,10 +326,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.pembayaran_id?.nama_pembayaran }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_term_pembayaran"
                   :loading="isLoadingGetTerm"
                   :options="lookup_custom8.data"
@@ -354,10 +360,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.term_pembayaran_id?.nama_term_pembayaran }}</p>
               </td>
               <td class="border border-gray-300">
-                <select
+                <!-- <select
                   v-model="item.payable_to"
                   name=""
                   id=""
@@ -367,10 +374,11 @@
                   <option value="DRIVER">Driver</option>
                   <option value="VENDOR">Vendor</option>
                   <option value="PIC">PIC</option>
-                </select>
+                </select> -->
+                <p>{{ item.payable_to }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_group_item"
                   :loading="isLoadingGetGroupItem"
                   :options="lookup_custom9.data"
@@ -400,10 +408,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.group_item_id?.nama_group_item }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_item"
                   :loading="isLoadingGetItemGudang"
                   :options="lookup_mesin.data"
@@ -431,10 +440,11 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.item_gudang_id?.nama_item }}</p>
               </td>
               <td class="border border-gray-300">
-                <v-select
+                <!-- <v-select
                   label="nama_satuan"
                   :loading="isLoadingGetSatuan"
                   :options="lookup_customers.data"
@@ -465,26 +475,29 @@
                       >Selanjutnya</span
                     >
                   </li>
-                </v-select>
+                </v-select> -->
+                <p>{{ item.satuan_id?.nama_satuan }}</p>
               </td>
               <td class="border border-gray-300">
-                <select
+                <!-- <select
                   class="border border-gray-300 rounded md p-1 outline-none w-full text-gray-500"
                   v-model="item.dasar_perhitungan"
                 >
                   <option value="QTY">Qty</option>
                   <option value="BERAT">Berat</option>
                   <option value="VOLUME">Volume</option>
-                </select>
+                </select> -->
+                <p>{{ item.dasar_perhitungan }}</p>
               </td>
-              <td class="border border-gray-300">
-                <money
+              <td class="border border-gray-300 text-right">
+                <!-- <money
                   v-model="item.nilai_kontrak"
                   class="w-full mb-2 pl-2 py-1 border border-gray-300 rounded focus:outline-none"
                   @keydown.native="
                     $event.key === '-' ? $event.preventDefault() : null
                   "
-                />
+                /> -->
+                <p>{{ item.nilai_kontrak }}</p>
               </td>
               <td class="border border-gray-300 text-center">
                 <i
