@@ -26,6 +26,60 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  },
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
+>>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
+  "AnavbarMessages": {
+    "description": "Auto imported from components/anavbar/Messages.vue"
+  },
+  "AnavbarNotifications": {
+    "description": "Auto imported from components/anavbar/Notifications.vue"
+  },
+  "AnavbarSearchForm": {
+    "description": "Auto imported from components/anavbar/SearchForm.vue"
+  },
+  "AnavbarUserOptions": {
+    "description": "Auto imported from components/anavbar/UserOptions.vue"
+  },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
+  "AsideSidebarBrand": {
+    "description": "Auto imported from components/aside/SidebarBrand.vue"
+  },
+  "AsideSidebarMenu": {
+    "description": "Auto imported from components/aside/SidebarMenu.vue"
+  },
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> d0e1910b899027a29efc137953f47c375348a86b
+>>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  },
+>>>>>>> d3c8a518d37097247ad8de6375956440692ceb7b
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
