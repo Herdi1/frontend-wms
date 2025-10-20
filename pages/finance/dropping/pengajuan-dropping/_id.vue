@@ -991,6 +991,7 @@ export default {
         this.form.dropping_khusus.map((item) => {
           return {
             ...item,
+            nominal: item.permintaan_dropping,
           };
         });
 

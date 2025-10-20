@@ -26,18 +26,6 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
->>>>>>> d0e1910b899027a29efc137953f47c375348a86b
->>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"
   },
@@ -50,21 +38,12 @@
   "AnavbarUserOptions": {
     "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
   "AsideSidebarBrand": {
     "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
-<<<<<<< HEAD
-=======
-=======
->>>>>>> d0e1910b899027a29efc137953f47c375348a86b
->>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -559,6 +538,9 @@
   },
   "SectionTableHeaderSection": {
     "description": "Auto imported from components/section/TableHeaderSection.vue"
+  },
+  "TransaksionalModalDroppingKhusus": {
+    "description": "Auto imported from components/transaksional/ModalDroppingKhusus.vue"
   },
   "TransaksionalModalImportFile": {
     "description": "Auto imported from components/transaksional/ModalImportFile.vue"

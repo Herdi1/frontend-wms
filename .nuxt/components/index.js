@@ -7,28 +7,12 @@ export { default as Sidebar } from '../..\\components\\Sidebar.vue'
 export { default as SuccessModal } from '../..\\components\\SuccessModal.vue'
 export { default as Tutorial } from '../..\\components\\Tutorial.vue'
 export { default as VuetifyLogo } from '../..\\components\\VuetifyLogo.vue'
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
-export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
->>>>>>> d0e1910b899027a29efc137953f47c375348a86b
->>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
 export { default as AnavbarMessages } from '../..\\components\\anavbar\\Messages.vue'
 export { default as AnavbarNotifications } from '../..\\components\\anavbar\\Notifications.vue'
 export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\SearchForm.vue'
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
-<<<<<<< HEAD
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
-=======
-<<<<<<< HEAD
-export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
-export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
-=======
->>>>>>> d0e1910b899027a29efc137953f47c375348a86b
->>>>>>> 1320fa09b36b89004dd61f94d74bc7407c349396
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
@@ -194,6 +178,7 @@ export { default as SectionReportSection } from '../..\\components\\section\\Rep
 export { default as SectionTableDataLoadingSection } from '../..\\components\\section\\TableDataLoadingSection.vue'
 export { default as SectionTableDataNotFoundSection } from '../..\\components\\section\\TableDataNotFoundSection.vue'
 export { default as SectionTableHeaderSection } from '../..\\components\\section\\TableHeaderSection.vue'
+export { default as TransaksionalModalDroppingKhusus } from '../..\\components\\transaksional\\ModalDroppingKhusus.vue'
 export { default as TransaksionalModalImportFile } from '../..\\components\\transaksional\\ModalImportFile.vue'
 export { default as TransaksionalModalKartuStok } from '../..\\components\\transaksional\\ModalKartuStok.vue'
 export { default as TransaksionalModalPickOrder } from '../..\\components\\transaksional\\ModalPickOrder.vue'
