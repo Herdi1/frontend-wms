@@ -547,10 +547,13 @@ export default {
         wilayahId = this.parameters.form.wilayah_id.wilayah_id;
       }
 
-      // if (this.parameters.params.type === "biaya_per_truk") {
-      //   jumlahHari = "";
-      //   groupType = "";
-      // }
+      if (
+        this.parameters.params.type === "biaya_per_truk" ||
+        this.parameters.params.type === "aktifitas"
+      ) {
+        jumlahHari = 1;
+        groupType = "percabang";
+      }
 
       this.preview_doc = "";
       this.isPreviewDoc = false;
@@ -661,6 +664,14 @@ export default {
       ) {
         gudandId = this.parameters.form.gudang_id.gudang_id;
         wilayahId = this.parameters.form.wilayah_id.wilayah_id;
+      }
+
+      if (
+        this.parameters.params.type === "biaya_per_truk" ||
+        this.parameters.params.type === "aktifitas"
+      ) {
+        jumlahHari = 1;
+        groupType = "percabang";
       }
 
       try {

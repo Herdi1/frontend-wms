@@ -94,10 +94,57 @@
               ref="formContainer"
             >
               <thead>
-                <tr class="text-base uppercase text-nowrap"></tr>
+                <tr class="text-base uppercase text-nowrap">
+                  <th class="w-20 border border-gray-300">No</th>
+                  <th class="w-48 border border-gray-300">Kode Rekonsiliasi</th>
+                  <th class="w-48 border border-gray-300">Gudang</th>
+                  <th class="w-48 border border-gray-300">Tanggal</th>
+                  <th class="w-48 border border-gray-300">Total Sistem</th>
+                  <th class="w-48 border border-gray-300">
+                    Total Rekonsiliasi
+                  </th>
+                  <th class="w-48 border border-gray-300">Keterangan</th>
+                </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, i) in data" :key="i"></tr>
+                <tr v-for="(item, i) in data" :key="i">
+                  <td class="border border-gray-300 text-center">
+                    {{
+                      (parameters.params.page - 1) *
+                        parameters.params.per_page +
+                      i +
+                      1
+                    }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <div>
+                        {{ item.kode_rekonsiliasi }}
+                      </div>
+                      <span class="text-blue-500"
+                        ><i
+                          >Dibuat oleh:
+                          {{ item.user_input?.nama_lengkap ?? "Sistem" }}</i
+                        ></span
+                      >
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gudang?.nama_gudang }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ formatDate(item.tanggal) }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ parseFloat(item.total_sistem ?? 0) | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ parseFloat(item.total_rekonsiliasi ?? 0) | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.keterangan ?? "" }}
+                  </td>
+                </tr>
               </tbody>
               <table-data-loading-section :self="this" />
 
