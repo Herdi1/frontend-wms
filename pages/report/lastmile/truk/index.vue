@@ -53,6 +53,7 @@
                 id=""
                 v-model="parameters.params.type"
                 class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                @change="resetDate()"
               >
                 <option value="aktifitas">Aktifitas</option>
                 <option value="utilitas">Utilitas</option>
@@ -145,7 +146,10 @@
                 </li>
               </v-select>
             </div>
-            <div class="form-group w-full">
+            <div
+              class="form-group w-full"
+              v-if="parameters.params.type !== 'biaya_per_truk'"
+            >
               <input-horizontal
                 label="Periode Awal"
                 type="date"
@@ -156,10 +160,41 @@
                 :max="parameters.params.end_date"
               />
             </div>
-            <div class="form-group w-full">
+            <div
+              class="form-group w-full"
+              v-if="parameters.params.type === 'biaya_per_truk'"
+            >
+              <input-horizontal
+                label="Periode Awal"
+                type="month"
+                name="periode_awal"
+                :isHorizontal="true"
+                v-model="parameters.params.start_date"
+                :required="true"
+                :max="parameters.params.end_date"
+              />
+            </div>
+            <div
+              class="form-group w-full"
+              v-if="parameters.params.type !== 'biaya_per_truk'"
+            >
               <input-horizontal
                 label="Periode Akhir"
                 type="date"
+                name="periode_akhir"
+                :isHorizontal="true"
+                v-model="parameters.params.end_date"
+                :required="true"
+                :min="parameters.params.start_date"
+              />
+            </div>
+            <div
+              class="form-group w-full"
+              v-if="parameters.params.type === 'biaya_per_truk'"
+            >
+              <input-horizontal
+                label="Periode Akhir"
+                type="month"
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
@@ -340,6 +375,11 @@ export default {
       return `${year}`;
     },
 
+    resetDate() {
+      this.parameters.params.start_date = "";
+      this.parameters.params.end_date = "";
+    },
+
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -439,12 +479,12 @@ export default {
       }
 
       if (
-        this.parameters.params.type === "utilitas" &&
+        this.parameters.params.type === "utilitas" ||
         this.parameters.params.type === "biaya_per_truk"
       ) {
         if (
-          !this.parameters.params.gudang_id ||
-          !this.parameters.params.wilayah_id
+          !this.parameters.form.gudang_id ||
+          !this.parameters.form.wilayah_id
         ) {
           this.$toaster.error("Mohon Pilih Gudang dan Wilayah Terlebih Dahulu");
           return;
@@ -507,6 +547,11 @@ export default {
         wilayahId = this.parameters.form.wilayah_id.wilayah_id;
       }
 
+      // if (this.parameters.params.type === "biaya_per_truk") {
+      //   jumlahHari = "";
+      //   groupType = "";
+      // }
+
       this.preview_doc = "";
       this.isPreviewDoc = false;
 
@@ -534,7 +579,10 @@ export default {
       // window.open(process.env.API_URL + url + "&token=" + token, "_blank");
       this.preview_doc =
         process.env.API_URL + url + "&token=" + token + "#toolbar=0&navpanes=0";
+      // console.log(process.env.API_URL + url + "&token=" + token);
       this.isPreviewDoc = true;
+      // this.parameters.params.start_date = "";
+      // this.parameters.params.end_date = "";
     },
 
     async onExport() {
@@ -550,12 +598,12 @@ export default {
       }
 
       if (
-        this.parameters.params.type === "utilitas" &&
+        this.parameters.params.type === "utilitas" ||
         this.parameters.params.type === "biaya_per_truk"
       ) {
         if (
-          !this.parameters.params.gudang_id ||
-          !this.parameters.params.wilayah_id
+          !this.parameters.form.gudang_id ||
+          !this.parameters.form.wilayah_id
         ) {
           this.$toaster.error("Mohon Pilih Gudang dan Wilayah Terlebih Dahulu");
           return;

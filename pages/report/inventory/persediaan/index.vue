@@ -82,43 +82,6 @@
               </v-select>
             </div> -->
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="region"
-                >Region <span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_wilayah"
-                :loading="isLoadingGetWilayah"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onGetWilayah"
-                v-model="parameters.form.wilayah_id"
-                @input="onSetWilayah"
-                class="w-[50%] bg-white"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetWilayah(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetWilayah(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-            <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="group_item_id_1"
                 >Gudang <span class="text-danger">*</span></label
               >
@@ -155,11 +118,48 @@
                 </li>
               </v-select>
             </div>
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="region"
+                >Region <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_wilayah"
+                :loading="isLoadingGetWilayah"
+                :options="lookup_custom2.data"
+                :filterable="false"
+                @search="onGetWilayah"
+                v-model="parameters.form.wilayah_id"
+                @input="onSetWilayah"
+                class="w-[50%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom2.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom2.current_page > 1"
+                    @click="onGetWilayah(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom2.last_page > lookup_custom2.current_page
+                    "
+                    @click="onGetWilayah(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
 
             <div class="form-group w-full">
               <input-horizontal
                 label="Periode Awal"
-                type="date"
+                type="month"
                 name="periode_awal"
                 :isHorizontal="true"
                 v-model="parameters.params.start_date"
@@ -170,7 +170,7 @@
             <div class="form-group w-full">
               <input-horizontal
                 label="Periode Akhir"
-                type="date"
+                type="month"
                 name="periode_akhir"
                 :isHorizontal="true"
                 v-model="parameters.params.end_date"
@@ -241,6 +241,7 @@ export default {
     return {
       title: "Laporan Persediaan",
       isLoadingData: false,
+      isPreviewDoc: false,
 
       parameters: {
         url: "report/persediaan/export",
@@ -313,11 +314,11 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
-    formatDate(dateString) {
-      if (!dateString) return "";
-      const [year, month, day] = dateString.split("-");
-      return `${year}-${month}`;
-    },
+    // formatDate(dateString) {
+    //   if (!dateString) return "";
+    //   const [year, month, day] = dateString.split("-");
+    //   return `${year}-${month}`;
+    // },
 
     onGetGudang(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
@@ -463,12 +464,12 @@ export default {
     onPreview() {
       if (
         !this.parameters.form.gudang_id ||
-        // !this.parameters.form.provinsi_id ||
+        !this.parameters.form.wilayah_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Wilayah, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -478,12 +479,12 @@ export default {
         return;
       }
 
-      this.parameters.params.start_date = this.formatDate(
-        this.parameters.params.start_date
-      );
-      this.parameters.params.end_date = this.formatDate(
-        this.parameters.params.end_date
-      );
+      // this.parameters.params.start_date = this.formatDate(
+      //   this.parameters.params.start_date
+      // );
+      // this.parameters.params.end_date = this.formatDate(
+      //   this.parameters.params.end_date
+      // );
 
       this.preview_doc = "";
       this.isPreviewDoc = false;
@@ -514,22 +515,22 @@ export default {
     async onExport() {
       if (
         !this.parameters.form.gudang_id ||
-        // !this.parameters.form.provinsi_id ||
+        !this.parameters.form.wilayah_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Wilayah, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
 
-      this.parameters.params.start_date = this.formatDate(
-        this.parameters.params.start_date
-      );
-      this.parameters.params.end_date = this.formatDate(
-        this.parameters.params.end_date
-      );
+      // this.parameters.params.start_date = this.formatDate(
+      //   this.parameters.params.start_date
+      // );
+      // this.parameters.params.end_date = this.formatDate(
+      //   this.parameters.params.end_date
+      // );
 
       let token = this.$cookiz.get("auth._token.local").replace("Bearer ", "");
 

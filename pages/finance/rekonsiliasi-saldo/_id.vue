@@ -36,7 +36,7 @@
                     />
                   </div>
                   <div class="form-group flex">
-                    <label for="" class="w-1/4">Gudang</label>
+                    <label for="" class="w-2/5">Gudang</label>
                     <v-select
                       label="nama_gudang"
                       :loading="isLoadingGetGudang"
@@ -45,7 +45,7 @@
                       @search="onGetGudang"
                       v-model="form.gudang_id"
                       @input="onSelectGudang"
-                      class="w-3/4"
+                      class="w-3/5"
                     >
                       <template slot="selected-option" slot-scope="option">
                         <div
@@ -90,11 +90,11 @@
                     />
                   </div>
                   <div class="flex justify-between">
-                    <label for="" class="w-1/4">Keterangan</label>
+                    <label for="" class="w-2/5">Keterangan</label>
                     <textarea
                       name="keterangan"
                       v-model="form.keterangan"
-                      class="w-3/4 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                      class="w-3/5 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                     ></textarea>
                   </div>
                 </div>
@@ -126,7 +126,7 @@
                   >
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
-                        <th class="w-80 border border-gray-300">Coa</th>
+                        <th class="w-60 border border-gray-300">Coa</th>
                         <th class="w-52 border border-gray-300">
                           Saldo Sistem
                         </th>
@@ -134,7 +134,9 @@
                           Saldo Rekonsiliasi
                         </th>
                         <th class="w-52 border border-gray-300">Keterangan</th>
-                        <th class="w-52 border border-gray-300">Rincian</th>
+                        <!-- <th class="w-52 border border-gray-300">Rincian</th>
+                        <th class="w-52 border border-gray-300">Jumlah</th>
+                        <th class="w-52 border border-gray-300">Total</th> -->
                         <th class="w-20 border border-gray-300">Hapus</th>
                       </tr>
                     </thead>
@@ -152,7 +154,7 @@
                             :filterable="false"
                             @search="onGetCoa"
                             v-model="item.coa_id"
-                            @input="(item) => onSelectCoa(item)"
+                            @input="(item) => onSelectCoa(item, i)"
                           >
                             <template slot="option" slot-scope="option">
                               {{ option.nama_coa + " - " + option.kode_coa }}
@@ -162,7 +164,7 @@
                               slot-scope="option"
                             >
                               <div
-                                class="w-[200px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
                               >
                                 {{ option.nama_coa + " - " + option.kode_coa }}
                               </div>
@@ -195,16 +197,10 @@
                             {{ item.coa_id?.nama_coa ?? "" }}
                           </p>
                         </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.saldo_sistem"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
+                        <td class="border border-gray-300 text-right">
+                          {{
+                            parseFloat(item?.saldo_sistem ?? 0) | formatPrice
+                          }}
                         </td>
                         <td class="border border-gray-300">
                           <money
@@ -224,13 +220,70 @@
                             class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                           ></textarea>
                         </td>
-                        <td class="border border-gray-300">
-                          <textarea
-                            name="rincian"
-                            v-model="item.rincian"
-                            class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                          ></textarea>
-                        </td>
+                        <!-- <td class="border border-gray-300">
+                          <v-select
+                            label="nominal"
+                            :loading="isLoadingGetPecahan"
+                            :options="lookup_custom3.data"
+                            :filterable="false"
+                            @search="onGetPecahan"
+                            v-model="item.pecahan_id"
+                            @input="(item) => onSelectPecahan(item, i)"
+                          >
+                            <template slot="option" slot-scope="option">
+                              {{
+                                parseFloat(option?.nominal ?? 0) | formatPrice
+                              }}
+                            </template>
+                            <template
+                              slot="selected-option"
+                              slot-scope="option"
+                            >
+                              <div
+                                class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                              >
+                                {{
+                                  parseFloat(option?.nominal ?? 0) | formatPrice
+                                }}
+                              </div>
+                            </template>
+                            <li
+                              slot-scope="{ search }"
+                              slot="list-footer"
+                              class="p-1 border-t flex justify-between"
+                              v-if="lookup_custom3.data.length || search"
+                            >
+                              <span
+                                v-if="lookup_custom3.current_page > 1"
+                                @click="onGetPecahan(search, false)"
+                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >Sebelumnya</span
+                              >
+                              <span
+                                v-if="
+                                  lookup_custom3.last_page >
+                                  lookup_custom3.current_page
+                                "
+                                @click="onGetPecahan(search, true)"
+                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >Selanjutnya</span
+                              >
+                            </li>
+                          </v-select>
+                        </td> -->
+                        <!-- <td class="border border-gray-300">
+                          <input-form
+                            label=""
+                            type="number"
+                            name="jumlah"
+                            :required="false"
+                            v-model="item.jumlah"
+                            :min="0"
+                          />
+                        </td> -->
+                        <!-- <td>
+                          {{ totalNominal(i) }}
+                        </td> -->
                         <td
                           class="text-center text-gray-600 border border-gray-300"
                         >
@@ -255,6 +308,9 @@
                     </tbody>
                   </table>
                 </div>
+                <!-- <div v-for="(item, i) in lookup_custom3.data" :key="i">
+                  {{ item.nominal }}
+                </div> -->
               </div>
             </div>
             <modal-footer-section
@@ -271,7 +327,9 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
+import InputForm from "../../../components/InputForm/InputForm.vue";
 export default {
+  components: { InputForm },
   middleware: ["checkRoleUserDetail"],
 
   head() {
@@ -299,6 +357,10 @@ export default {
       isStopSearchCoa: false,
       isLoadingGetCoa: false,
       coa_search: "",
+
+      isStopSearchPecahan: false,
+      isLoadingGetPecahan: false,
+      pecahan_search: "",
 
       form: {
         gudang_id: "",
@@ -351,6 +413,7 @@ export default {
       this.onSelectGudang(this.lookup_custom2.data[0]);
     }
     await this.onSearchCoa();
+    await this.onSearchPecahan();
   },
 
   computed: {
@@ -359,7 +422,17 @@ export default {
       "result",
       "lookup_custom1",
       "lookup_custom2",
+      "lookup_custom3",
     ]),
+
+    // totalNominal(index) {
+    //   if (this.form.rekonsiliasi_saldo_details.length === 0) return 0;
+
+    //   let totalPecahan =
+    //     this.form.rekonsiliasi_saldo_details[index]?.pecahan_id?.nominal ?? 0;
+    //   let jumlah = this.form.rekonsiliasi_saldo_details[index]?.jumlah ?? 0;
+    //   return totalPecahan * jumlah;
+    // },
   },
 
   methods: {
@@ -425,10 +498,21 @@ export default {
     addDetails() {
       this.form.rekonsiliasi_saldo_details.push({
         coa_id: "",
-        saldo_sistem: "",
+        saldo_sistem: 0,
         saldo_rekonsiliasi: "",
         keterangan: "",
         rincian: "",
+        rincian: [
+          {
+            pecahan_id: "",
+            nominal: "",
+            jumlah: "",
+            total: "",
+          },
+        ],
+        // pecahan_id: "",
+        // jumlah: "",
+        // total: "",
       });
     },
 
@@ -469,7 +553,8 @@ export default {
           query:
             "?search=" +
             this.coa_search +
-            // "&tipe=HARTA" +
+            "&tipe=HARTA" +
+            "&jenis_coa=NON_PUSAT" +
             "&page=" +
             this.lookup_custom1.current_page +
             "&per_page=10",
@@ -479,11 +564,59 @@ export default {
       }
     },
 
-    onSelectCoa(item) {
+    onSelectCoa(item, index) {
       if (item) {
-        this.form.coa_id = item;
+        this.form.rekonsiliasi_saldo_details[index].coa_id = item;
+        this.getSaldoSistem(index);
       } else {
-        this.form.coa_id = "";
+        this.form.rekonsiliasi_saldo_details[index].coa_id = "";
+      }
+    },
+
+    onGetPecahan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchPecahan);
+
+      this.isStopSearchPecahan = setTimeout(() => {
+        this.pecahan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchPecahan();
+      }, 600);
+    },
+
+    async onSearchPecahan() {
+      if (!this.isLoadingGetPecahan) {
+        this.isLoadingGetPecahan = true;
+
+        await this.lookUp({
+          url: "master/pecahan/get-pecahan",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.pecahan_search +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetPecahan = false;
+      }
+    },
+
+    onSelectPecahan(item, index) {
+      if (item) {
+        this.form.rekonsiliasi_saldo_details[index].pecahan_id = item;
+      } else {
+        this.form.rekonsiliasi_saldo_details[index].pecahan_id = "";
       }
     },
 
@@ -554,6 +687,20 @@ export default {
       };
       this.form.tanggal = this.formattedDate();
       this.form.gudang_id = this.lookup_custom2.data[0];
+    },
+
+    getSaldoSistem(index) {
+      let gudangId = this.form.gudang_id?.gudang_id ?? "";
+      let coaId =
+        this.form.rekonsiliasi_saldo_details[index].coa_id?.coa_id ?? "";
+      this.$axios
+        .get(
+          `finance/rekonsiliasi-saldo/get-balance-sistem/${coaId}/${gudangId}`
+        )
+        .then((res) => {
+          this.form.rekonsiliasi_saldo_details[index].saldo_sistem = res.data;
+          // console.log(res);
+        });
     },
   },
 };

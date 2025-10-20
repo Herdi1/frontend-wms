@@ -83,44 +83,6 @@
               </v-select>
             </div> -->
             <div class="flex w-full m-1 pr-1">
-              <label class="w-[50%]" for="region"
-                >Region <span class="text-danger">*</span></label
-              >
-              <v-select
-                label="nama_wilayah"
-                :loading="isLoadingGetWilayah"
-                :options="lookup_custom2.data"
-                :filterable="false"
-                @search="onGetWilayah"
-                v-model="parameters.form.wilayah_id"
-                @input="onSetWilayah"
-                class="w-[50%] bg-white"
-              >
-                <li
-                  slot-scope="{ search }"
-                  slot="list-footer"
-                  class="p-1 border-t flex justify-between"
-                  v-if="lookup_custom2.data.length || search"
-                >
-                  <span
-                    v-if="lookup_custom2.current_page > 1"
-                    @click="onGetWilayah(search, false)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Sebelumnya</span
-                  >
-                  <span
-                    v-if="
-                      lookup_custom2.last_page > lookup_custom2.current_page
-                    "
-                    @click="onGetWilayah(search, true)"
-                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                    >Selanjutnya</span
-                  >
-                </li>
-              </v-select>
-            </div>
-
-            <div class="flex w-full m-1 pr-1">
               <label class="w-[50%]" for="group_item_id_1"
                 >Gudang <span class="text-danger">*</span></label
               >
@@ -151,6 +113,43 @@
                       lookup_custom1.last_page > lookup_custom1.current_page
                     "
                     @click="onGetGudang(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
+            <div class="flex w-full m-1 pr-1">
+              <label class="w-[50%]" for="region"
+                >Region <span class="text-danger">*</span></label
+              >
+              <v-select
+                label="nama_wilayah"
+                :loading="isLoadingGetWilayah"
+                :options="lookup_custom2.data"
+                :filterable="false"
+                @search="onGetWilayah"
+                v-model="parameters.form.wilayah_id"
+                @input="onSetWilayah"
+                class="w-[50%] bg-white"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom2.data.length || search"
+                >
+                  <span
+                    v-if="lookup_custom2.current_page > 1"
+                    @click="onGetWilayah(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
+                  >
+                  <span
+                    v-if="
+                      lookup_custom2.last_page > lookup_custom2.current_page
+                    "
+                    @click="onGetWilayah(search, true)"
                     class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                     >Selanjutnya</span
                   >
@@ -555,12 +554,12 @@ export default {
     onPreview() {
       if (
         !this.parameters.form.gudang_id ||
-        // !this.parameters.form.provinsi_id ||
+        !this.parameters.form.wilayah_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Wilayah, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }
@@ -605,12 +604,12 @@ export default {
     async onExport() {
       if (
         !this.parameters.form.gudang_id ||
-        // !this.parameters.form.provinsi_id ||
+        !this.parameters.form.wilayah_id ||
         !this.parameters.params.start_date ||
         !this.parameters.params.end_date
       ) {
         this.$toaster.error(
-          "Mohon Pilih Gudang, Provinsi, Periode Awal dan Akhir Terlebih Dahulu"
+          "Mohon Pilih Gudang, Wilayah, Periode Awal dan Akhir Terlebih Dahulu"
         );
         return;
       }

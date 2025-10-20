@@ -420,7 +420,7 @@
                     </tr>
                     <tr class="bg-gray-50">
                       <td class="font-bold border-y border-l border-gray-300">
-                        Total
+                        Total Saldo Akhir
                       </td>
                       <td class="border-y border-gray-300"></td>
                       <td class="text-right border-y border-r border-gray-300">

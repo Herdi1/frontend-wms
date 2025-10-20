@@ -11,6 +11,7 @@
       :required="required"
       :class="inputClass"
       :disabled="disabled"
+      :min="min"
       class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur', $event)"
@@ -48,6 +49,10 @@ export default {
     },
     inputClass: {
       type: [String, Object, Array],
+      default: "",
+    },
+    min: {
+      type: [String, Number],
       default: "",
     },
   },

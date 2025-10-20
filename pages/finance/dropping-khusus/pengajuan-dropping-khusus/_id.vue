@@ -113,7 +113,7 @@
               </div>
             </div>
 
-            <div
+            <!-- <div
               class="mt-2 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
             >
               <div
@@ -131,8 +131,8 @@
                   </button>
                 </div>
               </div>
-            </div>
-            <div
+            </div> -->
+            <!-- <div
               class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
             >
               <div
@@ -173,8 +173,8 @@
                       <td class="border border-gray-300">
                         {{ item.tipe ?? "" }}
                       </td>
-                      <td class="border border-gray-300">
-                        {{ item.nominal ?? "" }}
+                      <td class="border border-gray-300 text-right">
+                        {{ item.nominal ?? 0 | formatPrice }}
                       </td>
                       <td class="border border-gray-300">
                         {{ item.keterangan ?? "" }}
@@ -213,7 +213,7 @@
                   {{ totalNominal | formatPrice }}
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <modal-footer-section
               :isLoadingForm="isLoadingForm"
@@ -223,7 +223,7 @@
         </ValidationObserver>
       </div>
     </div>
-    <div v-if="showModal" to="modal-retur">
+    <!-- <div v-if="showModal" to="modal">
       <div
         @click="hide"
         class="fixed inset-0 bg-black bg-opacity-50 z-50"
@@ -395,7 +395,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </section>
 </template>
 

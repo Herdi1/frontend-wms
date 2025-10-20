@@ -2118,7 +2118,7 @@ export default {
           .then((res) => {
             this.parameters.form.pick_order_details[index].stok =
               res.data.quantity || 0.7;
-            console.log(res.data);
+            // console.log(res.data);
           });
       }
     },
