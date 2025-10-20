@@ -141,161 +141,149 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr
+                      <template
                         v-for="(item, i) in form.rekonsiliasi_saldo_details"
-                        :key="i"
-                        class="align-top"
                       >
-                        <td class="border border-gray-300">
-                          <v-select
-                            label="nama_coa"
-                            :loading="isLoadingGetCoa"
-                            :options="lookup_custom1.data"
-                            :filterable="false"
-                            @search="onGetCoa"
-                            v-model="item.coa_id"
-                            @input="(item) => onSelectCoa(item, i)"
-                          >
-                            <template slot="option" slot-scope="option">
-                              {{ option.nama_coa + " - " + option.kode_coa }}
-                            </template>
-                            <template
-                              slot="selected-option"
-                              slot-scope="option"
+                        <!-- Row utama untuk setiap detail rekonsiliasi -->
+                        <tr :key="`main-${i}`" class="align-top">
+                          <td class="border border-gray-300">
+                            <v-select
+                              label="nama_coa"
+                              :loading="isLoadingGetCoa"
+                              :options="lookup_custom1.data"
+                              :filterable="false"
+                              @search="onGetCoa"
+                              v-model="item.coa_id"
+                              @input="(item) => onSelectCoa(item, i)"
                             >
-                              <div
-                                class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
-                              >
+                              <template slot="option" slot-scope="option">
                                 {{ option.nama_coa + " - " + option.kode_coa }}
-                              </div>
-                            </template>
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom1.data.length || search"
+                              </template>
+                              <template
+                                slot="selected-option"
+                                slot-scope="option"
+                              >
+                                <div
+                                  class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                                >
+                                  {{
+                                    option.nama_coa + " - " + option.kode_coa
+                                  }}
+                                </div>
+                              </template>
+                              <li
+                                slot-scope="{ search }"
+                                slot="list-footer"
+                                class="p-1 border-t flex justify-between"
+                                v-if="lookup_custom1.data.length || search"
+                              >
+                                <span
+                                  v-if="lookup_custom1.current_page > 1"
+                                  @click="onGetCoa(search, false)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >
+                                  Sebelumnya
+                                </span>
+                                <span
+                                  v-if="
+                                    lookup_custom1.last_page >
+                                    lookup_custom1.current_page
+                                  "
+                                  @click="onGetCoa(search, true)"
+                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                                >
+                                  Selanjutnya
+                                </span>
+                              </li>
+                            </v-select>
+                            <p v-if="item.coa_id" class="mt-2">
+                              {{ item.coa_id?.kode_coa ?? "" }} -
+                              {{ item.coa_id?.nama_coa ?? "" }}
+                            </p>
+                          </td>
+                          <td class="border border-gray-300 text-right">
+                            {{
+                              parseFloat(item?.saldo_sistem ?? 0) | formatPrice
+                            }}
+                          </td>
+                          <td class="border border-gray-300">
+                            <!-- Display saldo_rekonsiliasi (auto-calculated, read-only) -->
+                            <div
+                              class="w-full pl-2 py-1 border rounded bg-gray-50 text-right font-semibold"
                             >
-                              <span
-                                v-if="lookup_custom1.current_page > 1"
-                                @click="onGetCoa(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom1.last_page >
-                                  lookup_custom1.current_page
-                                "
-                                @click="onGetCoa(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                          <p v-if="item.coa_id" class="mt-2">
-                            {{ item.coa_id?.kode_coa ?? "" }} -
-                            {{ item.coa_id?.nama_coa ?? "" }}
-                          </p>
-                        </td>
-                        <td class="border border-gray-300 text-right">
-                          {{
-                            parseFloat(item?.saldo_sistem ?? 0) | formatPrice
-                          }}
-                        </td>
-                        <td class="border border-gray-300">
-                          <money
-                            v-model="item.saldo_rekonsiliasi"
-                            class="w-full pl-2 py-1 border rounded focus:outline-none"
-                            @keydown.native="
-                              $event.key === '-'
-                                ? $event.preventDefault()
-                                : null
-                            "
-                          />
-                        </td>
-                        <td class="border border-gray-300">
-                          <textarea
-                            name="keterangan"
-                            v-model="item.keterangan"
-                            class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                          ></textarea>
-                        </td>
-                        <!-- <td class="border border-gray-300">
-                          <v-select
-                            label="nominal"
-                            :loading="isLoadingGetPecahan"
-                            :options="lookup_custom3.data"
-                            :filterable="false"
-                            @search="onGetPecahan"
-                            v-model="item.pecahan_id"
-                            @input="(item) => onSelectPecahan(item, i)"
-                          >
-                            <template slot="option" slot-scope="option">
                               {{
-                                parseFloat(option?.nominal ?? 0) | formatPrice
+                                parseFloat(item.saldo_rekonsiliasi || 0)
+                                  | formatPrice
                               }}
-                            </template>
-                            <template
-                              slot="selected-option"
-                              slot-scope="option"
-                            >
-                              <div
-                                class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
-                              >
-                                {{
-                                  parseFloat(option?.nominal ?? 0) | formatPrice
-                                }}
-                              </div>
-                            </template>
-                            <li
-                              slot-scope="{ search }"
-                              slot="list-footer"
-                              class="p-1 border-t flex justify-between"
-                              v-if="lookup_custom3.data.length || search"
-                            >
-                              <span
-                                v-if="lookup_custom3.current_page > 1"
-                                @click="onGetPecahan(search, false)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Sebelumnya</span
-                              >
-                              <span
-                                v-if="
-                                  lookup_custom3.last_page >
-                                  lookup_custom3.current_page
-                                "
-                                @click="onGetPecahan(search, true)"
-                                class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                >Selanjutnya</span
-                              >
-                            </li>
-                          </v-select>
-                        </td> -->
-                        <!-- <td class="border border-gray-300">
-                          <input-form
-                            label=""
-                            type="number"
-                            name="jumlah"
-                            :required="false"
-                            v-model="item.jumlah"
-                            :min="0"
-                          />
-                        </td> -->
-                        <!-- <td>
-                          {{ totalNominal(i) }}
-                        </td> -->
-                        <td
-                          class="text-center text-gray-600 border border-gray-300"
+                            </div>
+                          </td>
+                          <td class="border border-gray-300">
+                            <textarea
+                              name="keterangan"
+                              v-model="item.keterangan"
+                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                            ></textarea>
+                          </td>
+                          <td
+                            class="text-center text-gray-600 border border-gray-300"
+                          >
+                            <i
+                              class="fas fa-trash mx-auto"
+                              style="cursor: pointer"
+                              @click="onDeletedDetails(i)"
+                            ></i>
+                          </td>
+                        </tr>
+
+                        <tr
+                          :key="`header-${i}`"
+                          class="bg-gray-200 font-semibold"
                         >
-                          <i
-                            class="fas fa-trash mx-auto"
-                            style="cursor: pointer"
-                            @click="onDeletedDetails(i)"
-                          ></i>
-                        </td>
-                      </tr>
-                      <tr v-if="!form.rekonsiliasi_saldo_details.length > 0">
-                        <td colspan="100" class="text-center">
+                          <td class="border border-gray-300 px-2 py-1 pl-8">
+                            Nominal
+                          </td>
+                          <td
+                            class="border border-gray-300 px-2 py-1 text-center"
+                          >
+                            Jumlah
+                          </td>
+                          <td
+                            class="border border-gray-300 px-2 py-1 text-center"
+                            colspan="3"
+                          >
+                            Total
+                          </td>
+                        </tr>
+
+                        <!-- Row untuk setiap rincian (nested array) -->
+                        <tr
+                          v-for="(itm, ind) in item.rincian"
+                          :key="`rincian-${i}-${ind}`"
+                          class="bg-gray-50"
+                        >
+                          <td class="border border-gray-300">
+                            {{ parseFloat(itm.nominal ?? 0) | formatPrice }}
+                          </td>
+                          <td class="border border-gray-300">
+                            <input
+                              type="number"
+                              v-model.number="itm.jumlah"
+                              @input="calculateTotal(itm, i)"
+                              class="w-full px-2 py-1 border rounded"
+                              placeholder="Jumlah"
+                              min="0"
+                            />
+                          </td>
+                          <td class="border border-gray-300">
+                            {{ parseFloat(itm.total ?? 0) | formatPrice }}
+                          </td>
+                          <td class="border border-gray-300"></td>
+                        </tr>
+                      </template>
+
+                      <!-- Row jika data kosong -->
+                      <tr v-if="!form.rekonsiliasi_saldo_details.length">
+                        <td colspan="5" class="text-center">
                           <span class="flex justify-center">
                             <img
                               src="/img/data-not-found.svg"
@@ -308,9 +296,6 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- <div v-for="(item, i) in lookup_custom3.data" :key="i">
-                  {{ item.nominal }}
-                </div> -->
               </div>
             </div>
             <modal-footer-section
@@ -376,6 +361,7 @@ export default {
         keterangan: "",
         rekonsiliasi_saldo_details: [],
       },
+      pecahan: [],
     };
   },
 
@@ -495,24 +481,44 @@ export default {
       }
     },
 
+    calculateTotal(itm, itemIndex) {
+      const nominal = parseFloat(itm.nominal || 0);
+      const jumlah = parseFloat(itm.jumlah || 0);
+      this.$set(itm, "total", nominal * jumlah);
+
+      // Update saldo_rekonsiliasi untuk item ini
+      this.updateItemSaldoRekonsiliasi(itemIndex);
+    },
+
+    // Method untuk update saldo_rekonsiliasi per item
+    updateItemSaldoRekonsiliasi(itemIndex) {
+      const item = this.form.rekonsiliasi_saldo_details[itemIndex];
+      const total = item.rincian.reduce((sum, itm) => {
+        return sum + parseFloat(itm.total || 0);
+      }, 0);
+
+      this.$set(item, "saldo_rekonsiliasi", total);
+    },
+
+    // Grand total untuk semua item
+    calculateGrandTotal() {
+      return this.form.rekonsiliasi_saldo_details.reduce((acc, detail) => {
+        return acc + parseFloat(detail.saldo_rekonsiliasi || 0);
+      }, 0);
+    },
+
     addDetails() {
       this.form.rekonsiliasi_saldo_details.push({
         coa_id: "",
         saldo_sistem: 0,
         saldo_rekonsiliasi: "",
         keterangan: "",
-        rincian: "",
-        rincian: [
-          {
-            pecahan_id: "",
-            nominal: "",
-            jumlah: "",
-            total: "",
-          },
-        ],
-        // pecahan_id: "",
-        // jumlah: "",
-        // total: "",
+        rincian: this.lookup_custom3.data.map((item) => ({
+          pecahan_id: item.pecahan_id,
+          nominal: item.nominal,
+          jumlah: 0,
+          total: 0,
+        })),
       });
     },
 
