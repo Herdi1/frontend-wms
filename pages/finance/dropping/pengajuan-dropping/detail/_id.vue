@@ -292,6 +292,34 @@
                 </tr>
                 <tr class="bg-gray-50">
                   <td class="font-bold border-y border-l border-gray-300">
+                    Informasi PJK Dropping Khusus
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="border-y border-r border-gray-300"></td>
+                </tr>
+                <tr v-for="(item, i) in form.dropping_khusus" :key="i">
+                  <td class="border border-r-gray-300">
+                    Dropping Khusus ({{ formatDate(item.tanggal) }})
+                  </td>
+                  <td class="border border-r-gray-300 text-right">
+                    {{ parseFloat(item.nominal ?? 0) | formatPrice }}
+                  </td>
+                  <td class="border border-r-gray-300"></td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
+                    Total Dropping Khusus
+                  </td>
+                  <td class="border-y border-gray-300"></td>
+                  <td class="text-right border-y border-r border-gray-300">
+                    {{ parseFloat(totalDroppingKhusus ?? 0) | formatPrice }}
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="font-bold border-y border-l border-gray-300">
                     Informasi Biaya Bank
                   </td>
                   <td class="border-y border-gray-300"></td>
@@ -361,7 +389,7 @@
                 </tr>
                 <tr class="bg-gray-50">
                   <td class="font-bold border-y border-l border-gray-300">
-                    Total
+                    Total Saldo Akhir
                   </td>
                   <td class="border-y border-gray-300"></td>
                   <td class="text-right border-y border-r border-gray-300">
@@ -463,6 +491,7 @@ export default {
         keterangan: "",
         pengajuan_dropping_details: [],
         pengajuan_dropping_biaya_details: [],
+        dropping_khusus: [],
         dropping: [],
 
         plafon_dropping: "",
@@ -498,9 +527,12 @@ export default {
           };
         });
       this.form.dropping = res.data.pengajuan_dropping_sebelumnya;
+      this.form.dropping_khusus =
+        res.data.pengajuan_dropping_umum_khusus_details;
       this.isLoadingPage = false;
     } catch (error) {
       this.$router.back();
+      // console.log(error);
     }
   },
 
@@ -561,6 +593,19 @@ export default {
       );
       let dropping = this.totalDropping;
       return saldoAwal + dropping;
+    },
+
+    totalDroppingKhusus() {
+      if (
+        !this.form.dropping_khusus ||
+        this.form.dropping_khusus.length === 0
+      ) {
+        return 0;
+      }
+
+      return this.form.dropping_khusus.reduce((total, item) => {
+        return total + parseFloat(item.nominal) || 0;
+      }, 0);
     },
   },
 

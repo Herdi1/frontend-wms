@@ -344,6 +344,7 @@ export default {
           query:
             "?search=" +
             this.coa_search +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",

@@ -112,6 +112,16 @@
                 @input="onSetCoa"
                 class="w-[50%] bg-white"
               >
+                <template slot="option" slot-scope="option">
+                  {{ option.nama_coa + " - " + option.kode_coa }}
+                </template>
+                <template slot="selected-option" slot-scope="option">
+                  <div
+                    class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                  >
+                    {{ option.nama_coa + " - " + option.kode_coa }}
+                  </div>
+                </template>
                 <li
                   slot-scope="{ search }"
                   slot="list-footer"
@@ -361,6 +371,7 @@ export default {
           query:
             "?search=" +
             this.coa_search +
+            "&tipe=HARTA" +
             "&page=" +
             this.lookup_custom2.current_page +
             "&per_page=10",
@@ -383,14 +394,13 @@ export default {
       if (this.parameters.params.type === "laporan") {
         this.parameters.form.gudang_id = "";
       } else if (this.parameters.params.type === "historis") {
-        if (
-          !this.parameters.form.gudang_id ||
-          (typeof this.parameters.form.gudang_id === "object" &&
-            !this.parameters.form.gudang_id.gudang_id)
-        ) {
+        if (!this.parameters.form.gudang_id) {
           this.$toaster.error(
             "Mohon Pilih Gudang Terlebih Dahulu untuk Laporan Historis"
           );
+          return;
+        } else if (this.parameters.form.gudang_id.gudang_id === 0) {
+          this.$toaster.error("Mohon Pilih Gudang Terlebih Dahulu");
           return;
         }
       }
@@ -442,6 +452,7 @@ export default {
       // window.open(process.env.API_URL + url + "&token=" + token, "_blank");
       this.preview_doc =
         process.env.API_URL + url + "&token=" + token + "#toolbar=0&navpanes=0";
+      // console.log(process.env.API_URL + url + "&token=" + token);
       this.isPreviewDoc = true;
     },
 
@@ -449,14 +460,13 @@ export default {
       if (this.parameters.params.type === "laporan") {
         this.parameters.form.gudang_id = "";
       } else if (this.parameters.params.type === "historis") {
-        if (
-          !this.parameters.form.gudang_id ||
-          (typeof this.parameters.form.gudang_id === "object" &&
-            !this.parameters.form.gudang_id.gudang_id)
-        ) {
+        if (!this.parameters.form.gudang_id) {
           this.$toaster.error(
             "Mohon Pilih Gudang Terlebih Dahulu untuk Laporan Historis"
           );
+          return;
+        } else if (this.parameters.form.gudang_id.gudang_id === 0) {
+          this.$toaster.error("Mohon Pilih Gudang Terlebih Dahulu");
           return;
         }
       }
