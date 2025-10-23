@@ -41,7 +41,7 @@
                         label: 'Gudang',
                         optionLabel: 'nama_gudang',
                         lookup: lookup_custom6,
-                        value: parameters.form.gudang_id,
+                        value: form.gudang_id,
                         onGet: onGetGudang,
                         isLoading: isLoadingGetGudang,
                         input: onSelectGudang,
@@ -175,6 +175,7 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
+        this.form.gudang_id = res.data.gudang ?? "";
       }
       this.isLoadingPage = false;
     } catch (error) {
@@ -221,6 +222,10 @@ export default {
       let url = this.url;
       let formData = {
         ...this.form,
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id
+            : "",
       };
 
       if (this.isEditable) {
