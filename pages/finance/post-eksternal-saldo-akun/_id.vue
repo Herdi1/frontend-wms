@@ -36,6 +36,22 @@
                     />
                   </div>
                   <div class="form-group">
+                    <select-button
+                      :self="{
+                        label: 'Gudang',
+                        optionLabel: 'nama_gudang',
+                        lookup: lookup_custom6,
+                        value: form.gudang_id,
+                        onGet: onGetGudang,
+                        isLoading: isLoadingGetGudang,
+                        input: onSelectGudang,
+                      }"
+                      :required="true"
+                      width="w-[50%]"
+                      class="mb-5"
+                    />
+                  </div>
+                  <div class="form-group">
                     <input-horizontal
                       label="Tanggal"
                       type="date"
@@ -126,6 +142,7 @@ export default {
         periode_akhir: "",
         kode_post: "",
         kode_post_eksternal: "",
+        gudang_id: "",
         keterangan: "",
       },
       defaultForm: {
@@ -134,8 +151,13 @@ export default {
         periode_akhir: "",
         kode_post: "",
         kode_post_eksternal: "",
+        gudang_id: "",
         keterangan: "",
       },
+
+      isStopSearchGudang: false,
+      isLoadingGetGudang: false,
+      gudang_search: "",
     };
   },
 
@@ -153,10 +175,18 @@ export default {
         Object.keys(this.form).forEach((item) => {
           this.form[item] = res.data[item];
         });
+        this.form.gudang_id = res.data.gudang ?? "";
       }
       this.isLoadingPage = false;
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  async mounted() {
+    await this.onSearchGudang();
+    if (this.lookup_custom6.data.length > 0) {
+      this.form.gudang_id = this.lookup_custom6.data[0];
     }
   },
 
@@ -192,6 +222,10 @@ export default {
       let url = this.url;
       let formData = {
         ...this.form,
+        gudang_id:
+          typeof this.form.gudang_id === "object"
+            ? this.form.gudang_id.gudang_id
+            : "",
       };
 
       if (this.isEditable) {
@@ -234,6 +268,45 @@ export default {
         kode_post_eksternal: "",
         keterangan: "",
       };
+    },
+
+    onGetGudang(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchGudang);
+
+      this.isStopSearchGudang = setTimeout(() => {
+        this.gudang_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom6.current_page = isNext
+            ? this.lookup_custom6.current_page + 1
+            : this.lookup_custom6.current_page - 1;
+        } else {
+          this.lookup_custom6.current_page = 1;
+        }
+
+        this.onSearchGudang();
+      }, 600);
+    },
+
+    async onSearchGudang() {
+      if (!this.isLoadingGetGudang) {
+        this.isLoadingGetGudang = true;
+
+        await this.lookUp({
+          url: "master/gudang/get-gudang-user",
+          lookup: "custom6",
+          query:
+            "?search=" +
+            this.gudang_search +
+            "&page=" +
+            this.lookup_custom6.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetGudang = false;
+      }
     },
   },
 };

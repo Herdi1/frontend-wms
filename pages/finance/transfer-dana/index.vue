@@ -196,7 +196,39 @@
                       </div>
                     </div>
                   </th>
-
+                  <!-- <th
+                    @click="
+                      onSort(
+                        'status_approve',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                    class="cursor-pointer w-48 border border-gray-300"
+                  >
+                    <div class="flex justify-between align-baseline">
+                      <div>Status</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_approve' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th> -->
                   <th class="w-48 border border-gray-300">Total Transfer</th>
                   <th class="w-60 border border-gray-300">
                     Daftar Tujuan Transfer
@@ -255,7 +287,9 @@
                   <td class="border border-gray-300">
                     {{ item.tanggal }}
                   </td>
-
+                  <!-- <td class="border border-gray-300">
+                    {{ item.status_approve }}
+                  </td> -->
                   <td class="border border-gray-300 text-right">
                     {{ item.total_transfer | formatPrice }}
                   </td>
