@@ -13,25 +13,15 @@ export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\Search
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
-<<<<<<< HEAD
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
 export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
-=======
->>>>>>> 92196314a701c1a7e1594b075cf70a982a13b01d
 export { default as FormsCloseButton } from '../..\\components\\forms\\CloseButton.vue'
 export { default as FormsInputForm } from '../..\\components\\forms\\InputForm.vue'
 export { default as FormsResetButton } from '../..\\components\\forms\\ResetButton.vue'
 export { default as FormsSaveButton } from '../..\\components\\forms\\SaveButton.vue'
 export { default as FormsTitleForm } from '../..\\components\\forms\\TitleForm.vue'
-<<<<<<< HEAD
-=======
-export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
-export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
-export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
-export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
->>>>>>> 92196314a701c1a7e1594b075cf70a982a13b01d
 export { default as InputForm } from '../..\\components\\InputForm\\InputForm.vue'
 export { default as InputHoriontal } from '../..\\components\\InputForm\\InputHoriontal.vue'
 export { default as InputKoma } from '../..\\components\\InputForm\\InputKoma.vue'
@@ -188,10 +178,7 @@ export { default as SectionReportSection } from '../..\\components\\section\\Rep
 export { default as SectionTableDataLoadingSection } from '../..\\components\\section\\TableDataLoadingSection.vue'
 export { default as SectionTableDataNotFoundSection } from '../..\\components\\section\\TableDataNotFoundSection.vue'
 export { default as SectionTableHeaderSection } from '../..\\components\\section\\TableHeaderSection.vue'
-<<<<<<< HEAD
 export { default as TransaksionalModalDropping } from '../..\\components\\transaksional\\ModalDropping.vue'
-=======
->>>>>>> 92196314a701c1a7e1594b075cf70a982a13b01d
 export { default as TransaksionalModalDroppingKhusus } from '../..\\components\\transaksional\\ModalDroppingKhusus.vue'
 export { default as TransaksionalModalImportFile } from '../..\\components\\transaksional\\ModalImportFile.vue'
 export { default as TransaksionalModalKartuStok } from '../..\\components\\transaksional\\ModalKartuStok.vue'

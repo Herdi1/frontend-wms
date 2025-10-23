@@ -312,8 +312,12 @@
                     <td class="border-b border-gray-300"></td>
                     <td class="border-b border-gray-300"></td>
                     <td class="text-info border-b border-gray-300"></td>
-                    <td class="text-success border-b border-gray-300"></td>
-                    <td class="text-danger border-b border-gray-300"></td>
+                    <td class="text-success border border-gray-300 text-right">
+                      {{ calculateDebit | formatPrice }}
+                    </td>
+                    <td class="text-danger border border-gray-300 text-right">
+                      {{ calculateCredit | formatPrice }}
+                    </td>
                     <td class="text-primary border border-gray-300 text-right">
                       {{ last_balance | formatPrice }}
                     </td>
@@ -536,6 +540,22 @@ export default {
         parseFloat(this.raw_data?.first_balance?.saldo || 0) || 0;
 
       return firstBalance + creditAndDebit;
+    },
+
+    calculateCredit() {
+      let credit = 0.0;
+      this.data.forEach((item) => {
+        credit += parseFloat(item.credit);
+      });
+      return credit;
+    },
+
+    calculateDebit() {
+      let debit = 0.0;
+      this.data.forEach((item) => {
+        debit += parseFloat(item.debit);
+      });
+      return debit;
     },
   },
 
