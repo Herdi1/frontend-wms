@@ -196,40 +196,11 @@
                       </div>
                     </div>
                   </th>
-                  <th
-                    @click="
-                      onSort(
-                        'status_approve',
-                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
-                      )
-                    "
-                    class="cursor-pointer w-48 border border-gray-300"
-                  >
-                    <div class="flex justify-between align-baseline">
-                      <div>Status</div>
-                      <div>
-                        <i
-                          class="fas fa-caret-up"
-                          :class="
-                            parameters.params.order == 'status_approve' &&
-                            parameters.params.sort == 'asc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                        <i
-                          class="fas fa-caret-down"
-                          :class="
-                            parameters.params.order == 'status_approve' &&
-                            parameters.params.sort == 'desc'
-                              ? ''
-                              : 'light-gray'
-                          "
-                        ></i>
-                      </div>
-                    </div>
-                  </th>
+
                   <th class="w-48 border border-gray-300">Total Transfer</th>
+                  <th class="w-60 border border-gray-300">
+                    Daftar Tujuan Transfer
+                  </th>
                   <th class="w-48 border border-gray-300">No Referensi</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
                   <th
@@ -284,11 +255,20 @@
                   <td class="border border-gray-300">
                     {{ item.tanggal }}
                   </td>
-                  <td class="border border-gray-300">
-                    {{ item.status_approve }}
-                  </td>
+
                   <td class="border border-gray-300 text-right">
                     {{ item.total_transfer | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300">
+                    <div
+                      v-for="(itm, ind) in item.transfer_dana_details"
+                      :key="ind"
+                    >
+                      {{ ind + 1 }}. {{ itm.coa ? itm.coa.nama_coa : "-" }} ({{
+                        itm.coa ? itm.coa.kode_coa : "-"
+                      }}) -
+                      {{ itm.gudang ? itm.gudang.nama_gudang : "-" }}
+                    </div>
                   </td>
                   <td class="border border-gray-300">
                     {{ item.no_referensi }}

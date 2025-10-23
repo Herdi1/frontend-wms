@@ -123,7 +123,7 @@
                       id=""
                       v-model="form.jenis"
                       @change="onSelectJenis"
-                      class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
+                      class="w-1/2 p-1 rounded-md border border-gray-300 outline-none"
                     >
                       <option value="RITASE">Ritase</option>
                       <option value="PREMI">Premi</option>

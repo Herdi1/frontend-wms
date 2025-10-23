@@ -688,6 +688,7 @@ const _26eb8672 = () => interopDefault(import('..\\pages\\finance\\post-eksterna
 const _49342422 = () => interopDefault(import('..\\pages\\finance\\posting-premi\\detail\\_id.vue' /* webpackChunkName: "pages/finance/posting-premi/detail/_id" */))
 const _f825a782 = () => interopDefault(import('..\\pages\\finance\\posting-tkbm\\details\\_id.vue' /* webpackChunkName: "pages/finance/posting-tkbm/details/_id" */))
 const _38feb7f6 = () => interopDefault(import('..\\pages\\finance\\rekonsiliasi-saldo\\detail\\_id.vue' /* webpackChunkName: "pages/finance/rekonsiliasi-saldo/detail/_id" */))
+const _30fc1b51 = () => interopDefault(import('..\\pages\\finance\\transfer-dana\\detail\\_id.vue' /* webpackChunkName: "pages/finance/transfer-dana/detail/_id" */))
 const _bc15fd88 = () => interopDefault(import('..\\pages\\finance\\ujs-sopir\\details\\_id.vue' /* webpackChunkName: "pages/finance/ujs-sopir/details/_id" */))
 const _05670af4 = () => interopDefault(import('..\\pages\\inbound\\asn\\detail\\_id.vue' /* webpackChunkName: "pages/inbound/asn/detail/_id" */))
 const _b6e88aae = () => interopDefault(import('..\\pages\\inbound\\inbound\\detail\\_id.vue' /* webpackChunkName: "pages/inbound/inbound/detail/_id" */))
@@ -3630,6 +3631,10 @@ export const routerOptions = {
     path: "/finance/rekonsiliasi-saldo/detail/:id",
     component: _38feb7f6,
     name: "finance-rekonsiliasi-saldo-detail-id"
+  }, {
+    path: "/finance/transfer-dana/detail/:id",
+    component: _30fc1b51,
+    name: "finance-transfer-dana-detail-id"
   }, {
     path: "/finance/ujs-sopir/details/:id",
     component: _bc15fd88,

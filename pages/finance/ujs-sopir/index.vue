@@ -237,11 +237,18 @@
                       <div>
                         {{ item.kode_posting }}
                       </div>
-                      <!-- <span class="text-blue-500"
-                        ><i
-                          >Dibuat oleh: {{ item.user_input.nama_lengkap }}</i
-                        ></span
-                      > -->
+                      <p
+                        v-if="item.user_input"
+                        class="text-blue-500 cursor-pointer hover:underline"
+                      >
+                        <i>Dibuat oleh: {{ item.user_input.nama_lengkap }}</i>
+                      </p>
+                      <p
+                        v-else
+                        class="text-blue-500 cursor-pointer hover:underline"
+                      >
+                        <i>Dibuat oleh: Sistem</i>
+                      </p>
                     </div>
                   </td>
                   <td class="border border-gray-300">

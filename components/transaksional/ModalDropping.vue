@@ -1,3 +1,4 @@
+<th class="w-20">Options</th>
 <template>
   <portal v-if="visible" to="modal-detail">
     <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
@@ -65,7 +66,7 @@
                     >
                       <button
                         class="btn btn-sm btn-primary"
-                        @click="self.addDroppingKhusus(item)"
+                        @click="self.addDropping(item)"
                       >
                         <i class="fas fa-plus"></i>
                       </button>
@@ -81,58 +82,6 @@
               <pagination-component :self="this" ref="pagination" />
             </div>
           </div>
-
-          <!-- <ValidationObserver v-slot="{ invalid, validate }" ref="formValidate">
-            <form
-              @submit.prevent="validate().then(() => onSubmitRetur(invalid))"
-            >
-              <ValidationProvider name="coa_id" class="w-full mt-1">
-                <label for="coa_id" class="w-[40%]">Coa </label>
-                <v-select
-                  label="nama_coa"
-                  :loading="isLoadingGetBank"
-                  :options="lookup_custom1.data"
-                  :filterable="false"
-                  @search="onGetBank"
-                  v-model="form.coa_id"
-                  class="w-[60%]"
-                  @input="(item) => onSelectBank(item)"
-                >
-                  <template slot="option" slot-scope="option">
-                    {{ option.nama_coa + " - " + option.kode_coa }}
-                  </template>
-                  <template slot="selected-option" slot-scope="option">
-                    <div
-                      class="w-[250px] whitespace-nowrap text-ellipsis overflow-hidden"
-                    >
-                      {{ option.nama_coa + " - " + option.kode_coa }}
-                    </div>
-                  </template>
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom1.data.length || search"
-                  >
-                    <span
-                      v-if="lookup_custom1.current_page > 1"
-                      @click="onGetBank(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom1.last_page > lookup_custom1.current_page
-                      "
-                      @click="onGetBank(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </ValidationProvider>
-            </form>
-          </ValidationObserver> -->
         </div>
       </div>
     </div>
@@ -148,7 +97,7 @@ export default {
 
   data() {
     return {
-      title: "Dropping Khusus",
+      title: "Dropping",
       visible: false,
       isLoadingData: false,
       isPaginate: true,
@@ -158,7 +107,7 @@ export default {
         params: {
           soft_deleted: "",
           search: "",
-          order: "pengajuan_dropping_khusus_id",
+          order: "pengajuan_dropping_id",
           sort: "desc",
           all: "",
           per_page: 10,
@@ -174,11 +123,6 @@ export default {
     this.set_data([]);
   },
 
-  // async mounted() {
-  //   await this.onSearchBank();
-  //   await this.onSearchBiaya();
-  // },
-
   computed: {
     ...mapState("moduleApi", ["data", "error", "result"]),
     onFormOptionReady() {
@@ -191,6 +135,7 @@ export default {
       }
     },
   },
+
   methods: {
     ...mapActions("moduleApi", [
       "getData",
@@ -213,7 +158,7 @@ export default {
       this.isLoadingData = true;
       this.parameters.params.page = parseInt(page) || 1;
 
-      this.parameters.url = `finance/transfer-dana/get-pengajuan-dropping?jenis=KHUSUS`;
+      this.parameters.url = `finance/transfer-dana/get-pengajuan-dropping?jenis=UMUM`;
 
       let loader = this.$loading.show({
         container: this.$refs.formContainer,
@@ -264,102 +209,6 @@ export default {
 
       this.onLoad(this.parameters.params.page);
     },
-
-    // onGetBank(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
-
-    //   clearTimeout(this.isStopSearchBank);
-
-    //   this.isStopSearchBank = setTimeout(() => {
-    //     this.bank_search = search;
-
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_custom1.current_page = isNext
-    //         ? this.lookup_custom1.current_page + 1
-    //         : this.lookup_custom1.current_page - 1;
-    //     } else {
-    //       this.lookup_custom1.current_page = 1;
-    //     }
-
-    //     this.onSearchBank();
-    //   }, 600);
-    // },
-
-    // async onSearchBank() {
-    //   if (!this.isLoadingGetBank) {
-    //     this.isLoadingGetBank = true;
-
-    //     await this.lookUp({
-    //       url: "finance/coa/get-coa",
-    //       lookup: "custom1",
-    //       query:
-    //         "?search=" +
-    //         this.bank_search +
-    //         "&tipe=HARTA" +
-    //         "&page=" +
-    //         this.lookup_custom1.current_page +
-    //         "&per_page=10",
-    //     });
-
-    //     this.isLoadingGetBank = false;
-    //   }
-    // },
-
-    // onSelectBank(item) {
-    //   if (item) {
-    //     this.form.coa_id = item;
-    //   } else {
-    //     this.form.coa_id = "";
-    //   }
-    // },
-
-    // onGetBiaya(search, isNext) {
-    //   if (!search.length && typeof isNext === "function") return false;
-
-    //   clearTimeout(this.isStopSearchBiaya);
-
-    //   this.isStopSearchBiaya = setTimeout(() => {
-    //     this.biaya_search = search;
-
-    //     if (typeof isNext !== "function") {
-    //       this.lookup_custom4.current_page = isNext
-    //         ? this.lookup_custom4.current_page + 1
-    //         : this.lookup_custom4.current_page - 1;
-    //     } else {
-    //       this.lookup_custom4.current_page = 1;
-    //     }
-
-    //     this.onSearchBiaya();
-    //   }, 600);
-    // },
-
-    // async onSearchBiaya() {
-    //   if (!this.isLoadingGetBiaya) {
-    //     this.isLoadingGetBiaya = true;
-
-    //     await this.lookUp({
-    //       url: "finance/jurnal/get-coa",
-    //       lookup: "custom4",
-    //       query:
-    //         "?search=" +
-    //         this.biaya_search +
-    //         "&tipe=HARTA" +
-    //         "&page=" +
-    //         this.lookup_custom4.current_page +
-    //         "&per_page=10",
-    //     });
-
-    //     this.isLoadingGetBiaya = false;
-    //   }
-    // },
-
-    // onSelectBiaya(item) {
-    //   if (item) {
-    //     this.form.coa_id_biaya = item;
-    //   } else {
-    //     this.form.coa_id_biaya = "";
-    //   }
-    // },
   },
 };
 </script>

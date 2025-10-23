@@ -183,7 +183,7 @@
                     <div>
                       {{ item.kode_post }}
                       <p v-if="item.user_input" class="text-blue-500">
-                        <i>Dibuat oleh: {{ item.user_input.username }}</i>
+                        <i>Dibuat oleh: {{ item.user_input.nama_lengkap }}</i>
                       </p>
                       <p v-else class="text-blue-500">
                         <i>Dibuat oleh: Sistem</i>

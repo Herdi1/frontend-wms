@@ -539,6 +539,9 @@
   "SectionTableHeaderSection": {
     "description": "Auto imported from components/section/TableHeaderSection.vue"
   },
+  "TransaksionalModalDropping": {
+    "description": "Auto imported from components/transaksional/ModalDropping.vue"
+  },
   "TransaksionalModalDroppingKhusus": {
     "description": "Auto imported from components/transaksional/ModalDroppingKhusus.vue"
   },

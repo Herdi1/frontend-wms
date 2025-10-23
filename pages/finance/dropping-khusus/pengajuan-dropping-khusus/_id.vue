@@ -402,7 +402,6 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
-import ModalDroppingKhusus from "../../../../components/transaksional/ModalDroppingKhusus.vue";
 export default {
   middleware: ["checkRoleUserDetail"],
 
@@ -410,10 +409,6 @@ export default {
     return {
       title: "Pengajuan Dropping Khusus",
     };
-  },
-
-  components: {
-    ModalDroppingKhusus,
   },
 
   data() {

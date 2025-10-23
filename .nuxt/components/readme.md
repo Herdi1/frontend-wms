@@ -186,6 +186,7 @@ You can directly use them in pages and other components without the need to impo
 - `<SectionTableDataLoadingSection>` | `<section-table-data-loading-section>` (components/section/TableDataLoadingSection.vue)
 - `<SectionTableDataNotFoundSection>` | `<section-table-data-not-found-section>` (components/section/TableDataNotFoundSection.vue)
 - `<SectionTableHeaderSection>` | `<section-table-header-section>` (components/section/TableHeaderSection.vue)
+- `<TransaksionalModalDropping>` | `<transaksional-modal-dropping>` (components/transaksional/ModalDropping.vue)
 - `<TransaksionalModalDroppingKhusus>` | `<transaksional-modal-dropping-khusus>` (components/transaksional/ModalDroppingKhusus.vue)
 - `<TransaksionalModalImportFile>` | `<transaksional-modal-import-file>` (components/transaksional/ModalImportFile.vue)
 - `<TransaksionalModalKartuStok>` | `<transaksional-modal-kartu-stok>` (components/transaksional/ModalKartuStok.vue)

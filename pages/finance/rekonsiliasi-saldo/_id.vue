@@ -196,25 +196,39 @@
                                 </span>
                               </li>
                             </v-select>
-                            <p v-if="item.coa_id" class="mt-2">
+                            <!-- <p v-if="item.coa_id" class="mt-2">
                               {{ item.coa_id?.kode_coa ?? "" }} -
                               {{ item.coa_id?.nama_coa ?? "" }}
-                            </p>
+                            </p> -->
                           </td>
                           <td class="border border-gray-300 text-right">
-                            {{
-                              parseFloat(item?.saldo_sistem ?? 0) | formatPrice
-                            }}
-                          </td>
-                          <td class="border border-gray-300">
-                            <!-- Display saldo_rekonsiliasi (auto-calculated, read-only) -->
                             <div
-                              class="w-full pl-2 py-1 border rounded bg-gray-50 text-right font-semibold"
+                              class="w-full pl-2 py-1 text-right font-semibold"
                             >
                               {{
-                                parseFloat(item.saldo_rekonsiliasi || 0)
+                                parseFloat(item?.saldo_sistem ?? 0)
                                   | formatPrice
                               }}
+                            </div>
+                          </td>
+                          <td class="border border-gray-300">
+                            <div
+                              class="w-full pl-2 py-1 text-right font-semibold"
+                            >
+                              <money
+                                :disabled="item.coa_id.coa_id_induk !== 69"
+                                v-model="item.saldo_rekonsiliasi"
+                                class="w-full pl-2 py-1 border rounded focus:outline-none"
+                                @keydown.native="
+                                  $event.key === '-'
+                                    ? $event.preventDefault()
+                                    : null
+                                "
+                              />
+                              <!-- {{
+                                parseFloat(item.saldo_rekonsiliasi || 0)
+                                  | formatPrice
+                              }} -->
                             </div>
                           </td>
                           <td class="border border-gray-300">
@@ -238,8 +252,12 @@
                         <tr
                           :key="`header-${i}`"
                           class="bg-gray-200 font-semibold"
+                          v-if="item.coa_id.coa_id_induk !== 69"
                         >
-                          <td class="border border-gray-300 px-2 py-1 pl-8">
+                          <td
+                            class="border border-gray-300 px-2 py-1 pl-8 text-center"
+                            colspan="2"
+                          >
                             Nominal
                           </td>
                           <td
@@ -249,36 +267,39 @@
                           </td>
                           <td
                             class="border border-gray-300 px-2 py-1 text-center"
-                            colspan="3"
                           >
                             Total
                           </td>
                         </tr>
 
                         <!-- Row untuk setiap rincian (nested array) -->
-                        <tr
-                          v-for="(itm, ind) in item.rincian"
-                          :key="`rincian-${i}-${ind}`"
-                          class="bg-gray-50"
-                        >
-                          <td class="border border-gray-300">
-                            {{ parseFloat(itm.nominal ?? 0) | formatPrice }}
-                          </td>
-                          <td class="border border-gray-300">
-                            <input
-                              type="number"
-                              v-model.number="itm.jumlah"
-                              @input="calculateTotal(itm, i)"
-                              class="w-full px-2 py-1 border rounded"
-                              placeholder="Jumlah"
-                              min="0"
-                            />
-                          </td>
-                          <td class="border border-gray-300">
-                            {{ parseFloat(itm.total ?? 0) | formatPrice }}
-                          </td>
-                          <td class="border border-gray-300"></td>
-                        </tr>
+                        <template v-if="item.coa_id.coa_id_induk !== 69">
+                          <tr
+                            v-for="(itm, ind) in item.rincian"
+                            :key="`rincian-${i}-${ind}`"
+                            class="bg-gray-50"
+                          >
+                            <td class="border border-gray-300" colspan="2">
+                              {{ parseFloat(itm.nominal ?? 0) | formatPrice }}
+                            </td>
+                            <td class="border border-gray-300">
+                              <input
+                                type="number"
+                                v-model.number="itm.jumlah"
+                                @input="calculateTotal(itm, i)"
+                                class="w-full px-2 py-1 border rounded"
+                                placeholder="Jumlah"
+                                min="0"
+                              />
+                            </td>
+                            <td class="border border-gray-300 text-right">
+                              {{ parseFloat(itm.total ?? 0) | formatPrice }}
+                            </td>
+                          </tr>
+                          <tr :key="`new sub-${i}`">
+                            <td colspan="5"></td>
+                          </tr>
+                        </template>
                       </template>
 
                       <!-- Row jika data kosong -->

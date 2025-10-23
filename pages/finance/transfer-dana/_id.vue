@@ -37,7 +37,9 @@
                   </div>
                   <ValidationProvider name="gudang_id" class="w-full mt-1">
                     <div v-if="!user.gudang_id" class="flex">
-                      <label for="gudang_id" class="w-[40%]">Coa </label>
+                      <label for="gudang_id" class="w-[40%]"
+                        >Coa <span class="text-danger">*</span></label
+                      >
                       <v-select
                         label="nama_coa"
                         :loading="isLoadingGetCoa"
@@ -106,7 +108,7 @@
 
               <div class="w-full flex justify-between items-center my-10">
                 <h1 class="text-xl font-bold">Detail Transfer Dana</h1>
-                <div class=" ">
+                <div class="flex items-center gap-x-4">
                   <button
                     type="button"
                     @click="addTransferDetail"
@@ -117,27 +119,41 @@
                       Tambah Detail Transfer Dana
                     </p>
                   </button>
+                  <button
+                    type="button"
+                    class="bg-yellow-500 text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    @click="onOpenModalDropping"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Dropping</p>
+                  </button>
+                  <button
+                    type="button"
+                    class="bg-green-600 text-white px-2 py-2 rounded-md flex gap-2 items-center my-1"
+                    @click="onOpenModalDroppingKhusus"
+                  >
+                    <i class="fas fa-plus"></i>
+                    <p class="text-xs font-medium">Dropping Khusus</p>
+                  </button>
                 </div>
               </div>
               <div
                 class="mb-3 p-4 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
               >
-                <div
-                  class="table-responsive overflow-y-hidden"
-                  :class="
-                    form.transfer_dana_details.length ? 'min-height:500px' : ''
-                  "
-                >
+                <div class="table-responsive overflow-y-hidden">
                   <table
                     class="table border-collapse border border-gray-300 mt-5 h-full overflow-auto table-fixed"
+                    :class="form.transfer_dana_details.length ? 'mb-60' : ''"
                   >
                     <thead>
                       <tr class="text-sm uppercase text-nowrap">
                         <th class="w-[100px] border border-gray-300">Kode</th>
-                        <th class="w-[250px] border border-gray-300">COA</th>
+                        <th class="w-[250px] border border-gray-300">
+                          COA <span class="text-danger">*</span>
+                        </th>
                         <th class="w-[200px] border border-gray-300">Gudang</th>
                         <th class="w-[200px] border border-gray-300">
-                          Nominal
+                          Nominal <span class="text-danger">*</span>
                         </th>
                         <th class="w-[200px] border border-gray-300">
                           No Referensi
@@ -167,6 +183,9 @@
                             v-model="item.coa_id"
                             @input="(item) => onSelectCoaDetail(item, i)"
                           >
+                            <template slot="option" slot-scope="option">
+                              {{ option.nama_coa + " - " + option.kode_coa }}
+                            </template>
                             <template
                               slot="selected-option"
                               slot-scope="option"
@@ -293,22 +312,22 @@
                       </td>
                     </tr>
                   </table>
-                  <div
-                    class="w-full grid grid-cols-2 my-7 min-h-[200px] items-start"
-                  >
-                    <!-- <div class="form-group">
-                      <label for="keterangan"> Keterangan </label>
-                      <textarea
-                        name="keterangan"
-                        v-model="item.keterangan"
-                        class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                      ></textarea>
-                    </div> -->
-                    <div class="w-full mt-2">
-                      <p class="w-[100px] mb-1">Total Nominal</p>
-                      <div class="w-60 border border-gray-300 p-1 rounded-md">
-                        {{ totalNominal | formatPrice }}
-                      </div>
+                </div>
+                <div
+                  class="w-full grid grid-cols-2 my-7 min-h-[200px] items-start"
+                >
+                  <!-- <div class="form-group">
+                    <label for="keterangan"> Keterangan </label>
+                    <textarea
+                      name="keterangan"
+                      v-model="item.keterangan"
+                      class="w-full h-10 border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
+                    ></textarea>
+                  </div> -->
+                  <div class="w-full mt-2 flex justify-between">
+                    <p class="w-1/4 mb-1">Total Nominal</p>
+                    <div class="w-3/4 border border-gray-300 p-1 rounded-md">
+                      {{ totalNominal | formatPrice }}
                     </div>
                   </div>
                 </div>
@@ -322,14 +341,23 @@
         </ValidationObserver>
       </div>
     </div>
+    <ModalDropping :self="this" ref="modalDropping" />
+    <ModalDroppingKhusus :self="this" ref="modalDroppingKhusus" />
   </section>
 </template>
 
 <script>
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
+import ModalDroppingKhusus from "../../../components/transaksional/ModalDroppingKhusus.vue";
+import ModalDropping from "../../../components/transaksional/ModalDropping.vue";
 export default {
   middleware: ["checkRoleUserDetail"],
+
+  components: {
+    ModalDroppingKhusus,
+    ModalDropping,
+  },
 
   head() {
     return {
@@ -653,8 +681,66 @@ export default {
       );
     },
 
+    async onOpenModalDroppingKhusus() {
+      this.$refs.modalDroppingKhusus.show();
+      await this.$refs.modalDroppingKhusus.onLoad();
+    },
+
+    addDroppingKhusus(item) {
+      this.form.transfer_dana_details.push({
+        coa_id: null,
+        gudang_id: item.gudang_id,
+        nominal: item.permintaan_dropping,
+        no_referensi: item.no_referensi,
+        pengajuan_dropping_id: item.pengajuan_dropping_khusus_id,
+        keterangan: null,
+      });
+      this.$refs.modalDroppingKhusus.hide();
+      this.$toaster.success("Berhasil menambahkan pengajuan dropping khusus");
+    },
+
+    async onOpenModalDropping() {
+      this.$refs.modalDropping.show();
+      await this.$refs.modalDropping.onLoad();
+    },
+
+    async addDropping(item) {
+      this.form.transfer_dana_details.push({
+        coa_id: null,
+        gudang_id: item.gudang_id,
+        nominal: item.permintaan_dropping,
+        no_referensi: item.no_referensi,
+        pengajuan_dropping_id: item.pengajuan_dropping_id,
+        keterangan: null,
+      });
+      this.$refs.modalDropping.hide();
+      this.$toaster.success("Berhasil menambahkan pengajuan dropping");
+    },
+
     onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
+
+      if (!this.form.coa_id) {
+        this.$toaster.error("Mohon pilih COA terlebih dahulu");
+        return;
+      }
+
+      if (this.form.transfer_dana_details.length === 0) {
+        this.$toaster.error("Mohon tambahkan detail transfer dana");
+        return;
+      }
+
+      if (
+        this.form.transfer_dana_details.some((item) => item.coa_id === null)
+      ) {
+        this.$toaster.error("Mohon pilih COA pada detail transfer dana");
+        return;
+      }
+
+      if (this.form.transfer_dana_details.some((item) => item.nominal === 0)) {
+        this.$toaster.error("Mohon isi nominal minimal 1");
+        return;
+      }
 
       this.isLoadingForm = true;
 
@@ -676,6 +762,12 @@ export default {
               typeof item.coa_id === "object"
                 ? item.coa_id.coa_id ?? ""
                 : item.coa_id ?? "",
+            // gudang_id:
+            //   typeof item.gudang_id === "object"
+            //     ? item.gudang_id.gudang_id
+            //     : item.gudang_id
+            //     ? item.gudang_id
+            //     : "",
           };
         }
       );
@@ -709,7 +801,7 @@ export default {
         })
         .finally(() => {
           this.isLoadingForm = false;
-          this.$refs.formValidate.reset();
+          // this.$refs.formValidate.reset();
         });
     },
 
