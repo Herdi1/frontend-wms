@@ -238,7 +238,7 @@ export default {
 
   head() {
     return {
-      title: "Post Saldo External",
+      title: "Post No Doc External",
     };
   },
 
@@ -285,7 +285,7 @@ export default {
 
   data() {
     return {
-      title: "Post Saldo External",
+      title: "Post No Doc External",
       isLoadingData: false,
       isPaginate: true,
       default_roles: {

@@ -196,7 +196,7 @@
                       </div>
                     </div>
                   </th>
-                  <th
+                  <!-- <th
                     @click="
                       onSort(
                         'status_approve',
@@ -228,7 +228,7 @@
                         ></i>
                       </div>
                     </div>
-                  </th>
+                  </th> -->
                   <th class="w-48 border border-gray-300">Total Transfer</th>
                   <th class="w-48 border border-gray-300">No Referensi</th>
                   <th class="w-48 border border-gray-300">Keterangan</th>
@@ -284,9 +284,9 @@
                   <td class="border border-gray-300">
                     {{ item.tanggal }}
                   </td>
-                  <td class="border border-gray-300">
+                  <!-- <td class="border border-gray-300">
                     {{ item.status_approve }}
-                  </td>
+                  </td> -->
                   <td class="border border-gray-300 text-right">
                     {{ item.total_transfer | formatPrice }}
                   </td>
