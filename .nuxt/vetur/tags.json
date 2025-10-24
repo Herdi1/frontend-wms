@@ -71,18 +71,6 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
   },
@@ -496,6 +484,18 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
+  },
+  "InputForm": {
+    "description": "Auto imported from components/InputForm/InputForm.vue"
+  },
+  "InputHoriontal": {
+    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
+  },
+  "InputKoma": {
+    "description": "Auto imported from components/InputForm/InputKoma.vue"
+  },
+  "InputFormSelectComponent": {
+    "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
   "SectionFilterData": {
     "description": "Auto imported from components/section/FilterData.vue"
