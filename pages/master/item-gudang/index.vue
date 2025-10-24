@@ -517,13 +517,10 @@ export default {
   },
 
   created() {
-    this.set_data([]);
     // this.parameters.params.gudang_id = this.user.gudang_id;
     if (this.user.gudang_id) {
       this.parameters.params.gudang_id = this.user.gudang_id;
     }
-
-    this.onLoad();
   },
 
   components: {
@@ -572,6 +569,11 @@ export default {
     await this.onSearchGroupItem4();
     await this.onSearchGroupItem5();
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length) {
+      this.filter_params.gudang_id = this.lookup_custom1.data[0].gudang_id;
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   data() {

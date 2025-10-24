@@ -367,8 +367,6 @@ export default {
     if (this.user.gudang_id) {
       this.parameters.params.gudang_id = this.user.gudang_id;
     }
-    this.set_data([]);
-    this.onLoad();
   },
 
   async mounted() {
@@ -408,6 +406,11 @@ export default {
     }
 
     await this.onSearchGudang();
+    if (this.lookup_custom1.data.length > 0) {
+      this.parameters.params.gudang_id = this.lookup_custom1.data[0].gudang_id;
+    }
+    this.set_data([]);
+    this.onLoad();
   },
 
   data() {
