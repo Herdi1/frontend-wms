@@ -21,6 +21,13 @@ You can directly use them in pages and other components without the need to impo
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+<<<<<<< HEAD
+=======
+- `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
+- `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
+- `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
+- `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+>>>>>>> cbc73e1fb664eb6b93dcd53b7a74bb12faae407d
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)

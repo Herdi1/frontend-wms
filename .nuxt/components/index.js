@@ -13,6 +13,13 @@ export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\Search
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+<<<<<<< HEAD
+=======
+export { default as InputForm } from '../..\\components\\InputForm\\InputForm.vue'
+export { default as InputHoriontal } from '../..\\components\\InputForm\\InputHoriontal.vue'
+export { default as InputKoma } from '../..\\components\\InputForm\\InputKoma.vue'
+export { default as InputFormSelectComponent } from '../..\\components\\InputForm\\SelectComponent.vue'
+>>>>>>> cbc73e1fb664eb6b93dcd53b7a74bb12faae407d
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'

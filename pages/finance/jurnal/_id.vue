@@ -86,6 +86,7 @@
                       type="text"
                       name="kode_referensi"
                       v-model="form.kode_referensi"
+                      :required="false"
                     />
                   </div>
                   <div class="form-group">
@@ -94,6 +95,7 @@
                       type="text"
                       name="kode_referensi_2"
                       v-model="form.kode_referensi_2"
+                      :required="false"
                     />
                   </div>
                   <div class="form-group">
@@ -102,6 +104,7 @@
                       type="text"
                       name="kode_referensi_3"
                       v-model="form.kode_referensi_3"
+                      :required="false"
                     />
                   </div>
                   <div class="flex w-full m-1 pr-1">
@@ -125,7 +128,7 @@
                 >
 
                 </div> -->
-                <div class="w-full mb-5">
+                <div class="w-full mb-5" v-if="!isLoadingPage">
                   <div class="w-full flex justify-between items-center">
                     <h1 class="text-xl font-bold">Detail Jurnal</h1>
                     <div class=" ">
@@ -358,50 +361,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <!-- <td class="border border-gray-300">
-                            <v-select
-                              label="nama_jenis_biaya"
-                              :loading="isLoadingGetJenisBiaya"
-                              :options="lookup_suppliers.data"
-                              :filterable="false"
-                              @search="onGetJenisBiaya"
-                              v-model="item.jenis_biaya_id"
-                              class="w-full"
-                            >
-                              <template
-                                slot="selected-option"
-                                slot-scope="option"
-                              >
-                                <div
-                                  class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
-                                >
-                                  {{ option.nama_jenis_biaya }}
-                                </div>
-                              </template>
-                              <li
-                                slot-scope="{ search }"
-                                slot="list-footer"
-                                class="p-1 border-t flex justify-between"
-                                v-if="lookup_suppliers.data.length || search"
-                              >
-                                <span
-                                  v-if="lookup_suppliers.current_page > 1"
-                                  @click="onGetJenisBiaya(search, false)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Sebelumnya</span
-                                >
-                                <span
-                                  v-if="
-                                    lookup_suppliers.last_page >
-                                    lookup_suppliers.current_page
-                                  "
-                                  @click="onGetJenisBiaya(search, true)"
-                                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                  >Selanjutnya</span
-                                >
-                              </li>
-                            </v-select>
-                          </td> -->
+
                           <td class="border border-gray-300">
                             <v-select
                               label="nama_peralatan"
@@ -446,103 +406,7 @@
                               </li>
                             </v-select>
                           </td>
-                          <!-- <td
-                            v-if="!user.gudang_id"
-                            class="border border-gray-300"
-                          >
-                            <div class="w-full">
-                              <label for="">Profit Center</label>
-                              <v-select
-                                label="kode_profit_center"
-                                :loading="isLoadingGetProfit"
-                                :options="lookup_regus.data"
-                                :filterable="false"
-                                @search="onGetProfit"
-                                :reduce="(item) => item.profit_center_id"
-                                v-model="item.profit_center_id"
-                                class="w-full"
-                              >
-                                <template
-                                  slot="selected-option"
-                                  slot-scope="option"
-                                >
-                                  <div
-                                    class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
-                                  >
-                                    {{ option.kode_profit_center }}
-                                  </div>
-                                </template>
-                                <li
-                                  slot-scope="{ search }"
-                                  slot="list-footer"
-                                  class="p-1 border-t flex justify-between"
-                                  v-if="lookup_regus.data.length || search"
-                                >
-                                  <span
-                                    v-if="lookup_regus.current_page > 1"
-                                    @click="onGetProfit(search, false)"
-                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                    >Sebelumnya</span
-                                  >
-                                  <span
-                                    v-if="
-                                      lookup_regus.last_page >
-                                      lookup_regus.current_page
-                                    "
-                                    @click="onGetProfit(search, true)"
-                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                    >Selanjutnya</span
-                                  >
-                                </li>
-                              </v-select>
-                            </div>
-                            <div class="w-full">
-                              <label for="">Cost Center</label>
-                              <v-select
-                                label="kode_cost_center"
-                                :loading="isLoadingGetCost"
-                                :options="lookup_grade.data"
-                                :filterable="false"
-                                @search="onGetCost"
-                                :reduce="(item) => item.cost_center_id"
-                                v-model="item.cost_center_id"
-                                class="w-full"
-                              >
-                                <template
-                                  slot="selected-option"
-                                  slot-scope="option"
-                                >
-                                  <div
-                                    class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
-                                  >
-                                    {{ option.kode_cost_center }}
-                                  </div>
-                                </template>
-                                <li
-                                  slot-scope="{ search }"
-                                  slot="list-footer"
-                                  class="p-1 border-t flex justify-between"
-                                  v-if="lookup_grade.data.length || search"
-                                >
-                                  <span
-                                    v-if="lookup_grade.current_page > 1"
-                                    @click="onGetCost(search, false)"
-                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                    >Sebelumnya</span
-                                  >
-                                  <span
-                                    v-if="
-                                      lookup_grade.last_page >
-                                      lookup_grade.current_page
-                                    "
-                                    @click="onGetCost(search, true)"
-                                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                                    >Selanjutnya</span
-                                  >
-                                </li>
-                              </v-select>
-                            </div>
-                          </td> -->
+
                           <td class="border border-gray-300">
                             <textarea
                               name="keterangan"
@@ -550,20 +414,7 @@
                               class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                             ></textarea>
                           </td>
-                          <!-- <td>
-                            <textarea
-                              name="keterangan_pindah_gudang"
-                              v-model="item.keterangan_2"
-                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                            ></textarea>
-                          </td>
-                          <td>
-                            <textarea
-                              name="keterangan_pindah_gudang"
-                              v-model="item.keterangan_3"
-                              class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
-                            ></textarea>
-                          </td> -->
+
                           <td
                             class="text-center text-gray-600 border border-gray-300"
                           >
@@ -714,14 +565,15 @@ export default {
   },
 
   async created() {
-    try {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = (today.getMonth() + 1).toString().padStart(2, "0");
-      const day = today.getDate().toString().padStart(2, "0");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
 
-      const formattedDate = `${year}-${month}-${day}`;
-      this.form.tanggal = formattedDate;
+    const formattedDate = `${year}-${month}-${day}`;
+    this.form.tanggal = formattedDate;
+    this.isLoadingPage = true;
+    try {
       if (this.isEditable) {
         let response = await this.$axios.get("finance/jurnal/" + this.id);
 
@@ -738,7 +590,7 @@ export default {
         this.form.jurnal_details = response.data.jurnal_details.map((item) => {
           return {
             ...item,
-            jurnal_detail_id: item,
+            // jurnal_detail_id: item,
             coa_id: item.coa ?? "",
             jenis_biaya_id: item.jenis_biaya ?? "",
             divisi_id: item.divisi ?? "",
@@ -746,11 +598,11 @@ export default {
             peralatan_id: item.peralatan ?? "",
           };
         });
-
-        this.isLoadingPage = false;
       }
     } catch (error) {
       this.$router.push("/finance/jurnal-manual");
+    } finally {
+      this.isLoadingPage = false;
     }
   },
 
