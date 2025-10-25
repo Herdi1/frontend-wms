@@ -77,6 +77,24 @@
                     :required="false"
                   />
                 </div>
+
+                <div class="form-group flex justify-between items-start">
+                  <label
+                    for="lampiran"
+                    class="w-1/2 pt-1 text-sm font-medium text-gray-900 dark:text-white"
+                    >Lampiran
+                    <span class="italic text-xs text-slate-600">(*pdf)</span>
+                  </label>
+                  <span class="w-1/2">
+                    <input
+                      class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-1 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      id="lampiran"
+                      type="file"
+                      accept=".pdf"
+                      @change="handleFileChange"
+                    />
+                  </span>
+                </div>
                 <div class="flex justify-between">
                   <label class="w-1/2 pt-1">Keterangan</label>
                   <textarea
@@ -166,6 +184,17 @@
                               v-model="item.keterangan"
                               class="w-full border border-gray-300 rounded-md bg-white outline-none p-1 active:outline-none"
                             ></textarea>
+                          </td>
+                        </tr>
+                        <tr v-if="!form.pengajuan_dropping_details.length > 0">
+                          <td colspan="100" class="text-center">
+                            <span class="flex justify-center">
+                              <img
+                                src="/img/data-not-found.svg"
+                                style="height: 250px; object-fit: cover"
+                              />
+                            </span>
+                            <div class="mt-3">Data Tidak Ditemukan</div>
                           </td>
                         </tr>
                       </tbody>
@@ -550,6 +579,7 @@ export default {
         dropping_khusus: [],
         dropping: [],
         pengajuan_dropping_id_sebelumnya: "",
+        file_name: "",
 
         plafon_dropping: "",
         total_biaya: "",
@@ -574,6 +604,7 @@ export default {
         dropping_khusus: [],
         dropping: [],
         pengajuan_dropping_id_sebelumnya: "",
+        file_name: "",
 
         plafon_dropping: "",
         total_biaya: "",
@@ -725,6 +756,10 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData", "lookUp"]),
+
+    handleFileChange(e) {
+      this.form.file_name = e.target.files[0];
+    },
 
     formatDate(dateString) {
       if (!dateString) return "";
@@ -949,7 +984,7 @@ export default {
       this.isLoadingForm = true;
       let url = this.url;
 
-      let formData = {
+      let formDataObj = {
         ...this.form,
         gudang_id:
           typeof this.form.gudang_id === "object"
@@ -963,7 +998,7 @@ export default {
         pengajuan_dropping_id_sebelumnya:
           this.form.dropping[0]?.pengajuan_dropping_id ?? "",
       };
-      formData.pengajuan_dropping_details =
+      formDataObj.pengajuan_dropping_details =
         this.form.pengajuan_dropping_details.map((item) => {
           return {
             ...item,
@@ -971,7 +1006,7 @@ export default {
           };
         });
 
-      formData.pengajuan_dropping_biaya_details =
+      formDataObj.pengajuan_dropping_biaya_details =
         this.form.pengajuan_dropping_biaya_details.map((item) => {
           return {
             ...item,
@@ -982,12 +1017,7 @@ export default {
           };
         });
 
-      // formData.dropping = this.form.dropping.map((item) => {
-      //   return {
-      //     pegajuan_dropping_id: item.pengajuan_dropping_id ?? "",
-      //   };
-      // });
-      formData.pengajuan_dropping_umum_khusus_details =
+      formDataObj.pengajuan_dropping_umum_khusus_details =
         this.form.dropping_khusus.map((item) => {
           return {
             ...item,
@@ -995,13 +1025,36 @@ export default {
           };
         });
 
+      let formData = new FormData();
+
+      function appendFormData(fd, data, parentKey) {
+        if (data && typeof data === "object" && !(data instanceof File)) {
+          Object.keys(data).forEach((key) => {
+            appendFormData(
+              fd,
+              data[key],
+              parentKey ? `${parentKey}[${key}]` : key
+            );
+          });
+        } else {
+          fd.append(parentKey, data == null ? "" : data);
+        }
+      }
+
+      appendFormData(formData, formDataObj);
+
+      if (this.form.file_dokumen instanceof File) {
+        formData.append("file_dokumen", this.form.file_dokumen);
+      }
+
       if (this.isEditable) {
         url += "/" + this.id;
+        formData.append("_method", "PUT");
       }
 
       this.$axios({
         url: url,
-        method: this.isEditable ? "put" : "post",
+        method: "post",
         data: formData,
       })
         .then((res) => {

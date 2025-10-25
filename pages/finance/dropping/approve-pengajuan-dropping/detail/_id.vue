@@ -68,6 +68,16 @@
                 </div>
               </div>
               <div class="flex w-full items-start">
+                <label class="w-[40%] font-bold">Lampiran</label>
+                <button
+                  type="button"
+                  class="border border-gray-300 bg-blue-500 text-white rounded-md p-1 w-[60%]"
+                  @click="openPdfViewer"
+                >
+                  Lihat Lampiran
+                </button>
+              </div>
+              <div class="flex w-full items-start">
                 <label class="w-2/5 pt-1">Keterangan</label>
                 <textarea
                   disabled
@@ -453,12 +463,18 @@
         </div>
       </div>
     </div>
+    <PDFViewer ref="pdfModal" :pdfUrl="form.file_url" />
   </section>
 </template>
 
 <script>
+import PDFViewer from "../../../../../components/PDFViewer.vue";
+
 export default {
   props: ["self"],
+  components: {
+    PDFViewer,
+  },
   data() {
     let id = parseInt(this.$route.params.id);
 
@@ -485,6 +501,7 @@ export default {
         pengajuan_dropping_biaya_details: [],
         dropping: [],
         gudang: {},
+        file_url: "",
 
         plafon_dropping: "",
         total_biaya: "",
@@ -593,6 +610,9 @@ export default {
   },
 
   methods: {
+    openPdfViewer() {
+      this.$refs.pdfModal.openModal();
+    },
     formatDate(dateString) {
       if (!dateString) return "";
       const [year, month, day] = dateString.split("-");

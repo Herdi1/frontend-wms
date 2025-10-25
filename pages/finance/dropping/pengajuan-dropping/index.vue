@@ -202,7 +202,7 @@
                     "
                   >
                     <div class="flex justify-between items-baseline">
-                      <div>Status Pengajuan</div>
+                      <div>Approve Verifikasi</div>
                       <div>
                         <i
                           class="fas fa-caret-up"
@@ -217,6 +217,39 @@
                           class="fas fa-caret-down"
                           :class="
                             parameters.params.order == 'status_pengajuan' &&
+                            parameters.params.sort == 'desc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                      </div>
+                    </div>
+                  </th>
+                  <th
+                    class="w-48 border border-gray-300 cursor-pointer"
+                    @click="
+                      onSort(
+                        'status_pengajuan_sm',
+                        parameters.params.sort == 'asc' ? 'desc' : 'asc'
+                      )
+                    "
+                  >
+                    <div class="flex justify-between items-baseline">
+                      <div>Approve SM</div>
+                      <div>
+                        <i
+                          class="fas fa-caret-up"
+                          :class="
+                            parameters.params.order == 'status_pengajuan_sm' &&
+                            parameters.params.sort == 'asc'
+                              ? ''
+                              : 'light-gray'
+                          "
+                        ></i>
+                        <i
+                          class="fas fa-caret-down"
+                          :class="
+                            parameters.params.order == 'status_pengajuan_sm' &&
                             parameters.params.sort == 'desc'
                               ? ''
                               : 'light-gray'
@@ -302,6 +335,38 @@
                           class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
                         >
                           {{ item.status_pengajuan }}
+                        </p>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <div>
+                      <span v-if="item.status_pengajuan_sm === 'MENUNGGU'">
+                        <p
+                          class="p-1 w-1/2 rounded-md bg-orange-500 font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan_sm }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan_sm === 'PROSES'">
+                        <p
+                          class="bg-purple-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan_sm }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan_sm === 'SETUJU'">
+                        <p
+                          class="bg-green-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan_sm }}
+                        </p>
+                      </span>
+                      <span v-if="item.status_pengajuan_sm === 'BATAL'">
+                        <p
+                          class="bg-red-500 p-1 w-1/2 rounded-md font-semibold text-white text-center"
+                        >
+                          {{ item.status_pengajuan_sm }}
                         </p>
                       </span>
                     </div>

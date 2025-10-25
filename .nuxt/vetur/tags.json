@@ -44,33 +44,6 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
-<<<<<<< HEAD
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
-=======
->>>>>>> 570ab6120423f122f6c3dc1d6672db0bf001ac17
-  "ButtonSmallDeleteButton": {
-    "description": "Auto imported from components/button/SmallDeleteButton.vue"
-  },
-  "ButtonSmallDetailButton": {
-    "description": "Auto imported from components/button/SmallDetailButton.vue"
-  },
-  "ButtonSmallEditButton": {
-    "description": "Auto imported from components/button/SmallEditButton.vue"
-  },
-  "ButtonSmallRestoreButton": {
-    "description": "Auto imported from components/button/SmallRestoreButton.vue"
-  },
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
@@ -86,8 +59,18 @@
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
   },
-<<<<<<< HEAD
-=======
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
+  },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
   },
@@ -100,7 +83,6 @@
   "InputFormSelectComponent": {
     "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
->>>>>>> 570ab6120423f122f6c3dc1d6672db0bf001ac17
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
   },

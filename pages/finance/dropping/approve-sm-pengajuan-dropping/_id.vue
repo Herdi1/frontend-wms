@@ -104,7 +104,7 @@
                   <select
                     name=""
                     id=""
-                    v-model="form.status_pengajuan"
+                    v-model="form.status_pengajuan_sm"
                     class="w-1/2 p-1 rounded-sm border border-gray-300 outline-none"
                   >
                     <option value="MENUNGGU">Menunggu</option>
@@ -515,17 +515,15 @@
 import { ValidationObserver } from "vee-validate";
 import { mapActions, mapMutations, mapState } from "vuex";
 import PDFViewer from "../../../../components/PDFViewer.vue";
-
 export default {
   middleware: ["checkRoleUserDetail"],
-
   components: {
     PDFViewer,
   },
 
   head() {
     return {
-      title: "Approve Pengajuan Dropping",
+      title: "Approve SM Pengajuan Dropping",
     };
   },
 
@@ -543,8 +541,8 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Approve Pengajuan Dropping",
-      url: "finance/approve-pengajuan-dropping",
+      title: "Approve SM Pengajuan Dropping",
+      url: "finance/approve-sm-pengajuan-dropping",
       form: {
         kode_pengajuan: "",
         no_referensi: "",
@@ -570,11 +568,11 @@ export default {
         longitude: "",
         latitude: "",
 
-        status_pengajuan: "",
+        status_pengajuan_sm: "",
         catatan: "",
       },
       defaultForm: {
-        status_pengajuan: "",
+        status_pengajuan_sm: "",
         catatan: "",
       },
     };
@@ -726,7 +724,7 @@ export default {
       let url = this.url;
 
       let formData = {
-        status_pengajuan: this.form.status_pengajuan,
+        status_pengajuan_sm: this.form.status_pengajuan_sm,
         catatan: this.form.catatan,
       };
 
