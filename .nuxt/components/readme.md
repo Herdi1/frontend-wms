@@ -21,10 +21,13 @@ You can directly use them in pages and other components without the need to impo
 - `<AnavbarUserOptions>` | `<anavbar-user-options>` (components/anavbar/UserOptions.vue)
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+<<<<<<< HEAD
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
 - `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+=======
+>>>>>>> 570ab6120423f122f6c3dc1d6672db0bf001ac17
 - `<ButtonSmallDeleteButton>` | `<button-small-delete-button>` (components/button/SmallDeleteButton.vue)
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
@@ -34,6 +37,13 @@ You can directly use them in pages and other components without the need to impo
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+<<<<<<< HEAD
+=======
+- `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
+- `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
+- `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
+- `<InputFormSelectComponent>` | `<input-form-select-component>` (components/InputForm/SelectComponent.vue)
+>>>>>>> 570ab6120423f122f6c3dc1d6672db0bf001ac17
 - `<IconAirplay>` | `<icon-airplay>` (components/icon/icon-airplay.vue)
 - `<IconArchive>` | `<icon-archive>` (components/icon/icon-archive.vue)
 - `<IconArrowBackward>` | `<icon-arrow-backward>` (components/icon/icon-arrow-backward.vue)
