@@ -44,21 +44,6 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
-<<<<<<< HEAD
-=======
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
-  },
->>>>>>> cbc73e1fb664eb6b93dcd53b7a74bb12faae407d
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -85,6 +70,18 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+  "InputForm": {
+    "description": "Auto imported from components/InputForm/InputForm.vue"
+  },
+  "InputHoriontal": {
+    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
+  },
+  "InputKoma": {
+    "description": "Auto imported from components/InputForm/InputKoma.vue"
+  },
+  "InputFormSelectComponent": {
+    "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
   "IconAirplay": {
     "description": "Auto imported from components/icon/icon-airplay.vue"
@@ -499,18 +496,6 @@
   },
   "IconZipFile": {
     "description": "Auto imported from components/icon/icon-zip-file.vue"
-  },
-  "InputForm": {
-    "description": "Auto imported from components/InputForm/InputForm.vue"
-  },
-  "InputHoriontal": {
-    "description": "Auto imported from components/InputForm/InputHoriontal.vue"
-  },
-  "InputKoma": {
-    "description": "Auto imported from components/InputForm/InputKoma.vue"
-  },
-  "InputFormSelectComponent": {
-    "description": "Auto imported from components/InputForm/SelectComponent.vue"
   },
   "SectionFilterData": {
     "description": "Auto imported from components/section/FilterData.vue"

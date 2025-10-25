@@ -20,6 +20,12 @@
           <div
             class="modal-body my-4 bg-white dark:bg-slate-800 rounded-md px-4 py-2 shadow-sm"
           >
+            <div class="grid w-full" v-if="form.file_url">
+              <div class="form-group">
+                <label for="">Logo</label>
+                <img class="mx-2 my-2 w-[25%]" :src="form.file_url" alt="" />
+              </div>
+            </div>
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group w-full items-center mb-5">
                 <label for="">Pelanggan Induk</label>
@@ -161,7 +167,7 @@
                 />
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+            <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
                 <input-form
                   label="Nama Pelanggan"
@@ -179,6 +185,21 @@
                   :required="true"
                   v-model="form.alias"
                 />
+              </div>
+              <div class="form-group">
+                <label for="file_logo">Logo</label>
+                <input
+                  type="file"
+                  name="file_logo"
+                  @change="handleFileChange"
+                  class="w-full pl-2 py-1 border border-gray-300 rounded focus:outline-none"
+                />
+                <!-- <input-form
+                  label="Logo"
+                  type="file"
+                  name="file_logo"
+                  @change="handleFileChange"
+                /> -->
               </div>
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
@@ -489,25 +510,19 @@
                   />
                 </div>
               </ValidationProvider>
-              <ValidationProvider name="radius" rules="required">
-                <div class="form-group col-12" slot-scope="{ errors, valid }">
-                  <label for="radius"
-                    >Radius <span class="text-danger">*</span></label
-                  >
-                  <money
-                    v-model="form.radius"
-                    class="w-full pl-2 py-1 border rounded focus:outline-none"
-                    @keydown.native="
-                      $event.key === '-' ? $event.preventDefault() : null
-                    "
-                    :class="errors[0] ? 'is-invalid' : valid ? 'is-valid' : ''"
-                  />
-                  <div class="text-muted text-small">* Meter</div>
-                  <span class="text-danger text-xs pl-1" v-if="errors[0]">{{
-                    errors[0]
-                  }}</span>
-                </div>
-              </ValidationProvider>
+              <div class="form-group col-12">
+                <label for="radius"
+                  >Radius <span class="text-danger">*</span></label
+                >
+                <money
+                  v-model="form.radius"
+                  class="w-full pl-2 py-1 border rounded focus:outline-none"
+                  @keydown.native="
+                    $event.key === '-' ? $event.preventDefault() : null
+                  "
+                />
+                <div class="text-muted text-small">* Meter</div>
+              </div>
             </div>
             <div class="grid grid-cols-3 gap-2 w-full">
               <div class="form-group">
@@ -825,14 +840,14 @@
             </div>
           </div>
           <div class="w-full mb-5 bg-white dark:bg-slate-800">
-            <TabComponent :tabs="tabs">
+            <!-- <TabComponent :tabs="tabs">
               <template #ItemPelanggan>
                 <ItemPelanggan :self="{ form }" />
               </template>
-              <!-- <template #Shipto>
-                <Shipto :self="{ form, parameters }" />
-              </template> -->
-            </TabComponent>
+            </TabComponent> -->
+            <!-- <template #Shipto>
+              <Shipto :self="{ form, parameters }" />
+            </template> -->
           </div>
           <div class="w-full flex justify-start">
             <modal-footer-section
@@ -872,10 +887,10 @@ export default {
   data() {
     let id = parseInt(this.$route.params.id);
     return {
-      tabs: [
-        { name: "Item Pelanggan", slotName: "ItemPelanggan" },
-        // { name: "Shipto", slotName: "Shipto" },
-      ],
+      // tabs: [
+      //   { name: "Item Pelanggan", slotName: "ItemPelanggan" },
+      //   // { name: "Shipto", slotName: "Shipto" },
+      // ],
 
       id,
 
@@ -923,6 +938,8 @@ export default {
         kota_id_pemilik: "",
         kecamatan_id_pemilik: "",
         kelurahan_id_pemilik: "",
+        file_logo: "",
+        file_url: "",
         item_pelanggans: [],
         // lokasi_pelanggans: [],
       },
@@ -1009,6 +1026,8 @@ export default {
         this.form.pelanggan_id_induk = res.data.pelanggan_induk ?? "";
         this.form.kode_pos_id = res.data.kode_pos ?? "";
         this.form.kode_pos_id = res.data.kode_pos ?? "";
+        this.form.radius = parseFloat(res.data.radius) ?? 0;
+        this.form.nilai_plafon = parseFloat(res.data.nilai_plafon) ?? 0;
 
         this.form.negara_id_pemilik = res.data.negara_pemilik ?? "";
         this.form.provinsi_id_pemilik = res.data.provinsi_pemilik ?? "";
@@ -1080,6 +1099,11 @@ export default {
 
     ...mapMutations("moduleApi", ["set_data"]),
 
+    handleFileChange(e) {
+      let file = e.target.files[0];
+      this.form.file_logo = file;
+    },
+
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
@@ -1087,81 +1111,226 @@ export default {
 
       let url = "master/pelanggan";
 
-      let formData = {
-        ...this.form,
-        negara_id:
-          typeof this.form.negara_id === "object"
-            ? this.form.negara_id.negara_id
-            : this.form.negara_id,
-        provinsi_id:
-          typeof this.form.provinsi_id === "object"
-            ? this.form.provinsi_id.provinsi_id
-            : this.form.provinsi_id,
-        kota_id:
-          typeof this.form.kota_id === "object"
-            ? this.form.kota_id.kota_id
-            : this.form.kota_id,
-        kecamatan_id:
-          typeof this.form.kecamatan_id === "object"
-            ? this.form.kecamatan_id.kecamatan_id
-            : this.form.kecamatan_id,
-        kelurahan_id:
-          typeof this.form.kelurahan_id === "object"
-            ? this.form.kelurahan_id.kelurahan_id
-            : this.form.kelurahan_id,
-        kode_pos_id:
-          typeof this.form.kode_pos_id === "object"
-            ? this.form.kode_pos_id.kode_pos_id
-            : this.form.kode_pos_id,
-        tipe_badan_hukum_id:
-          typeof this.form.tipe_badan_hukum_id === "object"
-            ? this.form.tipe_badan_hukum_id.tipe_badan_hukum_id
-            : this.form.tipe_badan_hukum_id,
-        lokasi_id:
-          typeof this.form.lokasi_id === "object"
-            ? this.form.lokasi_id.lokasi_id
-            : this.form.lokasi_id,
-        user_id_sales:
-          typeof this.form.user_id_sales === "object"
-            ? this.form.user_id_sales.user_id
-            : this.form.user_id_sales,
-        pelanggan_id_induk:
-          typeof this.form.pelanggan_id_induk === "object"
-            ? this.form.pelanggan_id_induk.pelanggan_id
-            : this.form.pelanggan_id_induk,
+      let formData = new FormData();
 
-        negara_id_pemilik:
-          typeof this.form.negara_id_pemilik === "object"
-            ? this.form.negara_id_pemilik.negara_id
-            : this.form.negara_id_pemilik,
-        provinsi_id_pemilik:
-          typeof this.form.provinsi_id_pemilik === "object"
-            ? this.form.provinsi_id_pemilik.provinsi_id
-            : this.form.provinsi_id_pemilik,
-        kota_id_pemilik:
-          typeof this.form.kota_id_pemilik === "object"
-            ? this.form.kota_id_pemilik.kota_id
-            : this.form.kota_id_pemilik,
-        kecamatan_id_pemilik:
-          typeof this.form.kecamatan_id_pemilik === "object"
-            ? this.form.kecamatan_id_pemilik.kecamatan_id
-            : this.form.kecamatan_id_pemilik,
-        kelurahan_id_pemilik:
-          typeof this.form.kelurahan_id_pemilik === "object"
-            ? this.form.kelurahan_id_pemilik.kelurahan_id
-            : this.form.kelurahan_id_pemilik,
-        kode_pos_id_pemilik:
-          typeof this.form.kode_pos_id_pemilik === "object"
-            ? this.form.kode_pos_id_pemilik.kode_pos_id
-            : this.form.kode_pos_id_pemilik,
-      };
-
-      formData.item_pelanggans = formData.item_pelanggans.map((item) => {
-        return {
-          ...item,
-          item_pelanggan_id: item.item_pelanggan_id,
-        };
+      Object.entries(this.form).forEach(([key, value]) => {
+        if (key != "file_logo" && typeof value !== "object") {
+          formData.append(key, value ?? "");
+        }
       });
+      formData.append(
+        "negara_id",
+        typeof this.form.negara_id === "object"
+          ? this.form.negara_id.negara_id
+          : ""
+      );
+      formData.append(
+        "provinsi_id",
+        typeof this.form.provinsi_id === "object"
+          ? this.form.provinsi_id.provinsi_id
+          : ""
+      );
+      formData.append(
+        "kota_id",
+        typeof this.form.kota_id === "object" ? this.form.kota_id.kota_id : ""
+      );
+      formData.append(
+        "kecamatan_id",
+        typeof this.form.kecamatan_id === "object"
+          ? this.form.kecamatan_id.kecamatan_id
+          : ""
+      );
+      formData.append(
+        "kelurahan_id",
+        typeof this.form.kelurahan_id === "object"
+          ? this.form.kelurahan_id.kelurahan_id
+          : ""
+      );
+      formData.append(
+        "kode_pos_id",
+        typeof this.form.kode_pos_id === "object"
+          ? this.form.kode_pos_id.kode_pos_id
+          : ""
+      );
+      formData.append(
+        "tipe_badan_hukum_id",
+        typeof this.form.tipe_badan_hukum_id === "object"
+          ? this.form.tipe_badan_hukum_id.tipe_badan_hukum_id
+          : ""
+      );
+      formData.append(
+        "lokasi_id",
+        typeof this.form.lokasi_id === "object"
+          ? this.form.lokasi_id.lokasi_id
+          : ""
+      );
+      formData.append(
+        "user_id_sales",
+        typeof this.form.user_id_sales === "object"
+          ? this.form.user_id_sales.user_id
+          : ""
+      );
+      formData.append(
+        "pelanggan_id_induk",
+        typeof this.form.pelanggan_id_induk === "object"
+          ? this.form.pelanggan_id_induk.pelanggan_id
+          : ""
+      );
+      formData.append(
+        "negara_id_pemilik",
+        typeof this.form.negara_id_pemilik === "object"
+          ? this.form.negara_id_pemilik.negara_id
+          : ""
+      );
+      formData.append(
+        "provinsi_id_pemilik",
+        typeof this.form.provinsi_id_pemilik === "object"
+          ? this.form.provinsi_id_pemilik.provinsi_id
+          : ""
+      );
+      formData.append(
+        "kota_id_pemilik",
+        typeof this.form.kota_id_pemilik === "object"
+          ? this.form.kota_id_pemilik.kota_id
+          : ""
+      );
+      formData.append(
+        "kecamatan_id_pemilik",
+        typeof this.form.kecamatan_id_pemilik === "object"
+          ? this.form.kecamatan_id_pemilik.kecamatan_id
+          : ""
+      );
+      formData.append(
+        "kelurahan_id_pemilik",
+        typeof this.form.kelurahan_id_pemilik === "object"
+          ? this.form.kelurahan_id_pemilik.kelurahan_id
+          : this.form.kelurahan_id_pemilik
+      );
+      formData.append(
+        "kode_pos_id_pemilik",
+        typeof this.form.kode_pos_id_pemilik === "object"
+          ? this.form.kode_pos_id_pemilik.kode_pos_id
+          : ""
+      );
+
+      if (this.form.file_logo instanceof File) {
+        formData.append("file_logo", this.form.file_logo);
+      }
+
+      // formData = {
+      //   ...this.form,
+      //   negara_id:
+      //     typeof this.form.negara_id === "object"
+      //       ? this.form.negara_id.negara_id
+      //       : this.form.negara_id,
+      //   provinsi_id:
+      //     typeof this.form.provinsi_id === "object"
+      //       ? this.form.provinsi_id.provinsi_id
+      //       : this.form.provinsi_id,
+      //   kota_id:
+      //     typeof this.form.kota_id === "object"
+      //       ? this.form.kota_id.kota_id
+      //       : this.form.kota_id,
+      //   kecamatan_id:
+      //     typeof this.form.kecamatan_id === "object"
+      //       ? this.form.kecamatan_id.kecamatan_id
+      //       : this.form.kecamatan_id,
+      //   kelurahan_id:
+      //     typeof this.form.kelurahan_id === "object"
+      //       ? this.form.kelurahan_id.kelurahan_id
+      //       : this.form.kelurahan_id,
+      //   kode_pos_id:
+      //     typeof this.form.kode_pos_id === "object"
+      //       ? this.form.kode_pos_id.kode_pos_id
+      //       : this.form.kode_pos_id,
+      //   tipe_badan_hukum_id:
+      //     typeof this.form.tipe_badan_hukum_id === "object"
+      //       ? this.form.tipe_badan_hukum_id.tipe_badan_hukum_id
+      //       : this.form.tipe_badan_hukum_id,
+      //   lokasi_id:
+      //     typeof this.form.lokasi_id === "object"
+      //       ? this.form.lokasi_id.lokasi_id
+      //       : this.form.lokasi_id,
+      //   user_id_sales:
+      //     typeof this.form.user_id_sales === "object"
+      //       ? this.form.user_id_sales.user_id
+      //       : this.form.user_id_sales,
+      //   pelanggan_id_induk:
+      //     typeof this.form.pelanggan_id_induk === "object"
+      //       ? this.form.pelanggan_id_induk.pelanggan_id
+      //       : this.form.pelanggan_id_induk,
+
+      //   negara_id_pemilik:
+      //     typeof this.form.negara_id_pemilik === "object"
+      //       ? this.form.negara_id_pemilik.negara_id
+      //       : this.form.negara_id_pemilik,
+      //   provinsi_id_pemilik:
+      //     typeof this.form.provinsi_id_pemilik === "object"
+      //       ? this.form.provinsi_id_pemilik.provinsi_id
+      //       : this.form.provinsi_id_pemilik,
+      //   kota_id_pemilik:
+      //     typeof this.form.kota_id_pemilik === "object"
+      //       ? this.form.kota_id_pemilik.kota_id
+      //       : this.form.kota_id_pemilik,
+      //   kecamatan_id_pemilik:
+      //     typeof this.form.kecamatan_id_pemilik === "object"
+      //       ? this.form.kecamatan_id_pemilik.kecamatan_id
+      //       : this.form.kecamatan_id_pemilik,
+      //   kelurahan_id_pemilik:
+      //     typeof this.form.kelurahan_id_pemilik === "object"
+      //       ? this.form.kelurahan_id_pemilik.kelurahan_id
+      //       : this.form.kelurahan_id_pemilik,
+      //   kode_pos_id_pemilik:
+      //     typeof this.form.kode_pos_id_pemilik === "object"
+      //       ? this.form.kode_pos_id_pemilik.kode_pos_id
+      //       : this.form.kode_pos_id_pemilik,
+      // };
+
+      if (this.form.item_pelanggans) {
+        this.form.item_pelanggans.forEach((item, index) => {
+          formData.append(
+            `item_pelanggans[${index}][item_pelanggan_id]`,
+            item.item_pelanggan_id ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][item_id]`,
+            item.item_id ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][vendor_id]`,
+            item.vendor_id ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][kode_sap]`,
+            item.kode_sap ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][berat_bersih]`,
+            item.berat_bersih ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][berat_kotor]`,
+            item.berat_kotor ?? ""
+          );
+          formData.append(
+            `item_pelanggans[${index}][panjang]`,
+            item.panjang ?? ""
+          );
+          formData.append(`item_pelanggans[${index}][lebar]`, item.lebar ?? "");
+          formData.append(
+            `item_pelanggans[${index}][volume]`,
+            item.volume ?? ""
+          );
+          formData.append(`item_pelanggans[${index}][warna]`, item.warna ?? "");
+        });
+      }
+
+      // formData.item_pelanggans = formData.item_pelanggans.map((item) => {
+      //   return {
+      //     ...item,
+      //     item_pelanggan_id: item.item_pelanggan_id,
+      //   };
+      // });
 
       // formData.lokasi_pelanggans = formData.lokasi_pelanggans.map((item) => {
       //   return {
@@ -1172,12 +1341,17 @@ export default {
 
       if (this.isEditable) {
         url += "/" + this.id;
+        formData.append("_method", "PUT");
       }
 
       this.$axios({
         url: url,
-        method: this.isEditable ? "PUT" : "POST",
+        method: "POST",
         data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(this.isEditable ? { "X-HTTP-Method-Override": "PUT" } : {}),
+        },
       })
         .then((res) => {
           this.$toaster.success(
