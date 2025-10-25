@@ -40,7 +40,7 @@
                 :required="true"
               />
             </div>
-            <ValidationProvider
+            <!-- <ValidationProvider
               ref="inputProvider"
               name="provinsi_id"
               rules="required"
@@ -81,7 +81,7 @@
                   </li>
                 </v-select>
               </div>
-            </ValidationProvider>
+            </ValidationProvider> -->
           </div>
           <modal-footer-section
             class="mt-5"
@@ -106,9 +106,9 @@ export default {
     return {
       id,
 
-      isStopSearchProvinsi: false,
-      isLoadingGetProvinsi: false,
-      provinsi_search: "",
+      // isStopSearchProvinsi: false,
+      // isLoadingGetProvinsi: false,
+      // provinsi_search: "",
 
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
@@ -119,7 +119,7 @@ export default {
         form: {
           kode_wilayah: "",
           nama_wilayah: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         },
       },
     };
@@ -130,7 +130,7 @@ export default {
       if (this.isEditable) {
         let res = await this.$axios.get(`${this.parameters.url}/${this.id}`);
         this.parameters.form = res.data;
-        this.parameters.form.provinsi_id = res.data.provinsi;
+        // this.parameters.form.provinsi_id = res.data.provinsi;
         this.isLoadingPage = false;
       }
     } catch (error) {
@@ -138,9 +138,9 @@ export default {
     }
   },
 
-  async mounted() {
-    await this.onSearchProvinsi();
-  },
+  // async mounted() {
+  //   await this.onSearchProvinsi();
+  // },
 
   computed: {
     ...mapState("moduleApi", ["error", "result", "lookup_custom1"]),
@@ -161,10 +161,10 @@ export default {
           id: this.parameters.form.wilayah_id
             ? this.parameters.form.wilayah_id
             : "",
-          provinsi_id:
-            typeof this.parameters.form.provinsi_id === "object"
-              ? this.parameters.form.provinsi_id.provinsi_id
-              : this.parameters.form.provinsi_id,
+          // provinsi_id:
+          //   typeof this.parameters.form.provinsi_id === "object"
+          //     ? this.parameters.form.provinsi_id.provinsi_id
+          //     : this.parameters.form.provinsi_id,
         },
       };
 
@@ -183,7 +183,7 @@ export default {
         this.parameters.form = {
           kode_wilayah: "",
           nama_wilayah: "",
-          provinsi_id: "",
+          // provinsi_id: "",
         };
         this.$refs.formValidate.reset();
         this.$router.back();
@@ -199,48 +199,48 @@ export default {
       this.parameters.form = {
         kode_wilayah: "",
         nama_wilayah: "",
-        provinsi_id: "",
+        // provinsi_id: "",
       };
     },
 
-    onGetProvinsi(search, isNext) {
-      if (!search.length && typeof isNext === "function") return false;
+    // onGetProvinsi(search, isNext) {
+    //   if (!search.length && typeof isNext === "function") return false;
 
-      clearTimeout(this.isStopSearchProvinsi);
+    //   clearTimeout(this.isStopSearchProvinsi);
 
-      this.isStopSearchProvinsi = setTimeout(() => {
-        this.provinsi_search = search;
+    //   this.isStopSearchProvinsi = setTimeout(() => {
+    //     this.provinsi_search = search;
 
-        if (typeof isNext !== "function") {
-          this.lookup_custom1.current_page = isNext
-            ? this.lookup_custom1.current_page + 1
-            : this.lookup_custom1.current_page - 1;
-        } else {
-          this.lookup_custom1.current_page = 1;
-        }
+    //     if (typeof isNext !== "function") {
+    //       this.lookup_custom1.current_page = isNext
+    //         ? this.lookup_custom1.current_page + 1
+    //         : this.lookup_custom1.current_page - 1;
+    //     } else {
+    //       this.lookup_custom1.current_page = 1;
+    //     }
 
-        this.onSearchProvinsi();
-      }, 600);
-    },
+    //     this.onSearchProvinsi();
+    //   }, 600);
+    // },
 
-    async onSearchProvinsi() {
-      if (!this.isLoadingGetProvinsi) {
-        this.isLoadingGetProvinsi = true;
+    // async onSearchProvinsi() {
+    //   if (!this.isLoadingGetProvinsi) {
+    //     this.isLoadingGetProvinsi = true;
 
-        await this.lookUp({
-          url: "master/provinsi/get-provinsi",
-          lookup: "custom1",
-          query:
-            "?search=" +
-            this.provinsi_search +
-            "&page=" +
-            this.lookup_custom1.current_page +
-            "&per_page=10",
-        });
+    //     await this.lookUp({
+    //       url: "master/provinsi/get-provinsi",
+    //       lookup: "custom1",
+    //       query:
+    //         "?search=" +
+    //         this.provinsi_search +
+    //         "&page=" +
+    //         this.lookup_custom1.current_page +
+    //         "&per_page=10",
+    //     });
 
-        this.isLoadingGetProvinsi = false;
-      }
-    },
+    //     this.isLoadingGetProvinsi = false;
+    //   }
+    // },
   },
 };
 </script>

@@ -155,7 +155,7 @@
                 </v-select>
               </div>
             </ValidationProvider>
-            <!-- <ValidationProvider
+            <ValidationProvider
               ref="inputProvider"
               name="wilayah_id"
               rules="required"
@@ -196,7 +196,7 @@
                   </li>
                 </v-select>
               </div>
-            </ValidationProvider> -->
+            </ValidationProvider>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -294,10 +294,10 @@ export default {
             typeof this.parameters.form.negara_id === "object"
               ? this.parameters.form.negara_id.negara_id
               : this.parameters.form.negara_id,
-          // wilayah_id:
-          //   typeof this.parameters.form.wilayah_id === "object"
-          //     ? this.parameters.form.wilayah_id.wilayah_id
-          //     : this.parameters.form.wilayah_id,
+          wilayah_id:
+            typeof this.parameters.form.wilayah_id === "object"
+              ? this.parameters.form.wilayah_id.wilayah_id
+              : this.parameters.form.wilayah_id,
         },
       };
 
