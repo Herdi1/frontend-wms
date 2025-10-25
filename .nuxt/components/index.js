@@ -13,15 +13,25 @@ export { default as AnavbarSearchForm } from '../..\\components\\anavbar\\Search
 export { default as AnavbarUserOptions } from '../..\\components\\anavbar\\UserOptions.vue'
 export { default as AsideSidebarBrand } from '../..\\components\\aside\\SidebarBrand.vue'
 export { default as AsideSidebarMenu } from '../..\\components\\aside\\SidebarMenu.vue'
+<<<<<<< HEAD
 export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
 export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
 export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
 export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
+=======
+>>>>>>> 8a8f284c6e28ce3c30c5bb8f1855d718ddb08957
 export { default as FormsCloseButton } from '../..\\components\\forms\\CloseButton.vue'
 export { default as FormsInputForm } from '../..\\components\\forms\\InputForm.vue'
 export { default as FormsResetButton } from '../..\\components\\forms\\ResetButton.vue'
 export { default as FormsSaveButton } from '../..\\components\\forms\\SaveButton.vue'
 export { default as FormsTitleForm } from '../..\\components\\forms\\TitleForm.vue'
+<<<<<<< HEAD
+=======
+export { default as ButtonSmallDeleteButton } from '../..\\components\\button\\SmallDeleteButton.vue'
+export { default as ButtonSmallDetailButton } from '../..\\components\\button\\SmallDetailButton.vue'
+export { default as ButtonSmallEditButton } from '../..\\components\\button\\SmallEditButton.vue'
+export { default as ButtonSmallRestoreButton } from '../..\\components\\button\\SmallRestoreButton.vue'
+>>>>>>> 8a8f284c6e28ce3c30c5bb8f1855d718ddb08957
 export { default as InputForm } from '../..\\components\\InputForm\\InputForm.vue'
 export { default as InputHoriontal } from '../..\\components\\InputForm\\InputHoriontal.vue'
 export { default as InputKoma } from '../..\\components\\InputForm\\InputKoma.vue'

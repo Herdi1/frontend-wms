@@ -444,9 +444,10 @@ import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
   middleware: ["checkRoleUser"],
+
   head() {
     return {
-      title: "Approve Pengajuan Dropping",
+      title: "Approve SM",
     };
   },
 
@@ -506,11 +507,11 @@ export default {
       isLoadingGetGudang: false,
       gudang_search: "",
 
-      title: "Approve Pengajuan Dropping",
+      title: "Approve SM Pengajuan Dropping",
       isLoadingData: false,
       isPaginate: true,
       parameters: {
-        url: "finance/approve-pengajuan-dropping",
+        url: "finance/approve-sm-pengajuan-dropping",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -564,7 +565,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "approve-pengajuan-dropping"
+          (item) => item.rute == "approve-sm-pengajuan-dropping"
         );
 
         let roles = {};
@@ -602,13 +603,13 @@ export default {
 
     onEdit(item) {
       this.$router.push(
-        `/finance/dropping/approve-pengajuan-dropping/${item.pengajuan_dropping_id}`
+        `/finance/dropping/approve-sm-pengajuan-dropping/${item.pengajuan_dropping_id}`
       );
     },
 
     onDetail(item) {
       this.$router.push(
-        `/finance/dropping/approve-pengajuan-dropping/detail/${item.pengajuan_dropping_id}`
+        `/finance/dropping/approve-sm-pengajuan-dropping/detail/${item.pengajuan_dropping_id}`
       );
     },
 
