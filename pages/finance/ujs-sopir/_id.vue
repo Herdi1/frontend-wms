@@ -481,8 +481,8 @@
                           {{ item.jenis_routing }}
                         </td>
                         <td class="border border-gray-300">
-                          <p v-if="item.jenis_kiriman == 1">Pulang</p>
-                          <p v-if="item.jenis_kiriman == 0">Berangkat</p>
+                          <p v-if="item.jenis_kiriman == 1">Berangkat</p>
+                          <p v-if="item.jenis_kiriman == 0">Pulang</p>
                         </td>
                         <td class="border border-gray-300">
                           {{ formatDateTime(item.tanggal_berangkat) }}
