@@ -419,11 +419,13 @@
                     id="asal_data"
                     v-model="parameters.params.asal_data"
                   >
-                    <option value="IN">Inbound</option>
-                    <option value="OU">Outbound</option>
-                    <option value="KS">Konversi Stok</option>
-                    <option value="RS">Relokasi Stok</option>
-                    <option value="SO">Stok Opname</option>
+                    <option
+                      v-for="(item, i) in lookup_custom8.data"
+                      :key="i"
+                      :value="item.value"
+                    >
+                      {{ item.label }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -704,6 +706,9 @@ export default {
     // await this.onSearchItemGudang();
     await this.onSearchValuation();
     // await this.onSearchZonaGudang();
+    await this.$axios.get("utility?q=asal_data_transaksi_stok").then((res) => {
+      this.lookup_custom8.data = { ...res.data };
+    });
   },
 
   data() {
@@ -831,6 +836,7 @@ export default {
       "lookup_custom5",
       "lookup_custom6",
       "lookup_custom7",
+      "lookup_custom8",
     ]),
 
     getRoles() {

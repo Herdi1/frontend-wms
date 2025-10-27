@@ -15,6 +15,11 @@ You can directly use them in pages and other components without the need to impo
 - `<SuccessModal>` | `<success-modal>` (components/SuccessModal.vue)
 - `<Tutorial>` | `<tutorial>` (components/Tutorial.vue)
 - `<VuetifyLogo>` | `<vuetify-logo>` (components/VuetifyLogo.vue)
+<<<<<<< HEAD
+=======
+- `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
+- `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+>>>>>>> 38bfc4560fca72e469c8e545d4e6c3c4d80dce35
 - `<AnavbarMessages>` | `<anavbar-messages>` (components/anavbar/Messages.vue)
 - `<AnavbarNotifications>` | `<anavbar-notifications>` (components/anavbar/Notifications.vue)
 - `<AnavbarSearchForm>` | `<anavbar-search-form>` (components/anavbar/SearchForm.vue)
@@ -28,8 +33,11 @@ You can directly use them in pages and other components without the need to impo
 - `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
 - `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
 - `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+<<<<<<< HEAD
 - `<AsideSidebarBrand>` | `<aside-sidebar-brand>` (components/aside/SidebarBrand.vue)
 - `<AsideSidebarMenu>` | `<aside-sidebar-menu>` (components/aside/SidebarMenu.vue)
+=======
+>>>>>>> 38bfc4560fca72e469c8e545d4e6c3c4d80dce35
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
