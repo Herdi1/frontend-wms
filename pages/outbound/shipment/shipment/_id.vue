@@ -650,10 +650,9 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : "",
-        staff_id:
-          typeof this.parameters.form.staff_id === "object"
-            ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id ?? "",
+        staff_id: this.parameters.form.staff_id
+          ? this.parameters.form.staff_id.staff_id
+          : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
