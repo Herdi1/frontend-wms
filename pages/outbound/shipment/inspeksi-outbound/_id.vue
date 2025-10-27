@@ -115,7 +115,7 @@
                   :disabled="true"
                 />
               </div>
-              <ValidationProvider name="pengemudi_id">
+              <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
                     label: 'Pengemudi',
@@ -130,7 +130,7 @@
                   class="mb-5"
                   :disabled="true"
                 />
-              </ValidationProvider>
+              </ValidationProvider> -->
               <ValidationProvider name="kendaraan_id">
                 <select-button
                   :self="{

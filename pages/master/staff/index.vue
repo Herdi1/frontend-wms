@@ -27,7 +27,7 @@
           <div
             class="w-full gap-5 items-baseline p-2 border border-gray-300 rounded-md"
           >
-            <div class="grid grid-cols-2 gap-2 mb-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
               <div class="form-group w-full flex">
                 <div class="mb-3 w-1/2">Gudang</div>
 
@@ -43,7 +43,7 @@
                 >
                   <template slot="selected-option" slot-scope="option">
                     <div
-                      class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
                     >
                       {{ option.nama_gudang }}
                     </div>
@@ -73,6 +73,119 @@
                     >
                   </li>
                 </v-select>
+              </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Jabatan</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_jabatan"
+                  :loading="isLoadingGetJabatan"
+                  :options="lookup_custom2.data"
+                  :filterable="false"
+                  @search="onGetJabatan"
+                  v-model="parameters.params.jabatan_id"
+                  :reduce="(item) => item.jabatan_id"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_jabatan }}
+                    </div>
+                         </template
+                  >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom2.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom2.current_page > 1"
+                      @click="onGetJabatan(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom2.last_page > lookup_custom2.current_page
+                      "
+                      @click="onGetJabatan(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group w-full flex">
+                <div class="mb-3 w-1/2">Vendor</div>
+
+                <v-select
+                  class="w-1/2 rounded-sm bg-white text-gray-500 border-gray-300"
+                  label="nama_vendor"
+                  :loading="isLoadingGetVendor"
+                  :options="lookup_custom3.data"
+                  :filterable="false"
+                  @search="onGetVendor"
+                  v-model="parameters.params.vendor_id_operator"
+                  :reduce="(item) => item.vendor_id"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_vendor }}
+                    </div>
+                         </template
+                  >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom3.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom3.current_page > 1"
+                      @click="onGetVendor(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom3.last_page > lookup_custom3.current_page
+                      "
+                      @click="onGetVendor(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      style="cursor: pointer"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="form-group flex w-full items-center">
+                <label for="jenis_staff" class="w-1/2"> Jenis Staff </label>
+                <select
+                  class="border border-gray-300 rounded md p-1 outline-none w-1/2 text-gray-500"
+                  v-model="parameters.params.jenis_user"
+                >
+                  <option value="staff">Staff</option>
+                  <option value="pengemudi">Pengemudi</option>
+                  <option value="operator">Operator</option>
+                </select>
+              </div>
+              <div class="form-group flex w-full items-center">
+                <label for="status" class="w-1/2"> Status </label>
+                <select
+                  class="border border-gray-300 rounded md p-1 outline-none w-1/2 text-gray-500"
+                  v-model="parameters.params.status_aktif"
+                >
+                  <option value="1">Aktif</option>
+                  <option value="0">Tidak Aktif</option>
+                </select>
               </div>
             </div>
 
@@ -269,6 +382,8 @@ export default {
       this.parameters.params.gudang_id =
         this.lookup_custom1.data[0]?.gudang_id ?? "";
     }
+    await this.onSearchJabatan();
+    await this.onSearchVendor();
     this.set_data([]);
     this.onLoad();
   },
@@ -304,6 +419,11 @@ export default {
           all: "",
           per_page: 10,
           page: 1,
+          gudang_id: "",
+          jabatan_id: "",
+          vendor_id_operator: "",
+          jenis_user: "",
+          status_aktif: "",
         },
         form: {
           kode_staff: "",
@@ -339,11 +459,26 @@ export default {
       isStopSearchGudang: false,
       isLoadingGetGudang: false,
       gudang_search: "",
+
+      isStopSearchJabatan: false,
+      isLoadingGetJabatan: false,
+      jabatan_search: "",
+
+      isStopSearchVendor: false,
+      isLoadingGetVendor: false,
+      vendor_search: "",
     };
   },
 
   computed: {
-    ...mapState("moduleApi", ["data", "error", "result", "lookup_custom1"]),
+    ...mapState("moduleApi", [
+      "data",
+      "error",
+      "result",
+      "lookup_custom1",
+      "lookup_custom2",
+      "lookup_custom3",
+    ]),
 
     getRoles() {
       if (this.user.is_superadmin == 1) {
@@ -522,6 +657,85 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    onGetJabatan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchJabatan);
+
+      this.isStopSearchJabatan = setTimeout(() => {
+        this.jabatan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom2.current_page = isNext
+            ? this.lookup_custom2.current_page + 1
+            : this.lookup_custom2.current_page - 1;
+        } else {
+          this.lookup_custom2.current_page = 1;
+        }
+
+        this.onSearchJabatan();
+      }, 600);
+    },
+
+    async onSearchJabatan() {
+      if (!this.isLoadingGetJabatan) {
+        this.isLoadingGetJabatan = true;
+
+        await this.lookUp({
+          url: "setting/jabatan",
+          lookup: "custom2",
+          query:
+            "?search=" +
+            this.jabatan_search +
+            "&page=" +
+            this.lookup_custom2.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetJabatan = false;
+      }
+    },
+
+    onGetVendor(search, isNext) {
+      if (!search.length && typeof isNext === "function") return false;
+
+      clearTimeout(this.isStopSearchVendor);
+
+      this.isStopSearchVendor = setTimeout(() => {
+        this.vendor_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_custom3.current_page = isNext
+            ? this.lookup_custom3.current_page + 1
+            : this.lookup_custom3.current_page - 1;
+        } else {
+          this.lookup_custom3.current_page = 1;
+        }
+
+        this.onSearchVendor();
+      }, 600);
+    },
+
+    async onSearchVendor() {
+      if (!this.isLoadingGetVendor) {
+        this.isLoadingGetVendor = true;
+
+        await this.lookUp({
+          url: "master/vendor/get-vendor",
+          lookup: "custom3",
+          query:
+            "?search=" +
+            this.vendor_search +
+            "&tipe_vendor_id=1" +
+            "&page=" +
+            this.lookup_custom3.current_page +
+            "&per_page=10",
+        });
+
+        this.isLoadingGetVendor = false;
       }
     },
   },

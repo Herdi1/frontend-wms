@@ -155,48 +155,41 @@
                 </v-select>
               </div>
             </ValidationProvider>
-            <ValidationProvider
-              ref="inputProvider"
-              name="wilayah_id"
-              rules="required"
-            >
-              <div class="form-group w-full items-center mb-5">
-                <label for="" class="w-4/12"
-                  >Region<span class="text-danger">*</span></label
+
+            <div class="form-group w-full items-center mb-5">
+              <label for="" class="w-4/12">Region</label>
+              <v-select
+                class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
+                label="nama_wilayah"
+                :loading="isLoadingGetWilayah"
+                :options="lookup_custom2.data"
+                :filterable="false"
+                @search="onGetWilayah"
+                v-model="parameters.form.wilayah_id"
+              >
+                <li
+                  slot-scope="{ search }"
+                  slot="list-footer"
+                  class="p-1 border-t flex justify-between"
+                  v-if="lookup_custom2.data.length || search"
                 >
-                <v-select
-                  class="w-full rounded-sm bg-white text-gray-500 border-gray-300"
-                  label="nama_wilayah"
-                  :loading="isLoadingGetWilayah"
-                  :options="lookup_custom2.data"
-                  :filterable="false"
-                  @search="onGetWilayah"
-                  v-model="parameters.form.wilayah_id"
-                >
-                  <li
-                    slot-scope="{ search }"
-                    slot="list-footer"
-                    class="p-1 border-t flex justify-between"
-                    v-if="lookup_custom2.data.length || search"
+                  <span
+                    v-if="lookup_custom2.current_page > 1"
+                    @click="onGetWilayah(search, false)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Sebelumnya</span
                   >
-                    <span
-                      v-if="lookup_custom2.current_page > 1"
-                      @click="onGetWilayah(search, false)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Sebelumnya</span
-                    >
-                    <span
-                      v-if="
-                        lookup_custom2.last_page > lookup_custom2.current_page
-                      "
-                      @click="onGetWilayah(search, true)"
-                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
-                      >Selanjutnya</span
-                    >
-                  </li>
-                </v-select>
-              </div>
-            </ValidationProvider>
+                  <span
+                    v-if="
+                      lookup_custom2.last_page > lookup_custom2.current_page
+                    "
+                    @click="onGetWilayah(search, true)"
+                    class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                    >Selanjutnya</span
+                  >
+                </li>
+              </v-select>
+            </div>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -297,7 +290,7 @@ export default {
           wilayah_id:
             typeof this.parameters.form.wilayah_id === "object"
               ? this.parameters.form.wilayah_id.wilayah_id
-              : this.parameters.form.wilayah_id,
+              : "",
         },
       };
 

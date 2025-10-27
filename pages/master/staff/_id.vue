@@ -960,7 +960,7 @@ export default {
           query:
             "?search=" +
             this.vendor_search +
-            "&tipe_vendor=o" +
+            "&tipe_vendor_id=1" +
             "&page=" +
             this.lookup_custom4.current_page +
             "&per_page=10",
