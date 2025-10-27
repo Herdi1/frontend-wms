@@ -137,6 +137,7 @@
                     <option value="0 ">VUDS</option>
                     <option value="1 ">Vendor</option>
                     <option value="2 ">Pelanggan</option>
+                    <option value="3 ">Gudang</option>
                   </select>
                 </div>
                 <div v-if="errors[0]" class="text-danger">
