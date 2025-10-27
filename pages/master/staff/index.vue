@@ -730,7 +730,6 @@ export default {
           query:
             "?search=" +
             this.vendor_search +
-            "&tipe_vendor_id=1" +
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
