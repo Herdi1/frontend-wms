@@ -730,7 +730,10 @@ export default {
           query:
             "?search=" +
             this.vendor_search +
+<<<<<<< HEAD
             // "&tipe_vendor_id=1" +
+=======
+>>>>>>> e5119c29dab6493d141ed4c2313853618acce69c
             "&page=" +
             this.lookup_custom3.current_page +
             "&per_page=10",
