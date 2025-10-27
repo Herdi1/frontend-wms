@@ -113,22 +113,22 @@
                   class="mb-5"
                 />
               </ValidationProvider> -->
-              <ValidationProvider name="kendaraan_id">
-                <select-button
-                  :self="{
-                    label: 'Kendaraan',
-                    optionLabel: 'nama_kendaraan',
-                    lookup: lookup_custom2,
-                    value: parameters.form.kendaraan_id,
-                    onGet: onGetKendaraan,
-                    isLoadingL: isLoadingGetKendaraan,
-                    input: onSelectKendaraan,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                  :required="true"
-                />
-              </ValidationProvider>
+              <!-- <ValidationProvider name="kendaraan_id"> -->
+              <select-button
+                :self="{
+                  label: 'Kendaraan',
+                  optionLabel: 'nama_kendaraan',
+                  lookup: lookup_custom2,
+                  value: parameters.form.kendaraan_id,
+                  onGet: onGetKendaraan,
+                  isLoadingL: isLoadingGetKendaraan,
+                  input: onSelectKendaraan,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+                :required="false"
+              />
+              <!-- </ValidationProvider> -->
               <ValidationProvider name="kendaraan_id">
                 <select-button
                   :self="{
@@ -146,9 +146,7 @@
                 />
               </ValidationProvider>
               <div class="form-group flex">
-                <label for="" class="w-[50%]"
-                  >Pengemudi <span class="text-danger">*</span></label
-                >
+                <label for="" class="w-[50%]">Pengemudi</label>
                 <select
                   class="p-1 w-[50%] border border-gray-300 rounded-md outline-none"
                   name="staff_id"
@@ -633,6 +631,16 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
+      if (this.parameters.form.jenis_kiriman !== "LCO") {
+        if (
+          !this.parameters.form.kendaraan_id &&
+          !this.parameters.form.staff_id
+        ) {
+          this.$toaster.error("Kendaraan atau Pengemudi harus diisi");
+          return;
+        }
+      }
+
       this.isLoadingForm = true;
       let url = "outbound/shipment";
 
@@ -645,7 +653,7 @@ export default {
         staff_id:
           typeof this.parameters.form.staff_id === "object"
             ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id ?? "",
+            : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
@@ -1246,13 +1254,14 @@ export default {
     },
 
     async onOpenModal() {
-      if (
-        !this.parameters.form.gudang_id ||
-        !this.parameters.form.kendaraan_id ||
-        !this.parameters.form.staff_id
-      ) {
-        this.$toaster.error("Harap Pilih Gudang, Kendaraan, dan Pengemudi");
-        return;
+      if (this.parameters.form.jenis_kiriman !== "LCO") {
+        if (
+          !this.parameters.form.kendaraan_id &&
+          !this.parameters.form.staff_id
+        ) {
+          this.$toaster.error("Kendaraan atau Pengemudi harus diisi");
+          return;
+        }
       }
       if (this.parameters.form.gudang_id) {
         this.$refs.modalPickOrder.parameters.params.gudang_id =
@@ -1372,7 +1381,7 @@ export default {
                     gudang_id: this.parameters.form.gudang_id.gudang_id,
                     jenis_kendaraan_id:
                       this.parameters.form.jenis_kendaraan_id
-                        ?.jenis_kendaraan_id,
+                        ?.jenis_kendaraan_id ?? "",
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     vendor_id:
                       typeof this.parameters.form.vendor_id === "object"
@@ -1436,7 +1445,7 @@ export default {
                         gudang_id: this.parameters.form.gudang_id.gudang_id,
                         jenis_kendaraan_id:
                           this.parameters.form.jenis_kendaraan_id
-                            ?.jenis_kendaraan_id,
+                            ?.jenis_kendaraan_id ?? "",
                         lokasi_id: item.lokasi_id.lokasi_id,
                         vendor_id:
                           typeof this.parameters.form.vendor_id === "object"
@@ -1491,7 +1500,7 @@ export default {
                       gudang_id: this.parameters.form.gudang_id.gudang_id,
                       jenis_kendaraan_id:
                         this.parameters.form.jenis_kendaraan_id
-                          ?.jenis_kendaraan_id,
+                          ?.jenis_kendaraan_id ?? "",
                       lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     },
                   }

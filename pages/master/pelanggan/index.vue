@@ -102,13 +102,13 @@
                   {{ item.tipebadanhukum.nama_tipe_badan_hukum }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kode_referensi }}
+                  {{ item.kode_referensi ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.kode_pelanggan }}
+                  {{ item.kode_pelanggan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
-                  {{ item.nama_pelanggan }}
+                  {{ item.nama_pelanggan ?? "" }}
                 </td>
                 <td class="border border-gray-300">
                   {{ item.kecamatan?.nama_kecamatan ?? "" }}
@@ -122,13 +122,19 @@
                 <td class="border border-gray-300">
                   {{ item.negara?.nama_negara ?? "" }}
                 </td>
-                <td class="border border-gray-300">{{ item.nama_pemilik }}</td>
                 <td class="border border-gray-300">
-                  {{ item.lokasi.nama_lokasi }}
+                  {{ item.nama_pemilik ?? "" }}
                 </td>
-                <td class="border border-gray-300">{{ item.longitude }}</td>
-                <td class="border border-gray-300">{{ item.latitude }}</td>
-                <td class="border border-gray-300">{{ item.radius }}</td>
+                <td class="border border-gray-300">
+                  {{ item.lokasi?.nama_lokasi ?? "" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.longitude ?? "" }}
+                </td>
+                <td class="border border-gray-300">
+                  {{ item.latitude ?? "" }}
+                </td>
+                <td class="border border-gray-300">{{ item.radius ?? "" }}</td>
 
                 <td class="place-items-center border border-gray-300">
                   <small-delete-button
