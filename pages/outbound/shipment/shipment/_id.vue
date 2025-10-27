@@ -111,21 +111,20 @@
                   <option value="SWC">Switch</option>
                 </select>
               </div>
-              <!-- <ValidationProvider name="pengemudi_id">
-                <select-button
-                  :self="{
-                    label: 'Pengemudi',
-                    optionLabel: 'nama_pengemudi',
-                    lookup: lookup_custom1,
-                    value: parameters.form.pengemudi_id,
-                    onGet: onGetPengemudi,
-                    isLoadingL: isLoadingGetPengemudi,
-                    input: onSelectPengemudi,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                />
-              </ValidationProvider> -->
+              <!-- <ValidationProvider name="pengemudi_id"> -->
+              <select-button
+                :self="{
+                  label: 'Pelanggan',
+                  optionLabel: 'nama_pelanggan',
+                  lookup: lookup_mesin,
+                  value: parameters.form.pelanggan_id,
+                  onGet: onGetPelanggan,
+                  isLoadingL: isLoadingGetPelanggan,
+                  input: onSelectPelanggan,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+              />
               <!-- <ValidationProvider name="kendaraan_id"> -->
               <select-button
                 :self="{
@@ -381,6 +380,10 @@ export default {
       isLoadingGetStaff: false,
       staff_search: "",
 
+      isStopSearchPelanggan: false,
+      isLoadingGetPelanggan: false,
+      pelanggan_search: "",
+
       isStopSearchJenisKendaraan: false,
       isLoadingGetJenisKendaraan: false,
       jenis_kendaraan_search: "",
@@ -412,6 +415,7 @@ export default {
           jenis_kiriman: "FRC",
           total_switch: 0,
           total_locco: 0,
+          pelanggan_id: "",
 
           shipment_details: [],
           rute_shipments: [],
@@ -454,6 +458,7 @@ export default {
         this.parameters.form.jenis_kiriman = res.data.jenis_kiriman.trim();
         this.parameters.form.jenis_kendaraan_id =
           res.data.jenis_kendaraan ?? "";
+        this.parameters.form.pelanggan_id = res.data.pelanggan ?? "";
 
         this.parameters.form.shipment_details = res.data.shipment_details.map(
           (item) => {
@@ -530,6 +535,7 @@ export default {
     // await this.onSearchJenisKendaraan();
     await this.onSearchUser();
     await this.onSearchStaff();
+    await this.onSearchPelanggan();
 
     // await this.onSearchPickOrder(); warehouses
 
@@ -541,6 +547,10 @@ export default {
     }
     if (this.user && !this.isEditable) {
       this.onSelectUser(this.user);
+    }
+
+    if (this.lookup_mesin.data && !this.isEditable) {
+      this.onSelectPelanggan(this.lookup_mesin.data[0]);
     }
   },
 
@@ -555,6 +565,7 @@ export default {
       "lookup_grade", //user pic
       "lookup_custom10", //staff
       "lookup_roles", //jenis kendaraan
+      "lookup_mesin", //pelanggan
     ]),
   },
 
@@ -651,7 +662,7 @@ export default {
             ? this.parameters.form.gudang_id.gudang_id
             : "",
         staff_id: this.parameters.form.staff_id
-          ? this.parameters.form.staff_id.staff_id
+          ? this.parameters.form.staff_id
           : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
@@ -676,6 +687,10 @@ export default {
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id
+            : "",
+        pelanggan_id:
+          typeof this.parameters.form.pelanggan_id === "object"
+            ? this.parameters.form.pelanggan_id.pelanggan_id
             : "",
       };
 
@@ -1232,6 +1247,51 @@ export default {
         this.parameters.form.jenis_kendaraan_id = item;
       } else {
         this.parameters.form.jenis_kendaraan_id = "";
+      }
+    },
+
+    onGetPelanggan(search, isNext) {
+      if (!search.length && typeof isNext === "function") return;
+
+      clearTimeout(this.isStopSearchPelanggan);
+
+      this.isStopSearchPelanggan = setTimeout(() => {
+        this.pelanggan_search = search;
+
+        if (typeof isNext !== "function") {
+          this.lookup_mesin.current_page = isNext
+            ? this.lookup_mesin.current_page + 1
+            : this.lookup_mesin.current_page - 1;
+        } else {
+          this.lookup_mesin.current_page = 1;
+        }
+        this.onSearchPelanggan();
+      }, 600);
+    },
+
+    async onSearchPelanggan() {
+      if (!this.isLoadingGetPelanggan) {
+        this.isLoadingGetPelanggan = true;
+
+        await this.lookUp({
+          url: "master/pelanggan/get-pelanggan",
+          lookup: "mesin",
+          query:
+            "?search=" +
+            this.pelanggan_search +
+            "&page=" +
+            this.lookup_mesin.current_page +
+            "&per_page=10",
+        });
+        this.isLoadingGetGudang = false;
+      }
+    },
+
+    onSelectPelanggan(item) {
+      if (item) {
+        this.parameters.form.pelanggan_id = item;
+      } else {
+        this.parameters.form.pelanggan_id = "";
       }
     },
 
