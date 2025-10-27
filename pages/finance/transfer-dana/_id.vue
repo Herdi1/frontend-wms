@@ -35,7 +35,7 @@
                       :inputWidth="'w-[75%]'"
                     />
                   </div>
-                  <!-- <ValidationProvider name="gudang_id" class="w-full mt-1">
+                  <ValidationProvider name="gudang_id" class="w-full mt-1">
                     <div v-if="!user.gudang_id" class="flex">
                       <label for="gudang_id" class="w-[40%]"
                         >Coa <span class="text-danger">*</span></label
@@ -84,7 +84,7 @@
                         </li>
                       </v-select>
                     </div>
-                  </ValidationProvider> -->
+                  </ValidationProvider>
                   <div class="form-group">
                     <input-horizontal
                       label="No Referensi"
@@ -173,7 +173,7 @@
                         <td class="border border-gray-300">
                           {{ item.coa_id ? item.coa_id.kode_coa : "-" }}
                         </td>
-                        <!-- <td class="border border-gray-300">
+                        <td class="border border-gray-300">
                           <v-select
                             label="nama_coa"
                             :loading="isLoadingGetCoaBiaya"
@@ -219,8 +219,8 @@
                               >
                             </li>
                           </v-select>
-                        </td> -->
-                        <!-- <td class="border border-gray-300">
+                        </td>
+                        <td class="border border-gray-300">
                           <v-select
                             label="nama_gudang"
                             :loading="isLoadingGetGudang"
@@ -263,7 +263,7 @@
                               >
                             </li>
                           </v-select>
-                        </td> -->
+                        </td>
                         <td class="border border-gray-300">
                           <money
                             v-model="item.nominal"
