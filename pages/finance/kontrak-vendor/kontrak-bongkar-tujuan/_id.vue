@@ -212,6 +212,7 @@ export default {
           kontrak_bongkar_tujuan_id: "",
           no_referensi: "",
           vendor_id: "",
+          gudang_id: "",
           tanggal_kontrak: "",
           tanggal_berlaku: "",
           tanggal_berhenti: "",
@@ -535,7 +536,7 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.form.gudang_id = item;
-        await this.onSearchItemGudang();
+        // await this.onSearchItemGudang();
       } else {
         this.parameters.form.gudang_id = "";
       }

@@ -217,7 +217,11 @@
                       :options="self.lookup_custom10.data"
                       :filterable="false"
                       @search="
-                        self.onGetItem(parameters.form.gudang_id?.gudang_id)
+                        (search) =>
+                          self.onGetItem(
+                            parameters.form.gudang_id?.gudang_id,
+                            search
+                          )
                       "
                       v-model="parameters.form.item_gudang_id"
                     >

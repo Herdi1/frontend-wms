@@ -72,6 +72,57 @@
               </li>
             </v-select>
           </div>
+          <div class="col-md-1 mt-2 flex gap-3 items-center">
+            <label for="">Item Gudang</label>
+            <v-select
+              label="nama_item"
+              :loading="isLoadingGetItemGudang"
+              :options="lookup_mesin.data"
+              :filterable="false"
+              v-model="parameters.params.item_gudang_id"
+              @search="
+                (search) =>
+                  onGetItemGudang(
+                    parameters.params.gudang_id?.gudang_id,
+                    search
+                  )
+              "
+              @input="onSelectItemParams"
+              class="w-[300px] mb-2"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_mesin.data.length || search"
+              >
+                <span
+                  v-if="lookup_mesin.current_page > 1"
+                  @click="
+                    onGetItemGudang(
+                      parameters.params.gudang_id?.gudang_id,
+                      search,
+                      false
+                    )
+                  "
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_mesin.last_page > lookup_mesin.current_page"
+                  @click="
+                    onGetItemGudang(
+                      parameters.params.gudang_id?.gudang_id,
+                      search,
+                      true
+                    )
+                  "
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
         </div>
       </div>
       <div class="table-responsive overflow-y-hidden mb-7">
@@ -612,6 +663,7 @@ export default {
           per_page: 10,
           page: 1,
           gudang_id: "",
+          item_gudang_id: "",
         },
       },
     };
@@ -1171,6 +1223,15 @@ export default {
       }
     },
 
+    async onSelectItemParams(item) {
+      if (item) {
+        this.parameters.params.item_gudang_id = item;
+        await this.onLoad();
+      } else {
+        this.parameters.params.item_gudang_id = "";
+      }
+    },
+
     onGetSatuan(search, isNext) {
       if (!search.length && typeof isNext === "function") return false;
 
@@ -1249,6 +1310,7 @@ export default {
     async onSelectGudang(item, index) {
       if (item) {
         this.parameters.params.gudang_id = item;
+        await this.onSearchItemGudang(item.gudang_id);
         await this.onLoad();
       } else {
         this.parameters.params.gudang_id = "";
@@ -1358,6 +1420,8 @@ export default {
             params: {
               ...this.parameters.params,
               gudang_id: this.parameters.params.gudang_id?.gudang_id,
+              item_gudang_id:
+                this.parameters.params.item_gudang_id?.item_gudang_id,
             },
           }
         )
