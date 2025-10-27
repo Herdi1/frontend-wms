@@ -219,9 +219,11 @@
                       :options="self.lookup_mesin.data"
                       :filterable="false"
                       @search="
-                        self.onGetItemGudang(
-                          parameters.form.gudang_id?.gudang_id
-                        )
+                        (search) =>
+                          self.onGetItemGudang(
+                            parameters.form.gudang_id?.gudang_id,
+                            search
+                          )
                       "
                       v-model="parameters.form.item_gudang_id"
                     >

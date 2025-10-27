@@ -82,9 +82,11 @@
                       :filterable="false"
                       v-model="parameters.form.item_gudang_id"
                       @search="
-                        self.onGetItemGudang(
-                          parameters.form.gudang_id?.gudang_id
-                        )
+                        (search) =>
+                          self.onGetItemGudang(
+                            parameters.form.gudang_id?.gudang_id,
+                            search
+                          )
                       "
                       class="w-[60%] mb-2"
                     >

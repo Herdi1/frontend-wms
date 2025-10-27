@@ -70,6 +70,57 @@
               </li>
             </v-select>
           </div>
+          <div class="col-md-1 mt-2 flex gap-3 items-center">
+            <label for="">Item Gudang</label>
+            <v-select
+              label="nama_item"
+              :loading="isLoadingGetItemGudang"
+              :options="lookup_grade.data"
+              :filterable="false"
+              v-model="parameters.params.item_gudang_id"
+              @search="
+                (search) =>
+                  onGetItemGudang(
+                    parameters.params.gudang_id?.gudang_id,
+                    search
+                  )
+              "
+              @input="onSelectItemParams"
+              class="w-[300px] mb-2"
+            >
+              <li
+                slot-scope="{ search }"
+                slot="list-footer"
+                class="p-1 border-t flex justify-between"
+                v-if="lookup_grade.data.length || search"
+              >
+                <span
+                  v-if="lookup_grade.current_page > 1"
+                  @click="
+                    onGetItemGudang(
+                      parameters.params.gudang_id?.gudang_id,
+                      search,
+                      false
+                    )
+                  "
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Sebelumnya</span
+                >
+                <span
+                  v-if="lookup_grade.last_page > lookup_grade.current_page"
+                  @click="
+                    onGetItemGudang(
+                      parameters.params.gudang_id?.gudang_id,
+                      search,
+                      true
+                    )
+                  "
+                  class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                  >Selanjutnya</span
+                >
+              </li>
+            </v-select>
+          </div>
         </div>
         <div class="table-responsive overflow-y-hidden mb-7">
           <table
@@ -576,6 +627,7 @@ export default {
           per_page: 10,
           page: 1,
           gudang_id: "",
+          item_gudang_id: "",
         },
       },
     };
@@ -1094,6 +1146,15 @@ export default {
       }
     },
 
+    async onSelectItemParams(item) {
+      if (item) {
+        this.parameters.params.item_gudang_id = item;
+        await this.onLoad();
+      } else {
+        this.parameters.params.item_gudang_id = "";
+      }
+    },
+
     onSelectJenisKontrak(item, index) {
       if (item) {
         this.self.parameters.form.kontrak_lastmile_premi_details[
@@ -1133,6 +1194,7 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.params.gudang_id = item;
+        await this.onSearchItemGudang(item.gudang_id);
         await this.onLoad();
       } else {
         this.parameters.params.gudang_id = "";

@@ -168,6 +168,7 @@
                   :loading="isLoadingGetGudang"
                   :options="lookup_custom6.data"
                   :filterable="false"
+                  @search="onGetGudang"
                   v-model="parameters.params.gudang_id"
                   @input="(item) => onSelectGudang(item)"
                   class="w-[300px] mb-2"
@@ -189,6 +190,56 @@
                         lookup_custom6.last_page > lookup_custom6.current_page
                       "
                       @click="onGetGudang(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
+              <div class="col-md-1 mt-2 flex gap-3 items-center">
+                <label for="">Item Gudang</label>
+                <v-select
+                  label="nama_item"
+                  :loading="isLoadingGetItem"
+                  :options="lookup_custom10.data"
+                  :filterable="false"
+                  v-model="parameters.params.item_gudang_id"
+                  @search="
+                    (search) =>
+                      onGetItem(parameters.params.gudang_id?.gudang_id, search)
+                  "
+                  @input="onSelectItemsParams"
+                  class="w-[300px] mb-2"
+                >
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_custom10.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_custom10.current_page > 1"
+                      @click="
+                        onGetItem(
+                          parameters.params.gudang_id?.gudang_id,
+                          search,
+                          false
+                        )
+                      "
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="
+                        lookup_custom10.last_page > lookup_custom10.current_page
+                      "
+                      @click="
+                        onGetItem(
+                          parameters.params.gudang_id?.gudang_id,
+                          search,
+                          true
+                        )
+                      "
                       class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
                       >Selanjutnya</span
                     >
@@ -749,6 +800,7 @@ export default {
           per_page: 10,
           page: 1,
           gudang_id: "",
+          item_gudang_id: "",
         },
         form: {
           kontrak_tkbm_id: "",
@@ -1237,6 +1289,7 @@ export default {
     async onSelectGudang(item) {
       if (item) {
         this.parameters.params.gudang_id = item;
+        await this.onSearchItem(this.parameters.params.gudang_id.gudang_id);
         await this.onLoad();
       } else {
         this.parameters.params.gudang_id = "";
@@ -1417,6 +1470,15 @@ export default {
         this.parameters.form.kontrak_tkbm_details[index].item_gudang_id = "";
         this.parameters.form.kontrak_tkbm_details[index].item_id = "";
         this.parameters.form.kontrak_tkbm_details[index].satuan_id = "";
+      }
+    },
+
+    async onSelectItemsParams(item) {
+      if (item) {
+        this.parameters.params.item_gudang_id = item;
+        await this.onLoad();
+      } else {
+        this.parameters.params.item_gudang_id = "";
       }
     },
 
@@ -1634,6 +1696,8 @@ export default {
             params: {
               ...this.parameters.params,
               gudang_id: this.parameters.params.gudang_id?.gudang_id,
+              item_gudang_id:
+                this.parameters.params.item_gudang_id?.item_gudang_id,
             },
           }
         )
