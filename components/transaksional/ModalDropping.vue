@@ -1,4 +1,3 @@
-<th class="w-20">Options</th>
 <template>
   <portal v-if="visible" to="modal-detail">
     <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>

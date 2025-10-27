@@ -26,27 +26,6 @@
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-<<<<<<< HEAD
-=======
-  "ButtonSmallDeleteButton": {
-    "description": "Auto imported from components/button/SmallDeleteButton.vue"
-  },
-  "ButtonSmallDetailButton": {
-    "description": "Auto imported from components/button/SmallDetailButton.vue"
-  },
-  "ButtonSmallEditButton": {
-    "description": "Auto imported from components/button/SmallEditButton.vue"
-  },
-  "ButtonSmallRestoreButton": {
-    "description": "Auto imported from components/button/SmallRestoreButton.vue"
-  },
-  "AsideSidebarBrand": {
-    "description": "Auto imported from components/aside/SidebarBrand.vue"
-  },
-  "AsideSidebarMenu": {
-    "description": "Auto imported from components/aside/SidebarMenu.vue"
-  },
->>>>>>> ac4a4b461ff52685390d6069b03d3dc17b18cd73
   "AnavbarMessages": {
     "description": "Auto imported from components/anavbar/Messages.vue"
   },
@@ -59,7 +38,6 @@
   "AnavbarUserOptions": {
     "description": "Auto imported from components/anavbar/UserOptions.vue"
   },
-<<<<<<< HEAD
   "AsideSidebarBrand": {
     "description": "Auto imported from components/aside/SidebarBrand.vue"
   },
@@ -78,8 +56,6 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
-=======
->>>>>>> ac4a4b461ff52685390d6069b03d3dc17b18cd73
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
