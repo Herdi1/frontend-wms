@@ -314,10 +314,9 @@ export default {
           return this.$axios.get("/get-setting");
         })
         .then((res) => {
+          const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           this.$axios.post("/set-timezone", {
-            params: {
-              timezone: "Asia/Jakarta",
-            },
+            timezone: userTimeZone,
           });
           // this.SET_SETTINGS(res.data);
           this.$router.push("/home");

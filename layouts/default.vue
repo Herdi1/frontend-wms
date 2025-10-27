@@ -22,6 +22,19 @@
         <app-sidebar></app-sidebar>
         <div class="main-content flex flex-col min-h-screen">
           <app-navbar></app-navbar>
+          <div
+            class="w-full p-3 mt-5 text-white bg-danger flex justify-between items-center"
+            v-if="$auth.user.password_warning"
+          >
+            <div>
+              {{ $auth.user.password_warning }}
+            </div>
+            <nuxt-link to="/profil">
+              <div class="p-2 bg-green-400 rounded-md text-white">
+                Update Password
+              </div>
+            </nuxt-link>
+          </div>
           <div class="animation p-6">
             <!-- <app-section></app-section> -->
             <vue-perfect-scrollbar>

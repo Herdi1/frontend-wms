@@ -148,6 +148,26 @@
                       </select>
                     </div>
                   </div>
+                  <div class="grid grid-cols-2 justify-between mt-2">
+                    <div class="form-group col-12">
+                      <input-form
+                        label="Expired Password"
+                        type="number"
+                        name="password_expiry_date"
+                        v-model="form.password_expiry_date"
+                      />
+                      *hari
+                    </div>
+                    <div class="form-group col-12">
+                      <input-form
+                        label="Warning Expired Password"
+                        type="number"
+                        name="password_warning_date"
+                        v-model="form.password_warning_date"
+                      />
+                      *hari
+                    </div>
+                  </div>
                   <div class="form-group">
                     <label for="is_min_stock">Icon </label>
                     <img
@@ -216,6 +236,8 @@ export default {
         app_name: "",
         is_min_stock: "0",
         icon: "",
+        password_expiry_date: 0,
+        password_warning_date: 0,
       },
 
       isLoadingForm: false,

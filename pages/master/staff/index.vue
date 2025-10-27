@@ -417,6 +417,7 @@ export default {
           order: "staff_id",
           sort: "desc",
           all: "",
+          gudang_id: "",
           per_page: 10,
           page: 1,
           gudang_id: "",

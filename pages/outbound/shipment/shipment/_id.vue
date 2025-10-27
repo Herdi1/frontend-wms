@@ -1380,7 +1380,7 @@ export default {
                     gudang_id: this.parameters.form.gudang_id.gudang_id,
                     jenis_kendaraan_id:
                       this.parameters.form.jenis_kendaraan_id
-                        .jenis_kendaraan_id ?? "",
+                        ?.jenis_kendaraan_id ?? "",
                     lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     vendor_id:
                       typeof this.parameters.form.vendor_id === "object"
@@ -1444,7 +1444,7 @@ export default {
                         gudang_id: this.parameters.form.gudang_id.gudang_id,
                         jenis_kendaraan_id:
                           this.parameters.form.jenis_kendaraan_id
-                            .jenis_kendaraan_id ?? "",
+                            ?.jenis_kendaraan_id ?? "",
                         lokasi_id: item.lokasi_id.lokasi_id,
                         vendor_id:
                           typeof this.parameters.form.vendor_id === "object"
@@ -1499,7 +1499,7 @@ export default {
                       gudang_id: this.parameters.form.gudang_id.gudang_id,
                       jenis_kendaraan_id:
                         this.parameters.form.jenis_kendaraan_id
-                          .jenis_kendaraan_id ?? "",
+                          ?.jenis_kendaraan_id ?? "",
                       lokasi_id: item.lokasi_id_tujuan.lokasi_id,
                     },
                   }

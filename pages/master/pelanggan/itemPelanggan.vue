@@ -443,68 +443,68 @@
             <td class="border border-gray-300">
               <div>
                 <div class="form-group">
-                  <label for="berat_bersih">Berat Bersih</label>
+                  <!-- <label for="berat_bersih">Berat Bersih</label>
                   <money
                     v-model="item.berat_bersih"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
                 <div class="form-group">
-                  <label for="berat_kotor">Berat Kotor</label>
+                  <!-- <label for="berat_kotor">Berat Kotor</label>
                   <money
                     v-model="item.berat_kotor"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
               </div>
             </td>
             <td class="border border-gray-300">
               <div>
                 <div class="form-group">
-                  <label for="panjang">Panjang</label>
+                  <!-- <label for="panjang">Panjang</label>
                   <money
                     v-model="item.panjang"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
                 <div class="form-group">
-                  <label for="lebar">Lebar</label>
+                  <!-- <label for="lebar">Lebar</label>
                   <money
                     v-model="item.lebar"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
                 <div class="form-group">
-                  <label for="tebal">Tebal</label>
+                  <!-- <label for="tebal">Tebal</label>
                   <money
                     v-model="item.tebal"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
                 <div class="form-group">
-                  <label for="volume">Volume</label>
+                  <!-- <label for="volume">Volume</label>
                   <money
                     v-model="item.volume"
                     class="w-full pl-2 py-1 border rounded focus:outline-none"
                     @keydown.native="
                       $event.key === '-' ? $event.preventDefault() : null
                     "
-                  />
+                  /> -->
                 </div>
               </div>
             </td>

@@ -849,6 +849,8 @@ export default {
           }
         );
 
+        await this.onSearchDriver();
+
         this.isLoadingPage = false;
         // console.log(this.form.pengemudi_kendaraans);
       }
