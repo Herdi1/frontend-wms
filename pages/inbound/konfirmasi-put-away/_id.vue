@@ -84,7 +84,11 @@
                 <div class="flex w-full items-center">
                   <label class="w-1/2">Tanggal Put Away</label>
                   <div class="border border-gray-300 rounded-md p-1 w-1/2">
-                    {{ form.tanggal_put_away ? form.tanggal_put_away : "-" }}
+                    {{
+                      form.tanggal_put_away
+                        ? formatDate(form.tanggal_put_away)
+                        : "-"
+                    }}
                   </div>
                 </div>
                 <div>
@@ -422,6 +426,12 @@ export default {
 
   methods: {
     ...mapActions("moduleApi", ["addData", "updateData"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
 
     getUserAgent() {
       this.form.user_agent = navigator.userAgent;
