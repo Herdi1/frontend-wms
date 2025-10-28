@@ -1039,7 +1039,7 @@
                     <input-form
                       label="PIC Customer"
                       type="text"
-                      name="nama_manager"
+                      name="pic_customer"
                       :required="false"
                       v-model="form.nama_manager"
                     />
