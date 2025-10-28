@@ -1035,6 +1035,15 @@
                       "
                     />
                   </div>
+                  <div class="w-full form-group">
+                    <input-form
+                      label="Nama Manager"
+                      type="text"
+                      name="nama_manager"
+                      :required="false"
+                      v-model="form.nama_manager"
+                    />
+                  </div>
                   <!--
                     <div class="form-group">
                       <label for="status_satpam"
@@ -1515,6 +1524,7 @@ export default {
         status_gudang: "",
         item_gudang: [],
         status_transaksis: [],
+        nama_manager: "",
       },
 
       default_form: {
@@ -1566,6 +1576,7 @@ export default {
         status_gudang: "",
         item_gudang: [],
         status_transaksis: [],
+        nama_manager: "",
       },
 
       isStopSearchLokasi: false,
