@@ -1037,7 +1037,7 @@
                   </div>
                   <div class="w-full form-group">
                     <input-form
-                      label="Nama Manager"
+                      label="PIC Customer"
                       type="text"
                       name="nama_manager"
                       :required="false"
