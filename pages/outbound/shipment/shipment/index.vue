@@ -73,7 +73,7 @@
                   >
                     <template slot="selected-option" slot-scope="option">
                       <div
-                        class="w-[150px] whitespace-nowrap text-ellipsis overflow-hidden"
+                        class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
                       >
                         {{ option.nama_gudang }}
                       </div>

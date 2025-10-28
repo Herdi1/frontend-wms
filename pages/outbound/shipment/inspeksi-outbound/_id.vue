@@ -484,10 +484,9 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudang_id,
-        staff_id:
-          typeof this.parameters.form.staff_id === "object"
-            ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id,
+        staff_id: this.parameters.form.staff_id
+          ? this.parameters.form.staff_id
+          : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
@@ -498,16 +497,16 @@ export default {
             : this.parameters.form.pengemudi_id,
         kendaraan_id:
           typeof this.parameters.form.kendaraan_id == "object"
-            ? this.parameters.form.kendaraan_id.kendaraan_id
-            : this.parameters.form.kendaraan_id,
+            ? this.parameters.form.kendaraan_id?.kendaraan_id ?? ""
+            : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id == "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
             : this.parameters.form.jenis_kendaraan_id,
-        staff_id:
-          typeof this.parameters.form.staff_id == "object"
-            ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id,
+        // staff_id:
+        //   typeof this.parameters.form.staff_id == "object"
+        //     ? this.parameters.form.staff_id.staff_id
+        //     : this.parameters.form.staff_id,
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id_pic

@@ -115,7 +115,7 @@
                   :disabled="true"
                 />
               </div>
-              <ValidationProvider name="pengemudi_id">
+              <!-- <ValidationProvider name="pengemudi_id">
                 <select-button
                   :self="{
                     label: 'Pengemudi',
@@ -130,23 +130,21 @@
                   class="mb-5"
                   :disabled="true"
                 />
-              </ValidationProvider>
-              <ValidationProvider name="kendaraan_id">
-                <select-button
-                  :self="{
-                    label: 'Kendaraan',
-                    optionLabel: 'nama_kendaraan',
-                    lookup: lookup_custom2,
-                    value: parameters.form.kendaraan_id,
-                    onGet: onGetKendaraan,
-                    isLoadingL: isLoadingGetKendaraan,
-                    input: onSelectKendaraan,
-                  }"
-                  width="w-[50%]"
-                  class="mb-5"
-                  :disabled="true"
-                />
-              </ValidationProvider>
+              </ValidationProvider> -->
+              <select-button
+                :self="{
+                  label: 'Kendaraan',
+                  optionLabel: 'nama_kendaraan',
+                  lookup: lookup_custom2,
+                  value: parameters.form.kendaraan_id,
+                  onGet: onGetKendaraan,
+                  isLoadingL: isLoadingGetKendaraan,
+                  input: onSelectKendaraan,
+                }"
+                width="w-[50%]"
+                class="mb-5"
+                :disabled="true"
+              />
               <div class="col-span-2 w-full px-1">
                 <label for="keterangan">Keterangan</label>
                 <textarea
@@ -482,10 +480,9 @@ export default {
           typeof this.parameters.form.gudang_id === "object"
             ? this.parameters.form.gudang_id.gudang_id
             : this.parameters.form.gudang_id,
-        staff_id:
-          typeof this.parameters.form.staff_id === "object"
-            ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id,
+        staff_id: typeof this.parameters.form.staff_id
+          ? this.parameters.form.staff_id
+          : "",
         jenis_kendaraan_id:
           typeof this.parameters.form.jenis_kendaraan_id === "object"
             ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
@@ -496,16 +493,16 @@ export default {
             : this.parameters.form.pengemudi_id,
         kendaraan_id:
           typeof this.parameters.form.kendaraan_id == "object"
-            ? this.parameters.form.kendaraan_id.kendaraan_id
-            : this.parameters.form.kendaraan_id,
-        jenis_kendaraan_id:
-          typeof this.parameters.form.jenis_kendaraan_id == "object"
-            ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
-            : this.parameters.form.jenis_kendaraan_id,
-        staff_id:
-          typeof this.parameters.form.staff_id == "object"
-            ? this.parameters.form.staff_id.staff_id
-            : this.parameters.form.staff_id,
+            ? this.parameters.form.kendaraan_id?.kendaraan_id ?? ""
+            : "",
+        // jenis_kendaraan_id:
+        //   typeof this.parameters.form.jenis_kendaraan_id == "object"
+        //     ? this.parameters.form.jenis_kendaraan_id.jenis_kendaraan_id
+        //     : this.parameters.form.jenis_kendaraan_id,
+        // staff_id:
+        //   typeof this.parameters.form.staff_id == "object"
+        //     ? this.parameters.form.staff_id.staff_id
+        //     : this.parameters.form.staff_id,
         user_id_pic:
           typeof this.parameters.form.user_id_pic == "object"
             ? this.parameters.form.user_id_pic.user_id_pic
