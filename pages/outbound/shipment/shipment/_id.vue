@@ -112,7 +112,7 @@
                 </select>
               </div>
               <!-- <ValidationProvider name="pengemudi_id"> -->
-              <select-button
+              <!-- <select-button
                 :self="{
                   label: 'Pelanggan',
                   optionLabel: 'nama_pelanggan',
@@ -124,62 +124,131 @@
                 }"
                 width="w-[50%]"
                 class="mb-5"
-              />
+              /> -->
+              <div class="form-group flex items-center">
+                <label for="" class="w-1/2">Pelanggan</label>
+                <v-select
+                  label="nama_pelanggan"
+                  :loading="isLoadingGetPelanggan"
+                  :options="lookup_mesin.data"
+                  :filterable="false"
+                  @search="onGetPelanggan"
+                  v-model="parameters.form.pelanggan_id"
+                  @input="onSelectPelanggan"
+                  class="w-[50%] bg-white"
+                >
+                  <template slot="selected-option" slot-scope="option">
+                    <div
+                      class="w-[120px] whitespace-nowrap text-ellipsis overflow-hidden"
+                    >
+                      {{ option.nama_pelanggan }}
+                    </div>
+                  </template>
+                  <li
+                    slot-scope="{ search }"
+                    slot="list-footer"
+                    class="p-1 border-t flex justify-between"
+                    v-if="lookup_mesin.data.length || search"
+                  >
+                    <span
+                      v-if="lookup_mesin.current_page > 1"
+                      @click="onGetPelanggan(search, false)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Sebelumnya</span
+                    >
+                    <span
+                      v-if="lookup_mesin.last_page > lookup_mesin.current_page"
+                      @click="onGetPelanggan(search, true)"
+                      class="flex-fill bg-primary text-white text-center cursor-pointer p-2 rounded"
+                      >Selanjutnya</span
+                    >
+                  </li>
+                </v-select>
+              </div>
               <!-- <ValidationProvider name="kendaraan_id"> -->
-              <select-button
-                :self="{
-                  label: 'Kendaraan',
-                  optionLabel: 'nama_kendaraan',
-                  lookup: lookup_custom2,
-                  value: parameters.form.kendaraan_id,
-                  onGet: onGetKendaraan,
-                  isLoadingL: isLoadingGetKendaraan,
-                  input: onSelectKendaraan,
-                }"
-                width="w-[50%]"
-                class="mb-5"
-                :required="false"
-              />
-              <!-- </ValidationProvider> -->
-              <ValidationProvider name="kendaraan_id">
+              <div v-if="parameters.form.jenis_kiriman === 'FRC'">
                 <select-button
                   :self="{
-                    label: 'Jenis Kendaraan',
-                    optionLabel: 'nama_jenis_kendaraan',
-                    lookup: lookup_roles,
-                    value: parameters.form.jenis_kendaraan_id,
-                    onGet: onGetJenisKendaraan,
-                    isLoadingL: isLoadingGetJenisKendaraan,
-                    input: onSelectJenisKendaraan,
+                    label: 'Kendaraan',
+                    optionLabel: 'nama_kendaraan',
+                    lookup: lookup_custom2,
+                    value: parameters.form.kendaraan_id,
+                    onGet: onGetKendaraan,
+                    isLoadingL: isLoadingGetKendaraan,
+                    input: onSelectKendaraan,
                   }"
                   width="w-[50%]"
                   class="mb-5"
-                  :disabled="true"
+                  :required="false"
                 />
-              </ValidationProvider>
-              <div class="form-group flex">
-                <label for="" class="w-[50%]">Pengemudi</label>
-                <select
-                  class="p-1 w-[50%] border border-gray-300 rounded-md outline-none"
-                  name="staff_id"
-                  id="staff_id"
-                  v-model="parameters.form.staff_id"
-                  @change="onSelectStaff(parameters.form.staff_id)"
-                >
-                  <option value="" v-if="lookup_custom10.length === 0" disabled>
-                    -- Pilih Pengemudi --
-                  </option>
-                  <template v-if="lookup_custom10.length > 0">
+              </div>
+              <!-- </ValidationProvider> -->
+              <div v-if="parameters.form.jenis_kiriman === 'FRC'">
+                <ValidationProvider name="kendaraan_id">
+                  <select-button
+                    :self="{
+                      label: 'Jenis Kendaraan',
+                      optionLabel: 'nama_jenis_kendaraan',
+                      lookup: lookup_roles,
+                      value: parameters.form.jenis_kendaraan_id,
+                      onGet: onGetJenisKendaraan,
+                      isLoadingL: isLoadingGetJenisKendaraan,
+                      input: onSelectJenisKendaraan,
+                    }"
+                    width="w-[50%]"
+                    class="mb-5"
+                    :disabled="true"
+                  />
+                </ValidationProvider>
+              </div>
+              <div v-if="parameters.form.jenis_kiriman === 'FRC'">
+                <div class="form-group flex">
+                  <label for="" class="w-[50%]">Pengemudi</label>
+                  <select
+                    class="p-1 w-[50%] border border-gray-300 rounded-md outline-none"
+                    name="staff_id"
+                    id="staff_id"
+                    v-model="parameters.form.staff_id"
+                    @change="onSelectStaff(parameters.form.staff_id)"
+                  >
                     <option
-                      v-for="(item, i) in lookup_custom10"
-                      :key="i"
-                      :value="item.staff_id"
+                      value=""
+                      v-if="lookup_custom10.length === 0"
+                      disabled
                     >
-                      {{ item.nama_lengkap }}
+                      -- Pilih Pengemudi --
                     </option>
-                  </template>
-                </select>
-                <!-- <v-select
+                    <template v-if="lookup_custom10.length > 0">
+                      <option
+                        v-for="(item, i) in lookup_custom10"
+                        :key="i"
+                        :value="item.staff_id"
+                      >
+                        {{ item.nama_lengkap }}
+                      </option>
+                    </template>
+                  </select>
+                </div>
+              </div>
+              <div v-if="parameters.form.jenis_kiriman !== 'FRC'" class="px-1">
+                <input-horiontal
+                  label="Kendaraan"
+                  type="text"
+                  name="kendaraan"
+                  v-model="parameters.form.nama_kendaraan"
+                  :required="false"
+                />
+              </div>
+              <div v-if="parameters.form.jenis_kiriman !== 'FRC'" class="px-1">
+                <input-horiontal
+                  label="Pengemudi"
+                  type="text"
+                  name="pengemudi"
+                  v-model="parameters.form.nama_pengemudi"
+                  :required="false"
+                />
+              </div>
+              <!-- <v-select
                   label="nama_lengkap"
                   :loading="isLoadingGetStaff"
                   :options="lookup_custom10"
@@ -211,7 +280,6 @@
                     >
                   </li>
                 </v-select> -->
-              </div>
               <!-- <div class="form-group">
                 <select-button
                   :self="{
@@ -416,6 +484,8 @@ export default {
           total_switch: 0,
           total_locco: 0,
           pelanggan_id: "",
+          nama_kendaraan: "",
+          nama_pengemudi: "",
 
           shipment_details: [],
           rute_shipments: [],
@@ -1118,9 +1188,11 @@ export default {
       if (item) {
         this.parameters.form.kendaraan_id = item;
         this.parameters.form.jenis_kendaraan_id = item.jenis_kendaraan;
+        this.parameters.form.nama_kendaraan = item.nama_kendaraan;
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
         this.parameters.form.nama_vendor = "";
+        this.parameters.form.nama_pengemudi = "";
         await this.lookUp({
           url: "master/kendaraan/get-pengemudi-kendaraan",
           lookup: "custom10",
@@ -1132,6 +1204,8 @@ export default {
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
         this.parameters.form.nama_vendor = "";
+        this.parameters.form.nama_pengemudi = "";
+        this.parameters.form.nama_pengemudi = "";
       }
     },
 
@@ -1235,6 +1309,7 @@ export default {
         this.parameters.form.staff_id = item;
         this.parameters.form.vendor_id = selected.vendor_id_operator;
         this.parameters.form.nama_vendor = selected.nama_vendor;
+        this.parameters.form.nama_pengemudi = selected.nama_lengkap;
       } else {
         this.parameters.form.staff_id = "";
         this.parameters.form.vendor_id = "";
@@ -1283,7 +1358,7 @@ export default {
             this.lookup_mesin.current_page +
             "&per_page=10",
         });
-        this.isLoadingGetGudang = false;
+        this.isLoadingGetPelanggan = false;
       }
     },
 

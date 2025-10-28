@@ -2,7 +2,7 @@
   <portal v-if="visible" to="modal-detail">
     <div @click="hide" class="fixed inset-0 bg-black bg-opacity-50 z-50"></div>
     <div
-      class="modal fade fixed top-6 left-1/2 -translate-x-1/2 w-[1000px] bg-white rounded shadow-lg p-6 z-50 overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
+      class="modal fade fixed top-6 left-1/2 -translate-x-1/2 w-[150vh] bg-white rounded shadow-lg p-6 z-50 overflow-y-auto dark:bg-slate-700 dark:text-gray-100"
       aria-hidden="true"
       id="modal-detail"
     >
@@ -31,6 +31,7 @@
               >
                 <thead>
                   <tr class="uppercase">
+                    <th class="w-20 border border-gray-300">Options</th>
                     <th
                       class="w-48 cursor-pointer border border-gray-300"
                       @click="
@@ -136,7 +137,7 @@
                       </div>
                     </th>
                     <th
-                      class="w-40 cursor-pointer"
+                      class="w-40 cursor-pointer border border-gray-300"
                       @click="
                         onSort(
                           'nama_item',
@@ -172,11 +173,20 @@
                     <th class="border border-gray-300 w-32">Shipto</th>
                     <!-- <th class="border border-gray-300 w-32">Pelanggan</th> -->
                     <th class="border border-gray-300 w-32">Quantity</th>
-                    <th class="w-20">Options</th>
                   </tr>
                 </thead>
                 <tbody class="min-h-[500px]">
                   <tr v-for="(item, i) in data" :key="i">
+                    <td
+                      class="border border-gray-300 text-center place-items-center"
+                    >
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="self.addItem(item)"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </td>
                     <td class="border border-gray-300">
                       <div>
                         {{ item.kode_pick_request }}
@@ -231,16 +241,6 @@
                     </td> -->
                     <td class="border border-gray-300">
                       {{ item.sisa_quantity ? item.sisa_quantity : "-" }}
-                    </td>
-                    <td
-                      class="border border-gray-300 text-center place-items-center"
-                    >
-                      <button
-                        class="btn btn-sm btn-primary"
-                        @click="self.addItem(item)"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
                     </td>
                   </tr>
                 </tbody>
