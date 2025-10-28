@@ -481,14 +481,14 @@ export default {
             console.log(this.chartData);
           })
           .catch((err) => {
-            this.$globalErrorToaster(this.$toaster, err.message);
+            this.$globalErrorToaster(this.$toaster, err);
           })
           .finally(() => {
             loader.hide();
             this.isLoadingData = false;
           });
       } catch (error) {
-        this.$globalErrorToaster(this.$toaster, error.message);
+        this.$globalErrorToaster(this.$toaster, error);
       }
     },
 

@@ -1730,7 +1730,7 @@ export default {
           this.$refs["pagination"].active_page = this.parameters.params.page;
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err.message);
+          this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingData = false;

@@ -451,7 +451,7 @@ export default {
           this.$toaster.success("Data berhasil di Tambah");
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err.message);
+          this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;

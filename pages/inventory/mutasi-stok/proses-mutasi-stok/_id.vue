@@ -1035,7 +1035,7 @@ export default {
           this.$router.back();
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err.message);
+          this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;

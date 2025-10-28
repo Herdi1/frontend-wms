@@ -511,7 +511,7 @@ export default {
           this.$router.push("/inbound/konfirmasi-put-away");
         })
         .catch((err) => {
-          this.$globalErrorToaster(this.$toaster, err.message);
+          this.$globalErrorToaster(this.$toaster, err);
         })
         .finally(() => {
           this.isLoadingForm = false;
