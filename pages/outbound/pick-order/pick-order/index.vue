@@ -14,6 +14,9 @@
       <h5 class="text-lg font-semibold dark:text-white-light">
         {{ this.title }}
       </h5>
+      <!-- <h5 class="text-lg font-semibold dark:text-white-light">
+        {{ activeMenuTitle ?? "" }}
+      </h5> -->
     </div>
     <div class="flex gap-5">
       <div
@@ -614,6 +617,10 @@ export default {
         return roles;
       }
     },
+
+    // activeMenuTitle() {
+    //   return this.$store.state.menu.activeMenuTitle;
+    // },
   },
 
   methods: {

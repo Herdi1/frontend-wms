@@ -20,6 +20,7 @@ let store = {};
   store.modules = store.modules || {}
 
   resolveStoreModules(require('..\\store\\app.js'), 'app.js')
+  resolveStoreModules(require('..\\store\\menu.js'), 'menu.js')
   resolveStoreModules(require('..\\store\\pagination.js'), 'pagination.js')
   resolveStoreModules(require('..\\store\\print.js'), 'print.js')
   resolveStoreModules(require('..\\store\\setting.js'), 'setting.js')
@@ -35,6 +36,7 @@ let store = {};
     module.hot.accept([
       '..\\store\\app.js',
       '..\\store\\index.js',
+      '..\\store\\menu.js',
       '..\\store\\pagination.js',
       '..\\store\\print.js',
       '..\\store\\setting.js',
