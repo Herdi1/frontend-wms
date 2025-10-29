@@ -1289,6 +1289,8 @@ export default {
             params: {
               ...this.parameters.params,
               gudang_id: this.parameters.params.gudang_id?.gudang_id,
+              item_gudang_id:
+                this.parameters.params.item_gudang_id?.item_gudang_id,
             },
           }
         )
