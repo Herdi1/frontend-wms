@@ -84,6 +84,7 @@
                     class="w-1/2 pt-1 text-sm font-medium text-gray-900 dark:text-white"
                     >Lampiran
                     <span class="italic text-xs text-slate-600">(*pdf)</span>
+                    <span class="text-danger">*</span>
                   </label>
                   <span class="w-1/2">
                     <input
@@ -981,6 +982,11 @@ export default {
     async onSubmit(isInvalid) {
       if (isInvalid || this.isLoadingForm) return;
 
+      if (!this.form.file_name) {
+        this.$toaster.error("Mohon upload lampiran terlebih dahulu");
+        return;
+      }
+
       this.isLoadingForm = true;
       let url = this.url;
 
@@ -1043,8 +1049,8 @@ export default {
 
       appendFormData(formData, formDataObj);
 
-      if (this.form.file_dokumen instanceof File) {
-        formData.append("file_dokumen", this.form.file_dokumen);
+      if (this.form.file_name instanceof File) {
+        formData.append("file_name", this.form.file_name);
       }
 
       if (this.isEditable) {

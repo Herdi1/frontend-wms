@@ -44,6 +44,7 @@
   "AsideSidebarMenu": {
     "description": "Auto imported from components/aside/SidebarMenu.vue"
   },
+<<<<<<< HEAD
   "ButtonSmallDeleteButton": {
     "description": "Auto imported from components/button/SmallDeleteButton.vue"
   },
@@ -56,6 +57,8 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
+=======
+>>>>>>> 74b91644f3ad847128706b1be5c28732a02e60fc
   "FormsCloseButton": {
     "description": "Auto imported from components/forms/CloseButton.vue"
   },
@@ -70,6 +73,18 @@
   },
   "FormsTitleForm": {
     "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+  "ButtonSmallDeleteButton": {
+    "description": "Auto imported from components/button/SmallDeleteButton.vue"
+  },
+  "ButtonSmallDetailButton": {
+    "description": "Auto imported from components/button/SmallDetailButton.vue"
+  },
+  "ButtonSmallEditButton": {
+    "description": "Auto imported from components/button/SmallEditButton.vue"
+  },
+  "ButtonSmallRestoreButton": {
+    "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
