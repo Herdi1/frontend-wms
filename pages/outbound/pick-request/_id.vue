@@ -396,8 +396,8 @@ export default {
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
+    this.parameters.form.tanggal = formattedDate;
     try {
-      this.parameters.form.tanggal = formattedDate;
       if (this.isEditable) {
         let res = await this.$axios.get(`outbound/pick-request/${this.id}`);
         Object.keys(this.parameters.form).forEach((item) => {
@@ -426,8 +426,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      console.log("error", error);
-      // this.$router.back();
+      // console.log("error", error);
+      this.$router.back();
     }
   },
 
@@ -442,6 +442,11 @@ export default {
       await this.onSelectGudang(this.lookup_roles.data[0]);
     }
     await this.onSearchPelanggan();
+    if (!this.isEditable) {
+      if (this.lookup_custom1.data.length == 1) {
+        this.onSelectPelanggan(this.lookup_custom1.data[0]);
+      }
+    }
     await this.onSearchItemGudang();
     this.getGeoLocation();
     this.getUserAgent();
@@ -546,6 +551,27 @@ export default {
       let newTanggalKirim = this.formatDateTime(
         this.parameters.form.tanggal_request_kirim
       );
+
+      let error = false;
+
+      this.parameters.form.pick_request_details.forEach((item) => {
+        if (
+          parseFloat(item.quantity) %
+            parseFloat(item.item_gudang_id.satuan?.min_quantity) !==
+          0.0
+        ) {
+          this.$toaster.error(
+            "Quantity Item Tidak Sesuai Dengan Minimal Quantity"
+          );
+          error = true;
+          return;
+        }
+      });
+
+      if (error) {
+        this.isLoadingForm = false;
+        return;
+      }
 
       let formData = {
         ...this.parameters.form,

@@ -83,6 +83,15 @@
                 </select>
               </div>
             </ValidationProvider>
+            <div class="form-group">
+              <input-koma
+                name="min_quantity"
+                label="Minimal Quantity"
+                :value="parameters.form.min_quantity"
+                v-model="parameters.form.min_quantity"
+                :required="true"
+              />
+            </div>
           </div>
           <modal-footer-section
             class="mt-5"
@@ -121,6 +130,7 @@ export default {
           kode_satuan: "",
           nama_satuan: "",
           jenis_satuan_id: "",
+          min_quantity: "",
         },
       },
     };
@@ -180,6 +190,7 @@ export default {
           kode_satuan: "",
           nama_satuan: "",
           jenis_satuan_id: "",
+          min_quantity: "",
         };
 
         this.$refs.formValidate.reset();
