@@ -512,15 +512,15 @@
               </div>
             </ValidationProvider>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 w-full">
-            <div class="form-group">
+          <div class="grid grid-cols-1 gap-2 w-full">
+            <!-- <div class="form-group">
               <label for="alamat">Alamat</label>
               <textarea
                 placeholder="Alamat"
                 class="w-full pl-2 py-1 border rounded focus:outline-none"
                 v-model="parameters.form.alamat"
               ></textarea>
-            </div>
+            </div> -->
             <div class="form-group">
               <label for="alamat_lokasi">Alamat Lokasi</label>
               <textarea
@@ -546,7 +546,7 @@
                 label="Nama Pemilik"
                 type="text"
                 name="nama_pemilik"
-                :required="true"
+                :required="false"
                 v-model="parameters.form.nama_pemilik"
               />
             </div>
