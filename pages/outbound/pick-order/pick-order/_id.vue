@@ -988,8 +988,8 @@ export default {
         // console.log(res.data);
       }
     } catch (error) {
-      // console.log("error", error);
-      this.$router.back();
+      console.log("error", error);
+      //this.$router.back();
     }
   },
 
