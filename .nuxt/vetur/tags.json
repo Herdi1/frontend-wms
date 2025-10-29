@@ -71,6 +71,24 @@
   "ButtonSmallRestoreButton": {
     "description": "Auto imported from components/button/SmallRestoreButton.vue"
   },
+<<<<<<< HEAD
+=======
+  "FormsCloseButton": {
+    "description": "Auto imported from components/forms/CloseButton.vue"
+  },
+  "FormsInputForm": {
+    "description": "Auto imported from components/forms/InputForm.vue"
+  },
+  "FormsResetButton": {
+    "description": "Auto imported from components/forms/ResetButton.vue"
+  },
+  "FormsSaveButton": {
+    "description": "Auto imported from components/forms/SaveButton.vue"
+  },
+  "FormsTitleForm": {
+    "description": "Auto imported from components/forms/TitleForm.vue"
+  },
+>>>>>>> 7f157a3697bc5d4f67c9d576816a374c211e2054
   "InputForm": {
     "description": "Auto imported from components/InputForm/InputForm.vue"
   },

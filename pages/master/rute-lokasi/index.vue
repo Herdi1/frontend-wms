@@ -193,21 +193,24 @@
           </div>
         </div>
 
-        <div>
-          <table ref="formContainer" class="border border-gray-300">
+        <div class="table-responsive w-full relative overflow-y-auto">
+          <table
+            ref="formContainer"
+            class="mb-5 overflow-x-auto table-fixed border border-gray-300"
+          >
             <thead>
               <tr class="uppercase">
-                <th class="w-[5%] text-center border border-gray-300">Edit</th>
-                <th class="w-[5%] border border-gray-300">No</th>
-                <th class="border border-gray-300">Kode Rute Lokasi</th>
-                <th class="border border-gray-300">Gudang</th>
-                <th class="border border-gray-300">Lokasi Awal</th>
-                <th class="border border-gray-300">Lokasi Tujuan</th>
-                <th class="border border-gray-300">Jarak</th>
-                <th class="border border-gray-300">Status</th>
-                <th class="w-[5%] text-center border border-gray-300">
-                  Delete
-                </th>
+                <th class="w-20 text-center border border-gray-300">Edit</th>
+                <th class="w-16 border border-gray-300 text-center">No</th>
+                <th class="w-48 border border-gray-300">Kode Rute Lokasi</th>
+                <th class="w-48 border border-gray-300">Gudang</th>
+                <th class="w-48 border border-gray-300">Lokasi Awal</th>
+                <th class="w-48 border border-gray-300">Lokasi Tujuan</th>
+                <th class="w-24 border border-gray-300">Jarak</th>
+                <th class="w-48 border border-gray-300">Tanggal Request</th>
+                <th class="w-48 border border-gray-300">Tanggal Approve</th>
+                <th class="w-28 border border-gray-300">Status</th>
+                <th class="w-20 text-center border border-gray-300">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -245,6 +248,18 @@
                   }}
                 </td>
                 <td class="border border-gray-300">{{ item.jarak }}</td>
+                <td class="border border-gray-300">
+                  {{
+                    item.tanggal_request
+                      ? formatDateTime(item.tanggal_request)
+                      : ""
+                  }}
+                </td>
+                <td class="border border-gray-300">
+                  {{
+                    item.tanggal_approve ? formatDate(item.tanggal_approve) : ""
+                  }}
+                </td>
                 <td class="border border-gray-300">
                   <div
                     v-if="item.status_approve === 'p'"
@@ -456,6 +471,27 @@ export default {
       "lookUp",
     ]),
     ...mapMutations("moduleApi", ["set_data"]),
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
+    },
+
+    formatDateTime(dateTime) {
+      const dateObject = new Date(dateTime);
+
+      const year = dateObject.getFullYear();
+      const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObject.getDate()).padStart(2, "0");
+      const hours = String(dateObject.getHours()).padStart(2, "0");
+      const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+      const seconds = String(dateObject.getSeconds()).padStart(2, "0");
+
+      const formattedDateTime = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+      return formattedDateTime;
+    },
 
     async onLoad(page = 1) {
       if (this.isLoadingData) return;

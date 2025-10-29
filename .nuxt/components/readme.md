@@ -30,6 +30,14 @@ You can directly use them in pages and other components without the need to impo
 - `<ButtonSmallDetailButton>` | `<button-small-detail-button>` (components/button/SmallDetailButton.vue)
 - `<ButtonSmallEditButton>` | `<button-small-edit-button>` (components/button/SmallEditButton.vue)
 - `<ButtonSmallRestoreButton>` | `<button-small-restore-button>` (components/button/SmallRestoreButton.vue)
+<<<<<<< HEAD
+=======
+- `<FormsCloseButton>` | `<forms-close-button>` (components/forms/CloseButton.vue)
+- `<FormsInputForm>` | `<forms-input-form>` (components/forms/InputForm.vue)
+- `<FormsResetButton>` | `<forms-reset-button>` (components/forms/ResetButton.vue)
+- `<FormsSaveButton>` | `<forms-save-button>` (components/forms/SaveButton.vue)
+- `<FormsTitleForm>` | `<forms-title-form>` (components/forms/TitleForm.vue)
+>>>>>>> 7f157a3697bc5d4f67c9d576816a374c211e2054
 - `<InputForm>` | `<input-form>` (components/InputForm/InputForm.vue)
 - `<InputHoriontal>` | `<input-horiontal>` (components/InputForm/InputHoriontal.vue)
 - `<InputKoma>` | `<input-koma>` (components/InputForm/InputKoma.vue)
