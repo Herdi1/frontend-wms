@@ -334,7 +334,7 @@ export default {
 
   async created() {
     try {
-      let res = await this.$axios.get(`outbound/pick-order/${this.id}`);
+      let res = await this.$axios.get(`outbound/proses-pick-order/${this.id}`);
       Object.keys(this.detail_pick_order).forEach((item) => {
         if (item != "pick_order_details") {
           this.detail_pick_order[item] = res.data[item];

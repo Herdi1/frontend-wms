@@ -22,6 +22,9 @@
     >
       <table
         class="table border-collapse border border-gray-300 mt-5 table-fixed"
+        :class="
+          self.parameters.form.pick_request_details.length > 0 ? 'mb-48' : ''
+        "
       >
         <thead>
           <tr class="text-sm uppercase">

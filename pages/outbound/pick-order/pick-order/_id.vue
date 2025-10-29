@@ -972,6 +972,11 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
               peralatan_id: item.peralatan ?? "",
               jenis_biaya_id: item.jenis_biaya ?? "",
+              kode_pick_request:
+                item.pick_request_detail.pick_request.kode_pick_request ?? "",
+              // .map((kode) => {
+              //   return kode.pick_request.kode_pick_request;
+              // }),
             };
           });
 

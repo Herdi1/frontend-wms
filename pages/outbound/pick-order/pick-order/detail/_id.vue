@@ -128,7 +128,7 @@
             >
               <thead>
                 <tr class="uppercase">
-                  <th class="w-60 border border-gray-300">Kode Item</th>
+                  <th class="w-60 border border-gray-300">Kode Pick Request</th>
                   <th class="w-60 border border-gray-300">Nama Item</th>
                   <th class="w-40 border border-gray-300">Jenis</th>
                   <th class="w-40 border border-gray-300">Jenis Kiriman</th>
@@ -154,9 +154,10 @@
                   class="border-t align-top"
                 >
                   <td class="border border-gray-300">
-                    {{ item.item_gudang.kode_item }}
+                    {{ item.kode_pick_request ?? "-" }}
                   </td>
                   <td class="border border-gray-300">
+                    {{ item.item_gudang.kode_item }} -
                     {{ item.item_gudang.nama_item }}
                   </td>
                   <td class="border border-gray-300 text-center">
@@ -413,6 +414,8 @@ export default {
         res.data.pick_order_details.map((item) => {
           return {
             ...item,
+            kode_pick_request:
+              item.pick_request_detail.pick_request.kode_pick_request ?? "",
           };
         });
       this.isLoadingPage = false;
