@@ -681,10 +681,10 @@ export default {
       formData.jurnal_details = formData.jurnal_details.map((item) => {
         return {
           ...item,
-          jurnal_detail_id:
-            typeof item.jurnal_detail_id == "object"
-              ? item.jurnal_detail_id.jurnal_detail_id
-              : "",
+          // jurnal_detail_id:
+          //   typeof item.jurnal_detail_id == "object"
+          //     ? item.jurnal_detail_id.jurnal_detail_id
+          //     : "",
           coa_id:
             typeof item.coa_id == "object"
               ? item.coa_id.coa_id ?? ""
