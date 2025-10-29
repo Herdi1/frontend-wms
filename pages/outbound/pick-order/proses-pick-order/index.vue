@@ -188,6 +188,8 @@
                       </div>
                     </div>
                   </th>
+                  <th class="w-52 border border-gray-300">Kode Pick Request</th>
+
                   <th
                     class="w-52 border border-gray-300 cursor-pointer"
                     @click="
@@ -372,6 +374,17 @@
                       <p v-else class="text-blue-500">
                         <i>Dibuat oleh: Sistem</i>
                       </p>
+                    </div>
+                  </td>
+                  <td class="border border-gray-300">
+                    <div
+                      v-for="(itm, ind) in item.pick_order_details"
+                      :key="ind"
+                    >
+                      {{
+                        itm.pick_request_detail?.pick_request
+                          ?.kode_pick_request ?? ""
+                      }}
                     </div>
                   </td>
                   <td class="border border-gray-300">

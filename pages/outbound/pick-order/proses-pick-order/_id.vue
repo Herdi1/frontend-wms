@@ -273,8 +273,8 @@
                   >
                     <!-- <td class="border border-gray-300">
                       {{ item.kode_pick_request }}
-                    </td>
-                    <td class="border border-gray-300">
+                    </td> -->
+                    <!-- <td class="border border-gray-300">
                       {{ item.tanggal }}
                     </td> -->
                     <td class="border border-gray-300">
@@ -830,6 +830,8 @@ export default {
               slot_penyimpanan_id_bin: item.slot_penyimpanan_bin ?? "",
               peralatan_id: item.peralatan ?? "",
               jenis_biaya_id: item.jenis_biaya ?? "",
+              // kode_pick_request:
+              //   item.pick_request_detail.pick_request.kode_pick_request ?? "",
             };
           });
 
@@ -839,8 +841,8 @@ export default {
         this.isLoadingPage = false;
       }
     } catch (error) {
-      // console.log("error", error);
-      this.$router.back();
+      console.log("error", error);
+      // this.$router.back();
     }
   },
 

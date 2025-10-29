@@ -44,7 +44,7 @@
                     @search="onGetGudang"
                     v-model="parameters.form.gudang_id"
                     @input="(item) => onSelectGudang(item)"
-                    :disabled="lookup_custom2.data.length > 0"
+                    :disabled="lookup_custom2.data.length == 1"
                   >
                     <!-- :reduce="(item) => item.gudang_id" -->
                     <li

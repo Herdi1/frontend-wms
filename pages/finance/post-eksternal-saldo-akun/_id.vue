@@ -3,7 +3,7 @@
     <div class="section-body mb-10" v-if="!isLoadingPage">
       <div class="mt- justify-between items-center flex">
         <h1 class="text-xl font-bold">
-          {{ isEditable ? "Edit" : "Tambah" }} Post Saldo Akun SAP
+          {{ isEditable ? "Edit" : "Tambah" }} {{ this.title }}
         </h1>
 
         <button class="btn btn-primary my-2" @click="$router.back()">
@@ -103,13 +103,95 @@
                 </div>
               </div>
             </div>
-            <modal-footer-section
-              class="mt-5"
-              :isLoadingForm="isLoadingForm"
-              @reset="formReset()"
-            />
+            <div class="flex gap-x-2 justify-end items-end">
+              <button
+                @click="onPreview"
+                class="btn bg-yellow-500 text-white flex items-center justify-center gap-x-2"
+                type="button"
+              >
+                <i class="fas fa-eye"></i>
+                <span>Preview</span>
+              </button>
+              <modal-footer-section
+                class="mt-5"
+                :isLoadingForm="isLoadingForm"
+                @reset="formReset()"
+              />
+            </div>
           </form>
         </ValidationObserver>
+        <div
+          v-if="this.form.preview.length > 0"
+          class="mb-3 p-4 mt-5 w-full bg-white dark:bg-slate-800 rounded-md border border-gray-300"
+        >
+          <!-- <h1 class="text-xl font-bold">Preview</h1> -->
+          <div class="table-responsive w-full relative overflow-y-auto">
+            <table
+              class="mb-5 overflow-auto table-fixed border border-gray-300"
+            >
+              <thead>
+                <tr class="text-base uppercase text-nowrap">
+                  <th class="w-40 border border-gray-300">Tanggal Posting</th>
+                  <th class="w-48 border border-gray-300">Kode Transaksi</th>
+                  <th class="w-40 border border-gray-300">No PP SAP</th>
+                  <th class="w-40 border border-gray-300">Gudang</th>
+                  <th class="w-40 border border-gray-300">Profit Center</th>
+                  <th class="w-40 border border-gray-300">Cost Center</th>
+                  <th class="w-40 border border-gray-300">G/L Account</th>
+                  <th class="w-40 border border-gray-300">Kode WMS</th>
+                  <th class="w-40 border border-gray-300">Nama Account</th>
+                  <th class="w-40 border border-gray-300">Kode Referensi</th>
+                  <th class="w-40 border border-gray-300">Text</th>
+                  <th class="w-40 border border-gray-300">Nominal</th>
+                  <th class="w-40 border border-gray-300">username</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, i) in form.preview" :key="i">
+                  <td class="border border-gray-300">
+                    {{ item.posting_date ? formatDate(item.posting_date) : "" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.document_number ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.kode_post_eksternal ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.company_code ?? "-" }} - {{ item.cabang ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.profit_center ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.cost_center ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gl_account ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gl_account_wms ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.gl_account_long_text ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.reference ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300">
+                    {{ item.text ?? "-" }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ parseFloat(item.biaya_saldo ?? "-") | formatPrice }}
+                  </td>
+                  <td class="border border-gray-300 text-right">
+                    {{ item.user_name ?? "-" }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -123,7 +205,7 @@ export default {
 
   head() {
     return {
-      title: "Post Saldo Akun SAP",
+      title: "Post Saldo Akun External",
     };
   },
 
@@ -134,7 +216,7 @@ export default {
       isEditable: Number.isInteger(id) ? true : false,
       isLoadingPage: Number.isInteger(id) ? true : false,
       isLoadingForm: false,
-      title: "Post Saldo Akun SAP",
+      title: "Post Saldo Akun External",
       url: "finance/post-eksternal-saldo-akun",
       form: {
         tanggal: "",
@@ -144,6 +226,7 @@ export default {
         kode_post_eksternal: "",
         gudang_id: "",
         keterangan: "",
+        preview: [],
       },
       defaultForm: {
         tanggal: "",
@@ -153,6 +236,7 @@ export default {
         kode_post_eksternal: "",
         gudang_id: "",
         keterangan: "",
+        preview: [],
       },
 
       isStopSearchGudang: false,
@@ -212,6 +296,12 @@ export default {
       const month = (today.getMonth() + 1).toString().padStart(2, "0");
       const day = today.getDate().toString().padStart(2, "0");
       return `${year}-${month}-${day}`;
+    },
+
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
     },
 
     onSubmit(isInvalid) {
@@ -306,6 +396,32 @@ export default {
         });
 
         this.isLoadingGetGudang = false;
+      }
+    },
+
+    async onPreview() {
+      if (
+        !this.form.gudang_id ||
+        !this.form.periode_awal ||
+        !this.form.periode_akhir
+      ) {
+        this.$toaster.error(
+          "Gudang, periode awal, dan periode akhir tidak boleh kosong"
+        );
+        return;
+      }
+
+      try {
+        let res = await this.$axios.get(
+          `finance/post-eksternal-saldo-akun/get-preview-transaksi/${this.form.gudang_id.gudang_id}?periode_awal=${this.form.periode_awal}&periode_akhir=${this.form.periode_akhir}`
+        );
+        this.form.preview = res.data;
+        if (res.data.length === 0) {
+          this.$toaster.error("Tidak data transaksi di Gudang dan Periode ini");
+        }
+      } catch (error) {
+        // console.log(error);
+        this.$toaster.error(error);
       }
     },
   },
