@@ -249,11 +249,7 @@
                 </td>
                 <td class="border border-gray-300">{{ item.jarak }}</td>
                 <td class="border border-gray-300">
-                  {{
-                    item.tanggal_request
-                      ? formatDateTime(item.tanggal_request)
-                      : ""
-                  }}
+                  {{ item.created_at ? formatDateTime(item.created_at) : "" }}
                 </td>
                 <td class="border border-gray-300">
                   {{

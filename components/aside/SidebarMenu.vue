@@ -265,10 +265,9 @@
             </li>
           </ul>
         </li>
-
-        <!-- <li class="nav-item dropdown" :key="item.id + 'child'">
-        </li> -->
       </template>
+      <!-- <li class="nav-item dropdown" :key="item.id + 'child'">
+      </li> -->
 
       <!-- PENGATURAN -->
       <!-- <li class="menu-header">SETTING</li> -->
@@ -371,6 +370,24 @@ export default {
     setActiveMenu(index) {
       this.subActive = index;
     },
+    // setActiveMenu(menuId) {
+    //   this.subActive = menuId;
+
+    //   const parent = this.menus.find((p) =>
+    //     p.childs.some((c) => c.childs_2.some((ch2) => ch2.menu_id === menuId))
+    //   );
+
+    //   if (!parent) return;
+
+    //   let selectedTitle = "";
+    //   parent.childs.forEach((c) => {
+    //     const found = c.childs_2.find((ch2) => ch2.menu_id === menuId);
+    //     if (found) selectedTitle = found.judul;
+    //   });
+
+    //   // Simpan ke Vuex (module menu)
+    //   this.$store.commit("menu/SET_ACTIVE_MENU", selectedTitle);
+    // },
   },
 };
 </script>
