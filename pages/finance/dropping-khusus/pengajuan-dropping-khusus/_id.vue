@@ -16,6 +16,7 @@
         <ValidationObserver v-slot="{ invalid, validate }" ref="formVaidate">
           <form
             @submit.prevent="validate().then(() => onSubmit(invalid))"
+            enctype="multipart/form-data"
             autocomplete="off"
           >
             <div
@@ -663,6 +664,10 @@ export default {
         url: url,
         method: "POST",
         data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(this.isEditable ? { "X-HTTP-Method-Override": "PUT" } : {}),
+        },
       })
         .then((res) => {
           this.$toaster.success(

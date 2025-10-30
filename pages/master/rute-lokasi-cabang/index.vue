@@ -7,7 +7,7 @@
       <li
         class="relative pl-4 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:content-['/'] before:text-gray-400"
       >
-        <span>Rute Lokasi</span>
+        <span>Rute Lokasi Cabang</span>
       </li>
     </ul>
     <div class="mb-5 flex items-center justify-between">
@@ -308,7 +308,7 @@ export default {
 
   head() {
     return {
-      title: "Master Rute Lokasi",
+      title: "Master Rute Lokasi Cabang",
     };
   },
 
@@ -378,7 +378,7 @@ export default {
         return this.default_roles;
       } else {
         let main_role = this.user.role.menus.find(
-          (item) => item.rute == "rute-lokasi"
+          (item) => item.rute == "rute-lokasi-cabang"
         );
 
         let roles = {};
@@ -410,7 +410,7 @@ export default {
       isLoadingGetLokasiAkhir: false,
       akhir_search: "",
 
-      title: "Master Rute Lokasi",
+      title: "Master Rute Lokasi Cabang",
       isLoadingData: false,
       isPaginate: true,
       user: this.$auth.user,
@@ -429,7 +429,7 @@ export default {
         import: true,
       },
       parameters: {
-        url: "master/rute-lokasi",
+        url: "master/rute-lokasi-cabang",
         type: "pdf",
         params: {
           soft_deleted: "",
@@ -522,11 +522,13 @@ export default {
     },
 
     onFormShow() {
-      this.$router.push("/master/rute-lokasi/add");
+      this.$router.push("/master/rute-lokasi-cabang/add");
     },
 
     onEdit(item) {
-      this.$router.push("/master/rute-lokasi/" + item.master_rute_lokasi_id);
+      this.$router.push(
+        "/master/rute-lokasi-cabang/" + item.master_rute_lokasi_id
+      );
     },
 
     onTrashed(item) {
